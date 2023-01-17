@@ -1,6 +1,7 @@
 package com.newlandapps.fhl.mainContainer;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,11 @@ import androidx.constraintlayout.widget.Guideline;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.newlandapps.fhl.MainActivity;
 import com.newlandapps.fhl.R;
+import com.newlandapps.fhl.login.login;
+import com.newlandapps.fhl.mlkit.BarcodeScannerActivity;
 import com.newlandapps.fhl.nmanifest.mmanifest;
 
 public class menu extends Fragment implements View.OnClickListener{
@@ -62,6 +67,9 @@ public class menu extends Fragment implements View.OnClickListener{
                 break;
             case R.id.Mordenes:
                 Toast.makeText(getContext(), "ir a Validador", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), BarcodeScannerActivity.class);
+                startActivity(intent);
+
                 break;
         }
     }
