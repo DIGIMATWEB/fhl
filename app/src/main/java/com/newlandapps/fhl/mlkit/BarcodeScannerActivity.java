@@ -81,7 +81,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
 //                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
 //                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
 //                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
-      //  mediaPlayer= MediaPlayer.create(getApplicationContext(), R.raw.beep);
+        mediaPlayer= MediaPlayer.create(getApplicationContext(), R.raw.beep);
 
         Log.d(TAG, "onCreate");
 
@@ -111,7 +111,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
         binding.inputmanual.setOnClickListener(this);
         binding.inputcamara.setOnClickListener(this);
         binding.iconchecklist.setOnClickListener(this);
-        if(BarcodeScannerActivity.collectedBarCodes.isEmpty()) {
+        if(collectedBarCodes.isEmpty()) {
 
         }else
         {
