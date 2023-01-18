@@ -33,7 +33,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.mlkit.common.MlKitException;
+import com.newlandapps.fhl.Dialogs.dialogBottomSheet;
 import com.newlandapps.fhl.R;
 import com.newlandapps.fhl.databinding.ActivityBarcodeScannerBinding;
 import com.newlandapps.fhl.databinding.ActivityCameraxBinding;
@@ -67,10 +69,12 @@ public class BarcodeScannerActivity extends AppCompatActivity
     public static List<String> collectedBarCodes=new ArrayList<>();
     private  String lastCode="";
     public static  String gotoListBarcode;
+   // private BottomSheetBehavior bottomSheetBehavior;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mediaPlayer=new MediaPlayer();
+
 //        requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -159,7 +163,29 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 return false;
             }
         });
-    }
+       /* bottomSheetBehavior =BottomSheetBehavior.from( binding.bottomSheetZones);
+       // bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                switch (newState) {
+                    case BottomSheetBehavior.STATE_DRAGGING:
+
+                        break;
+                    case BottomSheetBehavior.STATE_COLLAPSED:
+
+                        break;
+                    case BottomSheetBehavior.STATE_EXPANDED:
+                        break;
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });*/
+        }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle bundle) {
@@ -362,6 +388,10 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 binding.cardviewnumber.setVisibility(View.VISIBLE);
                 binding.textdimens.setText(String.valueOf( collectedBarCodes.size()));
             }
+            if(code.equals("123456"))
+            {
+                new dialogBottomSheet().show(getSupportFragmentManager(),"dialogBottomSheet");
+            }
             //showDialog();
             //    }
             // else
@@ -385,10 +415,12 @@ public class BarcodeScannerActivity extends AppCompatActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.inputmanual:// esto es cuando se introduce el codigo de foma manual
+                imageProcessor.stop();//esto detiene el proceso de escaneo
                 if( binding.inputkeyscode.getVisibility()==View.VISIBLE)
                 {
 
                 }else {
+
                     binding.inputkeyscode.setVisibility(View.VISIBLE);
                     binding.inputcamara.setImageDrawable(getResources().getDrawable( R.drawable.ic_icon));
                     binding.inputmanual.setImageDrawable(getResources().getDrawable( R.drawable.ic_icon));
@@ -399,6 +431,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 }
                 break;
             case  R.id.inputcamara:// esto es cuando se introduce el codigo de con la camara
+                bindAllCameraUseCases();//esto retoma el proceso de escaneo
                 if( binding.inputkeyscode.getVisibility()==View.VISIBLE)
                 {
                     binding.inputkeyscode.setVisibility(View.GONE);
