@@ -1,10 +1,7 @@
 package com.newlandapps.fhl.mlkit;
 
-import static android.content.ContentValues.TAG;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -33,12 +30,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.mlkit.common.MlKitException;
-import com.newlandapps.fhl.Dialogs.dialogBottomSheet;
+import com.newlandapps.fhl.Dialogs.employeBottomSheet;
+import com.newlandapps.fhl.Dialogs.manifestBottomSheet;
+import com.newlandapps.fhl.Dialogs.vehicleBottomSheet;
 import com.newlandapps.fhl.R;
 import com.newlandapps.fhl.databinding.ActivityBarcodeScannerBinding;
-import com.newlandapps.fhl.databinding.ActivityCameraxBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -390,7 +387,16 @@ public class BarcodeScannerActivity extends AppCompatActivity
             }
             if(code.equals("123456"))
             {
-                new dialogBottomSheet().show(getSupportFragmentManager(),"dialogBottomSheet");
+                Toast.makeText(this, "Vehiculo", Toast.LENGTH_SHORT).show();
+                new vehicleBottomSheet().show(getSupportFragmentManager(),"dialogBottomSheet");
+            }else if(code.equals("1234567"))
+            {
+                Toast.makeText(this, "empleado", Toast.LENGTH_SHORT).show();
+                new employeBottomSheet().show(getSupportFragmentManager(),"employeBottomSheet");
+            }else if(code.equals("12345678"))
+            {
+                Toast.makeText(this, "manifiesto", Toast.LENGTH_SHORT).show();
+                new manifestBottomSheet().show(getSupportFragmentManager(),"manifestBottomSheet");
             }
             //showDialog();
             //    }

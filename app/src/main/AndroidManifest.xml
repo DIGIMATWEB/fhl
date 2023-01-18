@@ -35,6 +35,9 @@
        <activity
             android:name=".mlkit.BarcodeScannerActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".allvalidations.allvalidations"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
