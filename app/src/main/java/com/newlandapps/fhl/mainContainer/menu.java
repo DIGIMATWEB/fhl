@@ -18,9 +18,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.newlandapps.fhl.MainActivity;
 import com.newlandapps.fhl.R;
+import com.newlandapps.fhl.locator.locator;
 import com.newlandapps.fhl.login.login;
 import com.newlandapps.fhl.mlkit.BarcodeScannerActivity;
 import com.newlandapps.fhl.nmanifest.mmanifest;
+import com.newlandapps.fhl.signature.signature;
 
 public class menu extends Fragment implements View.OnClickListener{
     public static final String TAG = menu.class.getSimpleName();
@@ -61,9 +63,14 @@ public class menu extends Fragment implements View.OnClickListener{
                 break;
             case R.id.mpedido:
                 Toast.makeText(getContext(), "ir a completados", Toast.LENGTH_SHORT).show();
+                Intent intent2 = new Intent(getActivity(), signature.class);
+                startActivity(intent2);
                 break;
             case R.id.miscompras:
                 Toast.makeText(getContext(), "localizador", Toast.LENGTH_SHORT).show();
+                Intent intent3 = new Intent(getActivity(), locator.class);
+                startActivity(intent3);
+
                 break;
             case R.id.Mordenes:
                 Toast.makeText(getContext(), "ir a Validador", Toast.LENGTH_SHORT).show();

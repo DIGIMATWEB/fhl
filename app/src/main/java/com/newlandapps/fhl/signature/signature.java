@@ -10,7 +10,7 @@ import com.newlandapps.fhl.R;
 import com.newlandapps.fhl.mainContainer.mainContainer;
 
 public class signature extends AppCompatActivity {
-    public static final String TAG = mainContainer.class.getSimpleName();
+    public static final String TAG = signature.class.getSimpleName();
     private FragmentManager manager;
     private FragmentTransaction transaction;
 

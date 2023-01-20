@@ -10,4 +10,7 @@
     <color name="fewwhite">#DCDCDC</color>
     <color name="green">#2FFF00</color>
     <color name="customTransparent">#45FFFFFF</color>
+    <color name="purple">#3D2C42</color>
+    <color name="grayalfa">#A1AEAEAE</color>
+
 </resources>

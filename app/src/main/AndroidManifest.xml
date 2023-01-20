@@ -38,6 +38,12 @@
         <activity
             android:name=".allvalidations.allvalidations"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".locator.locator"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".signature.signature"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
