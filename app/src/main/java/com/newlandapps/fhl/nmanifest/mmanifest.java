@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.newlandapps.fhl.R;
 import com.newlandapps.fhl.Tickets.tickets;
 import com.newlandapps.fhl.nmanifest.adapter.manifestAdapter;
+import com.newlandapps.fhl.nmanifestDetail.manifestDetail;
 
 public class mmanifest extends Fragment implements View.OnClickListener {
     public static final String TAG = mmanifest.class.getSimpleName();
@@ -55,7 +56,8 @@ public class mmanifest extends Fragment implements View.OnClickListener {
     {
         manager = getActivity().getSupportFragmentManager();
         transaction = manager.beginTransaction();
-        tickets ticketsf= new tickets();
-        transaction.replace(R.id.fragments, ticketsf, tickets.TAG).commit();
+        //tickets ticketsf= new tickets();
+        manifestDetail manifestdetail =new manifestDetail();
+        transaction.replace(R.id.fragments, manifestdetail, manifestDetail.TAG).commit();
     }
 }

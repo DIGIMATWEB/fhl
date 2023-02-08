@@ -35,10 +35,10 @@
                     android:id="@+id/textView9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:text="Número de Ticket"
                     android:textSize="13dp"
                     app:layout_constraintBottom_toTopOf="@+id/guidelinetickets00"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
 
                 </TextView>
@@ -50,8 +50,7 @@
                     android:text="0131192000-B"
                     android:textSize="14dp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView9"
                     app:layout_constraintTop_toTopOf="@+id/guidelinetickets00">
 
                 </TextView>
@@ -60,80 +59,80 @@
                     android:id="@+id/textView11"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
                     android:text="Cliente"
                     android:textSize="13dp"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets01"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets00"
+                    app:layout_constraintEnd_toEndOf="parent">
 
                 </TextView>
 
                 <TextView
+                    android:id="@+id/textView27"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Juan martínez"
                     android:textSize="14dp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/guidelinetickets01">
+                    app:layout_constraintEnd_toEndOf="@+id/textView11"
+                    app:layout_constraintTop_toBottomOf="@+id/textView11">
 
                 </TextView>
 
                 <TextView
+                    android:id="@+id/textView8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Documento general"
                     android:textSize="13dp"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets02"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets01"
+                    app:layout_constraintStart_toStartOf="@+id/textView9">
 
                 </TextView>
 
                 <TextView
+                    android:id="@+id/textView24"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Documentos"
                     android:textSize="14dp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/guidelinetickets02">
+                    app:layout_constraintStart_toStartOf="@+id/textView8"
+                    app:layout_constraintTop_toBottomOf="@+id/textView8">
 
                 </TextView>
 
                 <TextView
+                    android:id="@+id/textView12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Contacto"
                     android:textSize="13dp"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets03"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets01"
+                    app:layout_constraintEnd_toEndOf="@+id/textView11">
 
                 </TextView>
 
                 <TextView
+                    android:id="@+id/textView26"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nombre de contacto"
                     android:textSize="14dp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/guidelinetickets03">
+                    app:layout_constraintEnd_toEndOf="@+id/textView12"
+                    app:layout_constraintTop_toBottomOf="@+id/textView12">
 
                 </TextView>
 
                 <TextView
+                    android:id="@+id/textView25"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Producto"
                     android:textSize="13dp"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets04"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets02"
+                    app:layout_constraintStart_toStartOf="@+id/textView9">
 
                 </TextView>
 
@@ -143,20 +142,19 @@
                     android:text="Empaque"
                     android:textSize="14dp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/guidelinetickets04">
+                    app:layout_constraintStart_toStartOf="@+id/textView25"
+                    app:layout_constraintTop_toBottomOf="@+id/textView25">
 
                 </TextView>
 
                 <TextView
+                    android:id="@+id/textView28"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Adjuntos"
                     android:textSize="13dp"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets05"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets03"
+                    app:layout_constraintStart_toStartOf="@+id/textView9">
 
                 </TextView>
 
@@ -167,13 +165,13 @@
                     android:text="Carta porte"
                     android:textSize="14dp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/guidelinetickets05">
+                    app:layout_constraintStart_toStartOf="@+id/textView28"
+                    app:layout_constraintTop_toBottomOf="@+id/textView28">
 
                 </TextView>
 
                 <ImageView
+                    android:id="@+id/imageView6"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginStart="10dp"
@@ -190,9 +188,8 @@
                     android:layout_height="wrap_content"
                     android:text="CheckList Requeridos"
                     android:textSize="13dp"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets06"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets02"
+                    app:layout_constraintEnd_toEndOf="@+id/textView11">
 
                 </TextView>
 
@@ -203,9 +200,8 @@
                     android:text="De: Julian Banderas"
                     android:textSize="12dp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/guidelinetickets06">
+                    app:layout_constraintEnd_toEndOf="@+id/textView13"
+                    app:layout_constraintTop_toBottomOf="@+id/textView13">
 
                 </TextView>
 
@@ -215,55 +211,54 @@
                     android:text="Para: Juan Martínez"
                     android:textSize="12dp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/textDe"
                     app:layout_constraintTop_toBottomOf="@+id/textDe">
 
                 </TextView>
 
                 <TextView
+                    android:id="@+id/textView30"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Cierre"
                     android:textSize="13dp"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets07"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets03"
+                    app:layout_constraintEnd_toEndOf="@+id/textView11">
 
                 </TextView>
 
                 <TextView
+                    android:id="@+id/textView29"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Entregado"
                     android:textSize="14dp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/guidelinetickets07">
+                    app:layout_constraintEnd_toEndOf="@+id/textView30"
+                    app:layout_constraintTop_toBottomOf="@+id/textView30">
 
                 </TextView>
 
                 <TextView
+                    android:id="@+id/textView32"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Estado"
                     android:textSize="13dp"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets08"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets04"
+                    app:layout_constraintStart_toStartOf="@+id/textView9">
 
                 </TextView>
 
                 <TextView
+                    android:id="@+id/textView31"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Quintana Roo"
                     android:textSize="14dp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/guidelinetickets08">
+                    app:layout_constraintStart_toStartOf="@+id/textView32"
+                    app:layout_constraintTop_toBottomOf="@+id/textView32">
 
                 </TextView>
 
@@ -273,21 +268,20 @@
                     android:layout_height="wrap_content"
                     android:text="Destino"
                     android:textSize="13dp"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets09"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets04"
+                    app:layout_constraintEnd_toEndOf="@+id/textView11">
 
                 </TextView>
 
                 <TextView
+                    android:id="@+id/textView33"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Cancún"
                     android:textSize="14dp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/guidelinetickets09">
+                    app:layout_constraintEnd_toEndOf="@+id/textView14"
+                    app:layout_constraintTop_toBottomOf="@+id/textView14">
 
                 </TextView>
 
@@ -295,11 +289,10 @@
                     android:id="@+id/textView18"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="30dp"
                     android:text="Salida"
                     android:textSize="11dp"
                     app:layout_constraintBottom_toTopOf="@+id/guidelinetickets0"
-                    app:layout_constraintEnd_toStartOf="@+id/guidelinetickets01v">
+                    app:layout_constraintStart_toStartOf="@+id/textView32">
 
                 </TextView>
 
@@ -307,11 +300,10 @@
                     android:id="@+id/textView19"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
                     android:text="Lun.| 14/06/22 | 11:30"
                     android:textSize="12dp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView18"
                     app:layout_constraintTop_toTopOf="@+id/guidelinetickets0">
 
                 </TextView>
@@ -320,22 +312,20 @@
                     android:id="@+id/textView20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="30dp"
                     android:text="Regreso"
                     android:textSize="11dp"
                     app:layout_constraintBottom_toTopOf="@+id/guidelinetickets0"
-                    app:layout_constraintEnd_toEndOf="parent">
+                    app:layout_constraintEnd_toEndOf="@+id/textView14">
 
                 </TextView>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="30dp"
                     android:text="Lun.| 14/06/22 | 11:30"
                     android:textSize="12dp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/textView20"
                     app:layout_constraintTop_toTopOf="@+id/guidelinetickets0">
 
                 </TextView>
@@ -358,7 +348,8 @@
                     android:textSize="11dp"
                     app:layout_constraintEnd_toStartOf="@+id/guidelinetickets01v"
                     app:layout_constraintStart_toStartOf="@+id/guidelinetickets01v"
-                    app:layout_constraintTop_toTopOf="@+id/guidelinetickets0a"></TextView>
+                    app:layout_constraintTop_toTopOf="@+id/guidelinetickets0a">
+                </TextView>
 
                 <TextView
                     android:id="@+id/textView22"
@@ -412,74 +403,45 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-
-                    app:layout_constraintGuide_percent=".072"/>
+                    app:layout_constraintGuide_percent=".09"/>
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guidelinetickets01"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".145"/>
+                    app:layout_constraintGuide_percent=".18"/>
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guidelinetickets02"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".218"/>
+                    app:layout_constraintGuide_percent=".27"/>
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guidelinetickets03"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".291"/>
+                    app:layout_constraintGuide_percent=".36"/>
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guidelinetickets04"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".364"/>
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guidelinetickets05"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".437"/>
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guidelinetickets06"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".50"/>
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guidelinetickets07"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".583"/>
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guidelinetickets08"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".656"/>
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guidelinetickets09"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".729"/>
+                    app:layout_constraintGuide_percent=".45"/>
+
+
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guidelinetickets0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".8"/>
+                    app:layout_constraintGuide_percent=".54"/>
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guidelinetickets0a"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".87"/>
+                    app:layout_constraintGuide_percent=".67"/>
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guidelinetickets00v"
                     android:layout_width="wrap_content"

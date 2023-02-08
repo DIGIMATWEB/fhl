@@ -25,8 +25,7 @@ public class tickets extends Fragment implements View.OnClickListener {
     private FragmentManager manager;
     private FragmentTransaction transaction;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tickets, container, false);
         initView(view);
         return view;
