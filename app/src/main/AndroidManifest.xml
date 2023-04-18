@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.newlandapps.fhl" >
+    package="com.companyname.mauitest" >
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION." />
@@ -16,19 +16,38 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_mainicon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/ic_mainicon"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fhl"
         tools:targetApi="31" >
         <activity
-            android:name=".MainActivityloc"
+            android:name="com.companyname.mauitest.MainActivity1"
             android:exported="false"
-            android:label="@string/title_activity_main_activityloc"
+            android:label="@string/title_activity_main1"
             android:theme="@style/Theme.Fhl.NoActionBar" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+        <!--
+             TODO: Before you run your application, you need a Google Maps API key.
+
+             To get one, follow the directions here:
+
+                https://developers.google.com/maps/documentation/android-sdk/get-api-key
+
+             Once you have your API key (it starts with "AIza"), define a new property in your
+             project's local.properties file (e.g. MAPS_API_KEY=Aiza...), and replace the
+             "YOUR_API_KEY" string in this file with "${MAPS_API_KEY}".
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
         <activity
-            android:name=".MainActivity"
+            android:name="com.companyname.mauitest.MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,34 +56,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".login.login"
+            android:name="com.companyname.mauitest.login.view.login"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".mainContainer.mainContainer"
+            android:name=".mainContainer"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".mlkit.BarcodeScannerActivity"
+            android:name="com.companyname.mauitest.mlkit.BarcodeScannerActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".allvalidations.allvalidations"
+            android:name="com.companyname.mauitest.allvalidations.allvalidations"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".locator.locator"
+            android:name="com.companyname.mauitest.signature.signature"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".signature.signature"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".photoCollection.imageGallery"
+            android:name="com.companyname.mauitest.photoCollection.imageGallery"
             android:exported="true"
             android:screenOrientation="portrait" >
         </activity>
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/keyGoogleMaps" />
     </application>
 
 </manifest>
