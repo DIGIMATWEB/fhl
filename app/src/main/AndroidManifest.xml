@@ -55,7 +55,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".mainContainer"
+            android:name="com.companyname.mauitest.mainContainer.mainContainer"
             android:screenOrientation="portrait" >
         </activity>
         <activity
