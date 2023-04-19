@@ -39,7 +39,12 @@ public class tabBar extends Fragment implements View.OnClickListener {
         switch (v.getId()){
             case R.id.menuButon:
                 mactivity.action();
+                menuButon.setVisibility(View.GONE);
                 break;
         }
+    }
+
+    public void setvisiblemenuButon() {
+        menuButon.setVisibility(View.VISIBLE);
     }
 }

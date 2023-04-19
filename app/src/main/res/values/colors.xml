@@ -12,5 +12,5 @@
     <color name="customTransparent">#D2777777</color>
     <color name="purple">#3D2C42</color>
     <color name="grayalfa">#A1AEAEAE</color>
-
+    <color name="alfa">#00FFFFFF</color>
 </resources>

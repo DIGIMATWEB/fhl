@@ -13,14 +13,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import com.companyname.mauitest.R;
+import com.companyname.mauitest.mainContainer.mainContainer;
 
 public class mainMenu extends DialogFragment implements View.OnClickListener {
     public static final String TAG = mainMenu.class.getSimpleName();
 
     private ImageView menu;
+    private mainContainer mactivity;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mactivity= (mainContainer) getActivity();
         setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_DeviceDefault_Light_NoActionBar);
     }
 
@@ -28,7 +31,7 @@ public class mainMenu extends DialogFragment implements View.OnClickListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_mainmenu, container, false);
-        getDialog().getWindow().setBackgroundDrawableResource(R.color.customTransparent);
+        getDialog().getWindow().setBackgroundDrawableResource(R.color.alfa);
         setCancelable(true);
         initDialog(view);
         //setFonts();
@@ -39,26 +42,6 @@ public class mainMenu extends DialogFragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
         getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
     }
- /*   @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState)
-    {
-        // Set a theme on the dialog builder constructor!
-        AlertDialog.Builder builder =
-                new AlertDialog.Builder( getActivity(), R.style.DialogAnimation );
-
-        builder
-                .setTitle( "Your title" )
-                .setMessage( "Your message" )
-                .setPositiveButton( "OK" , new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dismiss();
-                    }
-                });
-        return builder.create();
-    }*/
-
 
     private void initDialog(View view) {
         menu=view.findViewById(R.id.menuButon);
@@ -67,7 +50,7 @@ public class mainMenu extends DialogFragment implements View.OnClickListener {
 
     public void closeDialog() {
         this.dismiss();
-
+        mactivity.hideCover();
     }
 
     @Override
