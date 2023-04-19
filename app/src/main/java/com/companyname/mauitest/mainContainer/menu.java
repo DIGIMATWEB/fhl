@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.companyname.mauitest.Profile.view.viewProfile;
 import com.companyname.mauitest.R;
 import com.companyname.mauitest.locator.locator;
 import com.companyname.mauitest.mlkit.BarcodeScannerActivity;
@@ -21,7 +22,7 @@ import com.companyname.mauitest.signature.signature;
 
 public class menu extends Fragment implements View.OnClickListener{
     public static final String TAG = menu.class.getSimpleName();
-    private ImageView mainM,mpedido,miscompras,Mordenes;
+    private ImageView mainM,mpedido,miscompras,Mordenes,mprofile;
     private FragmentManager manager;
     private FragmentTransaction transaction;
     @SuppressLint("NewApi")
@@ -38,12 +39,12 @@ public class menu extends Fragment implements View.OnClickListener{
         mpedido=view.findViewById(R.id.mpedido);
         miscompras=view.findViewById(R.id.miscompras);
         Mordenes=view.findViewById(R.id.Mordenes);
-
+        mprofile=view.findViewById(R.id.mprofile);
         mainM.setOnClickListener(this);
         mpedido.setOnClickListener(this);
         miscompras.setOnClickListener(this);
         Mordenes.setOnClickListener(this);
-
+        mprofile.setOnClickListener(this);
 
     }
 
@@ -75,6 +76,12 @@ public class menu extends Fragment implements View.OnClickListener{
                 Intent intent = new Intent(getActivity(), BarcodeScannerActivity.class);
                 startActivity(intent);
 
+                break;
+            case R.id.mprofile:
+                manager = getActivity().getSupportFragmentManager();
+                transaction = manager.beginTransaction();
+                viewProfile profile= new viewProfile();
+                transaction.replace(R.id.fragments, profile, viewProfile.TAG).commit();
                 break;
         }
     }

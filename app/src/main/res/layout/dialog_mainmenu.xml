@@ -17,7 +17,7 @@
             android:id="@+id/menuButon"
             android:layout_width="24dp"
             android:layout_height="17dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="25dp"
             android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -25,18 +25,25 @@
 
         </ImageView>
 
-        <ImageView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv"
-            android:layout_width="232dp"
-            android:layout_height="230dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="80dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/menuButon"
             app:srcCompat="@drawable/ic_menuhamburger">
 
-        </ImageView>
+        </androidx.recyclerview.widget.RecyclerView>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grayalfa"
+            app:layout_constraintTop_toBottomOf="@+id/rv">
+
+        </View>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

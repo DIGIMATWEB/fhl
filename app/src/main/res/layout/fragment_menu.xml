@@ -208,7 +208,7 @@
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="4dp"
             android:gravity="center"
-            android:text="Zonas"
+            android:text="Perfil"
             android:textColor="@color/black"
             android:textSize="9sp"
 
@@ -216,10 +216,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mzonas" />
+            app:layout_constraintTop_toBottomOf="@+id/mprofile" />
 
         <ImageView
-            android:id="@+id/mzonas"
+            android:id="@+id/mprofile"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginTop="12dp"
@@ -279,21 +279,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.25" />
+        app:layout_constraintGuide_percent="0.20" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline12g"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintGuide_percent="0.4" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline13g"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent=".75" />
+        app:layout_constraintGuide_percent=".6" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline14g"
@@ -301,7 +301,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
 
-        app:layout_constraintGuide_percent="1">
+        app:layout_constraintGuide_percent=".8">
 
     </androidx.constraintlayout.widget.Guideline>
 
