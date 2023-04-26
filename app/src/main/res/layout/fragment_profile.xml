@@ -11,7 +11,7 @@
         android:layout_marginTop="40dp"
         android:gravity="center"
         android:text="Perfil"
-        android:textSize="18dp"
+        android:textSize="@dimen/h2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -58,14 +58,15 @@
             app:layout_constraintTop_toTopOf="@+id/textView34">
 
         </ImageView>
+
         <TextView
             android:id="@+id/textView34"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
+            android:layout_marginStart="65dp"
             android:layout_marginTop="30dp"
             android:text="Julian Banderas"
-            android:textSize="22dp"
+            android:textSize="@dimen/h3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:textAllCaps="false" />
@@ -77,7 +78,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="20dp"
             android:text="Correo electrónico"
-            android:textSize="20dp"
+            android:textSize="@dimen/h4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView34"
             app:textAllCaps="false" />
@@ -89,7 +90,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
             android:text="Teléfono"
-            android:textSize="20dp"
+            android:textSize="@dimen/h4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView35"
             app:textAllCaps="false" />
@@ -101,7 +102,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
             android:text="Estatus"
-            android:textSize="20dp"
+            android:textSize="@dimen/h4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView36"
             app:textAllCaps="false" />
@@ -111,7 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
             android:text="55-10-55-10-55"
-            android:textSize="20dp"
+            android:textSize="@dimen/h4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView35"
             app:textAllCaps="false" />
@@ -121,7 +122,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
             android:text="Estatus"
-            android:textSize="20dp"
+            android:textSize="@dimen/h4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView36"
             app:textAllCaps="false" />
@@ -132,7 +133,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="15dp"
             android:text="Activo"
-            android:textSize="20dp"
+            android:textSize="@dimen/h4"
 
             android:textColor="@color/green"
             app:layout_constraintEnd_toEndOf="parent"
@@ -141,6 +142,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/logout"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginStart="20dp"
@@ -182,7 +184,7 @@
             android:layout_marginStart="10dp"
 
             android:text="Cerrar sesión"
-            android:textSize="20dp"
+            android:textSize="@dimen/h4"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView8"
             app:layout_constraintTop_toTopOf="parent"

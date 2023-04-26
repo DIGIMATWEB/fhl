@@ -66,6 +66,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
     public static List<String> collectedBarCodes=new ArrayList<>();
     private  String lastCode="";
     public static  String gotoListBarcode;
+    public String typeScanner="";
    // private BottomSheetBehavior bottomSheetBehavior;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +84,20 @@ public class BarcodeScannerActivity extends AppCompatActivity
 //                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
 //                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
         mediaPlayer= MediaPlayer.create(getApplicationContext(), R.raw.beep);
+        Bundle bndl;
+        bndl = getIntent().getExtras();//detailOrderB
+            if(bndl!=null){
+                typeScanner=bndl.getString("scannerType");
+                if(typeScanner!=null){
+                    Log.e("typeScanner",""+typeScanner);
+                }else{
+                    typeScanner=bndl.getString("scannerType2");
+                    Log.e("typeScanner",""+typeScanner);
+                }
+         }else{
+                typeScanner="Validador";
+                Log.e("typeScanner",""+typeScanner);
+            }
 
         Log.d(TAG, "onCreate");
 

@@ -67,13 +67,15 @@ public class menu extends Fragment implements View.OnClickListener{
                 Intent intent3 = new Intent(getActivity(), locator.class);
                 startActivity(intent3);*/
                 manager = getActivity().getSupportFragmentManager();
-                        transaction = manager.beginTransaction();
-                        locator loc = new locator();
-                        transaction.replace(R.id.fragments, loc, locator.TAG).commit();
+                transaction = manager.beginTransaction();
+                locator loc = new locator();
+                transaction.replace(R.id.fragments, loc, locator.TAG).commit();
                 break;
             case R.id.Mordenes:
-                Toast.makeText(getContext(), "ir a Validador", Toast.LENGTH_SHORT).show();
+              //  Bundle bundle = new Bundle();
+               // bundle.putString("scannerType2", "Validador");// Toast.makeText(getContext(), "ir a Validador", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), BarcodeScannerActivity.class);
+              //  intent.putExtras(bundle);
                 startActivity(intent);
 
                 break;

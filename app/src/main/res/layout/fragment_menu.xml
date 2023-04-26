@@ -27,7 +27,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
             android:background="#00FFFFFF"
-            android:src="@drawable/ic_launcher_background"
+            android:src="@drawable/ic_menu_manifiesto_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -125,7 +125,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_launcher_background" />
+            app:srcCompat="@drawable/ic_menu_gps_icon" />
 
         <TextView
             android:id="@+id/compras"
@@ -136,7 +136,7 @@
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="4dp"
             android:gravity="center"
-            android:text="Mis compras"
+            android:text="Ubicacion GPS"
             android:textColor="@color/black"
             android:textSize="9sp"
             android:visibility="visible"
@@ -185,7 +185,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_launcher_background">
+            app:srcCompat="@drawable/ic_menu_validador_icon">
 
         </ImageView>
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -227,7 +227,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_launcher_background">
+            app:srcCompat="@drawable/ic_menu_perfil_icon">
 
         </ImageView>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -61,7 +61,9 @@ public class mainMenu extends DialogFragment implements View.OnClickListener {
         }
 
     }
-
+    public void invokeFragment(String menu){
+        mactivity.chooseFragment(menu);
+    }
     public void closeDialog() {
         this.dismiss();
         mactivity.hideCover();
@@ -83,7 +85,7 @@ public class mainMenu extends DialogFragment implements View.OnClickListener {
     }
 
     private void fillAdapter(List<dataMenuItems> data) {
-        adapter = new adapterMenus(data,getContext());
+        adapter = new adapterMenus(this,data,getContext());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rv.setLayoutManager(linearLayoutManager);
         rv.setAdapter(adapter);

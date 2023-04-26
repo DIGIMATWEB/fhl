@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parentConstrain"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,7 +21,7 @@
         </View>
 
         <ImageView
-            android:id="@+id/imageView7"
+            android:id="@+id/imageMenu"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginStart="10dp"
@@ -32,13 +33,14 @@
         </ImageView>
 
         <TextView
+            android:id="@+id/menuName"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="15dp"
             android:gravity="center"
             android:text="Menu"
-            android:textSize="18dp"
-            app:layout_constraintStart_toEndOf="@+id/imageView7"
+            android:textSize="@dimen/h4"
+            app:layout_constraintStart_toEndOf="@+id/imageMenu"
             tools:layout_editor_absoluteY="0dp">
 
         </TextView>

@@ -28,13 +28,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:text="Hola!"
-        android:textSize="30sp"
+        android:textSize="@dimen/L1"
         app:layout_constraintBottom_toTopOf="@+id/guidelinelogin1"
         app:layout_constraintStart_toStartOf="parent">
 
     </TextView>
 
-    <ImageView
+    <!--<ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/guidelinelogin2"
@@ -43,6 +43,17 @@
         app:layout_constraintTop_toTopOf="@+id/guidelinelogin1"
         app:srcCompat="@drawable/logofh">
 
+    </ImageView>-->
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelinelogin2"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/guidelinelogin1"
+        app:srcCompat="@drawable/ic_fh_new_icon">
+
     </ImageView>
 
     <TextView
@@ -50,10 +61,10 @@
         android:layout_width="wrap_content"
         android:layout_height="29dp"
         android:gravity="center"
-        android:textSize="22dp"
         android:text="Usuario"
-        app:layout_constraintBottom_toTopOf="@+id/user"
-        app:layout_constraintStart_toStartOf="@+id/user">
+        android:textSize="@dimen/L2"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/guidelinelogin2">
 
     </TextView>
 
@@ -63,39 +74,81 @@
         android:layout_height="29dp"
         android:gravity="center"
         android:text="Contraseña"
-        android:textSize="22dp"
-        app:layout_constraintBottom_toTopOf="@+id/pass"
-        app:layout_constraintStart_toStartOf="@+id/pass">
+        android:textSize="@dimen/L2"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout7"
+        app:layout_constraintStart_toStartOf="@+id/textView2">
 
     </TextView>
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/user"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout4"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="30dp"
+        android:layout_height="60dp"
         android:layout_marginEnd="25dp"
-        app:boxStrokeWidth="0dp"
+        android:background="@drawable/shape_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guidelinelogin2">
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_user_login_vector"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    </com.google.android.material.textfield.TextInputEditText>
+        </ImageView>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/user"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="1dp"
+            android:background="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/pass"
+        </com.google.android.material.textfield.TextInputEditText>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout7"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
+        android:layout_height="60dp"
         android:layout_marginEnd="25dp"
-        android:layout_marginBottom="10dp"
-        app:boxStrokeWidth="0dp"
+        android:background="@drawable/shape_button"
         app:layout_constraintBottom_toTopOf="@+id/guidelinelogin3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="@+id/textView2">
 
-    </com.google.android.material.textfield.TextInputEditText>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_pass_vector"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </ImageView>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/pass"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="40dp"
+            android:background="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </com.google.android.material.textfield.TextInputEditText>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <CheckBox
         android:id="@+id/checkBox"
@@ -113,7 +166,7 @@
         android:layout_marginStart="10dp"
         android:gravity="center"
         android:text="Recordar"
-        android:textSize="16dp"
+        android:textSize="@dimen/L3"
         app:layout_constraintStart_toEndOf="@+id/checkBox"
         app:layout_constraintTop_toTopOf="@+id/guidelinelogin3">
 
@@ -137,17 +190,19 @@
         android:layout_height="29dp"
         android:gravity="center"
         android:text="¿Olvidaste la contraseña?"
-        android:textSize="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/pass"
-        app:layout_constraintTop_toTopOf="@+id/guidelinelogin3">
-    </TextView>
+        android:textSize="@dimen/L3"
+        app:layout_constraintEnd_toEndOf="@+id/constraintLayout7"
+        app:layout_constraintTop_toTopOf="@+id/guidelinelogin3"></TextView>
 
     <ImageButton
         android:id="@+id/loginenter"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="60dp"
         android:backgroundTint="#00FFFFFF"
-        android:src="@drawable/ic_buttom"
+        android:text="asdsada"
+        android:src="@drawable/shape_button_purple"
         app:layout_constraintBottom_toTopOf="@+id/guidelinelogin5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -156,23 +211,38 @@
     </ImageButton>
 
     <TextView
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:text="Iniciar sesión"
+        android:maxLines="1"
+        android:gravity="center"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/loginenter"
+        app:layout_constraintEnd_toEndOf="@+id/loginenter"
+        app:layout_constraintStart_toStartOf="@+id/loginenter"
+        app:layout_constraintTop_toTopOf="@+id/loginenter">
+
+    </TextView>
+
+  <!--  <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Usuario nuevo? "
+        android:textSize="@dimen/L3"
         app:layout_constraintEnd_toStartOf="@+id/guidelinelogin0"
         app:layout_constraintTop_toTopOf="@+id/guidelinelogin6">
-    </TextView>
+    </TextView>  -->
 
-    <TextView
+ <!--   <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Registrate"
+        android:textSize="@dimen/L3"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/guidelinelogin0"
         app:layout_constraintTop_toTopOf="@+id/guidelinelogin6">
-
-    </TextView>
+    </TextView>-->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelinelogin0"
         android:layout_width="wrap_content"
@@ -190,7 +260,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.42" />
+        app:layout_constraintGuide_percent="0.40" />
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelinelogin3"
         android:layout_width="wrap_content"

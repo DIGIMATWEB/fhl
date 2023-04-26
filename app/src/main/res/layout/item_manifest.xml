@@ -7,7 +7,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="wrap_content"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -16,7 +16,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
@@ -37,19 +37,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
+                    android:layout_marginTop="15dp"
                     android:text="Número de manifiesto"
-                    android:textSize="8dp"
+                    android:textSize="@dimen/h6"
                     app:layout_constraintBottom_toTopOf="@+id/guidelinemanifest0"
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                 </TextView>
 
                 <TextView
+                    android:id="@+id/textView40"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:text="N4312192000-B"
-                    android:textSize="9dp"
+                    android:textSize="@dimen/h5"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/guidelinemanifest0">
@@ -61,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:text="Referencia"
-                    android:textSize="8dp"
+                    android:textSize="@dimen/h6"
                     app:layout_constraintBottom_toTopOf="@+id/guidelinemanifest1"
                     app:layout_constraintStart_toStartOf="parent">
 
@@ -72,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:text="BNB-Chain"
-                    android:textSize="9dp"
+                    android:textSize="@dimen/h5"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/guidelinemanifest1">
@@ -84,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:text="Vehículo"
-                    android:textSize="8dp"
+                    android:textSize="@dimen/h6"
                     app:layout_constraintBottom_toTopOf="@+id/guidelinemanifest2"
                     app:layout_constraintStart_toStartOf="parent">
 
@@ -95,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:text="Sprinter larga"
-                    android:textSize="9dp"
+                    android:textSize="@dimen/h5"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/guidelinemanifest2">
@@ -107,7 +110,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:text="Placa"
-                    android:textSize="8dp"
+                    android:textSize="@dimen/h6"
                     app:layout_constraintBottom_toTopOf="@+id/guidelinemanifest3"
                     app:layout_constraintStart_toStartOf="parent">
 
@@ -119,7 +122,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:text="LWZ-96-92"
-                    android:textSize="9dp"
+                    android:textSize="@dimen/h5"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/guidelinemanifest3">
@@ -131,18 +134,20 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:text="Cedis"
-                    android:textSize="8dp"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinemanifest0"
-                    app:layout_constraintEnd_toEndOf="parent">
+                    android:textSize="@dimen/h6"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView15"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView15">
 
                 </TextView>
 
                 <TextView
+                    android:id="@+id/textView39"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:text="N4312192000-B"
-                    android:textSize="9dp"
+                    android:textSize="@dimen/h5"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/guidelinemanifest0">
@@ -154,7 +159,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:text="Supervisor"
-                    android:textSize="8dp"
+                    android:textSize="@dimen/h6"
                     app:layout_constraintBottom_toTopOf="@+id/guidelinemanifest1"
                     app:layout_constraintEnd_toEndOf="parent">
 
@@ -165,7 +170,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:text="Julian Banderas"
-                    android:textSize="9dp"
+                    android:textSize="@dimen/h5"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/guidelinemanifest1">
@@ -177,7 +182,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:text="Salida"
-                    android:textSize="8dp"
+                    android:textSize="@dimen/h6"
                     app:layout_constraintBottom_toTopOf="@+id/guidelinemanifest2"
                     app:layout_constraintEnd_toEndOf="parent">
 
@@ -186,9 +191,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="@dimen/h5"
                     android:text="Lun.| 14/06/22 | 11:30"
-                    android:textSize="9dp"
+                    android:textSize="@dimen/h5"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/guidelinemanifest2">
@@ -200,7 +205,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:text="Regreso"
-                    android:textSize="8dp"
+                    android:textSize="@dimen/h6"
                     app:layout_constraintBottom_toTopOf="@+id/guidelinemanifest3"
                     app:layout_constraintEnd_toEndOf="parent">
 
@@ -210,9 +215,9 @@
                     android:id="@+id/textView16"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="@dimen/h5"
                     android:text="Lun.| 14/06/22 | 11:30"
-                    android:textSize="9dp"
+                    android:textSize="@dimen/h5"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/guidelinemanifest3">
@@ -225,11 +230,12 @@
                     android:layout_marginBottom="5dp"
                     android:text="Abierto"
                     android:textColor="@color/green"
-                    android:textSize="9dp"
+                    android:textSize="@dimen/h5"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView16">
 
                 </TextView>
                 <androidx.constraintlayout.widget.Guideline
