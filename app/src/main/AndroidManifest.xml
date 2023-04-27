@@ -69,6 +69,12 @@
             android:name="com.companyname.mauitest.signature.signature"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".Salida.View.salidaContainer"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Salida.View.sellos"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.companyname.mauitest.photoCollection.imageGallery"
             android:exported="true"
             android:screenOrientation="portrait" >

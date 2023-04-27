@@ -36,7 +36,7 @@
         </TextView>
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/ticketFolio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0131192000-B"
@@ -47,7 +47,7 @@
         </TextView>
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/masText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="30dp"
@@ -61,14 +61,14 @@
         </TextView>
 
         <ImageView
-            android:id="@+id/imageView6"
+            android:id="@+id/siguiente"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="5dp"
-            app:layout_constraintBottom_toBottomOf="@+id/textView11"
+            app:layout_constraintBottom_toBottomOf="@+id/masText"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView11"
+            app:layout_constraintTop_toTopOf="@+id/masText"
             app:srcCompat="@drawable/ic_arrow_tiket">
 
         </ImageView>

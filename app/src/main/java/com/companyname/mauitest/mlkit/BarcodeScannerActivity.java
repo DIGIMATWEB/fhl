@@ -2,6 +2,7 @@ package com.companyname.mauitest.mlkit;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -30,6 +31,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.companyname.mauitest.Salida.View.salidaContainer;
 import com.google.mlkit.common.MlKitException;
 import com.companyname.mauitest.Dialogs.employeBottomSheet;
 import com.companyname.mauitest.Dialogs.manifestBottomSheet;
@@ -89,14 +91,15 @@ public class BarcodeScannerActivity extends AppCompatActivity
             if(bndl!=null){
                 typeScanner=bndl.getString("scannerType");
                 if(typeScanner!=null){
-                    Log.e("typeScanner",""+typeScanner);
+                    Log.e("typeScanner1",""+typeScanner);
+
                 }else{
                     typeScanner=bndl.getString("scannerType2");
-                    Log.e("typeScanner",""+typeScanner);
+                    Log.e("typeScanner2",""+typeScanner);
                 }
          }else{
                 typeScanner="Validador";
-                Log.e("typeScanner",""+typeScanner);
+                Log.e("typeScanner  3",""+typeScanner);
             }
 
         Log.d(TAG, "onCreate");
@@ -124,9 +127,9 @@ public class BarcodeScannerActivity extends AppCompatActivity
         if (!allPermissionsGranted()) {
             getRuntimePermissions();
         }
-        binding.inputmanual.setOnClickListener(this);
-        binding.inputcamara.setOnClickListener(this);
-        binding.iconchecklist.setOnClickListener(this);
+       // binding.inputmanual.setOnClickListener(this);
+       // binding.inputcamara.setOnClickListener(this);
+       // binding.iconchecklist.setOnClickListener(this);
         if(collectedBarCodes.isEmpty()) {
 
         }else
@@ -384,6 +387,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
 
     private void barcodesCollection(String code)
     {
+        Log.e("qrs",code);
         if(collectedBarCodes.contains(code))
         {
 
@@ -419,6 +423,15 @@ public class BarcodeScannerActivity extends AppCompatActivity
             //   {
             //     binding.barcodeRawValue.setText("Codigo no permitido");
             // }
+
+            if(typeScanner.equals("Salida")){
+                Bundle bundle = new Bundle();
+                bundle.putString("qrValue", code);
+                Intent intent = new Intent(this, salidaContainer.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
         }
 
     }
@@ -435,7 +448,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.inputmanual:// esto es cuando se introduce el codigo de foma manual
+          /*  case R.id.inputmanual:// esto es cuando se introduce el codigo de foma manual
                 imageProcessor.stop();//esto detiene el proceso de escaneo
                 if( binding.inputkeyscode.getVisibility()==View.VISIBLE)
                 {
@@ -443,10 +456,10 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 }else {
 
                     binding.inputkeyscode.setVisibility(View.VISIBLE);
-                    binding.inputcamara.setImageDrawable(getResources().getDrawable( R.drawable.ic_icon));
-                    binding.inputmanual.setImageDrawable(getResources().getDrawable( R.drawable.ic_icon));
+                //    binding.inputcamara.setImageDrawable(getResources().getDrawable( R.drawable.ic_icon));
+                //    binding.inputmanual.setImageDrawable(getResources().getDrawable( R.drawable.ic_icon));
                     binding.iconchecklist.setImageDrawable(getResources().getDrawable( R.drawable.ic_icon));
-                    binding.headerText.setTextColor(Color.BLACK);
+                  //  binding.headerText.setTextColor(Color.BLACK);
                     binding.resultContainer.setVisibility(View.GONE);
                     binding.barcodeimage.setVisibility(View.VISIBLE);
                 }
@@ -456,16 +469,16 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 if( binding.inputkeyscode.getVisibility()==View.VISIBLE)
                 {
                     binding.inputkeyscode.setVisibility(View.GONE);
-                    binding.inputcamara.setImageDrawable(getResources().getDrawable( R.drawable.ic_icon));
-                    binding.inputmanual.setImageDrawable(getResources().getDrawable( R.drawable.ic_icon));
+                   // binding.inputcamara.setImageDrawable(getResources().getDrawable( R.drawable.ic_icon));
+                   // binding.inputmanual.setImageDrawable(getResources().getDrawable( R.drawable.ic_icon));
                     binding.iconchecklist.setImageDrawable(getResources().getDrawable( R.drawable.ic_icon));
-                    binding.headerText.setTextColor(Color.WHITE);
+                  //  binding.headerText.setTextColor(Color.WHITE);
                     binding.resultContainer.setVisibility(View.VISIBLE);
                     binding.barcodeimage.setVisibility(View.GONE);
                 }else {
 
                 }
-                break;
+                break;*/
             case R.id.iconchecklist:
                 //Toast.makeText( getApplicationContext(), "vamos ala pantalla de recycler", Toast.LENGTH_SHORT).show();
                 if(collectedBarCodes.isEmpty())

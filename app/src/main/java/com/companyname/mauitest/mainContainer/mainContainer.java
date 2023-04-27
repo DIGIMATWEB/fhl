@@ -71,6 +71,7 @@ public class mainContainer extends AppCompatActivity  implements view {
                 Locator();
                 break;
             case "Salida":
+                mScanner("Salida");
                 Toast.makeText(this, "modulo en desarrollo", Toast.LENGTH_SHORT).show();
                 break;
             case "Escaner":
