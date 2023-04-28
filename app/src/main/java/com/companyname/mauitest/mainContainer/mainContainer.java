@@ -1,11 +1,10 @@
 package com.companyname.mauitest.mainContainer;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -15,7 +14,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.companyname.mauitest.Dialogs.mainMenu;
 import com.companyname.mauitest.Profile.view.viewProfile;
-import com.companyname.mauitest.Retrofit.GeneralConstants;
+import com.companyname.mauitest.checkList.view.checkList;
+import com.companyname.mauitest.gastos.view.gastos;
 import com.companyname.mauitest.locator.locator;
 import com.companyname.mauitest.mainContainer.model.dataMenuItems;
 import com.companyname.mauitest.mainContainer.presenter.prensentermainContainerImpl;
@@ -24,6 +24,7 @@ import com.companyname.mauitest.mainContainer.view.view;
 import com.companyname.mauitest.mlkit.BarcodeScannerActivity;
 import com.companyname.mauitest.nmanifest.*;
 import com.companyname.mauitest.R;
+import com.companyname.mauitest.resguardo.view.resguardo;
 
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class mainContainer extends AppCompatActivity  implements view {
     private ImageView cover;
     private  tabBar tab;
     private mainMenu menu;
+    private FrameLayout framTab;
     private presentermainContainer presenter;
     private List<dataMenuItems> data;
     @Override
@@ -42,6 +44,7 @@ public class mainContainer extends AppCompatActivity  implements view {
         setContentView(R.layout.activity_main_container);
         cover=findViewById(R.id.cover);
         cover.setVisibility(View.GONE);
+        framTab=findViewById(R.id.tabbar);
         initPresenter();
         manifiestos();
         showFragmentNavigationButtons();
@@ -51,7 +54,9 @@ public class mainContainer extends AppCompatActivity  implements view {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        menu.closeDialog();
+        if(menu!=null) {
+            menu.closeDialog();
+        }
 
 
     }
@@ -72,19 +77,22 @@ public class mainContainer extends AppCompatActivity  implements view {
                 break;
             case "Salida":
                 mScanner("Salida");
-                Toast.makeText(this, "modulo en desarrollo", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(this, "modulo en desarrollo", Toast.LENGTH_SHORT).show();
                 break;
             case "Escaner":
                 mScanner("Escaner");
                 break;
             case "CheckList":
-                Toast.makeText(this, "modulo en desarrollo", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "modulo en desarrollo", Toast.LENGTH_SHORT).show();
+                checkList();
                 break;
-            case "Gastos operativos":
-                Toast.makeText(this, "modulo en desarrollo", Toast.LENGTH_SHORT).show();
+            case "Gastos":
+                //Toast.makeText(this, "modulo en desarrollo", Toast.LENGTH_SHORT).show();
+                gastosF();
                 break;
             case "Resguardo":
-                Toast.makeText(this, "modulo en desarrollo", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "modulo en desarrollo", Toast.LENGTH_SHORT).show();
+                resguardoF();
                 break;
             case "Visor":
                 mScanner("Visor");
@@ -115,6 +123,8 @@ public class mainContainer extends AppCompatActivity  implements view {
         transaction = manager.beginTransaction();
         locator loc = new locator();
         transaction.replace(R.id.fragments, loc, locator.TAG).commit();
+        framTab.setVisibility(View.GONE);
+
     }
     private void showFragmentNavigationButtons() {
         manager = getSupportFragmentManager();
@@ -127,6 +137,24 @@ public class mainContainer extends AppCompatActivity  implements view {
         transaction = manager.beginTransaction();
         viewProfile profile= new viewProfile();
         transaction.replace(R.id.fragments, profile, viewProfile.TAG).commit();
+    }
+    private void checkList(){
+        manager = getSupportFragmentManager();
+        transaction = manager.beginTransaction();
+        checkList mcheckList= new checkList();
+        transaction.replace(R.id.fragments, mcheckList, checkList.TAG).commit();
+    }
+    private void gastosF(){
+        manager = getSupportFragmentManager();
+        transaction = manager.beginTransaction();
+        gastos mgastos= new gastos();
+        transaction.replace(R.id.fragments, mgastos, gastos.TAG).commit();
+    }
+    private void resguardoF(){
+        manager = getSupportFragmentManager();
+        transaction = manager.beginTransaction();
+        resguardo mresguardo= new resguardo();
+        transaction.replace(R.id.fragments, mresguardo, resguardo.TAG).commit();
     }
     private void showTab() {
         manager = getSupportFragmentManager();
@@ -153,5 +181,9 @@ public class mainContainer extends AppCompatActivity  implements view {
     public void setMenus(List<dataMenuItems> data) {
         Log.e("menu",""+data);
         this.data=data;
+    }
+
+    public void showtab() {
+        framTab.setVisibility(View.VISIBLE);
     }
 }

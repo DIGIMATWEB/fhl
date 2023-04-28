@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="fewwhite">#C1C1C1</color>
     <color name="green">#2FFF00</color>
+    <color name="red">#BB0000</color>
     <color name="customTransparent">#D2777777</color>
     <color name="purple">#3D2C42</color>
     <color name="grayalfa">#A1AEAEAE</color>

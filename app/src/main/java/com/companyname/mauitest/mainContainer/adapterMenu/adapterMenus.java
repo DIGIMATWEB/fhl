@@ -75,7 +75,7 @@ public class adapterMenus extends RecyclerView.Adapter<adapterMenus.ViewHolder>{
                 holder.imageMenu.setImageDrawable(drawable);
                 holder.menuName.setText(data.get(position).getMenuName());
                 break;
-            case "Gastos operativos":
+            case "Gastos Operativos":
                 drawable=context.getDrawable(R.drawable.ic_menu_gastos_icon);
                 holder.imageMenu.setImageDrawable(drawable);
                 holder.menuName.setText(data.get(position).getMenuName());
@@ -124,9 +124,9 @@ public class adapterMenus extends RecyclerView.Adapter<adapterMenus.ViewHolder>{
                         mview.closeDialog();
                         mview.invokeFragment("CheckList");
                         break;
-                    case "Gastos operativos":
+                    case "Gastos Operativos":
                         mview.closeDialog();
-                        mview.invokeFragment("Gastos operativos");
+                        mview.invokeFragment("Gastos");
                         break;
                     case "Resguardo":
                         mview.closeDialog();

@@ -391,6 +391,14 @@ public class BarcodeScannerActivity extends AppCompatActivity
         if(collectedBarCodes.contains(code))
         {
 
+            if(typeScanner.equals("Salida")){
+                Bundle bundle = new Bundle();
+                bundle.putString("qrValue", code);
+                Intent intent = new Intent(this, salidaContainer.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
         }else
         {
 

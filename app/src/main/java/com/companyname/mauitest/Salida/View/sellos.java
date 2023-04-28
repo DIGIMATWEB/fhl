@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -16,12 +17,13 @@ import com.companyname.mauitest.Salida.Model.Sello;
 
 import java.util.List;
 
-public class sellos extends AppCompatActivity {
+public class sellos extends AppCompatActivity implements View.OnClickListener {
 
     public static final String TAG = sellos.class.getSimpleName();
     private List<Sello> sellos;
     private RecyclerView rv;
     private adapterSellos adapter;
+    private ImageButton continuarSalida;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +46,24 @@ public class sellos extends AppCompatActivity {
           rv.setAdapter(adapter);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
     private void initView() {
         rv=findViewById(R.id.rvsellos);
+        continuarSalida=findViewById(R.id.continuarSalida);
+        continuarSalida.setOnClickListener(this);
 
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.continuarSalida:
+                onBackPressed();
+                break;
+        }
+    }
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import com.companyname.mauitest.mainContainer.mainContainer;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -20,12 +21,14 @@ public class locator  extends Fragment implements OnMapReadyCallback {
 
         private GoogleMap mMap;
         private MapView mapView;
-
+        private mainContainer mactivity;
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
                 View view = inflater.inflate(R.layout.fragment_maps, container, false);
+                mactivity= (mainContainer) getActivity();
                 initView(view);
+
                 mapView.onCreate(savedInstanceState);
                 if (mapView != null) {
                         mapView.getMapAsync(this);
@@ -55,6 +58,13 @@ public class locator  extends Fragment implements OnMapReadyCallback {
                 super.onStart();
                 mapView.onStart();
         }
+
+        @Override
+        public void onDetach() {
+                super.onDetach();
+                mactivity.showtab();
+        }
+
         @Override
         public void onResume() {
                 super.onResume();
