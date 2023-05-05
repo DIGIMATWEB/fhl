@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment;
 import com.companyname.mauitest.R;
 import com.companyname.mauitest.Retrofit.GeneralConstants;
 import com.companyname.mauitest.login.view.login;
-import com.companyname.mauitest.nmanifest.mmanifest;
 
 public class viewProfile extends Fragment implements View.OnClickListener {
     public static final String TAG = viewProfile.class.getSimpleName();

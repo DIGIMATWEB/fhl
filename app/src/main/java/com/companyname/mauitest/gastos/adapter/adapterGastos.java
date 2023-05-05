@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -14,18 +15,17 @@ import com.companyname.mauitest.R;
 import com.companyname.mauitest.Salida.Model.Sello;
 import com.companyname.mauitest.Salida.View.sellos;
 import com.companyname.mauitest.checkList.adapter.adapterChecklist;
+import com.companyname.mauitest.gastos.model.dataGastos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class adapterGastos extends RecyclerView.Adapter<adapterGastos.ViewHolder> {
     private Context context;
-//    private int size;
-//    private sellos mView;
-//    private List<Sello> data;
+    private List<dataGastos> data;
 
-    public adapterGastos( Context context) {
-//        this.mView = mmanifest;
-//        this.data = data;
+    public adapterGastos(List<dataGastos> data, Context context) {
+       this.data = data;
         this.context = context;
     }
 
@@ -38,21 +38,42 @@ public class adapterGastos extends RecyclerView.Adapter<adapterGastos.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull adapterGastos.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-
+        holder.colaboradorGastos.setText(data.get(position).getOperadorGastos());
+        holder.manifestGastos.setText(data.get(position).getManifestGastos());
+        if(data.get(position).getStatusGastos().equals("1")){
+            holder.statusGastos.setText("Liquidado");
+            int mcolor=context.getColor(R.color.green);
+            holder.statusGastos.setTextColor(mcolor);
+        }else{
+            holder.statusGastos.setText("No Liquidado");
+            int mcolor=context.getColor(R.color.red);
+            holder.statusGastos.setTextColor(mcolor);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 9;
+        return data.size();
+    }
+
+    public void setFilter(List<dataGastos> filterList) {
+        this.data = new ArrayList<>();
+        this.data.addAll(filterList);
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout cardOrder;
+        TextView statusGastos,colaboradorGastos,manifestGastos;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             cardOrder = itemView.findViewById(R.id.constrainCard);
+            statusGastos=itemView.findViewById(R.id.statusGastos);
+            colaboradorGastos= itemView.findViewById(R.id.colaboradorGastos);
+            manifestGastos=itemView.findViewById(R.id.manifestGastos);
+
         }
     }
 }

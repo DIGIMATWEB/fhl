@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,16 +13,22 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.companyname.mauitest.R;
-import com.companyname.mauitest.nmanifest.mmanifest;
+import com.companyname.mauitest.nmanifest.model.dataManifest;
+import com.companyname.mauitest.nmanifest.view.mmanifest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class manifestAdapter extends RecyclerView.Adapter<manifestAdapter.ViewHolder>{
     private Context context;
     private  int size;
     private mmanifest mView;
-    public manifestAdapter(mmanifest mmanifest, int size, Context context) {
+    private List<dataManifest> data;
+    public manifestAdapter(mmanifest mmanifest, List<dataManifest> data, int size, Context context) {
         this.mView=mmanifest;
         this.size=size;
         this.context=context;
+        this.data=data;
     }
     @NonNull
     @Override
@@ -38,16 +45,26 @@ public class manifestAdapter extends RecyclerView.Adapter<manifestAdapter.ViewHo
                 mView.gotoTickets(position);
             }
         });
+        holder.numberManifest.setText(data.get(position).getIdmanifest());
     }
     @Override
     public int getItemCount() {
-        return size;
+        return data.size();
     }
+
+    public void setFilter(List<dataManifest> filterList) {
+        this.data = new ArrayList<>();
+        this.data.addAll(filterList);
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout cardOrder;
+        TextView numberManifest;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             cardOrder=itemView.findViewById(R.id.constrainCard);
+            numberManifest=itemView.findViewById(R.id.numberManifest);
         }
     }
 }

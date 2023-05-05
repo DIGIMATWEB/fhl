@@ -1,24 +1,14 @@
 package com.companyname.mauitest.Salida.View;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.companyname.mauitest.Dialogs.mainMenu;
 import com.companyname.mauitest.R;
 import com.companyname.mauitest.Salida.Adapter.adapterTicketsSalida;
-import com.companyname.mauitest.mainContainer.mainContainer;
-import com.companyname.mauitest.mainContainer.model.dataMenuItems;
-import com.companyname.mauitest.mainContainer.presenter.presentermainContainer;
-import com.companyname.mauitest.mainContainer.tabBar;
-import com.companyname.mauitest.nmanifest.mmanifest;
-
-import java.util.List;
 
 public class salidaContainer extends AppCompatActivity  {
         public static final String TAG = salidaContainer.class.getSimpleName();

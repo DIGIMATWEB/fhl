@@ -67,6 +67,8 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+
+                android:id="@+id/manifestGastos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
@@ -78,6 +80,7 @@
                 app:layout_constraintTop_toTopOf="@+id/guidelinechecklist5" />
 
             <TextView
+                android:id="@+id/colaboradorGastos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
@@ -89,6 +92,7 @@
                 app:layout_constraintTop_toTopOf="@+id/guidelinechecklist5" />
 
             <TextView
+                android:id="@+id/statusGastos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No Vigente"

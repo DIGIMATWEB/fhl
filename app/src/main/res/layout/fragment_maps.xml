@@ -125,7 +125,7 @@
                     app:srcCompat="@drawable/ic_device_vector"/>
 
                 <TextView
-                    android:id="@+id/textView491"
+                    android:id="@+id/modelSmarthphone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -143,7 +143,7 @@
                     android:textSize="@dimen/h4"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView491" />
+                    app:layout_constraintTop_toBottomOf="@+id/modelSmarthphone" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

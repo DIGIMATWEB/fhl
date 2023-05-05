@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -22,8 +21,8 @@ import com.companyname.mauitest.mainContainer.presenter.prensentermainContainerI
 import com.companyname.mauitest.mainContainer.presenter.presentermainContainer;
 import com.companyname.mauitest.mainContainer.view.view;
 import com.companyname.mauitest.mlkit.BarcodeScannerActivity;
-import com.companyname.mauitest.nmanifest.*;
 import com.companyname.mauitest.R;
+import com.companyname.mauitest.nmanifest.view.mmanifest;
 import com.companyname.mauitest.resguardo.view.resguardo;
 
 import java.util.List;

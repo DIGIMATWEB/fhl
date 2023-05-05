@@ -17,7 +17,7 @@ import com.companyname.mauitest.Profile.view.viewProfile;
 import com.companyname.mauitest.R;
 import com.companyname.mauitest.locator.locator;
 import com.companyname.mauitest.mlkit.BarcodeScannerActivity;
-import com.companyname.mauitest.nmanifest.mmanifest;
+import com.companyname.mauitest.nmanifest.view.mmanifest;
 import com.companyname.mauitest.signature.signature;
 
 public class menu extends Fragment implements View.OnClickListener{

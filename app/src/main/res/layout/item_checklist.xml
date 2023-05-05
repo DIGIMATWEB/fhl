@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -38,13 +39,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent=".3" />
+                app:layout_constraintGuide_percent=".32" />
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelinechecklist4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent=".70" />
+                app:layout_constraintGuide_percent=".73" />
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelinechecklist5"
                 android:layout_width="wrap_content"
@@ -59,7 +60,7 @@
                 app:layout_constraintGuide_percent=".44" />
 
             <TextView
-                android:id="@+id/textView41"
+                android:id="@+id/namechecklist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
@@ -92,42 +93,46 @@
                 app:layout_constraintTop_toTopOf="@+id/guidelinechecklist6" />
 
             <TextView
+                android:id="@+id/vehiclTypeChecklist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
                 android:text="Sprinter larga"
                 android:textSize="@dimen/h5"
+                android:maxLength="14"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guidelinechecklist2"
                 app:layout_constraintTop_toTopOf="@+id/guidelinechecklist5" />
 
             <TextView
-                android:id="@+id/textView45"
+                android:id="@+id/manifestChecklist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
                 android:text="asdascwcew"
                 android:textSize="@dimen/h5"
+                android:maxLength="15"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guidelinechecklist3"
                 app:layout_constraintTop_toTopOf="@+id/guidelinechecklist5" />
 
             <TextView
+                android:id="@+id/statusChecklist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No Vigente"
+                android:textColor="@color/red"
                 android:textSize="@dimen/h6"
                 android:textStyle="bold"
-                android:textColor="@color/red"
                 app:layout_constraintBottom_toTopOf="@+id/guidelinechecklist5"
                 app:layout_constraintEnd_toStartOf="@+id/guidelinechecklist4"
                 app:layout_constraintStart_toStartOf="@+id/guidelinechecklist4"
                 app:layout_constraintTop_toTopOf="@+id/guidelinechecklist5" />
 
             <TextView
-                android:id="@+id/textView43"
+                android:id="@+id/moreChecklist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="30dp"
@@ -141,13 +146,13 @@
             </TextView>
 
             <ImageView
-                android:id="@+id/siguiente"
+                android:id="@+id/siguienteChecklist"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginEnd="5dp"
-                app:layout_constraintBottom_toBottomOf="@+id/textView43"
+                app:layout_constraintBottom_toBottomOf="@+id/moreChecklist"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView43"
+                app:layout_constraintTop_toTopOf="@+id/moreChecklist"
                 app:srcCompat="@drawable/ic_arrow_tiket">
 
             </ImageView>

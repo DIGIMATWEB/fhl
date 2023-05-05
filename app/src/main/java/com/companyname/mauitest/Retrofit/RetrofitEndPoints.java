@@ -13,4 +13,7 @@ public class RetrofitEndPoints {
 
     public static final String MENUS = "menu.php";
     public static final String SALIDA = "salidaqr.php";
+    public static final String MANIFEST = "manifest.php";
+    public static final String CHECKLIST = "checklist.php" ;
+    public static final String GASTOS = "gastos.php" ;
 }

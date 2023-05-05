@@ -40,6 +40,7 @@
         </TextView>
 
         <ImageView
+            android:id="@+id/finder"
             android:layout_width="50dp"
             android:layout_height="0dp"
             android:layout_marginEnd="15dp"
@@ -56,13 +57,17 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchView"
+        android:id="@+id/searchViewManifest"
         android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:visibility="gone"
-        android:layout_height="40dp"
+        android:iconifiedByDefault="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3">
+        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        app:searchIcon="@null">
 
     </androidx.appcompat.widget.SearchView>
 
@@ -73,7 +78,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView">
+        app:layout_constraintTop_toBottomOf="@+id/searchViewManifest">
 
     </androidx.recyclerview.widget.RecyclerView>
     <androidx.constraintlayout.widget.Guideline

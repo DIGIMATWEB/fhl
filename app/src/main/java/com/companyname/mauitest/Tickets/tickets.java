@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.companyname.mauitest.R;
 import com.companyname.mauitest.Tickets.Adapter.ticketsAdapter;
-import com.companyname.mauitest.nmanifest.mmanifest;
+import com.companyname.mauitest.nmanifest.view.mmanifest;
 
 public class tickets extends Fragment implements View.OnClickListener {
     public static final String TAG = tickets.class.getSimpleName();
