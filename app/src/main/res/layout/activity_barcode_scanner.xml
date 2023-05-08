@@ -23,7 +23,7 @@
     </androidx.camera.view.PreviewView>
 
     <!-- vista del escaner -->
-    <com.companyname.mauitest.mlkit.GraphicOverlay
+    <com.fhl.sistemadedistribucionfh.mlkit.GraphicOverlay
         android:id="@+id/graphic_overlay"
         android:layout_width="0dp"
         android:layout_height="0dp"

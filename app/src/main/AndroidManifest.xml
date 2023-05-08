@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.companyname.mauitest" >
+    package="com.fhl.sistemadedistribucionfh" >
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -43,7 +43,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="com.companyname.mauitest.MainActivity"
+            android:name="com.fhl.sistemadedistribucionfh.MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -52,30 +52,30 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.companyname.mauitest.login.view.login"
+            android:name="com.fhl.sistemadedistribucionfh.login.view.login"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.companyname.mauitest.mainContainer.mainContainer"
+            android:name="com.fhl.sistemadedistribucionfh.mainContainer.mainContainer"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.companyname.mauitest.mlkit.BarcodeScannerActivity"
+            android:name="com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.companyname.mauitest.allvalidations.allvalidations"
+            android:name="com.fhl.sistemadedistribucionfh.allvalidations.allvalidations"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.companyname.mauitest.signature.signature"
+            android:name="com.fhl.sistemadedistribucionfh.signature.signature"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Salida.View.salidaContainer"
+            android:name="com.fhl.sistemadedistribucionfh.Salida.View.salidaContainer"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Salida.View.sellos"
+            android:name="com.fhl.sistemadedistribucionfh.Salida.View.sellos"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.companyname.mauitest.photoCollection.imageGallery"
+            android:name="com.fhl.sistemadedistribucionfh.photoCollection.imageGallery"
             android:exported="true"
             android:screenOrientation="portrait" >
         </activity>

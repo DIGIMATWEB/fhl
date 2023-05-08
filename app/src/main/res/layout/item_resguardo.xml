@@ -99,6 +99,7 @@
                 app:layout_constraintTop_toTopOf="@+id/textView48" />
 
             <TextView
+                android:id="@+id/article"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
@@ -121,6 +122,7 @@
                 app:layout_constraintStart_toStartOf="@+id/guidelinechecklist2" />
 
             <TextView
+                android:id="@+id/salida"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
@@ -132,6 +134,7 @@
                 app:layout_constraintTop_toTopOf="@+id/guidelinechecklist5" />
 
             <TextView
+                android:id="@+id/entrada"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="14/06/22 11:30"

@@ -72,7 +72,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_launcher_background" />
+            app:srcCompat="@drawable/ic_pass_vector" />
 
 
         <TextView
@@ -84,7 +84,7 @@
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="4dp"
             android:gravity="center"
-            android:text="Dashboard"
+            android:text="Firma"
             android:textColor="@color/black"
             android:textSize="9sp"
             android:visibility="visible"

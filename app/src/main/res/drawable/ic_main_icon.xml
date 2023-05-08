@@ -3,6 +3,11 @@
     android:height="180dp"
     android:viewportWidth="180"
     android:viewportHeight="180">
+  <path
+      android:pathData="M19.14,12.76h143.52v152.29h-143.52z"
+      android:strokeWidth="12.3213"
+      android:fillColor="#ffffff"
+      android:strokeColor="#00000000"/>
   <group>
     <clip-path
         android:pathData="M0,0h180v180h-180z"/>
