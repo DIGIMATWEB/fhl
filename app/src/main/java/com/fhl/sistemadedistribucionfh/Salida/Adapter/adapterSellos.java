@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Salida.Model.Sello;
 import com.fhl.sistemadedistribucionfh.Salida.View.sellos;
+import com.fhl.sistemadedistribucionfh.resguardo.model.dataResguardo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class adapterSellos extends RecyclerView.Adapter<adapterSellos.ViewHolder> {
@@ -47,7 +49,11 @@ public class adapterSellos extends RecyclerView.Adapter<adapterSellos.ViewHolder
     public int getItemCount() {
         return data.size();
     }
-
+    public void setFilter(List<Sello> filterList) {
+        this.data = new ArrayList<>();
+        this.data.addAll(filterList);
+        notifyDataSetChanged();
+    }
     public class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout cardOrder;
         TextView selloFolio;

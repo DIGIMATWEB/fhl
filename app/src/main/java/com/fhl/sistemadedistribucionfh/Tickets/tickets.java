@@ -41,7 +41,7 @@ public class tickets extends Fragment implements View.OnClickListener {
     }
 
     private void setAdapter() {
-        adapter=new ticketsAdapter(this,5,getContext());
+        adapter=new ticketsAdapter(this,1,getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvTickets.setLayoutManager(layoutManager);
         rvTickets.setAdapter(adapter);
