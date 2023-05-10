@@ -9,7 +9,6 @@
     android:layout_height="650dp"
     app:behavior_peekHeight="50dp"
     app:layout_behavior="@string/bottom_sheet_behavior">
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constrainCollapse"
         android:layout_width="match_parent"
