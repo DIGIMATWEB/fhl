@@ -30,6 +30,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.escanearCodigos;
+import com.fhl.sistemadedistribucionfh.Dialogs.validador.view.validadorBottomSheet;
 import com.fhl.sistemadedistribucionfh.Salida.View.salidaContainer;
 import com.google.mlkit.common.MlKitException;
 import com.fhl.sistemadedistribucionfh.Dialogs.employeBottomSheet;
@@ -90,15 +92,18 @@ public class BarcodeScannerActivity extends AppCompatActivity
             if(bndl!=null){
                 typeScanner=bndl.getString("scannerType");
                 if(typeScanner!=null){
-                    Log.e("typeScanner1",""+typeScanner);
+                    Log.e("typeScanner","1 "+typeScanner);
+                    if (typeScanner.equals("Validador")) {
+                        new escanearCodigos().show(getSupportFragmentManager(), "escanearCodigos");
+                    }
 
                 }else{
                     typeScanner=bndl.getString("scannerType2");
-                    Log.e("typeScanner2",""+typeScanner);
+                    Log.e("typeScanner","2 "+typeScanner);
                 }
          }else{
                 typeScanner="Validador";
-                Log.e("typeScanner  3",""+typeScanner);
+                Log.e("typeScanner","3 "+typeScanner);
             }
 
         Log.d(TAG, "onCreate");
@@ -129,7 +134,9 @@ public class BarcodeScannerActivity extends AppCompatActivity
        // binding.inputmanual.setOnClickListener(this);
        // binding.inputcamara.setOnClickListener(this);
        // binding.iconchecklist.setOnClickListener(this);
-        if(collectedBarCodes.isEmpty()) {
+        //todo se receteara de momento collectedBarcode
+        //collectedBarCodes.clear();
+        if(collectedBarCodes.isEmpty()) {  //todo esto es para compobar si el arreglo viene lleno o cacio
 
         }else
         {
@@ -411,11 +418,12 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 binding.cardviewnumber.setVisibility(View.VISIBLE);
                 binding.textdimens.setText(String.valueOf( collectedBarCodes.size()));
             }
-            if(code.equals("123456"))
+            //todo estas validaciones eran de prueba para vehiculo conductor y manifiesto
+           /* if(code.equals("v123456"))
             {
                 Toast.makeText(this, "Vehiculo", Toast.LENGTH_SHORT).show();
                 new vehicleBottomSheet().show(getSupportFragmentManager(),"dialogBottomSheet");
-            }else if(code.equals("1234567"))
+            }else if(code.equals("d1234567"))
             {
                 Toast.makeText(this, "empleado", Toast.LENGTH_SHORT).show();
                 new employeBottomSheet().show(getSupportFragmentManager(),"employeBottomSheet");
@@ -424,6 +432,8 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 Toast.makeText(this, "manifiesto", Toast.LENGTH_SHORT).show();
                 new manifestBottomSheet().show(getSupportFragmentManager(),"manifestBottomSheet");
             }
+            */
+
             //showDialog();
             //    }
             // else
@@ -438,6 +448,14 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtras(bundle);
                 startActivity(intent);
+            }else if (typeScanner.equals("Validador")){
+                Bundle bundle = new Bundle();
+                bundle.putString("validadorCode", code);
+                validadorBottomSheet bottonSheetv=new validadorBottomSheet();
+                bottonSheetv.setArguments(bundle);
+                bottonSheetv.show(getSupportFragmentManager(),"validadorBottomSheet");
+
+
             }
         }
 

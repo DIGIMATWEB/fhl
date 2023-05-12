@@ -266,6 +266,7 @@
 
     </ImageView>
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/continuarbutton"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="30dp"

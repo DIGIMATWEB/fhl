@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
 import com.fhl.sistemadedistribucionfh.R;
@@ -20,6 +21,7 @@ public class escanearCodigos extends DialogFragment implements View.OnClickListe
     private Button iralmenu;
     private TextView titleheader;
     private ImageView imagebackground;
+    private ConstraintLayout continuarbutton;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +32,7 @@ public class escanearCodigos extends DialogFragment implements View.OnClickListe
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_escancodes, container, false);
-        getDialog().getWindow().setBackgroundDrawableResource(R.color.customTransparent);
+        //getDialog().getWindow().setBackgroundDrawableResource(R.color.customTransparent);
         setCancelable(true);
         initDialog(view);
         //setFonts();
@@ -38,7 +40,8 @@ public class escanearCodigos extends DialogFragment implements View.OnClickListe
     }
 
     private void initDialog(View view) {
-
+        continuarbutton=view.findViewById(R.id.continuarbutton);
+        continuarbutton.setOnClickListener(this);
     }
 
     public void closeDialog() {
@@ -49,7 +52,9 @@ public class escanearCodigos extends DialogFragment implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
+            case R.id.continuarbutton:
+                closeDialog();
+                break;
         }
     }
 }

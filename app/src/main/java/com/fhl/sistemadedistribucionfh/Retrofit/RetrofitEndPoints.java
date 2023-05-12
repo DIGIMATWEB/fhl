@@ -18,4 +18,5 @@ public class RetrofitEndPoints {
     public static final String GASTOS = "gastos.php" ;
     public static final String RESGUARDO = "resguardo.php";
     public static final String TICKETS = "tickets.php";
+    public static final String VALIDADOR = "validador.php";
 }

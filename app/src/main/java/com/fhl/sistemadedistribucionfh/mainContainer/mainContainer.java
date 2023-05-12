@@ -71,8 +71,8 @@ public class mainContainer extends AppCompatActivity  implements view {
                manifiestos();
                 break;
             case "Validador"://este es el modulo de scanner
-                //mScanner("Validador");
-                Toast.makeText(this, "modulo en desarrollo", Toast.LENGTH_SHORT).show();
+               mScanner("Validador");
+                //Toast.makeText(this, "modulo en desarrollo", Toast.LENGTH_SHORT).show();
                 break;
             case "Ubicacion GPS":
                 Locator();

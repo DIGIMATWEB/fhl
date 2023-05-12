@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 import com.fhl.sistemadedistribucionfh.R;
 public class vehicleBottomSheet extends DialogFragment implements View.OnClickListener {
@@ -18,6 +19,7 @@ public class vehicleBottomSheet extends DialogFragment implements View.OnClickLi
     private Button iralmenu;
     private TextView titleheader;
     private ImageView imagebackground;
+    private ConstraintLayout vehicle,user,manifest;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +41,12 @@ public class vehicleBottomSheet extends DialogFragment implements View.OnClickLi
         titleheader=view.findViewById(R.id.titleheader);
         imagebackground=view.findViewById(R.id.imagebackground);
         titleheader.setText("Vehículo");
+        vehicle=view.findViewById(R.id.carconstrain);
+        user=view.findViewById(R.id.driverconstrain);
+        manifest=view.findViewById(R.id.manifestconstrain);
+        vehicle.setVisibility(View.VISIBLE);
+        user.setVisibility(View.GONE);
+        manifest.setVisibility(View.GONE);
         Drawable ndrawable= getActivity().getDrawable(R.drawable.temp_botton_sheet);
         imagebackground.setBackground(ndrawable);
     }
