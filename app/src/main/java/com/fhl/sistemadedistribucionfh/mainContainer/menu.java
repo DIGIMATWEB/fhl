@@ -15,10 +15,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.fhl.sistemadedistribucionfh.Profile.view.viewProfile;
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.cerrarViaje.view.cerrarViaje;
+import com.fhl.sistemadedistribucionfh.evidence.evidencia;
 import com.fhl.sistemadedistribucionfh.locator.locator;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
 import com.fhl.sistemadedistribucionfh.nmanifest.view.mmanifest;
-import com.fhl.sistemadedistribucionfh.signature.signature;
 
 public class menu extends Fragment implements View.OnClickListener{
     public static final String TAG = menu.class.getSimpleName();
@@ -59,7 +60,7 @@ public class menu extends Fragment implements View.OnClickListener{
                 break;
             case R.id.mpedido:
                 Toast.makeText(getContext(), "ir a completados", Toast.LENGTH_SHORT).show();
-                Intent intent2 = new Intent(getActivity(), signature.class);
+                Intent intent2 = new Intent(getActivity(), cerrarViaje.class);
                 startActivity(intent2);
                 break;
             case R.id.miscompras:

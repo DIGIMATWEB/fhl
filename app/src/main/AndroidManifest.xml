@@ -66,7 +66,7 @@
             android:name="com.fhl.sistemadedistribucionfh.allvalidations.allvalidations"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.fhl.sistemadedistribucionfh.signature.signature"
+            android:name="com.fhl.sistemadedistribucionfh.evidence.signature.signature"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.fhl.sistemadedistribucionfh.Salida.View.salidaContainer"
@@ -79,6 +79,21 @@
             android:exported="true"
             android:screenOrientation="portrait" >
         </activity>
+        <activity android:name=".evidence.evidencia"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity android:name=".evidence.photos.carrusel"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity android:name=".evidence.documents.documents"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity android:name=".evidence.rateDriver.calificacion"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity android:name=".cerrarViaje.view.cerrarViaje"
+            android:exported="true"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
