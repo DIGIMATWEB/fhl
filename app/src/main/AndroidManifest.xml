@@ -51,6 +51,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.fhl.sistemadedistribucionfh.HelpPermissions.HelpPermissionsViewImpl"
+            android:screenOrientation="portrait" >
+        </activity>
         <activity
             android:name="com.fhl.sistemadedistribucionfh.login.view.login"
             android:screenOrientation="portrait" >

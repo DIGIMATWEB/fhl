@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:textSize="18dp"
+        android:gravity="center"
+        android:text="Una cosa mas y listo"
+        app:layout_constraintBottom_toTopOf="@+id/textView64"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </TextView>
+
+    <TextView
+        android:id="@+id/textView64"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:gravity="center"
+        android:textSize="18dp"
+        android:layout_marginBottom="20dp"
+        android:text="Es posible que esta aplicación quiera grabar audio, requerir tu ubicacion, acceder a tu camara, incluso cuando no esté usando la aplicación.
+Permitir en la configuración."
+        app:layout_constraintBottom_toTopOf="@+id/txtPermission"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+    </TextView>
+
+    <TextView
+        android:id="@+id/txtPermission"
+        android:layout_width="280dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="80dp"
+        android:textSize="18dp"
+        android:text="Presione el boton para activar los permisos"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/buttonPermissions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+    </TextView>
+
+    <Button
+        android:id="@+id/buttonPermissions"
+        android:layout_width="200dp"
+        android:layout_height="80dp"
+        android:text="Revisar permisos"
+        android:layout_marginBottom="20dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+    </Button>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

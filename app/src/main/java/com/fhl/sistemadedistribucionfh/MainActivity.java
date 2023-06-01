@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.fhl.sistemadedistribucionfh.HelpPermissions.HelpPermissionsViewImpl;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.login.view.login;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
@@ -32,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
                 {
                     tokenExist();
                 }else{
-                    goToLoginContainer();
+                    //goToLoginContainer();
+                    permissionsScreen();
                 }
 
             }
@@ -50,5 +52,11 @@ public class MainActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);//
 
         startActivity(intent);
+    }
+
+    public void permissionsScreen() {
+        Intent intent = new Intent(this, HelpPermissionsViewImpl.class);
+        startActivity(intent);
+        finish();;
     }
 }
