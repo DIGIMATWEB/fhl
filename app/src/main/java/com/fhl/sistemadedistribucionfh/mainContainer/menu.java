@@ -60,7 +60,7 @@ public class menu extends Fragment implements View.OnClickListener{
                 break;
             case R.id.mpedido:
                 Toast.makeText(getContext(), "ir a completados", Toast.LENGTH_SHORT).show();
-                Intent intent2 = new Intent(getActivity(), cerrarViaje.class);
+                Intent intent2 = new Intent(getActivity(), cerrarViaje.class);//evidencia
                 startActivity(intent2);
                 break;
             case R.id.miscompras:

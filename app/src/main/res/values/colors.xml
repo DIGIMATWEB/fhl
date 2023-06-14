@@ -11,6 +11,7 @@
     <color name="green">#00BB29</color>
     <color name="red">#BB0000</color>
     <color name="customTransparent">#D2777777</color>
+    <color name="customTransparent2">#97000000</color>
     <color name="purple">#3D2C42</color>
     <color name="grey">#717171</color>
     <color name="grayalfa">#A1AEAEAE</color>

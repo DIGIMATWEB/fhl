@@ -274,9 +274,9 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView31"
+        android:id="@+id/dialogReasons"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
@@ -288,12 +288,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <ImageView
+
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="20dp"
+                app:srcCompat="@drawable/ic_profile_icon_three"
+                android:rotation="90"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
             <TextView
                 android:id="@+id/textView9111"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="No existe el domicilio"
+                android:text="Motivo"
                 android:textSize="@dimen/h2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -313,10 +323,10 @@
         android:textSize="@dimen/h2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView31" />
+        app:layout_constraintTop_toBottomOf="@+id/dialogReasons" />
 
     <ImageView
-        android:id="@+id/imageView21"
+        android:id="@+id/camera"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="10dp"
@@ -331,7 +341,7 @@
         android:layout_height="30dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/textView65"
-        app:layout_constraintEnd_toEndOf="@+id/cardView31"
+        app:layout_constraintEnd_toEndOf="@+id/dialogReasons"
         app:layout_constraintTop_toTopOf="@+id/textView65"
         app:srcCompat="@drawable/ic_trash_ico" />
     <ImageButton

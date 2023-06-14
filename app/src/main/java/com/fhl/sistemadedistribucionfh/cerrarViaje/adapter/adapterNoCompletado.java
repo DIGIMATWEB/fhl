@@ -2,7 +2,7 @@ package com.fhl.sistemadedistribucionfh.cerrarViaje.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.SparseBooleanArray;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.cerrarViaje.view.cerrarViaje;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,11 +28,13 @@ public class adapterNoCompletado extends RecyclerView.Adapter<adapterNoCompletad
     private boolean trashcount=false;
     private cerrarViaje mview;
     private List<String> currentSelected=new ArrayList<>();//items seleccionados
+    private List<String> imageCollections;
 
-    public adapterNoCompletado(cerrarViaje mview, Context context)
+    public adapterNoCompletado(cerrarViaje mview, List<String> imageCollections, Context context)
     {
         this.mview=mview;
         this.context=context;
+        this.imageCollections=imageCollections;
         currentSelected.clear();
     }
     @NonNull
@@ -43,15 +46,23 @@ public class adapterNoCompletado extends RecyclerView.Adapter<adapterNoCompletad
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-        if(trashcount){/**este metodo esta pendiente en caso de actualizar el carrusel oculta el overlay seleccionado y lo oculta  */
+     /*   if(trashcount){///este metodo esta pendiente en caso de actualizar el carrusel oculta el overlay seleccionado y lo oculta  //
             if(holder.overlay.getVisibility()!=View.GONE) {
                 holder.overlay.setVisibility(View.GONE);
                 holder.evidence.setAlpha(1f);
             }
-        }
+        }*/
         //        if(position!=size-1){
-            Glide.with(context).load(R.drawable.shape_profile).override(460,460).into( holder.evidence);
-            /** este metodo maneja la selecion de coleccion de imagenes*/
+        byte[] imageBytes = Base64.decode(imageCollections.get(position), Base64.DEFAULT);
+
+// Load and display the image using Glide
+        Glide.with(context)
+                .asBitmap()
+                .load(imageBytes)
+                .apply(new RequestOptions()
+                        .diskCacheStrategy(DiskCacheStrategy.NONE))
+                .override(460, 460)  // Set the desired width and height for the image
+                .into(holder.evidence);
             holder.evidence.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -91,11 +102,17 @@ public class adapterNoCompletado extends RecyclerView.Adapter<adapterNoCompletad
 
     @Override
     public int getItemCount() {
-        return 0;
+        return imageCollections.size();
     }
 
     public void updateSize(int sizeAfterErase, boolean isUpdated) {
         this.trashcount=isUpdated;
+        notifyDataSetChanged();
+    }
+
+    public void UpdateArray(List<String> imageCollections) {
+        this.imageCollections=new ArrayList<>();
+        imageCollections.addAll(imageCollections);
         notifyDataSetChanged();
     }
 
