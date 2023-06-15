@@ -59,7 +59,7 @@ public class menu extends Fragment implements View.OnClickListener{
                 transaction.replace(R.id.fragments, manifest, mmanifest.TAG).commit();
                 break;
             case R.id.mpedido:
-                Toast.makeText(getContext(), "ir a completados", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getContext(), "ir a completados", Toast.LENGTH_SHORT).show();
                 Intent intent2 = new Intent(getActivity(), cerrarViaje.class);//evidencia
                 startActivity(intent2);
                 break;

@@ -34,6 +34,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -53,6 +54,7 @@ public class cerrarViaje  extends AppCompatActivity implements View.OnClickListe
     private String currentImagePath;
     private ImageView imageView;
     private List<String> imageCollections=new ArrayList<>();
+    private List<String> meraseList=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,7 +157,9 @@ public class cerrarViaje  extends AppCompatActivity implements View.OnClickListe
 // Convert byte array to Base64-encoded string
             String imageBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
             Log.e("imageFilePhoto",""+imageBase64);
-            imageCollections.add(imageBase64);
+            if(!imageCollections.contains(imageBase64)) {
+                imageCollections.add(imageBase64);
+            }
             adapter.UpdateArray(imageCollections);
         } else {
             Toast.makeText(this, "Failed to capture image", Toast.LENGTH_SHORT).show();
@@ -174,13 +178,27 @@ public class cerrarViaje  extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
+    public void updateEraselist(List<String> eraseList) {
+        this.meraseList=eraseList;
+
+    }
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
             case R.id.trashicon:
-
-                adapter.updateSize(moldlist.size(),true);
+                if(!meraseList.isEmpty()) {
+                    meraseList.sort(Collections.reverseOrder());
+                    for (String indexStr : meraseList) {
+                        int index = Integer.parseInt(indexStr);
+                        if (index >= 0 && index < imageCollections.size()) {
+                            imageCollections.remove(index);
+                        }
+                    }
+                    adapter.updateSize(imageCollections, true);
+                }else{
+                    Toast.makeText(this, "No haz selecionado ningun item", Toast.LENGTH_SHORT).show();
+                }
                //todo esto arreglo remueve los indexes de forma incorre
                 break;
             case R.id.dialogReasons:

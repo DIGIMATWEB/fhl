@@ -46,12 +46,12 @@ public class adapterNoCompletado extends RecyclerView.Adapter<adapterNoCompletad
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-     /*   if(trashcount){///este metodo esta pendiente en caso de actualizar el carrusel oculta el overlay seleccionado y lo oculta  //
+      if(trashcount){///este metodo esta pendiente en caso de actualizar el carrusel oculta el overlay seleccionado y lo oculta  //
             if(holder.overlay.getVisibility()!=View.GONE) {
                 holder.overlay.setVisibility(View.GONE);
                 holder.evidence.setAlpha(1f);
             }
-        }*/
+        }
         //        if(position!=size-1){
         byte[] imageBytes = Base64.decode(imageCollections.get(position), Base64.DEFAULT);
 
@@ -75,12 +75,14 @@ public class adapterNoCompletado extends RecyclerView.Adapter<adapterNoCompletad
 
                         }else {                                /** si no contiene el index de la foto deberia agregar el index*/
                             currentSelected.add(String.valueOf( position));
+                            mview.updateEraselist(currentSelected);
                         }
                     }else{                                     /**este metodo ve si la foto esta seleccionada  */
                         holder.evidence.setAlpha(1f);
                         holder.overlay.setVisibility(View.GONE);
                         if(currentSelected.contains(String.valueOf(position))){/** si contiene el index de la foto no deberia remover de la lista*/
                             currentSelected.remove(String.valueOf(position));
+                            mview.updateEraselist(currentSelected);
                         }else {                                /** si no contiene el index de la foto no deberia hacer nada*/
 
                         }
@@ -105,14 +107,17 @@ public class adapterNoCompletado extends RecyclerView.Adapter<adapterNoCompletad
         return imageCollections.size();
     }
 
-    public void updateSize(int sizeAfterErase, boolean isUpdated) {
+    public void updateSize(List<String> sizeAfterErase, boolean isUpdated) {
+        this.imageCollections=new ArrayList<>();
+        this.imageCollections.addAll(sizeAfterErase);
         this.trashcount=isUpdated;
+        currentSelected.clear();
         notifyDataSetChanged();
     }
 
     public void UpdateArray(List<String> imageCollections) {
         this.imageCollections=new ArrayList<>();
-        imageCollections.addAll(imageCollections);
+        this.imageCollections.addAll(imageCollections);
         notifyDataSetChanged();
     }
 
