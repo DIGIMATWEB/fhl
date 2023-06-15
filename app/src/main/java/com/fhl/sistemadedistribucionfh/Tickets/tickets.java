@@ -1,9 +1,11 @@
 package com.fhl.sistemadedistribucionfh.Tickets;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
@@ -14,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Tickets.Adapter.ticketsAdapter;
+import com.fhl.sistemadedistribucionfh.cerrarViaje.view.cerrarViaje;
+import com.fhl.sistemadedistribucionfh.evidence.evidencia;
 import com.fhl.sistemadedistribucionfh.nmanifest.view.mmanifest;
 
 public class tickets extends Fragment implements View.OnClickListener {
@@ -23,28 +27,53 @@ public class tickets extends Fragment implements View.OnClickListener {
     private ImageView backTickets;
     private FragmentManager manager;
     private FragmentTransaction transaction;
+    private Button cerrarviaje, cancelar;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tickets, container, false);
         initView(view);
         return view;
     }
 
     private void initView(View view) {
-        rvTickets=view.findViewById(R.id.rvTickets);
-        backTickets=view.findViewById(R.id.backTickets);
+        rvTickets = view.findViewById(R.id.rvTickets);
+        backTickets = view.findViewById(R.id.backTickets);
         backTickets.setOnClickListener(this);
+        cerrarviaje = view.findViewById(R.id.cerrarviaje);
+        cancelar = view.findViewById(R.id.cancelar);
+        cerrarviaje.setOnClickListener(this);
+        cancelar.setOnClickListener(this);
         filldata();
     }
+
     private void filldata() {
         setAdapter();
     }
 
     private void setAdapter() {
-        adapter=new ticketsAdapter(this,1,getContext());
+        adapter = new ticketsAdapter(this, 1, getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvTickets.setLayoutManager(layoutManager);
         rvTickets.setAdapter(adapter);
+    }
+    private void cancelTrip() {
+        Intent intent = new Intent(getActivity(), cerrarViaje.class);//evidencia
+        startActivity(intent);
+    }
+
+    private void closeTrip() {
+        Intent intent2 = new Intent(getActivity(), evidencia.class);//
+        startActivity(intent2);
+
+    }
+
+    public void gotoManifest()
+    {
+        manager = getActivity().getSupportFragmentManager();
+        transaction = manager.beginTransaction();
+        mmanifest manifest= new mmanifest();
+        transaction.replace(R.id.fragments, manifest, mmanifest.TAG).commit();
     }
 
     @Override
@@ -53,15 +82,15 @@ public class tickets extends Fragment implements View.OnClickListener {
             case R.id.backTickets:
                 gotoManifest();
                 break;
+            case R.id.cancelar:
+                cancelTrip();
+                break;
+            case R.id.cerrarviaje:
+                closeTrip();
+                break;
         }
     }
-    public void gotoManifest()
-    {
-        manager = getActivity().getSupportFragmentManager();
-        transaction = manager.beginTransaction();
-        mmanifest manifest= new mmanifest();
-        transaction.replace(R.id.fragments, manifest, mmanifest.TAG).commit();
-    }
+
 }
 // private void showFragmentNavigationButtons() {
 //        manager = getSupportFragmentManager();
