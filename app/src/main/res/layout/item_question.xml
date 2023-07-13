@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/switchanswer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <androidx.cardview.widget.CardView
+            android:layout_width="368dp"
+            android:layout_height="480dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="4dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="1dp"
+                    android:layout_height="70dp"
+                    tools:ignore="MissingConstraints" />
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="#F4E0E1"
+                    android:text="Requerido"
+                    android:textColor="#FF777D"
+                    android:textSize="6dp"
+                    app:layout_constraintBottom_toTopOf="@+id/textbooleanonly"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/textbooleanonly"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginEnd="15dp"
+                    android:gravity="center"
+                    android:text="Placas visibles y frontal trasera"
+                    android:textAlignment="center"
+                    android:textSize="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="RtlCompat">
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/textView18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:text="Porfavor responda la pregunta"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textbooleanonly" />
+
+                <TextView
+                    android:id="@+id/textView20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="15dp"
+                    android:gravity="center"
+                    android:text="Observaciones"
+                    app:layout_constraintBottom_toTopOf="@+id/imagephoto2"
+                    app:layout_constraintEnd_toEndOf="@+id/imagephoto2"
+                    app:layout_constraintStart_toStartOf="@+id/imagephoto2" />
+                <ImageView
+                    android:id="@+id/imagephoto2"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/ic_menu_camera"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                </ImageView>
+
+                <Button
+                    android:id="@+id/trueButton"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginBottom="40dp"
+                    android:layout_weight="1"
+                    app:layout_constraintBottom_toTopOf="@+id/textView20"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Si"
+                    app:layout_constraintEnd_toEndOf="@+id/trueButton"
+                    app:layout_constraintStart_toStartOf="@+id/trueButton"
+                    app:layout_constraintTop_toBottomOf="@+id/trueButton" />
+                <Button
+                    android:id="@+id/falseButton"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_weight="1"
+                    app:layout_constraintBottom_toBottomOf="@+id/trueButton"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/trueButton" />
+
+                <TextView
+                    android:id="@+id/textView21"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="No"
+                    app:layout_constraintEnd_toEndOf="@+id/falseButton"
+                    app:layout_constraintStart_toStartOf="@+id/falseButton"
+                    app:layout_constraintTop_toBottomOf="@+id/falseButton" />
+
+                <Switch
+                    android:id="@+id/switchquestionary"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="40dp"
+                    android:layout_weight="1"
+                    app:layout_constraintBottom_toTopOf="@+id/textView20"
+                    app:layout_constraintEnd_toEndOf="@+id/textView20"
+                    app:layout_constraintStart_toStartOf="@+id/textView20"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+
+
+                <!--   <View
+                       android:id="@+id/view7"
+                       android:layout_width="0dp"
+                       android:layout_height="1dp"
+                       android:layout_marginBottom="1dp"
+                       android:background="@color/textLightColor"
+                       app:layout_constraintBottom_toBottomOf="parent"
+                       tools:ignore="MissingConstraints">
+
+                   </View>-->
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/optionanswer"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <androidx.cardview.widget.CardView
+            android:layout_width="368dp"
+            android:layout_height="480dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="4dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/textopenquestion"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginEnd="15dp"
+                    android:gravity="center"
+                    android:text="Placas visibles y frontal trasera"
+                    android:textAlignment="center"
+                    android:textSize="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="RtlCompat">
+
+                </TextView>
+                <Button
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="#F4E0E1"
+                    android:text="Requerido"
+                    android:textColor="#FF777D"
+                    android:textSize="6dp"
+                    app:layout_constraintBottom_toTopOf="@+id/textopenquestion"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:text="Porfavor responda la pregunta"
+                    app:layout_constraintBottom_toTopOf="@+id/constraintLayout13"
+                    app:layout_constraintEnd_toEndOf="@+id/imagephoto"
+                    app:layout_constraintStart_toStartOf="@+id/imagephoto"
+                    app:layout_constraintTop_toBottomOf="@+id/textopenquestion" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout13"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/guidelinequestion212">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cardView4"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="4dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <Spinner
+                            android:id="@+id/spinnerquestionary"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:spinnerMode="dialog" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <ImageView
+
+                    android:visibility="gone"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/ic_menu_gallery"
+                    app:layout_constraintBottom_toTopOf="@+id/guidelinequestion212"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textopenquestion"
+                    app:layout_constraintTop_toTopOf="parent">
+                </ImageView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="15dp"
+                    android:gravity="center"
+                    android:text="Observaciones"
+                    app:layout_constraintBottom_toTopOf="@+id/imagephoto"
+                    app:layout_constraintEnd_toEndOf="@+id/imagephoto"
+                    app:layout_constraintStart_toStartOf="@+id/imagephoto" />
+
+                <ImageView
+
+                    android:id="@+id/imagephoto"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/ic_menu_camera"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                </ImageView>
+                <!--<View
+                    android:id="@+id/view72"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:background="@color/textLightColor"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:ignore="MissingConstraints">
+
+                </View>-->
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guidelinequestion21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.65">
+
+                </androidx.constraintlayout.widget.Guideline>
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guidelinequestion212"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.45">
+
+                </androidx.constraintlayout.widget.Guideline>
+
+                <androidx.constraintlayout.widget.Guideline
+
+                    android:id="@+id/guidelinequestion1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.82">
+
+                </androidx.constraintlayout.widget.Guideline>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/openanswer"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="368dp"
+            android:layout_height="480dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="4dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible">
+
+                <Button
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="#F4E0E1"
+                    android:text="Requerido"
+                    android:textColor="#FF777D"
+                    android:textSize="6dp"
+                    app:layout_constraintBottom_toTopOf="@+id/textopenquestion1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/textopenquestion1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginEnd="15dp"
+                    android:gravity="center"
+                    android:text="Placas visibles y frontal trasera"
+                    android:textAlignment="center"
+                    android:textSize="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="RtlCompat">
+
+                </TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:text="Porfavor responda la pregunta"
+                    app:layout_constraintEnd_toEndOf="@+id/imagephoto1"
+                    app:layout_constraintStart_toStartOf="@+id/imagephoto1"
+                    app:layout_constraintTop_toBottomOf="@+id/textopenquestion1" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout131"
+                    android:layout_width="302dp"
+                    android:layout_height="168dp"
+                    android:layout_marginTop="40dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/guidelinequestion2121">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cardView41"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/inputTextd"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:backgroundTint="@android:color/transparent"
+                            android:spinnerMode="dialog"
+                            tools:layout_editor_absoluteX="0dp"
+                            tools:layout_editor_absoluteY="0dp" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="15dp"
+                    android:gravity="center"
+                    android:text="Observaciones"
+                    app:layout_constraintBottom_toTopOf="@+id/imagephoto1"
+                    app:layout_constraintEnd_toEndOf="@+id/imagephoto1"
+                    app:layout_constraintStart_toStartOf="@+id/imagephoto1" />
+
+                <ImageView
+
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/ic_menu_gallery"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@+id/guidelinequestion2121"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textopenquestion1"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+
+                    android:id="@+id/imagephoto1"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/ic_menu_camera"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                </ImageView>
+                <!--<View
+                android:id="@+id/view72"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/textLightColor"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:ignore="MissingConstraints">
+
+            </View>-->
+
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guidelinequestion2121"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.30">
+
+                </androidx.constraintlayout.widget.Guideline>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

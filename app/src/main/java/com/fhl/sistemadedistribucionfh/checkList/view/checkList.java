@@ -8,14 +8,18 @@ import android.view.ViewGroup;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.checkList.Questions.view.questionFragment;
 import com.fhl.sistemadedistribucionfh.checkList.adapter.adapterChecklist;
 import com.fhl.sistemadedistribucionfh.checkList.model.dataChecklist;
 import com.fhl.sistemadedistribucionfh.checkList.presenter.checkListPresenterImpl;
 import com.fhl.sistemadedistribucionfh.checkList.presenter.checklistPresenter;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.view.manifestDetail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +32,8 @@ public class checkList extends Fragment implements View.OnClickListener,checklis
     private SearchView searchView;
     private checklistPresenter presenter;
     private List<dataChecklist> data;
+    private FragmentManager manager;
+    private FragmentTransaction transaction;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -37,7 +43,7 @@ public class checkList extends Fragment implements View.OnClickListener,checklis
         return view;
     }
     private void fillSellos(List<dataChecklist> data) {
-        adapter=new adapterChecklist(data,getContext());
+        adapter=new adapterChecklist(this,data,getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(adapter);
@@ -90,5 +96,12 @@ public class checkList extends Fragment implements View.OnClickListener,checklis
     public void setCheckList(List<dataChecklist> data) {
         this.data=data;
         fillSellos(data);
+    }
+
+    public void goQuestions() {
+        manager = getActivity().getSupportFragmentManager();
+        transaction = manager.beginTransaction();
+        questionFragment manifestdetail =new questionFragment();
+        transaction.replace(R.id.fragments, manifestdetail, questionFragment.TAG).commit();
     }
 }

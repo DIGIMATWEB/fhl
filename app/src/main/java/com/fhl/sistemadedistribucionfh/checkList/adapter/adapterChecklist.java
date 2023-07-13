@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.checkList.model.dataChecklist;
+import com.fhl.sistemadedistribucionfh.checkList.view.checkList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +22,12 @@ import java.util.List;
 public class adapterChecklist extends RecyclerView.Adapter<adapterChecklist.ViewHolder> {
     private Context context;
     private List<dataChecklist> data;
+    private checkList mview;
 
-    public adapterChecklist(List<dataChecklist> data, Context context) {
+    public adapterChecklist(checkList mview, List<dataChecklist> data, Context context) {
         this.data = data;
         this.context = context;
+        this.mview= mview;
     }
 
     @NonNull
@@ -51,6 +54,12 @@ public class adapterChecklist extends RecyclerView.Adapter<adapterChecklist.View
                 holder.siguienteChecklist.setVisibility(View.GONE);
                 holder.moreChecklist.setVisibility(View.GONE);
             }
+            holder.siguienteChecklist.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mview.goQuestions();
+                }
+            });
     }
 
     @Override
