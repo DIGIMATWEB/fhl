@@ -1,9 +1,12 @@
 package com.fhl.sistemadedistribucionfh.checkList.Questions.view;
 
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -28,10 +31,7 @@ public class QuestionFragment2 extends Fragment {
         switchanswer=view.findViewById(R.id.switchanswer);
         optionanswer=view.findViewById(R.id.optionanswer);
         openanswer=view.findViewById(R.id.openanswer);
-    }
 
-    public QuestionFragment2(Question question) {
-        this.question = question;
         if(question.getAnswers().get(0).getObjectType()==1){
             openanswer.setVisibility(View.VISIBLE);
             switchanswer.setVisibility(View.GONE);
@@ -45,8 +45,34 @@ public class QuestionFragment2 extends Fragment {
             openanswer.setVisibility(View.GONE);
             switchanswer.setVisibility(View.GONE);
             optionanswer.setVisibility(View.VISIBLE);
+            Spinner spinner = view.findViewById(R.id.spinnerquestionary);
+            String[] items = {"Item 1", "Item 2", "Item 3"}; // Replace with your desired data items
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_spinner_item, items);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+
+            spinner.setPopupBackgroundResource(android.R.color.transparent); // Make dropdown background transparent
+            spinner.setDropDownVerticalOffset(spinner.getHeight()); // Set vertical offset to position the dialog
+
+            spinner.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    spinner.performClick(); // Show the Spinner dialog when clicked
+                }
+            });
+
+// Apply the custom style to the Spinner dialog
+            TypedArray a = getContext().obtainStyledAttributes(R.style.SpinnerDialogStyle, new int[]{android.R.attr.dialogTheme});
+            int dialogTheme = a.getResourceId(0, 0);
+            a.recycle();
+            spinner.setPopupTheme(dialogTheme);
 
         }
+    }
+
+    public QuestionFragment2(Question question) {
+        this.question = question;
+
     }
 
     // Implement the fragment's view creation and UI logic
