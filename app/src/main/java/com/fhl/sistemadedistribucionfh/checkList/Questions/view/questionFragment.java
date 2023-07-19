@@ -1,5 +1,6 @@
 package com.fhl.sistemadedistribucionfh.checkList.Questions.view;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,24 +8,32 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.dialogCompletedespacho;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.adapter.QuestionAdapter;
+import com.fhl.sistemadedistribucionfh.checkList.Questions.dialog.dialogChecklistWarning;
+import com.fhl.sistemadedistribucionfh.checkList.Questions.dialog.dialogchecklistok;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.model.Datum;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.model.responseChecklist;
+import com.fhl.sistemadedistribucionfh.checkList.view.checkList;
 import com.google.gson.Gson;
 
 import java.util.List;
 
-public class questionFragment extends Fragment implements View.OnClickListener{
+public class questionFragment extends Fragment implements View.OnClickListener  {
     public static final String TAG = questionFragment.class.getSimpleName();
     private Button buttonstartChecklist;
     private TextView helpertext;
     private ViewPager2 ViewPager;
     private  List<Datum> mdata;
-
+    private FragmentManager manager;
+    private FragmentTransaction transaction;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -37,7 +46,7 @@ public class questionFragment extends Fragment implements View.OnClickListener{
 
     private void initViewPager(View view) {
         ViewPager = view.findViewById(R.id.ViewPager);
-        QuestionAdapter questionAdapter = new QuestionAdapter(mdata.get(0).getQuestions(),this.getActivity()); // Pass the list of questions to the adapter
+        QuestionAdapter questionAdapter = new QuestionAdapter(mdata.get(0).getQuestions(),this.getActivity(),this); // Pass the list of questions to the adapter
         ViewPager.setAdapter(questionAdapter);
     }
 
@@ -52,10 +61,19 @@ public class questionFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonstartChecklist:
-                if(buttonstartChecklist.getVisibility()==View.VISIBLE){
-                    buttonstartChecklist.setVisibility(View.GONE);
-                    helpertext.setVisibility(View.GONE);
-                    ViewPager.setVisibility(View.VISIBLE);
+                if(buttonstartChecklist.getText().equals("Iniciar")) {
+                    if (buttonstartChecklist.getVisibility() == View.VISIBLE) {
+                        buttonstartChecklist.setVisibility(View.GONE);
+                        helpertext.setVisibility(View.GONE);
+                        ViewPager.setVisibility(View.VISIBLE);
+                    }
+                }else {
+
+                    questionFragment fragment = new questionFragment();
+                    dialogchecklistok dg = new dialogchecklistok();
+                    dg.show(getActivity().getSupportFragmentManager(),"dialogchecklistok");
+
+
                 }
                 break;
         }
@@ -170,4 +188,23 @@ public class questionFragment extends Fragment implements View.OnClickListener{
         List<Datum> dataList = responseChecklist.getData();
         this.mdata=dataList;
     }
+
+    public void showbutton() {
+        buttonstartChecklist.setVisibility(View.VISIBLE);
+        buttonstartChecklist.setText("Finalizar");
+    }
+
+    public void hidebutton() {
+        buttonstartChecklist.setVisibility(View.GONE);
+        buttonstartChecklist.setText("Iniciar");
+    }
+    private  void mangeF()
+    {
+        manager = getActivity().getSupportFragmentManager();
+        transaction = manager.beginTransaction();
+        checkList mcheckList= new checkList();
+        transaction.replace(R.id.fragments, mcheckList, checkList.TAG).commit();
+    }
+
+
 }

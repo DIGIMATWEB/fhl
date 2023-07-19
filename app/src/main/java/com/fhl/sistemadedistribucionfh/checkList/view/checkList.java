@@ -101,7 +101,7 @@ public class checkList extends Fragment implements View.OnClickListener,checklis
     public void goQuestions() {
         manager = getActivity().getSupportFragmentManager();
         transaction = manager.beginTransaction();
-        questionFragment manifestdetail =new questionFragment();
-        transaction.replace(R.id.fragments, manifestdetail, questionFragment.TAG).commit();
+        questionFragment q =new questionFragment();
+        transaction.replace(R.id.fragments, q, questionFragment.TAG).commit();
     }
 }

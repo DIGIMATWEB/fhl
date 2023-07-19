@@ -11,11 +11,11 @@
         <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
 
-    <style name="SpinnerDialogStyle" parent="ThemeOverlay.Material.Dialog">
+    <!--  <style name="SpinnerDialogStyle" parent="ThemeOverlay.Material.Dialog">
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowAnimations">@style/SpinnerDialogAnimation</item>
-    </style>
+    </style-->
 
     <style name="SpinnerDialogAnimation">
         <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>

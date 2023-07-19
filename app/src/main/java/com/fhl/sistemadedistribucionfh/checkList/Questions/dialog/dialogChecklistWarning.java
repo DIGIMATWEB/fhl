@@ -20,7 +20,7 @@ import com.fhl.sistemadedistribucionfh.R;
 public class dialogChecklistWarning extends DialogFragment implements View.OnClickListener {
     public static final String TAG = dialogChecklistWarning.class.getSimpleName();
 
-    private ImageButton imageButton2;
+    private ImageButton backpress;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +31,7 @@ public class dialogChecklistWarning extends DialogFragment implements View.OnCli
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_warning_checklist, container, false);
-        //getDialog().getWindow().setBackgroundDrawableResource(R.color.customTransparent);
+        getDialog().getWindow().setBackgroundDrawableResource(R.color.customTransparent);
         setCancelable(true);
         initDialog(view);
         //setFonts();
@@ -39,6 +39,8 @@ public class dialogChecklistWarning extends DialogFragment implements View.OnCli
     }
 
     private void initDialog(View view) {
+        backpress=view.findViewById(R.id.backpress);
+        backpress.setOnClickListener(this);
     }
 
     public void closeDialog() {
@@ -49,9 +51,9 @@ public class dialogChecklistWarning extends DialogFragment implements View.OnCli
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-//            case R.id.imageButton2:
-//                closeDialog();
-//                break;
+            case R.id.backpress:
+                closeDialog();
+                break;
         }
     }
 }

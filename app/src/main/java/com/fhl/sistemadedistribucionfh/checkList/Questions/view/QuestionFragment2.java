@@ -1,6 +1,5 @@
 package com.fhl.sistemadedistribucionfh.checkList.Questions.view;
 
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,13 +11,16 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.fhl.sistemadedistribucionfh.R;
-import com.fhl.sistemadedistribucionfh.checkList.Questions.model.Datum;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.model.Question;
+
+import java.util.List;
 
 public class QuestionFragment2 extends Fragment {
     private Question question;
-
+    private int pos;
+    private  questionFragment mview;
     private ConstraintLayout switchanswer,optionanswer,openanswer;
+    private List<Question> questions;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,31 +56,41 @@ public class QuestionFragment2 extends Fragment {
             spinner.setPopupBackgroundResource(android.R.color.transparent); // Make dropdown background transparent
             spinner.setDropDownVerticalOffset(spinner.getHeight()); // Set vertical offset to position the dialog
 
-            spinner.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    spinner.performClick(); // Show the Spinner dialog when clicked
-                }
-            });
+//            spinner.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    spinner.performClick(); // Show the Spinner dialog when clicked
+//                }
+//            });
 
 // Apply the custom style to the Spinner dialog
-            TypedArray a = getContext().obtainStyledAttributes(R.style.SpinnerDialogStyle, new int[]{android.R.attr.dialogTheme});
-            int dialogTheme = a.getResourceId(0, 0);
-            a.recycle();
-            spinner.setPopupTheme(dialogTheme);
+//            TypedArray a = getContext().obtainStyledAttributes(R.style.SpinnerDialogStyle, new int[]{android.R.attr.dialogTheme});
+//            int dialogTheme = a.getResourceId(0, 0);
+//            a.recycle();
+//            spinner.setPopupTheme(dialogTheme);
 
+        }
+        if(pos== questions.size()-1){
+            mview.showbutton();
+        }
+        else {
+            mview.hidebutton();
         }
     }
 
-    public QuestionFragment2(Question question) {
+    public QuestionFragment2(Question question, questionFragment mview, int position, List<Question> questions) {
         this.question = question;
+        this.mview=mview;
+        this.pos=position;
+        this.questions=questions;
 
     }
 
     // Implement the fragment's view creation and UI logic
     // ...
 
-    public static QuestionFragment2 newInstance(Question question) {
-        return new QuestionFragment2(question);
+    public static QuestionFragment2 newInstance(Question question, questionFragment mview, int position, List<Question> questions) {
+
+        return new QuestionFragment2(question,mview,position,questions);
     }
 }
