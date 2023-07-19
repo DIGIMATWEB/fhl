@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
@@ -69,10 +70,12 @@ public class questionFragment extends Fragment implements View.OnClickListener  
                     }
                 }else {
 
+                 //  new  dialogChecklistWarning().show(getActivity().getSupportFragmentManager(),"dialogChecklistWarning");
+
                     questionFragment fragment = new questionFragment();
                     dialogchecklistok dg = new dialogchecklistok();
                     dg.show(getActivity().getSupportFragmentManager(),"dialogchecklistok");
-
+                    dg.publicmethod(this);
 
                 }
                 break;
@@ -207,4 +210,8 @@ public class questionFragment extends Fragment implements View.OnClickListener  
     }
 
 
+    public void dismisedDialog() {
+       // Toast.makeText(getContext(), "dismissed 4", Toast.LENGTH_SHORT).show();
+        mangeF();
+    }
 }

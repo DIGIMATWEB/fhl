@@ -10,10 +10,12 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.checkList.Questions.view.questionFragment;
 import com.fhl.sistemadedistribucionfh.checkList.view.checkList;
 
 public class dialogchecklistok extends DialogFragment implements View.OnClickListener {
@@ -22,7 +24,7 @@ public class dialogchecklistok extends DialogFragment implements View.OnClickLis
     private ImageButton imageButtoncheckok;
     private FragmentManager manager;
     private FragmentTransaction transaction;
-    private OnDialogDismissListener onDialogDismissListener;
+    private questionFragment fm;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,14 +44,7 @@ public class dialogchecklistok extends DialogFragment implements View.OnClickLis
         return view;
     }
 
-    @Override
-    public void onDismiss(@NonNull DialogInterface dialog) {
-        super.onDismiss(dialog);
-        if (onDialogDismissListener != null) {
-            onDialogDismissListener.onDialogDismissed();
 
-        }
-    }
 //    public void setOnDialogDismissListener(OnDialogDismissListener listener) {
 //        this.onDialogDismissListener = listener;
 //    }
@@ -59,6 +54,7 @@ public class dialogchecklistok extends DialogFragment implements View.OnClickLis
     }
 
     public void closeDialog() {
+        fm.dismisedDialog();
         this.dismiss();
 
 
@@ -72,7 +68,8 @@ public class dialogchecklistok extends DialogFragment implements View.OnClickLis
         }
     }
 
-    public interface OnDialogDismissListener {
-        void onDialogDismissed();
+
+    public void publicmethod(questionFragment questionFragment) {
+        this.fm=questionFragment;
     }
 }

@@ -57,6 +57,7 @@ public class checkList extends Fragment implements View.OnClickListener,checklis
         Drawable background= getContext().getDrawable(R.drawable.shape_button);
         searchView.setIconified(false);
         searchView.setBackground(background);
+        searchView.clearFocus();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
