@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 public class auxiliaresDataV2 {
     @SerializedName("llave")
     private Integer llave;
-
     @SerializedName("valor")
     private String valor;
 
