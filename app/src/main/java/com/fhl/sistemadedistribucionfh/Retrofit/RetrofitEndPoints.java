@@ -6,6 +6,7 @@ public class RetrofitEndPoints {
     public static final String URL_NEWLANDS ="http://digimat-interactive.com/fhl/";
     public static final String URL_MAP_API_ROUTE = "route";
 
+    public static final String URL_PEPSERVER = "http://pepserver:7220/app/manifiesto/";
 
     //ENDPOINTS FH
     public static final String LOGIN = "Usuarios/Usuarios/Login";
