@@ -11,6 +11,9 @@ public class RetrofitEndPoints {
     //ENDPOINTS FH
     public static final String LOGIN = "Usuarios/Usuarios/Login";
 
+    //ENDPOINTS PEP
+    public static final String MANIFEST_PEP = "GetManifiestoByOperador/";
+
 
     public static final String MENUS = "menu.php";
     public static final String SALIDA = "salidaqr.php";
