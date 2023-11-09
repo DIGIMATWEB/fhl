@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.fhl.sistemadedistribucionfh.login.interactor.loginInteractor;
 import com.fhl.sistemadedistribucionfh.login.interactor.loginInteractorImplementation;
+import com.fhl.sistemadedistribucionfh.login.model.modelProfile.profileResponse;
 import com.fhl.sistemadedistribucionfh.login.view.loginview;
 
 public class loginpresenterImplementation  implements loginpresenter{
@@ -22,6 +23,19 @@ public class loginpresenterImplementation  implements loginpresenter{
     public void requestLogin(String user, String password) {
         if(view!=null){
           interactor.myrequestLogin(user,password);
+        }
+    }
+    @Override
+    public void requestProfileValues(String token) {
+        if(view!=null){
+            interactor.requestProfileValues(token);
+        }
+    }
+
+    @Override
+    public void saveUserValues(profileResponse body) {
+        if(view!=null){
+            view.saveUserValues(body);
         }
     }
 
@@ -45,4 +59,6 @@ public class loginpresenterImplementation  implements loginpresenter{
             view.saveToken(token);
         }
     }
+
+
 }

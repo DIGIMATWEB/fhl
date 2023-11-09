@@ -1,4 +1,4 @@
-package com.fhl.sistemadedistribucionfh.login.model;
+package com.fhl.sistemadedistribucionfh.login.model.modelLogin;
 
 import com.google.gson.annotations.SerializedName;
 

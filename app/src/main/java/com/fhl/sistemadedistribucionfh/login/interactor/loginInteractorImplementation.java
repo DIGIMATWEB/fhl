@@ -3,8 +3,9 @@ package com.fhl.sistemadedistribucionfh.login.interactor;
 import android.content.Context;
 
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClienFH;
-import com.fhl.sistemadedistribucionfh.login.model.requestLogin;
-import com.fhl.sistemadedistribucionfh.login.model.responseLogin;
+import com.fhl.sistemadedistribucionfh.login.model.modelLogin.requestLogin;
+import com.fhl.sistemadedistribucionfh.login.model.modelLogin.responseLogin;
+import com.fhl.sistemadedistribucionfh.login.model.modelProfile.profileResponse;
 import com.fhl.sistemadedistribucionfh.login.presenter.loginpresenter;
 import com.fhl.sistemadedistribucionfh.login.presenter.loginpresenterImplementation;
 import com.fhl.sistemadedistribucionfh.login.util.serviceLogin;
@@ -30,6 +31,27 @@ public class loginInteractorImplementation implements loginInteractor{
     public void myrequestLogin(String user, String password) {
         getToken(user,password);
 
+    }
+
+    @Override
+    public void requestProfileValues(String token) {
+    Call< profileResponse> call=service.getData("Bearer "+token);
+    call.enqueue(new Callback<profileResponse>() {
+        @Override
+        public void onResponse(Call<profileResponse> call, Response<profileResponse> response) {
+            if(response.code()==200) {
+                presenter.saveUserValues(response.body());
+            }else {
+                presenter.saveUserValues(null);
+            }
+        }
+
+        @Override
+        public void onFailure(Call<profileResponse> call, Throwable t) {
+            presenter.FailureLogin(t.getMessage());
+            presenter.saveUserValues(null);
+        }
+    });
     }
 
     private void getToken(String user, String password) {
