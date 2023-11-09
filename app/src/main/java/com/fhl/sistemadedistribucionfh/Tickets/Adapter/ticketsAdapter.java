@@ -12,7 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
-import com.fhl.sistemadedistribucionfh.Tickets.tickets;
+import com.fhl.sistemadedistribucionfh.Tickets.view.tickets;
 
 public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHolder>{
     private Context context;

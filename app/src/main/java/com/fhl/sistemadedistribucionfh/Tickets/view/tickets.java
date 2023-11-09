@@ -1,4 +1,4 @@
-package com.fhl.sistemadedistribucionfh.Tickets;
+package com.fhl.sistemadedistribucionfh.Tickets.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,11 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Tickets.Adapter.ticketsAdapter;
+import com.fhl.sistemadedistribucionfh.Tickets.presenter.presenterTicketsDetail;
+import com.fhl.sistemadedistribucionfh.Tickets.presenter.presenterTicketsDetailImpl;
 import com.fhl.sistemadedistribucionfh.cerrarViaje.view.cerrarViaje;
 import com.fhl.sistemadedistribucionfh.evidence.evidencia;
 import com.fhl.sistemadedistribucionfh.nmanifest.view.mmanifest;
 
-public class tickets extends Fragment implements View.OnClickListener {
+public class tickets extends Fragment implements View.OnClickListener ,ticketsView{
     public static final String TAG = tickets.class.getSimpleName();
     private RecyclerView rvTickets;
     private ticketsAdapter adapter;
@@ -28,6 +30,7 @@ public class tickets extends Fragment implements View.OnClickListener {
     private FragmentManager manager;
     private FragmentTransaction transaction;
     private Button cerrarviaje, cancelar;
+    private presenterTicketsDetail presenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,7 +47,10 @@ public class tickets extends Fragment implements View.OnClickListener {
         cancelar = view.findViewById(R.id.cancelar);
         cerrarviaje.setOnClickListener(this);
         cancelar.setOnClickListener(this);
-        filldata();
+
+        presenter= new presenterTicketsDetailImpl(this,getContext());
+        presenter.requestDetailTickets();
+       // filldata();
     }
 
     private void filldata() {
@@ -76,6 +82,10 @@ public class tickets extends Fragment implements View.OnClickListener {
         transaction.replace(R.id.fragments, manifest, mmanifest.TAG).commit();
     }
 
+    @Override
+    public void getTicketsDetail() {
+
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

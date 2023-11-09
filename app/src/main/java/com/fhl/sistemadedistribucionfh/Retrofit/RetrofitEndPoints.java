@@ -26,4 +26,5 @@ public class RetrofitEndPoints {
     public static final String VALIDADOR = "validador.php";
     public static final String REASONS = "reasons.php";
     public static final String PROFILE = "Usuarios/Usuarios/Values";
+    public static final String DETALLE_TICKETS = "APP/Manifiesto/GetTicketsByManifiesto/{folioDespacho}";
 }
