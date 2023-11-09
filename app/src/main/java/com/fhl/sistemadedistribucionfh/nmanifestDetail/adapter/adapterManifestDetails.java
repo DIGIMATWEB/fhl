@@ -41,7 +41,7 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
         holder.cardOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, ""+position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "folio "+position, Toast.LENGTH_SHORT).show();
                 mview.gotoTickets(position);
             }
         });

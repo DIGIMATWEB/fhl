@@ -16,8 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
-import com.fhl.sistemadedistribucionfh.Tickets.tickets;
-import com.fhl.sistemadedistribucionfh.nmanifest.model.dataManifest;
+import com.fhl.sistemadedistribucionfh.Tickets.view.tickets;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.adapter.adapterManifestDetails;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.model.dataTicketsManifest;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.presenter.presenterTicketsManifestImpl;
@@ -25,7 +24,6 @@ import com.fhl.sistemadedistribucionfh.nmanifestDetail.presenter.presenterTicket
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class manifestDetail  extends Fragment implements View.OnClickListener,viewManifestDetails{
     public static final String TAG = manifestDetail.class.getSimpleName();
