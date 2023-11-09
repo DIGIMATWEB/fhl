@@ -65,8 +65,10 @@
                     android:layout_marginStart="10dp"
                     android:text="Referencia"
                     android:textSize="@dimen/h6"
+                    android:visibility="invisible"
                     app:layout_constraintBottom_toTopOf="@+id/guidelinemanifest1"
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:visibility="invisible">
 
                 </TextView>
 
@@ -77,8 +79,10 @@
                     android:text="BNB-Chain"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
+                    android:visibility="invisible"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/guidelinemanifest1">
+                    app:layout_constraintTop_toTopOf="@+id/guidelinemanifest1"
+                    tools:visibility="invisible">
 
                 </TextView>
 
@@ -94,6 +98,7 @@
                 </TextView>
 
                 <TextView
+                    android:id="@+id/vehicle_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -160,6 +165,7 @@
                     android:layout_marginEnd="10dp"
                     android:text="Supervisor"
                     android:textSize="@dimen/h6"
+                    android:visibility="invisible"
                     app:layout_constraintBottom_toTopOf="@+id/guidelinemanifest1"
                     app:layout_constraintEnd_toEndOf="parent">
 
@@ -172,8 +178,10 @@
                     android:text="Julian Banderas"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
+                    android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/guidelinemanifest1">
+                    app:layout_constraintTop_toTopOf="@+id/guidelinemanifest1"
+                    tools:visibility="invisible">
 
                 </TextView>
 

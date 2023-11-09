@@ -18,6 +18,7 @@ import com.fhl.sistemadedistribucionfh.nmanifest.viewV2.mmanifestV2;
 
 import org.jetbrains.annotations.NonNls;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class manifestAdapterV2 extends RecyclerView.Adapter<manifestAdapterV2.ViewHolder> {
@@ -42,7 +43,11 @@ public class manifestAdapterV2 extends RecyclerView.Adapter<manifestAdapterV2.Vi
 
     @Override
     public void onBindViewHolder(@NonNull manifestAdapterV2.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-
+        //holder.vehicleName.setText(data.get(position).getVehiculoTercero());
+        holder.vehicleName.setText(data.get(position).getVehiculo().getMarca().getNombre());
+        holder.vehiclePlaca.setText(data.get(position).getVehiculo().getPlaca());
+        holder.vehicleManifiesto.setText(data.get(position).getFolioDespacho());
+        holder.vehicleCedis.setText(data.get(position).getOrigen());
     }
 
     @Override
@@ -50,12 +55,23 @@ public class manifestAdapterV2 extends RecyclerView.Adapter<manifestAdapterV2.Vi
         return data.size();
     }
 
+    public void setFilterV2(List<dataManifestV2> filterList) {
+        this.data = new ArrayList<>();
+        this.data.addAll(filterList);
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout cardOrder;
-        TextView numberManifest;
+        TextView numberManifest, vehicleName, vehiclePlaca, vehicleManifiesto, vehicleCedis;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            cardOrder = itemView.findViewById(R.id.constrainCard);
+            vehicleName = itemView.findViewById(R.id.vehicle_name);
+            vehiclePlaca = itemView.findViewById(R.id.textView17);
+            vehicleManifiesto = itemView.findViewById(R.id.numberManifest);
+            vehicleCedis = itemView.findViewById(R.id.textView39);
         }
     }
 }

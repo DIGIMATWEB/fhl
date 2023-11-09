@@ -7,12 +7,13 @@ public class RetrofitEndPoints {
     public static final String URL_MAP_API_ROUTE = "route";
 
     public static final String URL_PEPSERVER = "http://pepserver:7220/app/manifiesto/";
+    //public static final String URL_PEPSERVER = "http://192.168.1.209:7220/app/manifiesto/";
 
     //ENDPOINTS FH
     public static final String LOGIN = "Usuarios/Usuarios/Login";
 
     //ENDPOINTS PEP
-    public static final String MANIFEST_PEP = "GetManifiestoByOperador/";
+    public static final String MANIFEST_PEP = "GetManifiestoByOperador/{operadorId}";
 
 
     public static final String MENUS = "menu.php";

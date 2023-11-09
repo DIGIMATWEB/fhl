@@ -33,10 +33,12 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
     }
 
     public void getAllmanifestV2() {
+        //TODO cambiar la variable
+        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI2IiwiRW1wbG95ZWVJZCI6IjciLCJQcm9maWxlSW1hZ2VJZCI6IjEwMDc4IiwiRW1wbG95ZWVOdW1iZXIiOiI4ODg4OCIsIlVzZXJOYW1lIjoidXNyUGhvZW5peEFkbWluIiwiTmFtZSI6IkFkbWluaXN0cmFkb3IgU0dEIiwiRW1haWwiOiJqaG9uYXRoYW5AZ3BzcGhvZW5peC5jb20iLCJNb2JpbGVQaG9uZSI6IjU1NTU1NTU1NTUiLCJEYXRlT2ZCaXJ0aCI6IjEvMS8wMDAxIiwiQ2xpZW50cyI6IltdIiwiZXhwIjoxNjk5NTc3OTk2fQ.uS6asmgV5aeE9MfhwolApagW4Mwiy3L-OV4tQ7thx4Q";
         //TODO Cambiar por el operador correcto
         requestManifestV2 request = new requestManifestV2(7);
         //TODO Cambiar por el token correcto
-        Call<responseManifestV2> call = service.getManifestV2("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI2IiwiRW1wbG95ZWVJZCI6IjciLCJQcm9maWxlSW1hZ2VJZCI6IjEwMDc4IiwiRW1wbG95ZWVOdW1iZXIiOiI4ODg4OCIsIlVzZXJOYW1lIjoidXNyUGhvZW5peEFkbWluIiwiTmFtZSI6IkFkbWluaXN0cmFkb3IgU0dEIiwiRW1haWwiOiJqaG9uYXRoYW5AZ3BzcGhvZW5peC5jb20iLCJNb2JpbGVQaG9uZSI6IjU1NTU1NTU1NTUiLCJEYXRlT2ZCaXJ0aCI6IjEvMS8wMDAxIiwiQ2xpZW50cyI6IltdIiwiZXhwIjoxNjk5NTc3OTk2fQ.uS6asmgV5aeE9MfhwolApagW4Mwiy3L-OV4tQ7thx4Q", request);
+        Call<responseManifestV2> call = service.getManifestV2(token, "text/plain", "7");
         call.enqueue(new Callback<responseManifestV2>() {
             @Override
             public void onResponse(Call<responseManifestV2> call, Response<responseManifestV2> response) {
@@ -65,7 +67,7 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
         if(resp!=null) {
             String message = resp.getMessage();
             int responseCode = resp.getStatus();
-            if(resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK) {
+            if(resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_PEP) {
                 List<dataManifestV2> data = resp.getData();
 
                 if(data!=null) {

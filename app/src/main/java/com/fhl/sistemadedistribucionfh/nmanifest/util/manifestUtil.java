@@ -8,13 +8,22 @@ import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.responseManifestV2;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface manifestUtil {
     @POST(RetrofitEndPoints.MANIFEST)
     Call<responseManifest> getManifest(@Body requestManifest request);
 
-    @POST(RetrofitEndPoints.MANIFEST_PEP)
-    Call<responseManifestV2> getManifestV2(@Header("Authorization") String authToken, @Body requestManifestV2 request);
+    //@POST(RetrofitEndPoints.MANIFEST_PEP)
+    //Call<responseManifestV2> getManifestV2(@Header("Authorization") String authToken, @Body requestManifestV2 request);
+
+    @GET(RetrofitEndPoints.MANIFEST_PEP)
+    Call<responseManifestV2> getManifestV2(
+            @Header("Authorization") String authorizationHeader,
+            @Header("accept") String acceptHeader,
+            @Path("operadorId") String operadorId
+    );
 }

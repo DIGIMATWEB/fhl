@@ -25,6 +25,7 @@ import com.fhl.sistemadedistribucionfh.mainContainer.view.view;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.nmanifest.view.mmanifest;
+import com.fhl.sistemadedistribucionfh.nmanifest.viewV2.mmanifestV2;
 import com.fhl.sistemadedistribucionfh.resguardo.view.resguardo;
 
 import java.util.List;
@@ -47,7 +48,8 @@ public class mainContainer extends AppCompatActivity  implements view {
         cover.setVisibility(View.GONE);
         framTab=findViewById(R.id.tabbar);
         initPresenter();
-        manifiestos();
+        //manifiestos();
+        manifiestosV2();
         showFragmentNavigationButtons();
         showTab();
     }
@@ -68,7 +70,8 @@ public class mainContainer extends AppCompatActivity  implements view {
                 profile();
                 break;
            case "Manifiestos":
-               manifiestos();
+               //manifiestos();
+               manifiestosV2();
                 break;
             case "Validador"://este es el modulo de scanner
                mScanner("Validador");
@@ -113,6 +116,13 @@ public class mainContainer extends AppCompatActivity  implements view {
         transaction = manager.beginTransaction();
         mmanifest manifest= new mmanifest();
         transaction.replace(R.id.fragments, manifest, mmanifest.TAG).commit();
+    }
+
+    private void manifiestosV2() {
+        manager = getSupportFragmentManager();
+        transaction = manager.beginTransaction();
+        mmanifestV2 manifestV2= new mmanifestV2();
+        transaction.replace(R.id.fragments, manifestV2, mmanifestV2.TAG).commit();
     }
     private void mScanner(String scannerType){
         Bundle bundle = new Bundle();

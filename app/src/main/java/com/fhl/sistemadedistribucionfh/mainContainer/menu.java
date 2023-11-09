@@ -21,6 +21,7 @@ import com.fhl.sistemadedistribucionfh.evidence.signature.signature;
 import com.fhl.sistemadedistribucionfh.locator.locator;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
 import com.fhl.sistemadedistribucionfh.nmanifest.view.mmanifest;
+import com.fhl.sistemadedistribucionfh.nmanifest.viewV2.mmanifestV2;
 
 public class menu extends Fragment implements View.OnClickListener{
     public static final String TAG = menu.class.getSimpleName();
@@ -56,8 +57,10 @@ public class menu extends Fragment implements View.OnClickListener{
             case R.id.mainM:
                 manager = getActivity().getSupportFragmentManager();
                 transaction = manager.beginTransaction();
-                mmanifest manifest= new mmanifest();
-                transaction.replace(R.id.fragments, manifest, mmanifest.TAG).commit();
+                /*mmanifest manifest= new mmanifest();
+                transaction.replace(R.id.fragments, manifest, mmanifest.TAG).commit();*/
+                mmanifestV2 manifestV2= new mmanifestV2();
+                transaction.replace(R.id.fragments, manifestV2, mmanifestV2.TAG).commit();
                 break;
             case R.id.mpedido:
                // Toast.makeText(getContext(), "ir a completados", Toast.LENGTH_SHORT).show();
