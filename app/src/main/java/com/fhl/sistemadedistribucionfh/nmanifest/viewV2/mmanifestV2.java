@@ -22,6 +22,7 @@ import com.fhl.sistemadedistribucionfh.nmanifest.model.dataManifest;
 import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.dataManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.presenterV2.manifestImplV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.presenterV2.presentermanifestV2;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.view.manifestDetail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +64,17 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(adapter);
     }
-
+    public void gotoTickets(int position)
+    {
+        Bundle bundle = new Bundle();
+       // bundle.putString("manifestId",data.get(position).getIdmanifest());
+        manager = getActivity().getSupportFragmentManager();
+        transaction = manager.beginTransaction();
+        //tickets ticketsf= new tickets();
+        manifestDetail manifestdetail =new manifestDetail();
+        manifestdetail.setArguments(bundle);
+        transaction.replace(R.id.fragments, manifestdetail, manifestDetail.TAG).commit();
+    }
     @Override
     public void onClick(View view) {
         /*switch (view.getId()) {
