@@ -39,18 +39,16 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
         Gson gson = new Gson();
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token2 = preferences.getString(GeneralConstants.USER_VALUES, null);
-        String jsonStringProfileData = gson.toJson(token2);
-        profileResponse profileData = gson.fromJson(jsonStringProfileData, profileResponse.class);
+        String token = preferences.getString(GeneralConstants.TOKEN, null);
+        profileResponse profileData = gson.fromJson(token2, profileResponse.class);
 
         int idEmpleado = profileData.getEmpleadoId();
         String idEmpleadoString = String.valueOf(idEmpleado);
 
-        //TODO cambiar la variable
-        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI2IiwiRW1wbG95ZWVJZCI6IjciLCJQcm9maWxlSW1hZ2VJZCI6IjEwMDc4IiwiRW1wbG95ZWVOdW1iZXIiOiI4ODg4OCIsIlVzZXJOYW1lIjoidXNyUGhvZW5peEFkbWluIiwiTmFtZSI6IkFkbWluaXN0cmFkb3IgU0dEIiwiRW1haWwiOiJqaG9uYXRoYW5AZ3BzcGhvZW5peC5jb20iLCJNb2JpbGVQaG9uZSI6IjU1NTU1NTU1NTUiLCJEYXRlT2ZCaXJ0aCI6IjEvMS8wMDAxIiwiQ2xpZW50cyI6IltdIiwiZXhwIjoxNjk5NTc3OTk2fQ.uS6asmgV5aeE9MfhwolApagW4Mwiy3L-OV4tQ7thx4Q";
         //TODO Cambiar por el operador correcto
-        requestManifestV2 request = new requestManifestV2(idEmpleado);
+
         //TODO Cambiar por el token correcto
-        Call<responseManifestV2> call = service.getManifestV2(token, "text/plain", idEmpleadoString);
+        Call<responseManifestV2> call = service.getManifestV2(token,  idEmpleadoString);
         call.enqueue(new Callback<responseManifestV2>() {
             @Override
             public void onResponse(Call<responseManifestV2> call, Response<responseManifestV2> response) {
