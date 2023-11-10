@@ -12,6 +12,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface manifestUtil {
     @POST(RetrofitEndPoints.MANIFEST)
@@ -23,7 +24,6 @@ public interface manifestUtil {
     @GET(RetrofitEndPoints.MANIFEST_PEP)
     Call<responseManifestV2> getManifestV2(
             @Header("Authorization") String authorizationHeader,
-            @Header("accept") String acceptHeader,
-            @Path("operadorId") String operadorId
+            @Query("operadorId") String operadorId
     );
 }

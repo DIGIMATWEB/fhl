@@ -13,7 +13,7 @@ public class RetrofitEndPoints {
     public static final String LOGIN = "Usuarios/Usuarios/Login";
 
     //ENDPOINTS PEP
-    public static final String MANIFEST_PEP = "GetManifiestoByOperador/{operadorId}";
+    public static final String MANIFEST_PEP = "GetManifiestoByOperador/";
 
 
     public static final String MENUS = "menu.php";
@@ -26,5 +26,5 @@ public class RetrofitEndPoints {
     public static final String VALIDADOR = "validador.php";
     public static final String REASONS = "reasons.php";
     public static final String PROFILE = "Usuarios/Usuarios/Values";
-    public static final String DETALLE_TICKETS = "APP/Manifiesto/GetTicketsByManifiesto/{folioDespacho}";
+    public static final String DETALLE_TICKETS = "APP/Manifiesto/GetTicketsByManifiesto/";
 }
