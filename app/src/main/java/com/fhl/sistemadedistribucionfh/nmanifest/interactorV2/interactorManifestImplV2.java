@@ -1,6 +1,7 @@
 package com.fhl.sistemadedistribucionfh.nmanifest.interactorV2;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
@@ -11,6 +12,7 @@ import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.requestManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.responseManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.presenterV2.presentermanifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.util.manifestUtil;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -33,6 +35,10 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
     }
 
     public void getAllmanifestV2() {
+        Gson gson = new Gson();
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String token2 = preferences.getString(GeneralConstants.USER_VALUES, null);
+        String jsonStringProfileData = gson.toJson(token2);
         //TODO cambiar la variable
         String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI2IiwiRW1wbG95ZWVJZCI6IjciLCJQcm9maWxlSW1hZ2VJZCI6IjEwMDc4IiwiRW1wbG95ZWVOdW1iZXIiOiI4ODg4OCIsIlVzZXJOYW1lIjoidXNyUGhvZW5peEFkbWluIiwiTmFtZSI6IkFkbWluaXN0cmFkb3IgU0dEIiwiRW1haWwiOiJqaG9uYXRoYW5AZ3BzcGhvZW5peC5jb20iLCJNb2JpbGVQaG9uZSI6IjU1NTU1NTU1NTUiLCJEYXRlT2ZCaXJ0aCI6IjEvMS8wMDAxIiwiQ2xpZW50cyI6IltdIiwiZXhwIjoxNjk5NTc3OTk2fQ.uS6asmgV5aeE9MfhwolApagW4Mwiy3L-OV4tQ7thx4Q";
         //TODO Cambiar por el operador correcto
