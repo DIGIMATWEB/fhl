@@ -57,9 +57,9 @@ public class manifestDetail  extends Fragment implements View.OnClickListener,vi
         searchicodetail=view.findViewById(R.id.searchicodetail);
 
         searchicodetail.setOnClickListener(this);
-        presenter= new presenterTicketsManifestImpl(this,getContext());
-        presenter.getTickets(manifestId);
-
+       // presenter= new presenterTicketsManifestImpl(this,getContext());
+        //presenter.getTickets(manifestId);
+        setAdapter(data);
     }
 
     @Override
@@ -131,4 +131,5 @@ public class manifestDetail  extends Fragment implements View.OnClickListener,vi
         this.data=data;
         setAdapter(data);
     }
+
 }

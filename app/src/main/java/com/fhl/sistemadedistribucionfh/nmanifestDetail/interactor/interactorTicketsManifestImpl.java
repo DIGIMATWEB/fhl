@@ -45,7 +45,8 @@ public class interactorTicketsManifestImpl implements  interactorTicketsManifest
 
             @Override
             public void onFailure(Call<responseTicketsManifest> call, Throwable t) {
-                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "bad request"+t.getMessage(), Toast.LENGTH_SHORT).show();
+                //presenter.setDatahardcode();
             }
         });
     }
@@ -56,7 +57,7 @@ public class interactorTicketsManifestImpl implements  interactorTicketsManifest
             if (RetrofitValidations.checkSuccessCode(response.code())) {
                 getTickets(response, context);
             } else {
-                Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "fail respose" + response.message(), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -75,11 +76,11 @@ public class interactorTicketsManifestImpl implements  interactorTicketsManifest
                     Toast.makeText(context, "sin tickets asignados", Toast.LENGTH_SHORT).show();
                 }
             }else{
-                Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "response not ok" + response.message(), Toast.LENGTH_SHORT).show();
             }
 
         } else{
-            Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "response null" + response.message(), Toast.LENGTH_SHORT).show();
         }
     }
 }

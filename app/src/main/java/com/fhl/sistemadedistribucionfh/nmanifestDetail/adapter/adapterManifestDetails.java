@@ -37,11 +37,11 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
     }
     @Override
     public void onBindViewHolder(@NonNull adapterManifestDetails.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        holder.ticketFolio.setText(data.get(position).getFolioTicket());
+        holder.ticketFolio.setText("");//data.get(position).getFolioTicket());
         holder.cardOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "folio "+position, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context, ""+position, Toast.LENGTH_SHORT).show();
                 mview.gotoTickets(position);
             }
         });
@@ -53,7 +53,7 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
     }
     @Override
     public int getItemCount() {
-        return data.size();
+        return 3;
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout cardOrder;

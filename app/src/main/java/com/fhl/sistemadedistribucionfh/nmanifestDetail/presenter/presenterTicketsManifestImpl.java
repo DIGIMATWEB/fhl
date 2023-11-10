@@ -32,4 +32,6 @@ public class presenterTicketsManifestImpl implements presenterTicketsmanifest{
             interactor.reqTickets(idmanifest);
         }
     }
+
+
 }
