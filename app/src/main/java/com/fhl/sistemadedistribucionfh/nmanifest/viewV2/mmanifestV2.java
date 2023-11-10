@@ -36,7 +36,7 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     private FragmentTransaction transaction;
     private presentermanifestV2 presenter;
     private ImageView finder;
-    private SearchView searchView;
+    private SearchView searchViewv2;
     private List<dataManifestV2> data;
 
     @SuppressLint("NewApi")
@@ -44,8 +44,6 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_manifest, container, false);
         initView(view);
-        /*presenter = new manifestImplV2(this, getContext());
-        presenter.getmanifestV2();*/
         return view;
     }
 
@@ -53,7 +51,7 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         rv = view.findViewById(R.id.rvmanifest);
         finder = view.findViewById(R.id.finder);
         finder.setOnClickListener(this);
-        //searchView = view.findViewById(R.id.searchViewManifest);
+        //searchViewv2 = view.findViewById(R.id.searchViewManifest);
         presenter = new manifestImplV2(this, getContext());
         presenter.getmanifestV2();
     }
@@ -64,14 +62,18 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(adapter);
     }
-    public void gotoTickets(int position)
-    {
+    public void gotoTickets(int position, String folioDespacho, String vehiculoModelo, String vehiculoPlaca, String cedis) {
+        //TODO Agregar los demas datos al Bundle cuando se tengan
         Bundle bundle = new Bundle();
-       // bundle.putString("manifestId",data.get(position).getIdmanifest());
+        bundle.putString("folioDespachoId",folioDespacho);
+        bundle.putString("vehiculoModeloId", vehiculoModelo);
+        bundle.putString("vehiculoPlacaId", vehiculoPlaca);
+        bundle.putString("cedisId", cedis);
+
         manager = getActivity().getSupportFragmentManager();
         transaction = manager.beginTransaction();
         //tickets ticketsf= new tickets();
-        manifestDetail manifestdetail =new manifestDetail();
+        manifestDetail manifestdetail = new manifestDetail();
         manifestdetail.setArguments(bundle);
         transaction.replace(R.id.fragments, manifestdetail, manifestDetail.TAG).commit();
     }
@@ -79,13 +81,13 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     public void onClick(View view) {
         /*switch (view.getId()) {
             case R.id.finder:
-                if (searchView.getVisibility() == View.GONE) {
-                    searchView.setVisibility(View.VISIBLE);
-                    searchView.setQueryHint("Buscar manifiesto");
+                if (searchViewv2.getVisibility() == View.GONE) {
+                    searchViewv2.setVisibility(View.VISIBLE);
+                    searchViewv2.setQueryHint("Buscar manifiesto");
                     Drawable background = getContext().getDrawable(R.drawable.shape_button);
-                    searchView.setIconified(false);
-                    searchView.setBackground(background);
-                    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    searchViewv2.setIconified(false);
+                    searchViewv2.setBackground(background);
+                    searchViewv2.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                         @Override
                         public boolean onQueryTextSubmit(String query) {
                             return false;
@@ -98,15 +100,15 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
                             return true;
                         }
                     });
-                    searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+                    searchViewv2.setOnCloseListener(new SearchView.OnCloseListener() {
                         @Override
                         public boolean onClose() {
-                            searchView.setVisibility(View.GONE);
+                            searchViewv2.setVisibility(View.GONE);
                             return false;
                         }
                     });
                 } else {
-                    searchView.setVisibility(View.GONE);
+                    searchViewv2.setVisibility(View.GONE);
                 }
                 break;
         }*/
