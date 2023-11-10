@@ -38,7 +38,7 @@ public class manifestAdapterV2 extends RecyclerView.Adapter<manifestAdapterV2.Vi
     @NonNull
     @Override
     public manifestAdapterV2.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_manifest, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_manifestv2, parent, false);
         return new manifestAdapterV2.ViewHolder(view);
     }
 
@@ -52,8 +52,19 @@ public class manifestAdapterV2 extends RecyclerView.Adapter<manifestAdapterV2.Vi
         holder.cardOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO llenar estos campos cuando se tengan
+                String folioDespacho = data.get(position).getFolioDespacho();
+                String custodio = "";
+                String telefono = "";
+                String vehiculoModelo = data.get(position).getVehiculo().getMarca().getNombre();
+                String vehiculoPlaca = data.get(position).getVehiculo().getPlaca();
+                String cedis = data.get(position).getOrigen();
+                String supervisor = "";
+                String fechaEntrada = "";
+                String fechaSalida = "";
+
                // Toast.makeText(context, ""+data.get(position).getIdmanifest(), Toast.LENGTH_SHORT).show();
-                mView.gotoTickets(position);
+                mView.gotoTickets(position, folioDespacho, vehiculoModelo, vehiculoPlaca, cedis);
             }
         });
     }
