@@ -13,8 +13,7 @@ public interface ticketsService {
     @GET(RetrofitEndPoints.DETALLE_TICKETS)
     Call<ResoponseTicketsDetail> getTicketsByManifiesto(
             @Header("Authorization") String authorization,
-            @Header("accept") String accept,
-            @Path("folioDespacho") String manifiestoId,
+            @Query("folioDespacho") String manifiestoId,
             @Query("folioTicket") String folioTicket
 
     );

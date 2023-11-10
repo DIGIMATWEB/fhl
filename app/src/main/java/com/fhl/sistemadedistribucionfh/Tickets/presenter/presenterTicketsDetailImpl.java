@@ -4,7 +4,10 @@ import android.content.Context;
 
 import com.fhl.sistemadedistribucionfh.Tickets.interactor.ticketsInteractirImpl;
 import com.fhl.sistemadedistribucionfh.Tickets.interactor.ticketsInteractor;
+import com.fhl.sistemadedistribucionfh.Tickets.model.dataDetailTickets;
 import com.fhl.sistemadedistribucionfh.Tickets.view.ticketsView;
+
+import java.util.List;
 
 public class presenterTicketsDetailImpl implements presenterTicketsDetail{
     private Context context;
@@ -24,5 +27,13 @@ public class presenterTicketsDetailImpl implements presenterTicketsDetail{
             interactor.getTicketsDetail();
         }
 
+    }
+
+    @Override
+    public void setTikets(List<dataDetailTickets> data) {
+        if(view!=null){
+            view.setTiketsDetail(data);
+
+        }
     }
 }

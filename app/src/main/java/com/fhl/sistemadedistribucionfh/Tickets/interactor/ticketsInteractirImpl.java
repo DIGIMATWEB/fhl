@@ -42,12 +42,13 @@ public class ticketsInteractirImpl implements ticketsInteractor{
     }
 
     private void requestDetailTicket(String token) {
-        Call<ResoponseTicketsDetail> call=service.getTicketsByManifiesto(token,"10871872","00000002","text/plain");
+        Call<ResoponseTicketsDetail> call=service.getTicketsByManifiesto(token,"10871872","00000002");
         call.enqueue(new Callback<ResoponseTicketsDetail>() {
             @Override
             public void onResponse(Call<ResoponseTicketsDetail> call, Response<ResoponseTicketsDetail> response) {
                 if(response.code()==200) {
                   Log.e("requestDetailTicket",""+response.body());
+                  presenter.setTikets(response.body().getData());
                 }else {
                     Log.e("requestDetailTicket",""+response.code()+" "+response.message());
                 }

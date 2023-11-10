@@ -16,11 +16,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Tickets.Adapter.ticketsAdapter;
+import com.fhl.sistemadedistribucionfh.Tickets.model.dataDetailTickets;
 import com.fhl.sistemadedistribucionfh.Tickets.presenter.presenterTicketsDetail;
 import com.fhl.sistemadedistribucionfh.Tickets.presenter.presenterTicketsDetailImpl;
 import com.fhl.sistemadedistribucionfh.cerrarViaje.view.cerrarViaje;
 import com.fhl.sistemadedistribucionfh.evidence.evidencia;
 import com.fhl.sistemadedistribucionfh.nmanifest.view.mmanifest;
+
+import java.util.List;
 
 public class tickets extends Fragment implements View.OnClickListener ,ticketsView{
     public static final String TAG = tickets.class.getSimpleName();
@@ -50,15 +53,12 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
 
         presenter= new presenterTicketsDetailImpl(this,getContext());
         presenter.requestDetailTickets();
-       // filldata();
+
     }
 
-    private void filldata() {
-        setAdapter();
-    }
 
-    private void setAdapter() {
-        adapter = new ticketsAdapter(this, 1, getContext());
+    private void setAdapter(List<dataDetailTickets> data) {
+        adapter = new ticketsAdapter(this,data, data.size(), getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvTickets.setLayoutManager(layoutManager);
         rvTickets.setAdapter(adapter);
@@ -86,6 +86,12 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
     public void getTicketsDetail() {
 
     }
+
+    @Override
+    public void setTiketsDetail(List<dataDetailTickets> data) {
+        setAdapter(data);
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

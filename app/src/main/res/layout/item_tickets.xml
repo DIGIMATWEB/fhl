@@ -44,10 +44,10 @@
                 </TextView>
 
                 <TextView
-                    android:id="@+id/textView10"
+                    android:id="@+id/ticketNum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0131192000-B"
+                    android:text="--- --- ---"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@+id/textView9"
@@ -68,14 +68,17 @@
                 </TextView>
 
                 <TextView
-                    android:id="@+id/textView27"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/clienteName"
+                    android:layout_width="180dp"
                     android:layout_height="wrap_content"
-                    android:text="Juan martínez"
-                    android:textSize="@dimen/h5"
+                    android:text="--- --- ---"
+                    android:textAlignment="textEnd"
+                    android:gravity="center"
+                    android:textSize="@dimen/h6"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@+id/textView11"
-                    app:layout_constraintTop_toBottomOf="@+id/textView11">
+                    app:layout_constraintTop_toBottomOf="@+id/textView11"
+                    tools:ignore="RtlCompat">
 
                 </TextView>
 
@@ -91,10 +94,10 @@
                 </TextView>
 
                 <TextView
-                    android:id="@+id/textView24"
+                    android:id="@+id/Documentacion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Documentos"
+                    android:text="--- --- ---"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@+id/textView8"
@@ -114,10 +117,10 @@
                 </TextView>
 
                 <TextView
-                    android:id="@+id/textView26"
+                    android:id="@+id/contacto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nombre de contacto"
+                    android:text="--- --- ---"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@+id/textView12"
@@ -137,9 +140,10 @@
                 </TextView>
 
                 <TextView
+                    android:id="@+id/Productos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Empaque"
+                    android:text="--- --- ---"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@+id/textView25"
@@ -162,7 +166,7 @@
                     android:id="@+id/textAdjuntos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Carta porte"
+                    android:text="--- --- ---"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@+id/textView28"
@@ -197,22 +201,11 @@
                     android:id="@+id/textDe"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="De: Julian Banderas"
+                    android:text="--- --- ---"
                     android:textSize="12dp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@+id/textView13"
                     app:layout_constraintTop_toBottomOf="@+id/textView13">
-
-                </TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Para: Juan Martínez"
-                    android:textSize="12dp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/textDe"
-                    app:layout_constraintTop_toBottomOf="@+id/textDe">
 
                 </TextView>
 
@@ -228,10 +221,10 @@
                 </TextView>
 
                 <TextView
-                    android:id="@+id/textView29"
+                    android:id="@+id/statusCierre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Entregado"
+                    android:text="--- --- ---"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@+id/textView30"
@@ -251,10 +244,10 @@
                 </TextView>
 
                 <TextView
-                    android:id="@+id/textView31"
+                    android:id="@+id/estado"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Quintana Roo"
+                    android:text="--- --- --- ---"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@+id/textView32"
@@ -274,7 +267,7 @@
                 </TextView>
 
                 <TextView
-                    android:id="@+id/textView33"
+                    android:id="@+id/destino"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Cancún"
@@ -297,7 +290,7 @@
                 </TextView>
 
                 <TextView
-                    android:id="@+id/textView19"
+                    android:id="@+id/salida_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Lun.| 14/06/22 | 11:30"
@@ -320,6 +313,7 @@
                 </TextView>
 
                 <TextView
+                    android:id="@+id/regreso_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Lun.| 14/06/22 | 11:30"
@@ -341,10 +335,10 @@
                 </TextView>
 
                 <TextView
-                    android:id="@+id/textView21"
+                    android:id="@+id/locationDesc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Quintana Roo"
+                    android:text="--- --- --- ---"
                     android:textSize="@dimen/h6"
                     app:layout_constraintEnd_toStartOf="@+id/guidelinetickets01v"
                     app:layout_constraintStart_toStartOf="@+id/guidelinetickets01v"
@@ -352,14 +346,14 @@
                 </TextView>
 
                 <TextView
-                    android:id="@+id/textView22"
+                    android:id="@+id/latlong"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="21.161908, -86.8515279"
+                    android:text="--- --- --"
                     android:textSize="@dimen/h6"
                     app:layout_constraintEnd_toStartOf="@+id/guidelinetickets01v"
                     app:layout_constraintStart_toStartOf="@+id/guidelinetickets01v"
-                    app:layout_constraintTop_toBottomOf="@+id/textView21">
+                    app:layout_constraintTop_toBottomOf="@+id/locationDesc">
 
                 </TextView>
 
@@ -369,7 +363,7 @@
                     android:layout_height="24dp"
                     app:layout_constraintEnd_toStartOf="@+id/guidelinetickets01v"
                     app:layout_constraintStart_toStartOf="@+id/guidelinetickets01v"
-                    app:layout_constraintTop_toBottomOf="@+id/textView22"
+                    app:layout_constraintTop_toBottomOf="@+id/latlong"
                     app:srcCompat="@drawable/ic_icon">
 
                 </ImageView>
@@ -383,10 +377,10 @@
                 </ImageView>
 
                 <TextView
-                    android:id="@+id/textView23"
+                    android:id="@+id/lalongReport"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Dic 26, 2022 - 18:10"
+                    android:text="--- --- --- ---"
                     android:textSize="@dimen/h6"
                     app:layout_constraintEnd_toStartOf="@+id/guidelinetickets01v"
                     app:layout_constraintStart_toStartOf="@+id/guidelinetickets01v"
