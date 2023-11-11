@@ -39,24 +39,17 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
         Gson gson = new Gson();
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token2 = preferences.getString(GeneralConstants.USER_VALUES, null);
-<<<<<<< HEAD
         String token = preferences.getString(GeneralConstants.TOKEN, null);
-=======
->>>>>>> 90243414f4f21dbe5bdfe90dfc598289dd28ed43
+
         profileResponse profileData = gson.fromJson(token2, profileResponse.class);
 
         int idEmpleado = profileData.getEmpleadoId();
         String idEmpleadoString = String.valueOf(idEmpleado);
 
-<<<<<<< HEAD
-        //TODO Cambiar por el operador correcto
 
-=======
         //Token correcto
-        String token = preferences.getString(GeneralConstants.TOKEN, null);;
+
         //IdEmpleado correcto
-        requestManifestV2 request = new requestManifestV2(idEmpleado);
->>>>>>> 90243414f4f21dbe5bdfe90dfc598289dd28ed43
         //TODO Cambiar por el token correcto
         Call<responseManifestV2> call = service.getManifestV2(token,  idEmpleadoString);
         call.enqueue(new Callback<responseManifestV2>() {

@@ -24,10 +24,6 @@ public interface manifestUtil {
     @GET(RetrofitEndPoints.MANIFEST_PEP)
     Call<responseManifestV2> getManifestV2(
             @Header("Authorization") String authorizationHeader,
-<<<<<<< HEAD
-=======
-            @Header("accept") String acceptHeader,
->>>>>>> 90243414f4f21dbe5bdfe90dfc598289dd28ed43
             @Query("operadorId") String operadorId
     );
 }
