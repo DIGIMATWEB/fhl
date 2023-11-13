@@ -2,6 +2,7 @@ package com.fhl.sistemadedistribucionfh.nmanifest.interactorV2;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
@@ -40,7 +41,7 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token2 = preferences.getString(GeneralConstants.USER_VALUES, null);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
-
+        Log.e("TOKEN",""+token);
         profileResponse profileData = gson.fromJson(token2, profileResponse.class);
 
         int idEmpleado = profileData.getEmpleadoId();

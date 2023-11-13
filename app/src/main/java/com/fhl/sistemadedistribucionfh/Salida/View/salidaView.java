@@ -49,7 +49,7 @@ public class salidaView extends Fragment implements salidaViewinterface, View.On
         continuarSalida.setOnClickListener(this);
         presenter=new presenterSalidaImpl(this,getContext());
         String code=getArguments().getString("qrValue");
-        presenter.requestSalida(code);
+       // presenter.requestSalida(code);
     }
 
     private void fillTickets(List<Ticket> data) {
