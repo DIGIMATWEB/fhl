@@ -6,25 +6,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import com.fhl.sistemadedistribucionfh.R;
-import com.fhl.sistemadedistribucionfh.nmanifest.model.dataManifest;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.model.dataTicketsManifest;
-import com.fhl.sistemadedistribucionfh.nmanifestDetail.view.manifestDetail;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.view.manifestDetailV2;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifestDetails.ViewHolder>{
-    private manifestDetail mview;
+    private manifestDetailV2 mview;
     private Context context;
-    private List<dataTicketsManifest> data;
+    private List<dataTicketsManifestV2> data;
     private int size;
-    public adapterManifestDetails(manifestDetail mview, List<dataTicketsManifest> data, Context context) {
+    public adapterManifestDetails(manifestDetailV2 mview, List<dataTicketsManifestV2> data, Context context) {
         this.mview=mview;
         this.context=context;
         this.data=data;
@@ -46,7 +45,7 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
             }
         });
     }
-    public void setFilter(List<dataTicketsManifest> filterList) {
+    public void setFilter(List<dataTicketsManifestV2> filterList) {
         this.data = new ArrayList<>();
         this.data.addAll(filterList);
         notifyDataSetChanged();

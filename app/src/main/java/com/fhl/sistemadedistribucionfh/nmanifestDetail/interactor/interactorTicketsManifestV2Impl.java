@@ -6,12 +6,13 @@ import android.widget.Toast;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientNewlands;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
-import com.fhl.sistemadedistribucionfh.nmanifest.model.dataManifest;
-import com.fhl.sistemadedistribucionfh.nmanifest.model.responseManifest;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.model.dataTicketsManifest;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.model.requestTicketsManifest;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.model.responseTicketsManifest;
-import com.fhl.sistemadedistribucionfh.nmanifestDetail.presenter.presenterTicketsmanifest;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.requestTicketsManifestV2;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.responseTicketsManifestV2;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.presenter.presenterTicketsmanifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.util.serviceTicketsManifest;
 
 import java.util.List;
@@ -21,12 +22,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class interactorTicketsManifestImpl implements  interactorTicketsManifest{
+public class interactorTicketsManifestV2Impl implements interactorTicketsManifestV2 {
     private serviceTicketsManifest service;
     private Context context;
-    private presenterTicketsmanifest presenter;
+    private presenterTicketsmanifestV2 presenter;
     private Retrofit retrofitClient;
-    public interactorTicketsManifestImpl(presenterTicketsmanifest presenter,Context context){
+    public interactorTicketsManifestV2Impl(presenterTicketsmanifestV2 presenter, Context context){
         this.presenter=presenter;
         this.context=context;
         retrofitClient = RetrofitClientNewlands.getRetrofitInstance();
@@ -35,23 +36,23 @@ public class interactorTicketsManifestImpl implements  interactorTicketsManifest
     }
     @Override
     public void reqTickets(String ticket) {
-        requestTicketsManifest request=new requestTicketsManifest(ticket);
-        Call<responseTicketsManifest> call= service.getTickets(request);
-        call.enqueue(new Callback<responseTicketsManifest>() {
+        requestTicketsManifestV2 request = new requestTicketsManifestV2(ticket);
+        Call<responseTicketsManifestV2> call= service.getTickets(request);
+        call.enqueue(new Callback<responseTicketsManifestV2>() {
             @Override
-            public void onResponse(Call<responseTicketsManifest> call, Response<responseTicketsManifest> response) {
+            public void onResponse(Call<responseTicketsManifestV2> call, Response<responseTicketsManifestV2> response) {
                 validateResponse(response,context);
             }
 
             @Override
-            public void onFailure(Call<responseTicketsManifest> call, Throwable t) {
+            public void onFailure(Call<responseTicketsManifestV2> call, Throwable t) {
                 Toast.makeText(context, "bad request"+t.getMessage(), Toast.LENGTH_SHORT).show();
                 //presenter.setDatahardcode();
             }
         });
     }
 
-    private void validateResponse(Response<responseTicketsManifest> response, Context context) {
+    private void validateResponse(Response<responseTicketsManifestV2> response, Context context) {
         if (response != null) {
 
             if (RetrofitValidations.checkSuccessCode(response.code())) {
@@ -62,13 +63,13 @@ public class interactorTicketsManifestImpl implements  interactorTicketsManifest
         }
     }
 
-    private void getTickets(Response<responseTicketsManifest> response, Context context) {
-        responseTicketsManifest resp=response.body();
+    private void getTickets(Response<responseTicketsManifestV2> response, Context context) {
+        responseTicketsManifestV2 resp = response.body();
         if(resp!=null){
             String message = resp.getMessage();
-            int responseCode = resp.getResconseCode();
-            if(resp.getResconseCode()== GeneralConstants.RESPONSE_CODE_OK){
-                List<dataTicketsManifest> data=resp.getData();
+            int responseCode = resp.getStatus();
+            if(resp.getStatus()== GeneralConstants.RESPONSE_CODE_OK_PEP){
+                List<dataTicketsManifestV2> data = resp.getData();
 
                 if(data!=null){
                     presenter.setTickets(data);
