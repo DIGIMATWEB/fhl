@@ -146,7 +146,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
         }
 
         binding.escribircodigo.setInputType(InputType.TYPE_CLASS_NUMBER);
-        binding.escribircodigo.setFilters(new InputFilter[]{new InputFilter.LengthFilter(7)});
+        binding.escribircodigo.setFilters(new InputFilter[]{new InputFilter.LengthFilter(8)});
         binding.escribircodigo.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
 
@@ -154,8 +154,8 @@ public class BarcodeScannerActivity extends AppCompatActivity
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     String textleng= binding.escribircodigo.getText().toString();
-                    if(textleng.length()<7) {
-                        Toast.makeText(getApplicationContext(), "el numero de digitos es incorrecto intenta de nuevo", Toast.LENGTH_SHORT).show();
+                    if(textleng.length()<8) {
+                       // Toast.makeText(getApplicationContext(), "el numero de digitos es incorrecto intenta de nuevo", Toast.LENGTH_SHORT).show();
                         binding.escribircodigo.setText("");
                     }else {
 
@@ -271,12 +271,8 @@ public class BarcodeScannerActivity extends AppCompatActivity
             Log.i(TAG, "Using Barcode Detector Processor");
             imageProcessor = new BarcodeScannerProcessor(this, this);
         } catch (Exception e) {
-            Log.e(TAG, "Can not create image processor.", e);
-            Toast.makeText(
-                            getApplicationContext(),
-                            "Can not create image processor: " + e.getLocalizedMessage(),
-                            Toast.LENGTH_LONG)
-                    .show();
+            //Log.e(TAG, "Can not create image processor.", e);
+           // Toast.makeText(getApplicationContext(),"Can not create image processor: " + e.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -306,6 +302,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     } catch (   MlKitException e) {
                         //      Log.e(TAG, "Failed to process image. Error: " + e.getLocalizedMessage());
                         Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                       // Log.e(TAG,""+e);
                         //            .show();
                     }
                 });
@@ -508,7 +505,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 //Toast.makeText( getApplicationContext(), "vamos ala pantalla de recycler", Toast.LENGTH_SHORT).show();
                 if(collectedBarCodes.isEmpty())
                 {
-                    Toast.makeText(this, "No hay paquetes escaneados", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(this, "No hay paquetes escaneados", Toast.LENGTH_SHORT).show();
                 }else {
                     gotoListBarcode = "ready";
                    // Intent intent = new Intent(this, menuViewImpl.class);

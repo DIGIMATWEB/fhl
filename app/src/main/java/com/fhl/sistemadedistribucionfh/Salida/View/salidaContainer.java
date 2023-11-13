@@ -1,6 +1,7 @@
 package com.fhl.sistemadedistribucionfh.Salida.View;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -25,6 +26,7 @@ public class salidaContainer extends AppCompatActivity  {
             bndl = getIntent().getExtras();//detailOrderB
             if(bndl!=null) {
                 typeScanner = bndl.getString("qrValue");
+                Log.e("QrSalida",""+typeScanner);
             }
             salida(bndl);
 
