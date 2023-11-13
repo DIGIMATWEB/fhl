@@ -1,13 +1,11 @@
 package com.fhl.sistemadedistribucionfh.nmanifest.viewV2;
 
 import android.annotation.SuppressLint;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.SearchView;
 
 import androidx.fragment.app.Fragment;
@@ -18,15 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.nmanifest.adapterV2.manifestAdapterV2;
-import com.fhl.sistemadedistribucionfh.nmanifest.model.dataManifest;
 import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.dataManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.presenterV2.manifestImplV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.presenterV2.presentermanifestV2;
-import com.fhl.sistemadedistribucionfh.nmanifestDetail.view.manifestDetail;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.view.manifestDetailV2;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class mmanifestV2 extends Fragment implements View.OnClickListener, viewManifestV2 {
     public static final String TAG = mmanifestV2.class.getSimpleName();
@@ -73,9 +69,9 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         manager = getActivity().getSupportFragmentManager();
         transaction = manager.beginTransaction();
         //tickets ticketsf= new tickets();
-        manifestDetail manifestdetail = new manifestDetail();
+        manifestDetailV2 manifestdetail = new manifestDetailV2();
         manifestdetail.setArguments(bundle);
-        transaction.replace(R.id.fragments, manifestdetail, manifestDetail.TAG).commit();
+        transaction.replace(R.id.fragments, manifestdetail, manifestDetailV2.TAG).commit();
     }
     @Override
     public void onClick(View view) {

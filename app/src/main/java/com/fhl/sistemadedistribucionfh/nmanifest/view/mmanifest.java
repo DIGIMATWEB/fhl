@@ -20,7 +20,7 @@ import com.fhl.sistemadedistribucionfh.nmanifest.adapter.manifestAdapter;
 import com.fhl.sistemadedistribucionfh.nmanifest.model.dataManifest;
 import com.fhl.sistemadedistribucionfh.nmanifest.presenter.manifestImpl;
 import com.fhl.sistemadedistribucionfh.nmanifest.presenter.presentermanifest;
-import com.fhl.sistemadedistribucionfh.nmanifestDetail.view.manifestDetail;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.view.manifestDetailV2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,9 +120,9 @@ public class mmanifest extends Fragment implements View.OnClickListener ,viewMan
         manager = getActivity().getSupportFragmentManager();
         transaction = manager.beginTransaction();
         //tickets ticketsf= new tickets();
-        manifestDetail manifestdetail =new manifestDetail();
+        manifestDetailV2 manifestdetail =new manifestDetailV2();
         manifestdetail.setArguments(bundle);
-        transaction.replace(R.id.fragments, manifestdetail, manifestDetail.TAG).commit();
+        transaction.replace(R.id.fragments, manifestdetail, manifestDetailV2.TAG).commit();
     }
 
     @Override

@@ -20,14 +20,15 @@ import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Tickets.view.tickets;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.adapter.adapterManifestDetails;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.model.dataTicketsManifest;
-import com.fhl.sistemadedistribucionfh.nmanifestDetail.presenter.presenterTicketsManifestImpl;
-import com.fhl.sistemadedistribucionfh.nmanifestDetail.presenter.presenterTicketsmanifest;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.presenter.presenterTicketsManifestImplV2;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.presenter.presenterTicketsmanifestV2;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class manifestDetail  extends Fragment implements View.OnClickListener,viewManifestDetails{
-    public static final String TAG = manifestDetail.class.getSimpleName();
+public class manifestDetailV2 extends Fragment implements View.OnClickListener, viewManifestDetailsV2 {
+    public static final String TAG = manifestDetailV2.class.getSimpleName();
     private RecyclerView rvlistTickets;
     private adapterManifestDetails adapter;
     private FragmentManager manager;
@@ -35,8 +36,8 @@ public class manifestDetail  extends Fragment implements View.OnClickListener,vi
     private SearchView searchViewManifestdetail;
     private ImageView searchicodetail;
     private String folioDespachoId, vehiculoModeloId, vehiculoPlacaId, cedisId;
-    private List<dataTicketsManifest> data;
-    private presenterTicketsmanifest presenter;
+    private List<dataTicketsManifestV2> data;
+    private presenterTicketsmanifestV2 presenter;
     private TextView vehicleManifiesto, vehicleName, vehiclePlaca, vehicleCedis;
 
     @Override
@@ -72,8 +73,8 @@ public class manifestDetail  extends Fragment implements View.OnClickListener,vi
         vehiclePlaca.setText(vehiculoPlacaId);
         vehicleCedis.setText(cedisId);
 
-       // presenter= new presenterTicketsManifestImpl(this,getContext());
-        //presenter.getTickets(manifestId);
+        presenter= new presenterTicketsManifestImplV2(this,getContext());
+        presenter.getTickets(folioDespachoId);
         setAdapter(data);
     }
 
@@ -95,7 +96,7 @@ public class manifestDetail  extends Fragment implements View.OnClickListener,vi
 
                         @Override
                         public boolean onQueryTextChange(String newText) {
-                            List<dataTicketsManifest> filterList =filter(data,newText);
+                            List<dataTicketsManifestV2> filterList = filter(data,newText);
                             adapter.setFilter(filterList);
                             return true;
                         }
@@ -114,7 +115,7 @@ public class manifestDetail  extends Fragment implements View.OnClickListener,vi
                 break;
         }
     }
-    private void setAdapter(List<dataTicketsManifest> data) {
+    private void setAdapter(List<dataTicketsManifestV2> data) {
         adapter=new adapterManifestDetails(this,data,getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvlistTickets.setLayoutManager(layoutManager);
@@ -127,11 +128,11 @@ public class manifestDetail  extends Fragment implements View.OnClickListener,vi
         tickets ticketsf= new tickets();
         transaction.replace(R.id.fragments, ticketsf, tickets.TAG).commit();
     }
-    private List<dataTicketsManifest> filter(List<dataTicketsManifest> data, String text) {
-        List<dataTicketsManifest> mfilterList= new ArrayList<>();
+    private List<dataTicketsManifestV2> filter(List<dataTicketsManifestV2> data, String text) {
+        List<dataTicketsManifestV2> mfilterList= new ArrayList<>();
         text =text.toLowerCase();
         if(data!=null){
-            for(dataTicketsManifest manifest:data)
+            for(dataTicketsManifestV2 manifest:data)
             {
                 String manifestname=manifest.getFolioTicket().toLowerCase();
                 if(manifestname.contains(text)){
@@ -142,7 +143,7 @@ public class manifestDetail  extends Fragment implements View.OnClickListener,vi
         return mfilterList;
     }
     @Override
-    public void setTickets(List<dataTicketsManifest> data) {
+    public void setTickets(List<dataTicketsManifestV2> data) {
         this.data=data;
         setAdapter(data);
     }
