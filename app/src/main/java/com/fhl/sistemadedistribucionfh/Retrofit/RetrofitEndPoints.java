@@ -6,15 +6,15 @@ public class RetrofitEndPoints {
     public static final String URL_NEWLANDS ="http://digimat-interactive.com/fhl/";
     public static final String URL_MAP_API_ROUTE = "route";
 
-    public static final String URL_PEPSERVER = "http://pepserver:7220/app/manifiesto/";
-    //public static final String URL_PEPSERVER = "http://192.168.1.209:7220/app/manifiesto/";
+    public static final String URL_PEPSERVER = "http://pepserver:7420/app/manifiesto/";
+    //public static final String URL_PEPSERVER = "http://192.168.1.209:7420/app/manifiesto/";
 
     //ENDPOINTS FH
     public static final String LOGIN = "Usuarios/Usuarios/Login";
 
     //ENDPOINTS PEP
     public static final String MANIFEST_PEP = "GetManifiestoByOperador/";
-
+    public static final String TICKETS_PEP = "GetTicketsByManifiesto/";
 
     public static final String MENUS = "menu.php";
     public static final String SALIDA = "salidaqr.php";

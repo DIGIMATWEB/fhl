@@ -1,10 +1,13 @@
 package com.fhl.sistemadedistribucionfh.nmanifestDetail.interactor;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientNewlands;
+import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientPep;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.model.dataTicketsManifest;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.model.requestTicketsManifest;
@@ -30,14 +33,24 @@ public class interactorTicketsManifestV2Impl implements interactorTicketsManifes
     public interactorTicketsManifestV2Impl(presenterTicketsmanifestV2 presenter, Context context){
         this.presenter=presenter;
         this.context=context;
-        retrofitClient = RetrofitClientNewlands.getRetrofitInstance();
-        service=retrofitClient.create(serviceTicketsManifest.class);
+        //retrofitClient = RetrofitClientNewlands.getRetrofitInstance();
+        retrofitClient = RetrofitClientPep.getRetrofitInstance();
+        service = retrofitClient.create(serviceTicketsManifest.class);
 
     }
     @Override
     public void reqTickets(String ticket) {
-        requestTicketsManifestV2 request = new requestTicketsManifestV2(ticket);
-        Call<responseTicketsManifestV2> call= service.getTickets(request);
+        getAllTicketsV2(ticket);
+    }
+
+    public void getAllTicketsV2(String ticket) {
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String token = preferences.getString(GeneralConstants.TOKEN, null);
+        Log.e("TOKEN",""+token);
+        String acceptHeaderValue = "text/plain";
+
+        //requestTicketsManifestV2 request = new requestTicketsManifestV2(ticket);
+        Call<responseTicketsManifestV2> call = service.getTicketsV2(ticket, acceptHeaderValue, token);
         call.enqueue(new Callback<responseTicketsManifestV2>() {
             @Override
             public void onResponse(Call<responseTicketsManifestV2> call, Response<responseTicketsManifestV2> response) {

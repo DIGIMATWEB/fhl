@@ -75,7 +75,7 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
 
         presenter= new presenterTicketsManifestImplV2(this,getContext());
         presenter.getTickets(folioDespachoId);
-        setAdapter(data);
+        //setAdapter(data);
     }
 
     @Override
@@ -116,7 +116,7 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         }
     }
     private void setAdapter(List<dataTicketsManifestV2> data) {
-        adapter=new adapterManifestDetails(this,data,getContext());
+        adapter=new adapterManifestDetails(this,data, data.size(),getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvlistTickets.setLayoutManager(layoutManager);
         rvlistTickets.setAdapter(adapter);
@@ -144,7 +144,7 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
     }
     @Override
     public void setTickets(List<dataTicketsManifestV2> data) {
-        this.data=data;
+        this.data = data;
         setAdapter(data);
     }
 

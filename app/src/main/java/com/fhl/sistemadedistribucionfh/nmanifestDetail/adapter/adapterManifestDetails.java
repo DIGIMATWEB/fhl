@@ -23,8 +23,9 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
     private Context context;
     private List<dataTicketsManifestV2> data;
     private int size;
-    public adapterManifestDetails(manifestDetailV2 mview, List<dataTicketsManifestV2> data, Context context) {
+    public adapterManifestDetails(manifestDetailV2 mview, List<dataTicketsManifestV2> data, int size, Context context) {
         this.mview=mview;
+        this.size = size;
         this.context=context;
         this.data=data;
     }
@@ -36,7 +37,7 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
     }
     @Override
     public void onBindViewHolder(@NonNull adapterManifestDetails.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        holder.ticketFolio.setText("");//data.get(position).getFolioTicket());
+        holder.ticketFolio.setText(data.get(position).getFolioTicket());//data.get(position).getFolioTicket());
         holder.cardOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,7 +53,7 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
     }
     @Override
     public int getItemCount() {
-        return 3;
+        return data.size();
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout cardOrder;

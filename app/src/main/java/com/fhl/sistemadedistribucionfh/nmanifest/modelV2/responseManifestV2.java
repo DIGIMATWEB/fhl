@@ -10,7 +10,7 @@ public class responseManifestV2 {
     @SerializedName("pageIndex")
     private Integer pageIndex;
     @SerializedName("pageSize")
-    private Integer pageSize;
+    private String pageSize;
     @SerializedName("status")
     private Integer status;
     @SerializedName("message")
@@ -20,11 +20,11 @@ public class responseManifestV2 {
     @SerializedName("function")
     private String function;
     @SerializedName("parameters")
-    private Object parameters;
+    private String parameters;
     @SerializedName("sTiempos")
     private String sTiempos;
 
-    public responseManifestV2(Integer totalRows, Integer pageIndex, Integer pageSize, Integer status, String message, List<dataManifestV2> data, String function, Object parameters, String sTiempos) {
+    public responseManifestV2(Integer totalRows, Integer pageIndex, String pageSize, Integer status, String message, List<dataManifestV2> data, String function, String parameters, String sTiempos) {
         super();
         this.totalRows = totalRows;
         this.pageIndex = pageIndex;
@@ -53,11 +53,11 @@ public class responseManifestV2 {
         this.pageIndex = pageIndex;
     }
 
-    public Integer getPageSize() {
+    public String getPageSize() {
         return pageSize;
     }
 
-    public void setPageSize(Integer pageSize) {
+    public void setPageSize(String pageSize) {
         this.pageSize = pageSize;
     }
 
@@ -93,11 +93,11 @@ public class responseManifestV2 {
         this.function = function;
     }
 
-    public Object getParameters() {
+    public String getParameters() {
         return parameters;
     }
 
-    public void setParameters(Object parameters) {
+    public void setParameters(String parameters) {
         this.parameters = parameters;
     }
 

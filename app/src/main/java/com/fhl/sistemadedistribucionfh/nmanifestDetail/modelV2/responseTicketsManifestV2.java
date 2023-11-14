@@ -9,9 +9,9 @@ public class responseTicketsManifestV2 {
     @SerializedName("totalRows")
     private Integer totalRows;
     @SerializedName("pageIndex")
-    private String pageIndex;
+    private Integer pageIndex;
     @SerializedName("pageSize")
-    private String pageSize;
+    private Integer pageSize;
     @SerializedName("status")
     private Integer status;
     @SerializedName("message")
@@ -25,7 +25,7 @@ public class responseTicketsManifestV2 {
     @SerializedName("sTiempos")
     private String sTiempos;
 
-    public responseTicketsManifestV2(Integer totalRows, String pageIndex, String pageSize, Integer status, String message, List<dataTicketsManifestV2> data, String function, String parameters, String sTiempos) {
+    public responseTicketsManifestV2(Integer totalRows, Integer pageIndex, Integer pageSize, Integer status, String message, List<dataTicketsManifestV2> data, String function, String parameters, String sTiempos) {
         super();
         this.totalRows = totalRows;
         this.pageIndex = pageIndex;
@@ -46,19 +46,19 @@ public class responseTicketsManifestV2 {
         this.totalRows = totalRows;
     }
 
-    public String getPageIndex() {
+    public Integer getPageIndex() {
         return pageIndex;
     }
 
-    public void setPageIndex(String pageIndex) {
+    public void setPageIndex(Integer pageIndex) {
         this.pageIndex = pageIndex;
     }
 
-    public String getPageSize() {
+    public Integer getPageSize() {
         return pageSize;
     }
 
-    public void setPageSize(String pageSize) {
+    public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
     }
 

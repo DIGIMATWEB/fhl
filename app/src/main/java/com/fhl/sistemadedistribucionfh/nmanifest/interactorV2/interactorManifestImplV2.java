@@ -47,9 +47,6 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
         int idEmpleado = profileData.getEmpleadoId();
         String idEmpleadoString = String.valueOf(idEmpleado);
 
-
-        //Token correcto
-
         //IdEmpleado correcto
         //TODO Cambiar por el token correcto
         Call<responseManifestV2> call = service.getManifestV2(token,  idEmpleadoString);
