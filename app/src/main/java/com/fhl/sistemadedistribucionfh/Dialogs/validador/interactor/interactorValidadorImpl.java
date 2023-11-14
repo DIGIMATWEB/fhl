@@ -11,8 +11,6 @@ import com.fhl.sistemadedistribucionfh.Dialogs.validador.util.utilValidador;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientNewlands;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
-import com.fhl.sistemadedistribucionfh.Salida.Model.Ticket;
-import com.fhl.sistemadedistribucionfh.Salida.Model.responseSalida;
 
 import java.util.List;
 

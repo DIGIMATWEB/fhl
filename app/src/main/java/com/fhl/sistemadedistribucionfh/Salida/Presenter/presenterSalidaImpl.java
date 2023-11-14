@@ -4,10 +4,13 @@ import android.content.Context;
 
 import com.fhl.sistemadedistribucionfh.Salida.Interactor.interactorSalida;
 import com.fhl.sistemadedistribucionfh.Salida.Interactor.interactorSalidaImpl;
-import com.fhl.sistemadedistribucionfh.Salida.Model.Ticket;
+import com.fhl.sistemadedistribucionfh.Salida.Model.test.Ticket;
+import com.fhl.sistemadedistribucionfh.Salida.Model.v2.ResponseSalida;
 import com.fhl.sistemadedistribucionfh.Salida.View.salidaViewinterface;
 
 import java.util.List;
+
+import retrofit2.Response;
 
 public class presenterSalidaImpl implements presenterSalida{
     private Context context;
@@ -44,6 +47,13 @@ public class presenterSalidaImpl implements presenterSalida{
     public void setDireccion(String direccionEntrega) {
         if (view != null){
             view.setDireccion(direccionEntrega);
+        }
+    }
+
+    @Override
+    public void setSalida(Response<ResponseSalida> response) {
+        if (view != null){
+            view.setSalida(response);
         }
     }
 }

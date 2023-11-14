@@ -1,6 +1,9 @@
 package com.fhl.sistemadedistribucionfh.nmanifest.viewV2;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +18,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
+import com.fhl.sistemadedistribucionfh.login.view.login;
 import com.fhl.sistemadedistribucionfh.nmanifest.adapterV2.manifestAdapterV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.dataManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.presenterV2.manifestImplV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.presenterV2.presentermanifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.view.manifestDetailV2;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -129,5 +135,38 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     public void setAllmanifestV2(List<dataManifestV2> data) {
         this.data = data;
         setAdapter(data);
+    }
+
+    @Override
+    public void returnTologin() {
+        deleteCache(getContext());
+        SharedPreferences preferences = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        preferences.edit().clear().commit();
+        Intent intent = new Intent(getContext(), login.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);//
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+    private void deleteCache(Context context) {
+        try {
+            File dir = context.getCacheDir();
+            deleteDir(dir);
+        } catch (Exception e) { e.printStackTrace();}
+    }
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        } else if(dir!= null && dir.isFile()) {
+            return dir.delete();
+        } else {
+            return false;
+        }
     }
 }

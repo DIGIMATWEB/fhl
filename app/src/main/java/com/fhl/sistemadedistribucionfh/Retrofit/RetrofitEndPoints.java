@@ -6,7 +6,7 @@ public class RetrofitEndPoints {
     public static final String URL_NEWLANDS ="http://digimat-interactive.com/fhl/";
     public static final String URL_MAP_API_ROUTE = "route";
 
-    public static final String URL_PEPSERVER = "http://pepserver:7220/app/manifiesto/";
+    public static final String URL_PEPSERVER = "http://pepserver:7420/app/manifiesto/";
     //public static final String URL_PEPSERVER = "http://192.168.1.209:7220/app/manifiesto/";
 
     //ENDPOINTS FH
@@ -27,4 +27,5 @@ public class RetrofitEndPoints {
     public static final String REASONS = "reasons.php";
     public static final String PROFILE = "Usuarios/Usuarios/Values";//"todo" este enpoint no funciona correctamente en swagger debe verse desde postman
     public static final String DETALLE_TICKETS = "GetTicketsByManifiesto/";
+    public static final String SALIDA_V2 = "GetSellosByManifiesto/";
 }

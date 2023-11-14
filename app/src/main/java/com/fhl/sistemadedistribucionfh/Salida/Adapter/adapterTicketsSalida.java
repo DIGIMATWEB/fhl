@@ -15,7 +15,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
-import com.fhl.sistemadedistribucionfh.Salida.Model.Ticket;
+import com.fhl.sistemadedistribucionfh.Salida.Model.test.Ticket;
 import com.fhl.sistemadedistribucionfh.Salida.View.salidaView;
 import com.fhl.sistemadedistribucionfh.Salida.View.sellos;
 

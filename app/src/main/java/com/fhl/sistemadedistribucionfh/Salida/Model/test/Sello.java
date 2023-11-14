@@ -1,4 +1,4 @@
-package com.fhl.sistemadedistribucionfh.Salida.Model;
+package com.fhl.sistemadedistribucionfh.Salida.Model.test;
 
 import com.google.gson.annotations.SerializedName;
 

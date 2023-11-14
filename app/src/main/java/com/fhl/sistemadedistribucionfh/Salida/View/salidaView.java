@@ -1,6 +1,8 @@
 package com.fhl.sistemadedistribucionfh.Salida.View;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -17,12 +19,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Salida.Adapter.adapterTicketsSalida;
-import com.fhl.sistemadedistribucionfh.Salida.Model.Ticket;
+import com.fhl.sistemadedistribucionfh.Salida.Model.test.Ticket;
+import com.fhl.sistemadedistribucionfh.Salida.Model.v2.ResponseSalida;
 import com.fhl.sistemadedistribucionfh.Salida.Presenter.presenterSalida;
 import com.fhl.sistemadedistribucionfh.Salida.Presenter.presenterSalidaImpl;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
 
 import java.util.List;
+
+import retrofit2.Response;
 
 public class salidaView extends Fragment implements salidaViewinterface, View.OnClickListener {
     public static final String TAG = salidaView.class.getSimpleName();
@@ -49,7 +54,7 @@ public class salidaView extends Fragment implements salidaViewinterface, View.On
         continuarSalida.setOnClickListener(this);
         presenter=new presenterSalidaImpl(this,getContext());
         String code=getArguments().getString("qrValue");
-       // presenter.requestSalida(code);
+        presenter.requestSalida(code);
     }
 
     private void fillTickets(List<Ticket> data) {
@@ -81,6 +86,20 @@ public class salidaView extends Fragment implements salidaViewinterface, View.On
     }
 
     @Override
+    public void setSalida(Response<ResponseSalida> response) {
+        byte[] decodedBytes = Base64.decode(response.body().getData().get(0).getQrCodigo(), Base64.DEFAULT);
+        Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+
+// Load the Bitmap using Glide
+        Glide.with(getContext())
+                .asBitmap()
+                .load(decodedBitmap)
+                .into(qrImage);
+        textEnvio.setText( response.body().getData().get(0).getDespacho().getDestino());
+        presenter.getTickets();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.continuarSalida:
@@ -88,7 +107,7 @@ public class salidaView extends Fragment implements salidaViewinterface, View.On
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);//
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-                break;
+            break;
         }
     }
 }

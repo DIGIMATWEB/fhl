@@ -33,4 +33,11 @@ public class manifestImplV2 implements presentermanifestV2 {
             view.setAllmanifestV2(data);
         }
     }
+
+    @Override
+    public void returnTologin() {
+        if(view!=null) {
+            view.returnTologin();
+        }
+    }
 }
