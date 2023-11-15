@@ -7,6 +7,7 @@ import com.fhl.sistemadedistribucionfh.Salida.Interactor.interactorSalidaImpl;
 import com.fhl.sistemadedistribucionfh.Salida.Model.test.Ticket;
 import com.fhl.sistemadedistribucionfh.Salida.Model.v2.ResponseSalida;
 import com.fhl.sistemadedistribucionfh.Salida.View.salidaViewinterface;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
 import java.util.List;
 
@@ -26,6 +27,19 @@ public class presenterSalidaImpl implements presenterSalida{
     public void requestSalida(String code) {
         if (view != null){
             interactor.requestSalida(code);
+        }
+    }
+    @Override
+    public void getTickets() {
+        if (view != null){
+            interactor.requestTickets();
+        }
+    }
+
+    @Override
+    public void setTickets(List<dataTicketsManifestV2> data) {
+        if (view != null){
+            view.setTicketsList(data);
         }
     }
 
@@ -56,4 +70,6 @@ public class presenterSalidaImpl implements presenterSalida{
             view.setSalida(response);
         }
     }
+
+
 }

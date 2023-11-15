@@ -2,6 +2,7 @@ package com.fhl.sistemadedistribucionfh.Salida.Presenter;
 
 import com.fhl.sistemadedistribucionfh.Salida.Model.test.Ticket;
 import com.fhl.sistemadedistribucionfh.Salida.Model.v2.ResponseSalida;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
 import java.util.List;
 
@@ -17,4 +18,8 @@ public interface presenterSalida {
     void setDireccion(String direccionEntrega);
 
     void setSalida(Response<ResponseSalida> response);
+
+    void getTickets();
+
+    void setTickets(List<dataTicketsManifestV2> data);
 }

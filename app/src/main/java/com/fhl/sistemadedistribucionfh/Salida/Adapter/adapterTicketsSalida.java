@@ -18,6 +18,7 @@ import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Salida.Model.test.Ticket;
 import com.fhl.sistemadedistribucionfh.Salida.View.salidaView;
 import com.fhl.sistemadedistribucionfh.Salida.View.sellos;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
 import java.io.Serializable;
 import java.util.List;
@@ -26,9 +27,9 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
     private Context context;
     private int size;
     private salidaView mView;
-    private List<Ticket> data;
+    private List<dataTicketsManifestV2> data;
 
-    public adapterTicketsSalida(salidaView mmanifest, List<Ticket> data, Context context) {
+    public adapterTicketsSalida(salidaView mmanifest, List<dataTicketsManifestV2> data, Context context) {
         this.mView = mmanifest;
         this.data = data;
         this.context = context;
@@ -44,8 +45,8 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
     @Override
     public void onBindViewHolder(@NonNull adapterTicketsSalida.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
-        holder.ticketFolio.setText(data.get(position).getFolio());
-        if(data.get(position).getSellos().isEmpty()){
+        holder.ticketFolio.setText(data.get(position).getFolioTicket());
+        /*if(data.get(position).getSellos().isEmpty()){
             holder.masText.setVisibility(View.GONE);
             holder.siguiente.setVisibility(View.GONE);
         }else {
@@ -61,7 +62,7 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
 
                 }
             });
-        }
+        }*/
     }
 
     @Override

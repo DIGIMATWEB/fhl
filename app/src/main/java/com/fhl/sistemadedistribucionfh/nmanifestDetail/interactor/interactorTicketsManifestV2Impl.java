@@ -47,10 +47,9 @@ public class interactorTicketsManifestV2Impl implements interactorTicketsManifes
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
         Log.e("TOKEN",""+token);
-        String acceptHeaderValue = "text/plain";
 
         //requestTicketsManifestV2 request = new requestTicketsManifestV2(ticket);
-        Call<responseTicketsManifestV2> call = service.getTicketsV2(ticket, acceptHeaderValue, token);
+        Call<responseTicketsManifestV2> call = service.getTicketsV2(ticket,  token);
         call.enqueue(new Callback<responseTicketsManifestV2>() {
             @Override
             public void onResponse(Call<responseTicketsManifestV2> call, Response<responseTicketsManifestV2> response) {

@@ -24,6 +24,7 @@ import com.fhl.sistemadedistribucionfh.Salida.Model.v2.ResponseSalida;
 import com.fhl.sistemadedistribucionfh.Salida.Presenter.presenterSalida;
 import com.fhl.sistemadedistribucionfh.Salida.Presenter.presenterSalidaImpl;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
 import java.util.List;
 
@@ -57,7 +58,7 @@ public class salidaView extends Fragment implements salidaViewinterface, View.On
         presenter.requestSalida(code);
     }
 
-    private void fillTickets(List<Ticket> data) {
+    private void fillTickets(List<dataTicketsManifestV2> data) {
         adapter=new adapterTicketsSalida(this,data,getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         rv.setLayoutManager(layoutManager);
@@ -76,10 +77,13 @@ public class salidaView extends Fragment implements salidaViewinterface, View.On
 
     @Override
     public void setTickets(List<Ticket> data) {
-        fillTickets(data);
+
 
     }
-
+    @Override
+    public void setTicketsList(List<dataTicketsManifestV2> data) {
+        fillTickets(data);
+    }
     @Override
     public void setDireccion(String direccionEntrega) {
         this.textEnvio.setText(direccionEntrega);
@@ -96,8 +100,10 @@ public class salidaView extends Fragment implements salidaViewinterface, View.On
                 .load(decodedBitmap)
                 .into(qrImage);
         textEnvio.setText( response.body().getData().get(0).getDespacho().getDestino());
-       // presenter.getTickets();
+      
     }
+
+
 
     @Override
     public void onClick(View v) {

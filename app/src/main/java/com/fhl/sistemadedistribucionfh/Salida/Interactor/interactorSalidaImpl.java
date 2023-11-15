@@ -17,6 +17,8 @@ import com.fhl.sistemadedistribucionfh.Salida.Presenter.presenterSalida;
 import com.fhl.sistemadedistribucionfh.Salida.Presenter.presenterSalidaImpl;
 import com.fhl.sistemadedistribucionfh.Salida.Util.serviceSalida;
 import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.dataManifestV2;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.responseTicketsManifestV2;
 
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class interactorSalidaImpl implements interactorSalida {
     private presenterSalida presenter;
     private serviceSalida service;
     private Retrofit retrofitClient;
+    private String manifestFolio;
 
     public interactorSalidaImpl(presenterSalidaImpl presenter, Context context) {
           this.context=context;
@@ -40,6 +43,7 @@ public class interactorSalidaImpl implements interactorSalida {
 
     @Override
     public void requestSalida(String code) {
+        this.manifestFolio=code;
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
         if(token!=null) {
@@ -48,9 +52,67 @@ public class interactorSalidaImpl implements interactorSalida {
 
     }
 
+    @Override
+    public void requestTickets() {
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String token = preferences.getString(GeneralConstants.TOKEN, null);
+         if(manifestFolio!=null&&token!=null){
+             getTickets(token,manifestFolio);
+         }
+    }
+
+    private void getTickets(String token, String manifestFolio) {
+        //requestTicketsManifestV2 request = new requestTicketsManifestV2(ticket);
+        Call<responseTicketsManifestV2> call = service.getTicketsV2s(manifestFolio,  token);
+        call.enqueue(new Callback<responseTicketsManifestV2>() {
+            @Override
+            public void onResponse(Call<responseTicketsManifestV2> call, Response<responseTicketsManifestV2> response) {
+                validateResponset(response,context);
+            }
+
+            @Override
+            public void onFailure(Call<responseTicketsManifestV2> call, Throwable t) {
+                Toast.makeText(context, "bad request"+t.getMessage(), Toast.LENGTH_SHORT).show();
+                //presenter.setDatahardcode();
+            }
+        });
+    }
+    private void validateResponset(Response<responseTicketsManifestV2> response, Context context) {
+        if (response != null) {
+
+            if (RetrofitValidations.checkSuccessCode(response.code())) {
+                getTicketsv2(response, context);
+            } else {
+                Toast.makeText(context, "fail respose" + response.message(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void getTicketsv2(Response<responseTicketsManifestV2> response, Context context) {
+        responseTicketsManifestV2 resp = response.body();
+        if(resp!=null){
+            String message = resp.getMessage();
+            int responseCode = resp.getStatus();
+            if(resp.getStatus()== GeneralConstants.RESPONSE_CODE_OK_PEP){
+                List<dataTicketsManifestV2> data = resp.getData();
+
+                if(data!=null){
+                    presenter.setTickets(data);
+                }else{
+                    Toast.makeText(context, "sin tickets asignados1", Toast.LENGTH_SHORT).show();
+                }
+            }else{
+                Toast.makeText(context, "response not ok" + response.message(), Toast.LENGTH_SHORT).show();
+            }
+
+        } else{
+            Toast.makeText(context, "response null" + response.message(), Toast.LENGTH_SHORT).show();
+        }
+    }
     private void requestDataSalida(String token,String code) {
         Call<ResponseSalida> call=service.getSalidaV2(token,code);
         Log.e("QR","code qr "+code);
+        presenter.getTickets();
         call.enqueue(new Callback<ResponseSalida>() {
             @Override
             public void onResponse(Call<ResponseSalida> call, Response<ResponseSalida> response) {
@@ -85,7 +147,7 @@ public class interactorSalidaImpl implements interactorSalida {
                 if(resp.getData()!=null) {
                     presenter.setSalida(response);
                 } else {
-                    Toast.makeText(context, "Sin tickets asignados.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Sin tickets asignados2.", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
