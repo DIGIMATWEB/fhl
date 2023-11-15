@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface viewManifestV2 {
     void setAllmanifestV2(List<dataManifestV2> data);
+
+    void returnTologin();
 }

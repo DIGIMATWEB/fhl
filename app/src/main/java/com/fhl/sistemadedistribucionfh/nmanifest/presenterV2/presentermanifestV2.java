@@ -7,4 +7,6 @@ import java.util.List;
 public interface presentermanifestV2 {
     void getmanifestV2();
     void setmanifestV2(List<dataManifestV2> data);
+
+    void returnTologin();
 }

@@ -12,8 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Salida.Adapter.adapterSellos;
-import com.fhl.sistemadedistribucionfh.Salida.Model.Sello;
-import com.fhl.sistemadedistribucionfh.resguardo.model.dataResguardo;
+import com.fhl.sistemadedistribucionfh.Salida.Model.test.Sello;
 
 import java.util.ArrayList;
 import java.util.List;

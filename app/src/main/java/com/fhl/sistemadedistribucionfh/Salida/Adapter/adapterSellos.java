@@ -12,9 +12,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
-import com.fhl.sistemadedistribucionfh.Salida.Model.Sello;
+import com.fhl.sistemadedistribucionfh.Salida.Model.test.Sello;
 import com.fhl.sistemadedistribucionfh.Salida.View.sellos;
-import com.fhl.sistemadedistribucionfh.resguardo.model.dataResguardo;
 
 import java.util.ArrayList;
 import java.util.List;
