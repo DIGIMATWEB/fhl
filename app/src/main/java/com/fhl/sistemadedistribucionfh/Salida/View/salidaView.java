@@ -96,7 +96,7 @@ public class salidaView extends Fragment implements salidaViewinterface, View.On
                 .load(decodedBitmap)
                 .into(qrImage);
         textEnvio.setText( response.body().getData().get(0).getDespacho().getDestino());
-        presenter.getTickets();
+       // presenter.getTickets();
     }
 
     @Override

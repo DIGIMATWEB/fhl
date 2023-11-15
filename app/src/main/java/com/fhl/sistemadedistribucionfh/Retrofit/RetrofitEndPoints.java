@@ -7,11 +7,8 @@ public class RetrofitEndPoints {
     public static final String URL_MAP_API_ROUTE = "route";
 
     public static final String URL_PEPSERVER = "http://pepserver:7420/app/manifiesto/";
-<<<<<<< HEAD
     //public static final String URL_PEPSERVER = "http://192.168.1.209:7420/app/manifiesto/";
-=======
-    //public static final String URL_PEPSERVER = "http://192.168.1.209:7220/app/manifiesto/";
->>>>>>> dev_frank
+
 
     //ENDPOINTS FH
     public static final String LOGIN = "Usuarios/Usuarios/Login";
