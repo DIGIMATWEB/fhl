@@ -13,7 +13,6 @@ import com.fhl.sistemadedistribucionfh.login.model.modelProfile.profileResponse;
 import com.fhl.sistemadedistribucionfh.login.view.login;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
 import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.dataManifestV2;
-import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.requestManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.responseManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.presenterV2.presentermanifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.util.manifestUtil;
@@ -53,6 +52,7 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
         //IdEmpleado correcto
         //TODO Cambiar por el token correcto
         Call<responseManifestV2> call = service.getManifestV2(token,  idEmpleadoString);
+        Log.e("requestmanifest",""+call.request().toString());
         call.enqueue(new Callback<responseManifestV2>() {
             @Override
             public void onResponse(Call<responseManifestV2> call, Response<responseManifestV2> response) {

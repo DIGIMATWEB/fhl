@@ -122,7 +122,7 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         if (data!=null) {
             for(dataManifestV2 manifestV2:data){
                 //TODO cambiar al valor corecto
-                String manifestname = manifestV2.getAnden().toLowerCase();
+                String manifestname = String.valueOf( manifestV2.getAndenId());
                 if(manifestname.contains(text)) {
                     mfilterList.add(manifestV2);
                 }

@@ -6,14 +6,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
-import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientNewlands;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientPep;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
-import com.fhl.sistemadedistribucionfh.nmanifestDetail.model.dataTicketsManifest;
-import com.fhl.sistemadedistribucionfh.nmanifestDetail.model.requestTicketsManifest;
-import com.fhl.sistemadedistribucionfh.nmanifestDetail.model.responseTicketsManifest;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
-import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.requestTicketsManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.responseTicketsManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.presenter.presenterTicketsmanifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.util.serviceTicketsManifest;

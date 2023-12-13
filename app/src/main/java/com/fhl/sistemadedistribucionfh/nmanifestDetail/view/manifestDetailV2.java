@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Tickets.view.tickets;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.adapter.adapterManifestDetails;
-import com.fhl.sistemadedistribucionfh.nmanifestDetail.model.dataTicketsManifest;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.presenter.presenterTicketsManifestImplV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.presenter.presenterTicketsmanifestV2;

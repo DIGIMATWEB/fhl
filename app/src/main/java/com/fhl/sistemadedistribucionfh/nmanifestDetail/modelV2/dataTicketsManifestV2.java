@@ -1,147 +1,173 @@
+
 package com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class dataTicketsManifestV2 {
-    @SerializedName("folioTicket")
-    public String folioTicket;
-    @SerializedName("folioTicketWMS")
-    public String folioTicketWMS;
-    @SerializedName("tipoFolio")
-    public String tipoFolio;
-    @SerializedName("origen")
-    public String origen;
-    @SerializedName("clienteId")
-    public Integer clienteId;
-    @SerializedName("destinatariosId")
-    public Integer destinatariosId;
-    @SerializedName("referencia")
-    public String referencia;
-    @SerializedName("solicitaServicio")
-    public String solicitaServicio;
-    @SerializedName("fechaSolicitud")
-    public String fechaSolicitud;
-    @SerializedName("tipoSolicitudId")
-    public Integer tipoSolicitudId;
-    @SerializedName("tipoEntregaId")
-    public Integer tipoEntregaId;
-    @SerializedName("estatusId")
-    public Integer estatusId;
-    @SerializedName("comentarios")
-    public String comentarios;
-    @SerializedName("tipoRecepcion")
-    public Object tipoRecepcion;
-    @SerializedName("secuencia")
-    public String secuencia;
-    @SerializedName("fechaPromesaLlegadaOrigen")
-    public String fechaPromesaLlegadaOrigen;
-    @SerializedName("fechaSalidaEstimada")
-    public Object fechaSalidaEstimada;
-    @SerializedName("fechaPromesaCarga")
-    public String fechaPromesaCarga;
-    @SerializedName("fechaPromesaEntrega")
-    public String fechaPromesaEntrega;
-    @SerializedName("fechaPromesaRetorno")
-    public String fechaPromesaRetorno;
-    @SerializedName("tiempoCarga")
-    public String tiempoCarga;
-    @SerializedName("tiempoParadaDestino")
-    public String tiempoParadaDestino;
-    @SerializedName("fechaVentanaInicio")
-    public String fechaVentanaInicio;
-    @SerializedName("fechaVentanaFin")
-    public String fechaVentanaFin;
-    @SerializedName("fechaRestriccionCirculacionInicio")
-    public String fechaRestriccionCirculacionInicio;
-    @SerializedName("fechaRestriccionCirculacionFin")
-    public String fechaRestriccionCirculacionFin;
-    @SerializedName("empaque")
-    public Object empaque;
-    @SerializedName("rutaId")
-    public Integer rutaId;
-    @SerializedName("tipoVehiculoId")
-    public Integer tipoVehiculoId;
-    @SerializedName("habilidadesVehiculo")
-    public Object habilidadesVehiculo;
-    @SerializedName("documentosVehiculo")
-    public Object documentosVehiculo;
-    @SerializedName("habilidadesOperador")
-    public Object habilidadesOperador;
-    @SerializedName("documentosOperador")
-    public Object documentosOperador;
-    @SerializedName("habilidadesAuxiliar")
-    public Object habilidadesAuxiliar;
-    @SerializedName("documentosAuxiliar")
-    public Object documentosAuxiliar;
-    @SerializedName("evidenciaSalida")
-    public Object evidenciaSalida;
-    @SerializedName("evidenciaLlegada")
-    public Object evidenciaLlegada;
-    @SerializedName("checkList")
-    public Object checkList;
-    @SerializedName("maniobras")
-    public Integer maniobras;
-    @SerializedName("peligroso")
-    public Object peligroso;
-    @SerializedName("custodia")
-    public String custodia;
-    @SerializedName("custodiaArmada")
-    public String custodiaArmada;
-    @SerializedName("tipoCustodiaId")
-    public Integer tipoCustodiaId;
-    @SerializedName("requiereEvidenciaSeguroSocial")
-    public String requiereEvidenciaSeguroSocial;
-    @SerializedName("seguro")
-    public Boolean seguro;
-    @SerializedName("servicioCobro")
-    public Boolean servicioCobro;
-    @SerializedName("servicioAdicional")
-    public Object servicioAdicional;
-    @SerializedName("recepcionTicket")
-    public Object recepcionTicket;
-    @SerializedName("asignacionManifiesto")
-    public Object asignacionManifiesto;
-    @SerializedName("inicioEscaneoRecepcionProducto")
-    public Object inicioEscaneoRecepcionProducto;
-    @SerializedName("finEscaneoRecepcionProducto")
-    public Object finEscaneoRecepcionProducto;
-    @SerializedName("inicioEntregaProducto")
-    public Object inicioEntregaProducto;
-    @SerializedName("finEntregaProducto")
-    public Object finEntregaProducto;
-    @SerializedName("usuario")
-    public Object usuario;
-    @SerializedName("cliente")
-    public Object cliente;
-    @SerializedName("destinatarios")
-    public Object destinatarios;
-    @SerializedName("tipoVehiculo")
-    public Object tipoVehiculo;
-    @SerializedName("ruta")
-    public Object ruta;
-    @SerializedName("tipoCustodia")
-    public Object tipoCustodia;
-    @SerializedName("destinatariosClienteId")
-    public Integer destinatariosClienteId;
-    @SerializedName("cantidad")
-    public Integer cantidad;
-    @SerializedName("sumaAsegurada")
-    public Integer sumaAsegurada;
-    @SerializedName("seguroId")
-    public Object seguroId;
-    @SerializedName("id")
-    public Integer id;
-    @SerializedName("trail")
-    public Object trail;
-    @SerializedName("fechaCreacion")
-    public String fechaCreacion;
-    @SerializedName("eliminado")
-    public boolean eliminado;
-    @SerializedName("esNuevo")
-    public boolean esNuevo;
 
-    public dataTicketsManifestV2(String folioTicket, String folioTicketWMS, String tipoFolio, String origen, Integer clienteId, Integer destinatariosId, String referencia, String solicitaServicio, String fechaSolicitud, Integer tipoSolicitudId, Integer tipoEntregaId, Integer estatusId, String comentarios, Object tipoRecepcion, String secuencia, String fechaPromesaLlegadaOrigen, Object fechaSalidaEstimada, String fechaPromesaCarga, String fechaPromesaEntrega, String fechaPromesaRetorno, String tiempoCarga, String tiempoParadaDestino, String fechaVentanaInicio, String fechaVentanaFin, String fechaRestriccionCirculacionInicio, String fechaRestriccionCirculacionFin, Object empaque, Integer rutaId, Integer tipoVehiculoId, Object habilidadesVehiculo, Object documentosVehiculo, Object habilidadesOperador, Object documentosOperador, Object habilidadesAuxiliar, Object documentosAuxiliar, Object evidenciaSalida, Object evidenciaLlegada, Object checkList, Integer maniobras, Object peligroso, String custodia, String custodiaArmada, Integer tipoCustodiaId, String requiereEvidenciaSeguroSocial, Boolean seguro, Boolean servicioCobro, Object servicioAdicional, Object recepcionTicket, Object asignacionManifiesto, Object inicioEscaneoRecepcionProducto, Object finEscaneoRecepcionProducto, Object inicioEntregaProducto, Object finEntregaProducto, Object usuario, Object cliente, Object destinatarios, Object tipoVehiculo, Object ruta, Object tipoCustodia, Integer destinatariosClienteId, Integer cantidad, Integer sumaAsegurada, Object seguroId, Integer id, Object trail, String fechaCreacion, boolean eliminado, boolean esNuevo) {
+    @SerializedName("DespachoId")
+    @Expose
+    private Integer despachoId;
+    @SerializedName("TicketId")
+    @Expose
+    private Integer ticketId;
+    @SerializedName("FolioTicket")
+    @Expose
+    private String folioTicket;
+    @SerializedName("FolioTicketWMS")
+    @Expose
+    private String folioTicketWMS;
+    @SerializedName("TipoFolio")
+    @Expose
+    private String tipoFolio;
+    @SerializedName("Origen")
+    @Expose
+    private String origen;
+    @SerializedName("ClienteId")
+    @Expose
+    private Integer clienteId;
+    @SerializedName("DestinatariosId")
+    @Expose
+    private Integer destinatariosId;
+    @SerializedName("Referencia")
+    @Expose
+    private String referencia;
+    @SerializedName("SolicitaServicio")
+    @Expose
+    private String solicitaServicio;
+    @SerializedName("FechaSolicitud")
+    @Expose
+    private String fechaSolicitud;
+    @SerializedName("TipoSolicitudId")
+    @Expose
+    private Integer tipoSolicitudId;
+    @SerializedName("TipoEntregaId")
+    @Expose
+    private Integer tipoEntregaId;
+    @SerializedName("Comentarios")
+    @Expose
+    private String comentarios;
+    @SerializedName("EstatusId")
+    @Expose
+    private Integer estatusId;
+    @SerializedName("Secuencia")
+    @Expose
+    private String secuencia;
+    @SerializedName("FechaPromesaLlegadaOrigen")
+    @Expose
+    private String fechaPromesaLlegadaOrigen;
+    @SerializedName("FechaPromesaCarga")
+    @Expose
+    private String fechaPromesaCarga;
+    @SerializedName("FechaPromesaEntrega")
+    @Expose
+    private String fechaPromesaEntrega;
+    @SerializedName("FechaPromesaRetorno")
+    @Expose
+    private String fechaPromesaRetorno;
+    @SerializedName("TiempoCarga")
+    @Expose
+    private String tiempoCarga;
+    @SerializedName("TiempoParadaDestino")
+    @Expose
+    private String tiempoParadaDestino;
+    @SerializedName("FechaVentanaInicio")
+    @Expose
+    private String fechaVentanaInicio;
+    @SerializedName("FechaVentanaFin")
+    @Expose
+    private String fechaVentanaFin;
+    @SerializedName("FechaRestriccionCirculacionInicio")
+    @Expose
+    private String fechaRestriccionCirculacionInicio;
+    @SerializedName("FechaRestriccionCirculacionFin")
+    @Expose
+    private String fechaRestriccionCirculacionFin;
+    @SerializedName("Cantidad")
+    @Expose
+    private Integer cantidad;
+    @SerializedName("SumaAsegurada")
+    @Expose
+    private Integer sumaAsegurada;
+    @SerializedName("RutaId")
+    @Expose
+    private Integer rutaId;
+    @SerializedName("TipoVehiculoId")
+    @Expose
+    private Integer tipoVehiculoId;
+    @SerializedName("Maniobras")
+    @Expose
+    private Integer maniobras;
+    @SerializedName("Custodia")
+    @Expose
+    private String custodia;
+    @SerializedName("CustodiaArmada")
+    @Expose
+    private String custodiaArmada;
+    @SerializedName("TipoCustodiaId")
+    @Expose
+    private Integer tipoCustodiaId;
+    @SerializedName("RequiereEvidenciaSeguroSocial")
+    @Expose
+    private String requiereEvidenciaSeguroSocial;
+    @SerializedName("Seguro")
+    @Expose
+    private Boolean seguro;
+    @SerializedName("ServicioCobro")
+    @Expose
+    private Boolean servicioCobro;
+    @SerializedName("DestinatariosClienteId")
+    @Expose
+    private Integer destinatariosClienteId;
+
+
+
+    /**
+     * 
+     * @param seguro
+     * @param fechaPromesaRetorno
+     * @param rutaId
+     * @param tipoFolio
+     * @param fechaVentanaFin
+     * @param custodiaArmada
+     * @param folioTicket
+     * @param origen
+     * @param estatusId
+     * @param tipoSolicitudId
+     * @param fechaRestriccionCirculacionInicio
+     * @param destinatariosClienteId
+     * @param tiempoCarga
+     * @param fechaRestriccionCirculacionFin
+     * @param fechaPromesaLlegadaOrigen
+     * @param maniobras
+     * @param fechaVentanaInicio
+     * @param comentarios
+     * @param destinatariosId
+     * @param solicitaServicio
+     * @param custodia
+     * @param fechaSolicitud
+     * @param secuencia
+     * @param fechaPromesaCarga
+     * @param tipoEntregaId
+     * @param folioTicketWMS
+     * @param sumaAsegurada
+     * @param tipoVehiculoId
+     * @param clienteId
+     * @param tiempoParadaDestino
+     * @param fechaPromesaEntrega
+     * @param despachoId
+     * @param cantidad
+     * @param tipoCustodiaId
+     * @param servicioCobro
+     * @param ticketId
+     * @param referencia
+     * @param requiereEvidenciaSeguroSocial
+     */
+    public dataTicketsManifestV2(Integer despachoId, Integer ticketId, String folioTicket, String folioTicketWMS, String tipoFolio, String origen, Integer clienteId, Integer destinatariosId, String referencia, String solicitaServicio, String fechaSolicitud, Integer tipoSolicitudId, Integer tipoEntregaId, String comentarios, Integer estatusId, String secuencia, String fechaPromesaLlegadaOrigen, String fechaPromesaCarga, String fechaPromesaEntrega, String fechaPromesaRetorno, String tiempoCarga, String tiempoParadaDestino, String fechaVentanaInicio, String fechaVentanaFin, String fechaRestriccionCirculacionInicio, String fechaRestriccionCirculacionFin, Integer cantidad, Integer sumaAsegurada, Integer rutaId, Integer tipoVehiculoId, Integer maniobras, String custodia, String custodiaArmada, Integer tipoCustodiaId, String requiereEvidenciaSeguroSocial, Boolean seguro, Boolean servicioCobro, Integer destinatariosClienteId) {
         super();
+        this.despachoId = despachoId;
+        this.ticketId = ticketId;
         this.folioTicket = folioTicket;
         this.folioTicketWMS = folioTicketWMS;
         this.tipoFolio = tipoFolio;
@@ -153,12 +179,10 @@ public class dataTicketsManifestV2 {
         this.fechaSolicitud = fechaSolicitud;
         this.tipoSolicitudId = tipoSolicitudId;
         this.tipoEntregaId = tipoEntregaId;
-        this.estatusId = estatusId;
         this.comentarios = comentarios;
-        this.tipoRecepcion = tipoRecepcion;
+        this.estatusId = estatusId;
         this.secuencia = secuencia;
         this.fechaPromesaLlegadaOrigen = fechaPromesaLlegadaOrigen;
-        this.fechaSalidaEstimada = fechaSalidaEstimada;
         this.fechaPromesaCarga = fechaPromesaCarga;
         this.fechaPromesaEntrega = fechaPromesaEntrega;
         this.fechaPromesaRetorno = fechaPromesaRetorno;
@@ -168,48 +192,34 @@ public class dataTicketsManifestV2 {
         this.fechaVentanaFin = fechaVentanaFin;
         this.fechaRestriccionCirculacionInicio = fechaRestriccionCirculacionInicio;
         this.fechaRestriccionCirculacionFin = fechaRestriccionCirculacionFin;
-        this.empaque = empaque;
+        this.cantidad = cantidad;
+        this.sumaAsegurada = sumaAsegurada;
         this.rutaId = rutaId;
         this.tipoVehiculoId = tipoVehiculoId;
-        this.habilidadesVehiculo = habilidadesVehiculo;
-        this.documentosVehiculo = documentosVehiculo;
-        this.habilidadesOperador = habilidadesOperador;
-        this.documentosOperador = documentosOperador;
-        this.habilidadesAuxiliar = habilidadesAuxiliar;
-        this.documentosAuxiliar = documentosAuxiliar;
-        this.evidenciaSalida = evidenciaSalida;
-        this.evidenciaLlegada = evidenciaLlegada;
-        this.checkList = checkList;
         this.maniobras = maniobras;
-        this.peligroso = peligroso;
         this.custodia = custodia;
         this.custodiaArmada = custodiaArmada;
         this.tipoCustodiaId = tipoCustodiaId;
         this.requiereEvidenciaSeguroSocial = requiereEvidenciaSeguroSocial;
         this.seguro = seguro;
         this.servicioCobro = servicioCobro;
-        this.servicioAdicional = servicioAdicional;
-        this.recepcionTicket = recepcionTicket;
-        this.asignacionManifiesto = asignacionManifiesto;
-        this.inicioEscaneoRecepcionProducto = inicioEscaneoRecepcionProducto;
-        this.finEscaneoRecepcionProducto = finEscaneoRecepcionProducto;
-        this.inicioEntregaProducto = inicioEntregaProducto;
-        this.finEntregaProducto = finEntregaProducto;
-        this.usuario = usuario;
-        this.cliente = cliente;
-        this.destinatarios = destinatarios;
-        this.tipoVehiculo = tipoVehiculo;
-        this.ruta = ruta;
-        this.tipoCustodia = tipoCustodia;
         this.destinatariosClienteId = destinatariosClienteId;
-        this.cantidad = cantidad;
-        this.sumaAsegurada = sumaAsegurada;
-        this.seguroId = seguroId;
-        this.id = id;
-        this.trail = trail;
-        this.fechaCreacion = fechaCreacion;
-        this.eliminado = eliminado;
-        this.esNuevo = esNuevo;
+    }
+
+    public Integer getDespachoId() {
+        return despachoId;
+    }
+
+    public void setDespachoId(Integer despachoId) {
+        this.despachoId = despachoId;
+    }
+
+    public Integer getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(Integer ticketId) {
+        this.ticketId = ticketId;
     }
 
     public String getFolioTicket() {
@@ -300,14 +310,6 @@ public class dataTicketsManifestV2 {
         this.tipoEntregaId = tipoEntregaId;
     }
 
-    public Integer getEstatusId() {
-        return estatusId;
-    }
-
-    public void setEstatusId(Integer estatusId) {
-        this.estatusId = estatusId;
-    }
-
     public String getComentarios() {
         return comentarios;
     }
@@ -316,12 +318,12 @@ public class dataTicketsManifestV2 {
         this.comentarios = comentarios;
     }
 
-    public Object getTipoRecepcion() {
-        return tipoRecepcion;
+    public Integer getEstatusId() {
+        return estatusId;
     }
 
-    public void setTipoRecepcion(Object tipoRecepcion) {
-        this.tipoRecepcion = tipoRecepcion;
+    public void setEstatusId(Integer estatusId) {
+        this.estatusId = estatusId;
     }
 
     public String getSecuencia() {
@@ -338,14 +340,6 @@ public class dataTicketsManifestV2 {
 
     public void setFechaPromesaLlegadaOrigen(String fechaPromesaLlegadaOrigen) {
         this.fechaPromesaLlegadaOrigen = fechaPromesaLlegadaOrigen;
-    }
-
-    public Object getFechaSalidaEstimada() {
-        return fechaSalidaEstimada;
-    }
-
-    public void setFechaSalidaEstimada(Object fechaSalidaEstimada) {
-        this.fechaSalidaEstimada = fechaSalidaEstimada;
     }
 
     public String getFechaPromesaCarga() {
@@ -420,12 +414,20 @@ public class dataTicketsManifestV2 {
         this.fechaRestriccionCirculacionFin = fechaRestriccionCirculacionFin;
     }
 
-    public Object getEmpaque() {
-        return empaque;
+    public Integer getCantidad() {
+        return cantidad;
     }
 
-    public void setEmpaque(Object empaque) {
-        this.empaque = empaque;
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public Integer getSumaAsegurada() {
+        return sumaAsegurada;
+    }
+
+    public void setSumaAsegurada(Integer sumaAsegurada) {
+        this.sumaAsegurada = sumaAsegurada;
     }
 
     public Integer getRutaId() {
@@ -444,92 +446,12 @@ public class dataTicketsManifestV2 {
         this.tipoVehiculoId = tipoVehiculoId;
     }
 
-    public Object getHabilidadesVehiculo() {
-        return habilidadesVehiculo;
-    }
-
-    public void setHabilidadesVehiculo(Object habilidadesVehiculo) {
-        this.habilidadesVehiculo = habilidadesVehiculo;
-    }
-
-    public Object getDocumentosVehiculo() {
-        return documentosVehiculo;
-    }
-
-    public void setDocumentosVehiculo(Object documentosVehiculo) {
-        this.documentosVehiculo = documentosVehiculo;
-    }
-
-    public Object getHabilidadesOperador() {
-        return habilidadesOperador;
-    }
-
-    public void setHabilidadesOperador(Object habilidadesOperador) {
-        this.habilidadesOperador = habilidadesOperador;
-    }
-
-    public Object getDocumentosOperador() {
-        return documentosOperador;
-    }
-
-    public void setDocumentosOperador(Object documentosOperador) {
-        this.documentosOperador = documentosOperador;
-    }
-
-    public Object getHabilidadesAuxiliar() {
-        return habilidadesAuxiliar;
-    }
-
-    public void setHabilidadesAuxiliar(Object habilidadesAuxiliar) {
-        this.habilidadesAuxiliar = habilidadesAuxiliar;
-    }
-
-    public Object getDocumentosAuxiliar() {
-        return documentosAuxiliar;
-    }
-
-    public void setDocumentosAuxiliar(Object documentosAuxiliar) {
-        this.documentosAuxiliar = documentosAuxiliar;
-    }
-
-    public Object getEvidenciaSalida() {
-        return evidenciaSalida;
-    }
-
-    public void setEvidenciaSalida(Object evidenciaSalida) {
-        this.evidenciaSalida = evidenciaSalida;
-    }
-
-    public Object getEvidenciaLlegada() {
-        return evidenciaLlegada;
-    }
-
-    public void setEvidenciaLlegada(Object evidenciaLlegada) {
-        this.evidenciaLlegada = evidenciaLlegada;
-    }
-
-    public Object getCheckList() {
-        return checkList;
-    }
-
-    public void setCheckList(Object checkList) {
-        this.checkList = checkList;
-    }
-
     public Integer getManiobras() {
         return maniobras;
     }
 
     public void setManiobras(Integer maniobras) {
         this.maniobras = maniobras;
-    }
-
-    public Object getPeligroso() {
-        return peligroso;
-    }
-
-    public void setPeligroso(Object peligroso) {
-        this.peligroso = peligroso;
     }
 
     public String getCustodia() {
@@ -580,110 +502,6 @@ public class dataTicketsManifestV2 {
         this.servicioCobro = servicioCobro;
     }
 
-    public Object getServicioAdicional() {
-        return servicioAdicional;
-    }
-
-    public void setServicioAdicional(Object servicioAdicional) {
-        this.servicioAdicional = servicioAdicional;
-    }
-
-    public Object getRecepcionTicket() {
-        return recepcionTicket;
-    }
-
-    public void setRecepcionTicket(Object recepcionTicket) {
-        this.recepcionTicket = recepcionTicket;
-    }
-
-    public Object getAsignacionManifiesto() {
-        return asignacionManifiesto;
-    }
-
-    public void setAsignacionManifiesto(Object asignacionManifiesto) {
-        this.asignacionManifiesto = asignacionManifiesto;
-    }
-
-    public Object getInicioEscaneoRecepcionProducto() {
-        return inicioEscaneoRecepcionProducto;
-    }
-
-    public void setInicioEscaneoRecepcionProducto(Object inicioEscaneoRecepcionProducto) {
-        this.inicioEscaneoRecepcionProducto = inicioEscaneoRecepcionProducto;
-    }
-
-    public Object getFinEscaneoRecepcionProducto() {
-        return finEscaneoRecepcionProducto;
-    }
-
-    public void setFinEscaneoRecepcionProducto(Object finEscaneoRecepcionProducto) {
-        this.finEscaneoRecepcionProducto = finEscaneoRecepcionProducto;
-    }
-
-    public Object getInicioEntregaProducto() {
-        return inicioEntregaProducto;
-    }
-
-    public void setInicioEntregaProducto(Object inicioEntregaProducto) {
-        this.inicioEntregaProducto = inicioEntregaProducto;
-    }
-
-    public Object getFinEntregaProducto() {
-        return finEntregaProducto;
-    }
-
-    public void setFinEntregaProducto(Object finEntregaProducto) {
-        this.finEntregaProducto = finEntregaProducto;
-    }
-
-    public Object getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Object usuario) {
-        this.usuario = usuario;
-    }
-
-    public Object getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Object cliente) {
-        this.cliente = cliente;
-    }
-
-    public Object getDestinatarios() {
-        return destinatarios;
-    }
-
-    public void setDestinatarios(Object destinatarios) {
-        this.destinatarios = destinatarios;
-    }
-
-    public Object getTipoVehiculo() {
-        return tipoVehiculo;
-    }
-
-    public void setTipoVehiculo(Object tipoVehiculo) {
-        this.tipoVehiculo = tipoVehiculo;
-    }
-
-    public Object getRuta() {
-        return ruta;
-    }
-
-    public void setRuta(Object ruta) {
-        this.ruta = ruta;
-    }
-
-    public Object getTipoCustodia() {
-        return tipoCustodia;
-    }
-
-    public void setTipoCustodia(Object tipoCustodia) {
-        this.tipoCustodia = tipoCustodia;
-    }
-
     public Integer getDestinatariosClienteId() {
         return destinatariosClienteId;
     }
@@ -692,67 +510,4 @@ public class dataTicketsManifestV2 {
         this.destinatariosClienteId = destinatariosClienteId;
     }
 
-    public Integer getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
-    }
-
-    public Integer getSumaAsegurada() {
-        return sumaAsegurada;
-    }
-
-    public void setSumaAsegurada(Integer sumaAsegurada) {
-        this.sumaAsegurada = sumaAsegurada;
-    }
-
-    public Object getSeguroId() {
-        return seguroId;
-    }
-
-    public void setSeguroId(Object seguroId) {
-        this.seguroId = seguroId;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Object getTrail() {
-        return trail;
-    }
-
-    public void setTrail(Object trail) {
-        this.trail = trail;
-    }
-
-    public String getFechaCreacion() {
-        return fechaCreacion;
-    }
-
-    public void setFechaCreacion(String fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-
-    public boolean isEliminado() {
-        return eliminado;
-    }
-
-    public void setEliminado(boolean eliminado) {
-        this.eliminado = eliminado;
-    }
-
-    public boolean isEsNuevo() {
-        return esNuevo;
-    }
-
-    public void setEsNuevo(boolean esNuevo) {
-        this.esNuevo = esNuevo;
-    }
 }

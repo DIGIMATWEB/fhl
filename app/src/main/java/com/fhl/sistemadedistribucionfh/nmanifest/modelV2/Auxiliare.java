@@ -1,14 +1,31 @@
+
 package com.fhl.sistemadedistribucionfh.nmanifest.modelV2;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class auxiliaresDataV2 {
-    @SerializedName("llave")
+public class Auxiliare {
+
+    @SerializedName("Llave")
+    @Expose
     private Integer llave;
-    @SerializedName("valor")
+    @SerializedName("Valor")
+    @Expose
     private String valor;
 
-    public auxiliaresDataV2(Integer llave, String valor) {
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Auxiliare() {
+    }
+
+    /**
+     * 
+     * @param llave
+     * @param valor
+     */
+    public Auxiliare(Integer llave, String valor) {
         super();
         this.llave = llave;
         this.valor = valor;
@@ -29,4 +46,5 @@ public class auxiliaresDataV2 {
     public void setValor(String valor) {
         this.valor = valor;
     }
+
 }

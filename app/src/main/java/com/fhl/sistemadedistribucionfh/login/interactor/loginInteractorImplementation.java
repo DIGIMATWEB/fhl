@@ -1,6 +1,7 @@
 package com.fhl.sistemadedistribucionfh.login.interactor;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClienFH;
 import com.fhl.sistemadedistribucionfh.login.model.modelLogin.requestLogin;
@@ -62,6 +63,7 @@ public class loginInteractorImplementation implements loginInteractor{
             public void onResponse(Call<responseLogin> call, Response<responseLogin> response) {
                 if(response.code()==200){
                     presenter.saveToken(response.body().getToken());
+                    Log.e("token",""+response.body().getToken());
                     presenter.succesLogin();
                 }else{
                     presenter.FailureLogin(response.message());

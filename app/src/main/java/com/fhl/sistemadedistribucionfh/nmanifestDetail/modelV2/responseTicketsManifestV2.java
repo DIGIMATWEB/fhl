@@ -1,32 +1,66 @@
+
 package com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2;
 
-import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.dataManifestV2;
+import java.util.List;
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 public class responseTicketsManifestV2 {
-    @SerializedName("totalRows")
+
+    @SerializedName("timeMeasure")
+    @Expose
+    private TimeMeasure timeMeasure;
+    @SerializedName("TotalRows")
+    @Expose
     private Integer totalRows;
-    @SerializedName("pageIndex")
-    private Integer pageIndex;
-    @SerializedName("pageSize")
-    private Integer pageSize;
-    @SerializedName("status")
+    @SerializedName("PageIndex")
+    @Expose
+    private Object pageIndex;
+    @SerializedName("PageSize")
+    @Expose
+    private Object pageSize;
+    @SerializedName("Status")
+    @Expose
     private Integer status;
-    @SerializedName("message")
+    @SerializedName("Message")
+    @Expose
     private String message;
-    @SerializedName("data")
+    @SerializedName("Data")
+    @Expose
     private List<dataTicketsManifestV2> data;
-    @SerializedName("function")
+    @SerializedName("Function")
+    @Expose
     private String function;
-    @SerializedName("parameters")
-    private String parameters;
+    @SerializedName("Parameters")
+    @Expose
+    private Object parameters;
     @SerializedName("sTiempos")
+    @Expose
     private String sTiempos;
 
-    public responseTicketsManifestV2(Integer totalRows, Integer pageIndex, Integer pageSize, Integer status, String message, List<dataTicketsManifestV2> data, String function, String parameters, String sTiempos) {
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public responseTicketsManifestV2() {
+    }
+
+    /**
+     * 
+     * @param timeMeasure
+     * @param data
+     * @param pageIndex
+     * @param sTiempos
+     * @param function
+     * @param pageSize
+     * @param totalRows
+     * @param message
+     * @param parameters
+     * @param status
+     */
+    public responseTicketsManifestV2(TimeMeasure timeMeasure, Integer totalRows, Object pageIndex, Object pageSize, Integer status, String message, List<dataTicketsManifestV2> data, String function, Object parameters, String sTiempos) {
         super();
+        this.timeMeasure = timeMeasure;
         this.totalRows = totalRows;
         this.pageIndex = pageIndex;
         this.pageSize = pageSize;
@@ -38,6 +72,14 @@ public class responseTicketsManifestV2 {
         this.sTiempos = sTiempos;
     }
 
+    public TimeMeasure getTimeMeasure() {
+        return timeMeasure;
+    }
+
+    public void setTimeMeasure(TimeMeasure timeMeasure) {
+        this.timeMeasure = timeMeasure;
+    }
+
     public Integer getTotalRows() {
         return totalRows;
     }
@@ -46,19 +88,19 @@ public class responseTicketsManifestV2 {
         this.totalRows = totalRows;
     }
 
-    public Integer getPageIndex() {
+    public Object getPageIndex() {
         return pageIndex;
     }
 
-    public void setPageIndex(Integer pageIndex) {
+    public void setPageIndex(Object pageIndex) {
         this.pageIndex = pageIndex;
     }
 
-    public Integer getPageSize() {
+    public Object getPageSize() {
         return pageSize;
     }
 
-    public void setPageSize(Integer pageSize) {
+    public void setPageSize(Object pageSize) {
         this.pageSize = pageSize;
     }
 
@@ -94,11 +136,11 @@ public class responseTicketsManifestV2 {
         this.function = function;
     }
 
-    public String getParameters() {
+    public Object getParameters() {
         return parameters;
     }
 
-    public void setParameters(String parameters) {
+    public void setParameters(Object parameters) {
         this.parameters = parameters;
     }
 
@@ -109,4 +151,5 @@ public class responseTicketsManifestV2 {
     public void setsTiempos(String sTiempos) {
         this.sTiempos = sTiempos;
     }
+
 }

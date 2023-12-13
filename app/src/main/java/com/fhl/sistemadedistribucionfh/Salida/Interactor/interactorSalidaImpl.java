@@ -6,17 +6,12 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
-import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientNewlands;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientPep;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
-import com.fhl.sistemadedistribucionfh.Salida.Model.test.Ticket;
-import com.fhl.sistemadedistribucionfh.Salida.Model.test.requestSalida;
-import com.fhl.sistemadedistribucionfh.Salida.Model.test.responseSalida;
 import com.fhl.sistemadedistribucionfh.Salida.Model.v2.ResponseSalida;
 import com.fhl.sistemadedistribucionfh.Salida.Presenter.presenterSalida;
 import com.fhl.sistemadedistribucionfh.Salida.Presenter.presenterSalidaImpl;
 import com.fhl.sistemadedistribucionfh.Salida.Util.serviceSalida;
-import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.dataManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.responseTicketsManifestV2;
 

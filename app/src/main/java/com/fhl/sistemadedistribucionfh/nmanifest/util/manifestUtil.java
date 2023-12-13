@@ -3,7 +3,6 @@ package com.fhl.sistemadedistribucionfh.nmanifest.util;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitEndPoints;
 import com.fhl.sistemadedistribucionfh.nmanifest.model.requestManifest;
 import com.fhl.sistemadedistribucionfh.nmanifest.model.responseManifest;
-import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.requestManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.responseManifestV2;
 
 import retrofit2.Call;

@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import com.fhl.sistemadedistribucionfh.R;
-import com.fhl.sistemadedistribucionfh.nmanifestDetail.model.dataTicketsManifest;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.view.manifestDetailV2;
 

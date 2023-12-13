@@ -1,113 +1,138 @@
+
 package com.fhl.sistemadedistribucionfh.nmanifest.modelV2;
 
+import java.util.List;
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 public class dataManifestV2 {
-    @SerializedName("auxiliares")
-    private List<auxiliaresDataV2> auxiliares;
-    @SerializedName("serviciosAdicionales")
-    private List<serviciosAdicionalesDataV2> serviciosAdicionales;
-    @SerializedName("folioDespacho")
-    private String folioDespacho;
-    @SerializedName("borrador")
-    private String borrador;
-    @SerializedName("origen")
-    private String origen;
-    @SerializedName("destino")
-    private String destino;
-    @SerializedName("vehiculoId")
-    private Integer vehiculoId;
-    @SerializedName("vehiculoTercero")
-    private String vehiculoTercero;
-    @SerializedName("remolqueId")
-    private Integer remolqueId;
-    @SerializedName("operadorId")
-    private Integer operadorId;
-    @SerializedName("custodia")
-    private Boolean custodia;
-    @SerializedName("peligroso")
-    private Boolean peligroso;
-    @SerializedName("rutaId")
-    private Integer rutaId;
-    @SerializedName("andenId")
-    private Integer andenId;
-    @SerializedName("estatusId")
-    private Integer estatusId;
-    @SerializedName("usuario")
-    private String usuario;
-    @SerializedName("ocupacionEfectiva")
-    private String ocupacionEfectiva;
-    @SerializedName("tiempoEntrega")
-    private String tiempoEntrega;
-    @SerializedName("vehiculo")
-    private VehiculoDataV2 vehiculo;
-    @SerializedName("remolque")
-    private String remolque;
-    @SerializedName("operador")
-    private String operador;
-    @SerializedName("ruta")
-    private String ruta;
-    @SerializedName("anden")
-    private String anden;
-    @SerializedName("id")
-    private Integer id;
-    @SerializedName("trail")
-    private String trail;
-    @SerializedName("fechaCreacion")
-    private String fechaCreacion;
-    @SerializedName("eliminado")
-    private Boolean eliminado;
-    @SerializedName("esNuevo")
-    private Boolean esNuevo;
 
-    public dataManifestV2(List<auxiliaresDataV2> auxiliares, List<serviciosAdicionalesDataV2> serviciosAdicionales, String folioDespacho, String borrador, String origen, String destino, Integer vehiculoId, String vehiculoTercero, Integer remolqueId, Integer operadorId, Boolean custodia, Boolean peligroso, Integer rutaId, Integer andenId, Integer estatusId, String usuario, String ocupacionEfectiva, String tiempoEntrega, VehiculoDataV2 vehiculo, String remolque, String operador, String ruta, String anden, Integer id, String trail, String fechaCreacion, Boolean eliminado, Boolean esNuevo) {
+    @SerializedName("Id")
+    @Expose
+    private Integer id;
+    @SerializedName("FolioDespacho")
+    @Expose
+    private String folioDespacho;
+    @SerializedName("Origen")
+    @Expose
+    private String origen;
+    @SerializedName("Destino")
+    @Expose
+    private String destino;
+    @SerializedName("VehiculoTercero")
+    @Expose
+    private String vehiculoTercero;
+    @SerializedName("OperadorId")
+    @Expose
+    private Integer operadorId;
+    @SerializedName("Operadores")
+    @Expose
+    private Operadores operadores;
+    @SerializedName("Custodia")
+    @Expose
+    private Boolean custodia;
+    @SerializedName("Peligroso")
+    @Expose
+    private Boolean peligroso;
+    @SerializedName("RutaId")
+    @Expose
+    private Integer rutaId;
+    @SerializedName("AndenId")
+    @Expose
+    private Integer andenId;
+    @SerializedName("EstatusId")
+    @Expose
+    private Integer estatusId;
+    @SerializedName("Estatus")
+    @Expose
+    private Estatus estatus;
+    @SerializedName("Usuario")
+    @Expose
+    private String usuario;
+    @SerializedName("FechaCreacion")
+    @Expose
+    private String fechaCreacion;
+    @SerializedName("OcupacionEfectiva")
+    @Expose
+    private String ocupacionEfectiva;
+    @SerializedName("TiempoEntrega")
+    @Expose
+    private String tiempoEntrega;
+    @SerializedName("ServiciosAdicionales")
+    @Expose
+    private List<ServiciosAdicionale> serviciosAdicionales;
+    @SerializedName("Auxiliares")
+    @Expose
+    private List<Auxiliare> auxiliares;
+    @SerializedName("VehiculoId")
+    @Expose
+    private Integer vehiculoId;
+    @SerializedName("Vehiculo")
+    @Expose
+    private Vehiculo vehiculo;
+
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public dataManifestV2() {
+    }
+
+    /**
+     * 
+     * @param custodia
+     * @param ocupacionEfectiva
+     * @param vehiculoTercero
+     * @param operadores
+     * @param rutaId
+     * @param serviciosAdicionales
+     * @param origen
+     * @param estatusId
+     * @param vehiculo
+     * @param folioDespacho
+     * @param operadorId
+     * @param estatus
+     * @param tiempoEntrega
+     * @param vehiculoId
+     * @param auxiliares
+     * @param peligroso
+     * @param andenId
+     * @param fechaCreacion
+     * @param usuario
+     * @param id
+     * @param destino
+     */
+    public dataManifestV2(Integer id, String folioDespacho, String origen, String destino, String vehiculoTercero, Integer operadorId, Operadores operadores, Boolean custodia, Boolean peligroso, Integer rutaId, Integer andenId, Integer estatusId, Estatus estatus, String usuario, String fechaCreacion, String ocupacionEfectiva, String tiempoEntrega, List<ServiciosAdicionale> serviciosAdicionales, List<Auxiliare> auxiliares, Integer vehiculoId, Vehiculo vehiculo) {
         super();
-        this.auxiliares = auxiliares;
-        this.serviciosAdicionales = serviciosAdicionales;
+        this.id = id;
         this.folioDespacho = folioDespacho;
-        this.borrador = borrador;
         this.origen = origen;
         this.destino = destino;
-        this.vehiculoId = vehiculoId;
         this.vehiculoTercero = vehiculoTercero;
-        this.remolqueId = remolqueId;
         this.operadorId = operadorId;
+        this.operadores = operadores;
         this.custodia = custodia;
         this.peligroso = peligroso;
         this.rutaId = rutaId;
         this.andenId = andenId;
         this.estatusId = estatusId;
+        this.estatus = estatus;
         this.usuario = usuario;
+        this.fechaCreacion = fechaCreacion;
         this.ocupacionEfectiva = ocupacionEfectiva;
         this.tiempoEntrega = tiempoEntrega;
-        this.vehiculo = vehiculo;
-        this.remolque = remolque;
-        this.operador = operador;
-        this.ruta = ruta;
-        this.anden = anden;
-        this.id = id;
-        this.trail = trail;
-        this.fechaCreacion = fechaCreacion;
-        this.eliminado = eliminado;
-        this.esNuevo = esNuevo;
-    }
-
-    public List<auxiliaresDataV2> getAuxiliares() {
-        return auxiliares;
-    }
-
-    public void setAuxiliares(List<auxiliaresDataV2> auxiliares) {
-        this.auxiliares = auxiliares;
-    }
-
-    public List<serviciosAdicionalesDataV2> getServiciosAdicionales() {
-        return serviciosAdicionales;
-    }
-
-    public void setServiciosAdicionales(List<serviciosAdicionalesDataV2> serviciosAdicionales) {
         this.serviciosAdicionales = serviciosAdicionales;
+        this.auxiliares = auxiliares;
+        this.vehiculoId = vehiculoId;
+        this.vehiculo = vehiculo;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getFolioDespacho() {
@@ -116,14 +141,6 @@ public class dataManifestV2 {
 
     public void setFolioDespacho(String folioDespacho) {
         this.folioDespacho = folioDespacho;
-    }
-
-    public String getBorrador() {
-        return borrador;
-    }
-
-    public void setBorrador(String borrador) {
-        this.borrador = borrador;
     }
 
     public String getOrigen() {
@@ -142,14 +159,6 @@ public class dataManifestV2 {
         this.destino = destino;
     }
 
-    public Integer getVehiculoId() {
-        return vehiculoId;
-    }
-
-    public void setVehiculoId(Integer vehiculoId) {
-        this.vehiculoId = vehiculoId;
-    }
-
     public String getVehiculoTercero() {
         return vehiculoTercero;
     }
@@ -158,20 +167,20 @@ public class dataManifestV2 {
         this.vehiculoTercero = vehiculoTercero;
     }
 
-    public Integer getRemolqueId() {
-        return remolqueId;
-    }
-
-    public void setRemolqueId(Integer remolqueId) {
-        this.remolqueId = remolqueId;
-    }
-
     public Integer getOperadorId() {
         return operadorId;
     }
 
     public void setOperadorId(Integer operadorId) {
         this.operadorId = operadorId;
+    }
+
+    public Operadores getOperadores() {
+        return operadores;
+    }
+
+    public void setOperadores(Operadores operadores) {
+        this.operadores = operadores;
     }
 
     public Boolean getCustodia() {
@@ -214,12 +223,28 @@ public class dataManifestV2 {
         this.estatusId = estatusId;
     }
 
+    public Estatus getEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(Estatus estatus) {
+        this.estatus = estatus;
+    }
+
     public String getUsuario() {
         return usuario;
     }
 
     public void setUsuario(String usuario) {
         this.usuario = usuario;
+    }
+
+    public String getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(String fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
     }
 
     public String getOcupacionEfectiva() {
@@ -238,83 +263,36 @@ public class dataManifestV2 {
         this.tiempoEntrega = tiempoEntrega;
     }
 
-    public VehiculoDataV2 getVehiculo() {
+    public List<ServiciosAdicionale> getServiciosAdicionales() {
+        return serviciosAdicionales;
+    }
+
+    public void setServiciosAdicionales(List<ServiciosAdicionale> serviciosAdicionales) {
+        this.serviciosAdicionales = serviciosAdicionales;
+    }
+
+    public List<Auxiliare> getAuxiliares() {
+        return auxiliares;
+    }
+
+    public void setAuxiliares(List<Auxiliare> auxiliares) {
+        this.auxiliares = auxiliares;
+    }
+
+    public Integer getVehiculoId() {
+        return vehiculoId;
+    }
+
+    public void setVehiculoId(Integer vehiculoId) {
+        this.vehiculoId = vehiculoId;
+    }
+
+    public Vehiculo getVehiculo() {
         return vehiculo;
     }
 
-    public void setVehiculo(VehiculoDataV2 vehiculo) {
+    public void setVehiculo(Vehiculo vehiculo) {
         this.vehiculo = vehiculo;
     }
 
-    public String getRemolque() {
-        return remolque;
-    }
-
-    public void setRemolque(String remolque) {
-        this.remolque = remolque;
-    }
-
-    public String getOperador() {
-        return operador;
-    }
-
-    public void setOperador(String operador) {
-        this.operador = operador;
-    }
-
-    public String getRuta() {
-        return ruta;
-    }
-
-    public void setRuta(String ruta) {
-        this.ruta = ruta;
-    }
-
-    public String getAnden() {
-        return anden;
-    }
-
-    public void setAnden(String anden) {
-        this.anden = anden;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTrail() {
-        return trail;
-    }
-
-    public void setTrail(String trail) {
-        this.trail = trail;
-    }
-
-    public String getFechaCreacion() {
-        return fechaCreacion;
-    }
-
-    public void setFechaCreacion(String fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-
-    public Boolean getEliminado() {
-        return eliminado;
-    }
-
-    public void setEliminado(Boolean eliminado) {
-        this.eliminado = eliminado;
-    }
-
-    public Boolean getEsNuevo() {
-        return esNuevo;
-    }
-
-    public void setEsNuevo(Boolean esNuevo) {
-        this.esNuevo = esNuevo;
-    }
 }

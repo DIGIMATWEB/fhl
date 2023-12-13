@@ -1,36 +1,75 @@
+
 package com.fhl.sistemadedistribucionfh.nmanifest.modelV2;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class serviciosAdicionalesDataV2 {
-    @SerializedName("id")
-    private Integer id;
-    @SerializedName("descripcion")
-    private String descripcion;
-    @SerializedName("cantidad")
-    private String cantidad;
-    @SerializedName("costoUnitario")
-    private String costoUnitario;
-    @SerializedName("divisa")
-    private Integer divisa;
-    @SerializedName("servicioAdicionalId")
-    private Integer servicioAdicionalId;
-    @SerializedName("editDetalle")
-    private Boolean editDetalle;
-    @SerializedName("descripcionError")
-    private Boolean descripcionError;
-    @SerializedName("descripcionErrorTexto")
-    private String descripcionErrorTexto;
-    @SerializedName("cantidadError")
-    private Boolean cantidadError;
-    @SerializedName("cantidadErrorTexto")
-    private String cantidadErrorTexto;
-    @SerializedName("costoUnitarioError")
-    private Boolean costoUnitarioError;
-    @SerializedName("costoUnitarioErrorTexto")
-    private String costoUnitarioErrorTexto;
+public class ServiciosAdicionale {
 
-    public serviciosAdicionalesDataV2(Integer id, String descripcion, String cantidad, String costoUnitario, Integer divisa, Integer servicioAdicionalId, Boolean editDetalle, Boolean descripcionError, String descripcionErrorTexto, Boolean cantidadError, String cantidadErrorTexto, Boolean costoUnitarioError, String costoUnitarioErrorTexto) {
+    @SerializedName("Id")
+    @Expose
+    private Object id;
+    @SerializedName("Descripcion")
+    @Expose
+    private Object descripcion;
+    @SerializedName("Cantidad")
+    @Expose
+    private String cantidad;
+    @SerializedName("CostoUnitario")
+    @Expose
+    private String costoUnitario;
+    @SerializedName("Divisa")
+    @Expose
+    private Integer divisa;
+    @SerializedName("ServicioAdicionalId")
+    @Expose
+    private Integer servicioAdicionalId;
+    @SerializedName("EditDetalle")
+    @Expose
+    private Boolean editDetalle;
+    @SerializedName("DescripcionError")
+    @Expose
+    private Boolean descripcionError;
+    @SerializedName("DescripcionErrorTexto")
+    @Expose
+    private Object descripcionErrorTexto;
+    @SerializedName("CantidadError")
+    @Expose
+    private Boolean cantidadError;
+    @SerializedName("CantidadErrorTexto")
+    @Expose
+    private Object cantidadErrorTexto;
+    @SerializedName("CostoUnitarioError")
+    @Expose
+    private Boolean costoUnitarioError;
+    @SerializedName("CostoUnitarioErrorTexto")
+    @Expose
+    private Object costoUnitarioErrorTexto;
+
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public ServiciosAdicionale() {
+    }
+
+    /**
+     * 
+     * @param descripcion
+     * @param divisa
+     * @param servicioAdicionalId
+     * @param costoUnitarioError
+     * @param costoUnitario
+     * @param descripcionErrorTexto
+     * @param costoUnitarioErrorTexto
+     * @param cantidadError
+     * @param id
+     * @param cantidad
+     * @param editDetalle
+     * @param descripcionError
+     * @param cantidadErrorTexto
+     */
+    public ServiciosAdicionale(Object id, Object descripcion, String cantidad, String costoUnitario, Integer divisa, Integer servicioAdicionalId, Boolean editDetalle, Boolean descripcionError, Object descripcionErrorTexto, Boolean cantidadError, Object cantidadErrorTexto, Boolean costoUnitarioError, Object costoUnitarioErrorTexto) {
         super();
         this.id = id;
         this.descripcion = descripcion;
@@ -47,19 +86,19 @@ public class serviciosAdicionalesDataV2 {
         this.costoUnitarioErrorTexto = costoUnitarioErrorTexto;
     }
 
-    public Integer getId() {
+    public Object getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Object id) {
         this.id = id;
     }
 
-    public String getDescripcion() {
+    public Object getDescripcion() {
         return descripcion;
     }
 
-    public void setDescripcion(String descripcion) {
+    public void setDescripcion(Object descripcion) {
         this.descripcion = descripcion;
     }
 
@@ -111,11 +150,11 @@ public class serviciosAdicionalesDataV2 {
         this.descripcionError = descripcionError;
     }
 
-    public String getDescripcionErrorTexto() {
+    public Object getDescripcionErrorTexto() {
         return descripcionErrorTexto;
     }
 
-    public void setDescripcionErrorTexto(String descripcionErrorTexto) {
+    public void setDescripcionErrorTexto(Object descripcionErrorTexto) {
         this.descripcionErrorTexto = descripcionErrorTexto;
     }
 
@@ -127,11 +166,11 @@ public class serviciosAdicionalesDataV2 {
         this.cantidadError = cantidadError;
     }
 
-    public String getCantidadErrorTexto() {
+    public Object getCantidadErrorTexto() {
         return cantidadErrorTexto;
     }
 
-    public void setCantidadErrorTexto(String cantidadErrorTexto) {
+    public void setCantidadErrorTexto(Object cantidadErrorTexto) {
         this.cantidadErrorTexto = cantidadErrorTexto;
     }
 
@@ -143,11 +182,12 @@ public class serviciosAdicionalesDataV2 {
         this.costoUnitarioError = costoUnitarioError;
     }
 
-    public String getCostoUnitarioErrorTexto() {
+    public Object getCostoUnitarioErrorTexto() {
         return costoUnitarioErrorTexto;
     }
 
-    public void setCostoUnitarioErrorTexto(String costoUnitarioErrorTexto) {
+    public void setCostoUnitarioErrorTexto(Object costoUnitarioErrorTexto) {
         this.costoUnitarioErrorTexto = costoUnitarioErrorTexto;
     }
+
 }
