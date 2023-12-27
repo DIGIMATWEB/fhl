@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Tickets.Adapter.ticketsAdapter;
-import com.fhl.sistemadedistribucionfh.Tickets.model.dataDetailTickets;
+import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.dataDetailTickets;
 import com.fhl.sistemadedistribucionfh.Tickets.presenter.presenterTicketsDetail;
 import com.fhl.sistemadedistribucionfh.Tickets.presenter.presenterTicketsDetailImpl;
 import com.fhl.sistemadedistribucionfh.cerrarViaje.view.cerrarViaje;

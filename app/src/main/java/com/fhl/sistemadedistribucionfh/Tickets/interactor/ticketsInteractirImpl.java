@@ -6,13 +6,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
-import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClienFH;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientPep;
-import com.fhl.sistemadedistribucionfh.Tickets.model.ResoponseTicketsDetail;
+import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.ResoponseTicketsDetail;
 import com.fhl.sistemadedistribucionfh.Tickets.presenter.presenterTicketsDetail;
-import com.fhl.sistemadedistribucionfh.Tickets.presenter.presenterTicketsDetailImpl;
 import com.fhl.sistemadedistribucionfh.Tickets.util.ticketsService;
-import com.fhl.sistemadedistribucionfh.login.model.modelProfile.profileResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,7 +39,7 @@ public class ticketsInteractirImpl implements ticketsInteractor{
     }
 
     private void requestDetailTicket(String token) {
-        Call<ResoponseTicketsDetail> call=service.getTicketsByManifiesto(token,"10871872","00000002");
+        Call<ResoponseTicketsDetail> call=service.getTicketsByManifiesto(token,"10871872","2");
         call.enqueue(new Callback<ResoponseTicketsDetail>() {
             @Override
             public void onResponse(Call<ResoponseTicketsDetail> call, Response<ResoponseTicketsDetail> response) {

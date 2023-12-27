@@ -1,16 +1,14 @@
 
-package com.fhl.sistemadedistribucionfh.Tickets.model;
-
+package com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+public class Check {
 
-public class EvidenciaSalida {
-
-    @SerializedName("llave")
+    @SerializedName("Llave")
     @Expose
     private Integer llave;
-    @SerializedName("valor")
+    @SerializedName("Valor")
     @Expose
     private String valor;
 
@@ -18,7 +16,7 @@ public class EvidenciaSalida {
      * No args constructor for use in serialization
      * 
      */
-    public EvidenciaSalida() {
+    public Check() {
     }
 
     /**
@@ -26,7 +24,7 @@ public class EvidenciaSalida {
      * @param llave
      * @param valor
      */
-    public EvidenciaSalida(Integer llave, String valor) {
+    public Check(Integer llave, String valor) {
         super();
         this.llave = llave;
         this.valor = valor;

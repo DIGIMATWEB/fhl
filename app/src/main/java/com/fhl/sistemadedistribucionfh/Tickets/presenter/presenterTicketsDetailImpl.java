@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.fhl.sistemadedistribucionfh.Tickets.interactor.ticketsInteractirImpl;
 import com.fhl.sistemadedistribucionfh.Tickets.interactor.ticketsInteractor;
-import com.fhl.sistemadedistribucionfh.Tickets.model.dataDetailTickets;
+import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.dataDetailTickets;
 import com.fhl.sistemadedistribucionfh.Tickets.view.ticketsView;
 
 import java.util.List;

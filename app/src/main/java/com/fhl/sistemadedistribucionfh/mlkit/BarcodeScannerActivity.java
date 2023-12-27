@@ -103,7 +103,8 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 }
          }else{
                 typeScanner="Validador";
-                Log.e("typeScanner","3 "+typeScanner);
+                Log.e("","3 "+typeScanner);
+                new escanearCodigos().show(getSupportFragmentManager(), "escanearCodigos");
             }
 
         Log.d(TAG, "onCreate");

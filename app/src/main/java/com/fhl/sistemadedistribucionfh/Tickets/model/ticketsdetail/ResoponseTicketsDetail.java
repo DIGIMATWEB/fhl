@@ -1,41 +1,66 @@
 
-package com.fhl.sistemadedistribucionfh.Tickets.model;
+package com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 public class ResoponseTicketsDetail {
 
-    @SerializedName("totalRows")
+    @SerializedName("timeMeasure")
+    @Expose
+    private TimeMeasure timeMeasure;
+    @SerializedName("TotalRows")
     @Expose
     private Integer totalRows;
-    @SerializedName("pageIndex")
+    @SerializedName("PageIndex")
     @Expose
     private Object pageIndex;
-    @SerializedName("pageSize")
+    @SerializedName("PageSize")
     @Expose
     private Object pageSize;
-    @SerializedName("status")
+    @SerializedName("Status")
     @Expose
     private Integer status;
-    @SerializedName("message")
+    @SerializedName("Message")
     @Expose
     private String message;
-    @SerializedName("data")
+    @SerializedName("Data")
     @Expose
     private List<dataDetailTickets> data;
-    @SerializedName("function")
+    @SerializedName("Function")
     @Expose
     private String function;
-    @SerializedName("parameters")
+    @SerializedName("Parameters")
     @Expose
     private Object parameters;
     @SerializedName("sTiempos")
     @Expose
     private String sTiempos;
 
-    public ResoponseTicketsDetail(Integer totalRows, Object pageIndex, Object pageSize, Integer status, String message, List<dataDetailTickets> data, String function, Object parameters, String sTiempos) {
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public ResoponseTicketsDetail() {
+    }
+
+    /**
+     * 
+     * @param timeMeasure
+     * @param data
+     * @param pageIndex
+     * @param sTiempos
+     * @param function
+     * @param pageSize
+     * @param totalRows
+     * @param message
+     * @param parameters
+     * @param status
+     */
+    public ResoponseTicketsDetail(TimeMeasure timeMeasure, Integer totalRows, Object pageIndex, Object pageSize, Integer status, String message, List<dataDetailTickets> data, String function, Object parameters, String sTiempos) {
         super();
+        this.timeMeasure = timeMeasure;
         this.totalRows = totalRows;
         this.pageIndex = pageIndex;
         this.pageSize = pageSize;
@@ -45,6 +70,14 @@ public class ResoponseTicketsDetail {
         this.function = function;
         this.parameters = parameters;
         this.sTiempos = sTiempos;
+    }
+
+    public TimeMeasure getTimeMeasure() {
+        return timeMeasure;
+    }
+
+    public void setTimeMeasure(TimeMeasure timeMeasure) {
+        this.timeMeasure = timeMeasure;
     }
 
     public Integer getTotalRows() {

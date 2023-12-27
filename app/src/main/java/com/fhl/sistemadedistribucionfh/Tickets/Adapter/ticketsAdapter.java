@@ -13,7 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
-import com.fhl.sistemadedistribucionfh.Tickets.model.dataDetailTickets;
+import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.dataDetailTickets;
 import com.fhl.sistemadedistribucionfh.Tickets.view.tickets;
 
 import java.util.List;
@@ -42,15 +42,15 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
         holder.ticketNum.setText(""+data.get(position).getFolioTicket());
         holder.cliente.setText(""+data.get(position).getCliente().getRazonSocial());
         holder.contacto.setText(""+data.get(position).getDestinatarios().getContacto().getNombre());
-        holder.Productos.setText(""+data.get(position).getEmpaque().get(0).getNombre());
+        holder.Productos.setText("------ "+data.get(position).getCliente().getRazonSocial());
         holder.checklist.setText(""+data.get(position).getCheckList().get(0).getValor());//considerar que pueden ser mas Valor de checklist
         holder.textAdjuntos.setText("Cantidad: "+data.get(position).getDocumentosAuxiliar().size());//todo catalogar todos los adjuntos
         holder.origen.setText(""+data.get(position).getOrigen());
-        holder.estado.setText(""+data.get(position).getEmpaque().get(0).getDestinatarios().get(0).getCiudad()+" "+data.get(position).getEmpaque().get(0).getDestinatarios().get(0).getEstado());
-        holder.salida.setText(""+data.get(position).getFechaSalidaEstimada());
+        holder.estado.setText(""+data.get(position).getOrigen());
+        //holder.salida.setText(""+data.get(position).getFechaSalidaEstimada());
         holder.regreso.setText(""+data.get(position).getFechaPromesaRetorno());
-        holder.locationDesc.setText(""+data.get(position).getEmpaque().get(0).getDestinatarios().get(0).getCiudad());
-        holder.latlongGeo.setText(""+data.get(position).getEmpaque().get(0).getDestinatarios().get(0).getCoordenadas());
+        holder.locationDesc.setText("");//+data.get(position).getEmpaque().get(0).getDestinatarios().get(0).getCiudad());
+        holder.latlongGeo.setText(""+data.get(position).getDestinatarios().getCoordenadas());
         holder.lalongReport.setText(""+data.get(position).getFechaPromesaEntrega());
         holder.cardOrder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +63,7 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return 1;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

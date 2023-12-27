@@ -2,6 +2,7 @@ package com.fhl.sistemadedistribucionfh.mainContainer.interactor;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
@@ -12,6 +13,7 @@ import com.fhl.sistemadedistribucionfh.mainContainer.model.requestMenuItems;
 import com.fhl.sistemadedistribucionfh.mainContainer.model.responseMenuItems;
 import com.fhl.sistemadedistribucionfh.mainContainer.presenter.prensentermainContainerImpl;
 import com.fhl.sistemadedistribucionfh.mainContainer.util.mainService;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -76,6 +78,9 @@ public class interactormainContainerImpl implements interactormainContainer{
             List<dataMenuItems> data=resp.getData();
             if(code== GeneralConstants.RESPONSE_CODE_OK){
                 if (data != null) {
+                    Gson gson = new Gson();
+                    String json = gson.toJson(data);
+                    Log.e("respDatamenu",""+json);
                     presenter.setMenus(data);
                    // presenter.hideDialog();
                 } else {

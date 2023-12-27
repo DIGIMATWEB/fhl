@@ -20,9 +20,9 @@ public class utilQuestionary {
             dataq.clear();
             Question q=new Question(1,"","","","","",);
             dataq.add();
-            List<Datum> data=new ArrayList<>();
+            List<dataDetailTickets> data=new ArrayList<>();
             data.clear();
-            Datum d=new Datum(1,"","",)
+            dataDetailTickets d=new dataDetailTickets(1,"","",)
             data.add()
 
             responseChecklist response=new responseChecklist(1011,"ok",);*/

@@ -1,6 +1,6 @@
 package com.fhl.sistemadedistribucionfh.Tickets.view;
 
-import com.fhl.sistemadedistribucionfh.Tickets.model.dataDetailTickets;
+import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.dataDetailTickets;
 
 import java.util.List;
 
