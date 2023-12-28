@@ -71,6 +71,7 @@ public class login extends AppCompatActivity implements View.OnClickListener,log
         SharedPreferences preferencias=getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor=preferencias.edit();
         editor.putString(GeneralConstants.TOKEN, token);
+        editor.putString(GeneralConstants.STATUS_SALIDA,"1");
         editor.commit();
     }
 

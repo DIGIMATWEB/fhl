@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,7 +37,8 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
 
     private BottomSheetBehavior bottomSheetBehavior;
     private ConstraintLayout bottomSheet;
-    private ImageView closeReasons;
+    private String codigoValidador,codigoValidador1;
+    private ImageButton imageButton;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,12 +49,25 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_reasons, container, false);
+        View view = inflater.inflate(R.layout.dialog_salida_manifest, container, false);
         getDialog().getWindow().setBackgroundDrawableResource(R.color.customTransparent2);
         setCancelable(true);
+        Bundle args = getArguments();
+        if (args != null) {
+            codigoValidador= args.getString("qrCode");
+            codigoValidador1= args.getString("statusRecepcion");
+        }
         initDialog(view);
+
         //setFonts();
         return view;
+    }
+    private void initDialog(View view) {
+        // presenter= new dialogReasonsPresenterImpl(this,getContext());
+        imageButton=view.findViewById(R.id.imageButton);
+        imageButton.setOnClickListener(this);
+        bottomSheet=view.findViewById(R.id.bottomSheetZones);
+        Toast.makeText(getContext(), "qrCode: "+codigoValidador+" status de recepcion: "+codigoValidador1, Toast.LENGTH_SHORT).show();
     }
     private void bottomSheetSettings() {
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
@@ -88,7 +104,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
         // For example, you can restart the camera process in BarcodeScannerActivity
         if (getActivity() instanceof BarcodeScannerActivity) {
             BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
-            barcodeScannerActivity.restartCameraProcess();
+            barcodeScannerActivity.restartCameraProcess(codigoValidador1);
         }
     }
     @Override
@@ -96,12 +112,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
         super.onActivityCreated(savedInstanceState);
         getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimationBottonSheet;
     }
-    private void initDialog(View view) {
-       // presenter= new dialogReasonsPresenterImpl(this,getContext());
-        closeReasons=view.findViewById(R.id.closeReasons);
-        closeReasons.setOnClickListener(this);
-        bottomSheet=view.findViewById(R.id.bottomSheetZones);
-    }
+
 
 
 
@@ -116,7 +127,11 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
             case R.id.closeReasons:
                 dismiss();
                 break;
+            case R.id.imageButton:
+                closeDialog();
+                break;
         }
+
     }
 
 }

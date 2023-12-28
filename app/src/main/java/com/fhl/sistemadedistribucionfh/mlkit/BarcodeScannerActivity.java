@@ -2,7 +2,7 @@ package com.fhl.sistemadedistribucionfh.mlkit;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
@@ -33,11 +33,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.view.Salida;
 import com.fhl.sistemadedistribucionfh.Dialogs.escanearCodigos;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.view.validadorBottomSheet;
-import com.fhl.sistemadedistribucionfh.Salida.View.salidaContainer;
+import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.google.mlkit.common.MlKitException;
-import com.fhl.sistemadedistribucionfh.Dialogs.employeBottomSheet;
-import com.fhl.sistemadedistribucionfh.Dialogs.manifestBottomSheet;
-import com.fhl.sistemadedistribucionfh.Dialogs.vehicleBottomSheet;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.databinding.ActivityBarcodeScannerBinding;
 
@@ -160,7 +157,6 @@ public class BarcodeScannerActivity extends AppCompatActivity
                        // Toast.makeText(getApplicationContext(), "el numero de digitos es incorrecto intenta de nuevo", Toast.LENGTH_SHORT).show();
                         binding.escribircodigo.setText("");
                     }else {
-
                         binding.escribircodigo.setText("");
                         /** if(!collectedBarCodes.contains(String.valueOf(textleng))) {
                          //TODO volver a poner
@@ -228,9 +224,14 @@ public class BarcodeScannerActivity extends AppCompatActivity
             }
         }
     }
-    public void restartCameraProcess() {
+    public void restartCameraProcess(String codigoValidador1) {
         if (allPermissionsGranted()) {
             bindAllCameraUseCases();
+            Integer status=Integer.valueOf(codigoValidador1)+1;
+            SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor=preferences.edit();
+            editor.putString(GeneralConstants.STATUS_SALIDA,String.valueOf(status));
+            editor.commit();
         } else {
             getRuntimePermissions();
         }
@@ -422,9 +423,11 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtras(bundle);
                 startActivity(intent);*/
+                SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                String status = preferences.getString(GeneralConstants.STATUS_SALIDA, null);
                 Bundle bundle = new Bundle();
-                bundle.putString("validadorCode", code);
-                bundle.putString("statusRecepcion", code);
+                bundle.putString("qrCode", code);
+                bundle.putString("statusRecepcion", status);
                 Salida bottonSheetv=new Salida();
                 bottonSheetv.setArguments(bundle);
                 bottonSheetv.show(getSupportFragmentManager(),"Salida");
@@ -455,13 +458,37 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtras(bundle);
                 startActivity(intent);*/
-                Bundle bundle = new Bundle();
-                bundle.putString("validadorCode", code);
-                bundle.putString("statusRecepcion", code);
-                Salida bottonSheetv=new Salida();
-                bottonSheetv.setArguments(bundle);
-                bottonSheetv.show(getSupportFragmentManager(),"Salida");
-                stopCameraProcess();
+                SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                String status = preferences.getString(GeneralConstants.STATUS_SALIDA, null);
+                if(status == null){
+                    SharedPreferences.Editor editor=preferences.edit();
+                    editor.putString(GeneralConstants.STATUS_SALIDA,"1");
+                    editor.commit();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("qrCode", code);
+                    bundle.putString("statusRecepcion", "1");
+                    Salida bottonSheetv=new Salida();
+                    bottonSheetv.setArguments(bundle);
+                    bottonSheetv.show(getSupportFragmentManager(),"Salida");
+                    stopCameraProcess();
+                }else if(status == "1"){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("qrCode", code);
+                    bundle.putString("statusRecepcion", status);
+                    Salida bottonSheetv=new Salida();
+                    bottonSheetv.setArguments(bundle);
+                    bottonSheetv.show(getSupportFragmentManager(),"Salida");
+                    stopCameraProcess();
+                }else {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("qrCode", code);
+                    bundle.putString("statusRecepcion", status);
+                    Salida bottonSheetv=new Salida();
+                    bottonSheetv.setArguments(bundle);
+                    bottonSheetv.show(getSupportFragmentManager(),"Salida");
+                    stopCameraProcess();
+                }
+
             }else if (typeScanner.equals("Validador")){
                 Bundle bundle = new Bundle();
                 bundle.putString("validadorCode", code);
