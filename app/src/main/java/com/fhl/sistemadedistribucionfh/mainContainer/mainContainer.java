@@ -103,7 +103,10 @@ public class mainContainer extends AppCompatActivity  implements view {
                 visor();
                 Toast.makeText(this, "modulo en desarrollo", Toast.LENGTH_SHORT).show();
                 break;
-
+            case "salida/recepción":
+                mScanner("Salida");
+                Toast.makeText(this, "modulo en desarrollo", Toast.LENGTH_SHORT).show();
+                break;
         }
     }
     private void initPresenter() {

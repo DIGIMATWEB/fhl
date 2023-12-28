@@ -172,13 +172,13 @@ public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
                             // Only log inference info once per second. When frameProcessedInOneSecondInterval is
                             // equal to 1, it means this is the first frame processed during the current second.
                             if (frameProcessedInOneSecondInterval == 1) {
-                                Log.d(TAG, "Max latency is: " + maxRunMs);
-                                Log.d(TAG, "Min latency is: " + minRunMs);
-                                Log.d(TAG, "Num of Runs: " + numRuns + ", Avg latency is: " + totalRunMs / numRuns);
+                              //  Log.d(TAG, "Max latency is: " + maxRunMs);
+                              //  Log.d(TAG, "Min latency is: " + minRunMs);
+                              //  Log.d(TAG, "Num of Runs: " + numRuns + ", Avg latency is: " + totalRunMs / numRuns);
                                 ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
                                 activityManager.getMemoryInfo(mi);
                                 long availableMegs = mi.availMem / 0x100000L;
-                                Log.d(TAG, "Memory available in system: " + availableMegs + " MB");
+                            //    Log.d(TAG, "Memory available in system: " + availableMegs + " MB");
                             }
 
                             graphicOverlay.clear();
@@ -202,7 +202,7 @@ public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
                                             error + "\nCause: " + e.getCause(),
                                             Toast.LENGTH_SHORT)
                                     .show();
-                            Log.d(TAG, error);
+                         //   Log.d(TAG, error);
                             e.printStackTrace();
                             VisionProcessorBase.this.onFailure(e);
                         });

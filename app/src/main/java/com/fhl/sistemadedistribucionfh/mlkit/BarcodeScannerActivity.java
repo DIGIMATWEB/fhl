@@ -30,6 +30,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.view.Salida;
 import com.fhl.sistemadedistribucionfh.Dialogs.escanearCodigos;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.view.validadorBottomSheet;
 import com.fhl.sistemadedistribucionfh.Salida.View.salidaContainer;
@@ -107,7 +108,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 new escanearCodigos().show(getSupportFragmentManager(), "escanearCodigos");
             }
 
-        Log.d(TAG, "onCreate");
+       // Log.d(TAG, "onCreate");
 
         if (savedInstanceState != null) {
             lensFacing = savedInstanceState.getInt(STATE_LENS_FACING, CameraSelector.LENS_FACING_BACK);
@@ -137,7 +138,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
        // binding.iconchecklist.setOnClickListener(this);
         //todo se receteara de momento collectedBarcode
         //collectedBarCodes.clear();
-        if(collectedBarCodes.isEmpty()) {  //todo esto es para compobar si el arreglo viene lleno o cacio
+        if(collectedBarCodes.isEmpty()) {  //todo esto es para comprobar si el arreglo viene lleno o vacio
 
         }else
         {
@@ -214,7 +215,26 @@ public class BarcodeScannerActivity extends AppCompatActivity
         super.onSaveInstanceState(bundle);
         bundle.putInt(STATE_LENS_FACING, lensFacing);
     }
-
+    private void stopCameraProcess() {
+        if (cameraProvider != null) {
+            if (previewUseCase != null) {
+                cameraProvider.unbind(previewUseCase);
+            }
+            if (analysisUseCase != null) {
+                cameraProvider.unbind(analysisUseCase);
+            }
+            if (imageProcessor != null) {
+                imageProcessor.stop();
+            }
+        }
+    }
+    public void restartCameraProcess() {
+        if (allPermissionsGranted()) {
+            bindAllCameraUseCases();
+        } else {
+            getRuntimePermissions();
+        }
+    }
     @Override
     public void onResume() {
         super.onResume();
@@ -303,8 +323,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     } catch (   MlKitException e) {
                         //      Log.e(TAG, "Failed to process image. Error: " + e.getLocalizedMessage());
                         Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                       // Log.e(TAG,""+e);
-                        //            .show();
+
                     }
                 });
 
@@ -384,6 +403,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     barcodesCollection(code);
                     binding.resultContainer.setVisibility(View.VISIBLE);
                     lastCode=code;
+                    Log.e("codescann",""+lastCode);
                 }
             }
         });
@@ -395,60 +415,57 @@ public class BarcodeScannerActivity extends AppCompatActivity
         if(collectedBarCodes.contains(code))
         {
 
-            if(typeScanner.equals("Salida")){
-                Bundle bundle = new Bundle();
+            if(typeScanner.equals("Salida")){//para salida recepccion4 si esta en la lista preguntar por el estatus del escaneo
+               /* Bundle bundle = new Bundle();
                 bundle.putString("qrValue", code);
                 Intent intent = new Intent(this, salidaContainer.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtras(bundle);
-                startActivity(intent);
+                startActivity(intent);*/
+                Bundle bundle = new Bundle();
+                bundle.putString("validadorCode", code);
+                bundle.putString("statusRecepcion", code);
+                Salida bottonSheetv=new Salida();
+                bottonSheetv.setArguments(bundle);
+                bottonSheetv.show(getSupportFragmentManager(),"Salida");
+                Toast.makeText(this, "verificar estatus de la salida y escaneo", Toast.LENGTH_SHORT).show();
+                stopCameraProcess();
             }
         }else
         {
 
             Log.e("folios","codigos escaneados: "+collectedBarCodes);
             //   if(MensajeroenProceso.barcodes.contains(code)) {
-            collectedBarCodes.add(code);
+            if(!typeScanner.equals("Validador")) {
+                collectedBarCodes.add(code);
+            }
             binding.barcodeRawValue.setText(code);
             mediaPlayer.start();
-            if(!collectedBarCodes.isEmpty())
+            if(!collectedBarCodes.isEmpty())//esto oculta el numero de codigos escaneados
             {
                 binding.cardviewnumber.setVisibility(View.VISIBLE);
                 binding.textdimens.setText(String.valueOf( collectedBarCodes.size()));
             }
-            //todo estas validaciones eran de prueba para vehiculo conductor y manifiesto
-           /* if(code.equals("v123456"))
-            {
-                Toast.makeText(this, "Vehiculo", Toast.LENGTH_SHORT).show();
-                new vehicleBottomSheet().show(getSupportFragmentManager(),"dialogBottomSheet");
-            }else if(code.equals("d1234567"))
-            {
-                Toast.makeText(this, "empleado", Toast.LENGTH_SHORT).show();
-                new employeBottomSheet().show(getSupportFragmentManager(),"employeBottomSheet");
-            }else if(code.equals("12345678"))
-            {
-                Toast.makeText(this, "manifiesto", Toast.LENGTH_SHORT).show();
-                new manifestBottomSheet().show(getSupportFragmentManager(),"manifestBottomSheet");
-            }
-            */
 
-            //showDialog();
-            //    }
-            // else
-            //   {
-            //     binding.barcodeRawValue.setText("Codigo no permitido");
-            // }
 
-            if(typeScanner.equals("Salida")){
-                Bundle bundle = new Bundle();
+            if(typeScanner.equals("Salida")){ //si no esta en la lista el primer bottom sheet debe ser el de manifiesto
+                /*Bundle bundle = new Bundle();
                 bundle.putString("qrValue", code);
                 Intent intent = new Intent(this, salidaContainer.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtras(bundle);
-                startActivity(intent);
+                startActivity(intent);*/
+                Bundle bundle = new Bundle();
+                bundle.putString("validadorCode", code);
+                bundle.putString("statusRecepcion", code);
+                Salida bottonSheetv=new Salida();
+                bottonSheetv.setArguments(bundle);
+                bottonSheetv.show(getSupportFragmentManager(),"Salida");
+                stopCameraProcess();
             }else if (typeScanner.equals("Validador")){
                 Bundle bundle = new Bundle();
                 bundle.putString("validadorCode", code);
+                bundle.putString("statusRecepcion", code);
                 validadorBottomSheet bottonSheetv=new validadorBottomSheet();
                 bottonSheetv.setArguments(bundle);
                 bottonSheetv.show(getSupportFragmentManager(),"validadorBottomSheet");

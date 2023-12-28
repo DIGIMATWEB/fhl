@@ -86,8 +86,11 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
             String message = resp.getMessage();
             int responseCode = resp.getStatus();
             if(resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_PEP) {
-                List<dataManifestV2> data = resp.getData();
 
+                List<dataManifestV2> data = resp.getData();
+                Gson gson = new Gson();
+                String json = gson.toJson(data);
+                Log.e("respDatamanifest",""+json);
                 if(data!=null) {
                     presenter.setmanifestV2(data);
                 } else {

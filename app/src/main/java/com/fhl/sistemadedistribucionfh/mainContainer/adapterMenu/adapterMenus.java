@@ -90,7 +90,11 @@ public class adapterMenus extends RecyclerView.Adapter<adapterMenus.ViewHolder>{
                 holder.imageMenu.setImageDrawable(drawable);
                 holder.menuName.setText(data.get(position).getMenuName());
                 break;
-
+            case "salida/recepción":
+                drawable=context.getDrawable(R.drawable.salida);
+                holder.imageMenu.setImageDrawable(drawable);
+                holder.menuName.setText(data.get(position).getMenuName());
+                break;
         }
         holder.parentConstrain.setOnClickListener(new View.OnClickListener() {
             @Override

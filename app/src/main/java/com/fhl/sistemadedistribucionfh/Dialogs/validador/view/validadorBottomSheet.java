@@ -2,6 +2,7 @@ package com.fhl.sistemadedistribucionfh.Dialogs.validador.view;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,7 @@ public class validadorBottomSheet extends DialogFragment implements View.OnClick
         if (args != null) {
             codigoValidador= args.getString("validadorCode");
         }
+        Log.e("","");
         setCancelable(true);
         initDialog(view);
         //setFonts();
@@ -62,7 +64,6 @@ public class validadorBottomSheet extends DialogFragment implements View.OnClick
     private void initDialog(View view) {
         titleheader=view.findViewById(R.id.titleheader);
         imagebackground=view.findViewById(R.id.imagebackground);
-
         vehicle=view.findViewById(R.id.carconstrain);
         user=view.findViewById(R.id.driverconstrain);
         manifest=view.findViewById(R.id.manifestconstrain);

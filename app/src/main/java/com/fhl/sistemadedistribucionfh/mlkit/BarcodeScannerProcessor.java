@@ -52,7 +52,7 @@ public class BarcodeScannerProcessor extends VisionProcessorBase<List<Barcode>> 
     protected void onSuccess(
             @NonNull List<Barcode> barcodes, @NonNull GraphicOverlay graphicOverlay) {
         if (barcodes.isEmpty()) {
-            Log.v(MANUAL_TESTING_LOG, "No barcode has been detected");
+           // Log.v(MANUAL_TESTING_LOG, "No barcode has been detected");
         }
         for (int i = 0; i < barcodes.size(); ++i) {
             Barcode barcode = barcodes.get(i);
