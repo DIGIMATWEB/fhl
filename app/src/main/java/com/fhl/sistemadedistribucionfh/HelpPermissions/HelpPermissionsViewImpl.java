@@ -8,7 +8,11 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -35,11 +39,13 @@ public class HelpPermissionsViewImpl extends AppCompatActivity implements View.O
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 1002;
     private static final int MY_PERMISSIONS_REQUEST_INTERNET = 1003;
 
-    Button btnPermissions;
+    ImageView btnPermissions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_help_permissions);
 
         //initRequestPermissions();
