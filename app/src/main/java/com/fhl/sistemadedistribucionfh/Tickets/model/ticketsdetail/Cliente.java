@@ -15,20 +15,6 @@ public class Cliente {
     @SerializedName("RFC")
     @Expose
     private String rfc;
-
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public Cliente() {
-    }
-
-    /**
-     * 
-     * @param razonSocial
-     * @param id
-     * @param rfc
-     */
     public Cliente(Integer id, String razonSocial, String rfc) {
         super();
         this.id = id;

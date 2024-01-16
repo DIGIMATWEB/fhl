@@ -41,7 +41,7 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
             @Override
             public void onClick(View v) {
                // Toast.makeText(context, ""+position, Toast.LENGTH_SHORT).show();
-                mview.gotoTickets(position);
+                mview.gotoTickets(position,data.get(position).getFolioTicket());
             }
         });
     }

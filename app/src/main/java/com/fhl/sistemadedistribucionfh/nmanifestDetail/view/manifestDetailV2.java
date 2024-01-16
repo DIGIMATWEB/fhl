@@ -121,10 +121,15 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         rvlistTickets.setAdapter(adapter);
     }
 
-    public void gotoTickets(int position) {
+    public void gotoTickets(int position, String folioTicket) {
+        //folioDespachoId
         manager = getActivity().getSupportFragmentManager();
         transaction = manager.beginTransaction();
         tickets ticketsf= new tickets();
+        Bundle args = new Bundle();
+        args.putString("folioDespachoId", folioDespachoId);
+        args.putString("folioTicket", folioTicket);
+        ticketsf.setArguments(args);
         transaction.replace(R.id.fragments, ticketsf, tickets.TAG).commit();
     }
     private List<dataTicketsManifestV2> filter(List<dataTicketsManifestV2> data, String text) {

@@ -29,17 +29,17 @@ public class ticketsInteractirImpl implements ticketsInteractor{
     }
 
     @Override
-    public void getTicketsDetail() {
+    public void getTicketsDetail(String folioDespachoId, String folioTicket) {
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
         if(token!=null){
-            requestDetailTicket(token);
+            requestDetailTicket(token,folioDespachoId,folioTicket);
         }
 
     }
 
-    private void requestDetailTicket(String token) {
-        Call<ResoponseTicketsDetail> call=service.getTicketsByManifiesto(token,"10871872","2");
+    private void requestDetailTicket(String token, String folioDespachoId, String folioTicket) {
+        Call<ResoponseTicketsDetail> call=service.getTicketsByManifiesto(token,folioDespachoId,folioTicket);//todo cambiar el manifiesto y la pila de tickets ppor el valor real
         call.enqueue(new Callback<ResoponseTicketsDetail>() {
             @Override
             public void onResponse(Call<ResoponseTicketsDetail> call, Response<ResoponseTicketsDetail> response) {

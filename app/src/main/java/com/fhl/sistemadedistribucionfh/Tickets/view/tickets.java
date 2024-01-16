@@ -22,6 +22,7 @@ import com.fhl.sistemadedistribucionfh.Tickets.presenter.presenterTicketsDetailI
 import com.fhl.sistemadedistribucionfh.cerrarViaje.view.cerrarViaje;
 import com.fhl.sistemadedistribucionfh.evidence.evidencia;
 import com.fhl.sistemadedistribucionfh.nmanifest.view.mmanifest;
+import com.fhl.sistemadedistribucionfh.nmanifest.viewV2.mmanifestV2;
 
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
     private FragmentTransaction transaction;
     private Button cerrarviaje, cancelar;
     private presenterTicketsDetail presenter;
+    private String folioDespachoId,folioTicket="";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,9 +52,16 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
         cancelar = view.findViewById(R.id.cancelar);
         cerrarviaje.setOnClickListener(this);
         cancelar.setOnClickListener(this);
+        Bundle args = getArguments();
+        if (args != null) {
+          folioDespachoId = args.getString("folioDespachoId");
+          folioTicket = args.getString("folioTicket");
 
+            // Now you have the values and can use them as needed
+            // Example: Log.d(TAG, "folioDespachoId: " + folioDespachoId + ", folioTicket: " + folioTicket);
+        }
         presenter= new presenterTicketsDetailImpl(this,getContext());
-        presenter.requestDetailTickets();
+        presenter.requestDetailTickets(folioDespachoId,folioTicket);
 
     }
 
@@ -78,8 +87,10 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
     {
         manager = getActivity().getSupportFragmentManager();
         transaction = manager.beginTransaction();
-        mmanifest manifest= new mmanifest();
-        transaction.replace(R.id.fragments, manifest, mmanifest.TAG).commit();
+        mmanifestV2 manifest = new mmanifestV2();
+        transaction.replace(R.id.fragments, manifest, mmanifestV2.TAG);
+        transaction.addToBackStack(null); // Add to back stack
+        transaction.commit();
     }
 
     @Override

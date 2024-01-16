@@ -5,7 +5,7 @@ import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.dataDetailTic
 import java.util.List;
 
 public interface presenterTicketsDetail {
-    void requestDetailTickets();
+    void requestDetailTickets(String folioDespachoId, String folioTicket);
 
     void setTikets(List<dataDetailTickets> data);
 }

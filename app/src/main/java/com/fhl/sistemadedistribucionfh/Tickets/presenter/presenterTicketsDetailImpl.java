@@ -22,9 +22,9 @@ public class presenterTicketsDetailImpl implements presenterTicketsDetail{
     }
 
     @Override
-    public void requestDetailTickets() {
+    public void requestDetailTickets(String folioDespachoId, String folioTicket) {
         if(view!=null){
-            interactor.getTicketsDetail();
+            interactor.getTicketsDetail(folioDespachoId,folioTicket);
         }
 
     }
