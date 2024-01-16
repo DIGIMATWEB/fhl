@@ -9,4 +9,6 @@ public interface presentermanifestV2 {
     void setmanifestV2(List<dataManifestV2> data);
 
     void returnTologin();
+    void showProgress();
+    void hideProgress();
 }

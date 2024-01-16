@@ -8,4 +8,8 @@ public interface viewManifestV2 {
     void setAllmanifestV2(List<dataManifestV2> data);
 
     void returnTologin();
+
+    void hideProgress();
+
+    void showProgress();
 }

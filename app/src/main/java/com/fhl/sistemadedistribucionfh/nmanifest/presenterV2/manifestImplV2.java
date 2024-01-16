@@ -40,4 +40,18 @@ public class manifestImplV2 implements presentermanifestV2 {
             view.returnTologin();
         }
     }
+
+    @Override
+    public void showProgress() {
+        if(view!=null) {
+            view.showProgress();
+        }
+    }
+
+    @Override
+    public void hideProgress() {
+        if(view!=null) {
+            view.hideProgress();
+        }
+    }
 }

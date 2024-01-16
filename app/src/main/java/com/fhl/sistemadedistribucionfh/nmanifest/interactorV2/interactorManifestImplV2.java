@@ -51,6 +51,7 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
 
         //IdEmpleado correcto
         //TODO Cambiar por el token correcto
+        presenter.showProgress();
         Call<responseManifestV2> call = service.getManifestV2(token,  idEmpleadoString);
         Log.e("requestmanifest",""+call.request().toString());
         call.enqueue(new Callback<responseManifestV2>() {
@@ -62,6 +63,7 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
             @Override
             public void onFailure(Call<responseManifestV2> call, Throwable t) {
                 Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                presenter.hideProgress();
             }
         });
     }
@@ -74,7 +76,7 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
                 Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
                 if(response.code()==401){
                     presenter.returnTologin();
-
+                    presenter.hideProgress();
                 }
             }
         }
@@ -93,14 +95,18 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
                 Log.e("respDatamanifest",""+json);
                 if(data!=null) {
                     presenter.setmanifestV2(data);
+                    presenter.hideProgress();
                 } else {
                     Toast.makeText(context, "Sin tickets asignados.", Toast.LENGTH_SHORT).show();
+                    presenter.hideProgress();
                 }
             } else {
                 Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
+                presenter.hideProgress();
             }
         } else {
             Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
+            presenter.hideProgress();
         }
     }
 
