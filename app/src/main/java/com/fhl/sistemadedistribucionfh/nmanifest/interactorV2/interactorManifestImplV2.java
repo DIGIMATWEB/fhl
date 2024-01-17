@@ -18,6 +18,7 @@ import com.fhl.sistemadedistribucionfh.nmanifest.presenterV2.presentermanifestV2
 import com.fhl.sistemadedistribucionfh.nmanifest.util.manifestUtil;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -96,6 +97,12 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
                 if(data!=null) {
                     presenter.setmanifestV2(data);
                     presenter.hideProgress();
+                    List<String> folios = new ArrayList<>();
+                    folios.clear();
+                    for (int i=0; i<data.size();i++){
+                        folios.add (data.get(i).getFolioDespacho());
+                    }
+                    Log.e("foliosList",""+folios);
                 } else {
                     Toast.makeText(context, "Sin tickets asignados.", Toast.LENGTH_SHORT).show();
                     presenter.hideProgress();
