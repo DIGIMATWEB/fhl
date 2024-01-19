@@ -33,6 +33,18 @@
         app:layout_constraintBottom_toBottomOf="@id/preview_view" />
 
     <!--sin usar-->
+    <TextView
+        android:id="@+id/mtypeScanner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="20dp"
+        android:text=""
+        android:textColor="@color/greydark"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <TextView android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

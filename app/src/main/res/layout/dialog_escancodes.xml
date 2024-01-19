@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="Validador"
+        android:text="Recepción"
         android:textColor="@color/black"
         android:textSize="@dimen/h2"
         android:textStyle="bold"

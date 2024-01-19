@@ -1,34 +1,26 @@
 package com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.view;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.adapter.adapterReasons;
-import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.model.dataReasons;
-import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.presenter.dialogReasonsPresenter;
-import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.presenter.dialogReasonsPresenterImpl;
-import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.view.dialogReasons;
-import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.view.dialogReasonsView;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter.salidaViewPresenter;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-
-import java.util.List;
 
 public class Salida extends DialogFragment implements View.OnClickListener, salidaView {
     //todo nota esto debe verificarse
@@ -39,6 +31,10 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
     private ConstraintLayout bottomSheet;
     private String codigoValidador,codigoValidador1;
     private ImageButton imageButton;
+    private Button clear;
+    private ImageView imageView24;
+    private TextView textView23,textView29;
+    private CardView gonext;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,14 +54,45 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
             codigoValidador1= args.getString("statusRecepcion");
         }
         initDialog(view);
-
+        setUpDialog(codigoValidador1);
         //setFonts();
         return view;
     }
+
+    private void setUpDialog(String codigoValidador1) {
+        switch (codigoValidador1) {
+            case "1":
+                textView23.setText("siguiente paso");
+                textView29.setText("escanear codigo de la cortina");
+                break;
+            case "2":
+                textView23.setText("siguiente paso");
+                textView29.setText("escanea el codigo de los tickets");
+                break;
+            case "3":
+                textView23.setText("siguiente paso");
+                textView29.setText("escanea el codigo de los sellos");
+                break;
+            case "4":
+                textView23.setVisibility(View.GONE);
+                textView29.setText("Resumen");
+                break;
+        }
+    }
+
     private void initDialog(View view) {
         // presenter= new dialogReasonsPresenterImpl(this,getContext());
         imageButton=view.findViewById(R.id.imageButton);
         imageButton.setOnClickListener(this);
+        clear=view.findViewById(R.id.clear);
+        clear.setOnClickListener(this);
+        imageView24 =view.findViewById(R.id.imageView24);
+        textView23=view.findViewById(R.id.textView23);
+        textView29=view.findViewById(R.id.textView29);
+
+        gonext=view.findViewById(R.id.gonext);
+        gonext.setOnClickListener(this);
+
         bottomSheet=view.findViewById(R.id.bottomSheetZones);
         Toast.makeText(getContext(), "qrCode: "+codigoValidador+" status de recepcion: "+codigoValidador1, Toast.LENGTH_SHORT).show();
     }
@@ -104,7 +131,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
         // For example, you can restart the camera process in BarcodeScannerActivity
         if (getActivity() instanceof BarcodeScannerActivity) {
             BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
-            barcodeScannerActivity.restartCameraProcess(codigoValidador1);
+            barcodeScannerActivity.restartCameraProcess();
         }
     }
     @Override
@@ -130,6 +157,16 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
             case R.id.imageButton:
                 closeDialog();
                 break;
+            case R.id.clear:
+                BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
+                barcodeScannerActivity.resetShared();
+                Toast.makeText(getContext(), "reset ", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.gonext:
+                if(codigoValidador1.equals("4")) {
+                BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                barcodeScannerActivity1.godialogCheck();
+                }
         }
 
     }
