@@ -3,6 +3,7 @@ package com.fhl.sistemadedistribucionfh.mainContainer.adapterMenu;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +17,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fhl.sistemadedistribucionfh.Dialogs.mainMenu;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.mainContainer.model.dataMenuItems;
+import com.fhl.sistemadedistribucionfh.mainContainerV2.modelV2.dataMenuItemsV2;
 
 import java.util.List;
 
 public class adapterMenus extends RecyclerView.Adapter<adapterMenus.ViewHolder>{
     private Context context;
     private List<dataMenuItems> data;
+    private List<dataMenuItemsV2> dataV2;
     private mainMenu mview;
-    public adapterMenus(mainMenu mainMenu, List<dataMenuItems> data, Context context) {
+    public adapterMenus(mainMenu mainMenu, List<dataMenuItems> data, List<dataMenuItemsV2> dataV2, Context context) {
         this.mview=mainMenu;
         this.context=context;
         this.data=data;
+        this.dataV2=dataV2;
     }
 
     @NonNull
@@ -39,67 +43,82 @@ public class adapterMenus extends RecyclerView.Adapter<adapterMenus.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Drawable drawable=null;
-        switch (data.get(position).getMenuName()) {
+        Log.e("menuv2", "" + dataV2.size());
+        Log.e("menuv2", "" + dataV2.get(position).getTitulo());
+        //switch (data.get(position).getMenuName()) {
+        switch (dataV2.get(position).getTitulo()) {
             case "Perfil":
                 drawable=context.getDrawable(R.drawable.ic_menu_perfil_icon);
                 holder.imageMenu.setImageDrawable(drawable);
-                holder.menuName.setText(data.get(position).getMenuName());
+                //holder.menuName.setText(data.get(position).getMenuName());
+                holder.menuName.setText(dataV2.get(position).getTitulo());
                 break;
             case "Manifiestos":
                 drawable=context.getDrawable(R.drawable.ic_menu_manifiesto_icon);
                 holder.imageMenu.setImageDrawable(drawable);
-                holder.menuName.setText(data.get(position).getMenuName());
+                //holder.menuName.setText(data.get(position).getMenuName());
+                holder.menuName.setText(dataV2.get(position).getTitulo());
                 break;
             case "Salida":
                 drawable=context.getDrawable(R.drawable.ic_menu_salida_icon);
                 holder.imageMenu.setImageDrawable(drawable);
-                holder.menuName.setText(data.get(position).getMenuName());
+                //holder.menuName.setText(data.get(position).getMenuName());
+                holder.menuName.setText(dataV2.get(position).getTitulo());
                 break;
             case "Validador":
                 drawable=context.getDrawable(R.drawable.ic_menu_validador_icon);
                 holder.imageMenu.setImageDrawable(drawable);
-                holder.menuName.setText(data.get(position).getMenuName());
+                //holder.menuName.setText(data.get(position).getMenuName());
+                holder.menuName.setText(dataV2.get(position).getTitulo());
                 break;
             case "Escaner":
                 drawable=context.getDrawable(R.drawable.ic_menu_scan_icon);
                 holder.imageMenu.setImageDrawable(drawable);
-                holder.menuName.setText(data.get(position).getMenuName());
+                //holder.menuName.setText(data.get(position).getMenuName());
+                holder.menuName.setText(dataV2.get(position).getTitulo());
                 break;
-            case "Ubicacion GPS":
+            case "Ubicación de GPS":
                 drawable=context.getDrawable(R.drawable.ic_menu_gps_icon);
                 holder.imageMenu.setImageDrawable(drawable);
-                holder.menuName.setText(data.get(position).getMenuName());
+                //holder.menuName.setText(data.get(position).getMenuName());
+                holder.menuName.setText(dataV2.get(position).getTitulo());
                 break;
-            case "CheckList":
+            case "Checklist":
                 drawable=context.getDrawable(R.drawable.ic_menu_checklist_icon);
                 holder.imageMenu.setImageDrawable(drawable);
-                holder.menuName.setText(data.get(position).getMenuName());
+                //holder.menuName.setText(data.get(position).getMenuName());
+                holder.menuName.setText(dataV2.get(position).getTitulo());
                 break;
-            case "Gastos Operativos":
+            case "Gastos operativos":
                 drawable=context.getDrawable(R.drawable.ic_menu_gastos_icon);
                 holder.imageMenu.setImageDrawable(drawable);
-                holder.menuName.setText(data.get(position).getMenuName());
+                //holder.menuName.setText(data.get(position).getMenuName());
+                holder.menuName.setText(dataV2.get(position).getTitulo());
                 break;
-            case "Resguardo":
+            case "Reguardo":
                 drawable=context.getDrawable(R.drawable.ic_menu_resguardo_icon);
                 holder.imageMenu.setImageDrawable(drawable);
-                holder.menuName.setText(data.get(position).getMenuName());
+                //holder.menuName.setText(data.get(position).getMenuName());
+                holder.menuName.setText(dataV2.get(position).getTitulo());
                 break;
             case "Visor":
                 drawable=context.getDrawable(R.drawable.ic_menu_visor_icon);
                 holder.imageMenu.setImageDrawable(drawable);
-                holder.menuName.setText(data.get(position).getMenuName());
+                //holder.menuName.setText(data.get(position).getMenuName());
+                holder.menuName.setText(dataV2.get(position).getTitulo());
                 break;
-            case "salida/recepción":
+            case "Salida/Recepción":
                 drawable=context.getDrawable(R.drawable.salida);
                 holder.imageMenu.setImageDrawable(drawable);
-                holder.menuName.setText(data.get(position).getMenuName());
+                //holder.menuName.setText(data.get(position).getMenuName());
+                holder.menuName.setText(dataV2.get(position).getTitulo());
                 break;
         }
         holder.parentConstrain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (data.get(position).getMenuName()) {
+                //switch (data.get(position).getMenuName()) {
+                switch (dataV2.get(position).getTitulo()) {
                     case "Perfil":
                         mview.closeDialog();
                         mview.invokeFragment("Perfil");
@@ -148,7 +167,8 @@ public class adapterMenus extends RecyclerView.Adapter<adapterMenus.ViewHolder>{
 
     @Override
     public int getItemCount() {
-        return data.size();
+        //return data.size();
+        return dataV2.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

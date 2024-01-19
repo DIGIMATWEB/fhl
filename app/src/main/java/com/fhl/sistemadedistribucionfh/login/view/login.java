@@ -89,6 +89,15 @@ public class login extends AppCompatActivity implements View.OnClickListener,log
             editor.putString(GeneralConstants.USER_VALUES, jsonStringProfileData);
             editor.commit();
             Log.e("jsonProfile","profileData "+ jsonStringProfileData);
+
+            //Para guardar el Id del Operador
+            String token2 = preferencias.getString(GeneralConstants.USER_VALUES, null);
+            profileResponse profileData = gson.fromJson(token2, profileResponse.class);
+            int idEmpleado = profileData.getEmpleadoId();
+            String idEmpleadoString = String.valueOf(idEmpleado);
+            editor.putString(GeneralConstants.OPERADOR_ID, idEmpleadoString);
+            editor.commit();
+
         }else{
             Toast.makeText(this, "No se guardaron datos del usuario", Toast.LENGTH_SHORT).show();
         }

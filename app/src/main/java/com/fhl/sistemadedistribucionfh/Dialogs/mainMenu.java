@@ -1,6 +1,7 @@
 package com.fhl.sistemadedistribucionfh.Dialogs;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.mainContainer.adapterMenu.adapterMenus;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
 import com.fhl.sistemadedistribucionfh.mainContainer.model.dataMenuItems;
+import com.fhl.sistemadedistribucionfh.mainContainerV2.modelV2.dataMenuItemsV2;
 
 import java.util.List;
 
@@ -26,6 +28,7 @@ public class mainMenu extends DialogFragment implements View.OnClickListener {
     private mainContainer mactivity;
     private RecyclerView rv;
     private List<dataMenuItems> data;
+    private List<dataMenuItemsV2> dataV2;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +56,10 @@ public class mainMenu extends DialogFragment implements View.OnClickListener {
         rv=view.findViewById(R.id.rv);
         menu=view.findViewById(R.id.menuButon);
         menu.setOnClickListener(this);
-        if(data!=null) {
-            fillAdapter(data);
+        if(data!=null & dataV2!=null) {
+            fillAdapter(data, dataV2);
+        } else {
+            //Algo
         }
 
     }
@@ -78,11 +83,14 @@ public class mainMenu extends DialogFragment implements View.OnClickListener {
 
     public void setData(List<dataMenuItems> data) {
         this.data=data;
-
     }
 
-    private void fillAdapter(List<dataMenuItems> data) {
-        adapter = new adapterMenus(this,data,getContext());
+    public void setDataV2(List<dataMenuItemsV2> dataV2) {
+        this.dataV2 = dataV2;
+    }
+
+    private void fillAdapter(List<dataMenuItems> data, List<dataMenuItemsV2> dataV2) {
+        adapter = new adapterMenus(this,data, dataV2,getContext());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rv.setLayoutManager(linearLayoutManager);
         rv.setAdapter(adapter);

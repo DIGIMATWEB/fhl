@@ -12,6 +12,7 @@ public class RetrofitEndPoints {
 
     //ENDPOINTS FH
     public static final String LOGIN = "Usuarios/Usuarios/Login";
+    public static final String MENUSFH = "Catalogos/Modulos/GetListByUsuarioAplicacion/";
 
     //ENDPOINTS PEP
     public static final String MANIFEST_PEP = "GetManifiestoByOperador/";

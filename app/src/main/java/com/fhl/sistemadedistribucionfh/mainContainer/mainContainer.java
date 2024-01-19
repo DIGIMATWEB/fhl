@@ -22,6 +22,9 @@ import com.fhl.sistemadedistribucionfh.mainContainer.model.dataMenuItems;
 import com.fhl.sistemadedistribucionfh.mainContainer.presenter.prensentermainContainerImpl;
 import com.fhl.sistemadedistribucionfh.mainContainer.presenter.presentermainContainer;
 import com.fhl.sistemadedistribucionfh.mainContainer.view.view;
+import com.fhl.sistemadedistribucionfh.mainContainerV2.modelV2.dataMenuItemsV2;
+import com.fhl.sistemadedistribucionfh.mainContainerV2.presenterV2.presentermainContainerImplV2;
+import com.fhl.sistemadedistribucionfh.mainContainerV2.presenterV2.presentermainContainerV2;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.nmanifest.view.mmanifest;
@@ -39,7 +42,9 @@ public class mainContainer extends AppCompatActivity  implements view {
     private mainMenu menu;
     private FrameLayout framTab;
     private presentermainContainer presenter;
+    private presentermainContainerV2 presenterV2;
     private List<dataMenuItems> data;
+    private List<dataMenuItemsV2> dataV2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,7 +116,9 @@ public class mainContainer extends AppCompatActivity  implements view {
     }
     private void initPresenter() {
         presenter= new prensentermainContainerImpl(this,getApplicationContext());
+        presenterV2 = new presentermainContainerImplV2(this, getApplicationContext());
         presenter.requestMenus();
+        presenterV2.requestMenusV2();
     }
 
     private void manifiestos() {
@@ -188,8 +195,17 @@ public class mainContainer extends AppCompatActivity  implements view {
         //Toast.makeText(getApplicationContext(), "menu", Toast.LENGTH_SHORT).show();
         cover.setVisibility(View.VISIBLE);
         menu=new mainMenu();
+
+        //Data normal
         if(data!=null) {
             menu.setData(data);
+        }
+
+        //Data V2
+        if (dataV2!=null) {
+            menu.setDataV2(dataV2);
+        } else {
+            //Algo
         }
         menu.show(this.getSupportFragmentManager(), mainMenu.TAG);
     }
@@ -203,6 +219,12 @@ public class mainContainer extends AppCompatActivity  implements view {
     public void setMenus(List<dataMenuItems> data) {
         Log.e("menu",""+data);
         this.data=data;
+    }
+
+    @Override
+    public void setMenusV2(List<dataMenuItemsV2> data) {
+        Log.e("menuv2", "" + data);
+        this.dataV2 = data;
     }
 
     public void showtab() {
