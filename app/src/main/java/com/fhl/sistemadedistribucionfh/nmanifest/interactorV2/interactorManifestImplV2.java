@@ -47,7 +47,7 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
         Log.e("TOKEN",""+token);
         profileResponse profileData = gson.fromJson(token2, profileResponse.class);
 
-        int idEmpleado = profileData.getEmpleadoId();
+        int idEmpleado = profileData.getUsuarioId();
         String idEmpleadoString = String.valueOf(idEmpleado);
 
         //IdEmpleado correcto
