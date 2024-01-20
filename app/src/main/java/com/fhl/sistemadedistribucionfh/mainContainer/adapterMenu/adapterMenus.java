@@ -107,7 +107,7 @@ public class adapterMenus extends RecyclerView.Adapter<adapterMenus.ViewHolder>{
                 //holder.menuName.setText(data.get(position).getMenuName());
                 holder.menuName.setText(dataV2.get(position).getTitulo());
                 break;
-            case "Salida/Recepción":
+            case "Custodio":
                 drawable=context.getDrawable(R.drawable.salida);
                 holder.imageMenu.setImageDrawable(drawable);
                 //holder.menuName.setText(data.get(position).getMenuName());
