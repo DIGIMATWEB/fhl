@@ -43,13 +43,13 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
             holder.ticketNum.setText("" + data.get(position).getFolioTicket());
             holder.cliente.setText("" + data.get(position).getCliente().getRazonSocial());
             holder.contacto.setText("" + data.get(position).getDestinatarios().getContacto().getNombre());
-            holder.Productos.setText("------ " + data.get(position).getCliente().getRazonSocial());
+            holder.Productos.setText(data.get(position).getCliente().getRazonSocial());
             holder.checklist.setText("" + data.get(position).getCheckList().get(0).getValor());//considerar que pueden ser mas Valor de checklist
             holder.textAdjuntos.setText("Cantidad: " + data.get(position).getDocumentosAuxiliar().size());//todo catalogar todos los adjuntos
             holder.origen.setText("" + data.get(position).getOrigen());
             holder.estado.setText("" + data.get(position).getOrigen());
             //holder.salida.setText(""+data.get(position).getFechaSalidaEstimada());
-            holder.regreso.setText("" + data.get(position).getFechaPromesaRetorno());
+            holder.regreso.setText(data.get(position).getFechaPromesaRetorno());
             holder.locationDesc.setText("");//+data.get(position).getEmpaque().get(0).getDestinatarios().get(0).getCiudad());
             holder.latlongGeo.setText("" + data.get(position).getDestinatarios().getCoordenadas());
             holder.lalongReport.setText("" + data.get(position).getFechaPromesaEntrega());

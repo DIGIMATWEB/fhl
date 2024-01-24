@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -36,6 +37,7 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
     private Button cerrarviaje, cancelar;
     private presenterTicketsDetail presenter;
     private String folioDespachoId,folioTicket="";
+    private TextView txtManifiesto;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
         backTickets.setOnClickListener(this);
         cerrarviaje = view.findViewById(R.id.cerrarviaje);
         cancelar = view.findViewById(R.id.cancelar);
+        txtManifiesto = view.findViewById(R.id.txtManifiestoTicket);
         cerrarviaje.setOnClickListener(this);
         cancelar.setOnClickListener(this);
         Bundle args = getArguments();
@@ -57,6 +60,7 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
           folioDespachoId = args.getString("folioDespachoId");
           folioTicket = args.getString("folioTicket");
 
+          txtManifiesto.setText(folioDespachoId);
             // Now you have the values and can use them as needed
             // Example: Log.d(TAG, "folioDespachoId: " + folioDespachoId + ", folioTicket: " + folioTicket);
         }

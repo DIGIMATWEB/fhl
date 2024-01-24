@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,7 +57,7 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         finder = view.findViewById(R.id.finder);
         finder.setOnClickListener(this);
         mprogres = new ProgressDialog(getActivity());
-        //searchViewv2 = view.findViewById(R.id.searchViewManifest);
+        searchViewv2 = view.findViewById(R.id.searchViewManifest);
         presenter = new manifestImplV2(this, getContext());
         presenter.getmanifestV2();
     }
@@ -84,7 +85,7 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     }
     @Override
     public void onClick(View view) {
-        /*switch (view.getId()) {
+        switch (view.getId()) {
             case R.id.finder:
                 if (searchViewv2.getVisibility() == View.GONE) {
                     searchViewv2.setVisibility(View.VISIBLE);
@@ -116,7 +117,7 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
                     searchViewv2.setVisibility(View.GONE);
                 }
                 break;
-        }*/
+        }
     }
 
     private List<dataManifestV2> filter(List<dataManifestV2> data, String text) {
@@ -125,7 +126,7 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         if (data!=null) {
             for(dataManifestV2 manifestV2:data){
                 //TODO cambiar al valor corecto
-                String manifestname = String.valueOf( manifestV2.getAndenId());
+                String manifestname = String.valueOf( manifestV2.getFolioDespacho());
                 if(manifestname.contains(text)) {
                     mfilterList.add(manifestV2);
                 }

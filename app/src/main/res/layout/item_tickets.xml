@@ -141,11 +141,13 @@
 
                 <TextView
                     android:id="@+id/Productos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="140dp"
+                    android:layout_height="38dp"
                     android:text="--- --- ---"
                     android:textSize="@dimen/h5"
+                    android:autoSizeTextType="uniform"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/textView28"
                     app:layout_constraintStart_toStartOf="@+id/textView25"
                     app:layout_constraintTop_toBottomOf="@+id/textView25">
 
@@ -291,13 +293,15 @@
 
                 <TextView
                     android:id="@+id/salida_time"
-                    android:layout_width="wrap_content"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:text="Lun.| 14/06/22 | 11:30"
+                    android:textAlignment="textStart"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@+id/textView18"
-                    app:layout_constraintTop_toTopOf="@+id/guidelinetickets0">
+                    app:layout_constraintTop_toTopOf="@+id/guidelinetickets0"
+                    tools:ignore="RtlCompat">
 
                 </TextView>
 
@@ -314,13 +318,16 @@
 
                 <TextView
                     android:id="@+id/regreso_time"
-                    android:layout_width="wrap_content"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:text="Lun.| 14/06/22 | 11:30"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
+                    android:textAlignment="textEnd"
+                    android:gravity="center"
                     app:layout_constraintEnd_toEndOf="@+id/textView20"
-                    app:layout_constraintTop_toTopOf="@+id/guidelinetickets0">
+                    app:layout_constraintTop_toTopOf="@+id/guidelinetickets0"
+                    tools:ignore="RtlCompat">
 
                 </TextView>
 
@@ -442,18 +449,25 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintGuide_percent=".45"/>
+
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guidelinetickets01v"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".25"/>
+                    app:layout_constraintGuide_begin="93dp" />
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guidelinetickets02v"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintGuide_percent=".75"/>
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guidelinetickets03v"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent=".50"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
         </androidx.constraintlayout.widget.ConstraintLayout>

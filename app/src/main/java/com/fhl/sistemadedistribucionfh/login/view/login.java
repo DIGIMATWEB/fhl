@@ -93,7 +93,7 @@ public class login extends AppCompatActivity implements View.OnClickListener,log
             //Para guardar el Id del Operador
             String token2 = preferencias.getString(GeneralConstants.USER_VALUES, null);
             profileResponse profileData = gson.fromJson(token2, profileResponse.class);
-            int idEmpleado = profileData.getEmpleadoId();
+            int idEmpleado = profileData.getUsuarioId();
             String idEmpleadoString = String.valueOf(idEmpleado);
             editor.putString(GeneralConstants.OPERADOR_ID, idEmpleadoString);
             editor.commit();
