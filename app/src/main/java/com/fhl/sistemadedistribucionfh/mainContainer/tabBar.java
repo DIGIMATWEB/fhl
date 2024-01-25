@@ -17,8 +17,7 @@ public class tabBar extends Fragment implements View.OnClickListener {
     private mainContainer mactivity;
     @SuppressLint("NewApi")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tabbar, container, false);
         mactivity= (mainContainer) getActivity();
         initView(view);
@@ -28,7 +27,6 @@ public class tabBar extends Fragment implements View.OnClickListener {
     private void initView(View view) {
         menuButon=view.findViewById(R.id.menuButon);
         menuButon.setOnClickListener(this);
-
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.view;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +18,20 @@ import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2data;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter.salidaViewPresenter;
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter.salidaViewPresenterImplements;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
+import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.dataManifestV2;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+
+import java.util.List;
 
 public class Salida extends DialogFragment implements View.OnClickListener, salidaView {
     //todo nota esto debe verificarse
     public static final String TAG = Salida.class.getSimpleName();
     private salidaViewPresenter presenter;
-
     private BottomSheetBehavior bottomSheetBehavior;
     private ConstraintLayout bottomSheet;
     private String codigoValidador,codigoValidador1;
@@ -35,13 +40,13 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
     private ImageView imageView24;
     private TextView textView23,textView29;
     private CardView gonext;
+    private List<responseManifestSalidaV2data> data;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_DeviceDefault_Light_NoActionBar);
 
     }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,6 +69,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
             case "1":
                 textView23.setText("siguiente paso");
                 textView29.setText("escanear codigo de la cortina");
+                presenter.requestManifest(codigoValidador);
                 break;
             case "2":
                 textView23.setText("siguiente paso");
@@ -95,6 +101,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
 
         bottomSheet=view.findViewById(R.id.bottomSheetZones);
         Toast.makeText(getContext(), "qrCode: "+codigoValidador+" status de recepcion: "+codigoValidador1, Toast.LENGTH_SHORT).show();
+        presenter= new salidaViewPresenterImplements(this,getContext());
     }
     private void bottomSheetSettings() {
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
@@ -141,7 +148,21 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
     }
 
 
+    @Override
+    public void hideProgress() {
 
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void setManifestCard(List<responseManifestSalidaV2data> data) {
+        this.data=data;
+        Log.e("datademanifiesto",""+data);
+    }
 
     public void closeDialog() {
         this.dismiss();
@@ -170,5 +191,6 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
         }
 
     }
+
 
 }
