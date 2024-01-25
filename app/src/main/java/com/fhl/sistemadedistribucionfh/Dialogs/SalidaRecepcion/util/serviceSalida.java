@@ -1,5 +1,7 @@
 package com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.util;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2;
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2data;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitEndPoints;
 import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.responseManifestV2;
 
@@ -12,7 +14,7 @@ public interface serviceSalida {
     // @POST(RetrofitEndPointsV2.GET_CHECKLIST)
     //    Call<checkListResponse> getSCheckLits(@Body checklistRequest request);
     @GET(RetrofitEndPoints.MANIFEST_PEP)
-    Call<responseManifestV2> getManifestV2(
+    Call<responseManifestSalidaV2> getManifestV2(
             @Header("Authorization") String authorizationHeader,
             @Query("operadorId") String operadorId,
             @Query("folioDespacho") String manifest

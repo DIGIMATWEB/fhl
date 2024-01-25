@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2;
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2data;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter.salidaViewPresenter;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter.salidaViewPresenterImplements;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.util.serviceSalida;
@@ -51,22 +53,22 @@ public class salidaInteractorImplementation  implements salidainteractor {
         //IdEmpleado correcto
         //TODO Cambiar por el token correcto
         presenter.showProgress();
-        Call<responseManifestV2> call = service.getManifestV2(token,  idEmpleadoString,codigoValidador);
+        Call<responseManifestSalidaV2> call = service.getManifestV2(token,  idEmpleadoString,codigoValidador);
         Log.e("requestmanifest",""+call.request().toString());
-        call.enqueue(new Callback<responseManifestV2>() {
+        call.enqueue(new Callback<responseManifestSalidaV2>() {
             @Override
-            public void onResponse(Call<responseManifestV2> call, Response<responseManifestV2> response) {
+            public void onResponse(Call<responseManifestSalidaV2> call, Response<responseManifestSalidaV2> response) {
                 validateResponse(response, context);
             }
 
             @Override
-            public void onFailure(Call<responseManifestV2> call, Throwable t) {
+            public void onFailure(Call<responseManifestSalidaV2> call, Throwable t) {
                 Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
                presenter.hideProgress();
             }
         });
     }
-    private void validateResponse(Response<responseManifestV2> response, Context context) {
+    private void validateResponse(Response<responseManifestSalidaV2> response, Context context) {
         if (response!=null) {
             if(RetrofitValidations.checkSuccessCode(response.code())) {
                 getManifest(response, context);
@@ -80,14 +82,14 @@ public class salidaInteractorImplementation  implements salidainteractor {
         }
     }
 
-    private void getManifest(Response<responseManifestV2> response, Context context) {
-        responseManifestV2 resp = response.body();
+    private void getManifest(Response<responseManifestSalidaV2> response, Context context) {
+        responseManifestSalidaV2 resp = response.body();
         if(resp!=null) {
             String message = resp.getMessage();
             int responseCode = resp.getStatus();
             if(resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_PEP) {
 
-                List<dataManifestV2> data = resp.getData();
+                List<responseManifestSalidaV2data> data = resp.getData();
                 Gson gson = new Gson();
                 String json = gson.toJson(data);
                 Log.e("respDatamanifest",""+json);

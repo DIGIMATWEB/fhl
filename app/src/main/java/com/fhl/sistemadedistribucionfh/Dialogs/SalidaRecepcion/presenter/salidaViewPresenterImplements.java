@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.interactor.salidaInteractorImplementation;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.interactor.salidainteractor;
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2data;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.view.salidaView;
 import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.dataManifestV2;
 
@@ -54,7 +55,7 @@ public class salidaViewPresenterImplements implements salidaViewPresenter{
         }
     }
     @Override
-    public void setmanifest(List<dataManifestV2> data) {
+    public void setmanifest(List<responseManifestSalidaV2data> data) {
         if (view!=null){
             view.setManifestCard(data);
         }

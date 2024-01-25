@@ -18,6 +18,7 @@ import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2data;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter.salidaViewPresenter;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter.salidaViewPresenterImplements;
 import com.fhl.sistemadedistribucionfh.R;
@@ -39,7 +40,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
     private ImageView imageView24;
     private TextView textView23,textView29;
     private CardView gonext;
-    private List<dataManifestV2> data;
+    private List<responseManifestSalidaV2data> data;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,7 +159,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
     }
 
     @Override
-    public void setManifestCard(List<dataManifestV2> data) {
+    public void setManifestCard(List<responseManifestSalidaV2data> data) {
         this.data=data;
         Log.e("datademanifiesto",""+data);
     }
