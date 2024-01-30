@@ -1,13 +1,13 @@
 package com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.cortina.dataCortina;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2data;
-import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.dataManifestV2;
 
 import java.util.List;
 
 public interface salidaViewPresenter {
     void requestManifest(String codigoValidador);
-    void requestCortinas();
+    void requestCortinas(String codigoValidador);
     void requestTickets();
 
     void setmanifest(List<responseManifestSalidaV2data> data);
@@ -15,4 +15,8 @@ public interface salidaViewPresenter {
     void hideProgress();
 
     void showProgress();
+
+    void setCortina(dataCortina data);
+
+    void goTickets();
 }

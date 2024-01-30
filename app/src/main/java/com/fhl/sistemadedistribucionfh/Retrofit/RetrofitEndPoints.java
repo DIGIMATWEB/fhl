@@ -30,4 +30,5 @@ public class RetrofitEndPoints {
     public static final String PROFILE = "Usuarios/Usuarios/Values";//"todo" este enpoint no funciona correctamente en swagger debe verse desde postman
     public static final String DETALLE_TICKETS = "GetTicketsByManifiesto/";
     public static final String SALIDA_V2 = "GetSellosByManifiesto/";
+    public static final String CORTINA = "GetCortinasByManifiesto";
 }

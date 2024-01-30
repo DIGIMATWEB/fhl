@@ -70,6 +70,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
     public static  String gotoListBarcode;
     public String typeScanner="";
     private Integer currentStatus=0;
+    private String cortinaDestination;
    // private BottomSheetBehavior bottomSheetBehavior;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -429,6 +430,21 @@ public class BarcodeScannerActivity extends AppCompatActivity
         editor.putString(GeneralConstants.STATUS_SALIDA,String.valueOf(currentStatus));
         editor.commit();
     }
+    public void goTickets(){
+        currentStatus = 3;
+        SharedPreferences preferences =getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=preferences.edit();
+        editor.putString(GeneralConstants.STATUS_SALIDA,String.valueOf(currentStatus));
+        editor.commit();
+    }
+    public void setCortina(String destino) {
+        cortinaDestination=destino;
+        currentStatus = 1;
+        SharedPreferences preferences =getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=preferences.edit();
+        editor.putString(GeneralConstants.STATUS_SALIDA,String.valueOf(currentStatus));
+        editor.commit();
+    }
     private void barcodesCollection(String code)
     {
         Log.e("qrs",code);
@@ -497,6 +513,16 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     Bundle bundle = new Bundle();
                     bundle.putString("qrCode", code);
                     bundle.putString("statusRecepcion", status);
+                    Salida bottonSheetv=new Salida();
+                    bottonSheetv.setArguments(bundle);
+                    bottonSheetv.show(getSupportFragmentManager(),"Salida");
+                    stopCameraProcess();
+                }else if(status == "2"){
+                    Log.e("typeScanner","1 status: 1");
+                    Bundle bundle = new Bundle();
+                    bundle.putString("qrCode", code);
+                    bundle.putString("statusRecepcion", status);
+                    bundle.putString("cortinaDestino", cortinaDestination);
                     Salida bottonSheetv=new Salida();
                     bottonSheetv.setArguments(bundle);
                     bottonSheetv.show(getSupportFragmentManager(),"Salida");
@@ -583,4 +609,6 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 }
         }
     }
+
+
 }

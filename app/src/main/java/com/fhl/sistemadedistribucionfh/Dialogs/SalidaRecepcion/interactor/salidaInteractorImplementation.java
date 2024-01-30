@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.cortina.dataCortina;
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.cortina.responseCortina;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2data;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter.salidaViewPresenter;
@@ -14,11 +16,8 @@ import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientPep;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
 import com.fhl.sistemadedistribucionfh.login.model.modelProfile.profileResponse;
-import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.dataManifestV2;
-import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.responseManifestV2;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -110,8 +109,65 @@ public class salidaInteractorImplementation  implements salidainteractor {
         }
     }
     @Override
-    public void detailCortina() {
+    public void detailCortina(String codigoValidador) {
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String token = preferences.getString(GeneralConstants.TOKEN, null);
+        Call<responseCortina> call = service.getcortina(token,codigoValidador,"");
+        call.enqueue(new Callback<responseCortina>() {
+            @Override
+            public void onResponse(Call<responseCortina> call, Response<responseCortina> response) {
+                validateResponseCortina(response, context);
+            }
 
+            @Override
+            public void onFailure(Call<responseCortina> call, Throwable t) {
+                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                presenter.hideProgress();
+            }
+        });
+    }
+
+    private void validateResponseCortina(Response<responseCortina> response, Context context) {
+        if (response!=null) {
+            if(RetrofitValidations.checkSuccessCode(response.code())) {
+                getCortina(response, context);
+            } else {
+                Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
+                if(response.code()==401){
+                    // presenter.returnTologin();
+                    presenter.hideProgress();
+                }
+            }
+        }
+    }
+
+    private void getCortina(Response<responseCortina> response, Context context) {
+        responseCortina resp = response.body();
+        if(resp!=null) {
+            String message = resp.getMessage();
+            int responseCode = resp.getStatus();
+            if(resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_PEP) {
+
+                dataCortina data = resp.getData();
+//                Gson gson = new Gson();
+//                String json = gson.toJson(data);
+//                Log.e("respDatamanifest",""+json);
+                if(data!=null) {
+                    presenter.setCortina(data);
+                    presenter.hideProgress();
+                } else {
+                    presenter.goTickets();
+                    Toast.makeText(context, "Sin tickets asignados.", Toast.LENGTH_SHORT).show();
+                    presenter.hideProgress();
+                }
+            } else {
+                Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
+                presenter.hideProgress();
+            }
+        } else {
+            Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
+            presenter.hideProgress();
+        }
     }
 
     @Override

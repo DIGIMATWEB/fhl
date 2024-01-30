@@ -18,12 +18,12 @@ import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.cortina.dataCortina;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2data;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter.salidaViewPresenter;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter.salidaViewPresenterImplements;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
-import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.dataManifestV2;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.util.List;
@@ -34,13 +34,15 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
     private salidaViewPresenter presenter;
     private BottomSheetBehavior bottomSheetBehavior;
     private ConstraintLayout bottomSheet;
-    private String codigoValidador,codigoValidador1;
+    private CardView constrainCard;
+    private String codigoValidador,codigoValidador1,cortinaDestino;
     private ImageButton imageButton;
     private Button clear;
     private ImageView imageView24;
     private TextView textView23,textView29;
     private CardView gonext;
     private List<responseManifestSalidaV2data> data;
+    private TextView numberManifestsalida,cedissalida,vehiculosalida,datesalida,placasalida,regresosalida;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +59,9 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
         if (args != null) {
             codigoValidador= args.getString("qrCode");
             codigoValidador1= args.getString("statusRecepcion");
+            cortinaDestino= args.getString("cortinaDestino");
         }
+        Log.e("codigoValidador1",""+codigoValidador1);
         initDialog(view);
         setUpDialog(codigoValidador1);
         //setFonts();
@@ -72,6 +76,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                 presenter.requestManifest(codigoValidador);
                 break;
             case "2":
+                constrainCard.setVisibility(View.GONE);
                 textView23.setText("siguiente paso");
                 textView29.setText("escanea el codigo de los tickets");
                 break;
@@ -88,6 +93,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
 
     private void initDialog(View view) {
         // presenter= new dialogReasonsPresenterImpl(this,getContext());
+        constrainCard =view.findViewById(R.id.constrainCard);
         imageButton=view.findViewById(R.id.imageButton);
         imageButton.setOnClickListener(this);
         clear=view.findViewById(R.id.clear);
@@ -100,6 +106,15 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
         gonext.setOnClickListener(this);
 
         bottomSheet=view.findViewById(R.id.bottomSheetZones);
+
+        //region detailmanifest
+        numberManifestsalida=view.findViewById(R.id.numberManifestsalida);
+        cedissalida=view.findViewById(R.id.cedissalida);
+        vehiculosalida=view.findViewById(R.id.vehiculosalida);
+        datesalida=view.findViewById(R.id.datesalida);
+        placasalida=view.findViewById(R.id.placasalida);
+        regresosalida=view.findViewById(R.id.regresosalida);
+        //endregion
         Toast.makeText(getContext(), "qrCode: "+codigoValidador+" status de recepcion: "+codigoValidador1, Toast.LENGTH_SHORT).show();
         presenter= new salidaViewPresenterImplements(this,getContext());
     }
@@ -162,6 +177,33 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
     public void setManifestCard(List<responseManifestSalidaV2data> data) {
         this.data=data;
         Log.e("datademanifiesto",""+data);
+        fillmanifest(data);
+        presenter.requestCortinas(codigoValidador);
+    }
+
+    @Override
+    public void setdataCortina(dataCortina data) {
+        Log.e("datadecortina",""+data);
+        BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+        barcodeScannerActivity1.setCortina(data.getDestino());
+
+    }
+
+    @Override
+    public void goticketsifNull() {
+        if(codigoValidador1.equals("2")) {
+            BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+            barcodeScannerActivity1.goTickets();
+        }
+    }
+
+    private void fillmanifest(List<responseManifestSalidaV2data> data) {
+        numberManifestsalida.setText(""+data.get(0).getFolioDespacho());
+        cedissalida.setText(""+data.get(0).getOrigen());
+        vehiculosalida.setText(""+data.get(0).getVehiculoId());
+        datesalida.setText(""+data.get(0).getFechaCreacion());
+        placasalida.setText(""+data.get(0).getVehiculo().getPlaca());
+        regresosalida.setText(""+data.get(0).getTiempoEntrega());
     }
 
     public void closeDialog() {
