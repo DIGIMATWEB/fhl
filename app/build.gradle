@@ -61,7 +61,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     //endregion
     //region maps
-    implementation 'com.google.android.gms:play-services-maps:15.0.1'
+    implementation 'com.google.android.gms:play-services-maps:18.2.0'
     implementation 'com.google.maps.android:android-maps-utils:0.5+'
     implementation 'com.google.android.gms:play-services-location:15.0.1'
     //endregion

@@ -15,14 +15,16 @@ public class Anden {
     private String codigoAnden;
     @SerializedName("Id")
     private Integer id;
-
-    public Anden(Integer cedisID, String nombre, Boolean andenCortina, String codigoAnden, Integer id) {
+    @SerializedName("QrCodigo")
+    private String QrCodigo;
+    public Anden(Integer cedisID, String nombre, Boolean andenCortina, String codigoAnden, Integer id,String QrCodigo) {
         super();
         this.cedisID = cedisID;
         this.nombre = nombre;
         this.andenCortina = andenCortina;
         this.codigoAnden = codigoAnden;
         this.id = id;
+        this.QrCodigo=QrCodigo;
     }
 
     public Integer getCedisID() {
@@ -63,5 +65,13 @@ public class Anden {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getQrCodigo() {
+        return QrCodigo;
+    }
+
+    public void setQrCodigo(String qrCodigo) {
+        QrCodigo = qrCodigo;
     }
 }

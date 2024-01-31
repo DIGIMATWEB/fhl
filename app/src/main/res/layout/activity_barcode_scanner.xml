@@ -9,7 +9,14 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:keepScreenOn="true">
-
+    <Button
+        android:id="@+id/clear"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <androidx.camera.view.PreviewView
         android:id="@+id/preview_view"
         android:layout_width="match_parent"

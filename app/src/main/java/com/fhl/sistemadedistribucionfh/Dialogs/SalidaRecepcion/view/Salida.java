@@ -2,6 +2,7 @@ package com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.view;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
+import com.bumptech.glide.Glide;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.cortina.dataCortina;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2data;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter.salidaViewPresenter;
@@ -33,13 +35,13 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
     public static final String TAG = Salida.class.getSimpleName();
     private salidaViewPresenter presenter;
     private BottomSheetBehavior bottomSheetBehavior;
-    private ConstraintLayout bottomSheet;
+    private ConstraintLayout bottomSheet,cortina;
     private CardView constrainCard;
-    private String codigoValidador,codigoValidador1,cortinaDestino;
+    private String codigoValidador,codigoValidador1,cortinaDestino,mQR;
     private ImageButton imageButton;
     private Button clear;
-    private ImageView imageView24;
-    private TextView textView23,textView29;
+    private ImageView imageView24,qrsalida;
+    private TextView textView23,textView29 ,textsalida;
     private CardView gonext;
     private List<responseManifestSalidaV2data> data;
     private TextView numberManifestsalida,cedissalida,vehiculosalida,datesalida,placasalida,regresosalida;
@@ -60,8 +62,9 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
             codigoValidador= args.getString("qrCode");
             codigoValidador1= args.getString("statusRecepcion");
             cortinaDestino= args.getString("cortinaDestino");
+            mQR= args.getString("mQR");
         }
-        Log.e("codigoValidador1",""+codigoValidador1);
+        Log.e("datadecortina",""+cortinaDestino);
         initDialog(view);
         setUpDialog(codigoValidador1);
         //setFonts();
@@ -74,9 +77,20 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                 textView23.setText("siguiente paso");
                 textView29.setText("escanear codigo de la cortina");
                 presenter.requestManifest(codigoValidador);
+                cortina.setVisibility(View.GONE);
                 break;
             case "2":
                 constrainCard.setVisibility(View.GONE);
+                cortina.setVisibility(View.VISIBLE);
+                try {
+                byte[] decodedBytes = Base64.decode(mQR, Base64.DEFAULT);
+                Glide.with(getContext())
+                        .load(decodedBytes)
+                        .into(qrsalida);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                textsalida.setText("   "+cortinaDestino);
                 textView23.setText("siguiente paso");
                 textView29.setText("escanea el codigo de los tickets");
                 break;
@@ -94,8 +108,11 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
     private void initDialog(View view) {
         // presenter= new dialogReasonsPresenterImpl(this,getContext());
         constrainCard =view.findViewById(R.id.constrainCard);
+        cortina=view.findViewById(R.id. cortina);
         imageButton=view.findViewById(R.id.imageButton);
         imageButton.setOnClickListener(this);
+        qrsalida =view.findViewById(R.id.qrsalida);
+        textsalida =view.findViewById(R.id.textsalida);
         clear=view.findViewById(R.id.clear);
         clear.setOnClickListener(this);
         imageView24 =view.findViewById(R.id.imageView24);
@@ -183,9 +200,9 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
 
     @Override
     public void setdataCortina(dataCortina data) {
-        Log.e("datadecortina",""+data);
+        Log.e("datadecortina",""+data.getFolioDespacho());
         BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
-        barcodeScannerActivity1.setCortina(data.getDestino());
+        barcodeScannerActivity1.setCortina(data.getDestino(),data.getAnden().getQrCodigo(),data.getAnden().getCodigoAnden());
 
     }
 

@@ -21,6 +21,44 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.501" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cortina"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/imageButton1"
+        app:layout_constraintEnd_toEndOf="@+id/imageButton1"
+        app:layout_constraintStart_toStartOf="@+id/imageButton1"
+        app:layout_constraintTop_toTopOf="@+id/imageButton1" >
+
+        <ImageView
+            android:id="@+id/qrsalida"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textsalida"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text=""
+            app:layout_constraintEnd_toEndOf="@+id/qrsalida"
+            app:layout_constraintStart_toStartOf="@+id/qrsalida"
+            app:layout_constraintTop_toBottomOf="@+id/qrsalida" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/salida"
+            app:layout_constraintBottom_toBottomOf="@+id/textsalida"
+            app:layout_constraintEnd_toStartOf="@+id/textsalida"
+            app:layout_constraintTop_toBottomOf="@+id/qrsalida" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.cardview.widget.CardView
         android:id="@+id/constrainCard"
         android:layout_width="0dp"
