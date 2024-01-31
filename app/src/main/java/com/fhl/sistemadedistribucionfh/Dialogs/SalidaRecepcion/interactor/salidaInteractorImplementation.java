@@ -16,6 +16,8 @@ import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientPep;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
 import com.fhl.sistemadedistribucionfh.login.model.modelProfile.profileResponse;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.responseTicketsManifestV2;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -171,7 +173,63 @@ public class salidaInteractorImplementation  implements salidainteractor {
     }
 
     @Override
-    public void detailtickets() {
+    public void detailtickets(String currentManifest) {
+        Log.e("detailticketsSalida",""+currentManifest);
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String token = preferences.getString(GeneralConstants.TOKEN, null);
+        Log.e("TOKEN",""+token);
 
+        //requestTicketsManifestV2 request = new requestTicketsManifestV2(ticket);
+        Call<responseTicketsManifestV2> call = service.getTicketsV2(token,currentManifest);
+        call.enqueue(new Callback<responseTicketsManifestV2>() {
+            @Override
+            public void onResponse(Call<responseTicketsManifestV2> call, Response<responseTicketsManifestV2> response) {
+                validateResponsetickets(response,context);
+            }
+
+            @Override
+            public void onFailure(Call<responseTicketsManifestV2> call, Throwable t) {
+                Toast.makeText(context, "bad request"+t.getMessage(), Toast.LENGTH_SHORT).show();
+                //presenter.setDatahardcode();
+            }
+        });
+    }
+
+    @Override
+    public void detailSellos(String currentManifest) {
+
+    }
+
+    private void validateResponsetickets(Response<responseTicketsManifestV2> response, Context context) {
+        if (response != null) {
+
+            if (RetrofitValidations.checkSuccessCode(response.code())) {
+                getTickets(response, context);
+            } else {
+                Toast.makeText(context, "fail respose" + response.message(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void getTickets(Response<responseTicketsManifestV2> response, Context context) {
+        responseTicketsManifestV2 resp = response.body();
+        if(resp!=null){
+            String message = resp.getMessage();
+            int responseCode = resp.getStatus();
+            if(resp.getStatus()== GeneralConstants.RESPONSE_CODE_OK_PEP){
+                List<dataTicketsManifestV2> data = resp.getData();
+
+                if(data!=null){
+                    presenter.setTickets(data);
+                }else{
+                    Toast.makeText(context, "sin tickets asignados", Toast.LENGTH_SHORT).show();
+                }
+            }else{
+                Toast.makeText(context, "response not ok" + response.message(), Toast.LENGTH_SHORT).show();
+            }
+
+        } else{
+            Toast.makeText(context, "response null" + response.message(), Toast.LENGTH_SHORT).show();
+        }
     }
 }

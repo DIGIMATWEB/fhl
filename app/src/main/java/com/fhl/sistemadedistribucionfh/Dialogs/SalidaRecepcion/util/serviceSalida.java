@@ -5,6 +5,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseMan
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2data;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitEndPoints;
 import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.responseManifestV2;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.responseTicketsManifestV2;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -27,4 +28,9 @@ public interface serviceSalida {
             @Query("codigoAnden") String codigoAnden
     );
 
+    @GET(RetrofitEndPoints.TICKETS_PEP)
+    Call<responseTicketsManifestV2> getTicketsV2(
+            @Header("Authorization") String authorizationHeader,
+             @Query("folioDespacho") String folioDespacho
+    );
 }

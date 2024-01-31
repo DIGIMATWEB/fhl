@@ -37,6 +37,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.dialogCompletedSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.escanearCodigos;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.view.validadorBottomSheet;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.google.mlkit.common.MlKitException;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.databinding.ActivityBarcodeScannerBinding;
@@ -72,8 +73,9 @@ public class BarcodeScannerActivity extends AppCompatActivity
     public static  String gotoListBarcode;
     public String typeScanner="";
     private Integer currentStatus=0;
-    private String cortinaDestination,mQR,mcodigoAnden;
+    private String cortinaDestination,mQR,mcodigoAnden,currentmanifest;
     private  ticketsSalida botonsheettickets;
+    private List<dataTicketsManifestV2> dataTickets;
     // private BottomSheetBehavior bottomSheetBehavior;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -449,10 +451,13 @@ public class BarcodeScannerActivity extends AppCompatActivity
         SharedPreferences.Editor editor=preferences.edit();
         editor.putString(GeneralConstants.STATUS_SALIDA,String.valueOf(currentStatus));
         editor.commit();
-
+    }
+    public void setTicketsArray(List<dataTicketsManifestV2> data) {
+        this.dataTickets=data;
 
     }
-    public void setCortina(String destino, String qrCodigo, String codigoAnden) {
+    public void setCortina(String destino, String qrCodigo, String codigoAnden, String codigoValidador) {
+        this.currentmanifest=codigoValidador;
         cortinaDestination=destino;
         mQR=qrCodigo;
         mcodigoAnden=codigoAnden;
@@ -517,6 +522,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                 String status = preferences.getString(GeneralConstants.STATUS_SALIDA, null);
                 if(status == null){
+
                     Log.e("typeScanner","null status: 1");
                     SharedPreferences.Editor editor=preferences.edit();
                     editor.putString(GeneralConstants.STATUS_SALIDA,"1");
@@ -547,6 +553,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                         bundle.putString("statusRecepcion", status);
                         bundle.putString("cortinaDestino", cortinaDestination);
                         bundle.putString("mQR", mQR);
+                        bundle.putString("currentManifest", currentmanifest);
                         Salida bottonSheetv = new Salida();
                         bottonSheetv.setArguments(bundle);
                         bottonSheetv.show(getSupportFragmentManager(), "Salida");
@@ -645,6 +652,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 }
         }
     }
+
 
 
 }

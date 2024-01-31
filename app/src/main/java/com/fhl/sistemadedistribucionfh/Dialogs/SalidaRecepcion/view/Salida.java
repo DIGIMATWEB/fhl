@@ -26,6 +26,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter.salidaV
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter.salidaViewPresenterImplements;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
     private BottomSheetBehavior bottomSheetBehavior;
     private ConstraintLayout bottomSheet,cortina;
     private CardView constrainCard;
-    private String codigoValidador,codigoValidador1,cortinaDestino,mQR;
+    private String codigoValidador,codigoValidador1,cortinaDestino,mQR,currentManifest;
     private ImageButton imageButton;
     private Button clear;
     private ImageView imageView24,qrsalida;
@@ -63,6 +64,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
             codigoValidador1= args.getString("statusRecepcion");
             cortinaDestino= args.getString("cortinaDestino");
             mQR= args.getString("mQR");
+            currentManifest = args.getString("currentManifest");
         }
         Log.e("datadecortina",""+cortinaDestino);
         initDialog(view);
@@ -70,41 +72,6 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
         //setFonts();
         return view;
     }
-
-    private void setUpDialog(String codigoValidador1) {
-        switch (codigoValidador1) {
-            case "1":
-                textView23.setText("siguiente paso");
-                textView29.setText("escanear codigo de la cortina");
-                presenter.requestManifest(codigoValidador);
-                cortina.setVisibility(View.GONE);
-                break;
-            case "2":
-                constrainCard.setVisibility(View.GONE);
-                cortina.setVisibility(View.VISIBLE);
-                try {
-                byte[] decodedBytes = Base64.decode(mQR, Base64.DEFAULT);
-                Glide.with(getContext())
-                        .load(decodedBytes)
-                        .into(qrsalida);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                textsalida.setText("   "+cortinaDestino);
-                textView23.setText("siguiente paso");
-                textView29.setText("escanea el codigo de los tickets");
-                break;
-            case "3":
-                textView23.setText("siguiente paso");
-                textView29.setText("escanea el codigo de los sellos");
-                break;
-            case "4":
-                textView23.setVisibility(View.GONE);
-                textView29.setText("Resumen");
-                break;
-        }
-    }
-
     private void initDialog(View view) {
         // presenter= new dialogReasonsPresenterImpl(this,getContext());
         constrainCard =view.findViewById(R.id.constrainCard);
@@ -134,6 +101,40 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
         //endregion
         Toast.makeText(getContext(), "qrCode: "+codigoValidador+" status de recepcion: "+codigoValidador1, Toast.LENGTH_SHORT).show();
         presenter= new salidaViewPresenterImplements(this,getContext());
+    }
+    private void setUpDialog(String codigoValidador1) {
+        switch (codigoValidador1) {
+            case "1":/** aqui pedimos los manifiestos y las cortinas*/
+                textView23.setText("siguiente paso");
+                textView29.setText("escanear codigo de la cortina");
+                cortina.setVisibility(View.GONE);
+                presenter.requestManifest(codigoValidador);
+                break;
+            case "2":/** aqui pedimos los manifiestos y las cortinas*/
+                constrainCard.setVisibility(View.GONE);
+                cortina.setVisibility(View.VISIBLE);
+                try {
+                    byte[] decodedBytes = Base64.decode(mQR, Base64.DEFAULT);
+                    Glide.with(getContext())
+                            .load(decodedBytes)
+                            .into(qrsalida);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                textsalida.setText("   "+cortinaDestino);
+                textView23.setText("siguiente paso");
+                textView29.setText("escanea el codigo de los tickets");
+                presenter.requestTickets(currentManifest);
+                break;
+            case "3":
+                textView23.setText("siguiente paso");
+                textView29.setText("escanea el codigo de los sellos");
+                break;
+            case "4":
+                textView23.setVisibility(View.GONE);
+                textView29.setText("Resumen");
+                break;
+        }
     }
     private void bottomSheetSettings() {
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
@@ -202,7 +203,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
     public void setdataCortina(dataCortina data) {
         Log.e("datadecortina",""+data.getFolioDespacho());
         BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
-        barcodeScannerActivity1.setCortina(data.getDestino(),data.getAnden().getQrCodigo(),data.getAnden().getCodigoAnden());
+        barcodeScannerActivity1.setCortina(data.getDestino(),data.getAnden().getQrCodigo(),data.getAnden().getCodigoAnden(),codigoValidador);
 
     }
 
@@ -212,6 +213,14 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
             BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
             barcodeScannerActivity1.goTickets();
         }
+    }
+
+    @Override
+    public void setTickets(List<dataTicketsManifestV2> data) {
+        Log.e("ticketsArray",""+data.size()+" testfirst:" + data.get(0).getFolioTicket());
+        BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+        barcodeScannerActivity1.setTicketsArray(data);
+        presenter.getsellos(currentManifest);
     }
 
     private void fillmanifest(List<responseManifestSalidaV2data> data) {

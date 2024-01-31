@@ -4,7 +4,9 @@ package com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class dataTicketsManifestV2 {
+import java.io.Serializable;
+
+public class dataTicketsManifestV2 implements Serializable {
 
     @SerializedName("DespachoId")
     @Expose
