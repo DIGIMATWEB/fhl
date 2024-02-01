@@ -2,6 +2,7 @@ package com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.presenter.dialogReasonsPr
 import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.view.dialogReasons;
 import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.view.dialogReasonsView;
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
 //    private adapterReasons adapter;
 //    private dialogReasonsPresenter presenter;
     private ImageView closeReasons;
+    private  List<dataTicketsManifestV2> codigoValidador;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +46,14 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.dialog_tickets, container, false);
         getDialog().getWindow().setBackgroundDrawableResource(R.color.alfa);
         setCancelable(true);
+        Bundle args = getArguments();
+        if (args != null) {
+            codigoValidador= (List<dataTicketsManifestV2>) args.getSerializable("tickets");
+        }
         initDialog(view);
+        if(codigoValidador!=null) {
+            Log.e("ticketsArray", "adapter size" + codigoValidador.size());
+        }
         //setFonts();
         return view;
     }
@@ -60,7 +70,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         //presenter.requestMReasons();
     }
 
-    private void fillAdapter(List<dataReasons> data, Context context) {
+    private void fillAdapter(List<dataTicketsManifestV2> data, Context context) {
 //        adapter = new adapterReasons(data,context);
 //        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 //        rvReasons.setLayoutManager(linearLayoutManager);

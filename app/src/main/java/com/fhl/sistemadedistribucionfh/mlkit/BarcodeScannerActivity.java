@@ -37,12 +37,13 @@ import com.fhl.sistemadedistribucionfh.Dialogs.dialogCompletedSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.escanearCodigos;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.view.validadorBottomSheet;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
-import com.fhl.sistemadedistribucionfh.Salida.Model.test.Sello;
+import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.google.mlkit.common.MlKitException;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.databinding.ActivityBarcodeScannerBinding;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,6 +78,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
     private String cortinaDestination,mQR,mcodigoAnden,currentmanifest;
     private  ticketsSalida botonsheettickets;
     private List<dataTicketsManifestV2> dataTickets;
+    private List<Sello> dataSellos;
     // private BottomSheetBehavior bottomSheetBehavior;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -422,11 +424,13 @@ public class BarcodeScannerActivity extends AppCompatActivity
     public void restartCameraProcess() {
         if (allPermissionsGranted()) {
             bindAllCameraUseCases();
-            currentStatus=currentStatus+1;
-            SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor=preferences.edit();
-            editor.putString(GeneralConstants.STATUS_SALIDA,String.valueOf(currentStatus ));
-            editor.commit();
+            if(currentStatus!=3) {
+                currentStatus = currentStatus + 1;
+                SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString(GeneralConstants.STATUS_SALIDA, String.valueOf(currentStatus));
+                editor.commit();
+            }
             if(currentStatus==3){
                 binding.barcodeRawValue.setText("escanea los tickets");
 
@@ -458,6 +462,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
 
     }
     public void setSellosArray(List<Sello> response) {
+        this.dataSellos=response;
     }
     public void setCortina(String destino, String qrCodigo, String codigoAnden, String codigoValidador) {
         this.currentmanifest=codigoValidador;
@@ -549,29 +554,43 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     bottonSheetv.show(getSupportFragmentManager(),"Salida");
                     stopCameraProcess();
                 }else if(status.equals("2")){
-                    if(mcodigoAnden.equals(code)) {
-                        Log.e("typeScanner", "1 status: " + status);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("qrCode", code);
-                        bundle.putString("statusRecepcion", status);
-                        bundle.putString("cortinaDestino", cortinaDestination);
-                        bundle.putString("mQR", mQR);
-                        bundle.putString("currentManifest", currentmanifest);
-                        Salida bottonSheetv = new Salida();
-                        bottonSheetv.setArguments(bundle);
-                        bottonSheetv.show(getSupportFragmentManager(), "Salida");
+                    if(mcodigoAnden!=null) {
+                        if (mcodigoAnden.equals(code)) {
+                            Log.e("typeScanner", "1 status: " + status);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("qrCode", code);
+                            bundle.putString("statusRecepcion", status);
+                            bundle.putString("cortinaDestino", cortinaDestination);
+                            bundle.putString("mQR", mQR);
+                            bundle.putString("currentManifest", currentmanifest);
+                            Salida bottonSheetv = new Salida();
+                            bottonSheetv.setArguments(bundle);
+                            bottonSheetv.show(getSupportFragmentManager(), "Salida");
+                            stopCameraProcess();
+                        } else {
+                            errorDialog errorD = new errorDialog();
+                        }
                     }else{
                         errorDialog errorD = new errorDialog();
                     }
-                    stopCameraProcess();
                 }else if(status.equals("3")){
                     Toast.makeText(this, "escanea un ticket", Toast.LENGTH_SHORT).show();
-                    if (getSupportFragmentManager().findFragmentByTag("ticketsSalida") == null) {
+                    if (getSupportFragmentManager().findFragmentByTag("ticketsSalida") == null) {//si el estatus es tres se crea el bottomsheet siempre y cuando no exista
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("tickets", (Serializable) dataTickets);
                         botonsheettickets = new ticketsSalida();
-                        botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");
+                        botonsheettickets.setArguments(bundle);
+                        botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");//de existir el botomsheet
                     } else {
                         botonsheettickets.sendToast();
                     }
+                    stopCameraProcess();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            restartCameraProcess();
+                        }
+                    }, 1500);
                 }else {
                     binding.barcodeRawValue.setText("");
                     Log.e("typeScanner","else estatus: "+status+" cortina: "+cortinaDestination);

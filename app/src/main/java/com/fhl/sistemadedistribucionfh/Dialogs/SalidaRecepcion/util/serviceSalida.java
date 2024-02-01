@@ -3,6 +3,7 @@ package com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.util;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.cortina.responseCortina;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2data;
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.sellos.ResponseSellos;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitEndPoints;
 import com.fhl.sistemadedistribucionfh.Salida.Model.test.responseSalida;
 import com.fhl.sistemadedistribucionfh.Salida.Model.v2.ResponseSalida;
@@ -36,7 +37,7 @@ public interface serviceSalida {
              @Query("folioDespacho") String folioDespacho
     );
     @GET(RetrofitEndPoints.SALIDA_V2)
-    Call<responseSalida> getSalidaV2(@Header("Authorization") String authorizationHeader,
+    Call<ResponseSellos> getSalidaV2(@Header("Authorization") String authorizationHeader,
                                      @Query("folioDespacho") String operadorId
     );
 }

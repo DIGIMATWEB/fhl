@@ -9,23 +9,19 @@ import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.cortina.dat
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.cortina.responseCortina;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2data;
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.sellos.ResponseSellos;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter.salidaViewPresenter;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter.salidaViewPresenterImplements;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.util.serviceSalida;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientPep;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
-import com.fhl.sistemadedistribucionfh.Salida.Model.test.Sello;
-import com.fhl.sistemadedistribucionfh.Salida.Model.test.Ticket;
-import com.fhl.sistemadedistribucionfh.Salida.Model.test.responseSalida;
-import com.fhl.sistemadedistribucionfh.Salida.Model.v2.ResponseSalida;
-import com.fhl.sistemadedistribucionfh.Salida.Model.v2.dataSalida;
+import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 import com.fhl.sistemadedistribucionfh.login.model.modelProfile.profileResponse;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.responseTicketsManifestV2;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -239,21 +235,21 @@ public class salidaInteractorImplementation  implements salidainteractor {
     public void detailSellos(String currentManifest) {
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
-        Call<responseSalida> call=service.getSalidaV2(token,currentManifest);
-        call.enqueue(new Callback<responseSalida>() {
+        Call<ResponseSellos> call=service.getSalidaV2(token,currentManifest);
+        call.enqueue(new Callback<ResponseSellos>() {
             @Override
-            public void onResponse(Call<responseSalida> call, Response<responseSalida> response) {
+            public void onResponse(Call<ResponseSellos> call, Response<ResponseSellos> response) {
                 validateResponseSellos(response,context);
             }
 
             @Override
-            public void onFailure(Call<responseSalida> call, Throwable t) {
+            public void onFailure(Call<ResponseSellos> call, Throwable t) {
                 Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void validateResponseSellos(Response<responseSalida> response, Context context) {
+    private void validateResponseSellos(Response<ResponseSellos> response, Context context) {
         if (response != null) {
             if (RetrofitValidations.checkSuccessCode(response.code())) {
                 getDataSellos(response, context);
@@ -263,28 +259,18 @@ public class salidaInteractorImplementation  implements salidainteractor {
         }
     }
 
-    private void getDataSellos(Response<responseSalida> response, Context context) {
-        responseSalida resp = response.body();
+    private void getDataSellos(Response<ResponseSellos> response, Context context) {
+        ResponseSellos resp = response.body();
         if(resp!=null) {
-            String message = resp.getMessge();
-            int responseCode = resp.getCode();
+            String message = resp.getMessage();
+            int responseCode = resp.getStatus();
 
-            if (resp.getCode() == GeneralConstants.RESPONSE_CODE_OK_PEP) {//cada ticket tiene N cantidad de sellos
-                List<Ticket> mainD = resp.getTickets();
-                List<Sello> data = new ArrayList<>();
-                data.clear();
-                if (mainD != null) {
-                    for (Ticket t : mainD) {
-                        data.addAll(t.getSellos());
+            if (resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_PEP) {//cada ticket tiene N cantidad de sellos
+                List<Sello> sellos= resp.getData().getSellos();
+
+                    if (sellos != null) {
+                        presenter.setSellos(sellos);
                     }
-                    if (data != null) {
-                        presenter.setSellos(data);
-                    }
-
-                } else {
-                    Toast.makeText(context, "Sin tickets asignados2.", Toast.LENGTH_SHORT).show();
-                }
-
 
             } else {
                 Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
