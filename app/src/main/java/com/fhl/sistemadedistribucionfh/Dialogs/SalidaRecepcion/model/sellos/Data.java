@@ -1,5 +1,5 @@
 
-package com.fhl.sistemadedistribucionfh.Sellos.model;
+package com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.sellos;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;

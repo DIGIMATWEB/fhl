@@ -1,5 +1,5 @@
 
-package com.fhl.sistemadedistribucionfh.Sellos.model;
+package com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.sellos;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -19,6 +19,20 @@ public class Sello {
     @Expose
     private Integer id;
 
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Sello() {
+    }
+
+    /**
+     * 
+     * @param qrCodigo
+     * @param numeroSello
+     * @param despachoId
+     * @param id
+     */
     public Sello(String qrCodigo, String numeroSello, Integer despachoId, Integer id) {
         super();
         this.qrCodigo = qrCodigo;

@@ -15,6 +15,9 @@ import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.util.serviceSalid
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientPep;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
+import com.fhl.sistemadedistribucionfh.Salida.Model.test.Sello;
+import com.fhl.sistemadedistribucionfh.Salida.Model.test.Ticket;
+import com.fhl.sistemadedistribucionfh.Salida.Model.test.responseSalida;
 import com.fhl.sistemadedistribucionfh.Salida.Model.v2.ResponseSalida;
 import com.fhl.sistemadedistribucionfh.Salida.Model.v2.dataSalida;
 import com.fhl.sistemadedistribucionfh.login.model.modelProfile.profileResponse;
@@ -22,6 +25,7 @@ import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManife
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.responseTicketsManifestV2;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -235,21 +239,21 @@ public class salidaInteractorImplementation  implements salidainteractor {
     public void detailSellos(String currentManifest) {
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
-        Call<ResponseSalida> call=service.getSalidaV2(token,currentManifest);
-        call.enqueue(new Callback<ResponseSalida>() {
+        Call<responseSalida> call=service.getSalidaV2(token,currentManifest);
+        call.enqueue(new Callback<responseSalida>() {
             @Override
-            public void onResponse(Call<ResponseSalida> call, Response<ResponseSalida> response) {
+            public void onResponse(Call<responseSalida> call, Response<responseSalida> response) {
                 validateResponseSellos(response,context);
             }
 
             @Override
-            public void onFailure(Call<ResponseSalida> call, Throwable t) {
+            public void onFailure(Call<responseSalida> call, Throwable t) {
                 Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void validateResponseSellos(Response<ResponseSalida> response, Context context) {
+    private void validateResponseSellos(Response<responseSalida> response, Context context) {
         if (response != null) {
             if (RetrofitValidations.checkSuccessCode(response.code())) {
                 getDataSellos(response, context);
@@ -259,22 +263,33 @@ public class salidaInteractorImplementation  implements salidainteractor {
         }
     }
 
-    private void getDataSellos(Response<ResponseSalida> response, Context context) {
-        ResponseSalida resp = response.body();
+    private void getDataSellos(Response<responseSalida> response, Context context) {
+        responseSalida resp = response.body();
         if(resp!=null) {
-            String message = resp.getMessage();
-            int responseCode = resp.getStatus();
-            if(resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_PEP) {
-               List<dataSalida> data = resp.getData();
+            String message = resp.getMessge();
+            int responseCode = resp.getCode();
 
-                if(data!=null) {
-                    presenter.setSellos(data);
+            if (resp.getCode() == GeneralConstants.RESPONSE_CODE_OK_PEP) {//cada ticket tiene N cantidad de sellos
+                List<Ticket> mainD = resp.getTickets();
+                List<Sello> data = new ArrayList<>();
+                data.clear();
+                if (mainD != null) {
+                    for (Ticket t : mainD) {
+                        data.addAll(t.getSellos());
+                    }
+                    if (data != null) {
+                        presenter.setSellos(data);
+                    }
+
                 } else {
                     Toast.makeText(context, "Sin tickets asignados2.", Toast.LENGTH_SHORT).show();
                 }
+
+
             } else {
                 Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
             }
+
         } else {
             Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
         }

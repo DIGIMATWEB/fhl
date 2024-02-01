@@ -4,6 +4,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.cortina.res
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2data;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitEndPoints;
+import com.fhl.sistemadedistribucionfh.Salida.Model.test.responseSalida;
 import com.fhl.sistemadedistribucionfh.Salida.Model.v2.ResponseSalida;
 import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.responseManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.responseTicketsManifestV2;
@@ -35,7 +36,7 @@ public interface serviceSalida {
              @Query("folioDespacho") String folioDespacho
     );
     @GET(RetrofitEndPoints.SALIDA_V2)
-    Call<ResponseSalida> getSalidaV2(@Header("Authorization") String authorizationHeader,
+    Call<responseSalida> getSalidaV2(@Header("Authorization") String authorizationHeader,
                                      @Query("folioDespacho") String operadorId
     );
 }

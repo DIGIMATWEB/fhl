@@ -2,13 +2,10 @@ package com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter;
 
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.cortina.dataCortina;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2data;
-import com.fhl.sistemadedistribucionfh.Salida.Model.v2.ResponseSalida;
-import com.fhl.sistemadedistribucionfh.Salida.Model.v2.dataSalida;
+import com.fhl.sistemadedistribucionfh.Salida.Model.test.Sello;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
 import java.util.List;
-
-import retrofit2.Response;
 
 public interface salidaViewPresenter {
     void requestManifest(String codigoValidador);
@@ -28,5 +25,5 @@ public interface salidaViewPresenter {
     void setTickets(List<dataTicketsManifestV2> data);
 
 
-    void setSellos(List<dataSalida> response);
+    void setSellos(List<Sello> response);
 }

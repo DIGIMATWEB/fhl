@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class responseSalida {
-    @SerializedName("messge")
+    @SerializedName("Message")
     private String messge;
-    @SerializedName("code")
+    @SerializedName("Status")
     private Integer code;
     @SerializedName("qr")
     private String qr;

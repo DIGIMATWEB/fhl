@@ -7,7 +7,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.interactor.salida
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.cortina.dataCortina;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2data;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.view.salidaView;
-import com.fhl.sistemadedistribucionfh.Salida.Model.v2.dataSalida;
+import com.fhl.sistemadedistribucionfh.Salida.Model.test.Sello;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
 import java.util.List;
@@ -87,7 +87,7 @@ public class salidaViewPresenterImplements implements salidaViewPresenter{
     }
 
     @Override
-    public void setSellos(List<dataSalida> response) {
+    public void setSellos(List<Sello> response) {
         if (view!=null) {
             view.setSellos(response);
         }
