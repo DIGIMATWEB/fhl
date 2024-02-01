@@ -37,6 +37,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.dialogCompletedSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.escanearCodigos;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.view.validadorBottomSheet;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
+import com.fhl.sistemadedistribucionfh.Salida.Model.v2.dataSalida;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.google.mlkit.common.MlKitException;
 import com.fhl.sistemadedistribucionfh.R;
@@ -455,6 +456,8 @@ public class BarcodeScannerActivity extends AppCompatActivity
     public void setTicketsArray(List<dataTicketsManifestV2> data) {
         this.dataTickets=data;
 
+    }
+    public void setSellosArray(List<dataSalida> response) {
     }
     public void setCortina(String destino, String qrCodigo, String codigoAnden, String codigoValidador) {
         this.currentmanifest=codigoValidador;

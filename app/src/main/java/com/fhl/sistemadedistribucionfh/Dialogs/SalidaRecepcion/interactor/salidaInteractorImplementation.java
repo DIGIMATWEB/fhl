@@ -15,6 +15,8 @@ import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.util.serviceSalid
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientPep;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
+import com.fhl.sistemadedistribucionfh.Salida.Model.v2.ResponseSalida;
+import com.fhl.sistemadedistribucionfh.Salida.Model.v2.dataSalida;
 import com.fhl.sistemadedistribucionfh.login.model.modelProfile.profileResponse;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.responseTicketsManifestV2;
@@ -195,10 +197,7 @@ public class salidaInteractorImplementation  implements salidainteractor {
         });
     }
 
-    @Override
-    public void detailSellos(String currentManifest) {
 
-    }
 
     private void validateResponsetickets(Response<responseTicketsManifestV2> response, Context context) {
         if (response != null) {
@@ -230,6 +229,54 @@ public class salidaInteractorImplementation  implements salidainteractor {
 
         } else{
             Toast.makeText(context, "response null" + response.message(), Toast.LENGTH_SHORT).show();
+        }
+    }
+    @Override
+    public void detailSellos(String currentManifest) {
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String token = preferences.getString(GeneralConstants.TOKEN, null);
+        Call<ResponseSalida> call=service.getSalidaV2(token,currentManifest);
+        call.enqueue(new Callback<ResponseSalida>() {
+            @Override
+            public void onResponse(Call<ResponseSalida> call, Response<ResponseSalida> response) {
+                validateResponseSellos(response,context);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseSalida> call, Throwable t) {
+                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void validateResponseSellos(Response<ResponseSalida> response, Context context) {
+        if (response != null) {
+            if (RetrofitValidations.checkSuccessCode(response.code())) {
+                getDataSellos(response, context);
+            } else {
+                Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void getDataSellos(Response<ResponseSalida> response, Context context) {
+        ResponseSalida resp = response.body();
+        if(resp!=null) {
+            String message = resp.getMessage();
+            int responseCode = resp.getStatus();
+            if(resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_PEP) {
+               List<dataSalida> data = resp.getData();
+
+                if(data!=null) {
+                    presenter.setSellos(data);
+                } else {
+                    Toast.makeText(context, "Sin tickets asignados2.", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
         }
     }
 }

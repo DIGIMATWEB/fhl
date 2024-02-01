@@ -25,6 +25,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseMan
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter.salidaViewPresenter;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter.salidaViewPresenterImplements;
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.Salida.Model.v2.dataSalida;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -217,10 +218,17 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
 
     @Override
     public void setTickets(List<dataTicketsManifestV2> data) {
-        Log.e("ticketsArray",""+data.size()+" testfirst:" + data.get(0).getFolioTicket());
+        Log.e("ticketsArray","tickets: "+data.size()+" testfirst:" + data.get(0).getFolioTicket());
         BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
         barcodeScannerActivity1.setTicketsArray(data);
         presenter.getsellos(currentManifest);
+    }
+
+    @Override
+    public void setSellos(List<dataSalida> response) {
+        Log.e("ticketsArray","sellos: "+data.size()+" testfirst:" + data.get(0).getDestino());
+        BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+        barcodeScannerActivity1.setSellosArray(response);
     }
 
     private void fillmanifest(List<responseManifestSalidaV2data> data) {
