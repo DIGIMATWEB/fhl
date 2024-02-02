@@ -15,23 +15,21 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.adapter.adapterReasons;
-import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.model.dataReasons;
-import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.presenter.dialogReasonsPresenter;
-import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.presenter.dialogReasonsPresenterImpl;
-import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.view.dialogReasons;
-import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.view.dialogReasonsView;
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.Adapter.adapterTicketsSalida;
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ticketsSalida extends DialogFragment implements View.OnClickListener {
     public static final String TAG = ticketsSalida.class.getSimpleName();
     private RecyclerView rvReasons;
-//    private adapterReasons adapter;
+    private adapterTicketsSalida adapter;
 //    private dialogReasonsPresenter presenter;
     private ImageView closeReasons;
+    private List<ticketsScanned> model=new ArrayList<>();
     private  List<dataTicketsManifestV2> codigoValidador;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,7 +50,14 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         }
         initDialog(view);
         if(codigoValidador!=null) {
-            Log.e("ticketsArray", "adapter size" + codigoValidador.size());
+            model.clear();
+            Log.e("ticketsArray2", "adapter size" + codigoValidador.size());
+            for(int i=0; i< codigoValidador.size();i++){
+                model.add(new ticketsScanned(codigoValidador.get(i).getFolioTicket(),false));
+                Log.e("ticketsArray2", "model size: " + model.get(i).getFolio()+"  "+model.get(i).getFlag());
+
+            }
+            fillAdapter(codigoValidador,getContext());
         }
         //setFonts();
         return view;
@@ -71,10 +76,10 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
     }
 
     private void fillAdapter(List<dataTicketsManifestV2> data, Context context) {
-//        adapter = new adapterReasons(data,context);
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-//        rvReasons.setLayoutManager(linearLayoutManager);
-//        rvReasons.setAdapter(adapter);
+       adapter = new adapterTicketsSalida(data,context);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        rvReasons.setLayoutManager(linearLayoutManager);
+        rvReasons.setAdapter(adapter);
     }
 
     public void closeDialog() {
@@ -91,7 +96,27 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         }
     }
 
-    public void sendToast() {
-        Toast.makeText(getContext(), "ticket escaneado", Toast.LENGTH_SHORT).show();
+    public void sendToast(String code) {
+        if(model != null) {
+           // Log.e("ticketsArray2", "comprueva el modelo " + model.size() + " comprueba el codigo " + code);
+            boolean codeFound = false;
+
+            for (ticketsScanned ticket : model) {
+                if (ticket.getFolio() != null && ticket.getFolio().equals(code)) {
+                    codeFound = true;
+                    if (!ticket.getFlag()) {
+                        ticket.setFlag(true);
+                        Log.e("ticketsArray2", "codigo escaneado correctamente");
+                    } else {
+                        Log.e("ticketsArray2", "codigo ya escaneado");
+                    }
+                    Log.e("ticketsArray2", ""+ticket.getFolio());
+                    break;
+                }
+            }
+            if (!codeFound) {
+                Log.e("ticketsArray2", "no encontrado");
+            }
+        }
     }
 }

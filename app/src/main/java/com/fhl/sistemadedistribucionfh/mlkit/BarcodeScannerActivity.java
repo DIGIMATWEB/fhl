@@ -433,6 +433,13 @@ public class BarcodeScannerActivity extends AppCompatActivity
             }
             if(currentStatus==3){
                 binding.barcodeRawValue.setText("escanea los tickets");
+                if (getSupportFragmentManager().findFragmentByTag("ticketsSalida") == null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("tickets", (Serializable) dataTickets);
+                    botonsheettickets = new ticketsSalida();
+                    botonsheettickets.setArguments(bundle);
+                    botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");
+                }
 
             }
         } else {
@@ -574,15 +581,17 @@ public class BarcodeScannerActivity extends AppCompatActivity
                         errorDialog errorD = new errorDialog();
                     }
                 }else if(status.equals("3")){
-                    Toast.makeText(this, "escanea un ticket", Toast.LENGTH_SHORT).show();
+
                     if (getSupportFragmentManager().findFragmentByTag("ticketsSalida") == null) {//si el estatus es tres se crea el bottomsheet siempre y cuando no exista
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("tickets", (Serializable) dataTickets);
                         botonsheettickets = new ticketsSalida();
                         botonsheettickets.setArguments(bundle);
                         botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");//de existir el botomsheet
+                        Log.e("ticketsArray", "adapter tickets inicio nulo"  );
                     } else {
-                        botonsheettickets.sendToast();
+                        botonsheettickets.sendToast(code);
+                        Log.e("ticketsArray", "se envia el codigo al adapter "+code  );
                     }
                     stopCameraProcess();
                     new Handler().postDelayed(new Runnable() {

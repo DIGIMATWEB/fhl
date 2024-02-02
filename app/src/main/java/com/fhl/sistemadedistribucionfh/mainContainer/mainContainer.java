@@ -1,6 +1,8 @@
 package com.fhl.sistemadedistribucionfh.mainContainer;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.fhl.sistemadedistribucionfh.Dialogs.mainMenu;
 import com.fhl.sistemadedistribucionfh.Profile.view.viewProfile;
+import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Visor.view.visorViewImpl;
 import com.fhl.sistemadedistribucionfh.checkList.view.checkList;
 import com.fhl.sistemadedistribucionfh.gastos.view.gastos;
@@ -86,6 +89,10 @@ public class mainContainer extends AppCompatActivity  implements view {
                 Locator();
                 break;
             case "Salida":
+                SharedPreferences preferences =getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor=preferences.edit();
+                editor.putString(GeneralConstants.STATUS_SALIDA,String.valueOf(1));
+                editor.commit();
                 mScanner("Salida");
                 break;
             case "Escaner":
