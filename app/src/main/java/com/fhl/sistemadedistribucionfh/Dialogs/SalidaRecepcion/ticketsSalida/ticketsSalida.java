@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -57,7 +56,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                 Log.e("ticketsArray2", "model size: " + model.get(i).getFolio()+"  "+model.get(i).getFlag());
 
             }
-            fillAdapter(codigoValidador,getContext());
+            fillAdapter(model,getContext());
         }
         //setFonts();
         return view;
@@ -75,7 +74,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         //presenter.requestMReasons();
     }
 
-    private void fillAdapter(List<dataTicketsManifestV2> data, Context context) {
+    private void fillAdapter(List<ticketsScanned> data, Context context) {
        adapter = new adapterTicketsSalida(data,context);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvReasons.setLayoutManager(linearLayoutManager);
@@ -116,6 +115,10 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
             }
             if (!codeFound) {
                 Log.e("ticketsArray2", "no encontrado");
+            }
+            if (adapter != null) {
+                adapter.updateData(model);
+                adapter.notifyDataSetChanged();
             }
         }
     }

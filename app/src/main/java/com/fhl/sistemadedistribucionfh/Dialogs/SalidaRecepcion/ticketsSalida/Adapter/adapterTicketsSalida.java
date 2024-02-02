@@ -2,15 +2,21 @@ package com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.Ad
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.model.dataReasons;
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
@@ -18,9 +24,9 @@ import java.util.List;
 
 public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSalida.ViewHolder> {
     private Context context;
-    private List<dataTicketsManifestV2> data;
+    private List<ticketsScanned> data;
 
-    public adapterTicketsSalida(List<dataTicketsManifestV2> data, Context context) {
+    public adapterTicketsSalida(List<ticketsScanned> data, Context context) {
         this.context = context;
         this.data=data;
     }
@@ -34,7 +40,15 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
 
     @Override
     public void onBindViewHolder(@NonNull adapterTicketsSalida.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        holder.razonDesc.setText(data.get(position).getFolioTicket());
+        holder.razonDesc.setText(data.get(position).getFolio());
+        if(data.get(position).getFlag()==true){
+            holder.check.setChecked(true);
+            int tintColor = ContextCompat.getColor(context, R.color.yellow);
+            ColorFilter colorFilter = new PorterDuffColorFilter(tintColor, PorterDuff.Mode.SRC_IN);
+            holder.icticket.setColorFilter(colorFilter);
+        }else {
+           holder.check.setChecked(false);
+        }
     }
 
     @Override
@@ -42,12 +56,20 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
         return data.size();
     }
 
+    public void updateData(List<ticketsScanned> model) {
+        this.data=model;
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView razonDesc;
-
+        private CheckBox check;
+        private ImageView icticket;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            razonDesc=itemView.findViewById(R.id.razonDesc);
+            razonDesc=itemView.findViewById(R.id.razonDescSalida);
+            check=itemView.findViewById(R.id.checkSalida );
+            icticket=itemView.findViewById(R.id.icticket);
         }
     }
 }
