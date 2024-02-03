@@ -53,7 +53,8 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
         //IdEmpleado correcto
         //TODO Cambiar por el token correcto
         presenter.showProgress();
-        Call<responseManifestV2> call = service.getManifestV2(token,  idEmpleadoString);
+        Call<responseManifestV2> call = service.getManifestV2(token,  "6" +
+                "}");
         Log.e("requestmanifest",""+call.request().toString());
         call.enqueue(new Callback<responseManifestV2>() {
             @Override

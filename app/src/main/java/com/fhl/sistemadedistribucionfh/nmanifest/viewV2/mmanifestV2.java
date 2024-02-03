@@ -154,14 +154,14 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
 
     @Override
     public void hideProgress() {
-        mprogres.hide();
+        //mprogres.hide();
     }
 
     @Override
     public void showProgress() {
-        mprogres.setMessage("Cargando manifiestos");
-        mprogres.setCancelable(false);
-        mprogres.show();
+//        mprogres.setMessage("Cargando manifiestos");
+//        mprogres.setCancelable(false);
+//        mprogres.show();
     }
 
     private void deleteCache(Context context) {
