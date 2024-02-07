@@ -1,13 +1,13 @@
-package com.fhl.sistemadedistribucionfh.Dialogs.validador.interactor;
+package com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV1.interactor;
 
 import android.content.Context;
 import android.widget.Toast;
 
-import com.fhl.sistemadedistribucionfh.Dialogs.validador.model.dataValidador;
-import com.fhl.sistemadedistribucionfh.Dialogs.validador.model.requestValidador;
-import com.fhl.sistemadedistribucionfh.Dialogs.validador.model.responseValidador;
-import com.fhl.sistemadedistribucionfh.Dialogs.validador.presenter.presenterValidador;
-import com.fhl.sistemadedistribucionfh.Dialogs.validador.util.utilValidador;
+import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV1.model.dataValidador;
+import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV1.model.requestValidador;
+import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV1.model.responseValidador;
+import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV1.util.utilValidador;
+import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV1.presenter.presenterValidador;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientNewlands;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;

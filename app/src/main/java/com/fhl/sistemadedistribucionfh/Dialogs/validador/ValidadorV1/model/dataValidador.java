@@ -1,4 +1,4 @@
-package com.fhl.sistemadedistribucionfh.Dialogs.validador.model;
+package com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV1.model;
 
 import com.google.gson.annotations.SerializedName;
 

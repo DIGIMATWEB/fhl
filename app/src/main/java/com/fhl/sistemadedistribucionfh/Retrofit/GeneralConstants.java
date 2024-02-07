@@ -6,6 +6,7 @@ public class GeneralConstants {
     public static final String TOKEN = "TOKEN";
     public static final String OPERADOR_ID = "OPERADOR_ID";
     public static final String STATUS_SALIDA = "UNO";
+    public static final String STATUS_VALIDADOR = "DOS";
     public static final String PERMISSION_ACCESS = "false";
     public static final String USER_VALUES = "mUSERV";
     //responseCode

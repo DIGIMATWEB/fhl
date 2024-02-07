@@ -1,4 +1,4 @@
-package com.fhl.sistemadedistribucionfh.Dialogs.validador.view;
+package com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV1.view;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -18,9 +18,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
 import com.fhl.sistemadedistribucionfh.Dialogs.dialogCompletedespacho;
-import com.fhl.sistemadedistribucionfh.Dialogs.validador.model.dataValidador;
-import com.fhl.sistemadedistribucionfh.Dialogs.validador.presenter.presenterValidador;
-import com.fhl.sistemadedistribucionfh.Dialogs.vehicleBottomSheet;
+import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV1.model.dataValidador;
+import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV1.presenter.presenterValidador;
 import com.fhl.sistemadedistribucionfh.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 

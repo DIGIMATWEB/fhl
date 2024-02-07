@@ -31,12 +31,13 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ErrorSalida.errorDialog;
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.escanearCodigosSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.sellosSalida.sellosSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.ticketsSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.view.Salida;
 import com.fhl.sistemadedistribucionfh.Dialogs.dialogCompletedSalida;
-import com.fhl.sistemadedistribucionfh.Dialogs.escanearCodigos;
-import com.fhl.sistemadedistribucionfh.Dialogs.validador.view.validadorBottomSheet;
+import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.view.validadorManifest;
+import com.fhl.sistemadedistribucionfh.Dialogs.validador.escanearValidador;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
@@ -108,9 +109,10 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     Log.e("typeScanner","1 "+typeScanner);
                     binding.mtypeScanner.setText(typeScanner);
                     if (typeScanner.equals("Validador")) {
-
+                        new escanearValidador().show(getSupportFragmentManager(), "escanearValidador");
+                        stopCameraProcess();
                     }else{
-                        new escanearCodigos().show(getSupportFragmentManager(), "escanearCodigos");
+                        new escanearCodigosSalida().show(getSupportFragmentManager(), "escanearCodigosSalida");
                         stopCameraProcess();
                     }
 
@@ -121,7 +123,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
          }else{
                 typeScanner="Validador";
                 Log.e("","3 "+typeScanner);
-                new escanearCodigos().show(getSupportFragmentManager(), "escanearCodigos");
+                new escanearCodigosSalida().show(getSupportFragmentManager(), "escanearCodigosSalida");
             }
 
        // Log.d(TAG, "onCreate");
@@ -413,8 +415,6 @@ public class BarcodeScannerActivity extends AppCompatActivity
             public void run() {
 
                 if (code != null && !code.isEmpty()) {
-
-
                     barcodesCollection(code);
                     binding.resultContainer.setVisibility(View.VISIBLE);
                     lastCode=code;
@@ -426,24 +426,26 @@ public class BarcodeScannerActivity extends AppCompatActivity
         binding.barcodeRawValue.setText("");
         if (allPermissionsGranted()) {
             bindAllCameraUseCases();
-            if(currentStatus==3){
-                binding.barcodeRawValue.setText("escanea los tickets");
-                if (getSupportFragmentManager().findFragmentByTag("ticketsSalida") == null) {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("tickets", (Serializable) dataTickets);
-                    botonsheettickets = new ticketsSalida();
-                    botonsheettickets.setArguments(bundle);
-                    botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");
-                }
+            if(typeScanner.equals("Salida")) {
+                if (currentStatus == 3) {
+                    binding.barcodeRawValue.setText("escanea los tickets");
+                    if (getSupportFragmentManager().findFragmentByTag("ticketsSalida") == null) {
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("tickets", (Serializable) dataTickets);
+                        botonsheettickets = new ticketsSalida();
+                        botonsheettickets.setArguments(bundle);
+                        botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");
+                    }
 
-            }else if(currentStatus==5){
-                binding.barcodeRawValue.setText("escanea los sellos");
-                if(getSupportFragmentManager().findFragmentByTag("sellosSalida")==null){
-                    Bundle bundle= new Bundle();
-                    bundle.putSerializable("sellos",(Serializable) dataSellos);
-                    botonsheetsellos = new sellosSalida();
-                    botonsheetsellos.setArguments(bundle);
-                    botonsheetsellos.show(getSupportFragmentManager(),"sellosSalida");
+                } else if (currentStatus == 5) {
+                    binding.barcodeRawValue.setText("escanea los sellos");
+                    if (getSupportFragmentManager().findFragmentByTag("sellosSalida") == null) {
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("sellos", (Serializable) dataSellos);
+                        botonsheetsellos = new sellosSalida();
+                        botonsheetsellos.setArguments(bundle);
+                        botonsheetsellos.show(getSupportFragmentManager(), "sellosSalida");
+                    }
                 }
             }
         } else {
@@ -715,12 +717,24 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 }
 
             }else if (typeScanner.equals("Validador")){
+                Log.e("Validador","Escanned");
+                SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                String status = preferences.getString(GeneralConstants.STATUS_VALIDADOR, null);
+                // if(status == null){}
                 Bundle bundle = new Bundle();
-                bundle.putString("validadorCode", code);
-                bundle.putString("statusRecepcion", code);
-                validadorBottomSheet bottonSheetv=new validadorBottomSheet();
-                bottonSheetv.setArguments(bundle);
-                bottonSheetv.show(getSupportFragmentManager(),"validadorBottomSheet");
+                bundle.putString("currentManifest", code);
+                bundle.putString("statusValidador", "1");
+                validadorManifest validador=new validadorManifest();
+                validador.setArguments(bundle);
+                validador.show(getSupportFragmentManager(),"validadorManifest");
+                stopCameraProcess();
+
+//                Bundle bundle = new Bundle();
+//                bundle.putString("validadorCode", code);
+//                bundle.putString("statusRecepcion", code);
+//                validadorBottomSheet bottonSheetv=new validadorBottomSheet();
+//                bottonSheetv.setArguments(bundle);
+//                bottonSheetv.show(getSupportFragmentManager(),"validadorBottomSheet");
 
 
             }

@@ -1,6 +1,6 @@
-package com.fhl.sistemadedistribucionfh.Dialogs.validador.presenter;
+package com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV1.presenter;
 
-import com.fhl.sistemadedistribucionfh.Dialogs.validador.model.dataValidador;
+import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV1.model.dataValidador;
 
 import java.util.List;
 

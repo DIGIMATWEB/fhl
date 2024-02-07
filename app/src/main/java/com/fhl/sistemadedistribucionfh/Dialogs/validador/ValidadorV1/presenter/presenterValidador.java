@@ -1,11 +1,11 @@
-package com.fhl.sistemadedistribucionfh.Dialogs.validador.presenter;
+package com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV1.presenter;
 
 import android.content.Context;
 
-import com.fhl.sistemadedistribucionfh.Dialogs.validador.interactor.interactorValidador;
-import com.fhl.sistemadedistribucionfh.Dialogs.validador.interactor.interactorValidadorImpl;
-import com.fhl.sistemadedistribucionfh.Dialogs.validador.model.dataValidador;
-import com.fhl.sistemadedistribucionfh.Dialogs.validador.view.validadorView;
+import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV1.interactor.interactorValidadorImpl;
+import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV1.model.dataValidador;
+import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV1.view.validadorView;
+import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV1.interactor.interactorValidador;
 
 import java.util.List;
 

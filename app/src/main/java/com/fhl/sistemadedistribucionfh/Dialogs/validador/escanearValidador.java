@@ -1,6 +1,5 @@
-package com.fhl.sistemadedistribucionfh.Dialogs;
+package com.fhl.sistemadedistribucionfh.Dialogs.validador;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +13,11 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.escanearCodigosSalida;
 import com.fhl.sistemadedistribucionfh.R;
 
-public class escanearCodigos extends DialogFragment implements View.OnClickListener {
-    public static final String TAG = escanearCodigos.class.getSimpleName();
+public class escanearValidador extends DialogFragment implements View.OnClickListener {
+    public static final String TAG = escanearValidador.class.getSimpleName();
     private Button iralmenu;
     private TextView titleheader;
     private ImageView imagebackground;
@@ -31,7 +31,7 @@ public class escanearCodigos extends DialogFragment implements View.OnClickListe
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_escancodes, container, false);
+        View view = inflater.inflate(R.layout.dialog_escancodes_validador, container, false);
         //getDialog().getWindow().setBackgroundDrawableResource(R.color.customTransparent);
         setCancelable(true);
         initDialog(view);

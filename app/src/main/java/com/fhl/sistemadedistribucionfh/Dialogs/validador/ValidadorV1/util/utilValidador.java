@@ -1,7 +1,7 @@
-package com.fhl.sistemadedistribucionfh.Dialogs.validador.util;
+package com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV1.util;
 
-import com.fhl.sistemadedistribucionfh.Dialogs.validador.model.requestValidador;
-import com.fhl.sistemadedistribucionfh.Dialogs.validador.model.responseValidador;
+import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV1.model.requestValidador;
+import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV1.model.responseValidador;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitEndPoints;
 
 import retrofit2.Call;
