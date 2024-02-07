@@ -2,6 +2,7 @@ package com.fhl.sistemadedistribucionfh.Dialogs;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +59,7 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
                 startActivity(intent);
                 // Close the dialog if needed
                 closeDialog();
-                Toast.makeText(getContext(), "ir a manifiestos", Toast.LENGTH_SHORT).show();
+                Log.e("salida", "ir a manifiestos");
                 break;
         }
     }

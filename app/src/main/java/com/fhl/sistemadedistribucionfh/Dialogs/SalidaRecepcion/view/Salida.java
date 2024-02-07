@@ -50,6 +50,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
     private CardView gonext;
     private List<responseManifestSalidaV2data> data;
     private TextView numberManifestsalida,cedissalida,vehiculosalida,datesalida,placasalida,regresosalida;
+    private Boolean isCanceled =true;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +71,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
             mQR= args.getString("mQR");
             currentManifest = args.getString("currentManifest");
         }
-        Log.e("datadecortina",""+cortinaDestino);
+        Log.e("datadecortina",""+cortinaDestino+"  "+ codigoValidador1);
         initDialog(view);
         setUpDialog(codigoValidador1);
         //setFonts();
@@ -140,6 +141,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
 
                 break;
             case "5":
+                constrainCard.setVisibility(View.GONE);
                 textView23.setVisibility(View.GONE);
                 textView29.setText("Resumen");
                 break;
@@ -179,8 +181,13 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
 
         // For example, you can restart the camera process in BarcodeScannerActivity
         if (getActivity() instanceof BarcodeScannerActivity) {
-            BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
-            barcodeScannerActivity.restartCameraProcess();
+            if(isCanceled==false) {
+                BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
+                barcodeScannerActivity.restartCameraProcess();
+            }else {
+                BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
+                barcodeScannerActivity.restartCameraProcesswithNoChanges();
+            }
         }
     }
     @Override
@@ -260,6 +267,18 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                 dismiss();
                 break;
             case R.id.imageButton:
+                Log.e("salida","cancelar");
+                dismiss();
+                isCanceled=true;
+                break;
+            case R.id.clear://este boton resetea los shared de estatus hardcode boton purpura
+                BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
+                barcodeScannerActivity.resetShared();
+                Log.e("salida","reset");
+               // Toast.makeText(getContext(), "reset ", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.gonext:
+                isCanceled=false;
                 if(codigoValidador1.equals("3")){
                     SharedPreferences preferences = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
@@ -267,21 +286,12 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                     editor.commit();
                     BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
                     barcodeScannerActivity1.dismissTickets();
-                }
-                closeDialog();
-                break;
-            case R.id.clear://este boton resetea los shared de estatus
-                BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
-                barcodeScannerActivity.resetShared();
-                Toast.makeText(getContext(), "reset ", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.gonext:
-
-                if(codigoValidador1.equals("4")) {
+                }else if(codigoValidador1.equals("5")) {
                 BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
-                barcodeScannerActivity1.dismissTickets();
+                barcodeScannerActivity1.dismissSellos();
                 barcodeScannerActivity1.godialogCheck();
                 }
+                closeDialog();
         }
 
     }

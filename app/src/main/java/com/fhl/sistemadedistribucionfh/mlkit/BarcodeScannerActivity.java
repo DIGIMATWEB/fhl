@@ -422,11 +422,38 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 }
             }
         });
+    } public void restartCameraProcesswithNoChanges() {
+        binding.barcodeRawValue.setText("");
+        if (allPermissionsGranted()) {
+            bindAllCameraUseCases();
+            if(currentStatus==3){
+                binding.barcodeRawValue.setText("escanea los tickets");
+                if (getSupportFragmentManager().findFragmentByTag("ticketsSalida") == null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("tickets", (Serializable) dataTickets);
+                    botonsheettickets = new ticketsSalida();
+                    botonsheettickets.setArguments(bundle);
+                    botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");
+                }
+
+            }else if(currentStatus==5){
+                binding.barcodeRawValue.setText("escanea los sellos");
+                if(getSupportFragmentManager().findFragmentByTag("sellosSalida")==null){
+                    Bundle bundle= new Bundle();
+                    bundle.putSerializable("sellos",(Serializable) dataSellos);
+                    botonsheetsellos = new sellosSalida();
+                    botonsheetsellos.setArguments(bundle);
+                    botonsheetsellos.show(getSupportFragmentManager(),"sellosSalida");
+                }
+            }
+        } else {
+            getRuntimePermissions();
+        }
     }
     public void restartCameraProcess() {
         if (allPermissionsGranted()) {
             bindAllCameraUseCases();
-            if(currentStatus!=3) {
+            if(currentStatus!=3&&currentStatus!=5) {
                 currentStatus = currentStatus + 1;
                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
@@ -466,6 +493,10 @@ public class BarcodeScannerActivity extends AppCompatActivity
         currentStatus=4;
         Log.e("salida","ir a sellos");
     }
+    public void dismissSellos(){
+        botonsheetsellos.closeDialog();
+    }
+
     public void resetShared(){
         currentStatus = 1;
         SharedPreferences preferences =getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
@@ -494,6 +525,18 @@ public class BarcodeScannerActivity extends AppCompatActivity
         Bundle bundle = new Bundle();
         //bundle.putString("qrCode", code);
         bundle.putString("statusRecepcion", "3");
+        // bundle.putString("cortinaDestino", cortinaDestination);
+        //bundle.putString("mQR", mQR);
+        bundle.putString("currentManifest", currentmanifest);
+        Salida bottonSheetv = new Salida();
+        bottonSheetv.setArguments(bundle);
+        bottonSheetv.show(getSupportFragmentManager(), "Salida");
+        stopCameraProcess();
+    }
+    public void goSellosSummary() {
+        Bundle bundle = new Bundle();
+        //bundle.putString("qrCode", code);
+        bundle.putString("statusRecepcion", "5");
         // bundle.putString("cortinaDestino", cortinaDestination);
         //bundle.putString("mQR", mQR);
         bundle.putString("currentManifest", currentmanifest);
@@ -640,6 +683,25 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     }, 1500);
                 }else if(status.equals("4")) {
 
+                }else if(status.equals("5")) {
+                    //botonsheetsellos
+                    if(getSupportFragmentManager().findFragmentByTag("sellosSalida")==null){
+                        Bundle bundle= new Bundle();
+                        bundle.putSerializable("sellos",(Serializable) dataSellos);
+                        botonsheetsellos = new sellosSalida();
+                        botonsheetsellos.setArguments(bundle);
+                        botonsheetsellos.show(getSupportFragmentManager(),"sellosSalida");
+                    } else {
+                        botonsheetsellos.sendToast(code);
+                        Log.e("ticketsArray", "se envia el codigo al adapter "+code  );
+                    }
+                    stopCameraProcess();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            restartCameraProcess();
+                        }
+                    }, 1500);
                 }else {
                     binding.barcodeRawValue.setText("");
                     Log.e("typeScanner","else estatus: "+status+" cortina: "+cortinaDestination);
@@ -723,7 +785,4 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 }
         }
     }
-
-
-
 }

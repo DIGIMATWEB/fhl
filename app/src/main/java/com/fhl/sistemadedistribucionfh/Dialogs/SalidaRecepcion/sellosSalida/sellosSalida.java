@@ -34,7 +34,6 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
     public static final String TAG = sellosSalida.class.getSimpleName();
     private RecyclerView rvReasons;
     private adapterSellosSalida adapter;
-    //    private dialogReasonsPresenter presenter;
     private ImageView closeReasons;
     private List<sellosScanned> model=new ArrayList<>();
     private  List<Sello> codigoValidador;
@@ -51,7 +50,7 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_tickets, container, false);
+        View view = inflater.inflate(R.layout.dialog_sellos, container, false);
         getDialog().getWindow().setBackgroundDrawableResource(R.color.alfa);
         setCancelable(true);
         Bundle args = getArguments();
@@ -65,12 +64,10 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
             for(int i=0; i< codigoValidador.size();i++){
                 model.add(new sellosScanned(codigoValidador.get(i).getNumeroSello(),false));
                 Log.e("ticketsArray2", "model size: " + model.get(i).getFolio()+"  "+model.get(i).getFlag());
-
             }
             textChekcs.setText("0/"+model.size());
             fillAdapter(model,getContext());
-        }
-        //setFonts();
+        }//setFonts();
         return view;
     }
     @Override
@@ -110,7 +107,7 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
                 if(countok==model.size()) {
                     // Toast.makeText(getContext(), "ir a sellostodos fueron escaneados", Toast.LENGTH_SHORT).show();
                     BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
-                    barcodeScannerActivity1.goTicketsSummary();
+                    barcodeScannerActivity1.goSellosSummary();
                     closeDialog();
 
                 }else{
