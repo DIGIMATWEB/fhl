@@ -451,7 +451,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
         bottonSheetv.show(getSupportFragmentManager(),"dialogCompletedSalida");
     }
     public void dismissTickets(){
-        botonsheettickets.dismiss();
+        botonsheettickets.closeDialog();
     }
     public void resetShared(){
         currentStatus = 1;
