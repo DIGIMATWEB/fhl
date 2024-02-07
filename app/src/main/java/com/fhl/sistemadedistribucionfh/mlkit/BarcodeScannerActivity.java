@@ -31,6 +31,7 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ErrorSalida.errorDialog;
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.sellosSalida.sellosSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.ticketsSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.view.Salida;
 import com.fhl.sistemadedistribucionfh.Dialogs.dialogCompletedSalida;
@@ -77,6 +78,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
     private Integer currentStatus=0;
     private String cortinaDestination,mQR,mcodigoAnden,currentmanifest;
     private  ticketsSalida botonsheettickets;
+    private sellosSalida botonsheetsellos;
     private List<dataTicketsManifestV2> dataTickets;
     private List<Sello> dataSellos;
     // private BottomSheetBehavior bottomSheetBehavior;
@@ -441,6 +443,15 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");
                 }
 
+            }else if(currentStatus==5){
+                binding.barcodeRawValue.setText("escanea los sellos");
+                if(getSupportFragmentManager().findFragmentByTag("sellosSalida")==null){
+                    Bundle bundle= new Bundle();
+                    bundle.putSerializable("sellos",(Serializable) dataSellos);
+                    botonsheetsellos = new sellosSalida();
+                    botonsheetsellos.setArguments(bundle);
+                    botonsheetsellos.show(getSupportFragmentManager(),"sellosSalida");
+                }
             }
         } else {
             getRuntimePermissions();
@@ -452,6 +463,8 @@ public class BarcodeScannerActivity extends AppCompatActivity
     }
     public void dismissTickets(){
         botonsheettickets.closeDialog();
+        currentStatus=4;
+        Log.e("salida","ir a sellos");
     }
     public void resetShared(){
         currentStatus = 1;

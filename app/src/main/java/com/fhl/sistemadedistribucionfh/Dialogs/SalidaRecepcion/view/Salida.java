@@ -1,6 +1,8 @@
 package com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.view;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -25,6 +27,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseMan
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter.salidaViewPresenter;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter.salidaViewPresenterImplements;
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
@@ -132,9 +135,11 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                 cortina.setVisibility(View.VISIBLE);
                 textView23.setText("siguiente paso");
                 textView29.setText("escanea el codigo de los sellos");
-                
                 break;
             case "4":
+
+                break;
+            case "5":
                 textView23.setVisibility(View.GONE);
                 textView29.setText("Resumen");
                 break;
@@ -251,13 +256,21 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.closeReasons:
+            case R.id.closeReasons://este fues desabilitado para este bottom sheet
                 dismiss();
                 break;
             case R.id.imageButton:
+                if(codigoValidador1.equals("3")){
+                    SharedPreferences preferences = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString(GeneralConstants.STATUS_SALIDA, String.valueOf(4));
+                    editor.commit();
+                    BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                    barcodeScannerActivity1.dismissTickets();
+                }
                 closeDialog();
                 break;
-            case R.id.clear:
+            case R.id.clear://este boton resetea los shared de estatus
                 BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
                 barcodeScannerActivity.resetShared();
                 Toast.makeText(getContext(), "reset ", Toast.LENGTH_SHORT).show();

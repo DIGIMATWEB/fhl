@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/bottomSheettickets"
+    android:id="@+id/bottomSheetsellos"
     android:layout_width="match_parent"
     android:layout_height="550dp"
     android:background="@drawable/round_bottom_shet"
@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="Tickets escaneados"
+        android:text="Sellos escaneados"
         android:textSize="@dimen/h2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
