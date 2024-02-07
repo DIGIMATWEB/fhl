@@ -128,8 +128,11 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                 presenter.requestTickets(currentManifest);
                 break;
             case "3":
+                constrainCard.setVisibility(View.GONE);
+                cortina.setVisibility(View.VISIBLE);
                 textView23.setText("siguiente paso");
                 textView29.setText("escanea el codigo de los sellos");
+                codigoValidador1="4";
                 break;
             case "4":
                 textView23.setVisibility(View.GONE);
@@ -260,8 +263,10 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                 Toast.makeText(getContext(), "reset ", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.gonext:
+
                 if(codigoValidador1.equals("4")) {
                 BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                barcodeScannerActivity1.dismissTickets();
                 barcodeScannerActivity1.godialogCheck();
                 }
         }

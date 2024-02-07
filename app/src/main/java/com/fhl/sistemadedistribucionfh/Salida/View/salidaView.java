@@ -93,8 +93,6 @@ public class salidaView extends Fragment implements salidaViewinterface, View.On
     public void setSalida(Response<ResponseSalida> response) {
         byte[] decodedBytes = Base64.decode(response.body().getData().get(0).getQrCodigo(), Base64.DEFAULT);
         Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-
-// Load the Bitmap using Glide
         Glide.with(getContext())
                 .asBitmap()
                 .load(decodedBitmap)

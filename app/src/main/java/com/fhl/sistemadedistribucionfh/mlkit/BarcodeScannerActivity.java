@@ -450,6 +450,9 @@ public class BarcodeScannerActivity extends AppCompatActivity
         dialogCompletedSalida bottonSheetv=new dialogCompletedSalida();
         bottonSheetv.show(getSupportFragmentManager(),"dialogCompletedSalida");
     }
+    public void dismissTickets(){
+        botonsheettickets.dismiss();
+    }
     public void resetShared(){
         currentStatus = 1;
         SharedPreferences preferences =getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
@@ -463,6 +466,28 @@ public class BarcodeScannerActivity extends AppCompatActivity
         SharedPreferences.Editor editor=preferences.edit();
         editor.putString(GeneralConstants.STATUS_SALIDA,String.valueOf(currentStatus));
         editor.commit();
+    }
+    public void errorTicket() {
+        errorDialog errorD = new errorDialog();
+                errorD.show(getSupportFragmentManager(),"errorDialog");
+        stopCameraProcess();
+        //Bundle bundle = new Bundle();
+        //                        bundle.putSerializable("tickets", (Serializable) dataTickets);
+        //                        botonsheettickets = new ticketsSalida();
+        //                        botonsheettickets.setArguments(bundle);
+        //                        botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");
+    }
+    public void goTicketsSummary(){
+        Bundle bundle = new Bundle();
+        //bundle.putString("qrCode", code);
+        bundle.putString("statusRecepcion", "3");
+        // bundle.putString("cortinaDestino", cortinaDestination);
+        //bundle.putString("mQR", mQR);
+        bundle.putString("currentManifest", currentmanifest);
+        Salida bottonSheetv = new Salida();
+        bottonSheetv.setArguments(bundle);
+        bottonSheetv.show(getSupportFragmentManager(), "Salida");
+        stopCameraProcess();
     }
     public void setTicketsArray(List<dataTicketsManifestV2> data) {
         this.dataTickets=data;
@@ -550,7 +575,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     bottonSheetv.setArguments(bundle);
                     bottonSheetv.show(getSupportFragmentManager(),"Salida");
                     stopCameraProcess();
-                }else if(status.equals("1")){
+                }else if(status.equals("1")){//esto muestra el sumary ed manifiestos
                     binding.barcodeRawValue.setText(code);
                     Log.e("typeScanner","1 status: 1");
                     Bundle bundle = new Bundle();
@@ -560,7 +585,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     bottonSheetv.setArguments(bundle);
                     bottonSheetv.show(getSupportFragmentManager(),"Salida");
                     stopCameraProcess();
-                }else if(status.equals("2")){
+                }else if(status.equals("2")){//esto muestra el sumary de cortinas
                     if(mcodigoAnden!=null) {
                         if (mcodigoAnden.equals(code)) {
                             Log.e("typeScanner", "1 status: " + status);
@@ -580,7 +605,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     }else{
                         errorDialog errorD = new errorDialog();
                     }
-                }else if(status.equals("3")){
+                }else if(status.equals("3")){//esto muestra el bottomsheet de tickets
 
                     if (getSupportFragmentManager().findFragmentByTag("ticketsSalida") == null) {//si el estatus es tres se crea el bottomsheet siempre y cuando no exista
                         Bundle bundle = new Bundle();
@@ -600,6 +625,8 @@ public class BarcodeScannerActivity extends AppCompatActivity
                             restartCameraProcess();
                         }
                     }, 1500);
+                }else if(status.equals("4")) {
+
                 }else {
                     binding.barcodeRawValue.setText("");
                     Log.e("typeScanner","else estatus: "+status+" cortina: "+cortinaDestination);

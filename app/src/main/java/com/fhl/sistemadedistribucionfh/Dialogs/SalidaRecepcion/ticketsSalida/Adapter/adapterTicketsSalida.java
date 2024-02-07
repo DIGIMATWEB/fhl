@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.ticketsSalida;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
@@ -25,10 +26,12 @@ import java.util.List;
 public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSalida.ViewHolder> {
     private Context context;
     private List<ticketsScanned> data;
+    private ticketsSalida mview;
 
-    public adapterTicketsSalida(List<ticketsScanned> data, Context context) {
+    public adapterTicketsSalida(ticketsSalida mview, List<ticketsScanned> data, Context context) {
         this.context = context;
         this.data=data;
+        this.mview=mview;
     }
 
     @NonNull
@@ -46,6 +49,8 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
             int tintColor = ContextCompat.getColor(context, R.color.yellow);
             ColorFilter colorFilter = new PorterDuffColorFilter(tintColor, PorterDuff.Mode.SRC_IN);
             holder.icticket.setColorFilter(colorFilter);
+            mview.updatescanedData(data);
+
         }else {
            holder.check.setChecked(false);
         }

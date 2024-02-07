@@ -97,7 +97,11 @@ public class salidaInteractorImplementation  implements salidainteractor {
                 String json = gson.toJson(data);
                 Log.e("respDatamanifest",""+json);
                 if(data!=null) {
-                    presenter.setmanifest(data);
+                    if(data.isEmpty()) {
+                        Toast.makeText(context, "Sin informacion", Toast.LENGTH_SHORT).show();
+                    }else {
+                        presenter.setmanifest(data);
+                    }
                     presenter.hideProgress();
                 } else {
                     Toast.makeText(context, "Sin tickets asignados.", Toast.LENGTH_SHORT).show();

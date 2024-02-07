@@ -6,7 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.Adapter.adapterTicketsSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
 import java.util.ArrayList;
@@ -30,6 +34,9 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
     private ImageView closeReasons;
     private List<ticketsScanned> model=new ArrayList<>();
     private  List<dataTicketsManifestV2> codigoValidador;
+    private ImageButton imageButton;
+    private TextView textChekcs;
+    private Integer countok=0;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +63,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                 Log.e("ticketsArray2", "model size: " + model.get(i).getFolio()+"  "+model.get(i).getFlag());
 
             }
+            textChekcs.setText("0/"+model.size());
             fillAdapter(model,getContext());
         }
         //setFonts();
@@ -68,6 +76,10 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
     }
     private void initDialog(View view) {
         rvReasons=view.findViewById(R.id.rvTickets);
+        imageButton = view.findViewById(R.id.imageButton);
+        imageButton.setOnClickListener(this);
+        textChekcs=view.findViewById(R.id.textChekcs);
+
         //presenter= new dialogReasonsPresenterImpl(this,getContext());
 
 
@@ -75,7 +87,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
     }
 
     private void fillAdapter(List<ticketsScanned> data, Context context) {
-       adapter = new adapterTicketsSalida(data,context);
+       adapter = new adapterTicketsSalida(this,data,context);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvReasons.setLayoutManager(linearLayoutManager);
         rvReasons.setAdapter(adapter);
@@ -89,9 +101,19 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-//            case R.id.closeReasons:
-//                dismiss();
-//                break;
+            case R.id.imageButton:
+                //closeDialog();
+                if(countok==model.size()) {
+                   // Toast.makeText(getContext(), "ir a sellostodos fueron escaneados", Toast.LENGTH_SHORT).show();
+                    BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                    barcodeScannerActivity1.goTicketsSummary();
+                    closeDialog();
+
+                }else{
+                   Toast.makeText(getContext(), "faltan tickets por escanear", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
         }
     }
 
@@ -114,12 +136,29 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                 }
             }
             if (!codeFound) {
-                Log.e("ticketsArray2", "no encontrado");
+                Log.e("ticketsArray2", "codigo no pertenece a la lista");
+                BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                barcodeScannerActivity1.errorTicket();
             }
             if (adapter != null) {
                 adapter.updateData(model);
                 adapter.notifyDataSetChanged();
             }
         }
+    }
+
+    public void updatescanedData(List<ticketsScanned> data) {
+
+        for (ticketsScanned b : data) {
+            if (b.getFlag()) {
+                if(countok==model.size()){
+
+                }else {
+                    countok++;
+                }
+            }
+        }
+        Log.e("ticketsArray2","textcount: "+countok);
+        textChekcs.setText(countok+"/"+model.size());
     }
 }
