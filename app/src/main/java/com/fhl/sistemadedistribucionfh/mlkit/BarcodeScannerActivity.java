@@ -36,6 +36,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.sellosSalida.sell
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.ticketsSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.view.Salida;
 import com.fhl.sistemadedistribucionfh.Dialogs.dialogCompletedSalida;
+import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.model.dataValidadorV2;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.view.validadorManifest;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.escanearValidador;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
@@ -565,6 +566,9 @@ public class BarcodeScannerActivity extends AppCompatActivity
         editor.putString(GeneralConstants.STATUS_SALIDA,String.valueOf(currentStatus));
         editor.commit();
     }
+
+    public void setVehicleandDriver(List<dataValidadorV2> data) {
+    }
     private void barcodesCollection(String code)
     {
         Log.e("qrs",code);
@@ -799,4 +803,5 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 }
         }
     }
+
 }

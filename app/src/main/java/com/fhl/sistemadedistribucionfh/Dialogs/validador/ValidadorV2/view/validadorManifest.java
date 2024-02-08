@@ -110,6 +110,7 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
     private void setUpDialog(String codigoValidador1) {
         switch (codigoValidador1) {
             case "1":/** aqui pedimos los manifiestos y las cortinas*/
+                textView29.setText("escanear codigo del vehiculo");
                 Gson gson = new Gson();
                 SharedPreferences preferences = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                 String token2 = preferences.getString(GeneralConstants.USER_VALUES, null);
@@ -198,6 +199,15 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
     }
     @Override
     public void setManifestVehicleandDriver(List<dataValidadorV2> data) {
+        numberManifestsalida.setText(""+data.get(0).getFolioDespacho());
+        cedissalida.setText(""+data.get(0).getOrigen());
+        vehiculosalida.setText(""+data.get(0).getVehiculoId());
+        datesalida.setText(""+data.get(0).getFechaCreacion());
+        placasalida.setText(""+data.get(0).getVehiculo().getPlaca());
+        regresosalida.setText(""+data.get(0).getTiempoEntrega());
+        Log.e("validador",""+data.get(0).getVehiculo().getVin()+" "+data.get(0).getOperador().getId());
+//        BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+//        barcodeScannerActivity1.setVehicleandDriver(data.get(0).getVehiculo().getEconomico(),data.get(0).getOperador().getId());
 
     }
     @Override
