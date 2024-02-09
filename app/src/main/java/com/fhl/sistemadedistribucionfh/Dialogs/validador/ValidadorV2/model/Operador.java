@@ -16,6 +16,8 @@ public class Operador {
     @SerializedName("RFC")
     @Expose
     private String rfc;
+    @SerializedName("QrCodigo")
+    private String barcodeRfc;
     /**
      * No args constructor for use in serialization
      * 
@@ -28,11 +30,12 @@ public class Operador {
      * @param id
      * @param nombre
      */
-    public Operador(String nombre, Integer id,String rfc) {
+    public Operador(String nombre, Integer id,String rfc,String barcodeRfc) {
         super();
         this.nombre = nombre;
         this.id = id;
         this.rfc=rfc;
+        this.barcodeRfc=barcodeRfc;
     }
 
     public String getNombre() {
@@ -57,5 +60,12 @@ public class Operador {
 
     public void setRfc(String rfc) {
         this.rfc = rfc;
+    }
+    public String getRfcBarcode() {
+        return barcodeRfc;
+    }
+
+    public void setRfcBarcode(String barcodeRfc) {
+        this.barcodeRfc = barcodeRfc;
     }
 }

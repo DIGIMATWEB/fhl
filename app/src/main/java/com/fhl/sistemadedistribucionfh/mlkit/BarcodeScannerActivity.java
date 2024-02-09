@@ -83,6 +83,8 @@ public class BarcodeScannerActivity extends AppCompatActivity
     private sellosSalida botonsheetsellos;
     private List<dataTicketsManifestV2> dataTickets;
     private List<Sello> dataSellos;
+    private String vehiclebarcode,rfcBarcode;
+    private String vehiclebarcodeVal,rfcBarcodeVal;
     // private BottomSheetBehavior bottomSheetBehavior;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -455,6 +457,14 @@ public class BarcodeScannerActivity extends AppCompatActivity
             getRuntimePermissions();
         }
     }
+    public void restartCameraProcessfromerror() {
+        if (allPermissionsGranted()) {
+            bindAllCameraUseCases();
+            Log.e("validador","last status "+currentStatus);
+        }else {
+            getRuntimePermissions();
+        }
+    }
     public void restartCameraProcess() {
         if (allPermissionsGranted()) {
             bindAllCameraUseCases();
@@ -495,8 +505,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                       bottonSheetv.show(getSupportFragmentManager(), "dialogCompletedSalida");
                       stopCameraProcess();
                   }
-              }
-              //aqui solo se debe visivilizar el escaner ya que no hay ventanas emergentes
+              }              //aqui solo se debe visivilizar el escaner ya que no hay ventanas emergentes
           }else{
 
           }
@@ -604,6 +613,12 @@ public class BarcodeScannerActivity extends AppCompatActivity
     }
 
     public void setVehicleandDriver(List<dataValidadorV2> data) {
+    }
+    public void setVehicleandDriverBarcodes(String vehiclebarcode, String rfcBarcode, String vehiclebarcodeVal, String rfcBarcodeVal){
+        this.vehiclebarcode=vehiclebarcode;
+        this.rfcBarcode=rfcBarcode;
+        this.vehiclebarcodeVal=vehiclebarcodeVal;
+        this.rfcBarcodeVal=rfcBarcodeVal;
     }
     private void barcodesCollection(String code)
     {
@@ -756,35 +771,70 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     stopCameraProcess();
                 }
 
-            }else if (typeScanner.equals("Validador")){
+            }else if (typeScanner.equals("Validador")) {
 
-                Log.e("Validador","Escanned");
+                Log.e("Validador", "Escanned");
                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                 String status = preferences.getString(GeneralConstants.STATUS_VALIDADOR, null);
-                Log.e("validador","escanerActivity  "+status);
-                if(status == null){
-                SharedPreferences.Editor editor=preferences.edit();
-                editor.putString(GeneralConstants.STATUS_VALIDADOR,"1");
-                editor.commit();
-                currentStatus=1;
-                 }else if(currentStatus==0){
-                    currentStatus=Integer.valueOf(status);
+                Log.e("validador", "escanerActivity  " + status);
+                if (status == null) {
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString(GeneralConstants.STATUS_VALIDADOR, "1");
+                    editor.commit();
+                    currentStatus = 1;
+                } else if (currentStatus == 0) {
+                    currentStatus = Integer.valueOf(status);
                 }
-                Log.e("validador","escanerActivity current "+currentStatus+" estatus "+ status);
-                Bundle bundle = new Bundle();
-                bundle.putString("currentManifest", code);
-                bundle.putString("statusValidador", String.valueOf(currentStatus));
-                validadorManifest validador=new validadorManifest();
-                validador.setArguments(bundle);
-                validador.show(getSupportFragmentManager(),"validadorManifest");
+                String image = "";
+                if(currentStatus==1){
+                    Log.e("validador","last status "+currentStatus+"  "+code);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("currentManifest", code);
+                    bundle.putString("qrCode", image);
+                    bundle.putString("statusValidador", String.valueOf(currentStatus));
+                    validadorManifest validador=new validadorManifest();
+                    validador.setArguments(bundle);
+                    validador.show(getSupportFragmentManager(),"validadorManifest");
+                }else if(currentStatus==2){
+                    Log.e("validador","last status "+currentStatus+"  "+code +"  "+vehiclebarcodeVal);
+                    if(vehiclebarcodeVal.equals(code)) {
+                        image = vehiclebarcode;
+                        Log.e("validador", "escanerActivity current " + currentStatus + " estatus " + status);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("currentManifest", code);
+                        bundle.putString("qrCode", image);
+                        bundle.putString("statusValidador", String.valueOf(currentStatus));
+                        validadorManifest validador = new validadorManifest();
+                        validador.setArguments(bundle);
+                        validador.show(getSupportFragmentManager(), "validadorManifest");
+                    }else{
+                        errorDialog errorD = new errorDialog();
+                        errorD.show(getSupportFragmentManager(),"errorDialog");
+                    }
+
+                }else if(currentStatus==3)
+                {
+                    Log.e("validador","last status "+currentStatus+"  "+code+"  "+rfcBarcodeVal);
+                    if(rfcBarcodeVal.equals(code)) {
+                        image = rfcBarcode;
+                        Log.e("validador", "escanerActivity current " + currentStatus + " estatus " + status);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("currentManifest", code);
+                        bundle.putString("qrCode", image);
+                        bundle.putString("statusValidador", String.valueOf(currentStatus));
+                        validadorManifest validador = new validadorManifest();
+                        validador.setArguments(bundle);
+                        validador.show(getSupportFragmentManager(), "validadorManifest");
+                    }else{
+                        errorDialog errorD = new errorDialog();
+                        errorD.show(getSupportFragmentManager(),"errorDialog");
+                    }
+                }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        else {
+                    errorDialog errorD = new errorDialog();
+                    errorD.show(getSupportFragmentManager(),"errorDialog");
+                }
                 stopCameraProcess();
 
-//                Bundle bundle = new Bundle();
-//                bundle.putString("validadorCode", code);
-//                bundle.putString("statusRecepcion", code);
-//                validadorBottomSheet bottonSheetv=new validadorBottomSheet();
-//                bottonSheetv.setArguments(bundle);
-//                bottonSheetv.show(getSupportFragmentManager(),"validadorBottomSheet");
 
 
             }

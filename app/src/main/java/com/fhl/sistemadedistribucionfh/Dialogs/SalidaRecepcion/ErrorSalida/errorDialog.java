@@ -54,7 +54,7 @@ public class errorDialog  extends DialogFragment implements View.OnClickListener
         // For example, you can restart the camera process in BarcodeScannerActivity
         if (getActivity() instanceof BarcodeScannerActivity) {
             BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
-            barcodeScannerActivity.restartCameraProcess();
+            barcodeScannerActivity.restartCameraProcessfromerror();
         }
     }
     @Override

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
+import com.bumptech.glide.Glide;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2data;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter.salidaViewPresenter;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.model.dataValidadorV2;
@@ -50,7 +52,8 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
     private List<responseManifestSalidaV2data> data;
     private TextView numberManifestsalida,cedissalida,vehiculosalida,datesalida,placasalida,regresosalida;
     private Boolean isCanceled =true;
-
+    private String vehiclebarcode,rfcBarcode;
+    private String vehiclebarcodeVal,rfcBarcodeVal;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,13 +124,34 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
                 break;
             case "2":/** aqui pedimos los manifiestos y las cortinas*/
                 //aqui visible el vehiculo
+                constrainCard.setVisibility(View.GONE);
+                cortina.setVisibility(View.VISIBLE);
+                Log.e("barcodereader","barcode vehicle "+ codigoValidador);
+                try {
+                    byte[] decodedBytes = Base64.decode(codigoValidador, Base64.DEFAULT);
+                    Glide.with(getContext())
+                            .load(decodedBytes)
+                            .into(qrsalida);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                constrainCard.setVisibility(View.GONE);
                 textView29.setText("escanear codigo de la identificacion");
                 break;
             case "3":
-//                constrainCard.setVisibility(View.GONE);
-//                cortina.setVisibility(View.VISIBLE);
-//                textView23.setText("siguiente paso");
-//                textView29.setText("escanea el codigo de los sellos");
+                Log.e("barcodereader","barcode rfc     "+ codigoValidador);
+                constrainCard.setVisibility(View.GONE);
+                cortina.setVisibility(View.VISIBLE);
+                try {
+                    byte[] decodedBytes = Base64.decode(codigoValidador, Base64.DEFAULT);
+                    Glide.with(getContext())
+                            .load(decodedBytes)
+                            .into(qrsalida);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                textView23.setVisibility(View.GONE);
+                textView29.setText("Resumen");
                 break;
 
         }
@@ -193,7 +217,16 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
         datesalida.setText(""+data.get(0).getFechaCreacion());
         placasalida.setText(""+data.get(0).getVehiculo().getPlaca());
         regresosalida.setText(""+data.get(0).getTiempoEntrega());
-        Log.e("validador",""+data.get(0).getVehiculo().getVin()+" "+data.get(0).getOperador().getRfc());
+        Log.e("validador",""+data.get(0).getVehiculo().getVin()+" "+data.get(0).getOperador().getRfc()+" ");
+        vehiclebarcode=data.get(0).getVehiculo().getBarcodeVehicle();
+        rfcBarcode=data.get(0).getOperador().getRfcBarcode();
+        vehiclebarcodeVal=data.get(0).getVehiculo().getVin();
+        rfcBarcodeVal=data.get(0).getOperador().getRfc();
+        if(codigoValidador1.equals("1")){
+            BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
+            barcodeScannerActivity.setVehicleandDriverBarcodes(vehiclebarcode,rfcBarcode,vehiclebarcodeVal,rfcBarcodeVal);
+        }
+        //barcodes data.get(0).getOperador().getRfcBarcode()+data.get(0).getVehiculo().getBarcodeVehicle()
 //        BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
 //        barcodeScannerActivity1.setVehicleandDriver(data.get(0).getVehiculo().getEconomico(),data.get(0).getOperador().getId());
 
@@ -216,13 +249,14 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
                 Log.e("validador","gonext "+codigoValidador1);
                 BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
                 if(codigoValidador1.equals(1)){
-                    barcodeScannerActivity.goVehicle();
 
+                    barcodeScannerActivity.goVehicle();
                 }else if(codigoValidador1.equals(2)){
                     barcodeScannerActivity.goResumenValidador();
                 }else  if(codigoValidador1.equals(3)){
                     barcodeScannerActivity.resumeValidador();
                 }
+
                 dismiss();
                 break;
         }

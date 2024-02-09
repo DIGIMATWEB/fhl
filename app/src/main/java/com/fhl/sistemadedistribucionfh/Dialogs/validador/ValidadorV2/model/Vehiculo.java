@@ -37,8 +37,10 @@ public class Vehiculo {
     @Expose
     private Integer id;
 
+    @SerializedName("QrCodigo")
+    private String barcodeVehicle;
 
-    public Vehiculo(String placa, String economico, String vin, Integer anio, Integer tanqueCombustible, Integer marcaId, Marca marca, Integer modeloId, Modelo modelo, Integer id) {
+    public Vehiculo(String placa, String economico, String vin, Integer anio, Integer tanqueCombustible, Integer marcaId, Marca marca, Integer modeloId, Modelo modelo, Integer id,String barcodeVehicle) {
         super();
         this.placa = placa;
         this.economico = economico;
@@ -50,6 +52,7 @@ public class Vehiculo {
         this.modeloId = modeloId;
         this.modelo = modelo;
         this.id = id;
+        this.barcodeVehicle=barcodeVehicle;
     }
 
     public String getPlaca() {
@@ -132,4 +135,11 @@ public class Vehiculo {
         this.id = id;
     }
 
+    public String getBarcodeVehicle() {
+        return barcodeVehicle;
+    }
+
+    public void setBarcodeVehicle(String barcodeVehicle) {
+        this.barcodeVehicle = barcodeVehicle;
+    }
 }
