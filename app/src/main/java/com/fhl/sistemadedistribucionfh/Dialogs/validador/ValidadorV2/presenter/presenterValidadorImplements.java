@@ -32,4 +32,11 @@ public class presenterValidadorImplements implements presenterValidadorDetail{
             view.setManifestVehicleandDriver(data);
         }
     }
+
+    @Override
+    public void error() {
+        if(view!=null) {
+            view.errorCode();
+        }
+    }
 }

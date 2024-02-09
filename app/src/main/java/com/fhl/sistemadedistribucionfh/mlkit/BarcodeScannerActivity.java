@@ -561,7 +561,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
     }
     public void errorTicket() {
         errorDialog errorD = new errorDialog();
-                errorD.show(getSupportFragmentManager(),"errorDialog");
+        errorD.show(getSupportFragmentManager(),"errorDialog");
         stopCameraProcess();
         //Bundle bundle = new Bundle();
         //                        bundle.putSerializable("tickets", (Serializable) dataTickets);
@@ -569,6 +569,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
         //                        botonsheettickets.setArguments(bundle);
         //                        botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");
     }
+
     public void goTicketsSummary(){
         Bundle bundle = new Bundle();
         //bundle.putString("qrCode", code);

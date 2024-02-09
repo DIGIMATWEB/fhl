@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface validadorViewV2 {
     void setManifestVehicleandDriver(List<dataValidadorV2> data);
+
+    void errorCode();
 }

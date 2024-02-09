@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,7 +42,7 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
     public static final String TAG = validadorManifest.class.getSimpleName();
     private presenterValidadorDetail presenter;
     private BottomSheetBehavior bottomSheetBehavior;
-    private ConstraintLayout bottomSheet,cortina;
+    private ConstraintLayout bottomSheet,cortina,fulllayout;
     private CardView constrainCard;
     private String codigoValidador,codigoValidador1,cortinaDestino,mQR,currentManifest;
     private ImageButton imageButton;
@@ -106,6 +107,7 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
         datesalida=view.findViewById(R.id.datesalida);
         placasalida=view.findViewById(R.id.placasalida);
         regresosalida=view.findViewById(R.id.regresosalida);
+        fulllayout=view.findViewById(R.id.fulllayout);
         //endregion
       //  Toast.makeText(getContext(), "qrCode: "+codigoValidador+" status de recepcion: "+codigoValidador1, Toast.LENGTH_SHORT).show();
 
@@ -113,6 +115,7 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
     private void setUpDialog(String codigoValidador1) {
         switch (codigoValidador1) {
             case "1":/** aqui pedimos los manifiestos y las cortinas*/
+                fulllayout.setVisibility(View.GONE);
                 textView29.setText("escanear codigo del vehiculo");
                 Gson gson = new Gson();
                 SharedPreferences preferences = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
@@ -198,11 +201,11 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
             }
         }
     }
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimationBottonSheet;
-    }
+//    @Override
+//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+//        super.onActivityCreated(savedInstanceState);
+//        getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimationBottonSheet;
+//    }
 
 
     public void closeDialog() {
@@ -210,7 +213,18 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
 
     }
     @Override
+    public void errorCode(){
+        fulllayout.setVisibility(View.GONE);
+        isCanceled=true;
+        closeDialog();
+        BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
+        barcodeScannerActivity.errorTicket();
+
+
+    }
+    @Override
     public void setManifestVehicleandDriver(List<dataValidadorV2> data) {
+        fulllayout.setVisibility(View.VISIBLE);
         numberManifestsalida.setText(""+data.get(0).getFolioDespacho());
         cedissalida.setText(""+data.get(0).getOrigen());
         vehiculosalida.setText(""+data.get(0).getVehiculoId());

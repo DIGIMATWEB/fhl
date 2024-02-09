@@ -83,6 +83,7 @@ public class validadorInteractorV2Impl implements validadorInteractorV2{
                 if(data!=null) {
                     if(data.isEmpty()) {
                         Toast.makeText(context, "Sin informacion", Toast.LENGTH_SHORT).show();
+                        presenter.error();
                     }else {
                         presenter.setManifestVehicleandDriver(data);
                     }

@@ -8,4 +8,6 @@ public interface presenterValidadorDetail {
     void requestManifestDetail(int idEmpleado, String currentManifest);
 
     void setManifestVehicleandDriver(List<dataValidadorV2> data);
+
+    void error();
 }

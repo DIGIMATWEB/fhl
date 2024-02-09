@@ -34,7 +34,11 @@ public class errorDialog  extends DialogFragment implements View.OnClickListener
         //setFonts();
         return view;
     }
-
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimationBottonSheet;
+    }
     private void initDialog(View view) {
         imageButton = view.findViewById(R.id.imageButton);
         imageButton.setOnClickListener(this);
