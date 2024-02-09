@@ -104,7 +104,7 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
         placasalida=view.findViewById(R.id.placasalida);
         regresosalida=view.findViewById(R.id.regresosalida);
         //endregion
-        Toast.makeText(getContext(), "qrCode: "+codigoValidador+" status de recepcion: "+codigoValidador1, Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(getContext(), "qrCode: "+codigoValidador+" status de recepcion: "+codigoValidador1, Toast.LENGTH_SHORT).show();
 
     }
     private void setUpDialog(String codigoValidador1) {
@@ -120,20 +120,8 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
                presenter.requestManifestDetail( idEmpleado,currentManifest);
                 break;
             case "2":/** aqui pedimos los manifiestos y las cortinas*/
-//                constrainCard.setVisibility(View.GONE);
-//                cortina.setVisibility(View.VISIBLE);
-//                try {
-//                    byte[] decodedBytes = Base64.decode(mQR, Base64.DEFAULT);
-//                    Glide.with(getContext())
-//                            .load(decodedBytes)
-//                            .into(qrsalida);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//                textsalida.setText("   "+cortinaDestino);
-//                textView23.setText("siguiente paso");
-//                textView29.setText("escanea el codigo de los tickets");
-//                presenter.requestTickets(currentManifest);
+                //aqui visible el vehiculo
+                textView29.setText("escanear codigo de la identificacion");
                 break;
             case "3":
 //                constrainCard.setVisibility(View.GONE);
@@ -178,11 +166,11 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
         // For example, you can restart the camera process in BarcodeScannerActivity
         if (getActivity() instanceof BarcodeScannerActivity) {
             if(isCanceled==false) {
-//                BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
-//                barcodeScannerActivity.restartCameraProcess();
+                BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
+                barcodeScannerActivity.restartCameraProcess();
             }else {
-//                BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
-//                barcodeScannerActivity.restartCameraProcesswithNoChanges();
+                BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
+                barcodeScannerActivity.restartCameraProcesswithNoChanges();
             }
         }
     }
@@ -205,7 +193,7 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
         datesalida.setText(""+data.get(0).getFechaCreacion());
         placasalida.setText(""+data.get(0).getVehiculo().getPlaca());
         regresosalida.setText(""+data.get(0).getTiempoEntrega());
-        Log.e("validador",""+data.get(0).getVehiculo().getVin()+" "+data.get(0).getOperador().getId());
+        Log.e("validador",""+data.get(0).getVehiculo().getVin()+" "+data.get(0).getOperador().getRfc());
 //        BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
 //        barcodeScannerActivity1.setVehicleandDriver(data.get(0).getVehiculo().getEconomico(),data.get(0).getOperador().getId());
 
@@ -217,13 +205,25 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
                 dismiss();
                 break;
             case R.id.imageButton:
-
+                isCanceled=true;
+                dismiss();
                 break;
             case R.id.clear://este boton resetea los shared de estatus hardcode boton purpura
 
                 break;
             case R.id.gonext:
+                isCanceled=false;
+                Log.e("validador","gonext "+codigoValidador1);
+                BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
+                if(codigoValidador1.equals(1)){
+                    barcodeScannerActivity.goVehicle();
 
+                }else if(codigoValidador1.equals(2)){
+                    barcodeScannerActivity.goResumenValidador();
+                }else  if(codigoValidador1.equals(3)){
+                    barcodeScannerActivity.resumeValidador();
+                }
+                dismiss();
                 break;
         }
 

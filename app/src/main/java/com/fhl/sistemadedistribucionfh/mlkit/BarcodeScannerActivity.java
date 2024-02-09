@@ -448,6 +448,8 @@ public class BarcodeScannerActivity extends AppCompatActivity
                         botonsheetsellos.show(getSupportFragmentManager(), "sellosSalida");
                     }
                 }
+            }else if(typeScanner.equals("Validador")){
+
             }
         } else {
             getRuntimePermissions();
@@ -456,14 +458,15 @@ public class BarcodeScannerActivity extends AppCompatActivity
     public void restartCameraProcess() {
         if (allPermissionsGranted()) {
             bindAllCameraUseCases();
-            if(currentStatus!=3&&currentStatus!=5) {
+          if(typeScanner.equals("Salida")) {
+            if (currentStatus != 3 && currentStatus != 5) {
                 currentStatus = currentStatus + 1;
                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString(GeneralConstants.STATUS_SALIDA, String.valueOf(currentStatus));
                 editor.commit();
             }
-            if(currentStatus==3){
+            if (currentStatus == 3) {
                 binding.barcodeRawValue.setText("escanea los tickets");
                 if (getSupportFragmentManager().findFragmentByTag("ticketsSalida") == null) {
                     Bundle bundle = new Bundle();
@@ -473,16 +476,31 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");
                 }
 
-            }else if(currentStatus==5){
+            } else if (currentStatus == 5) {
                 binding.barcodeRawValue.setText("escanea los sellos");
-                if(getSupportFragmentManager().findFragmentByTag("sellosSalida")==null){
-                    Bundle bundle= new Bundle();
-                    bundle.putSerializable("sellos",(Serializable) dataSellos);
+                if (getSupportFragmentManager().findFragmentByTag("sellosSalida") == null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("sellos", (Serializable) dataSellos);
                     botonsheetsellos = new sellosSalida();
                     botonsheetsellos.setArguments(bundle);
-                    botonsheetsellos.show(getSupportFragmentManager(),"sellosSalida");
+                    botonsheetsellos.show(getSupportFragmentManager(), "sellosSalida");
                 }
             }
+         }else if(typeScanner.equals("Validador")){
+              Log.e("validador","ir a validador "+currentStatus);
+              if(currentStatus<4) {
+                  currentStatus = currentStatus + 1;
+                  if (currentStatus == 4) {
+                      dialogCompletedSalida bottonSheetv = new dialogCompletedSalida();
+                      bottonSheetv.show(getSupportFragmentManager(), "dialogCompletedSalida");
+                      stopCameraProcess();
+                  }
+              }
+              //aqui solo se debe visivilizar el escaner ya que no hay ventanas emergentes
+          }else{
+
+          }
+
         } else {
             getRuntimePermissions();
         }
@@ -505,6 +523,24 @@ public class BarcodeScannerActivity extends AppCompatActivity
         SharedPreferences preferences =getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor=preferences.edit();
         editor.putString(GeneralConstants.STATUS_SALIDA,String.valueOf(currentStatus));
+        editor.commit();
+    }
+    public void resumeValidador(){
+        dialogCompletedSalida bottonSheetv=new dialogCompletedSalida();
+        bottonSheetv.show(getSupportFragmentManager(),"dialogCompletedSalida");
+    }
+    public void goResumenValidador(){
+        currentStatus = 3;
+        SharedPreferences preferences =getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=preferences.edit();
+        editor.putString(GeneralConstants.STATUS_VALIDADOR,String.valueOf(currentStatus));
+        editor.commit();
+    }
+    public void goVehicle(){
+        currentStatus = 2;
+        SharedPreferences preferences =getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=preferences.edit();
+        editor.putString(GeneralConstants.STATUS_VALIDADOR,String.valueOf(currentStatus));
         editor.commit();
     }
     public void goTickets(){
@@ -721,13 +757,23 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 }
 
             }else if (typeScanner.equals("Validador")){
+
                 Log.e("Validador","Escanned");
                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                 String status = preferences.getString(GeneralConstants.STATUS_VALIDADOR, null);
-                // if(status == null){}
+                Log.e("validador","escanerActivity  "+status);
+                if(status == null){
+                SharedPreferences.Editor editor=preferences.edit();
+                editor.putString(GeneralConstants.STATUS_VALIDADOR,"1");
+                editor.commit();
+                currentStatus=1;
+                 }else if(currentStatus==0){
+                    currentStatus=Integer.valueOf(status);
+                }
+                Log.e("validador","escanerActivity current "+currentStatus+" estatus "+ status);
                 Bundle bundle = new Bundle();
                 bundle.putString("currentManifest", code);
-                bundle.putString("statusValidador", "1");
+                bundle.putString("statusValidador", String.valueOf(currentStatus));
                 validadorManifest validador=new validadorManifest();
                 validador.setArguments(bundle);
                 validador.show(getSupportFragmentManager(),"validadorManifest");

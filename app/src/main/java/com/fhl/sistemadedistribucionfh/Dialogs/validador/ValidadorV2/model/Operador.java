@@ -13,7 +13,9 @@ public class Operador {
     @SerializedName("Id")
     @Expose
     private Integer id;
-
+    @SerializedName("RFC")
+    @Expose
+    private String rfc;
     /**
      * No args constructor for use in serialization
      * 
@@ -26,10 +28,11 @@ public class Operador {
      * @param id
      * @param nombre
      */
-    public Operador(String nombre, Integer id) {
+    public Operador(String nombre, Integer id,String rfc) {
         super();
         this.nombre = nombre;
         this.id = id;
+        this.rfc=rfc;
     }
 
     public String getNombre() {
@@ -48,4 +51,11 @@ public class Operador {
         this.id = id;
     }
 
+    public String getRfc() {
+        return rfc;
+    }
+
+    public void setRfc(String rfc) {
+        this.rfc = rfc;
+    }
 }
