@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.Adapter.adapterTicketsSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.Salida.Model.v2.dataSalida;
+import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
@@ -34,9 +36,12 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
     private ImageView closeReasons;
     private List<ticketsScanned> model=new ArrayList<>();
     private  List<dataTicketsManifestV2> codigoValidador;
+    private List<Sello> sellos;
     private ImageButton imageButton;
     private TextView textChekcs;
     private Integer countok=0;
+    private String typeScanner,currentmanifest;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +58,9 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         Bundle args = getArguments();
         if (args != null) {
             codigoValidador= (List<dataTicketsManifestV2>) args.getSerializable("tickets");
+            sellos = (List<Sello>) args.getSerializable("sellos");
+            typeScanner= args.getString("typeScanner");
+            currentmanifest= args.getString("currentmanifest");
         }
         initDialog(view);
         if(codigoValidador!=null) {
@@ -105,8 +113,14 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                 //closeDialog();
                 if(countok==model.size()) {
                    // Toast.makeText(getContext(), "ir a sellostodos fueron escaneados", Toast.LENGTH_SHORT).show();
-                    BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
-                    barcodeScannerActivity1.goTicketsSummary();
+                    if(typeScanner.equals("Recolectar")){
+                        //Toast.makeText(getContext(), "sumarydetailtickets", Toast.LENGTH_SHORT).show();
+                        BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                        barcodeScannerActivity1.detalManifestTicketsSummary(currentmanifest,codigoValidador,sellos);
+                    }else {
+                        BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                        barcodeScannerActivity1.goTicketsSummary();
+                    }
                     closeDialog();
 
                 }else{

@@ -16,7 +16,7 @@ public class Operador {
     @SerializedName("RFC")
     @Expose
     private String rfc;
-    @SerializedName("QrCodigo")
+    @SerializedName("CodigoBarras")
     private String barcodeRfc;
     /**
      * No args constructor for use in serialization

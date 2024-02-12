@@ -1,6 +1,8 @@
 package com.fhl.sistemadedistribucionfh.nmanifestDetail.util;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.sellos.ResponseSellos;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitEndPoints;
+import com.fhl.sistemadedistribucionfh.Salida.Model.v2.ResponseSalida;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.requestTicketsManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.responseTicketsManifestV2;
 
@@ -21,4 +23,9 @@ public interface serviceTicketsManifest {
              @Query("folioDespacho") String folioDespacho,
              @Header("Authorization") String authorizationHeader
      );
+
+    @GET(RetrofitEndPoints.SALIDA_V2)
+    Call<ResponseSellos> getSalidaV2(@Header("Authorization") String authorizationHeader,
+                                     @Query("folioDespacho") String operadorId
+    );
 }

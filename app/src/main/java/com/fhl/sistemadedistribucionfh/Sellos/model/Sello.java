@@ -4,7 +4,9 @@ package com.fhl.sistemadedistribucionfh.Sellos.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Sello {
+import java.io.Serializable;
+
+public class Sello implements Serializable {
 
     @SerializedName("QrCodigo")
     @Expose

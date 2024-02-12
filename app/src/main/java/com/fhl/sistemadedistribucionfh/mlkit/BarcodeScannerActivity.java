@@ -35,11 +35,13 @@ import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.escanearCodigosSa
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.sellosSalida.sellosSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.ticketsSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.view.Salida;
+import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Tickets.detailTicketsSummary;
 import com.fhl.sistemadedistribucionfh.Dialogs.dialogCompletedSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.model.dataValidadorV2;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.view.validadorManifest;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.escanearValidador;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
+import com.fhl.sistemadedistribucionfh.Salida.Model.v2.dataSalida;
 import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.google.mlkit.common.MlKitException;
@@ -85,22 +87,11 @@ public class BarcodeScannerActivity extends AppCompatActivity
     private List<Sello> dataSellos;
     private String vehiclebarcode,rfcBarcode;
     private String vehiclebarcodeVal,rfcBarcodeVal;
-    // private BottomSheetBehavior bottomSheetBehavior;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mediaPlayer=new MediaPlayer();
 
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-//       this.getWindow().getDecorView().setSystemUiVisibility(
-//                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-//                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-//                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-//                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-//                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
         binding = ActivityBarcodeScannerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         mediaPlayer= MediaPlayer.create(getApplicationContext(), R.raw.beep);
@@ -114,6 +105,18 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     if (typeScanner.equals("Validador")) {
                         new escanearValidador().show(getSupportFragmentManager(), "escanearValidador");
                         stopCameraProcess();
+                    }else if(typeScanner.equals("Recolectar")){
+                      Bundle bundle = new Bundle();
+                      List<dataTicketsManifestV2> codigoValidador= (List<dataTicketsManifestV2>) bndl.getSerializable("tickets");
+                        List<Sello> sellos =(List<Sello>) bndl.getSerializable("sellos");
+                       currentmanifest=bndl.getString("manifest");
+                      bundle.putSerializable("tickets", (Serializable) codigoValidador);
+                      bundle.putSerializable("sellos", (Serializable) sellos);
+                      bundle.putString("typeScanner",typeScanner);
+                      bundle.putString("currentmanifest",currentmanifest);
+                        botonsheettickets = new ticketsSalida();
+                        botonsheettickets.setArguments(bundle);
+                        botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");
                     }else{
                         new escanearCodigosSalida().show(getSupportFragmentManager(), "escanearCodigosSalida");
                         stopCameraProcess();
@@ -128,8 +131,6 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 Log.e("","3 "+typeScanner);
                 new escanearCodigosSalida().show(getSupportFragmentManager(), "escanearCodigosSalida");
             }
-
-       // Log.d(TAG, "onCreate");
 
         if (savedInstanceState != null) {
             lensFacing = savedInstanceState.getInt(STATE_LENS_FACING, CameraSelector.LENS_FACING_BACK);
@@ -187,20 +188,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                         binding.escribircodigo.setText("");
                     }else {
                         binding.escribircodigo.setText("");
-                        /** if(!collectedBarCodes.contains(String.valueOf(textleng))) {
-                         //TODO volver a poner
-                         if (MensajeroenProceso.barcodes.contains(String.valueOf(textleng))) {
-                         collectedBarCodes.add(String.valueOf(textleng));
-                         mediaPlayer.start();
-                         Toast.makeText(getApplicationContext(), "Codigo Agregado", Toast.LENGTH_SHORT).show();
-                         if (!collectedBarCodes.isEmpty()) {
-                         binding.cardviewnumber.setVisibility(View.VISIBLE);
-                         binding.textdimens.setText(String.valueOf(collectedBarCodes.size()));
-                         }
-                         }
-                         }else{
-                         Toast.makeText(getApplicationContext(), "Codigo Incorrecto", Toast.LENGTH_SHORT).show();
-                         }*/
+
                     }
 
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -211,28 +199,6 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 return false;
             }
         });
-       /* bottomSheetBehavior =BottomSheetBehavior.from( binding.bottomSheetZones);
-       // bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                switch (newState) {
-                    case BottomSheetBehavior.STATE_DRAGGING:
-
-                        break;
-                    case BottomSheetBehavior.STATE_COLLAPSED:
-
-                        break;
-                    case BottomSheetBehavior.STATE_EXPANDED:
-                        break;
-                }
-            }
-
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-
-            }
-        });*/
         }
 
     @Override
@@ -253,8 +219,6 @@ public class BarcodeScannerActivity extends AppCompatActivity
             }
         }
     }
-
-
     @Override
     public void onResume() {
         super.onResume();
@@ -563,13 +527,19 @@ public class BarcodeScannerActivity extends AppCompatActivity
         errorDialog errorD = new errorDialog();
         errorD.show(getSupportFragmentManager(),"errorDialog");
         stopCameraProcess();
-        //Bundle bundle = new Bundle();
-        //                        bundle.putSerializable("tickets", (Serializable) dataTickets);
-        //                        botonsheettickets = new ticketsSalida();
-        //                        botonsheettickets.setArguments(bundle);
-        //                        botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");
-    }
 
+    }
+    public void detalManifestTicketsSummary(String mcurrentmanifest, List<dataTicketsManifestV2> codigoValidador, List<Sello> sellos){
+        Bundle bundle = new Bundle();
+        bundle.putString("currentManifest", mcurrentmanifest);
+        bundle.putSerializable("dataTcikets",(Serializable) codigoValidador);
+        bundle.putSerializable("sellos",(Serializable) sellos);
+        detailTicketsSummary bottonSheetv = new detailTicketsSummary();
+        bottonSheetv.setArguments(bundle);
+        bottonSheetv.show(getSupportFragmentManager(), "detailTicketsSummary");
+        stopCameraProcess();
+
+    }
     public void goTicketsSummary(){
         Bundle bundle = new Bundle();
         //bundle.putString("qrCode", code);
@@ -628,12 +598,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
         {
 
             if(typeScanner.equals("Salida")){//para salida recepccion4 si esta en la lista preguntar por el estatus del escaneo
-               /* Bundle bundle = new Bundle();
-                bundle.putString("qrValue", code);
-                Intent intent = new Intent(this, salidaContainer.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtras(bundle);
-                startActivity(intent);*/
+
                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                 String status = preferences.getString(GeneralConstants.STATUS_SALIDA, null);
                 Log.e("typeScanner","collected status: "+status);
@@ -653,11 +618,8 @@ public class BarcodeScannerActivity extends AppCompatActivity
         {
 
             Log.e("typeScanner","codigos escaneados: "+collectedBarCodes);
-            //   if(MensajeroenProceso.barcodes.contains(code)) {
             if(!typeScanner.equals("Validador")) {
-               // collectedBarCodes.add(code);
             }
-          //
             mediaPlayer.start();
             if(!collectedBarCodes.isEmpty())//esto oculta el numero de codigos escaneados
             {
@@ -667,12 +629,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
 
 
             if(typeScanner.equals("Salida")){ //si no esta en la lista el primer bottom sheet debe ser el de manifiesto
-                /*Bundle bundle = new Bundle();
-                bundle.putString("qrValue", code);
-                Intent intent = new Intent(this, salidaContainer.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtras(bundle);
-                startActivity(intent);*/
+
                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                 String status = preferences.getString(GeneralConstants.STATUS_SALIDA, null);
                 if(status == null){
@@ -838,6 +795,25 @@ public class BarcodeScannerActivity extends AppCompatActivity
 
 
 
+            }else if(typeScanner.equals("Recolectar")){
+                if (getSupportFragmentManager().findFragmentByTag("ticketsSalida") == null) {//si el estatus es tres se crea el bottomsheet siempre y cuando no exista
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("tickets", (Serializable) dataTickets);
+                    botonsheettickets = new ticketsSalida();
+                    botonsheettickets.setArguments(bundle);
+                    botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");//de existir el botomsheet
+                    Log.e("ticketsArray", "adapter tickets inicio nulo"  );
+                } else {
+                    botonsheettickets.sendToast(code);
+                    Log.e("ticketsArray", "se envia el codigo al adapter "+code  );
+                }
+                stopCameraProcess();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        restartCameraProcess();
+                    }
+                }, 1500);
             }
         }
 
@@ -846,56 +822,18 @@ public class BarcodeScannerActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        //Intent intent = new Intent(this, menuViewImpl.class);
-        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        //startActivity(intent);
+
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-          /*  case R.id.inputmanual:// esto es cuando se introduce el codigo de foma manual
-                imageProcessor.stop();//esto detiene el proceso de escaneo
-                if( binding.inputkeyscode.getVisibility()==View.VISIBLE)
-                {
-
-                }else {
-
-                    binding.inputkeyscode.setVisibility(View.VISIBLE);
-                //    binding.inputcamara.setImageDrawable(getResources().getDrawable( R.drawable.ic_icon));
-                //    binding.inputmanual.setImageDrawable(getResources().getDrawable( R.drawable.ic_icon));
-                    binding.iconchecklist.setImageDrawable(getResources().getDrawable( R.drawable.ic_icon));
-                  //  binding.headerText.setTextColor(Color.BLACK);
-                    binding.resultContainer.setVisibility(View.GONE);
-                    binding.barcodeimage.setVisibility(View.VISIBLE);
-                }
-                break;
-            case  R.id.inputcamara:// esto es cuando se introduce el codigo de con la camara
-                bindAllCameraUseCases();//esto retoma el proceso de escaneo
-                if( binding.inputkeyscode.getVisibility()==View.VISIBLE)
-                {
-                    binding.inputkeyscode.setVisibility(View.GONE);
-                   // binding.inputcamara.setImageDrawable(getResources().getDrawable( R.drawable.ic_icon));
-                   // binding.inputmanual.setImageDrawable(getResources().getDrawable( R.drawable.ic_icon));
-                    binding.iconchecklist.setImageDrawable(getResources().getDrawable( R.drawable.ic_icon));
-                  //  binding.headerText.setTextColor(Color.WHITE);
-                    binding.resultContainer.setVisibility(View.VISIBLE);
-                    binding.barcodeimage.setVisibility(View.GONE);
-                }else {
-
-                }
-                break;*/
             case R.id.iconchecklist:
-                //Toast.makeText( getApplicationContext(), "vamos ala pantalla de recycler", Toast.LENGTH_SHORT).show();
                 if(collectedBarCodes.isEmpty())
                 {
-                   // Toast.makeText(this, "No hay paquetes escaneados", Toast.LENGTH_SHORT).show();
                 }else {
                     gotoListBarcode = "ready";
-                   // Intent intent = new Intent(this, menuViewImpl.class);
-                   // intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    //startActivity(intent);
                     break;
                 }
         }

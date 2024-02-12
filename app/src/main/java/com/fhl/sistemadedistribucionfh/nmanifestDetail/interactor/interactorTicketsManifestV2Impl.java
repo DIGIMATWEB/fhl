@@ -5,9 +5,11 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.sellos.ResponseSellos;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientPep;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
+import com.fhl.sistemadedistribucionfh.Salida.Model.v2.ResponseSalida;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.responseTicketsManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.presenter.presenterTicketsmanifestV2;
@@ -37,6 +39,8 @@ public class interactorTicketsManifestV2Impl implements interactorTicketsManifes
     public void reqTickets(String ticket) {
         getAllTicketsV2(ticket);
     }
+
+
 
     public void getAllTicketsV2(String ticket) {
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
@@ -89,6 +93,59 @@ public class interactorTicketsManifestV2Impl implements interactorTicketsManifes
 
         } else{
             Toast.makeText(context, "response null" + response.message(), Toast.LENGTH_SHORT).show();
+        }
+    }
+    @Override
+    public void reqSellos(String folioDespachoId) {
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String token = preferences.getString(GeneralConstants.TOKEN, null);
+        if(token!=null) {
+            requestDataSalida(token,folioDespachoId);
+        }
+    }
+    private void requestDataSalida(String token,String code) {
+        Call<ResponseSellos> call=service.getSalidaV2(token,code);
+        Log.e("QR","code qr "+code);
+        call.enqueue(new Callback<ResponseSellos>() {
+            @Override
+            public void onResponse(Call<ResponseSellos> call, Response<ResponseSellos> response) {
+                validateResponseSellos(response,context);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseSellos> call, Throwable t) {
+                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void validateResponseSellos(Response<ResponseSellos> response, Context context) {
+        if (response != null) {
+            if (RetrofitValidations.checkSuccessCode(response.code())) {
+                getDataQRv2(response, context);
+            } else {
+                Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void getDataQRv2(Response<ResponseSellos> response, Context context) {
+        ResponseSellos resp = response.body();
+        if(resp!=null) {
+            String message = resp.getMessage();
+            int responseCode = resp.getStatus();
+            if(resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_PEP) {
+
+
+                if(resp.getData()!=null) {
+                    presenter.setSellos(resp.getData().getSellos());
+                } else {
+                    Toast.makeText(context, "Sin tickets asignados2.", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
         }
     }
 }

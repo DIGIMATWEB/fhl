@@ -2,6 +2,7 @@ package com.fhl.sistemadedistribucionfh.nmanifestDetail.presenter;
 
 import android.content.Context;
 
+import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.interactor.interactorTicketsManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.interactor.interactorTicketsManifestV2Impl;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
@@ -30,6 +31,20 @@ public class presenterTicketsManifestImplV2 implements presenterTicketsmanifestV
     public void getTickets(String folioDespachoId) {
         if(view!=null){
             interactor.reqTickets(folioDespachoId);
+        }
+    }
+
+    @Override
+    public void getSellos(String folioDespachoId) {
+        if(view!=null){
+            interactor.reqSellos(folioDespachoId);
+        }
+    }
+
+    @Override
+    public void setSellos(List<Sello> response) {
+        if(view!=null){
+            view.setSellos(response);
         }
     }
 

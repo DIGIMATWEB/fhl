@@ -1,11 +1,13 @@
 package com.fhl.sistemadedistribucionfh.nmanifestDetail.view;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,12 +19,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.Salida.Model.v2.dataSalida;
+import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 import com.fhl.sistemadedistribucionfh.Tickets.view.tickets;
+import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.adapter.adapterManifestDetails;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.presenter.presenterTicketsManifestImplV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.presenter.presenterTicketsmanifestV2;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +42,10 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
     private ImageView searchicodetail;
     private String folioDespachoId, vehiculoModeloId, vehiculoPlacaId, cedisId;
     private List<dataTicketsManifestV2> data;
+    private List<Sello> dataSellos;
     private presenterTicketsmanifestV2 presenter;
     private TextView vehicleManifiesto, vehicleName, vehiclePlaca, vehicleCedis;
+    private ImageButton recoletar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,7 +69,8 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         searchViewManifestdetail = view.findViewById(R.id.searchViewManifestdetail);
         searchicodetail = view.findViewById(R.id.searchicodetail);
         searchicodetail.setOnClickListener(this);
-
+        recoletar=view.findViewById(R.id.recoletar);
+        recoletar.setOnClickListener(this);
         vehicleManifiesto = view.findViewById(R.id.numeroManifiesto2);
         vehicleName = view.findViewById(R.id.vehicle_namev2);
         vehiclePlaca = view.findViewById(R.id.placa_text);
@@ -112,6 +121,24 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
                 }
 
                 break;
+            case R.id.recoletar:
+               // Toast.makeText(getContext(), "recolectar", Toast.LENGTH_SHORT).show();
+                Bundle bundle = new Bundle();
+                bundle.putString("scannerType", "Recolectar");
+                bundle.putString("manifest",folioDespachoId);
+                bundle.putSerializable("tickets", (Serializable) data);
+                bundle.putSerializable("sellos", (Serializable) dataSellos);
+                Intent intent = new Intent(getActivity(), BarcodeScannerActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("tickets", (Serializable) data);
+//                ticketsSalida tickets = new ticketsSalida();
+//                tickets.setArguments(bundle);
+//                tickets.show(getParentFragmentManager(), "ticketsSalida");
+
+                break;
         }
     }
     private void setAdapter(List<dataTicketsManifestV2> data) {
@@ -119,6 +146,8 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvlistTickets.setLayoutManager(layoutManager);
         rvlistTickets.setAdapter(adapter);
+        presenter.getSellos(folioDespachoId);
+
     }
 
     public void gotoTickets(int position, String folioTicket) {
@@ -150,6 +179,12 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
     public void setTickets(List<dataTicketsManifestV2> data) {
         this.data = data;
         setAdapter(data);
+    }
+
+    @Override
+    public void setSellos(List<Sello> response) {
+        this.dataSellos=response;
+        Log.e("sellosdetailmanifest",""+dataSellos.size());
     }
 
 }
