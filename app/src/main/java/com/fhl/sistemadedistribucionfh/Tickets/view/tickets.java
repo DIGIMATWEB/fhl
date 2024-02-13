@@ -2,6 +2,7 @@ package com.fhl.sistemadedistribucionfh.Tickets.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,7 +107,33 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
     public void setTiketsDetail(List<dataDetailTickets> data) {
         setAdapter(data);
     }
+    private void menutransition() {
+        manager = getActivity().getSupportFragmentManager();
+        transaction = manager.beginTransaction();
+        mmanifestV2 checklist = new mmanifestV2();
+        transaction.replace(R.id.fragments, checklist, mmanifestV2.TAG).commit();
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
 
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
+
+                    FragmentManager manager = getParentFragmentManager();
+                    manager.popBackStack();
+
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

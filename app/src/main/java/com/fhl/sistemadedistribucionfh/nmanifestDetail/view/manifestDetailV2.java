@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.fhl.sistemadedistribucionfh.Salida.Model.v2.dataSalida;
 import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 import com.fhl.sistemadedistribucionfh.Tickets.view.tickets;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
+import com.fhl.sistemadedistribucionfh.nmanifest.viewV2.mmanifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.adapter.adapterManifestDetails;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.presenter.presenterTicketsManifestImplV2;
@@ -186,5 +188,30 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         this.dataSellos=response;
         Log.e("sellosdetailmanifest",""+dataSellos.size());
     }
+    private void menutransition() {
+        manager = getActivity().getSupportFragmentManager();
+        transaction = manager.beginTransaction();
+        mmanifestV2 checklist = new mmanifestV2();
+        transaction.replace(R.id.fragments, checklist, mmanifestV2.TAG).commit();
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
 
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
+
+                    manager.popBackStack();
+
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
 }
