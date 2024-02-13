@@ -1,5 +1,6 @@
 package com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Sellos;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Tick
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Salida.Model.v2.dataSalida;
 import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
+import com.fhl.sistemadedistribucionfh.evidence.evidencia;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
 import java.util.List;
@@ -75,7 +77,12 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.imageButton:
-                Toast.makeText(getContext(), "ir a evidences", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "ir a evidences", Toast.LENGTH_SHORT).show();
+                getActivity().finish();
+                Intent intent = new Intent(getActivity(), evidencia.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
                 break;
         }
     }
