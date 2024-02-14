@@ -136,7 +136,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:hint="Nombre"
             app:boxBackgroundMode="none"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -147,12 +147,13 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputEditText"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="50dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
+        android:id="@+id/saveSignature"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="10dp"

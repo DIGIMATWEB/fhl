@@ -61,7 +61,7 @@
             </View>
 
             <ImageView
-                android:id="@+id/imageMenu"
+                android:id="@+id/signatureImage"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginStart="10dp"
@@ -80,7 +80,7 @@
                 android:gravity="center"
                 android:text="Firma"
                 android:textSize="@dimen/h4"
-                app:layout_constraintStart_toEndOf="@+id/imageMenu"
+                app:layout_constraintStart_toEndOf="@+id/signatureImage"
                 tools:layout_editor_absoluteY="0dp">
 
             </TextView>
