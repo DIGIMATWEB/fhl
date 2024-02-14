@@ -6,6 +6,7 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ public class calificacion extends AppCompatActivity implements View.OnClickListe
     private Button button;
     private RatingBar starRate;
     private Float frating;
+    private ImageView imageView20;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +37,8 @@ public class calificacion extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initView() {
+        imageView20 =findViewById(R.id.imageView20);
+        imageView20.setOnClickListener(this);
         button=findViewById(R.id.button);
         button.setOnClickListener(this);
         starRate = findViewById(R.id.starRate);
@@ -67,6 +71,9 @@ public class calificacion extends AppCompatActivity implements View.OnClickListe
 
         switch (v.getId()) {
             case R.id.button:
+                onBackPressed();
+                break;
+            case R.id.imageView20:
                 onBackPressed();
                 break;
         }

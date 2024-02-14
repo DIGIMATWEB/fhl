@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -30,6 +31,7 @@ public class signature extends AppCompatActivity implements View.OnClickListener
     private Button saveSignature;
     private GestureOverlayView gestureOverlayView;
     private String signatureBase64,inputTextSignature;
+    private ImageView backTickets;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +55,8 @@ public class signature extends AppCompatActivity implements View.OnClickListener
         return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
     }
     private void initView() {
+        backTickets =findViewById(R.id.backTickets);
+        backTickets.setOnClickListener(this);
         saveSignature =findViewById(R.id.saveSignature);
         saveSignature.setOnClickListener(this);
         editText=findViewById(R.id.inputEditText);
@@ -104,6 +108,9 @@ public class signature extends AppCompatActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.saveSignature:
+                onBackPressed();
+                break;
+            case R.id.backTickets:
                 onBackPressed();
                 break;
         }

@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
-        android:id="@+id/imageView18"
+        android:id="@+id/backImage"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="20dp"
@@ -161,6 +161,7 @@
         app:layout_constraintStart_toEndOf="@+id/imageView19"
         app:layout_constraintTop_toTopOf="@+id/guidelinef2h" />
 
+
     <ImageButton
         android:id="@+id/imageButton7"
         android:layout_width="100dp"
@@ -188,15 +189,9 @@
         app:layout_constraintStart_toEndOf="@+id/imageView19"
         app:layout_constraintTop_toTopOf="@+id/guidelinef3h" />
 
-    <ImageButton
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="10dp"
-        android:src="@drawable/ic_cameraportraitico"
-        app:layout_constraintStart_toStartOf="@+id/guidelinef2"
-        app:layout_constraintTop_toTopOf="@+id/guidelinef2h" />
 
     <Button
+        android:id="@+id/guardarFotosButon"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="10dp"

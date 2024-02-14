@@ -23,7 +23,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     private Float frating;
     private String signatureBase64,inputTextSignature;
     private ImageView star,signatureImage;
-    private Boolean mfirma,mfoto,mfiles,mrating;
+    private Boolean mfirma,mfoto,mfiles,mrating=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,9 +37,11 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             inputTextSignature=bundle.getString("inputText","");
             if(frating!=null){
                 star.setColorFilter(Color.rgb(0, 187, 41), PorterDuff.Mode.SRC_ATOP);
+                mrating=true;
             }
             if(!signatureBase64.isEmpty()&&!inputTextSignature.isEmpty()){
                 signatureImage.setColorFilter(Color.rgb(0, 187, 41), PorterDuff.Mode.SRC_ATOP);
+                mfirma=true;
             }
         }
     }
