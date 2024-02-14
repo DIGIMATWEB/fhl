@@ -12,7 +12,7 @@ public class Datum {
     @SerializedName("Message")
     @Expose
     private String message;
-    @SerializedName("InnerData")
+    @SerializedName("Data")
     @Expose
     private InnerData data;
 

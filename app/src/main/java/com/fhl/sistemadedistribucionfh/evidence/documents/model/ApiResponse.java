@@ -25,7 +25,7 @@ public class ApiResponse {
     @SerializedName("Message")
     @Expose
     private Object message;
-    @SerializedName("InnerData")
+    @SerializedName("Data")
     @Expose
     private List<Datum> data;
     @SerializedName("Function")
