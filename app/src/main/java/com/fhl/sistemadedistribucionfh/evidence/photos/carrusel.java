@@ -1,22 +1,35 @@
 package com.fhl.sistemadedistribucionfh.evidence.photos;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fhl.sistemadedistribucionfh.R;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class carrusel extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
         public static final String TAG = carrusel.class.getSimpleName();
         private Button guardarFotosButon;
@@ -24,7 +37,9 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
         private ImageButton imageView19, imageButton3, imageButton4, imageButton5, imageButton6, imageButton7, imageButton8, imageButton9;
         private static final int REQUEST_IMAGE_CAPTURE = 1;
         private ImageButton lastClickedImageButton; // Keep track of the last clicked ImageButton
-
+        private File tempImageFile;
+        private ArrayList<File> tempImageFiles = new ArrayList<>();
+        private ImageButton sawLast;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
@@ -62,6 +77,9 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                 imageButton8.setOnLongClickListener(this);
                 imageButton9.setOnClickListener(this);
                 imageButton9.setOnLongClickListener(this);
+
+                sawLast= findViewById(R.id.sawLast);
+                sawLast.setOnClickListener(this);
         }
 
         @Override
@@ -72,8 +90,28 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                         Bitmap imageBitmap = (Bitmap) extras.get("data");
                         if (lastClickedImageButton != null) {
                                 lastClickedImageButton.setImageBitmap(imageBitmap);
+                                // Save the image to a temporary file
+                                tempImageFile = saveTempImage(imageBitmap);
+                                tempImageFiles.add(saveTempImage(imageBitmap));
                         }
                 }
+        }
+
+        private File saveTempImage(Bitmap bitmap) {
+                File tempDir = getCacheDir();
+                File tempFile = null;
+                try {
+                        tempFile = File.createTempFile("temp_image", ".jpg", tempDir);
+                        FileOutputStream out = new FileOutputStream(tempFile);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                        out.flush();
+                        out.close();
+                        // Log the temporary file directory
+                        Log.e("carrusel1", "Temporary file path: " + tempFile.getAbsolutePath());
+                } catch (IOException e) {
+                        e.printStackTrace();
+                }
+                return tempFile;
         }
 
         private void showImageDialog(Bitmap imageBitmap) {
@@ -107,10 +145,58 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                         startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                 }
         }
+        private void showLastClickedImagePaths() {
+                if (!tempImageFiles.isEmpty()) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                        builder.setTitle("Last Clicked Image Paths");
 
+                        // Create a LinearLayout to hold the image views and path text views
+                        LinearLayout layout = new LinearLayout(this);
+                        layout.setOrientation(LinearLayout.VERTICAL);
+                        layout.setLayoutParams(new ViewGroup.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT));
+
+                        for (File tempImageFile : tempImageFiles) {
+                                // Inflate the custom layout for each image
+                                View itemView = getLayoutInflater().inflate(R.layout.dialog_image_with_path, null);
+                                ImageView imageView = itemView.findViewById(R.id.dialogImageView);
+                                TextView pathTextView = itemView.findViewById(R.id.pathTextView);
+
+                                // Set image and path for the current image
+                                imageView.setImageURI(Uri.fromFile(tempImageFile));
+                                pathTextView.setText("Path: " + tempImageFile.getAbsolutePath());
+
+                                // Add the itemView to the layout
+                                layout.addView(itemView);
+                        }
+
+                        // Add the layout to the dialog
+                        ScrollView scrollView = new ScrollView(this);
+                        scrollView.addView(layout);
+                        builder.setView(scrollView);
+
+                        // Set positive button
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                }
+                        });
+
+                        // Show the dialog
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                } else {
+                        Toast.makeText(this, "No images have been clicked yet.", Toast.LENGTH_SHORT).show();
+                }
+        }
         @Override
         public void onClick(View v) {
                 switch (v.getId()) {
+                        case  R.id.sawLast:
+                                showLastClickedImagePaths();
+                                break;
                         case R.id.guardarFotosButon:
                                 // Handle saving photos
                                 break;
