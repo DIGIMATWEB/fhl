@@ -10,7 +10,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -19,16 +21,20 @@ import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.evidence.documents.documents;
 import com.fhl.sistemadedistribucionfh.evidence.photos.carrusel;
+import com.fhl.sistemadedistribucionfh.evidence.presenter.requestEvidencePresenter;
+import com.fhl.sistemadedistribucionfh.evidence.presenter.requestEvidencePresenterImpl;
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.calificacion;
 import com.fhl.sistemadedistribucionfh.evidence.signature.signature;
 
-public class evidencia extends AppCompatActivity implements View.OnClickListener {
+public class evidencia extends AppCompatActivity implements View.OnClickListener,evidenceView {
     public static final String TAG = evidencia.class.getSimpleName();
     private ConstraintLayout firma,foto,archivos,rating;
     private Float frating;
     private String signatureBase64,inputTextSignature;
-    private ImageView star,signatureImage,imageMenu1;
+    private ImageView star,signatureImage,imageMenu1,clipDocs;
     private Boolean mfirma,mfoto,mfiles,mrating=false;
+    private Button sendEvidence;
+    private requestEvidencePresenter presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,18 +59,32 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             signatureImage.setColorFilter(Color.rgb(0, 187, 41), PorterDuff.Mode.SRC_ATOP);
             mfirma=true;
         }
+        if(images!=null){
+            imageMenu1.setColorFilter(Color.rgb(0, 187, 41), PorterDuff.Mode.SRC_ATOP);
+            mfoto=true;
+        }
 
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onResume() {
+        super.onResume();
         SharedPreferences preferences = getBaseContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
-
         String images=preferences.getString(GeneralConstants.IMAGE_DIRECTORY,null);
+        String docs=preferences.getString(GeneralConstants.DOCS_DIRECTORY, null       );
         if(images!=null){
             imageMenu1.setColorFilter(Color.rgb(0, 187, 41), PorterDuff.Mode.SRC_ATOP);
             mfoto=true;
+        }else{
+            imageMenu1.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
+            mfoto=true;
+        }
+        if(docs!=null){
+            clipDocs.setColorFilter(Color.rgb(0, 187, 41), PorterDuff.Mode.SRC_ATOP);
+            mfiles=true;
+        }else{
+            imageMenu1.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
+            mfiles=true;
         }
     }
 
@@ -74,14 +94,19 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         archivos=findViewById(R.id.archivos);
         rating=findViewById(R.id.ratingd);
         imageMenu1 =findViewById(R.id.imageMenu1);
+        star=findViewById(R.id.imageMenu3);
+        clipDocs=findViewById(R.id. clipDocs);
         firma.setOnClickListener(this);
         foto.setOnClickListener(this);
         archivos.setOnClickListener(this);
         rating.setOnClickListener(this);
         signatureImage=findViewById(R.id.signatureImage);
 
+        sendEvidence =findViewById(R.id.sendEvidence);
+        sendEvidence.setOnClickListener(this);
         //icons
-        star=findViewById(R.id.imageMenu3);
+        presenter=new requestEvidencePresenterImpl(this,getBaseContext());
+
     }
 
     @Override
@@ -119,7 +144,16 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 startActivity(rating);
                 Log.e("evidence","rating ");
                 break;
+            case R.id.sendEvidence:
+                presenter.sendEvidence();
+
+                break;
         }
+
+    }
+
+    @Override
+    public void setMessage() {
 
     }
 }

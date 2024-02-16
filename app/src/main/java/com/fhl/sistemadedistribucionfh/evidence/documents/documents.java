@@ -21,6 +21,7 @@ import com.fhl.sistemadedistribucionfh.evidence.documents.util.FileUploadService
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -33,23 +34,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class documents extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG = documents.class.getSimpleName();
-    private FileUploadService service;
+   // private FileUploadService service;
     private static final int REQUEST_PICK_FILE = 123;
-
+    private ArrayList<String> tempImageFiles = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_documents);
         initView();
-
-        // Create Retrofit instance
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.233:7420/App/Manifiesto/") // Base URL of the API
-                .addConverterFactory(GsonConverterFactory.create()) // Gson converter factory for serialization/deserialization
-                .build();
-
-        // Create the Retrofit service
-        service = retrofit.create(FileUploadService.class);
     }
 
     private void initView() {
@@ -66,7 +58,8 @@ public class documents extends AppCompatActivity implements View.OnClickListener
                 try {
                     String filePath = FileSelectionUtils.getFilePathFromUri(this, uri).getPath();
                     if (filePath != null) {
-                        uploadFile(filePath); // Upload the selected file
+                        //uploadFile(filePath); // Upload the selected file
+                        tempImageFiles.add(filePath);
                         Log.e("uploader",""+filePath);
                         String[] filePathSplit = filePath.split("\\.");
                         String fileExtension = filePathSplit[filePathSplit.length - 1];
@@ -81,7 +74,20 @@ public class documents extends AppCompatActivity implements View.OnClickListener
             }
         }
     }
-
+    private void saveDir(){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < tempImageFiles.size(); i++) {
+            stringBuilder.append(tempImageFiles.get(i));
+            if (i < tempImageFiles.size() - 1) {
+                stringBuilder.append(", "); // Append delimiter except for the last element
+            }
+        }
+        Log.e("",""+tempImageFiles);
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(GeneralConstants.DOCS_DIRECTORY, String.valueOf(stringBuilder));
+        editor.commit();
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -92,50 +98,12 @@ public class documents extends AppCompatActivity implements View.OnClickListener
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 startActivityForResult(intent, REQUEST_PICK_FILE);
                 break;
+            case R.id.saveFilesDir:
+                saveDir();
+                onBackPressed();
+                break;
         }
     }
 
-    private void uploadFile(String filePath) {
-        // Create a file object
-        File file = new File(filePath);
 
-        // Create request body for file
-        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        MultipartBody.Part listaArchivos = MultipartBody.Part.createFormData("ListaArchivos", file.getName(), requestBody);
-
-        // Other request parameters
-        RequestBody folioObjeto = RequestBody.create(MediaType.parse("text/plain"), "00000168");
-        RequestBody tipoEvidencia = RequestBody.create(MediaType.parse("text/plain"), "2");
-        RequestBody usuario = RequestBody.create(MediaType.parse("text/plain"), "texto");
-
-        SharedPreferences preferences = getBaseContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
-        String token = preferences.getString(GeneralConstants.TOKEN, null);
-        // Authorization header
-        String authorization = token;
-
-        // Call the uploadFile method in Retrofit service
-        Call<ApiResponse> call = service.uploadFile(authorization, folioObjeto, tipoEvidencia, listaArchivos, usuario);
-        call.enqueue(new Callback<ApiResponse>() {
-            @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                if (response.isSuccessful()) {
-                    ApiResponse apiResponse = response.body();
-                    if (apiResponse != null && apiResponse.getData() != null && !apiResponse.getData().isEmpty()) {
-                        InnerData innerData = apiResponse.getData().get(0).getData();
-                        // Handle the response data as needed
-                        Log.e("uploader",""+innerData.getDocumentoId());
-                        Toast.makeText(getApplicationContext(), "File uploaded successfully: " + innerData.getDocumentoId(), Toast.LENGTH_SHORT).show();
-
-                    }
-                } else {
-                    Toast.makeText(getApplicationContext(), "File upload failed", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "File upload failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 }

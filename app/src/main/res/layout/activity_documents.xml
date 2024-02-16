@@ -99,6 +99,7 @@
     </androidx.cardview.widget.CardView>
 
     <Button
+        android:id="@+id/saveFilesDir"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="10dp"

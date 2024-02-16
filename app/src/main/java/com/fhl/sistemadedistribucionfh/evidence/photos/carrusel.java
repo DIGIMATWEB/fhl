@@ -262,7 +262,7 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                 outputStream.close();
         }
         private void cleanFolder(){
-                Toast.makeText(this, "Eliminar todo", Toast.LENGTH_SHORT).show();
+                //.Toast.makeText(this, "Eliminar todo", Toast.LENGTH_SHORT).show();
                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString(GeneralConstants.IMAGE_DIRECTORY, null);
@@ -311,8 +311,12 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                                 break;
                         case R.id.guardarFotosButon:
                                 // Handle saving photos
-                                moveImagesToPhotosFolder();
-                                savePathsOnShared();
+                                if(!tempImageFiles.isEmpty()) {
+                                        moveImagesToPhotosFolder();
+                                        savePathsOnShared();
+                                }else {
+                                        cleanFolder();
+                                }
                                 onBackPressed();
                                 break;
                         case R.id.backImage:
