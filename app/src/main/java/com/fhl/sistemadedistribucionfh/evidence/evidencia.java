@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -30,10 +31,11 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     public static final String TAG = evidencia.class.getSimpleName();
     private ConstraintLayout firma,foto,archivos,rating;
     private Float frating;
-    private String signatureBase64,inputTextSignature;
-    private ImageView star,signatureImage,imageMenu1,clipDocs;
+    private String signatureBase64,inputTextSignature,currusel,ffiles,stars="";
+    private ImageView star,signatureImage,cameraico,clipDocs;
     private Boolean mfirma,mfoto,mfiles,mrating=false;
     private Button sendEvidence;
+    private ImageButton eraseShared;
     private requestEvidencePresenter presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,57 +47,88 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
     private void checkShared() {
         SharedPreferences preferences = getBaseContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
-        String rate = preferences.getString(GeneralConstants.RATE_STARS, null);
         String signature = preferences.getString(GeneralConstants.SIGNATURE_B64, null);
         String inputText = preferences.getString(GeneralConstants.INPUT_TEXT_SIGTURE,null);
         String images=preferences.getString(GeneralConstants.IMAGE_DIRECTORY,null);
+        String docs=preferences.getString(GeneralConstants.DOCS_DIRECTORY, null);
+        String rate = preferences.getString(GeneralConstants.RATE_STARS, null);
 
+
+
+
+
+        if (signature!=null&&inputText!=null) {
+            signatureImage.setColorFilter(Color.rgb(0, 187, 41), PorterDuff.Mode.SRC_ATOP);
+            mfirma=true;
+            signatureBase64=signature;
+            inputTextSignature=inputText;
+        }else{
+            signatureImage.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
+            mfirma=false;
+            signatureBase64="";
+            inputTextSignature="";
+        }
+        if(images!=null){
+            cameraico.setColorFilter(Color.rgb(0, 187, 41), PorterDuff.Mode.SRC_ATOP);
+            mfoto=true;
+            currusel=images;
+
+        }else{
+            cameraico.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
+            mfoto=false;
+            currusel="";
+        }
+        if(docs!=null){
+            clipDocs.setColorFilter(Color.rgb(0, 187, 41), PorterDuff.Mode.SRC_ATOP);
+            mfiles=true;
+            ffiles=docs;
+        }else{
+            clipDocs.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
+            mfiles=false;
+            ffiles="";
+        }
         if(rate!=null){
             frating = Float.valueOf( rate);
             star.setColorFilter(Color.rgb(0, 187, 41), PorterDuff.Mode.SRC_ATOP);
             mrating=true;
+            stars=rate;
+        }else{
+            star.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
+            mrating=false;
+            stars="";
         }
-        if (signature!=null&&inputText!=null) {
-            signatureImage.setColorFilter(Color.rgb(0, 187, 41), PorterDuff.Mode.SRC_ATOP);
-            mfirma=true;
-        }
-        if(images!=null){
-            imageMenu1.setColorFilter(Color.rgb(0, 187, 41), PorterDuff.Mode.SRC_ATOP);
-            mfoto=true;
-        }
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        SharedPreferences preferences = getBaseContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
-        String images=preferences.getString(GeneralConstants.IMAGE_DIRECTORY,null);
-        String docs=preferences.getString(GeneralConstants.DOCS_DIRECTORY, null       );
-        if(images!=null){
-            imageMenu1.setColorFilter(Color.rgb(0, 187, 41), PorterDuff.Mode.SRC_ATOP);
-            mfoto=true;
+        checkShared();
+        if(mfirma==true&&mfoto==true&&mfiles==true&&mrating==true)
+        {
+            sendEvidence.setVisibility(View.VISIBLE);
         }else{
-            imageMenu1.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
-            mfoto=true;
+            sendEvidence.setVisibility(View.GONE);
         }
-        if(docs!=null){
-            clipDocs.setColorFilter(Color.rgb(0, 187, 41), PorterDuff.Mode.SRC_ATOP);
-            mfiles=true;
-        }else{
-            imageMenu1.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
-            mfiles=true;
-        }
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        checkShared();
     }
 
     private void initView() {
+
         firma=findViewById(R.id.firma);
         foto=findViewById(R.id.foto);
         archivos=findViewById(R.id.archivos);
         rating=findViewById(R.id.ratingd);
-        imageMenu1 =findViewById(R.id.imageMenu1);
+        cameraico =findViewById(R.id.cameraico);
         star=findViewById(R.id.imageMenu3);
-        clipDocs=findViewById(R.id. clipDocs);
+        clipDocs=findViewById(R.id.clipDocs);
+        eraseShared=findViewById(R.id.eraseShared);
+        eraseShared.setOnClickListener(this);
         firma.setOnClickListener(this);
         foto.setOnClickListener(this);
         archivos.setOnClickListener(this);
@@ -104,6 +137,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
         sendEvidence =findViewById(R.id.sendEvidence);
         sendEvidence.setOnClickListener(this);
+        sendEvidence.setVisibility(View.GONE);
         //icons
         presenter=new requestEvidencePresenterImpl(this,getBaseContext());
 
@@ -116,12 +150,6 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 Log.e("evidence","firma ");
                 //Toast.makeText(getApplicationContext(), , Toast.LENGTH_SHORT).show();
                 Intent intentfirma = new Intent(this, signature.class);
-//                if(signatureBase64!=null&&inputTextSignature!=null) {
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("signatureImage", signatureBase64);
-//                    bundle.putString("inputText", inputTextSignature);
-//                    intentfirma.putExtras(bundle);
-//                }
                 startActivity(intentfirma);
                 break;
             case R.id.foto:
@@ -136,17 +164,34 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 break;
             case R.id.ratingd:
                 Intent rating = new Intent(this, calificacion.class);
-//                if(frating!=null) {
-//                    Bundle bundle = new Bundle();
-//                    bundle.putFloat("ratingValue", frating);
-//                    rating.putExtras(bundle);
-//                }
                 startActivity(rating);
                 Log.e("evidence","rating ");
                 break;
+            case R.id.eraseShared:
+                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                 SharedPreferences.Editor editor = preferences.edit();
+                 editor.putString(GeneralConstants.SIGNATURE_B64, null);
+                 editor.putString(GeneralConstants.INPUT_TEXT_SIGTURE,null);
+                 editor.putString(GeneralConstants.IMAGE_DIRECTORY,null);
+                 editor.putString(GeneralConstants.DOCS_DIRECTORY, null);
+                 editor.putString(GeneralConstants.RATE_STARS, null);
+                 editor.commit();
+                signatureImage.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
+                mfirma = false;
+                cameraico.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
+                mfoto = false;
+                clipDocs.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
+                mfiles = false;
+                star.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
+                mrating = false;
+                break;
             case R.id.sendEvidence:
                 presenter.sendEvidence();
-
+                Log.e("sendEvidence", "signatureBase64: " + signatureBase64 + "\n" +
+                        "inputTextSignature: " + inputTextSignature + "\n" +
+                        "carrusel: " + currusel + "\n" +
+                        "ffiles: " + ffiles + "\n" +
+                        "stars: " + stars);
                 break;
         }
 

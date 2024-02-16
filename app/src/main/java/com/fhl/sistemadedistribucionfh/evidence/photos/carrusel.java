@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
@@ -300,6 +301,8 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                 editor.putString(GeneralConstants.IMAGE_DIRECTORY, String.valueOf(stringBuilder));
                 editor.commit();
         }
+
+
         @Override
         public void onClick(View v) {
                 switch (v.getId()) {
@@ -318,6 +321,7 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                                         cleanFolder();
                                 }
                                 onBackPressed();
+
                                 break;
                         case R.id.backImage:
                                 onBackPressed();

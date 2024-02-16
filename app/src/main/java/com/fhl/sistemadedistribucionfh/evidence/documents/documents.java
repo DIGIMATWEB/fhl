@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,6 +38,7 @@ public class documents extends AppCompatActivity implements View.OnClickListener
    // private FileUploadService service;
     private static final int REQUEST_PICK_FILE = 123;
     private ArrayList<String> tempImageFiles = new ArrayList<>();
+    private Button saveFilesDir;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +48,8 @@ public class documents extends AppCompatActivity implements View.OnClickListener
 
     private void initView() {
         findViewById(R.id.firma).setOnClickListener(this);
+        saveFilesDir=findViewById(R.id.saveFilesDir);
+        saveFilesDir.setOnClickListener(this);
     }
 
     @Override
@@ -99,7 +103,11 @@ public class documents extends AppCompatActivity implements View.OnClickListener
                 startActivityForResult(intent, REQUEST_PICK_FILE);
                 break;
             case R.id.saveFilesDir:
-                saveDir();
+                if(tempImageFiles!=null){
+                    if(!tempImageFiles.isEmpty()){
+                        saveDir();
+                    }
+                }
                 onBackPressed();
                 break;
         }
