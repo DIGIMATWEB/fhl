@@ -1,5 +1,7 @@
 package com.fhl.sistemadedistribucionfh.evidence.presenter;
 
 public interface requestEvidencePresenter {
-    void sendEvidence();
+    void sendEvidence(Integer secuenceRequest, String signatureBase64, String inputTextSignature, String currusel, String ffiles, String stars);
+
+    void nextRequest();
 }

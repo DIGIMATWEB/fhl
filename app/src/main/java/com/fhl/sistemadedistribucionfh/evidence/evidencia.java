@@ -37,6 +37,8 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     private Button sendEvidence;
     private ImageButton eraseShared;
     private requestEvidencePresenter presenter;
+
+    private Integer secuenceRequest=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -186,12 +188,14 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 mrating = false;
                 break;
             case R.id.sendEvidence:
-                presenter.sendEvidence();
+                presenter.sendEvidence(secuenceRequest,signatureBase64,inputTextSignature,currusel,ffiles,stars);
                 Log.e("sendEvidence", "signatureBase64: " + signatureBase64 + "\n" +
                         "inputTextSignature: " + inputTextSignature + "\n" +
                         "carrusel: " + currusel + "\n" +
                         "ffiles: " + ffiles + "\n" +
-                        "stars: " + stars);
+                        "stars: " + stars+ "\n" +
+                        "secuenceRequest: " +  secuenceRequest);
+
                 break;
         }
 
@@ -199,6 +203,12 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void setMessage() {
-
+        if(secuenceRequest<5) {
+            secuenceRequest = secuenceRequest + 1;
+            presenter.sendEvidence(secuenceRequest,signatureBase64,inputTextSignature,currusel,ffiles,stars);
+        }else{
+            Toast.makeText(this, "Todos los archivos se han enviado correctamente", Toast.LENGTH_SHORT).show();
+            //todo regresar a manifiestos y limpiar toda la carpeta de archivos
+        }
     }
 }
