@@ -1,6 +1,8 @@
 package com.fhl.sistemadedistribucionfh.evidence.rateDriver;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.evidence.evidencia;
 
 public class calificacion extends AppCompatActivity implements View.OnClickListener {
@@ -26,13 +29,17 @@ public class calificacion extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate_driver);
         initView();
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            // Retrieve the frating value from the Bundle
-            frating = bundle.getFloat("ratingValue", 0f);
-            if(frating!=null){
-                starRate.setRating(frating);
-            }
+        checkShared();
+
+    }
+
+    private void checkShared() {
+        SharedPreferences preferences = getBaseContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String rate = preferences.getString(GeneralConstants.RATE_STARS, null);
+
+        if(rate!=null){
+            frating = Float.valueOf( rate);
+            starRate.setRating(frating);
         }
     }
 
@@ -54,16 +61,14 @@ public class calificacion extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(this, evidencia.class);
-
         // Put the frating value into a Bundle
         if(frating!=null) {
-            Bundle bundle = new Bundle();
-            bundle.putFloat("ratingValue", frating);
-            intent.putExtras(bundle);
+            SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString(GeneralConstants.RATE_STARS, String.valueOf(frating));
+            editor.commit();
         }
-        // Start the evidencia activity
-        startActivity(intent);
+
     }
 
     @Override

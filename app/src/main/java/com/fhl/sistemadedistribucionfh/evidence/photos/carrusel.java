@@ -1,13 +1,17 @@
 package com.fhl.sistemadedistribucionfh.evidence.photos;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,11 +28,17 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class carrusel extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
         public static final String TAG = carrusel.class.getSimpleName();
@@ -39,17 +49,18 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
         private ImageButton lastClickedImageButton; // Keep track of the last clicked ImageButton
         private File tempImageFile;
         private ArrayList<File> tempImageFiles = new ArrayList<>();
-        private ImageButton sawLast;
+        private List<String> directories=new ArrayList<>();
+        private ImageButton sawLast,eraseFolder;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_carrusel);
                 initView();
+                directories.clear();
         }
 
         private void initView() {
                 backImage = findViewById(R.id.backImage);
-                guardarFotosButon = findViewById(R.id.guardarFotosButon);
                 imageView19 = findViewById(R.id.imageView19);
                 imageButton3 = findViewById(R.id.imageButton3);
                 imageButton4 = findViewById(R.id.imageButton4);
@@ -60,7 +71,6 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                 imageButton9 = findViewById(R.id.imageButton9);
 
                 backImage.setOnClickListener(this);
-                guardarFotosButon.setOnClickListener(this);
                 imageView19.setOnClickListener(this);
                 imageView19.setOnLongClickListener(this);
                 imageButton3.setOnClickListener(this);
@@ -78,8 +88,14 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                 imageButton9.setOnClickListener(this);
                 imageButton9.setOnLongClickListener(this);
 
+                eraseFolder= findViewById(R.id.eraseFolder);
+                eraseFolder.setOnClickListener(this);
+
                 sawLast= findViewById(R.id.sawLast);
                 sawLast.setOnClickListener(this);
+
+                guardarFotosButon = findViewById(R.id.guardarFotosButon);
+                guardarFotosButon.setOnClickListener(this);
         }
 
         @Override
@@ -91,7 +107,7 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                         if (lastClickedImageButton != null) {
                                 lastClickedImageButton.setImageBitmap(imageBitmap);
                                 // Save the image to a temporary file
-                                tempImageFile = saveTempImage(imageBitmap);
+                              //  tempImageFile = saveTempImage(imageBitmap);
                                 tempImageFiles.add(saveTempImage(imageBitmap));
                         }
                 }
@@ -191,14 +207,113 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                         Toast.makeText(this, "No images have been clicked yet.", Toast.LENGTH_SHORT).show();
                 }
         }
+        private void moveImagesToPhotosFolder() {
+                for (File tempImageFile : tempImageFiles) {
+                        if (tempImageFile.exists()) {
+                                try {
+                                        // Convert image file to Base64
+                                        String base64Image = convertImageToBase64(tempImageFile);
+
+                                        if (!base64Image.isEmpty()) {
+                                                // Save Base64 image in memory
+                                                saveBase64ImageInMemory(base64Image, tempImageFile.getName());
+                                                Log.e("carrusel1", "Image saved in memory: " + tempImageFile.getName());
+                                                Log.e("carrusel1", "Image saved in memory: " + tempImageFile.getAbsolutePath());
+                                                directories.add(tempImageFile.getAbsolutePath());
+                                        } else {
+                                                Log.e("carrusel1", "Base64 image string is empty");
+                                        }
+                                } catch (IOException e) {
+                                        Log.e("carrusel1", "Error saving image in memory: " + e.getMessage());
+                                }
+                        } else {
+                                Log.e("carrusel1", "Source file does not exist: " + tempImageFile.getAbsolutePath());
+                        }
+                }
+
+               // tempImageFiles.clear(); // Clear the list of temporary image files
+        }
+
+        private String convertImageToBase64(File imageFile) throws IOException {
+                FileInputStream inputStream = new FileInputStream(imageFile);
+                byte[] buffer = new byte[(int) imageFile.length()];
+                inputStream.read(buffer);
+                inputStream.close();
+                String base64Image = Base64.encodeToString(buffer, Base64.DEFAULT);
+                Log.e("carrusel1", "Base64 image length: " + base64Image.length());
+                return base64Image;
+        }
+
+        private void saveBase64ImageInMemory(String base64Image, String filename) throws IOException {
+                byte[] decodedBytes = Base64.decode(base64Image, Base64.DEFAULT);
+
+                File picturesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                File imagesDir = new File(picturesDir, "MyImages");
+                if (!imagesDir.exists()) {
+                        if (!imagesDir.mkdirs()) {
+                                Log.e("carrusel1", "Failed to create directory: " + imagesDir.getAbsolutePath());
+                                return;
+                        }
+                }
+
+                File imageFile = new File(imagesDir, filename);
+                FileOutputStream outputStream = new FileOutputStream(imageFile);
+                outputStream.write(decodedBytes);
+                outputStream.close();
+        }
+        private void cleanFolder(){
+                Toast.makeText(this, "Eliminar todo", Toast.LENGTH_SHORT).show();
+                SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString(GeneralConstants.IMAGE_DIRECTORY, null);
+                editor.commit();
+                File picturesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                File imagesDir = new File(picturesDir, "MyImages");
+                if (imagesDir.exists() && imagesDir.isDirectory()) {
+                        File[] files = imagesDir.listFiles();
+                        if (files != null) {
+                                for (File file : files) {
+                                        if (file.isFile()) {
+                                                if (file.delete()) {
+                                                        Log.d("DeleteFiles", "Deleted file: " + file.getAbsolutePath());
+                                                } else {
+                                                        Log.e("DeleteFiles", "Failed to delete file: " + file.getAbsolutePath());
+                                                }
+                                        }
+                                }
+                        }
+                } else {
+                        Log.e("DeleteFiles", "Images directory not found: " + imagesDir.getAbsolutePath());
+                }
+        }
+        private void savePathsOnShared(){
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int i = 0; i < directories.size(); i++) {
+                        stringBuilder.append(directories.get(i));
+                        if (i < directories.size() - 1) {
+                                stringBuilder.append(", "); // Append delimiter except for the last element
+                        }
+                }
+                Log.e("",""+directories);
+                SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString(GeneralConstants.IMAGE_DIRECTORY, String.valueOf(stringBuilder));
+                editor.commit();
+        }
         @Override
         public void onClick(View v) {
                 switch (v.getId()) {
+                        case R.id.eraseFolder:
+                                cleanFolder();
+                                break;
                         case  R.id.sawLast:
                                 showLastClickedImagePaths();
                                 break;
                         case R.id.guardarFotosButon:
                                 // Handle saving photos
+                                moveImagesToPhotosFolder();
+                                savePathsOnShared();
+                                onBackPressed();
                                 break;
                         case R.id.backImage:
                                 onBackPressed();

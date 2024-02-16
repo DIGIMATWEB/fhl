@@ -13,6 +13,16 @@
         android:background="@drawable/ic_warning_validador"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/eraseFolder"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/ic_trash_ico"
+        app:layout_constraintEnd_toStartOf="@+id/sawLast"
+        app:layout_constraintTop_toTopOf="parent" />
     <ImageView
         android:id="@+id/backImage"
         android:layout_width="30dp"

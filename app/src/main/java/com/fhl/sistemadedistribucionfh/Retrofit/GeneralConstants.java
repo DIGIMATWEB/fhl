@@ -13,4 +13,8 @@ public class GeneralConstants {
     public static final int RESPONSE_CODE_OK = 105;
     public static final int RESPONSE_CODE_OK_PEP = 200;
     public static final int RESPONSE_CODE_SESSION_EXPIRED = 104;
+    public static final String RATE_STARS = "RATE";
+    public static final String SIGNATURE_B64 = "IMAGE_BASE64";
+    public static final String INPUT_TEXT_SIGTURE = "TEST_SIGN";
+    public static final String IMAGE_DIRECTORY = "IMAGES_STORAGE";
 }
