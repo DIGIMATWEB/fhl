@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +27,9 @@ import com.fhl.sistemadedistribucionfh.evidence.presenter.requestEvidencePresent
 import com.fhl.sistemadedistribucionfh.evidence.presenter.requestEvidencePresenterImpl;
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.calificacion;
 import com.fhl.sistemadedistribucionfh.evidence.signature.signature;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class evidencia extends AppCompatActivity implements View.OnClickListener,evidenceView {
     public static final String TAG = evidencia.class.getSimpleName();
@@ -186,9 +190,11 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 mfiles = false;
                 star.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
                 mrating = false;
+                secuenceRequest=1;
                 break;
             case R.id.sendEvidence:
-                presenter.sendEvidence(secuenceRequest,signatureBase64,inputTextSignature,currusel,ffiles,stars);
+
+                presenter.sendEvidence(secuenceRequest,signatureBase64,inputTextSignature,currusel,ffiles);
                 Log.e("sendEvidence", "signatureBase64: " + signatureBase64 + "\n" +
                         "inputTextSignature: " + inputTextSignature + "\n" +
                         "carrusel: " + currusel + "\n" +
@@ -203,9 +209,24 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void setMessage() {
-        if(secuenceRequest<5) {
+        if(secuenceRequest<=3) {
             secuenceRequest = secuenceRequest + 1;
-            presenter.sendEvidence(secuenceRequest,signatureBase64,inputTextSignature,currusel,ffiles,stars);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Log.e("sendEvidence", "signatureBase64: " + signatureBase64 + "\n" +
+                            "inputTextSignature: " + inputTextSignature + "\n" +
+                            "carrusel: " + currusel + "\n" +
+                            "ffiles: " + ffiles + "\n" +
+                            "stars: " + stars+ "\n" +
+                            "secuenceRequest: " +  secuenceRequest);
+                    presenter.sendEvidence(secuenceRequest,signatureBase64,inputTextSignature,currusel,ffiles);
+                }
+            }, 4000);
+
+        }else if(secuenceRequest==4){
+            secuenceRequest = secuenceRequest + 1;
+            Toast.makeText(this, "mandar estrellas", Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(this, "Todos los archivos se han enviado correctamente", Toast.LENGTH_SHORT).show();
             //todo regresar a manifiestos y limpiar toda la carpeta de archivos

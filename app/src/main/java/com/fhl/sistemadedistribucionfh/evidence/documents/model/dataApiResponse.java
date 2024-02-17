@@ -4,7 +4,7 @@ package com.fhl.sistemadedistribucionfh.evidence.documents.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Datum {
+public class dataApiResponse {
 
     @SerializedName("TotalRows")
     @Expose
@@ -20,7 +20,7 @@ public class Datum {
      * No args constructor for use in serialization
      * 
      */
-    public Datum() {
+    public dataApiResponse() {
     }
 
     /**
@@ -29,7 +29,7 @@ public class Datum {
      * @param totalRows
      * @param message
      */
-    public Datum(Integer totalRows, String message, InnerData data) {
+    public dataApiResponse(Integer totalRows, String message, InnerData data) {
         super();
         this.totalRows = totalRows;
         this.message = message;

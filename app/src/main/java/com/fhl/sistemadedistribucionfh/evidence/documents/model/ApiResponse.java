@@ -27,7 +27,7 @@ public class ApiResponse {
     private Object message;
     @SerializedName("Data")
     @Expose
-    private List<Datum> data;
+    private List<dataApiResponse> data;
     @SerializedName("Function")
     @Expose
     private String function;
@@ -38,7 +38,7 @@ public class ApiResponse {
     @Expose
     private String sTiempos;
 
-    public ApiResponse(TimeMeasure timeMeasure, Integer totalRows, Object pageIndex, Object pageSize, Integer status, Object message, List<Datum> data, String function, Object parameters, String sTiempos) {
+    public ApiResponse(TimeMeasure timeMeasure, Integer totalRows, Object pageIndex, Object pageSize, Integer status, Object message, List<dataApiResponse> data, String function, Object parameters, String sTiempos) {
         super();
         this.timeMeasure = timeMeasure;
         this.totalRows = totalRows;
@@ -100,11 +100,11 @@ public class ApiResponse {
         this.message = message;
     }
 
-    public List<Datum> getData() {
+    public List<dataApiResponse> getData() {
         return data;
     }
 
-    public void setData(List<Datum> data) {
+    public void setData(List<dataApiResponse> data) {
         this.data = data;
     }
 

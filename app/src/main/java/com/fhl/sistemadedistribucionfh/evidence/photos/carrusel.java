@@ -220,7 +220,7 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                                                 saveBase64ImageInMemory(base64Image, tempImageFile.getName());
                                                 Log.e("carrusel1", "Image saved in memory: " + tempImageFile.getName());
                                                 Log.e("carrusel1", "Image saved in memory: " + tempImageFile.getAbsolutePath());
-                                                directories.add(tempImageFile.getAbsolutePath());
+
                                         } else {
                                                 Log.e("carrusel1", "Base64 image string is empty");
                                         }
@@ -252,6 +252,7 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                 File imagesDir = new File(picturesDir, "MyImages");
                 if (!imagesDir.exists()) {
                         if (!imagesDir.mkdirs()) {
+
                                 Log.e("carrusel1", "Failed to create directory: " + imagesDir.getAbsolutePath());
                                 return;
                         }
@@ -261,6 +262,7 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                 FileOutputStream outputStream = new FileOutputStream(imageFile);
                 outputStream.write(decodedBytes);
                 outputStream.close();
+                directories.add(imagesDir+"/"+filename);
         }
         private void cleanFolder(){
                 //.Toast.makeText(this, "Eliminar todo", Toast.LENGTH_SHORT).show();
@@ -298,7 +300,7 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                 Log.e("",""+directories);
                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
-                editor.putString(GeneralConstants.IMAGE_DIRECTORY, String.valueOf(stringBuilder));
+                editor.putString(GeneralConstants.IMAGE_DIRECTORY, String.valueOf(directories.get(0)));//stringBuilder
                 editor.commit();
         }
 
