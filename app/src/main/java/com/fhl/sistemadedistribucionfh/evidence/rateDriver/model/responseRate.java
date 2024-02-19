@@ -17,7 +17,7 @@ public class responseRate {
     @SerializedName("Message")
     @Expose
     private String message;
-    @SerializedName("responseRateData")
+    @SerializedName("Data")
     @Expose
     private responseRateData data;
 

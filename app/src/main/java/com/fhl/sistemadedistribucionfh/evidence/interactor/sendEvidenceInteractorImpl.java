@@ -116,13 +116,16 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
     }
     @Override
     public void sendRate(Integer stars) {
+        String authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI2IiwiRW1wbG95ZWVJZCI6IjciLCJQcm9maWxlSW1hZ2VJZCI6IjEwMDc4IiwiRW1wbG95ZWVOdW1iZXIiOiI4ODg4OCIsIlVzZXJOYW1lIjoidXNyUGhvZW5peEFkbWluIiwiTmFtZSI6IkFkbWluaXN0cmFkb3IgU0dEIiwiRW1haWwiOiJqaG9uYXRoYW5AZ3BzcGhvZW5peC5jb20iLCJNb2JpbGVQaG9uZSI6IjU1NTU1NTU1NTUiLCJEYXRlT2ZCaXJ0aCI6IjEvMS8wMDAxIiwiQ2xpZW50cyI6IltdIiwiZXhwIjoxNzA4NDAxNDczfQ.H6UCwNAbAf30z7mcIZhU6vxCfOsqxcwFIpLCTXWcMw0";
+
         requestRate request= new requestRate("m120",6,stars);
-        Call<responseRate> call =service.sendRate(request);
+        Call<responseRate> call =service.sendRate(authorization,request);
         call.enqueue(new Callback<responseRate>() {
             @Override
             public void onResponse(Call<responseRate> call, Response<responseRate> response) {
+                Log.e("ratingStars",""+response.body());
               if(response.body().getStatus()==200){
-                  Toast.makeText(context, ""+response.body().getData().getEncuestaOperadorPickup(), Toast.LENGTH_SHORT).show();
+                 Toast.makeText(context, ""+response.body().getData().getEncuestaOperadorPickup(), Toast.LENGTH_SHORT).show();
                   presenter.nextRequest();
               }else{
                   Toast.makeText(context,""+response.body().getMessage(), Toast.LENGTH_SHORT).show();

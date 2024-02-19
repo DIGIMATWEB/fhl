@@ -26,6 +26,6 @@ public interface serviceEvidence {
             @Part MultipartBody.Part listaArchivos,
             @Part("Usuario") RequestBody usuario
     );
-    @GET(RetrofitEndPoints.RATE_STARS)
-    Call<responseRate> sendRate(@Body requestRate request);
+    @POST(RetrofitEndPoints.RATE_STARS)
+    Call<responseRate> sendRate(@Header("Authorization") String authorization,@Body requestRate request);
 }
