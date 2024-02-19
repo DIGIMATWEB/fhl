@@ -1,16 +1,17 @@
 package com.fhl.sistemadedistribucionfh.evidence.interactor;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientPep;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.ApiResponse;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.InnerData;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.dataApiResponse;
 import com.fhl.sistemadedistribucionfh.evidence.presenter.requestEvidencePresenter;
+import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.requestRate;
+import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.responseRate;
+import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.responseRateData;
 import com.fhl.sistemadedistribucionfh.evidence.util.serviceEvidence;
 
 import java.io.File;
@@ -39,18 +40,23 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
     }
     @Override
     public void requestEvidence(Integer secuenceRequest, String signatureBase64, String inputTextSignature, String currusel, String ffiles) {
-        Toast.makeText(context, "mandarEvidencias", Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(context, "mandarEvidencias", Toast.LENGTH_SHORT).show();
         if(secuenceRequest==1){
             uploadFile(signatureBase64,1,inputTextSignature);
         }else if(secuenceRequest==2){
             uploadFile(currusel,2, "test");
         }else if(secuenceRequest==3){
             uploadFile(ffiles,3, "test");
+        }else if(secuenceRequest==4){
+            presenter.nextRequest();
         }else{
 
         }
         //uploadFile();
     }
+
+
+
     private void uploadFile(String filePath, Integer type, String Text) {
         // Create a file object
         File file = new File(filePath);
@@ -67,7 +73,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
 //        SharedPreferences preferences =context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
 //        String token = preferences.getString(GeneralConstants.TOKEN, null);
         // Authorization header
-        String authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI2IiwiRW1wbG95ZWVJZCI6IjciLCJQcm9maWxlSW1hZ2VJZCI6IjEwMDc4IiwiRW1wbG95ZWVOdW1iZXIiOiI4ODg4OCIsIlVzZXJOYW1lIjoidXNyUGhvZW5peEFkbWluIiwiTmFtZSI6IkFkbWluaXN0cmFkb3IgU0dEIiwiRW1haWwiOiJqaG9uYXRoYW5AZ3BzcGhvZW5peC5jb20iLCJNb2JpbGVQaG9uZSI6IjU1NTU1NTU1NTUiLCJEYXRlT2ZCaXJ0aCI6IjEvMS8wMDAxIiwiQ2xpZW50cyI6IltdIiwiZXhwIjoxNzA4MTQ1NDkxfQ.N0gzqj2u3aXQlbDWtReyrrE2naeAOHYGpMvf8BF34s8";
+        String authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI2IiwiRW1wbG95ZWVJZCI6IjciLCJQcm9maWxlSW1hZ2VJZCI6IjEwMDc4IiwiRW1wbG95ZWVOdW1iZXIiOiI4ODg4OCIsIlVzZXJOYW1lIjoidXNyUGhvZW5peEFkbWluIiwiTmFtZSI6IkFkbWluaXN0cmFkb3IgU0dEIiwiRW1haWwiOiJqaG9uYXRoYW5AZ3BzcGhvZW5peC5jb20iLCJNb2JpbGVQaG9uZSI6IjU1NTU1NTU1NTUiLCJEYXRlT2ZCaXJ0aCI6IjEvMS8wMDAxIiwiQ2xpZW50cyI6IltdIiwiZXhwIjoxNzA4NDAxNDczfQ.H6UCwNAbAf30z7mcIZhU6vxCfOsqxcwFIpLCTXWcMw0";
 
         // Call the uploadFile method in Retrofit service
         Call<ApiResponse> call = service.uploadFile(authorization, folioObjeto, tipoEvidencia, listaArchivos, usuario);
@@ -105,6 +111,27 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
                 Toast.makeText(context, "File upload failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e("sendEvidence",""+t.getMessage());
                // presenter.nextRequest();
+            }
+        });
+    }
+    @Override
+    public void sendRate(Integer stars) {
+        requestRate request= new requestRate("m120",6,stars);
+        Call<responseRate> call =service.sendRate(request);
+        call.enqueue(new Callback<responseRate>() {
+            @Override
+            public void onResponse(Call<responseRate> call, Response<responseRate> response) {
+              if(response.body().getStatus()==200){
+                  Toast.makeText(context, ""+response.body().getData().getEncuestaOperadorPickup(), Toast.LENGTH_SHORT).show();
+                  presenter.nextRequest();
+              }else{
+                  Toast.makeText(context,""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+              }
+            }
+
+            @Override
+            public void onFailure(Call<responseRate> call, Throwable t) {
+                Toast.makeText(context, "Rate failed : " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

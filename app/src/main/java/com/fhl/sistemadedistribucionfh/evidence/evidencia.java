@@ -209,7 +209,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void setMessage() {
-        if(secuenceRequest<=3) {
+        if(secuenceRequest<4) {
             secuenceRequest = secuenceRequest + 1;
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -226,7 +226,11 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
         }else if(secuenceRequest==4){
             secuenceRequest = secuenceRequest + 1;
-            Toast.makeText(this, "mandar estrellas", Toast.LENGTH_SHORT).show();
+            Log.e("sendEvidence", "sendEvidence: " + secuenceRequest+" sendRate: "+ stars);
+            presenter.sendRate(Integer.valueOf(stars));
+            //Toast.makeText(this, "mandar estrellas", Toast.LENGTH_SHORT).show();
+        }else if(secuenceRequest==5){
+            Toast.makeText(this, "Cambiar estatus y regresar a manifiestos", Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(this, "Todos los archivos se han enviado correctamente", Toast.LENGTH_SHORT).show();
             //todo regresar a manifiestos y limpiar toda la carpeta de archivos

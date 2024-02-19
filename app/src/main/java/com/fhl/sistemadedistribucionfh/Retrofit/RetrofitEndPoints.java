@@ -18,6 +18,7 @@ public class RetrofitEndPoints {
     //ENDPOINTS PEP
     public static final String MANIFEST_PEP = "GetManifiestoByOperador/";
     public static final String TICKETS_PEP = "GetTicketsByManifiesto/";
+    public static final String RATE_STARS ="SetCalificacionOperador/";
 
     public static final String MENUS = "menu.php";
     public static final String SALIDA = "salidaqr.php";

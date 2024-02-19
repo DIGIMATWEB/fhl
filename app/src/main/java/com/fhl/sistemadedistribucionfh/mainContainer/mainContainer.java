@@ -206,12 +206,12 @@ public class mainContainer extends AppCompatActivity  implements view {
         cover.setVisibility(View.VISIBLE);
         menu=new mainMenu();
 
-        //Data normal
+        //responseRateData normal
         if(data!=null) {
             menu.setData(data);
         }
 
-        //Data V2
+        //responseRateData V2
         if (dataV2!=null) {
             menu.setDataV2(dataV2);
         } else {

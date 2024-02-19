@@ -1,10 +1,16 @@
 package com.fhl.sistemadedistribucionfh.evidence.util;
 
+import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitEndPoints;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.ApiResponse;
+import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.requestRate;
+import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.responseRate;
+import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.responseRateData;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -20,4 +26,6 @@ public interface serviceEvidence {
             @Part MultipartBody.Part listaArchivos,
             @Part("Usuario") RequestBody usuario
     );
+    @GET(RetrofitEndPoints.RATE_STARS)
+    Call<responseRate> sendRate(@Body requestRate request);
 }

@@ -23,11 +23,18 @@ public class requestEvidencePresenterImpl  implements requestEvidencePresenter{
             interactor.requestEvidence(secuenceRequest,signatureBase64,inputTextSignature,currusel,ffiles);
         }
     }
-
+    @Override
+    public void sendRate(Integer stars) {
+        if(view!=null){
+            interactor.sendRate(Integer.valueOf(stars));
+        }
+    }
     @Override
     public void nextRequest() {
         if(view!=null){
             view.setMessage();
         }
     }
+
+
 }
