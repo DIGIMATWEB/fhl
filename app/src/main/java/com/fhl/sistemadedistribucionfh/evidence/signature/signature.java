@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -41,7 +42,7 @@ public class signature extends AppCompatActivity implements View.OnClickListener
     private Button saveSignature;
     private GestureOverlayView gestureOverlayView;
     private String signatureBase64,inputTextSignature;
-    private ImageView backTickets;
+    private ImageView backTickets,eraseSignature;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +79,8 @@ public class signature extends AppCompatActivity implements View.OnClickListener
         backTickets.setOnClickListener(this);
         saveSignature =findViewById(R.id.saveSignature);
         saveSignature.setOnClickListener(this);
+        eraseSignature =findViewById(R.id. eraseSignature);
+        eraseSignature.setOnClickListener(this);
         editText=findViewById(R.id.inputEditText);
         gestureOverlayView = findViewById(R.id.signaturePad);
         gestureOverlayView.setDrawingCacheEnabled(true);
@@ -169,12 +172,65 @@ public class signature extends AppCompatActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.saveSignature:
-                manageSignature();
-                onBackPressed();
+
+                SharedPreferences preferences = getBaseContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                String signature = preferences.getString(GeneralConstants.SIGNATURE_B64_DIR, null);
+                Log.e("sendEvidence", "dirFileS"+signature);
+                if (gestureOverlayView.getGesturePath().isEmpty()) {
+                    gestureOverlayView.setBackground(null);
+                    Toast.makeText(this, "No existe ninguna firma.", Toast.LENGTH_SHORT).show();
+                    if (signature != null) {
+                        // Delete the file associated with the signature
+                        File fileToDelete = new File(signature);
+                        boolean deleted = fileToDelete.delete();
+                        if (!deleted) {
+                            // Handle the case where the file deletion fails
+                            Log.e("sendEvidence", "Failed to delete signature file");
+                        }
+
+                        // Clear the stored signature data from SharedPreferences
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.remove(GeneralConstants.SIGNATURE_B64_DIR);
+                        editor.remove(GeneralConstants.SIGNATURE_B64);
+                        editor.apply();
+                    }
+                } else {
+                    // If gestureOverlayView is not empty, manage the signature
+                    manageSignature();
+                    onBackPressed(); // Consider removing this line if you don't want to navigate back immediately
+                }
 
                 break;
             case R.id.backTickets:
                 onBackPressed();
+                break;
+            case R.id.eraseSignature:
+                SharedPreferences preferences1 = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                String signaturePath = preferences1.getString(GeneralConstants.SIGNATURE_B64_DIR, null);
+                Log.e("sendEvidence", "dirFile"+signaturePath);
+                if (signaturePath != null) {
+                    // Delete the file associated with the signature path
+                    File fileToDelete = new File(signaturePath);
+                    if (fileToDelete.exists()) {
+                        boolean deleted = fileToDelete.delete();
+                        if (deleted) {
+                            Log.d("FileDeleted", "File deleted successfully");
+                        } else {
+                            Log.e("FileDeleted", "Failed to delete file");
+                        }
+                    } else {
+                        Log.e("FileDeleted", "File does not exist");
+                    }
+
+                    // Clear the stored signature data from SharedPreferences
+                    SharedPreferences.Editor editor = preferences1.edit();
+                    editor.remove(GeneralConstants.SIGNATURE_B64_DIR);
+                    editor.remove(GeneralConstants.SIGNATURE_B64);
+                    editor.apply();
+                }
+
+// Set the background of gestureOverlayView to null
+                gestureOverlayView.setBackground(null);
                 break;
         }
     }
