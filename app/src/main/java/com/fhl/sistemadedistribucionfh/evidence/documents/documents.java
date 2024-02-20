@@ -17,9 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
+import com.fhl.sistemadedistribucionfh.evidence.documents.adapter.FileAdapter;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.ApiResponse;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.InnerData;
 import com.fhl.sistemadedistribucionfh.evidence.documents.util.FileUploadService;
@@ -27,6 +30,7 @@ import com.fhl.sistemadedistribucionfh.evidence.documents.util.FileUploadService
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -42,15 +46,20 @@ public class documents extends AppCompatActivity implements View.OnClickListener
    // private FileUploadService service;
     private static final int REQUEST_PICK_FILE = 123;
     private ArrayList<String> tempImageFiles = new ArrayList<>();
+    private ArrayList<String> tempImageFilesNames = new ArrayList<>();
     private Button saveFilesDir;
     private ImageView imageMenu,onbackDocs;
     private TextView menuName;
+    private RecyclerView recyclerView;
+    private FileAdapter fileAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_documents);
         initView();
         checkShared();
+
+
     }
 
     private void checkShared() {
@@ -59,9 +68,20 @@ public class documents extends AppCompatActivity implements View.OnClickListener
         if(docs!=null){
             Log.e("sendEvidence","uri"+docs);
             imageMenu.setColorFilter(Color.rgb(0, 187, 41), PorterDuff.Mode.SRC_ATOP);
-            File file = new File(docs);
-            String fileName = file.getName();
-            menuName.setText(fileName);
+//            File file = new File(docs);
+//            String fileName = file.getName();
+//           // menuName.setText(fileName);
+            String inputString = docs;
+            String[] parts = inputString.split(",");
+// Create ArrayList<String> from the array
+            ArrayList<String> fileList = new ArrayList<>(Arrays.asList(parts));
+            tempImageFiles=fileList;
+            for(String names:tempImageFiles){
+                File file = new File(names);
+                String fileName = file.getName();
+                tempImageFilesNames.add(fileName);
+            }
+            filleAdapter();
         }
         else{
             imageMenu.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
@@ -76,6 +96,7 @@ public class documents extends AppCompatActivity implements View.OnClickListener
         menuName = findViewById(R.id.menuName);
         onbackDocs= findViewById(R.id.onbackDocs);
         onbackDocs.setOnClickListener(this);
+        recyclerView = findViewById(R.id.recyclerView);
     }
 
     @Override
@@ -90,13 +111,14 @@ public class documents extends AppCompatActivity implements View.OnClickListener
                     if (filePath != null) {
                         //uploadFile(filePath); // Upload the selected file
                         String fileName = getFileNameFromUri(uri);
-                        menuName.setText(fileName);
+                        //menuName.setText(fileName);
                         if(fileName!=null){
                             imageMenu.setColorFilter(Color.rgb(0, 187, 41), PorterDuff.Mode.SRC_ATOP);
                         }else{
                             imageMenu.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
                         }
                         tempImageFiles.add(filePath);
+                        tempImageFilesNames.add(fileName);
                         Log.e("uploader",""+filePath);
                         String[] filePathSplit = filePath.split("\\.");
                         String fileExtension = filePathSplit[filePathSplit.length - 1];
@@ -110,6 +132,8 @@ public class documents extends AppCompatActivity implements View.OnClickListener
                 }
             }
         }
+
+        filleAdapter();
     }
     private String getFileNameFromUri(Uri uri) {
         String fileName = null;
@@ -130,14 +154,24 @@ public class documents extends AppCompatActivity implements View.OnClickListener
                 stringBuilder.append(","); // Append delimiter except for the last element
             }
         }
+        fileAdapter.notifyDataSetChanged();
         Log.e("",""+tempImageFiles);
         SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(GeneralConstants.DOCS_DIRECTORY, String.valueOf(stringBuilder));
         editor.commit();
 
+        Log.e("sendEvidence", "files "+stringBuilder);
 
     }
+
+    private void filleAdapter() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        // Initialize adapter with tempImageFiles
+        fileAdapter = new FileAdapter(tempImageFilesNames);
+        recyclerView.setAdapter(fileAdapter);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -161,6 +195,4 @@ public class documents extends AppCompatActivity implements View.OnClickListener
                 break;
         }
     }
-
-
 }

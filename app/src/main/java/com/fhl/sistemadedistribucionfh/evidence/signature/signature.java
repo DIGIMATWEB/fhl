@@ -188,11 +188,11 @@ public class signature extends AppCompatActivity implements View.OnClickListener
                             Log.e("sendEvidence", "Failed to delete signature file");
                         }
 
-                        // Clear the stored signature data from SharedPreferences
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.remove(GeneralConstants.SIGNATURE_B64_DIR);
-                        editor.remove(GeneralConstants.SIGNATURE_B64);
-                        editor.apply();
+//                        // Clear the stored signature data from SharedPreferences
+//                        SharedPreferences.Editor editor = preferences.edit();
+//                        editor.remove(GeneralConstants.SIGNATURE_B64_DIR);
+//                        editor.remove(GeneralConstants.SIGNATURE_B64);
+//                        editor.apply();
                     }
                 } else {
                     // If gestureOverlayView is not empty, manage the signature

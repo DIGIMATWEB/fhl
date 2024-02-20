@@ -377,11 +377,20 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                                 break;
                         case R.id.guardarFotosButon:
                                 // Handle saving photos
-                                if(!tempImageFiles.isEmpty()) {
-                                        moveImagesToPhotosFolder();
-                                        savePathsOnShared();
-                                }else {
-                                        cleanFolder();
+                                SharedPreferences preferences = getBaseContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                                String images=preferences.getString(GeneralConstants.IMAGE_DIRECTORY,null);
+                                if(images==null) {
+                                        if (!tempImageFiles.isEmpty()) {
+                                                moveImagesToPhotosFolder();
+                                                savePathsOnShared();
+                                        } else {
+                                                cleanFolder();
+                                        }
+                                }else{
+                                        if (!tempImageFiles.isEmpty()) {
+                                                moveImagesToPhotosFolder();
+                                                savePathsOnShared();
+                                        }
                                 }
                                 onBackPressed();
 
