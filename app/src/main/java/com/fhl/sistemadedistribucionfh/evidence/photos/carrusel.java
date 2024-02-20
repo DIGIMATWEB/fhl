@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -33,6 +34,7 @@ import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +57,7 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                 setContentView(R.layout.activity_carrusel);
                 initView();
                 directories.clear();
+                checkFilesExist();
         }
 
         private void initView() {
@@ -103,7 +106,57 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                 imageButton8.setTag(8);
                 imageButton9.setTag(9);
         }
+        private void checkFilesExist() {
+                File picturesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                File imagesDir = new File(picturesDir, "MyImages");
+                if (!imagesDir.exists() || !imagesDir.isDirectory()) {
+                        Log.e("carrusel", "MyImages directory not found");
+                        return;
+                }
 
+                for (int i = 1; i <= 9; i++) {
+                        String fileNamePrefix = i + "_temp_image";
+                        File[] files = imagesDir.listFiles(new FilenameFilter() {
+                                @Override
+                                public boolean accept(File dir, String name) {
+                                        return name.startsWith(fileNamePrefix);
+                                }
+                        });
+
+                        if (files != null && files.length > 0) {
+                                // Load the image and set it to the respective ImageButton
+                                Bitmap bitmap = BitmapFactory.decodeFile(files[0].getAbsolutePath());
+                                switch (i) {
+                                        case 1:
+                                                imageButton1.setImageBitmap(bitmap);
+                                                break;
+                                        case 3:
+                                                imageButton3.setImageBitmap(bitmap);
+                                                break;
+                                        case 4:
+                                                imageButton4.setImageBitmap(bitmap);
+                                                break;
+                                        case 5:
+                                                imageButton5.setImageBitmap(bitmap);
+                                                break;
+                                        case 6:
+                                                imageButton6.setImageBitmap(bitmap);
+                                                break;
+                                        case 7:
+                                                imageButton7.setImageBitmap(bitmap);
+                                                break;
+                                        case 8:
+                                                imageButton8.setImageBitmap(bitmap);
+                                                break;
+                                        case 9:
+                                                imageButton9.setImageBitmap(bitmap);
+                                                break;
+                                        default:
+                                                break;
+                                }
+                        }
+                }
+        }
         @Override
         protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                 super.onActivityResult(requestCode, resultCode, data);
