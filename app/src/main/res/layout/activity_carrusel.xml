@@ -51,7 +51,7 @@
     </TextView>
 
     <ImageButton
-        android:id="@+id/imageView19"
+        android:id="@+id/imageButton1"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginEnd="10dp"
@@ -66,9 +66,9 @@
         android:gravity="center"
         android:text="Carga"
         android:textSize="@dimen/h6"
-        app:layout_constraintEnd_toEndOf="@+id/imageView19"
-        app:layout_constraintStart_toStartOf="@+id/imageView19"
-        app:layout_constraintTop_toBottomOf="@+id/imageView19" />
+        app:layout_constraintEnd_toEndOf="@+id/imageButton1"
+        app:layout_constraintStart_toStartOf="@+id/imageButton1"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton1" />
 
     <TextView
         android:id="@+id/textView57"
@@ -90,7 +90,7 @@
         android:textSize="@dimen/h6"
         app:layout_constraintEnd_toEndOf="@+id/imageButton4"
         app:layout_constraintStart_toStartOf="@+id/imageButton4"
-        app:layout_constraintTop_toBottomOf="@+id/imageView19" />
+        app:layout_constraintTop_toBottomOf="@+id/imageButton1" />
 
     <TextView
         android:id="@+id/textView59"
@@ -150,7 +150,7 @@
         android:layout_height="100dp"
         android:src="@drawable/ic_cameraportraitico"
         app:layout_constraintEnd_toStartOf="@+id/guidelinef2"
-        app:layout_constraintStart_toEndOf="@+id/imageView19"
+        app:layout_constraintStart_toEndOf="@+id/imageButton1"
         app:layout_constraintTop_toTopOf="@+id/guidelinef1h" />
 
     <ImageButton
@@ -177,7 +177,7 @@
         android:layout_height="100dp"
         android:src="@drawable/ic_cameraportraitico"
         app:layout_constraintEnd_toStartOf="@+id/guidelinef2"
-        app:layout_constraintStart_toEndOf="@+id/imageView19"
+        app:layout_constraintStart_toEndOf="@+id/imageButton1"
         app:layout_constraintTop_toTopOf="@+id/guidelinef2h" />
 
 
@@ -205,7 +205,7 @@
         android:layout_height="100dp"
         android:src="@drawable/ic_cameraportraitico"
         app:layout_constraintEnd_toStartOf="@+id/guidelinef2"
-        app:layout_constraintStart_toEndOf="@+id/imageView19"
+        app:layout_constraintStart_toEndOf="@+id/imageButton1"
         app:layout_constraintTop_toTopOf="@+id/guidelinef3h" />
 
 
