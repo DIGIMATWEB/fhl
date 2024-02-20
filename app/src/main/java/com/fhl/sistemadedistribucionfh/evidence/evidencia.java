@@ -197,7 +197,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 presenter.sendEvidence(secuenceRequest,signatureBase64,inputTextSignature,currusel,ffiles);
                 Log.e("sendEvidence", "signatureBase64: " + signatureBase64 + "\n" +
                         "inputTextSignature: " + inputTextSignature + "\n" +
-                        "carrusel: " + currusel + "\n" +
+                        "carrusel:" + currusel + "\n" +
                         "ffiles: " + ffiles + "\n" +
                         "stars: " + stars+ "\n" +
                         "secuenceRequest: " +  secuenceRequest);

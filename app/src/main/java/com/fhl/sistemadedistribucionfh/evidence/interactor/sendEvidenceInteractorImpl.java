@@ -15,6 +15,8 @@ import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.responseRateDat
 import com.fhl.sistemadedistribucionfh.evidence.util.serviceEvidence;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -44,7 +46,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         if(secuenceRequest==1){
             uploadFile(signatureBase64,1,inputTextSignature);
         }else if(secuenceRequest==2){
-            uploadFile(currusel,2, "test");
+            uploadFiles(currusel,2, "test");
         }else if(secuenceRequest==3){
             uploadFile(ffiles,3, "test");
         }else if(secuenceRequest==4){
@@ -111,6 +113,64 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
                 Toast.makeText(context, "File upload failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e("sendEvidence",""+t.getMessage());
                // presenter.nextRequest();
+            }
+        });
+    }
+    private void uploadFiles(String filePaths, Integer type, String Text) {
+        String[] filePathsArray = filePaths.split(",");
+        ArrayList<String> filePathsList = new ArrayList<>(Arrays.asList(filePathsArray));
+
+        List<MultipartBody.Part> filesParts = new ArrayList<>();
+        for (String filePath : filePathsList) {
+            File file = new File(filePath.trim()); // Trim each file path to remove leading/trailing whitespace
+            if (file.exists()) { // Check if the file exists before proceeding
+                RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                MultipartBody.Part filePart = MultipartBody.Part.createFormData("ListaArchivos", file.getName(), requestBody);
+                filesParts.add(filePart);
+            } else {
+                Log.e("sendEvidence", "File does not exist: " + filePath);
+            }
+        }
+
+        // Other parameters remain the same
+        RequestBody folioObjeto = RequestBody.create(MediaType.parse("text/plain"), "00000168");
+        RequestBody tipoEvidencia = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(type));
+        RequestBody usuario = RequestBody.create(MediaType.parse("text/plain"), Text);
+
+        // Authorization header remains the same
+        String authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI2IiwiRW1wbG95ZWVJZCI6IjciLCJQcm9maWxlSW1hZ2VJZCI6IjEwMDc4IiwiRW1wbG95ZWVOdW1iZXIiOiI4ODg4OCIsIlVzZXJOYW1lIjoidXNyUGhvZW5peEFkbWluIiwiTmFtZSI6IkFkbWluaXN0cmFkb3IgU0dEIiwiRW1haWwiOiJqaG9uYXRoYW5AZ3BzcGhvZW5peC5jb20iLCJNb2JpbGVQaG9uZSI6IjU1NTU1NTU1NTUiLCJEYXRlT2ZCaXJ0aCI6IjEvMS8wMDAxIiwiQ2xpZW50cyI6IltdIiwiZXhwIjoxNzA4NDAxNDczfQ.H6UCwNAbAf30z7mcIZhU6vxCfOsqxcwFIpLCTXWcMw0";
+
+        // Call the uploadFiles method in Retrofit service
+        Call<ApiResponse> call = service.uploadFiles(authorization, folioObjeto, tipoEvidencia, filesParts, usuario);
+
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                Log.e("sendEvidence",""+response.body());
+                if (response.isSuccessful()) {
+                    ApiResponse apiResponse = response.body();
+                    if (apiResponse != null && apiResponse.getData() != null && !apiResponse.getData().isEmpty()) {
+                        List<dataApiResponse> data = apiResponse.getData();
+                        if (data != null && !data.isEmpty()) {
+                            for (dataApiResponse item : data) {
+                                InnerData innerData = item.getData();
+                                // Handle the response data as needed
+                                if (innerData != null) {
+                                    Log.e("sendEvidence", "" + innerData.getDocumentoId());
+                                }
+                            }
+                        }
+                        presenter.nextRequest();
+                    }
+                } else {
+                    Toast.makeText(context, "File upload failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Toast.makeText(context, "File upload failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("sendEvidence",""+t.getMessage());
             }
         });
     }

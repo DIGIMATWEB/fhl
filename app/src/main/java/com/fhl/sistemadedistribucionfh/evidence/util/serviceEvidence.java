@@ -6,6 +6,8 @@ import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.requestRate;
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.responseRate;
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.responseRateData;
 
+import java.util.List;
+
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -24,6 +26,15 @@ public interface serviceEvidence {
             @Part("FolioObjeto") RequestBody folioObjeto,
             @Part("TipoEvidencia") RequestBody tipoEvidencia,
             @Part MultipartBody.Part listaArchivos,
+            @Part("Usuario") RequestBody usuario
+    );
+    @Multipart
+    @POST("SetPickupEvidencia")
+    Call<ApiResponse> uploadFiles(
+            @Header("Authorization") String authorization,
+            @Part("FolioObjeto") RequestBody folioObjeto,
+            @Part("TipoEvidencia") RequestBody tipoEvidencia,
+            @Part List<MultipartBody.Part> listaArchivos,
             @Part("Usuario") RequestBody usuario
     );
     @POST(RetrofitEndPoints.RATE_STARS)

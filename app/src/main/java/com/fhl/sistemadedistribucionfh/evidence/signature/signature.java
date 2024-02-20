@@ -6,7 +6,9 @@ import android.content.SharedPreferences;
 import android.gesture.GestureOverlayView;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -84,10 +86,26 @@ public class signature extends AppCompatActivity implements View.OnClickListener
 
     // Method to capture the content of the GestureOverlayView as a bitmap
     private Bitmap captureSignature(GestureOverlayView gestureOverlayView) {
+        Bitmap signatureBitmap = null;
+        try {
+            // Create a bitmap with the same size as the GestureOverlayView
+            signatureBitmap = Bitmap.createBitmap(gestureOverlayView.getWidth(), gestureOverlayView.getHeight(), Bitmap.Config.ARGB_8888);
 
-        return gestureOverlayView.getDrawingCache();
+            // Create a canvas to draw on the bitmap
+            Canvas canvas = new Canvas(signatureBitmap);
+
+            // Draw a white background
+            Paint paint = new   Paint();
+            paint.setColor(Color.WHITE);
+            canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), paint);
+
+            // Draw the content of the GestureOverlayView onto the bitmap
+            gestureOverlayView.draw(canvas);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return signatureBitmap;
     }
-
     // Method to convert a bitmap to a base64 string
     private String convertBitmapToBase64(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -100,16 +118,15 @@ public class signature extends AppCompatActivity implements View.OnClickListener
         super.onBackPressed();
     }
     private void manageSignature() {
-        String inputText = ((TextInputEditText) findViewById(R.id.inputEditText)).getText().toString();
-        // Put the frating value into a Bundle
-        if(gestureOverlayView!=null&&inputText!=null) {
-            // Capture the content of the GestureOverlayView as a bitmap
-            Bitmap signatureBitmap = captureSignature(gestureOverlayView);
+        String inputText = editText.getText().toString();
 
-            // Convert the bitmap to a base64 string
-            String signatureBase64 = convertBitmapToBase64(signatureBitmap);
+        // Capture the content of the GestureOverlayView as a bitmap
+        Bitmap signatureBitmap = captureSignature(gestureOverlayView);
 
-            // Save the signature as a file
+        // Check if the captured bitmap is valid
+        if (signatureBitmap != null) {
+
+            // Save the signature as a file with a unique filename
             File picturesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
             File imagesDir = new File(picturesDir, "MyImages");
             if (!imagesDir.exists()) {
@@ -118,7 +135,11 @@ public class signature extends AppCompatActivity implements View.OnClickListener
                     return;
                 }
             }
-            File signatureFile = new File(imagesDir, "signature.png");
+
+            // Generate a unique filename for the signature
+            String filename = "signature_" + System.currentTimeMillis() + ".png";
+            File signatureFile = new File(imagesDir, filename);
+
             try {
                 FileOutputStream out = new FileOutputStream(signatureFile);
                 signatureBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
@@ -126,6 +147,8 @@ public class signature extends AppCompatActivity implements View.OnClickListener
                 out.close(); // Close the output stream
             } catch (IOException e) {
                 e.printStackTrace();
+                Log.e(TAG, "Failed to save signature file: " + e.getMessage());
+                return;
             }
 
             // Save the location of the signature file in preferences
@@ -133,9 +156,13 @@ public class signature extends AppCompatActivity implements View.OnClickListener
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString(GeneralConstants.SIGNATURE_B64, signatureFile.getAbsolutePath());
             editor.putString(GeneralConstants.INPUT_TEXT_SIGTURE, inputText);
-            editor.commit();
+            editor.apply(); // Use apply() instead of commit() for asynchronous save
+        } else {
+            // Handle case where signature is empty
+            Log.e(TAG, "Empty signature. Not saving.");
         }
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

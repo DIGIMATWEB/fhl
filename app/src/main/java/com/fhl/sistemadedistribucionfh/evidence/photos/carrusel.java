@@ -38,8 +38,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 public class carrusel extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
         public static final String TAG = carrusel.class.getSimpleName();
@@ -289,19 +291,21 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                         Log.e("DeleteFiles", "Images directory not found: " + imagesDir.getAbsolutePath());
                 }
         }
-        private void savePathsOnShared(){
+        private void savePathsOnShared() {
                 StringBuilder stringBuilder = new StringBuilder();
                 for (int i = 0; i < directories.size(); i++) {
                         stringBuilder.append(directories.get(i));
                         if (i < directories.size() - 1) {
-                                stringBuilder.append(", "); // Append delimiter except for the last element
+                                stringBuilder.append(","); // Append delimiter except for the last element
                         }
                 }
-                Log.e("",""+directories);
+
+                String filePathsString = stringBuilder.toString(); // Convert StringBuilder to String
+
                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
-                editor.putString(GeneralConstants.IMAGE_DIRECTORY, String.valueOf(directories.get(0)));//stringBuilder
-                editor.commit();
+                editor.putString(GeneralConstants.IMAGE_DIRECTORY, filePathsString);
+                editor.apply(); // Use apply() instead of commit() for asynchronous save
         }
 
 
