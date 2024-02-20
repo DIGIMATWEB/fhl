@@ -122,6 +122,7 @@ public class signature extends AppCompatActivity implements View.OnClickListener
 
         // Capture the content of the GestureOverlayView as a bitmap
         Bitmap signatureBitmap = captureSignature(gestureOverlayView);
+        String signatureBase64 = convertBitmapToBase64(signatureBitmap);
 
         // Check if the captured bitmap is valid
         if (signatureBitmap != null) {
@@ -154,7 +155,8 @@ public class signature extends AppCompatActivity implements View.OnClickListener
             // Save the location of the signature file in preferences
             SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
-            editor.putString(GeneralConstants.SIGNATURE_B64, signatureFile.getAbsolutePath());
+            editor.putString(GeneralConstants.SIGNATURE_B64_DIR, signatureFile.getAbsolutePath());
+            editor.putString(GeneralConstants.SIGNATURE_B64, signatureBase64);
             editor.putString(GeneralConstants.INPUT_TEXT_SIGTURE, inputText);
             editor.apply(); // Use apply() instead of commit() for asynchronous save
         } else {

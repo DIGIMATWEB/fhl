@@ -4,12 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,17 +43,39 @@ public class documents extends AppCompatActivity implements View.OnClickListener
     private static final int REQUEST_PICK_FILE = 123;
     private ArrayList<String> tempImageFiles = new ArrayList<>();
     private Button saveFilesDir;
+    private ImageView imageMenu,onbackDocs;
+    private TextView menuName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_documents);
         initView();
+        checkShared();
+    }
+
+    private void checkShared() {
+        SharedPreferences preferences = getBaseContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String docs=preferences.getString(GeneralConstants.DOCS_DIRECTORY, null);
+        if(docs!=null){
+            Log.e("sendEvidence","uri"+docs);
+            imageMenu.setColorFilter(Color.rgb(0, 187, 41), PorterDuff.Mode.SRC_ATOP);
+            File file = new File(docs);
+            String fileName = file.getName();
+            menuName.setText(fileName);
+        }
+        else{
+            imageMenu.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
+        }
     }
 
     private void initView() {
         findViewById(R.id.firma).setOnClickListener(this);
         saveFilesDir=findViewById(R.id.saveFilesDir);
         saveFilesDir.setOnClickListener(this);
+        imageMenu = findViewById(R.id.imageMenu);
+        menuName = findViewById(R.id.menuName);
+        onbackDocs= findViewById(R.id.onbackDocs);
+        onbackDocs.setOnClickListener(this);
     }
 
     @Override
@@ -63,6 +89,13 @@ public class documents extends AppCompatActivity implements View.OnClickListener
                     String filePath = FileSelectionUtils.getFilePathFromUri(this, uri).getPath();
                     if (filePath != null) {
                         //uploadFile(filePath); // Upload the selected file
+                        String fileName = getFileNameFromUri(uri);
+                        menuName.setText(fileName);
+                        if(fileName!=null){
+                            imageMenu.setColorFilter(Color.rgb(0, 187, 41), PorterDuff.Mode.SRC_ATOP);
+                        }else{
+                            imageMenu.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
+                        }
                         tempImageFiles.add(filePath);
                         Log.e("uploader",""+filePath);
                         String[] filePathSplit = filePath.split("\\.");
@@ -78,12 +111,23 @@ public class documents extends AppCompatActivity implements View.OnClickListener
             }
         }
     }
+    private String getFileNameFromUri(Uri uri) {
+        String fileName = null;
+        String[] projection = {MediaStore.MediaColumns.DISPLAY_NAME};
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME);
+            fileName = cursor.getString(columnIndex);
+            cursor.close();
+        }
+        return fileName;
+    }
     private void saveDir(){
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < tempImageFiles.size(); i++) {
             stringBuilder.append(tempImageFiles.get(i));
             if (i < tempImageFiles.size() - 1) {
-                stringBuilder.append(", "); // Append delimiter except for the last element
+                stringBuilder.append(","); // Append delimiter except for the last element
             }
         }
         Log.e("",""+tempImageFiles);
@@ -91,6 +135,8 @@ public class documents extends AppCompatActivity implements View.OnClickListener
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(GeneralConstants.DOCS_DIRECTORY, String.valueOf(stringBuilder));
         editor.commit();
+
+
     }
     @Override
     public void onClick(View v) {
@@ -108,6 +154,9 @@ public class documents extends AppCompatActivity implements View.OnClickListener
                         saveDir();
                     }
                 }
+                onBackPressed();
+                break;
+            case R.id.onbackDocs:
                 onBackPressed();
                 break;
         }

@@ -53,7 +53,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
     private void checkShared() {
         SharedPreferences preferences = getBaseContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
-        String signature = preferences.getString(GeneralConstants.SIGNATURE_B64, null);
+        String signature = preferences.getString(GeneralConstants.SIGNATURE_B64_DIR, null);
         String inputText = preferences.getString(GeneralConstants.INPUT_TEXT_SIGTURE,null);
         String images=preferences.getString(GeneralConstants.IMAGE_DIRECTORY,null);
         String docs=preferences.getString(GeneralConstants.DOCS_DIRECTORY, null);
@@ -176,7 +176,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             case R.id.eraseShared:
                  SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                  SharedPreferences.Editor editor = preferences.edit();
-                 editor.putString(GeneralConstants.SIGNATURE_B64, null);
+                 editor.putString(GeneralConstants.SIGNATURE_B64_DIR, null);
                  editor.putString(GeneralConstants.INPUT_TEXT_SIGTURE,null);
                  editor.putString(GeneralConstants.IMAGE_DIRECTORY,null);
                  editor.putString(GeneralConstants.DOCS_DIRECTORY, null);
