@@ -17,7 +17,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.fhl.sistemadedistribucionfh.R;
-import com.fhl.sistemadedistribucionfh.cerrarViaje.view.cerrarViaje;
+import com.fhl.sistemadedistribucionfh.cerrarViaje.view.cancelarViaje;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +26,11 @@ public class adapterNoCompletado extends RecyclerView.Adapter<adapterNoCompletad
 
     private Context context;
     private boolean trashcount=false;
-    private cerrarViaje mview;
+    private cancelarViaje mview;
     private List<String> currentSelected=new ArrayList<>();//items seleccionados
     private List<String> imageCollections;
 
-    public adapterNoCompletado(cerrarViaje mview, List<String> imageCollections, Context context)
+    public adapterNoCompletado(cancelarViaje mview, List<String> imageCollections, Context context)
     {
         this.mview=mview;
         this.context=context;

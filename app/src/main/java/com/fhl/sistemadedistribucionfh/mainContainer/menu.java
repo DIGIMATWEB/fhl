@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -15,12 +14,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.fhl.sistemadedistribucionfh.Profile.view.viewProfile;
 import com.fhl.sistemadedistribucionfh.R;
-import com.fhl.sistemadedistribucionfh.cerrarViaje.view.cerrarViaje;
-import com.fhl.sistemadedistribucionfh.evidence.evidencia;
 import com.fhl.sistemadedistribucionfh.evidence.signature.signature;
 import com.fhl.sistemadedistribucionfh.locator.locator;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
-import com.fhl.sistemadedistribucionfh.nmanifest.view.mmanifest;
 import com.fhl.sistemadedistribucionfh.nmanifest.viewV2.mmanifestV2;
 
 public class menu extends Fragment implements View.OnClickListener{

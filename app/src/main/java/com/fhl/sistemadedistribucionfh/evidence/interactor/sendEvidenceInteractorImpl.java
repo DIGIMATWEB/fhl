@@ -1,9 +1,11 @@
 package com.fhl.sistemadedistribucionfh.evidence.interactor;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientPep;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.ApiResponse;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.InnerData;
@@ -11,7 +13,6 @@ import com.fhl.sistemadedistribucionfh.evidence.documents.model.dataApiResponse;
 import com.fhl.sistemadedistribucionfh.evidence.presenter.requestEvidencePresenter;
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.requestRate;
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.responseRate;
-import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.responseRateData;
 import com.fhl.sistemadedistribucionfh.evidence.util.serviceEvidence;
 
 import java.io.File;
@@ -33,6 +34,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
     private requestEvidencePresenter presenter;
     private serviceEvidence service;
     private Retrofit retrofitClient;
+    private String ftoken;
     public sendEvidenceInteractorImpl(requestEvidencePresenter presenter,Context context){
         this.presenter=presenter;
         this.context=context;
@@ -42,25 +44,30 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
     }
     @Override
     public void requestEvidence(Integer secuenceRequest, String signatureBase64, String inputTextSignature, String currusel, String ffiles) {
-      //  Toast.makeText(context, "mandarEvidencias", Toast.LENGTH_SHORT).show();
-        if(secuenceRequest==1){
-            uploadFile(signatureBase64,1,inputTextSignature);
-          //  Log.e("sendEvidence"," send signature : "+signatureBase64);
-        }else if(secuenceRequest==2){
-            uploadFiles(currusel,2, "test");
-        }else if(secuenceRequest==3){
-            uploadFiles(ffiles,3, "test");
-        }else if(secuenceRequest==4){
-            presenter.nextRequest();
-        }else{
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String token = preferences.getString(GeneralConstants.TOKEN, null);
+        if(token!=null) {
+            this.ftoken=token;
+            //  Toast.makeText(context, "mandarEvidencias", Toast.LENGTH_SHORT).show();
+            if (secuenceRequest == 1) {
+                uploadFile(signatureBase64, 1, inputTextSignature,token);
+                //  Log.e("sendEvidence"," send signature : "+signatureBase64);
+            } else if (secuenceRequest == 2) {
+                uploadFiles(currusel, 2, "test",token);
+            } else if (secuenceRequest == 3) {
+                uploadFiles(ffiles, 3, "test", token);
+            } else if (secuenceRequest == 4) {
+                presenter.nextRequest();
+            } else {
 
+            }
         }
         //uploadFile();
     }
 
 
 
-    private void uploadFile(String filePath, Integer type, String Text) {
+    private void uploadFile(String filePath, Integer type, String Text, String token) {
         // Create a file object
         File file = new File(filePath);
 
@@ -76,7 +83,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
 //        SharedPreferences preferences =context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
 //        String token = preferences.getString(GeneralConstants.TOKEN, null);
         // Authorization header
-        String authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI2IiwiRW1wbG95ZWVJZCI6IjciLCJQcm9maWxlSW1hZ2VJZCI6IjEwMDc4IiwiRW1wbG95ZWVOdW1iZXIiOiI4ODg4OCIsIlVzZXJOYW1lIjoidXNyUGhvZW5peEFkbWluIiwiTmFtZSI6IkFkbWluaXN0cmFkb3IgU0dEIiwiRW1haWwiOiJqaG9uYXRoYW5AZ3BzcGhvZW5peC5jb20iLCJNb2JpbGVQaG9uZSI6IjU1NTU1NTU1NTUiLCJEYXRlT2ZCaXJ0aCI6IjEvMS8wMDAxIiwiQ2xpZW50cyI6IltdIiwiZXhwIjoxNzA4NTAxMjY3fQ.hOqMzu1zK115a1Z739waaju9e3Co4dubb3bpYneUuAg";
+        String authorization = token;//"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI2IiwiRW1wbG95ZWVJZCI6IjciLCJQcm9maWxlSW1hZ2VJZCI6IjEwMDc4IiwiRW1wbG95ZWVOdW1iZXIiOiI4ODg4OCIsIlVzZXJOYW1lIjoidXNyUGhvZW5peEFkbWluIiwiTmFtZSI6IkFkbWluaXN0cmFkb3IgU0dEIiwiRW1haWwiOiJqaG9uYXRoYW5AZ3BzcGhvZW5peC5jb20iLCJNb2JpbGVQaG9uZSI6IjU1NTU1NTU1NTUiLCJEYXRlT2ZCaXJ0aCI6IjEvMS8wMDAxIiwiQ2xpZW50cyI6IltdIiwiZXhwIjoxNzA4NTAxMjY3fQ.hOqMzu1zK115a1Z739waaju9e3Co4dubb3bpYneUuAg";
 
         // Call the uploadFile method in Retrofit service
         Call<ApiResponse> call = service.uploadFile(authorization, folioObjeto, tipoEvidencia, listaArchivos, usuario);
@@ -117,7 +124,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
             }
         });
     }
-    private void uploadFiles(String filePaths, Integer type, String Text) {
+    private void uploadFiles(String filePaths, Integer type, String Text, String token) {
         String[] filePathsArray = filePaths.split(",");
         ArrayList<String> filePathsList = new ArrayList<>(Arrays.asList(filePathsArray));
 
@@ -139,7 +146,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         RequestBody usuario = RequestBody.create(MediaType.parse("text/plain"), Text);
 
         // Authorization header remains the same
-        String authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI2IiwiRW1wbG95ZWVJZCI6IjciLCJQcm9maWxlSW1hZ2VJZCI6IjEwMDc4IiwiRW1wbG95ZWVOdW1iZXIiOiI4ODg4OCIsIlVzZXJOYW1lIjoidXNyUGhvZW5peEFkbWluIiwiTmFtZSI6IkFkbWluaXN0cmFkb3IgU0dEIiwiRW1haWwiOiJqaG9uYXRoYW5AZ3BzcGhvZW5peC5jb20iLCJNb2JpbGVQaG9uZSI6IjU1NTU1NTU1NTUiLCJEYXRlT2ZCaXJ0aCI6IjEvMS8wMDAxIiwiQ2xpZW50cyI6IltdIiwiZXhwIjoxNzA4NTAxMjY3fQ.hOqMzu1zK115a1Z739waaju9e3Co4dubb3bpYneUuAg";
+        String authorization = token;//"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI2IiwiRW1wbG95ZWVJZCI6IjciLCJQcm9maWxlSW1hZ2VJZCI6IjEwMDc4IiwiRW1wbG95ZWVOdW1iZXIiOiI4ODg4OCIsIlVzZXJOYW1lIjoidXNyUGhvZW5peEFkbWluIiwiTmFtZSI6IkFkbWluaXN0cmFkb3IgU0dEIiwiRW1haWwiOiJqaG9uYXRoYW5AZ3BzcGhvZW5peC5jb20iLCJNb2JpbGVQaG9uZSI6IjU1NTU1NTU1NTUiLCJEYXRlT2ZCaXJ0aCI6IjEvMS8wMDAxIiwiQ2xpZW50cyI6IltdIiwiZXhwIjoxNzA4NTAxMjY3fQ.hOqMzu1zK115a1Z739waaju9e3Co4dubb3bpYneUuAg";
 
         // Call the uploadFiles method in Retrofit service
         Call<ApiResponse> call = service.uploadFiles(authorization, folioObjeto, tipoEvidencia, filesParts, usuario);
@@ -177,25 +184,28 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
     }
     @Override
     public void sendRate(Integer stars) {
-        String authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI2IiwiRW1wbG95ZWVJZCI6IjciLCJQcm9maWxlSW1hZ2VJZCI6IjEwMDc4IiwiRW1wbG95ZWVOdW1iZXIiOiI4ODg4OCIsIlVzZXJOYW1lIjoidXNyUGhvZW5peEFkbWluIiwiTmFtZSI6IkFkbWluaXN0cmFkb3IgU0dEIiwiRW1haWwiOiJqaG9uYXRoYW5AZ3BzcGhvZW5peC5jb20iLCJNb2JpbGVQaG9uZSI6IjU1NTU1NTU1NTUiLCJEYXRlT2ZCaXJ0aCI6IjEvMS8wMDAxIiwiQ2xpZW50cyI6IltdIiwiZXhwIjoxNzA4NTAxMjY3fQ.hOqMzu1zK115a1Z739waaju9e3Co4dubb3bpYneUuAg";
+        String authorization = ftoken;//"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI2IiwiRW1wbG95ZWVJZCI6IjciLCJQcm9maWxlSW1hZ2VJZCI6IjEwMDc4IiwiRW1wbG95ZWVOdW1iZXIiOiI4ODg4OCIsIlVzZXJOYW1lIjoidXNyUGhvZW5peEFkbWluIiwiTmFtZSI6IkFkbWluaXN0cmFkb3IgU0dEIiwiRW1haWwiOiJqaG9uYXRoYW5AZ3BzcGhvZW5peC5jb20iLCJNb2JpbGVQaG9uZSI6IjU1NTU1NTU1NTUiLCJEYXRlT2ZCaXJ0aCI6IjEvMS8wMDAxIiwiQ2xpZW50cyI6IltdIiwiZXhwIjoxNzA4NTAxMjY3fQ.hOqMzu1zK115a1Z739waaju9e3Co4dubb3bpYneUuAg";
 
         requestRate request= new requestRate("m120",6,stars);
         Call<responseRate> call =service.sendRate(authorization,request);
         call.enqueue(new Callback<responseRate>() {
             @Override
             public void onResponse(Call<responseRate> call, Response<responseRate> response) {
-                Log.e("ratingStars",""+response.body());
+
               if(response.body().getStatus()==200){
-                 Toast.makeText(context, ""+response.body().getData().getEncuestaOperadorPickup(), Toast.LENGTH_SHORT).show();
+               //  Toast.makeText(context, ""+response.body().getData().getEncuestaOperadorPickup(), Toast.LENGTH_SHORT).show();
+                  Log.e("ratingStars",""+response.body().getData().getEncuestaOperadorPickup());
                   presenter.nextRequest();
               }else{
-                  Toast.makeText(context,""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                 // Toast.makeText(context,""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                  Log.e("ratingStars",""+response.body().getMessage());
               }
             }
 
             @Override
             public void onFailure(Call<responseRate> call, Throwable t) {
-                Toast.makeText(context, "Rate failed : " + t.getMessage(), Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(context, "Rate failed : " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("ratingStars",""+t.getMessage());
             }
         });
     }

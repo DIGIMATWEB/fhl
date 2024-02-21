@@ -21,9 +21,8 @@ import com.fhl.sistemadedistribucionfh.Tickets.Adapter.ticketsAdapter;
 import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.dataDetailTickets;
 import com.fhl.sistemadedistribucionfh.Tickets.presenter.presenterTicketsDetail;
 import com.fhl.sistemadedistribucionfh.Tickets.presenter.presenterTicketsDetailImpl;
-import com.fhl.sistemadedistribucionfh.cerrarViaje.view.cerrarViaje;
+import com.fhl.sistemadedistribucionfh.cerrarViaje.view.cancelarViaje;
 import com.fhl.sistemadedistribucionfh.evidence.evidencia;
-import com.fhl.sistemadedistribucionfh.nmanifest.view.mmanifest;
 import com.fhl.sistemadedistribucionfh.nmanifest.viewV2.mmanifestV2;
 
 import java.util.List;
@@ -78,14 +77,13 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
         rvTickets.setAdapter(adapter);
     }
     private void cancelTrip() {
-        Intent intent = new Intent(getActivity(), cerrarViaje.class);//evidencia
+        Intent intent = new Intent(getActivity(), cancelarViaje.class);//evidencia
         startActivity(intent);
     }
 
     private void closeTrip() {
         Intent intent2 = new Intent(getActivity(), evidencia.class);//
         startActivity(intent2);
-
     }
 
     public void gotoManifest()

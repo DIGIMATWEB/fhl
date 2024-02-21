@@ -18,6 +18,8 @@ import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.model.dataReasons;
 import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.presenter.dialogReasonsPresenter;
 import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.presenter.dialogReasonsPresenterImpl;
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.cerrarViaje.view.cancelarViaje;
+import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
 
 import java.util.List;
 
@@ -27,6 +29,7 @@ public class dialogReasons extends DialogFragment implements View.OnClickListene
     private adapterReasons adapter;
     private dialogReasonsPresenter presenter;
     private ImageView closeReasons;
+    private String fcheckedItem;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +61,7 @@ public class dialogReasons extends DialogFragment implements View.OnClickListene
     }
 
     private void fillAdapter(List<dataReasons> data, Context context) {
-        adapter = new adapterReasons(data,context);
+        adapter = new adapterReasons(this,data,context);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvReasons.setLayoutManager(linearLayoutManager);
         rvReasons.setAdapter(adapter);
@@ -77,7 +80,15 @@ public class dialogReasons extends DialogFragment implements View.OnClickListene
                 break;
         }
     }
+    public void showToast( dataReasons checkedItem) {
 
+        this.fcheckedItem= checkedItem.getReason()+checkedItem.getIdReason();
+        cancelarViaje cancelarViaje = (cancelarViaje) getActivity();
+        cancelarViaje.showToast(fcheckedItem,checkedItem.getIdReason());
+        dismiss();
+        // Implement your logic here
+        // For example, you can show a toast with the checked item's details
+    }
     @Override
     public void setReasons(List<dataReasons> data) {
         fillAdapter(data,getContext());

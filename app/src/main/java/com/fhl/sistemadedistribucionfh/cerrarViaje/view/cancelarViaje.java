@@ -12,7 +12,9 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.view.dialogReasons;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.cerrarViaje.adapter.adapterNoCompletado;
+import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -39,8 +42,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class cerrarViaje  extends AppCompatActivity implements View.OnClickListener {
-    public static final String TAG = cerrarViaje.class.getSimpleName();
+public class cancelarViaje extends AppCompatActivity implements View.OnClickListener {
+    public static final String TAG = cancelarViaje.class.getSimpleName();
     private RecyclerView rv;
     private adapterNoCompletado adapter;
     private ImageView trashicon;
@@ -55,6 +58,10 @@ public class cerrarViaje  extends AppCompatActivity implements View.OnClickListe
     private ImageView imageView;
     private List<String> imageCollections=new ArrayList<>();
     private List<String> meraseList=new ArrayList<>();
+    private Button buttonSave;
+    private  String closeDialog;
+    private String idReason;
+    private TextView textView9111;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +86,10 @@ public class cerrarViaje  extends AppCompatActivity implements View.OnClickListe
         dialogReasonsC.setOnClickListener(this);
         camera=findViewById(R.id.camera);
         camera.setOnClickListener(this);
+        buttonSave=findViewById(R.id.buttonSave);
+        buttonSave.setOnClickListener(this);
+        textView9111 = findViewById(R.id.textView9111);
+
     }
     /**este metodo muestra el icono de eliminar y guarda el arreglo de items a eliminar*/
     public void sawTrash(List<String> currentSelected) { //este metodo recibe dos listas la primera es de items seleccionados la segunda deberia ser data
@@ -182,6 +193,19 @@ public class cerrarViaje  extends AppCompatActivity implements View.OnClickListe
         this.meraseList=eraseList;
 
     }
+    public void showToast(String closeDialog,String idReason) {
+        this.closeDialog=closeDialog;
+        this.idReason=idReason;
+        textView9111.setText(this.closeDialog);
+
+    }
+    private void gotomanifestV2(){
+        Intent intent = new Intent(this, mainContainer.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);//
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+
+    }
     @Override
     public void onClick(View v) {
 
@@ -199,6 +223,7 @@ public class cerrarViaje  extends AppCompatActivity implements View.OnClickListe
                 }else{
                     Toast.makeText(this, "No haz selecionado ningun item", Toast.LENGTH_SHORT).show();
                 }
+               trashicon.setVisibility(View.GONE);
                //todo esto arreglo remueve los indexes de forma incorre
                 break;
             case R.id.dialogReasons:
@@ -206,6 +231,14 @@ public class cerrarViaje  extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.camera:
                 openCamera();
+                break;
+            case R.id.buttonSave:
+                if(idReason!=null) {
+                   Toast.makeText(this, "guardar evidencias "+closeDialog , Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(this, "Falta seleccionar un motivo ", Toast.LENGTH_SHORT).show();
+                }
+                //gotomanifestV2();
                 break;
         }
     }
