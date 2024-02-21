@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +19,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
@@ -27,12 +30,18 @@ import com.fhl.sistemadedistribucionfh.evidence.presenter.requestEvidencePresent
 import com.fhl.sistemadedistribucionfh.evidence.presenter.requestEvidencePresenterImpl;
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.calificacion;
 import com.fhl.sistemadedistribucionfh.evidence.signature.signature;
+import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
+import com.fhl.sistemadedistribucionfh.nmanifest.viewV2.mmanifestV2;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
 public class evidencia extends AppCompatActivity implements View.OnClickListener,evidenceView {
     public static final String TAG = evidencia.class.getSimpleName();
+    private FragmentManager manager;
+    private FragmentTransaction transaction;
+
     private ConstraintLayout firma,foto,archivos,rating;
     private Float frating;
     private String signatureBase64,inputTextSignature,currusel,ffiles,stars="";
@@ -174,14 +183,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 Log.e("evidence","rating ");
                 break;
             case R.id.eraseShared:
-                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
-                 SharedPreferences.Editor editor = preferences.edit();
-                 editor.putString(GeneralConstants.SIGNATURE_B64_DIR, null);
-                 editor.putString(GeneralConstants.INPUT_TEXT_SIGTURE,null);
-                 editor.putString(GeneralConstants.IMAGE_DIRECTORY,null);
-                 editor.putString(GeneralConstants.DOCS_DIRECTORY, null);
-                 editor.putString(GeneralConstants.RATE_STARS, null);
-                 editor.commit();
+                removeShared();
                 signatureImage.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
                 mfirma = false;
                 cameraico.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
@@ -204,6 +206,45 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
                 break;
         }
+
+    }
+    private void removeShared(){
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(GeneralConstants.SIGNATURE_B64_DIR, null);
+        editor.putString(GeneralConstants.INPUT_TEXT_SIGTURE,null);
+        editor.putString(GeneralConstants.IMAGE_DIRECTORY,null);
+        editor.putString(GeneralConstants.DOCS_DIRECTORY, null);
+        editor.putString(GeneralConstants.RATE_STARS, null);
+        editor.commit();
+    }
+    private void cleanFolder(){
+        //.Toast.makeText(this, "Eliminar todo", Toast.LENGTH_SHORT).show();
+
+        File picturesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File imagesDir = new File(picturesDir, "MyImages");
+        if (imagesDir.exists() && imagesDir.isDirectory()) {
+            File[] files = imagesDir.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile()) {
+                        if (file.delete()) {
+                            Log.d("DeleteFiles", "Deleted file: " + file.getAbsolutePath());
+                        } else {
+                            Log.e("DeleteFiles", "Failed to delete file: " + file.getAbsolutePath());
+                        }
+                    }
+                }
+            }
+        } else {
+            Log.e("DeleteFiles", "Images directory not found: " + imagesDir.getAbsolutePath());
+        }
+    }
+    private void gotomanifestV2(){
+        Intent intent = new Intent(this, mainContainer.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);//
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
 
     }
 
@@ -232,6 +273,9 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             //Toast.makeText(this, "mandar estrellas", Toast.LENGTH_SHORT).show();
         }else if(secuenceRequest==5){
             Toast.makeText(this, "Cambiar estatus y regresar a manifiestos", Toast.LENGTH_SHORT).show();
+            removeShared();
+            cleanFolder();
+            gotomanifestV2();
         }else{
             Toast.makeText(this, "Todos los archivos se han enviado correctamente", Toast.LENGTH_SHORT).show();
             //todo regresar a manifiestos y limpiar toda la carpeta de archivos
