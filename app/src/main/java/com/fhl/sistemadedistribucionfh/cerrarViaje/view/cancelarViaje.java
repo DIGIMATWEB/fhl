@@ -2,22 +2,29 @@ package com.fhl.sistemadedistribucionfh.cerrarViaje.view;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
@@ -29,11 +36,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.view.dialogReasons;
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.cerrarViaje.adapter.adapterNoCompletado;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -62,6 +72,8 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
     private  String closeDialog;
     private String idReason;
     private TextView textView9111;
+    private ArrayList<File> tempImageFiles = new ArrayList<>();
+    private List<String> directories=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,7 +141,6 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
                 Uri photoUri = FileProvider.getUriForFile(this,
                         "com.fhl.sistemadedistribucionfh.fileprovider", photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                takePictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         }
@@ -137,10 +148,18 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
 
     private File createImageFile() {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(null);
+        String imageFileName = "" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File imagesDir = new File(storageDir, "MyEvidence");
+        if (!imagesDir.exists()) {
+            if (!imagesDir.mkdirs()) {
+
+                Log.e("carrusel1", "Failed to create directory: " + imagesDir.getAbsolutePath());
+
+            }
+        }
         try {
-            File imageFile = File.createTempFile(imageFileName, ".jpg", storageDir);
+            File imageFile = File.createTempFile(imageFileName, ".jpg", imagesDir);
             currentImagePath = imageFile.getAbsolutePath();
 
             // Get the content:// URI using FileProvider
@@ -161,20 +180,123 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             // Load the captured image into an ImageView
             Bitmap bitmap = BitmapFactory.decodeFile(currentImagePath);
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 65, byteArrayOutputStream);
-            byte[] byteArray = byteArrayOutputStream.toByteArray();
 
-// Convert byte array to Base64-encoded string
-            String imageBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
-            Log.e("imageFilePhoto",""+imageBase64);
-            if(!imageCollections.contains(imageBase64)) {
-                imageCollections.add(imageBase64);
+            if (bitmap != null) {
+                // Convert bitmap to byte array
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 65, byteArrayOutputStream);
+                byte[] byteArray = byteArrayOutputStream.toByteArray();
+
+                // Convert byte array to Base64-encoded string
+                String imageBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                Log.e("imageFilePhoto", "" + imageBase64);
+
+                // Add Base64 string to imageCollections list
+                if (!imageCollections.contains(imageBase64)) {
+                    imageCollections.add(imageBase64);
+                }
+                adapter.UpdateArray(imageCollections);
+
+                // Save the captured image as a temporary file
+              //  saveTempImage(bitmap);
+            } else {
+                // Handle case where bitmap is null
+                Toast.makeText(this, "Failed to load captured image", Toast.LENGTH_SHORT).show();
             }
-            adapter.UpdateArray(imageCollections);
         } else {
             Toast.makeText(this, "Failed to capture image", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void moveImagesToPhotosFolder() {
+        for (File tempImageFile : tempImageFiles) {
+            if (tempImageFile.exists()) {
+                try {
+                    // Convert image file to Base64
+                    String base64Image = convertImageToBase64(tempImageFile);
+
+                    if (!base64Image.isEmpty()) {
+                        // Save Base64 image in memory
+                        saveBase64ImageInMemory(base64Image, tempImageFile.getName());
+                        Log.e("carrusel1", "Image saved in memory: " + tempImageFile.getName());
+                        Log.e("carrusel1", "Image saved in memory: " + tempImageFile.getAbsolutePath());
+
+                    } else {
+                        Log.e("carrusel1", "Base64 image string is empty");
+                    }
+                } catch (IOException e) {
+                    Log.e("carrusel1", "Error saving image in memory: " + e.getMessage());
+                }
+            } else {
+                Log.e("carrusel1", "Source file does not exist: " + tempImageFile.getAbsolutePath());
+            }
+        }
+        deleteFilesInTempFolder();
+        // tempImageFiles.clear(); // Clear the list of temporary image files
+    }
+    private void deleteFilesInTempFolder() {
+        File tempDir = getExternalFilesDir("Android/data/com.fhl.sistemadedistribucionfh/files/Pictures/");
+        if (tempDir != null && tempDir.exists() && tempDir.isDirectory()) {
+            File[] files = tempDir.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile()) {
+                        if (file.delete()) {
+                            Log.d("DeleteFiles", "Deleted file: " + file.getAbsolutePath());
+                        } else {
+                            Log.e("DeleteFiles", "Failed to delete file: " + file.getAbsolutePath());
+                        }
+                    }
+                }
+            }
+        } else {
+            Log.e("DeleteFiles", "Temp directory not found: " + tempDir);
+        }
+    }
+    private void saveBase64ImageInMemory(String base64Image, String filename) throws IOException {
+        byte[] decodedBytes = Base64.decode(base64Image, Base64.DEFAULT);
+
+        File picturesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File imagesDir = new File(picturesDir, "MyEvidence");
+        if (!imagesDir.exists()) {
+            if (!imagesDir.mkdirs()) {
+
+                Log.e("carrusel1", "Failed to create directory: " + imagesDir.getAbsolutePath());
+                return;
+            }
+        }
+
+        File imageFile = new File(imagesDir, filename);
+        FileOutputStream outputStream = new FileOutputStream(imageFile);
+        outputStream.write(decodedBytes);
+        outputStream.close();
+        directories.add(imagesDir+"/"+filename);
+    }
+    private String convertImageToBase64(File imageFile) throws IOException {
+        FileInputStream inputStream = new FileInputStream(imageFile);
+        byte[] buffer = new byte[(int) imageFile.length()];
+        inputStream.read(buffer);
+        inputStream.close();
+        String base64Image = Base64.encodeToString(buffer, Base64.DEFAULT);
+        Log.e("carrusel1", "Base64 image length: " + base64Image.length());
+        return base64Image;
+    }
+
+    private File saveTempImage(Bitmap bitmap) {
+        File tempDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES); // Change to external storage directory
+        File tempFile = null;
+        try {
+            tempFile = File.createTempFile("temp_image", ".jpg", tempDir);
+            FileOutputStream out = new FileOutputStream(tempFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.flush();
+            out.close();
+            // Log the temporary file directory
+            Log.e("carrusel1", "Temporary file path: " + tempFile.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return tempFile;
     }
 
     @Override
@@ -206,6 +328,31 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
         startActivity(intent);
 
     }
+    private void cleanFolder(){
+        //.Toast.makeText(this, "Eliminar todo", Toast.LENGTH_SHORT).show();
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(GeneralConstants.IMAGE_DIRECTORY, null);
+        editor.commit();
+        File picturesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File imagesDir = new File(picturesDir, "MyEvidence");
+        if (imagesDir.exists() && imagesDir.isDirectory()) {
+            File[] files = imagesDir.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile()) {
+                        if (file.delete()) {
+                            Log.d("DeleteFiles", "Deleted file: " + file.getAbsolutePath());
+                        } else {
+                            Log.e("DeleteFiles", "Failed to delete file: " + file.getAbsolutePath());
+                        }
+                    }
+                }
+            }
+        } else {
+            Log.e("DeleteFiles", "Images directory not found: " + imagesDir.getAbsolutePath());
+        }
+    }
     @Override
     public void onClick(View v) {
 
@@ -233,6 +380,8 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
                 openCamera();
                 break;
             case R.id.buttonSave:
+              //  moveImagesToPhotosFolder(); este metodo no sirve todo eliminar
+             //   cleanFolder(); 
                 if(idReason!=null) {
                    Toast.makeText(this, "guardar evidencias "+closeDialog , Toast.LENGTH_SHORT).show();
                 }else {
@@ -242,7 +391,4 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
                 break;
         }
     }
-
-
-
 }
