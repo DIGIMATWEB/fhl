@@ -95,7 +95,7 @@ public class adapterMenus extends RecyclerView.Adapter<adapterMenus.ViewHolder>{
                 //holder.menuName.setText(data.get(position).getMenuName());
                 holder.menuName.setText(dataV2.get(position).getTitulo());
                 break;
-            case "Reguardo":
+            case "Resguardo":
                 drawable=context.getDrawable(R.drawable.ic_menu_resguardo_icon);
                 holder.imageMenu.setImageDrawable(drawable);
                 //holder.menuName.setText(data.get(position).getMenuName());
@@ -139,17 +139,17 @@ public class adapterMenus extends RecyclerView.Adapter<adapterMenus.ViewHolder>{
                         mview.closeDialog();
                         mview.invokeFragment("Escaner");
                         break;
-                    case "Ubicacion GPS":
+                    case "Ubicación de GPS":
                         mview.closeDialog();
-                        mview.invokeFragment("Ubicacion GPS");
+                        mview.invokeFragment("Ubicación de GPS");
                         break;
-                    case "CheckList":
+                    case "Checklist":
                         mview.closeDialog();
-                        mview.invokeFragment("CheckList");
+                        mview.invokeFragment("Checklist");
                         break;
-                    case "Gastos Operativos":
+                    case "Gastos operativos":
                         mview.closeDialog();
-                        mview.invokeFragment("Gastos");
+                        mview.invokeFragment("Gastos operativos");
                         break;
                     case "Resguardo":
                         mview.closeDialog();

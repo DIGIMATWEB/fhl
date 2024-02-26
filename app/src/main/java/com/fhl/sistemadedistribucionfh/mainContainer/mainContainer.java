@@ -85,7 +85,7 @@ public class mainContainer extends AppCompatActivity  implements view {
                mScanner("Validador");
                 //Toast.makeText(this, "modulo en desarrollo", Toast.LENGTH_SHORT).show();
                 break;
-            case "Ubicacion GPS":
+            case "Ubicación de GPS":
                 Locator();
                 break;
             case "Salida":
@@ -97,13 +97,13 @@ public class mainContainer extends AppCompatActivity  implements view {
                 break;
             case "Escaner":
                 //mScanner("Escaner");
-                Toast.makeText(this, "modulo en desarrollo", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "modulo en desarrollo y no asignado a flujo", Toast.LENGTH_SHORT).show();
                 break;
-            case "CheckList":
+            case "Checklist":
                 //Toast.makeText(this, "modulo en desarrollo", Toast.LENGTH_SHORT).show();
                 checkList();
                 break;
-            case "Gastos":
+            case "Gastos operativos":
                 //Toast.makeText(this, "modulo en desarrollo", Toast.LENGTH_SHORT).show();
                 gastosF();
                 break;
