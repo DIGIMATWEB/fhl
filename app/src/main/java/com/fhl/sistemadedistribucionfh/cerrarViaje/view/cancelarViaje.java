@@ -38,6 +38,8 @@ import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.view.dialogReasons;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.cerrarViaje.adapter.adapterNoCompletado;
+import com.fhl.sistemadedistribucionfh.cerrarViaje.presenter.cancelPresenter;
+import com.fhl.sistemadedistribucionfh.cerrarViaje.presenter.cancelPresenterImpl;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
 
 import java.io.ByteArrayOutputStream;
@@ -52,7 +54,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class cancelarViaje extends AppCompatActivity implements View.OnClickListener {
+public class cancelarViaje extends AppCompatActivity implements View.OnClickListener ,cancelView{
     public static final String TAG = cancelarViaje.class.getSimpleName();
     private RecyclerView rv;
     private adapterNoCompletado adapter;
@@ -74,6 +76,7 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
     private TextView textView9111;
     private ArrayList<File> tempImageFiles = new ArrayList<>();
     private List<String> directories=new ArrayList<>();
+    private cancelPresenter presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +104,7 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
         buttonSave=findViewById(R.id.buttonSave);
         buttonSave.setOnClickListener(this);
         textView9111 = findViewById(R.id.textView9111);
+        presenter= new cancelPresenterImpl(this,getBaseContext());
 
     }
     /**este metodo muestra el icono de eliminar y guarda el arreglo de items a eliminar*/
@@ -148,7 +152,7 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
 
     private File createImageFile() {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-        String imageFileName = "" + timeStamp + "_";
+        String imageFileName = "evidence_";//+ timeStamp ;
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File imagesDir = new File(storageDir, "MyEvidence");
         if (!imagesDir.exists()) {
@@ -158,10 +162,10 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
 
             }
         }
-        try {
+        try {//este bloque se asegura de encontrar el directorio en el dominio del folder asignado
             File imageFile = File.createTempFile(imageFileName, ".jpg", imagesDir);
             currentImagePath = imageFile.getAbsolutePath();
-
+            directories.add(currentImagePath);
             // Get the content:// URI using FileProvider
             Uri photoUri = FileProvider.getUriForFile(this,
                     "com.fhl.sistemadedistribucionfh.fileprovider", imageFile);
@@ -208,7 +212,7 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void moveImagesToPhotosFolder() {
+ /*   private void moveImagesToPhotosFolder() {
         for (File tempImageFile : tempImageFiles) {
             if (tempImageFile.exists()) {
                 try {
@@ -233,7 +237,7 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
         }
         deleteFilesInTempFolder();
         // tempImageFiles.clear(); // Clear the list of temporary image files
-    }
+    }*/
     private void deleteFilesInTempFolder() {
         File tempDir = getExternalFilesDir("Android/data/com.fhl.sistemadedistribucionfh/files/Pictures/");
         if (tempDir != null && tempDir.exists() && tempDir.isDirectory()) {
@@ -253,25 +257,7 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
             Log.e("DeleteFiles", "Temp directory not found: " + tempDir);
         }
     }
-    private void saveBase64ImageInMemory(String base64Image, String filename) throws IOException {
-        byte[] decodedBytes = Base64.decode(base64Image, Base64.DEFAULT);
 
-        File picturesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File imagesDir = new File(picturesDir, "MyEvidence");
-        if (!imagesDir.exists()) {
-            if (!imagesDir.mkdirs()) {
-
-                Log.e("carrusel1", "Failed to create directory: " + imagesDir.getAbsolutePath());
-                return;
-            }
-        }
-
-        File imageFile = new File(imagesDir, filename);
-        FileOutputStream outputStream = new FileOutputStream(imageFile);
-        outputStream.write(decodedBytes);
-        outputStream.close();
-        directories.add(imagesDir+"/"+filename);
-    }
     private String convertImageToBase64(File imageFile) throws IOException {
         FileInputStream inputStream = new FileInputStream(imageFile);
         byte[] buffer = new byte[(int) imageFile.length()];
@@ -282,7 +268,7 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
         return base64Image;
     }
 
-    private File saveTempImage(Bitmap bitmap) {
+   /** private File saveTempImage(Bitmap bitmap) {
         File tempDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES); // Change to external storage directory
         File tempFile = null;
         try {
@@ -297,8 +283,8 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
             e.printStackTrace();
         }
         return tempFile;
-    }
-
+    }//esto solo sirve para guardarlo en archivos temporales
+***/
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -354,6 +340,21 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
         }
     }
     @Override
+    public void okSendEvidence() {
+        goToManifest();
+    }
+
+    private void goToManifest() {
+        directories.clear();
+        cleanFolder();
+        Intent intent = new Intent(this, mainContainer.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);//
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+
+    }
+
+    @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -381,9 +382,12 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.buttonSave:
               //  moveImagesToPhotosFolder(); este metodo no sirve todo eliminar
-             //   cleanFolder(); 
-                if(idReason!=null) {
-                   Toast.makeText(this, "guardar evidencias "+closeDialog , Toast.LENGTH_SHORT).show();
+             //   cleanFolder();
+                if(idReason!=null) {//todo
+                   Toast.makeText(this, "guardar evidencias, pendiente mostrar progressbar y endpoint de jose "+closeDialog , Toast.LENGTH_SHORT).show();
+                   Log.e("","carrusel1"+directories);
+                   presenter.sendEvidence(directories);
+
                 }else {
                     Toast.makeText(this, "Falta seleccionar un motivo ", Toast.LENGTH_SHORT).show();
                 }
@@ -391,4 +395,6 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
                 break;
         }
     }
+
+
 }
