@@ -6,9 +6,9 @@ import android.widget.Toast;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientNewlands;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
-import com.fhl.sistemadedistribucionfh.checkList.model.dataChecklist;
-import com.fhl.sistemadedistribucionfh.checkList.model.requestChecklist;
-import com.fhl.sistemadedistribucionfh.checkList.model.responseChecklist;
+import com.fhl.sistemadedistribucionfh.checkList.model.v1.dataChecklist;
+import com.fhl.sistemadedistribucionfh.checkList.model.v1.requestChecklist;
+import com.fhl.sistemadedistribucionfh.checkList.model.v1.responseChecklist;
 import com.fhl.sistemadedistribucionfh.checkList.presenter.checklistPresenter;
 import com.fhl.sistemadedistribucionfh.checkList.util.serviceChecklist;
 

@@ -1,6 +1,6 @@
 package com.fhl.sistemadedistribucionfh.checkList.presenter;
 
-import com.fhl.sistemadedistribucionfh.checkList.model.dataChecklist;
+import com.fhl.sistemadedistribucionfh.checkList.model.v1.dataChecklist;
 
 import java.util.List;
 

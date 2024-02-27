@@ -13,7 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
-import com.fhl.sistemadedistribucionfh.checkList.model.dataChecklist;
+import com.fhl.sistemadedistribucionfh.checkList.model.v1.dataChecklist;
 import com.fhl.sistemadedistribucionfh.checkList.view.checkList;
 
 import java.util.ArrayList;

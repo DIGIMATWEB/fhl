@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.fhl.sistemadedistribucionfh.checkList.interactor.checklistInteractor;
 import com.fhl.sistemadedistribucionfh.checkList.interactor.checklistInteractorImpl;
-import com.fhl.sistemadedistribucionfh.checkList.model.dataChecklist;
+import com.fhl.sistemadedistribucionfh.checkList.model.v1.dataChecklist;
 import com.fhl.sistemadedistribucionfh.checkList.view.checklistView;
 
 import java.util.List;

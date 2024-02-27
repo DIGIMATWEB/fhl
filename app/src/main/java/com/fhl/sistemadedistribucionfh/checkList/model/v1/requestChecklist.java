@@ -1,4 +1,4 @@
-package com.fhl.sistemadedistribucionfh.checkList.model;
+package com.fhl.sistemadedistribucionfh.checkList.model.v1;
 
 import com.google.gson.annotations.SerializedName;
 
