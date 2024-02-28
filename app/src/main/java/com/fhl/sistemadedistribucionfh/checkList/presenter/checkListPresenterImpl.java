@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.fhl.sistemadedistribucionfh.checkList.interactor.checklistInteractor;
 import com.fhl.sistemadedistribucionfh.checkList.interactor.checklistInteractorImpl;
-import com.fhl.sistemadedistribucionfh.checkList.model.v1.dataChecklist;
+import com.fhl.sistemadedistribucionfh.checkList.model.v2.VehiculoVsCheck;
 import com.fhl.sistemadedistribucionfh.checkList.view.checklistView;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public class checkListPresenterImpl implements checklistPresenter{
     }
 
     @Override
-    public void setChecklist(List<dataChecklist> data) {
+    public void setChecklist(List<VehiculoVsCheck> data) {
         if(view!=null){
             view.setCheckList(data);
         }

@@ -1,6 +1,7 @@
 package com.fhl.sistemadedistribucionfh.checkList.interactor;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
@@ -9,6 +10,9 @@ import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
 import com.fhl.sistemadedistribucionfh.checkList.model.v1.dataChecklist;
 import com.fhl.sistemadedistribucionfh.checkList.model.v1.requestChecklist;
 import com.fhl.sistemadedistribucionfh.checkList.model.v1.responseChecklist;
+import com.fhl.sistemadedistribucionfh.checkList.model.v2.VehiculoVsCheck;
+import com.fhl.sistemadedistribucionfh.checkList.model.v2.dataChecklistV2;
+import com.fhl.sistemadedistribucionfh.checkList.model.v2.responseChecklistV2;
 import com.fhl.sistemadedistribucionfh.checkList.presenter.checklistPresenter;
 import com.fhl.sistemadedistribucionfh.checkList.util.serviceChecklist;
 
@@ -34,23 +38,25 @@ public class checklistInteractorImpl implements checklistInteractor{
 
     @Override
     public void requestChecklist() {
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String token = preferences.getString(GeneralConstants.TOKEN, null);
         requestChecklist request= new requestChecklist("asfasfaesweqwf");
-        Call<responseChecklist> call= service.getChecklist(request);
-        call.enqueue(new Callback<responseChecklist>() {
+        Call<responseChecklistV2> call= service.getChecklist(token,6);
+        call.enqueue(new Callback<responseChecklistV2>() {
             @Override
-            public void onResponse(Call<responseChecklist> call, Response<responseChecklist> response) {
+            public void onResponse(Call<responseChecklistV2> call, Response<responseChecklistV2> response) {
                 validateResponseChecklist(response,context);
             }
 
             @Override
-            public void onFailure(Call<responseChecklist> call, Throwable t) {
+            public void onFailure(Call<responseChecklistV2> call, Throwable t) {
                 Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
-    private void validateResponseChecklist(Response<responseChecklist> response, Context context) {
+    private void validateResponseChecklist(Response<responseChecklistV2> response, Context context) {
         if (response != null) {
 
             if (RetrofitValidations.checkSuccessCode(response.code())) {
@@ -61,16 +67,20 @@ public class checklistInteractorImpl implements checklistInteractor{
         }
     }
 
-    private void getChecklist(Response<responseChecklist> response, Context context) {
-        responseChecklist resp=response.body();
+    private void getChecklist(Response<responseChecklistV2> response, Context context) {
+        responseChecklistV2 resp=response.body();
                         if(resp!=null){
                             String message = resp.getMessage();
-                            int responseCode = resp.getResconseCode();
-                           if(resp.getResconseCode()== GeneralConstants.RESPONSE_CODE_OK){
-                                List<dataChecklist> data=resp.getData();
-
-                                if(data!=null){
-                                    presenter.setChecklist(data);
+                            int responseCode = resp.getStatus();
+                           if(resp.getStatus()== GeneralConstants.RESPONSE_CODE_OK_PEP){
+                              dataChecklistV2 mdata=resp.getData();
+                                if(mdata!=null){
+                                    List<VehiculoVsCheck> data=   mdata.getVehiculoVsChecklist();
+                                    if(data!=null){
+                                     presenter.setChecklist(data);
+                                    }else{
+                                        Toast.makeText(context, "sin tickets asignados", Toast.LENGTH_SHORT).show();
+                                    }
                                 }else{
                                     Toast.makeText(context, "sin tickets asignados", Toast.LENGTH_SHORT).show();
                                }

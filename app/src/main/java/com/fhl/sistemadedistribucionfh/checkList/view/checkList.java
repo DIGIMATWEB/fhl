@@ -17,6 +17,7 @@ import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.view.questionFragment;
 import com.fhl.sistemadedistribucionfh.checkList.adapter.adapterChecklist;
 import com.fhl.sistemadedistribucionfh.checkList.model.v1.dataChecklist;
+import com.fhl.sistemadedistribucionfh.checkList.model.v2.VehiculoVsCheck;
 import com.fhl.sistemadedistribucionfh.checkList.presenter.checkListPresenterImpl;
 import com.fhl.sistemadedistribucionfh.checkList.presenter.checklistPresenter;
 
@@ -30,7 +31,7 @@ public class checkList extends Fragment implements View.OnClickListener,checklis
     private adapterChecklist adapter;
     private SearchView searchView;
     private checklistPresenter presenter;
-    private List<dataChecklist> data;
+    private List<VehiculoVsCheck> data;
     private FragmentManager manager;
     private FragmentTransaction transaction;
     @Override
@@ -41,7 +42,7 @@ public class checkList extends Fragment implements View.OnClickListener,checklis
 
         return view;
     }
-    private void fillSellos(List<dataChecklist> data) {
+    private void fillSellos(List<VehiculoVsCheck> data) {
         adapter=new adapterChecklist(this,data,getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         rv.setLayoutManager(layoutManager);
@@ -65,20 +66,20 @@ public class checkList extends Fragment implements View.OnClickListener,checklis
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                List<dataChecklist> filterList =filter(data,newText);
+                List<VehiculoVsCheck> filterList =filter(data,newText);
                 adapter.setFilter(filterList);
                 return true;
             }
         });
     }
 
-    private List<dataChecklist> filter(List<dataChecklist> data, String text) {
-        List<dataChecklist> mfilterList= new ArrayList<>();
+    private List<VehiculoVsCheck> filter(List<VehiculoVsCheck> data, String text) {
+        List<VehiculoVsCheck> mfilterList= new ArrayList<>();
         text =text.toLowerCase();
         if(data!=null){
-            for(dataChecklist cehcklist:data)
+            for(VehiculoVsCheck cehcklist:data)
             {
-                String manifestname=cehcklist.getNombreCheckList().toLowerCase();
+                String manifestname=cehcklist.getChecklist().getNombre().toLowerCase();
                 if(manifestname.contains(text)){
                     mfilterList.add(cehcklist);
                 }
@@ -93,7 +94,7 @@ public class checkList extends Fragment implements View.OnClickListener,checklis
     }
 
     @Override
-    public void setCheckList(List<dataChecklist> data) {
+    public void setCheckList(List<VehiculoVsCheck> data) {
         this.data=data;
         fillSellos(data);
     }

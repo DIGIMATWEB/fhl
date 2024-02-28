@@ -8,6 +8,7 @@ public class RetrofitEndPoints {
     public static final String URL_MAP_API_ROUTE = "route";
 
     public static final String URL_PEPSERVER = "http://192.168.1.231:7420/App/Manifiesto/";//"http://pepserver:7420/app/manifiesto/"  //
+    public static final String URL_PEPSERVER2 = "http://192.168.1.231:7420/App/Vehiculo/";
     //public static final String URL_PEPSERVER = "http://192.168.1.209:7420/app/manifiesto/";
 
 
@@ -19,6 +20,12 @@ public class RetrofitEndPoints {
     public static final String MANIFEST_PEP = "GetManifiestoByOperador/";
     public static final String TICKETS_PEP = "GetTicketsByManifiesto/";
     public static final String RATE_STARS ="SetCalificacionOperador/";
+    public static final String PROFILE = "Usuarios/Usuarios/Values";//"todo" este enpoint no funciona correctamente en swagger debe verse desde postman
+    public static final String DETALLE_TICKETS = "GetTicketsByManifiesto/";
+    public static final String SALIDA_V2 = "GetSellosByManifiesto";
+    public static final String CORTINA = "GetCortinasByManifiesto";
+    public static final String CHECKLISTV2 = "GetChecklistByVehiculo" ;
+
 
     public static final String MENUS = "menu.php";
     public static final String SALIDA = "salidaqr.php";
@@ -29,8 +36,5 @@ public class RetrofitEndPoints {
     public static final String TICKETS = "tickets.php";
     public static final String VALIDADOR = "validador.php";
     public static final String REASONS = "reasons.php";
-    public static final String PROFILE = "Usuarios/Usuarios/Values";//"todo" este enpoint no funciona correctamente en swagger debe verse desde postman
-    public static final String DETALLE_TICKETS = "GetTicketsByManifiesto/";
-    public static final String SALIDA_V2 = "GetSellosByManifiesto";
-    public static final String CORTINA = "GetCortinasByManifiesto";
+
 }
