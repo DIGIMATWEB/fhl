@@ -7,8 +7,8 @@ public class RetrofitEndPoints {
     public static final String URL_NEWLANDS ="http://digimat-interactive.com/fhl/";
     public static final String URL_MAP_API_ROUTE = "route";
 
-    public static final String URL_PEPSERVER = "http://192.168.1.231:7420/App/Manifiesto/";//"http://pepserver:7420/app/manifiesto/"  //
-    public static final String URL_PEPSERVER2 = "http://192.168.1.231:7420/App/Vehiculo/";
+    public static final String URL_PEPSERVER = "http://192.168.1.10:7420/App/Manifiesto/";//"http://pepserver:7420/app/manifiesto/"  //
+    public static final String URL_PEPSERVER2 = "http://192.168.1.10:7420/App/Vehiculo/";
     //public static final String URL_PEPSERVER = "http://192.168.1.209:7420/app/manifiesto/";
 
 

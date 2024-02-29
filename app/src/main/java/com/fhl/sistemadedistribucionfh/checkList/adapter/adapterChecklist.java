@@ -55,12 +55,12 @@ public class adapterChecklist extends RecyclerView.Adapter<adapterChecklist.View
 //                holder.siguienteChecklist.setVisibility(View.GONE);
 //                holder.moreChecklist.setVisibility(View.GONE);
 //            }
-//            holder.siguienteChecklist.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    mview.goQuestions();
-//                }
-//            });
+            holder.siguienteChecklist.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mview.goQuestions();
+                }
+            });
     }
 
     @Override

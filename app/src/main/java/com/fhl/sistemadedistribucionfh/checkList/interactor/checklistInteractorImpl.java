@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientNewlands;
+import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientPep2;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
 import com.fhl.sistemadedistribucionfh.checkList.model.v1.dataChecklist;
 import com.fhl.sistemadedistribucionfh.checkList.model.v1.requestChecklist;
@@ -31,7 +32,7 @@ public class checklistInteractorImpl implements checklistInteractor{
     public checklistInteractorImpl(checklistPresenter presenter, Context context) {
         this.presenter=presenter;
         this.context=context;
-        retrofitClient = RetrofitClientNewlands.getRetrofitInstance();
+        retrofitClient = RetrofitClientPep2.getRetrofitInstance();
         service=retrofitClient.create(serviceChecklist.class);
 
     }
@@ -40,7 +41,7 @@ public class checklistInteractorImpl implements checklistInteractor{
     public void requestChecklist() {
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
-        requestChecklist request= new requestChecklist("asfasfaesweqwf");
+       // requestChecklist request= new requestChecklist("asfasfaesweqwf");
         Call<responseChecklistV2> call= service.getChecklist(token,6);
         call.enqueue(new Callback<responseChecklistV2>() {
             @Override
