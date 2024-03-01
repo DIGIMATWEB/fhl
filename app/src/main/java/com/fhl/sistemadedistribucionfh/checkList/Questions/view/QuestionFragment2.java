@@ -21,7 +21,7 @@ public class QuestionFragment2 extends Fragment {
     private int pos;
     private  questionFragment mview;
     private ConstraintLayout switchanswer,optionanswer,openanswer;
-    private List<Pregunta> questions;
+    private List<Pregunta> mquestions;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -36,18 +36,19 @@ public class QuestionFragment2 extends Fragment {
         openanswer=view.findViewById(R.id.openanswer);
 
         if(question.getTipoCampo()==1){
-            openanswer.setVisibility(View.VISIBLE);
-            switchanswer.setVisibility(View.GONE);
+            switchanswer.setVisibility(View.VISIBLE);
+            openanswer.setVisibility(View.GONE);
             optionanswer.setVisibility(View.GONE);
         }else if(question.getTipoCampo()==2){
-            openanswer.setVisibility(View.GONE);
-            switchanswer.setVisibility(View.VISIBLE);
+            openanswer.setVisibility(View.VISIBLE);
+            switchanswer.setVisibility(View.GONE);
             optionanswer.setVisibility(View.GONE);
 
         }else if(question.getTipoCampo()==3){
             openanswer.setVisibility(View.GONE);
             switchanswer.setVisibility(View.GONE);
             optionanswer.setVisibility(View.VISIBLE);
+
             Spinner spinner = view.findViewById(R.id.spinnerquestionary);
             String[] items = {"Item 1", "Item 2", "Item 3"}; // Replace with your desired data items
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_spinner_item, items);
@@ -57,41 +58,32 @@ public class QuestionFragment2 extends Fragment {
             spinner.setPopupBackgroundResource(android.R.color.transparent); // Make dropdown background transparent
             spinner.setDropDownVerticalOffset(spinner.getHeight()); // Set vertical offset to position the dialog
 
-//            spinner.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    spinner.performClick(); // Show the Spinner dialog when clicked
-//                }
-//            });
 
-// Apply the custom style to the Spinner dialog
-//            TypedArray a = getContext().obtainStyledAttributes(R.style.SpinnerDialogStyle, new int[]{android.R.attr.dialogTheme});
-//            int dialogTheme = a.getResourceId(0, 0);
-//            a.recycle();
-//            spinner.setPopupTheme(dialogTheme);
 
         }
-        if(pos== questions.size()-1){
+        if(pos== mquestions.size()-1){
             mview.showbutton();
-        }
-        else {
+        }else {
             mview.hidebutton();
         }
     }
+
 
     public QuestionFragment2(Pregunta question, questionFragment mview, int position, List<Pregunta> questions) {
         this.question = question;
         this.mview=mview;
         this.pos=position;
-        this.questions=questions;
+        this.mquestions=questions;
 
+        if(pos == (mquestions.size()-1)){
+            mview.showbutton();
+        }else {
+            mview.hidebutton();
+        }
     }
 
-    // Implement the fragment's view creation and UI logic
-    // ...
-
     public static QuestionFragment2 newInstance(Pregunta question, questionFragment mview, int position, List<Pregunta> questions) {
-
         return new QuestionFragment2(question,mview,position,questions);
+
     }
 }
