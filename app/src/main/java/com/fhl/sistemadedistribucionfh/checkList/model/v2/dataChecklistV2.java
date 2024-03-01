@@ -11,12 +11,15 @@ public class dataChecklistV2 {
     private List<VehiculoVsCheck> vehiculoVsChecklist;
     @SerializedName("Id")
     private Integer id;
+    @SerializedName("Vehiculo")
+    private checklistVehiculo vehiculo;
 
     public dataChecklistV2(Integer vehiculoId, List<VehiculoVsCheck> vehiculoVsChecklist, Integer id) {
         super();
         this.vehiculoId = vehiculoId;
         this.vehiculoVsChecklist = vehiculoVsChecklist;
         this.id = id;
+        this.vehiculo = vehiculo;
     }
 
     public Integer getVehiculoId() {
@@ -41,5 +44,12 @@ public class dataChecklistV2 {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+    public checklistVehiculo getVehiculo() {
+        return vehiculo;
+    }
+
+    public void setVehiculo(checklistVehiculo vehiculo) {
+        this.vehiculo = vehiculo;
     }
 }

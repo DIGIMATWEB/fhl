@@ -128,19 +128,20 @@
                 android:id="@+id/statusChecklist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
                 android:text="No Vigente"
                 android:textColor="@color/red"
                 android:textSize="@dimen/h6"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/guidelinechecklist6"
-                app:layout_constraintEnd_toEndOf="@+id/moreChecklist"
-                app:layout_constraintStart_toStartOf="@+id/moreChecklist" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/namechecklist" />
 
             <TextView
                 android:id="@+id/moreChecklist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="30dp"
+                android:visibility="gone"
                 android:text="Más"
                 android:textSize="14dp"
                 android:textStyle="bold"

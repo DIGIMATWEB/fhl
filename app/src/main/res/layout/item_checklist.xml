@@ -97,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
-                android:text="Sprinter larga"
+                android:text=""
                 android:textSize="@dimen/h5"
                 android:maxLength="14"
                 android:textStyle="bold"
@@ -110,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
-                android:text="asdascwcew"
+                android:text=""
                 android:textSize="@dimen/h5"
                 android:maxLength="15"
                 android:textStyle="bold"
@@ -122,14 +122,14 @@
                 android:id="@+id/statusChecklist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
                 android:text="No Vigente"
                 android:textColor="@color/red"
                 android:textSize="@dimen/h6"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/guidelinechecklist5"
-                app:layout_constraintEnd_toStartOf="@+id/guidelinechecklist4"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guidelinechecklist4"
-                app:layout_constraintTop_toTopOf="@+id/guidelinechecklist5" />
+                app:layout_constraintTop_toTopOf="@+id/namechecklist" />
 
             <TextView
                 android:id="@+id/moreChecklist"

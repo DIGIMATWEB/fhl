@@ -78,7 +78,7 @@ public class checklistInteractorImpl implements checklistInteractor{
                                 if(mdata!=null){
                                     List<VehiculoVsCheck> data=   mdata.getVehiculoVsChecklist();
                                     if(data!=null){
-                                     presenter.setChecklist(data);
+                                     presenter.setChecklist(mdata);
                                     }else{
                                         Toast.makeText(context, "sin tickets asignados", Toast.LENGTH_SHORT).show();
                                     }

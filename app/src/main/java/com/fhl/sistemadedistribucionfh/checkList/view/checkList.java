@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.view.questionFragment;
 import com.fhl.sistemadedistribucionfh.checkList.adapter.adapterChecklist;
-import com.fhl.sistemadedistribucionfh.checkList.model.v1.dataChecklist;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.VehiculoVsCheck;
+import com.fhl.sistemadedistribucionfh.checkList.model.v2.dataChecklistV2;
 import com.fhl.sistemadedistribucionfh.checkList.presenter.checkListPresenterImpl;
 import com.fhl.sistemadedistribucionfh.checkList.presenter.checklistPresenter;
 
@@ -31,7 +31,7 @@ public class checkList extends Fragment implements View.OnClickListener,checklis
     private adapterChecklist adapter;
     private SearchView searchView;
     private checklistPresenter presenter;
-    private List<VehiculoVsCheck> data;
+    private dataChecklistV2 data;
     private FragmentManager manager;
     private FragmentTransaction transaction;
     @Override
@@ -42,7 +42,7 @@ public class checkList extends Fragment implements View.OnClickListener,checklis
 
         return view;
     }
-    private void fillSellos(List<VehiculoVsCheck> data) {
+    private void fillSellos(dataChecklistV2 data) {
         adapter=new adapterChecklist(this,data,getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         rv.setLayoutManager(layoutManager);
@@ -58,19 +58,19 @@ public class checkList extends Fragment implements View.OnClickListener,checklis
         searchView.setIconified(false);
         searchView.setBackground(background);
         searchView.clearFocus();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                List<VehiculoVsCheck> filterList =filter(data,newText);
-                adapter.setFilter(filterList);
-                return true;
-            }
-        });
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                List<VehiculoVsCheck> filterList =filter(data.getVehiculoVsChecklist(),newText);
+//                adapter.setFilter(filterList);
+//                return true;
+//            }
+//        });
     }
 
     private List<VehiculoVsCheck> filter(List<VehiculoVsCheck> data, String text) {
@@ -94,15 +94,24 @@ public class checkList extends Fragment implements View.OnClickListener,checklis
     }
 
     @Override
-    public void setCheckList(List<VehiculoVsCheck> data) {
+    public void setCheckList(dataChecklistV2 data) {
         this.data=data;
         fillSellos(data);
     }
 
-    public void goQuestions() {
+    public void goQuestions(String nombre, String placa, String vigencia, String periodicida) {
         manager = getActivity().getSupportFragmentManager();
         transaction = manager.beginTransaction();
-        questionFragment q =new questionFragment();
+        questionFragment q = new questionFragment();
+        // Create a Bundle to pass data to the fragment
+        Bundle bundle = new Bundle();
+        bundle.putString("nombre", nombre);
+        bundle.putString("placa", placa);
+        bundle.putString("vigencia", vigencia);
+        bundle.putString("periodicida", periodicida);
+        // Set the arguments for the fragment
+        q.setArguments(bundle);
+        // Replace the fragment with arguments
         transaction.replace(R.id.fragments, q, questionFragment.TAG).commit();
     }
 }

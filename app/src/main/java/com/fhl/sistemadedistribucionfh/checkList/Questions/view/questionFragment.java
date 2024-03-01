@@ -35,11 +35,26 @@ public class questionFragment extends Fragment implements View.OnClickListener  
     private  List<Datum> mdata;
     private FragmentManager manager;
     private FragmentTransaction transaction;
+    private String nombre,placa,vigencia,periodicida;
+    private TextView namechecklist,vehiclTypeChecklist,manifestChecklist,statusChecklist;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_questions, container, false);
+        Bundle args = getArguments();
+
         initView(view);
+        if (args != null) {
+            nombre = args.getString("nombre");
+            placa = args.getString("placa");
+            vigencia = args.getString("vigencia");
+            periodicida = args.getString("periodicida");
+            namechecklist.setText(nombre);
+            vehiclTypeChecklist .setText(placa);
+            manifestChecklist.setText( vigencia);
+            statusChecklist .setText( periodicida);
+        }
         gsonData();
         initViewPager(view);
         return view;
@@ -56,6 +71,10 @@ public class questionFragment extends Fragment implements View.OnClickListener  
         buttonstartChecklist.setOnClickListener(this);
         helpertext=view.findViewById(R.id.helpertext);
         ViewPager=view.findViewById(R.id.ViewPager);
+        namechecklist=view.findViewById(R.id.namechecklist);
+        vehiclTypeChecklist =view.findViewById(R.id.vehiclTypeChecklist);
+        manifestChecklist=view.findViewById(R.id. manifestChecklist);
+        statusChecklist  =view.findViewById(R.id. statusChecklist);
     }
 
     @Override
