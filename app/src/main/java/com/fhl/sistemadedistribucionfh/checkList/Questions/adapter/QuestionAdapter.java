@@ -8,13 +8,14 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.model.Question;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.view.QuestionFragment2;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.view.questionFragment;
+import com.fhl.sistemadedistribucionfh.checkList.model.v2.Pregunta;
 
 import java.util.List;
 
 public class QuestionAdapter extends FragmentStateAdapter {
-    private List<Question> questions;
+    private List<Pregunta> questions;
     private questionFragment mview;
-    public QuestionAdapter(List<Question> questionList, @NonNull FragmentActivity fragmentActivity, questionFragment mview) {
+    public QuestionAdapter(List<Pregunta> questionList, @NonNull FragmentActivity fragmentActivity, questionFragment mview) {
         super(fragmentActivity);
         this.mview=mview;
         this.questions = questionList;
@@ -23,8 +24,6 @@ public class QuestionAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        // Create a new fragment for each question
-
         return QuestionFragment2.newInstance(questions.get(position),mview,position,questions );
     }
 

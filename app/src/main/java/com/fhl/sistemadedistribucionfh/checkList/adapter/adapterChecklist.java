@@ -47,13 +47,10 @@ public class adapterChecklist extends RecyclerView.Adapter<adapterChecklist.View
            holder.namechecklist.setText(data.getVehiculoVsChecklist().get(position).getChecklist().getNombre());
           holder.vehiclTypeChecklist.setText(data.getVehiculo().getPlaca());
             holder.manifestChecklist.setText(data.getVehiculoVsChecklist().get(position).getPeriodicidad());
-
         String dateString=data.getVehiculoVsChecklist().get(position).getChecklist().getFechaVencimiento();
         LocalDateTime givenDate = LocalDateTime.parse(dateString, DateTimeFormatter.ISO_DATE_TIME);
-
         // Get the current date and time
         LocalDateTime currentDate = LocalDateTime.now();
-
         // Compare the given date with the current date
         if (currentDate.isBefore(givenDate)) {
             vigencia="Vigente";
@@ -66,7 +63,6 @@ public class adapterChecklist extends RecyclerView.Adapter<adapterChecklist.View
             vigencia="No vigente";
                 int mcolor=context.getColor(R.color.red);
                 holder.statusChecklist.setTextColor(mcolor);
-
                 holder.siguienteChecklist.setVisibility(View.GONE);
                 holder.moreChecklist.setVisibility(View.GONE);
         } else {
@@ -74,7 +70,6 @@ public class adapterChecklist extends RecyclerView.Adapter<adapterChecklist.View
             holder.statusChecklist.setText("No vigente");
             int mcolor=context.getColor(R.color.red);
             holder.statusChecklist.setTextColor(mcolor);
-
             holder.siguienteChecklist.setVisibility(View.GONE);
             holder.moreChecklist.setVisibility(View.GONE);
         }
@@ -82,7 +77,7 @@ public class adapterChecklist extends RecyclerView.Adapter<adapterChecklist.View
             holder.siguienteChecklist.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mview.goQuestions(data.getVehiculoVsChecklist().get(position).getChecklist().getNombre(),data.getVehiculo().getPlaca(),data.getVehiculoVsChecklist().get(position).getPeriodicidad(),vigencia);
+                    mview.goQuestions(data.getVehiculoVsChecklist().get(position).getChecklist().getNombre(),data.getVehiculo().getPlaca(),vigencia,data.getVehiculoVsChecklist().get(position).getPeriodicidad());
                 }
             });
     }

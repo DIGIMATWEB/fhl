@@ -70,7 +70,7 @@ public class checklistInteractorImpl implements checklistInteractor{
 
     private void getChecklist(Response<responseChecklistV2> response, Context context) {
         responseChecklistV2 resp=response.body();
-                        if(resp!=null){
+                     if(resp!=null){
                             String message = resp.getMessage();
                             int responseCode = resp.getStatus();
                            if(resp.getStatus()== GeneralConstants.RESPONSE_CODE_OK_PEP){
@@ -91,6 +91,6 @@ public class checklistInteractorImpl implements checklistInteractor{
 
                     } else{
                             Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
-                        }
+                          }
     }
 }

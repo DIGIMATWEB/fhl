@@ -1,31 +1,25 @@
 package com.fhl.sistemadedistribucionfh.checkList.Questions.util;
 
+import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitEndPoints;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.model.Answer;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.model.Datum;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.model.Question;
+import com.fhl.sistemadedistribucionfh.checkList.Questions.model.questions.responseQuestions;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.model.responseChecklist;
+import com.fhl.sistemadedistribucionfh.checkList.model.v2.responseChecklistV2;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class utilQuestionary {
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Query;
 
-        public static  List<Datum> setFictionalData(List<Datum> dataQ)
-        {/*
-            List<Answer> answers= new ArrayList<>();
-            answers.clear();
-            Answer a=new Answer(1,"","","","","","");
-            answers.add();
-            List<Question> dataq=new ArrayList<>();
-            dataq.clear();
-            Question q=new Question(1,"","","","","",);
-            dataq.add();
-            List<dataDetailTickets> data=new ArrayList<>();
-            data.clear();
-            dataDetailTickets d=new dataDetailTickets(1,"","",)
-            data.add()
+public interface utilQuestionary {
 
-            responseChecklist response=new responseChecklist(1011,"ok",);*/
-            return dataQ;
-        }
+    @GET(RetrofitEndPoints.CHECKLISTV2)
+    Call<responseQuestions> getChecklist(@Header("Authorization") String authorizationHeader,
+                                         @Query("vehiculoId") Integer vehiculoId ,
+                                         @Query("checklistId") Integer checklistId);
 }

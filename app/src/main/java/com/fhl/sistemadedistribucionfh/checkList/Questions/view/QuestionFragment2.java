@@ -12,15 +12,16 @@ import androidx.fragment.app.Fragment;
 
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.model.Question;
+import com.fhl.sistemadedistribucionfh.checkList.model.v2.Pregunta;
 
 import java.util.List;
 
 public class QuestionFragment2 extends Fragment {
-    private Question question;
+    private Pregunta question;
     private int pos;
     private  questionFragment mview;
     private ConstraintLayout switchanswer,optionanswer,openanswer;
-    private List<Question> questions;
+    private List<Pregunta> questions;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -34,16 +35,16 @@ public class QuestionFragment2 extends Fragment {
         optionanswer=view.findViewById(R.id.optionanswer);
         openanswer=view.findViewById(R.id.openanswer);
 
-        if(question.getAnswers().get(0).getObjectType()==1){
+        if(question.getTipoCampo()==1){
             openanswer.setVisibility(View.VISIBLE);
             switchanswer.setVisibility(View.GONE);
             optionanswer.setVisibility(View.GONE);
-        }else if(question.getAnswers().get(0).getObjectType()==2){
+        }else if(question.getTipoCampo()==2){
             openanswer.setVisibility(View.GONE);
             switchanswer.setVisibility(View.VISIBLE);
             optionanswer.setVisibility(View.GONE);
 
-        }else if(question.getAnswers().get(0).getObjectType()==3){
+        }else if(question.getTipoCampo()==3){
             openanswer.setVisibility(View.GONE);
             switchanswer.setVisibility(View.GONE);
             optionanswer.setVisibility(View.VISIBLE);
@@ -78,7 +79,7 @@ public class QuestionFragment2 extends Fragment {
         }
     }
 
-    public QuestionFragment2(Question question, questionFragment mview, int position, List<Question> questions) {
+    public QuestionFragment2(Pregunta question, questionFragment mview, int position, List<Pregunta> questions) {
         this.question = question;
         this.mview=mview;
         this.pos=position;
@@ -89,7 +90,7 @@ public class QuestionFragment2 extends Fragment {
     // Implement the fragment's view creation and UI logic
     // ...
 
-    public static QuestionFragment2 newInstance(Question question, questionFragment mview, int position, List<Question> questions) {
+    public static QuestionFragment2 newInstance(Pregunta question, questionFragment mview, int position, List<Pregunta> questions) {
 
         return new QuestionFragment2(question,mview,position,questions);
     }

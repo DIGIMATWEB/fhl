@@ -1,6 +1,5 @@
 package com.fhl.sistemadedistribucionfh.checkList.Questions.view;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,35 +8,35 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.fhl.sistemadedistribucionfh.Dialogs.dialogCompletedespacho;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.adapter.QuestionAdapter;
-import com.fhl.sistemadedistribucionfh.checkList.Questions.dialog.dialogChecklistWarning;
-import com.fhl.sistemadedistribucionfh.checkList.Questions.dialog.dialogchecklistok;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.model.Datum;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.model.responseChecklist;
+import com.fhl.sistemadedistribucionfh.checkList.Questions.presenter.presenterQuestions;
+import com.fhl.sistemadedistribucionfh.checkList.Questions.presenter.presenterQuestionsImpl;
+import com.fhl.sistemadedistribucionfh.checkList.model.v2.Pregunta;
 import com.fhl.sistemadedistribucionfh.checkList.view.checkList;
 import com.google.gson.Gson;
 
 import java.util.List;
 
-public class questionFragment extends Fragment implements View.OnClickListener  {
+public class questionFragment extends Fragment implements View.OnClickListener ,questionsView {
     public static final String TAG = questionFragment.class.getSimpleName();
     private Button buttonstartChecklist;
     private TextView helpertext;
     private ViewPager2 ViewPager;
-    private  List<Datum> mdata;
+    private  List<Pregunta> mdata;
     private FragmentManager manager;
     private FragmentTransaction transaction;
     private String nombre,placa,vigencia,periodicida;
     private TextView namechecklist,vehiclTypeChecklist,manifestChecklist,statusChecklist;
-
+    private Boolean ischeklistsetupok=false;
+    private presenterQuestions presenter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,20 +49,26 @@ public class questionFragment extends Fragment implements View.OnClickListener  
             placa = args.getString("placa");
             vigencia = args.getString("vigencia");
             periodicida = args.getString("periodicida");
+            if (vigencia.equals("Vigente")) {
+                int mcolor = getContext().getColor(R.color.green);
+                statusChecklist.setTextColor(mcolor);
+            }else{
+                    int mcolor = getContext().getColor(R.color.red);
+                statusChecklist.setTextColor(mcolor);
+            }
+
             namechecklist.setText(nombre);
             vehiclTypeChecklist .setText(placa);
-            manifestChecklist.setText( vigencia);
-            statusChecklist .setText( periodicida);
+            manifestChecklist.setText(periodicida );
+            statusChecklist .setText( vigencia );
         }
-        gsonData();
-        initViewPager(view);
+        initViewPager( view);
+
         return view;
     }
 
     private void initViewPager(View view) {
         ViewPager = view.findViewById(R.id.ViewPager);
-        QuestionAdapter questionAdapter = new QuestionAdapter(mdata.get(0).getQuestions(),this.getActivity(),this); // Pass the list of questions to the adapter
-        ViewPager.setAdapter(questionAdapter);
     }
 
     private void initView(View view) {
@@ -75,30 +80,47 @@ public class questionFragment extends Fragment implements View.OnClickListener  
         vehiclTypeChecklist =view.findViewById(R.id.vehiclTypeChecklist);
         manifestChecklist=view.findViewById(R.id. manifestChecklist);
         statusChecklist  =view.findViewById(R.id. statusChecklist);
+        presenter= new presenterQuestionsImpl(this,getContext());
+        presenter.requestQuestions();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonstartChecklist:
-                if(buttonstartChecklist.getText().equals("Iniciar")) {
-                    if (buttonstartChecklist.getVisibility() == View.VISIBLE) {
-                        buttonstartChecklist.setVisibility(View.GONE);
-                        helpertext.setVisibility(View.GONE);
-                        ViewPager.setVisibility(View.VISIBLE);
-                    }
-                }else {
-
-                 //  new  dialogChecklistWarning().show(getActivity().getSupportFragmentManager(),"dialogChecklistWarning");
-
-                    questionFragment fragment = new questionFragment();
-                    dialogchecklistok dg = new dialogchecklistok();
-                    dg.show(getActivity().getSupportFragmentManager(),"dialogchecklistok");
-                    dg.publicmethod(this);
-
+                if(ischeklistsetupok){
+                    buttonstartChecklist.setVisibility(View.GONE);
+                    helpertext.setVisibility(View.GONE);
+                    ViewPager.setVisibility(View.VISIBLE);
+                }else{
+                    Toast.makeText(getContext(), "el checklist no esta seteado", Toast.LENGTH_SHORT).show();
                 }
+//                if(buttonstartChecklist.getText().equals("Iniciar")) {
+//                    if (buttonstartChecklist.getVisibility() == View.VISIBLE) {
+//                        buttonstartChecklist.setVisibility(View.GONE);
+//                        helpertext.setVisibility(View.GONE);
+//                        ViewPager.setVisibility(View.VISIBLE);
+//                    }
+//                }else {
+//
+//                 //  new  dialogChecklistWarning().show(getActivity().getSupportFragmentManager(),"dialogChecklistWarning");
+//
+//                    questionFragment fragment = new questionFragment();
+//                    dialogchecklistok dg = new dialogchecklistok();
+//                    dg.show(getActivity().getSupportFragmentManager(),"dialogchecklistok");
+//                    dg.publicmethod(this);
+//
+//                }
                 break;
         }
+    }   @Override
+    public void setQuestiomns(List<Pregunta> mdata) {
+        fillViewPager(mdata);
+        ischeklistsetupok=true;
+    }
+    public void fillViewPager(List<Pregunta> mdata){
+        QuestionAdapter questionAdapter = new QuestionAdapter(mdata,this.getActivity(),this); // Pass the list of questions to the adapter
+        ViewPager.setAdapter(questionAdapter);
     }
     public void gsonData(){
         //region json
@@ -205,10 +227,10 @@ public class questionFragment extends Fragment implements View.OnClickListener  
         responseChecklist responseChecklist = gson.fromJson(jsonString, responseChecklist.class);
 
         // Access the deserialized object
-        int responseCode = responseChecklist.getResponseCode();
-        String message = responseChecklist.getMessage();
-        List<Datum> dataList = responseChecklist.getData();
-        this.mdata=dataList;
+//        int responseCode = responseChecklist.getResponseCode();
+//        String message = responseChecklist.getMessage();
+//        List<Datum> dataList = responseChecklist.getData();
+//        this.mdata=dataList;
     }
 
     public void showbutton() {
@@ -233,4 +255,6 @@ public class questionFragment extends Fragment implements View.OnClickListener  
        // Toast.makeText(getContext(), "dismissed 4", Toast.LENGTH_SHORT).show();
         mangeF();
     }
+
+
 }
