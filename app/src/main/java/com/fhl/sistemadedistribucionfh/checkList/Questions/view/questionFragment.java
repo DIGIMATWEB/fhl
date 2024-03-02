@@ -89,7 +89,7 @@ public class questionFragment extends Fragment implements View.OnClickListener ,
         ischeklistsetupok=true;
     }
     public void fillViewPager(List<Pregunta> mdata){
-        QuestionAdapter questionAdapter = new QuestionAdapter(mdata,this.getActivity(),this); // Pass the list of questions to the adapter
+        QuestionAdapter questionAdapter = new QuestionAdapter(mdata,this.getActivity(),this,ViewPager); // Pass the list of questions to the adapter
         ViewPager.setAdapter(questionAdapter);
     }
 

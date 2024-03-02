@@ -1,11 +1,13 @@
 package com.fhl.sistemadedistribucionfh.checkList.Questions.view;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -22,6 +24,7 @@ public class QuestionFragment2 extends Fragment {
     private  questionFragment mview;
     private ConstraintLayout switchanswer,optionanswer,openanswer;
     private List<Pregunta> mquestions;
+    private TextView textopenquestion,textopenquestion1,textbooleanonly;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -34,7 +37,9 @@ public class QuestionFragment2 extends Fragment {
         switchanswer=view.findViewById(R.id.switchanswer);
         optionanswer=view.findViewById(R.id.optionanswer);
         openanswer=view.findViewById(R.id.openanswer);
-
+        textopenquestion =view.findViewById(R.id.textopenquestion);
+        textopenquestion1=view.findViewById(R.id.textopenquestion1);
+        textbooleanonly=view.findViewById(R.id. textbooleanonly);
         if(question.getTipoCampo()==1){
             switchanswer.setVisibility(View.VISIBLE);
             openanswer.setVisibility(View.GONE);
@@ -57,14 +62,11 @@ public class QuestionFragment2 extends Fragment {
 
             spinner.setPopupBackgroundResource(android.R.color.transparent); // Make dropdown background transparent
             spinner.setDropDownVerticalOffset(spinner.getHeight()); // Set vertical offset to position the dialog
-
-
-
         }
-        if(pos== mquestions.size()-1){
-            mview.showbutton();
-        }else {
-            mview.hidebutton();
+        if (textopenquestion != null) {
+            textopenquestion.setText(""+mquestions.get(pos).getNombre());
+            textopenquestion1.setText(""+mquestions.get(pos).getNombre());
+            textbooleanonly.setText(""+mquestions.get(pos).getNombre());
         }
     }
 
@@ -74,12 +76,6 @@ public class QuestionFragment2 extends Fragment {
         this.mview=mview;
         this.pos=position;
         this.mquestions=questions;
-
-        if(pos == (mquestions.size()-1)){
-            mview.showbutton();
-        }else {
-            mview.hidebutton();
-        }
     }
 
     public static QuestionFragment2 newInstance(Pregunta question, questionFragment mview, int position, List<Pregunta> questions) {
