@@ -9,4 +9,5 @@ public interface loginview {
     void saveToken(String token);
 
     void saveUserValues(profileResponse body);
+    void continueWithoutSave(Boolean checkBoxState);
 }

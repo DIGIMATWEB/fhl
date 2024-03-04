@@ -21,6 +21,7 @@ public class loginInteractorImplementation implements loginInteractor{
     private loginpresenter presenter;
     private serviceLogin service;
     private Retrofit retrofitClient;
+    private Boolean checkboxState = false;
     public loginInteractorImplementation(loginpresenterImplementation presenter, Context context) {
         this.context=context;
         this.presenter=presenter;
@@ -29,9 +30,9 @@ public class loginInteractorImplementation implements loginInteractor{
     }
 
     @Override
-    public void myrequestLogin(String user, String password) {
+    public void myrequestLogin(String user, String password, Boolean checkBoxState) {
+        checkboxState = checkBoxState;
         getToken(user,password);
-
     }
 
     @Override
@@ -62,6 +63,7 @@ public class loginInteractorImplementation implements loginInteractor{
             @Override
             public void onResponse(Call<responseLogin> call, Response<responseLogin> response) {
                 if(response.code()==200){
+                    presenter.continueWithoutSave(checkboxState);
                     presenter.saveToken(response.body().getToken());
                     Log.e("token",""+response.body().getToken());
                     presenter.succesLogin();
