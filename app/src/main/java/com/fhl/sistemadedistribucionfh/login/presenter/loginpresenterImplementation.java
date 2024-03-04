@@ -20,9 +20,9 @@ public class loginpresenterImplementation  implements loginpresenter{
 
 
     @Override
-    public void requestLogin(String user, String password) {
+    public void requestLogin(String user, String password, Boolean checkBoxState) {
         if(view!=null){
-          interactor.myrequestLogin(user,password);
+          interactor.myrequestLogin(user,password, checkBoxState);
         }
     }
     @Override
@@ -36,6 +36,13 @@ public class loginpresenterImplementation  implements loginpresenter{
     public void saveUserValues(profileResponse body) {
         if(view!=null){
             view.saveUserValues(body);
+        }
+    }
+
+    @Override
+    public void continueWithoutSave(Boolean checkBoxState) {
+        if(view!=null){
+            view.continueWithoutSave(checkBoxState);
         }
     }
 

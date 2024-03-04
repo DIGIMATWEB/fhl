@@ -3,7 +3,7 @@ package com.fhl.sistemadedistribucionfh.login.presenter;
 import com.fhl.sistemadedistribucionfh.login.model.modelProfile.profileResponse;
 
 public interface loginpresenter {
-    void requestLogin(String user,String password);
+    void requestLogin(String user,String password, Boolean checkBoxState);
     void succesLogin();
     void FailureLogin(String message);
 
@@ -12,4 +12,5 @@ public interface loginpresenter {
     void requestProfileValues(String token);
 
     void saveUserValues(profileResponse body);
+    void continueWithoutSave(Boolean checkBoxState);
 }

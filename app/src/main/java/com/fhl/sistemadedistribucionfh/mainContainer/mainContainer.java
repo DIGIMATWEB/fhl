@@ -21,6 +21,7 @@ import com.fhl.sistemadedistribucionfh.Visor.view.visorViewImpl;
 import com.fhl.sistemadedistribucionfh.checkList.view.checkList;
 import com.fhl.sistemadedistribucionfh.gastos.view.gastos;
 import com.fhl.sistemadedistribucionfh.locator.locator;
+import com.fhl.sistemadedistribucionfh.login.view.login;
 import com.fhl.sistemadedistribucionfh.mainContainer.model.dataMenuItems;
 import com.fhl.sistemadedistribucionfh.mainContainer.presenter.prensentermainContainerImpl;
 import com.fhl.sistemadedistribucionfh.mainContainer.presenter.presentermainContainer;
@@ -239,5 +240,37 @@ public class mainContainer extends AppCompatActivity  implements view {
 
     public void showtab() {
         framTab.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onDestroy() {
+        // Este método se llama antes de que la actividad sea destruida
+        // Puedes ejecutar código de limpieza o realizar acciones específicas aquí
+        Log.e("Cierre", "Se esta cerrando.");
+
+        SharedPreferences preferencesCheck = getApplicationContext().getSharedPreferences(GeneralConstants.CHECK_BOX_STATE, Context.MODE_PRIVATE);
+        String checkBoxState = preferencesCheck.getString(GeneralConstants.CHECK_BOX_STATE, null);
+        Log.e("Cierre", "Se esta cerrando. " + checkBoxState);
+
+        if (checkBoxState.equals("false")) {
+            SharedPreferences preferences = this.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor=preferences.edit();
+            editor.clear();
+            editor.apply();
+            //preferences.edit().clear().commit();
+
+            Intent intent = new Intent(this, login.class);
+            Bundle extras = intent.getExtras();
+            if (extras != null) {
+                extras.clear();
+                //mainbundle.clear();
+            }
+            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            //startActivity(intent);
+        } else {
+            //Nada
+        }
+
+        super.onDestroy();
     }
 }

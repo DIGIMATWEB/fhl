@@ -9,6 +9,7 @@ public class GeneralConstants {
     public static final String STATUS_VALIDADOR = "DOS";
     public static final String PERMISSION_ACCESS = "false";
     public static final String USER_VALUES = "mUSERV";
+    public static final String CHECK_BOX_STATE = "false";
     //responseCode
     public static final int RESPONSE_CODE_OK = 105;
     public static final int RESPONSE_CODE_OK_PEP = 200;

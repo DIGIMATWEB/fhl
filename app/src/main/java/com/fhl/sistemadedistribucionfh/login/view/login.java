@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -27,6 +28,8 @@ public class login extends AppCompatActivity implements View.OnClickListener,log
     private loginpresenter presenter;
     private TextInputEditText user,pass;
     private String token;
+    private CheckBox checkBox;
+    private Boolean checkBoxState = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +46,9 @@ public class login extends AppCompatActivity implements View.OnClickListener,log
         pass=findViewById(R.id.pass);
         user.setOnClickListener(this);
         pass.setOnClickListener(this);
+        checkBox = findViewById(R.id.checkBox);
+        checkBox.setOnClickListener(this);
+
         presenter=new loginpresenterImplementation(this,getApplicationContext());
     }
 
@@ -51,8 +57,15 @@ public class login extends AppCompatActivity implements View.OnClickListener,log
         switch (v.getId()) {
             case R.id.loginenter:
                 //mainContainer
-                presenter.requestLogin(user.getText().toString(),pass.getText().toString());
+                presenter.requestLogin(user.getText().toString(),pass.getText().toString(), checkBoxState);
+                break;
 
+            case R.id.checkBox:
+                if (checkBox.isChecked()) {
+                    checkBoxState = true;
+                } else {
+                    checkBoxState = false;
+                }
                 break;
         }
     }
@@ -98,12 +111,22 @@ public class login extends AppCompatActivity implements View.OnClickListener,log
             editor.putString(GeneralConstants.OPERADOR_ID, idEmpleadoString);
             editor.commit();
 
-        }else{
+        } else {
             Toast.makeText(this, "No se guardaron datos del usuario", Toast.LENGTH_SHORT).show();
         }
+
         Intent intent = new Intent(this, mainContainer.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);//
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    @Override
+    public void continueWithoutSave(Boolean checkBoxState) {
+        SharedPreferences preferencias = getApplicationContext().getSharedPreferences(String.valueOf(GeneralConstants.CHECK_BOX_STATE), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferencias.edit();
+        editor.putString(GeneralConstants.CHECK_BOX_STATE, String.valueOf(checkBoxState));
+        //editor.putString(GeneralConstants.STATUS_SALIDA,"1");
+        editor.commit();
     }
 }
