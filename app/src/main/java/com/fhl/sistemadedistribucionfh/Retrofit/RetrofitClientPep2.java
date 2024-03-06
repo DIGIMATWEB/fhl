@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClientPep2 {
     private static Retrofit retrofit;
     //BASE_URL al Servidor Test
-    private static final String BASE_URL = RetrofitEndPoints.URL_PEPSERVER2 ; //
+    private static final String BASE_URL = RetrofitEndPoints.URL_PRODVEHICLES; //
     private static OkHttpClient okHttpClient; //
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {

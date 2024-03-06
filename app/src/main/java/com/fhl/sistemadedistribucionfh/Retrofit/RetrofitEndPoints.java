@@ -3,13 +3,10 @@ package com.fhl.sistemadedistribucionfh.Retrofit;
 public class RetrofitEndPoints {
     public static final String URL_MAP_API = "http://newlandapps.com/";
     public static final String URL_FH = "https://sistemasservice.trafficmanager.net/";
-    //https://operacionsgdservice.trafficmanager.net/
     public static final String URL_NEWLANDS ="http://digimat-interactive.com/fhl/";
-    public static final String URL_MAP_API_ROUTE = "route";
 
-    public static final String URL_PEPSERVER = "http://192.168.1.10:7420/App/Manifiesto/";//"http://pepserver:7420/app/manifiesto/"  //
-    public static final String URL_PEPSERVER2 = "http://192.168.1.10:7420/App/Vehiculo/";
-    //public static final String URL_PEPSERVER = "http://192.168.1.209:7420/app/manifiesto/";
+    public static final String URL_PRODMANFEST = "https://operacionsgdservice.trafficmanager.net/App/Manifiesto/";//"http://pepserver:7420/app/manifiesto/"  //
+    public static final String URL_PRODVEHICLES = "https://operacionsgdservice.trafficmanager.net/App/Vehiculo/";//public static final String URL_PEPSERVER = "http://192.168.1.209:7420/app/manifiesto/";
 
 
     //ENDPOINTS FH
