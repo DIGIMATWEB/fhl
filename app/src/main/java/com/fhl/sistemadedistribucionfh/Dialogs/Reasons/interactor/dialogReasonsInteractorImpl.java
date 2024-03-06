@@ -35,30 +35,30 @@ public class dialogReasonsInteractorImpl implements dialogReasonsInteractor {
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
         requestReasons request= new requestReasons(token);
-        Call<responseReasons> call= service.getReasons(request);
-        call.enqueue(new Callback<responseReasons>() {
-            @Override
-            public void onResponse(Call<responseReasons> call, Response<responseReasons> response) {
-                if(response.code()==200) {
-                    if (response.body().getResconseCode() == 105) {
-                        if(response.body().getData()!=null){
-                            presenter.setReasons(response.body().getData());
-                        }else{
-                            Toast.makeText(context, "No hay lista de razones", Toast.LENGTH_SHORT).show();
-                        }
-                    }else{
-                        Toast.makeText(context, ""+response.message()+":"+response.code(), Toast.LENGTH_SHORT).show();
-                    }
-                }else{
-                    Toast.makeText(context, ""+response.message()+":"+response.code(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<responseReasons> call, Throwable t) {
-                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+//        Call<responseReasons> call= service.getReasons(request);
+//        call.enqueue(new Callback<responseReasons>() {
+//            @Override
+//            public void onResponse(Call<responseReasons> call, Response<responseReasons> response) {
+//                if(response.code()==200) {
+//                    if (response.body().getResconseCode() == 105) {
+//                        if(response.body().getData()!=null){
+//                            presenter.setReasons(response.body().getData());
+//                        }else{
+//                            Toast.makeText(context, "No hay lista de razones", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }else{
+//                        Toast.makeText(context, ""+response.message()+":"+response.code(), Toast.LENGTH_SHORT).show();
+//                    }
+//                }else{
+//                    Toast.makeText(context, ""+response.message()+":"+response.code(), Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<responseReasons> call, Throwable t) {
+//                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
     }
 }

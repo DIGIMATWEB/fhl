@@ -9,6 +9,6 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface serviceDialogReasons {
-      @POST(RetrofitEndPoints.REASONS)
-      Call<responseReasons> getReasons(@Body requestReasons request);
+//      @POST(RetrofitEndPoints.REASONS)
+//      Call<responseReasons> getReasons(@Body requestReasons request);
 }

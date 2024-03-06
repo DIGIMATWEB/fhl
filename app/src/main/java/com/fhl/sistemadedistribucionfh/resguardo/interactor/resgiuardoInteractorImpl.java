@@ -33,18 +33,18 @@ public class resgiuardoInteractorImpl implements  resguardoInteractor{
     @Override
     public void requestResguardo() {
         requestResguardo request=new requestResguardo("adsada");
-        Call<responseResguardo> call = service.getResguardo(request);
-        call.enqueue(new Callback<responseResguardo>() {
-            @Override
-            public void onResponse(Call<responseResguardo> call, Response<responseResguardo> response) {
-                validateResponseResguardo(response,context);
-            }
-
-            @Override
-            public void onFailure(Call<responseResguardo> call, Throwable t) {
-                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+//        Call<responseResguardo> call = service.getResguardo(request);
+//        call.enqueue(new Callback<responseResguardo>() {
+//            @Override
+//            public void onResponse(Call<responseResguardo> call, Response<responseResguardo> response) {
+//                validateResponseResguardo(response,context);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<responseResguardo> call, Throwable t) {
+//                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     private void validateResponseResguardo(Response<responseResguardo> response, Context context) {

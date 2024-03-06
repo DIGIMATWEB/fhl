@@ -9,6 +9,6 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface utilValidador {
-     @POST(RetrofitEndPoints.VALIDADOR)
-     Call<responseValidador> getDespachos(@Body requestValidador request);
+//     @POST(RetrofitEndPoints.VALIDADOR)
+//     Call<responseValidador> getDespachos(@Body requestValidador request);
 }

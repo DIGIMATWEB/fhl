@@ -34,19 +34,19 @@ public class interactorValidadorImpl implements  interactorValidador{
     @Override
     public void requestmDespachos(String codigo) {
     requestValidador request= new requestValidador("sdada",codigo);
-        Call<responseValidador> call= service.getDespachos(request);
-        call.enqueue(new Callback<responseValidador>() {
-            @Override
-            public void onResponse(Call<responseValidador> call, Response<responseValidador> response) {
-                validateResponse(response,context);
-            }
-
-            @Override
-            public void onFailure(Call<responseValidador> call, Throwable t) {
-                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
-                presenter.errorValidador();
-            }
-        });
+//        Call<responseValidador> call= service.getDespachos(request);
+//        call.enqueue(new Callback<responseValidador>() {
+//            @Override
+//            public void onResponse(Call<responseValidador> call, Response<responseValidador> response) {
+//                validateResponse(response,context);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<responseValidador> call, Throwable t) {
+//                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+//                presenter.errorValidador();
+//            }
+//        });
     }
 
     private void validateResponse(Response<responseValidador> response, Context context) {

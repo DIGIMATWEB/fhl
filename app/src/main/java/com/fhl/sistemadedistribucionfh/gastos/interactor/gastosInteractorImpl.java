@@ -34,18 +34,18 @@ public class gastosInteractorImpl implements gastosInteractor{
     @Override
     public void requestGastos() {
         requestGastos request=new requestGastos("asdada");
-        Call<responseGastos> call=service.getGastos(request);
-        call.enqueue(new Callback<responseGastos>() {
-            @Override
-            public void onResponse(Call<responseGastos> call, Response<responseGastos> response) {
-                validateResponseGastos(response,context);
-            }
-
-            @Override
-            public void onFailure(Call<responseGastos> call, Throwable t) {
-                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+//        Call<responseGastos> call=service.getGastos(request);
+//        call.enqueue(new Callback<responseGastos>() {
+//            @Override
+//            public void onResponse(Call<responseGastos> call, Response<responseGastos> response) {
+//                validateResponseGastos(response,context);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<responseGastos> call, Throwable t) {
+//                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
     }
 

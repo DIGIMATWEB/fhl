@@ -31,7 +31,7 @@ public class interactorManifestImpl  implements  interactorManifest{
         retrofitClient = RetrofitClientNewlands.getRetrofitInstance();
         service=retrofitClient.create(manifestUtil.class);
     }
-
+/*
     public void getAllmanifest() {
         requestManifest request=new requestManifest("6a85c5ed4f3f3a17e4983a66ca0b42a8");
         Call<responseManifest> call=service.getManifest(request);
@@ -80,9 +80,9 @@ public class interactorManifestImpl  implements  interactorManifest{
                     Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
                 }
     }
-
+*/
     @Override
     public void getmymanifest() {
-        getAllmanifest();
+        //getAllmanifest();
     }
 }

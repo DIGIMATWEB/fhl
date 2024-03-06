@@ -24,14 +24,14 @@ public class RetrofitEndPoints {
     public static final String CHECKLISTV2 = "GetChecklistByVehiculo" ;
 
 
-    public static final String MENUS = "menu.php";
-    public static final String SALIDA = "salidaqr.php";
-    public static final String MANIFEST = "manifest.php";
-    public static final String CHECKLIST = "checklist.php" ;
-    public static final String GASTOS = "gastos.php" ;
-    public static final String RESGUARDO = "resguardo.php";
-    public static final String TICKETS = "tickets.php";
-    public static final String VALIDADOR = "validador.php";
-    public static final String REASONS = "reasons.php";
+    public static final String MENUS = "menu.php";//todo cambiar esto
+//    public static final String SALIDA = "salidaqr.php";
+//    public static final String MANIFEST = "manifest.php";
+//    public static final String CHECKLIST = "checklist.php" ;
+//    public static final String GASTOS = "gastos.php" ;
+//    public static final String RESGUARDO = "resguardo.php";
+//    public static final String TICKETS = "tickets.php";
+//    public static final String VALIDADOR = "validador.php";
+//    public static final String REASONS = "reasons.php";
 
 }

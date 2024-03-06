@@ -9,6 +9,6 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface serviceResguardo {
-      @POST(RetrofitEndPoints.RESGUARDO)
-      Call<responseResguardo> getResguardo(@Body requestResguardo request);
+//      @POST(RetrofitEndPoints.RESGUARDO)
+//      Call<responseResguardo> getResguardo(@Body requestResguardo request);
 }

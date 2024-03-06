@@ -9,6 +9,6 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface serviceGastos {
-    @POST(RetrofitEndPoints.GASTOS)
-    Call<responseGastos> getGastos(@Body requestGastos request);
+//    @POST(RetrofitEndPoints.GASTOS)
+//    Call<responseGastos> getGastos(@Body requestGastos request);
 }

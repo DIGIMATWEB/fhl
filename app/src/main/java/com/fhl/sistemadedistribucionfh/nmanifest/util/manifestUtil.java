@@ -14,8 +14,8 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface manifestUtil {
-    @POST(RetrofitEndPoints.MANIFEST)
-    Call<responseManifest> getManifest(@Body requestManifest request);
+//    @POST(RetrofitEndPoints.MANIFEST)
+//    Call<responseManifest> getManifest(@Body requestManifest request);
 
     //@POST(RetrofitEndPoints.MANIFEST_PEP)
     //Call<responseManifestV2> getManifestV2(@Header("Authorization") String authToken, @Body requestManifestV2 request);
