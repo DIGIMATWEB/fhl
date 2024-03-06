@@ -14,7 +14,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter.salidaV
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter.salidaViewPresenterImplements;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.util.serviceSalida;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
-import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientPep;
+import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientFHManifest;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
 import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 import com.fhl.sistemadedistribucionfh.login.model.modelProfile.profileResponse;
@@ -37,7 +37,7 @@ public class salidaInteractorImplementation  implements salidainteractor {
     public salidaInteractorImplementation (salidaViewPresenterImplements presenter, Context context){
     this.presenter=presenter;
     this.context=context;
-    retrofitClient = RetrofitClientPep.getRetrofitInstance();
+    retrofitClient = RetrofitClientFHManifest.getRetrofitInstance();
     service = retrofitClient.create(serviceSalida.class);
     }
 

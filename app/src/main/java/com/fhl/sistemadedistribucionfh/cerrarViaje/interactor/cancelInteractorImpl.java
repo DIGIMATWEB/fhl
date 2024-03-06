@@ -6,7 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
-import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientPep;
+import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientFHManifest;
 import com.fhl.sistemadedistribucionfh.cerrarViaje.presenter.cancelPresenterImpl;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.ApiResponse;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.InnerData;
@@ -33,7 +33,7 @@ public class cancelInteractorImpl implements cancelInteractor{
     public cancelInteractorImpl(cancelPresenterImpl presenter, Context context) {
         this.presenter=presenter;
         this.context=context;
-        retrofitClient = RetrofitClientPep.getRetrofitInstance();
+        retrofitClient = RetrofitClientFHManifest.getRetrofitInstance();
         service = retrofitClient.create(serviceEvidence.class);
     }
 

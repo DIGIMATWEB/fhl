@@ -7,9 +7,8 @@ import android.widget.Toast;
 
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.sellos.ResponseSellos;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
-import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientPep;
+import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientFHManifest;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
-import com.fhl.sistemadedistribucionfh.Salida.Model.v2.ResponseSalida;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.responseTicketsManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.presenter.presenterTicketsmanifestV2;
@@ -31,7 +30,7 @@ public class interactorTicketsManifestV2Impl implements interactorTicketsManifes
         this.presenter=presenter;
         this.context=context;
         //retrofitClient = RetrofitClientNewlands.getRetrofitInstance();
-        retrofitClient = RetrofitClientPep.getRetrofitInstance();
+        retrofitClient = RetrofitClientFHManifest.getRetrofitInstance();
         service = retrofitClient.create(serviceTicketsManifest.class);
 
     }

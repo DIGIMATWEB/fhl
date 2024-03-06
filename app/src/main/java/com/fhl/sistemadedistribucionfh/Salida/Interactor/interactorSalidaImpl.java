@@ -6,7 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
-import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientPep;
+import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientFHManifest;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
 import com.fhl.sistemadedistribucionfh.Salida.Model.v2.ResponseSalida;
 import com.fhl.sistemadedistribucionfh.Salida.Presenter.presenterSalida;
@@ -32,7 +32,7 @@ public class interactorSalidaImpl implements interactorSalida {
     public interactorSalidaImpl(presenterSalidaImpl presenter, Context context) {
           this.context=context;
           this.presenter=presenter;
-          retrofitClient = RetrofitClientPep.getRetrofitInstance();
+          retrofitClient = RetrofitClientFHManifest.getRetrofitInstance();
           service=retrofitClient.create(serviceSalida.class);
     }
 

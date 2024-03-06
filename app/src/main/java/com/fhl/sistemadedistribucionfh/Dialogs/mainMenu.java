@@ -56,8 +56,9 @@ public class mainMenu extends DialogFragment implements View.OnClickListener {
         rv=view.findViewById(R.id.rv);
         menu=view.findViewById(R.id.menuButon);
         menu.setOnClickListener(this);
-        if(data!=null & dataV2!=null) {
-            fillAdapter(data, dataV2);
+        Log.e("menuv2", "a" + data+ " b "+dataV2);
+        if(dataV2!=null) {
+            fillAdapter( dataV2);
         } else {
             //Algo
         }
@@ -89,8 +90,8 @@ public class mainMenu extends DialogFragment implements View.OnClickListener {
         this.dataV2 = dataV2;
     }
 
-    private void fillAdapter(List<dataMenuItems> data, List<dataMenuItemsV2> dataV2) {
-        adapter = new adapterMenus(this,data, dataV2,getContext());
+    private void fillAdapter(List<dataMenuItemsV2> dataV2) {
+        adapter = new adapterMenus(this, dataV2,getContext());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rv.setLayoutManager(linearLayoutManager);
         rv.setAdapter(adapter);

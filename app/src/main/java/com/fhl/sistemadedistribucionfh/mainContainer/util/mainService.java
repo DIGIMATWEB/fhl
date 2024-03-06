@@ -9,6 +9,6 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface mainService {
-    @POST(RetrofitEndPoints.MENUS)
-    Call<responseMenuItems> getMenus(@Body requestMenuItems request);
+//    @POST(RetrofitEndPoints.MENUS)
+//    Call<responseMenuItems> getMenus(@Body requestMenuItems request);
 }

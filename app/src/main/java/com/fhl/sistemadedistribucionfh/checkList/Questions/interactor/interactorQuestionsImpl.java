@@ -5,13 +5,12 @@ import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
-import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientPep2;
+import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientFHVehicles;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.model.questions.dataQuestions;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.model.questions.responseQuestions;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.presenter.presenterQuestions;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.util.utilQuestionary;
-import com.fhl.sistemadedistribucionfh.checkList.model.v2.Checklist;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.Pregunta;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.VehiculoVsCheck;
 
@@ -30,7 +29,7 @@ public class interactorQuestionsImpl  implements  interactorQuestions{
     public interactorQuestionsImpl(presenterQuestions presenter, Context context) {
         this.presenter=presenter;
         this.context=context;
-        retrofitClient = RetrofitClientPep2.getRetrofitInstance();
+        retrofitClient = RetrofitClientFHVehicles.getRetrofitInstance();
         service=retrofitClient.create(utilQuestionary.class);
     }
 

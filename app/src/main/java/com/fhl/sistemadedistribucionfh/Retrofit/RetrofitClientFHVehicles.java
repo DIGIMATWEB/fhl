@@ -1,14 +1,15 @@
 package com.fhl.sistemadedistribucionfh.Retrofit;
 
 import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitClientPep {
+public class RetrofitClientFHVehicles {
     private static Retrofit retrofit;
     //BASE_URL al Servidor Test
-    private static final String BASE_URL = RetrofitEndPoints.URL_PRODMANFEST; //
+    private static final String BASE_URL = RetrofitEndPoints.URL_PRODVEHICLES; //
     private static OkHttpClient okHttpClient; //
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {

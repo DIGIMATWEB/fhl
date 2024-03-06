@@ -126,9 +126,9 @@ public class mainContainer extends AppCompatActivity  implements view {
         }
     }
     private void initPresenter() {
-        presenter= new prensentermainContainerImpl(this,getApplicationContext());
+       // presenter= new prensentermainContainerImpl(this,getApplicationContext());
         presenterV2 = new presentermainContainerImplV2(this, getApplicationContext());
-        presenter.requestMenus();
+       // presenter.requestMenus();
         presenterV2.requestMenusV2();
     }
 
@@ -229,7 +229,7 @@ public class mainContainer extends AppCompatActivity  implements view {
     @Override
     public void setMenus(List<dataMenuItems> data) {
         Log.e("menu",""+data);
-        this.data=data;
+        //this.data=data;
     }
 
     @Override

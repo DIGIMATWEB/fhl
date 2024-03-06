@@ -23,13 +23,12 @@ import java.util.List;
 
 public class adapterMenus extends RecyclerView.Adapter<adapterMenus.ViewHolder>{
     private Context context;
-    private List<dataMenuItems> data;
     private List<dataMenuItemsV2> dataV2;
     private mainMenu mview;
-    public adapterMenus(mainMenu mainMenu, List<dataMenuItems> data, List<dataMenuItemsV2> dataV2, Context context) {
+    public adapterMenus(mainMenu mainMenu,  List<dataMenuItemsV2> dataV2, Context context) {
         this.mview=mainMenu;
         this.context=context;
-        this.data=data;
+
         this.dataV2=dataV2;
     }
 

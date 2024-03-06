@@ -5,15 +5,12 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2data;
-import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.util.serviceSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.model.dataValidadorV2;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.model.responseValidadorV2;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.presenter.presenterValidadorDetail;
-import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.presenter.presenterValidadorImplements;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.util.validadorService;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
-import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientPep;
+import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientFHManifest;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
 import com.google.gson.Gson;
 
@@ -32,7 +29,7 @@ public class validadorInteractorV2Impl implements validadorInteractorV2{
     public validadorInteractorV2Impl(presenterValidadorDetail presenter, Context context) {
         this.presenter= presenter;
         this.context= context;
-        retrofitClient = RetrofitClientPep.getRetrofitInstance();
+        retrofitClient = RetrofitClientFHManifest.getRetrofitInstance();
         service = retrofitClient.create(validadorService.class);
     }
 

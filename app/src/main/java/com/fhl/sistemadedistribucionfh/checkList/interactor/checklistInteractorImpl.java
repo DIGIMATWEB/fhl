@@ -5,12 +5,8 @@ import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
-import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientNewlands;
-import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientPep2;
+import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientFHVehicles;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
-import com.fhl.sistemadedistribucionfh.checkList.model.v1.dataChecklist;
-import com.fhl.sistemadedistribucionfh.checkList.model.v1.requestChecklist;
-import com.fhl.sistemadedistribucionfh.checkList.model.v1.responseChecklist;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.VehiculoVsCheck;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.dataChecklistV2;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.responseChecklistV2;
@@ -32,7 +28,7 @@ public class checklistInteractorImpl implements checklistInteractor{
     public checklistInteractorImpl(checklistPresenter presenter, Context context) {
         this.presenter=presenter;
         this.context=context;
-        retrofitClient = RetrofitClientPep2.getRetrofitInstance();
+        retrofitClient = RetrofitClientFHVehicles.getRetrofitInstance();
         service=retrofitClient.create(serviceChecklist.class);
 
     }

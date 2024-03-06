@@ -40,10 +40,10 @@ public class interactormainContainerImpl implements interactormainContainer{
         String token = preferences.getString(GeneralConstants.TOKEN, null);
         if(token!=null)
         {
-            requestMenus(token);
+            //requestMenus(token);
         }
     }
-
+/*
     private void requestMenus(String token ) {
         requestMenuItems request=new requestMenuItems(token);
         Call<responseMenuItems> call= service.getMenus(request);
@@ -94,5 +94,5 @@ public class interactormainContainerImpl implements interactormainContainer{
             Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
         }
 
-    }
+    }*/
 }

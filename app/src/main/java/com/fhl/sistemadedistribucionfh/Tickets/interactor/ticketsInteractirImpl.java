@@ -6,7 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
-import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientPep;
+import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientFHManifest;
 import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.ResoponseTicketsDetail;
 import com.fhl.sistemadedistribucionfh.Tickets.presenter.presenterTicketsDetail;
 import com.fhl.sistemadedistribucionfh.Tickets.util.ticketsService;
@@ -24,7 +24,7 @@ public class ticketsInteractirImpl implements ticketsInteractor{
     public ticketsInteractirImpl(presenterTicketsDetail presenter, Context context) {
         this.context=context;
         this.presenter=presenter;
-        retrofitClient = RetrofitClientPep.getRetrofitInstance();
+        retrofitClient = RetrofitClientFHManifest.getRetrofitInstance();
         service = retrofitClient.create(ticketsService.class);
     }
 
