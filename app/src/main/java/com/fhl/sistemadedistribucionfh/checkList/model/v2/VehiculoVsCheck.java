@@ -6,7 +6,7 @@ public class VehiculoVsCheck {
     @SerializedName("Id")
     private Integer id;
     @SerializedName("Periodicidad")
-    private String periodicidad;
+    private Object periodicidad;
     @SerializedName("FechaInicio")
     private String fechaInicio;
     @SerializedName("ChecklistId")
@@ -31,7 +31,7 @@ public class VehiculoVsCheck {
         this.id = id;
     }
 
-    public String getPeriodicidad() {
+    public Object getPeriodicidad() {
         return periodicidad;
     }
 

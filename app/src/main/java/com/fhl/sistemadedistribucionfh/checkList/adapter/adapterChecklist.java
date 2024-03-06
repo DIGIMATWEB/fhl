@@ -17,17 +17,21 @@ import com.fhl.sistemadedistribucionfh.checkList.model.v1.dataChecklist;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.VehiculoVsCheck;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.dataChecklistV2;
 import com.fhl.sistemadedistribucionfh.checkList.view.checkList;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class adapterChecklist extends RecyclerView.Adapter<adapterChecklist.ViewHolder> {
     private Context context;
     private dataChecklistV2 data;
     private checkList mview;
     private String vigencia="";
+    private String periodicidad="";
 
     public adapterChecklist(checkList mview, dataChecklistV2 data, Context context) {
         this.data = data;
@@ -46,7 +50,18 @@ public class adapterChecklist extends RecyclerView.Adapter<adapterChecklist.View
     public void onBindViewHolder(@NonNull adapterChecklist.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
            holder.namechecklist.setText(data.getVehiculoVsChecklist().get(position).getChecklist().getNombre());
           holder.vehiclTypeChecklist.setText(data.getVehiculo().getPlaca());
-            holder.manifestChecklist.setText(data.getVehiculoVsChecklist().get(position).getPeriodicidad());
+
+
+
+        if (data.getVehiculoVsChecklist().get(position).getPeriodicidad() instanceof String) {
+            periodicidad=data.getVehiculoVsChecklist().get(position).getPeriodicidad().toString();
+        } else if (data.getVehiculoVsChecklist().get(position).getPeriodicidad() instanceof Map) {
+//            List<String> dias = (List<String>) ((Map<String, Object>) periodicidad).get("dias");
+//            System.out.println("Periodicidad is an array of days: " + dias);
+        } else {
+
+        }
+            holder.manifestChecklist.setText(periodicidad);
         String dateString=data.getVehiculoVsChecklist().get(position).getChecklist().getFechaVencimiento();
         LocalDateTime givenDate = LocalDateTime.parse(dateString, DateTimeFormatter.ISO_DATE_TIME);
         // Get the current date and time
@@ -77,7 +92,7 @@ public class adapterChecklist extends RecyclerView.Adapter<adapterChecklist.View
             holder.siguienteChecklist.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mview.goQuestions(data.getVehiculoVsChecklist().get(position).getChecklist().getNombre(),data.getVehiculo().getPlaca(),vigencia,data.getVehiculoVsChecklist().get(position).getPeriodicidad());
+                    mview.goQuestions(data.getVehiculoVsChecklist().get(position).getChecklist().getNombre(),data.getVehiculo().getPlaca(),vigencia,periodicidad);
                 }
             });
     }

@@ -50,7 +50,7 @@ public class questionFragment extends Fragment implements View.OnClickListener ,
             nombre = args.getString("nombre");
             placa = args.getString("placa");
             vigencia = args.getString("vigencia");
-            periodicida = args.getString("periodicida");
+        periodicida = args.getString("periodicida");
             if (vigencia.equals("Vigente")) {
                 int mcolor = getContext().getColor(R.color.green);
                 statusChecklist.setTextColor(mcolor);
