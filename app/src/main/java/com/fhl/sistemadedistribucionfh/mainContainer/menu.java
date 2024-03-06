@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.fhl.sistemadedistribucionfh.Profile.view.viewProfile;
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.checkList.view.checkList;
 import com.fhl.sistemadedistribucionfh.evidence.signature.signature;
 import com.fhl.sistemadedistribucionfh.locator.locator;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
@@ -60,8 +61,12 @@ public class menu extends Fragment implements View.OnClickListener{
                 break;
             case R.id.mpedido:
                // Toast.makeText(getContext(), "ir a completados", Toast.LENGTH_SHORT).show();
-                Intent intent2 = new Intent(getActivity(), signature.class);//evidencia
-                startActivity(intent2);
+//                Intent intent2 = new Intent(getActivity(), signature.class);//evidencia
+//                startActivity(intent2);
+                manager = getActivity().getSupportFragmentManager();
+                transaction = manager.beginTransaction();
+                checkList check=new checkList();
+                transaction.replace(R.id.fragments, check,checkList.TAG).commit();
                 break;
             case R.id.miscompras:
                 /*Toast.makeText(getContext(), "localizador", Toast.LENGTH_SHORT).show();
