@@ -143,7 +143,9 @@ public class mainContainer extends AppCompatActivity  implements view {
         manager = getSupportFragmentManager();
         transaction = manager.beginTransaction();
         mmanifestV2 manifestV2= new mmanifestV2();
-        transaction.replace(R.id.fragments, manifestV2, mmanifestV2.TAG).commit();
+        transaction.replace(R.id.fragments, manifestV2, mmanifestV2.TAG)
+                .addToBackStack(null) // Agregar la transacción a la pila de retroceso
+                .commit();
     }
     private void mScanner(String scannerType){
         Bundle bundle = new Bundle();
@@ -240,37 +242,5 @@ public class mainContainer extends AppCompatActivity  implements view {
 
     public void showtab() {
         framTab.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    protected void onDestroy() {
-        // Este método se llama antes de que la actividad sea destruida
-        // Puedes ejecutar código de limpieza o realizar acciones específicas aquí
-        Log.e("Cierre", "Se esta cerrando.");
-
-        SharedPreferences preferencesCheck = getApplicationContext().getSharedPreferences(GeneralConstants.CHECK_BOX_STATE, Context.MODE_PRIVATE);
-        String checkBoxState = preferencesCheck.getString(GeneralConstants.CHECK_BOX_STATE, null);
-        Log.e("Cierre", "Se esta cerrando. " + checkBoxState);
-
-        if (checkBoxState.equals("false")) {
-            SharedPreferences preferences = this.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor=preferences.edit();
-            editor.clear();
-            editor.apply();
-            //preferences.edit().clear().commit();
-
-            Intent intent = new Intent(this, login.class);
-            Bundle extras = intent.getExtras();
-            if (extras != null) {
-                extras.clear();
-                //mainbundle.clear();
-            }
-            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            //startActivity(intent);
-        } else {
-            //Nada
-        }
-
-        super.onDestroy();
     }
 }

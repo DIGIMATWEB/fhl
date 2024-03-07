@@ -156,12 +156,14 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         //folioDespachoId
         manager = getActivity().getSupportFragmentManager();
         transaction = manager.beginTransaction();
-        tickets ticketsf= new tickets();
+        tickets ticketsf = new tickets();
         Bundle args = new Bundle();
         args.putString("folioDespachoId", folioDespachoId);
         args.putString("folioTicket", folioTicket);
         ticketsf.setArguments(args);
-        transaction.replace(R.id.fragments, ticketsf, tickets.TAG).commit();
+        transaction.replace(R.id.fragments, ticketsf, tickets.TAG)
+                .addToBackStack(null) // Agregar la transacción a la pila de retroceso
+                .commit();
     }
     private List<dataTicketsManifestV2> filter(List<dataTicketsManifestV2> data, String text) {
         List<dataTicketsManifestV2> mfilterList= new ArrayList<>();
@@ -195,23 +197,32 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         transaction.replace(R.id.fragments, checklist, mmanifestV2.TAG).commit();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
     }
+
     @Override
     public void onResume() {
         super.onResume();
-        getView().setFocusableInTouchMode(true);
-        getView().requestFocus();
-        getView().setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
 
-                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
-
-                    manager.popBackStack();
-
-                    return true;
+        if (getView() != null) {
+            getView().setFocusableInTouchMode(true);
+            getView().requestFocus();
+            getView().setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+                        if (manager != null && manager.getBackStackEntryCount() > 0) {
+                            // Hay fragmentos en la pila, realiza popBackStack
+                            manager.popBackStack();
+                        } else {
+                            // No hay fragmentos en la pila, deja que la actividad maneje el evento de retroceso
+                            requireActivity().onBackPressed();
+                        }
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
+        }
     }
+
+
 }

@@ -78,10 +78,11 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
 
         manager = getActivity().getSupportFragmentManager();
         transaction = manager.beginTransaction();
-        //tickets ticketsf= new tickets();
         manifestDetailV2 manifestdetail = new manifestDetailV2();
         manifestdetail.setArguments(bundle);
-        transaction.replace(R.id.fragments, manifestdetail, manifestDetailV2.TAG).commit();
+        transaction.replace(R.id.fragments, manifestdetail, manifestDetailV2.TAG)
+                .addToBackStack(null) // Agregar la transacción a la pila de retroceso
+                .commit();
     }
     @Override
     public void onClick(View view) {

@@ -3,6 +3,7 @@ package com.fhl.sistemadedistribucionfh.login.view;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,9 +11,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
@@ -30,6 +33,7 @@ public class login extends AppCompatActivity implements View.OnClickListener,log
     private String token;
     private CheckBox checkBox;
     private Boolean checkBoxState = false;
+    private ImageView showHidePasswordButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +52,34 @@ public class login extends AppCompatActivity implements View.OnClickListener,log
         pass.setOnClickListener(this);
         checkBox = findViewById(R.id.checkBox);
         checkBox.setOnClickListener(this);
+        showHidePasswordButton = findViewById(R.id.showHidePasswordButton);
 
+        checkBoxState = false;
         presenter=new loginpresenterImplementation(this,getApplicationContext());
+    }
+
+    //Este metodo es para el boton de mostrar contraseña
+    public void togglePasswordVisibility(View view) {
+        int inputType = pass.getInputType();
+
+        if ((inputType & android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD) > 0) {
+            // Mostrar la contraseña
+            pass.setInputType(
+                    inputType & ~android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+            //Colocar la imagen del ojo desactivado
+            showHidePasswordButton.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.eye_disabled));
+        } else {
+            // Ocultar la contraseña
+            pass.setInputType(
+                    inputType | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+            //Colocar la imagen del ojo activado
+            showHidePasswordButton.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.eye_enabled));
+        }
+
+        // Mover el cursor al final del texto para actualizar la visualización
+        pass.setSelection(pass.getText().length());
     }
 
     @Override
@@ -79,7 +109,8 @@ public class login extends AppCompatActivity implements View.OnClickListener,log
 
     @Override
     public void failLogin(String message) {
-        Toast.makeText(this, "Error al acceder "+message, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Error al acceder " + message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Nombre de usuario o contraseña incorrectos. Intenta de nuevo.", Toast.LENGTH_SHORT).show();
     }
 
     @Override

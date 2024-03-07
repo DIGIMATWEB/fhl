@@ -31,16 +31,51 @@ public class MainActivity extends AppCompatActivity {
     }
     private void continueSplash()
     {
+        SharedPreferences preferencesCheck = getApplicationContext().getSharedPreferences(GeneralConstants.CHECK_BOX_STATE, Context.MODE_PRIVATE);
         SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
+        String checkBoxState = preferencesCheck.getString(GeneralConstants.CHECK_BOX_STATE, null);
+        Log.e("Cierre", "Se esta cerrando. " + checkBoxState);
         Log.e("TOKEN",""+token);
+
+        /*if (checkBoxState!=null) {
+
+        } else {
+            checkBoxState = "false";
+        }*/
+
+        /*if (checkBoxState.equals("false")) {
+            //SharedPreferences preferences = this.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            SharedPreferences.Editor editor2 = preferencesCheck.edit();
+            editor2.clear();
+            editor.clear();
+            editor.apply();
+            editor2.apply();
+            //preferences.edit().clear().commit();
+
+            /*Intent intent = new Intent(this, login.class);
+            Bundle extras = intent.getExtras();
+            if (extras != null) {
+                extras.clear();
+                //mainbundle.clear();
+            }*/
+            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            //startActivity(intent);
+        /*} else {
+            //Nada
+        }*/
+
         new Handler().postDelayed(new Runnable() {
 
             @Override
             public void run() {
-                if(token!=null)
-                {
-                    tokenExist();
+                if(token!=null) {
+                    if (checkBoxState.equals("false")) {
+                        permissionsScreen();
+                    } else {
+                        tokenExist();
+                    }
                 }else{
                     //goToLoginContainer();
                     permissionsScreen();

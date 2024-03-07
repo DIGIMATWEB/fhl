@@ -46,14 +46,16 @@
     </ImageView>-->
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="328dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        app:layout_constraintBottom_toTopOf="@+id/guidelinelogin2"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/guidelinelogin1"
-        app:srcCompat="@drawable/ic_fh_new_icon">
 
+        app:layout_constraintBottom_toTopOf="@+id/guidelinelogin2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelinelogin1"
+
+        app:srcCompat="@drawable/ic_fh_new_icon">
     </ImageView>
 
     <TextView
@@ -72,11 +74,16 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="29dp"
+
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="6dp"
         android:gravity="center"
         android:text="Contraseña"
         android:textSize="@dimen/L2"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout7"
-        app:layout_constraintStart_toStartOf="@+id/textView2">
+
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
 
     </TextView>
 
@@ -84,11 +91,16 @@
         android:id="@+id/constraintLayout4"
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:layout_marginEnd="25dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginTop="7dp"
+
         android:background="@drawable/shape_button"
+
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" >
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -125,19 +137,28 @@
         android:id="@+id/constraintLayout7"
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:layout_marginEnd="25dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginEnd="21dp"
+
         android:background="@drawable/shape_button"
-        app:layout_constraintBottom_toTopOf="@+id/guidelinelogin3"
+
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textView2">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintBottom_toTopOf="@+id/guidelinelogin3" >
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_pass_vector"
+            android:id="@+id/showHidePasswordButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+
+            android:background="@drawable/eye_enabled"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="togglePasswordVisibility">
 
         </ImageView>
 
@@ -172,7 +193,7 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="29dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="0dp"
         android:gravity="center"
         android:text="Recordar"
         android:textSize="@dimen/L3"
@@ -276,13 +297,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.65" />
+        app:layout_constraintGuide_percent="0.67" />
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelinelogin4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.70" />
+        app:layout_constraintGuide_percent="0.75" />
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelinelogin5"
         android:layout_width="wrap_content"
