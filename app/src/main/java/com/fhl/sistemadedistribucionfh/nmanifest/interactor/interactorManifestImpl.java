@@ -1,22 +1,11 @@
 package com.fhl.sistemadedistribucionfh.nmanifest.interactor;
 
 import android.content.Context;
-import android.widget.Toast;
 
-import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientNewlands;
-import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
-import com.fhl.sistemadedistribucionfh.nmanifest.model.dataManifest;
-import com.fhl.sistemadedistribucionfh.nmanifest.model.requestManifest;
-import com.fhl.sistemadedistribucionfh.nmanifest.model.responseManifest;
 import com.fhl.sistemadedistribucionfh.nmanifest.presenter.presentermanifest;
 import com.fhl.sistemadedistribucionfh.nmanifest.util.manifestUtil;
 
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class interactorManifestImpl  implements  interactorManifest{

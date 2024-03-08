@@ -3,10 +3,8 @@ package com.fhl.sistemadedistribucionfh.evidence;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -31,11 +29,8 @@ import com.fhl.sistemadedistribucionfh.evidence.presenter.requestEvidencePresent
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.calificacion;
 import com.fhl.sistemadedistribucionfh.evidence.signature.signature;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
-import com.fhl.sistemadedistribucionfh.nmanifest.viewV2.mmanifestV2;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
 
 public class evidencia extends AppCompatActivity implements View.OnClickListener,evidenceView {
     public static final String TAG = evidencia.class.getSimpleName();

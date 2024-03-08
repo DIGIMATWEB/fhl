@@ -15,7 +15,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.fhl.sistemadedistribucionfh.Profile.view.viewProfile;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.checkList.view.checkList;
-import com.fhl.sistemadedistribucionfh.evidence.signature.signature;
 import com.fhl.sistemadedistribucionfh.locator.locator;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
 import com.fhl.sistemadedistribucionfh.nmanifest.viewV2.mmanifestV2;

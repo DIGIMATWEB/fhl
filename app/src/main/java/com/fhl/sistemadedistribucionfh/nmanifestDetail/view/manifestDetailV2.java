@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
-import com.fhl.sistemadedistribucionfh.Salida.Model.v2.dataSalida;
 import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 import com.fhl.sistemadedistribucionfh.Tickets.view.tickets;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;

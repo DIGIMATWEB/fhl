@@ -3,11 +3,9 @@ package com.fhl.sistemadedistribucionfh.nmanifest.adapterV2;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -16,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.dataManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.viewV2.mmanifestV2;
-
-import org.jetbrains.annotations.NonNls;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +45,7 @@ public class manifestAdapterV2 extends RecyclerView.Adapter<manifestAdapterV2.Vi
         holder.vehiclePlaca.setText(data.get(position).getVehiculo().getPlaca());
         holder.vehicleManifiesto.setText(data.get(position).getFolioDespacho());
         holder.vehicleCedis.setText(data.get(position).getOrigen());
+        holder.validationTextInProgress.setText(data.get(position).getValidador().getEstatus());
         holder.cardOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +79,7 @@ public class manifestAdapterV2 extends RecyclerView.Adapter<manifestAdapterV2.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout cardOrder;
-        TextView numberManifest, vehicleName, vehiclePlaca, vehicleManifiesto, vehicleCedis;
+        TextView numberManifest, vehicleName, vehiclePlaca, vehicleManifiesto, vehicleCedis,validationTextInProgress;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -91,6 +88,7 @@ public class manifestAdapterV2 extends RecyclerView.Adapter<manifestAdapterV2.Vi
             vehiclePlaca = itemView.findViewById(R.id.textView17);
             vehicleManifiesto = itemView.findViewById(R.id.numberManifest);
             vehicleCedis = itemView.findViewById(R.id.textView39);
+            validationTextInProgress = itemView.findViewById(R.id.validationTextInProgress);
         }
     }
 }

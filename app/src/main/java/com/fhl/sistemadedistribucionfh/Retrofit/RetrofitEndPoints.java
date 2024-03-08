@@ -17,7 +17,7 @@ public class RetrofitEndPoints {
     public static final String SALIDA_V2 = "GetSellosByManifiesto";
     public static final String CORTINA = "GetCortinasByManifiesto";
     public static final String CHECKLISTV2 = "GetChecklistByVehiculo" ;
-
+    public static final String SETVALIDACION = "SetValidacionManifiesto" ;
 
 //region endpoints entorno de pruebas
     public static final String URL_NEWLANDS ="http://digimat-interactive.com/fhl/";
