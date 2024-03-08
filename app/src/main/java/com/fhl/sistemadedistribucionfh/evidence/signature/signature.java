@@ -13,11 +13,17 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Base64;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,7 +47,7 @@ public class signature extends AppCompatActivity implements View.OnClickListener
     private TextInputEditText editText;
     private Button saveSignature;
     private GestureOverlayView gestureOverlayView;
-    private String signatureBase64,inputTextSignature;
+    private String signatureBase64,inputTextSignature, inputText;
     private ImageView backTickets,eraseSignature;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,9 +88,47 @@ public class signature extends AppCompatActivity implements View.OnClickListener
         eraseSignature =findViewById(R.id. eraseSignature);
         eraseSignature.setOnClickListener(this);
         editText=findViewById(R.id.inputEditText);
+        //TODO: Esto deberia poner el boton "Done" en vez de "Enter"
+        editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
         gestureOverlayView = findViewById(R.id.signaturePad);
         gestureOverlayView.setDrawingCacheEnabled(true);
         captureSignature(gestureOverlayView);
+
+        //Para evitar el salto de linea y darle funcionamiento al boton Ok
+        editText.setFilters(new InputFilter[]{
+                new InputFilter() {
+                    @Override
+                    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                        // Interceptar la tecla de enter (código 10) y evitar que se inserte un salto de línea
+                        for (int i = start; i < end; i++) {
+                            if (source.charAt(i) == '\n') {
+                                return "";
+                            }
+                        }
+                        return null;  // Devuelve null para permitir la entrada normal
+                    }
+                }
+        });
+
+        //Aqui le damos funcionamiento al boton "Done"
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                // Manejar el evento de acción del teclado (puede variar según tus necesidades)
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    // Realizar acciones cuando se presiona "Done" en el teclado virtual
+                    ocultarTeclado(editText);
+                    return true; // Indicar que el evento ha sido manejado
+                }
+                return false; // Permitir que otros manejen el evento
+            }
+        });
+    }
+
+    //Funcion que hace que cierre el teclado
+    private void ocultarTeclado(TextView view) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     // Method to capture the content of the GestureOverlayView as a bitmap
@@ -121,7 +165,7 @@ public class signature extends AppCompatActivity implements View.OnClickListener
         super.onBackPressed();
     }
     private void manageSignature() {
-        String inputText = editText.getText().toString();
+        inputText = editText.getText().toString();
 
         // Capture the content of the GestureOverlayView as a bitmap
         Bitmap signatureBitmap = captureSignature(gestureOverlayView);
@@ -172,13 +216,30 @@ public class signature extends AppCompatActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.saveSignature:
+                //Esto es donde va el Nombre
+                inputText = editText.getText().toString();
 
+                //Llamamos las SharedPreferences
                 SharedPreferences preferences = getBaseContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                 String signature = preferences.getString(GeneralConstants.SIGNATURE_B64_DIR, null);
-                Log.e("sendEvidence", "dirFileS"+signature);
+                Log.e("sendEvidence", "dirFileS "+signature);
+
+                //Revisamos que la pantalla de firma no venga vacia
                 if (gestureOverlayView.getGesturePath().isEmpty()) {
                     gestureOverlayView.setBackground(null);
                     Toast.makeText(this, "No existe ninguna firma.", Toast.LENGTH_SHORT).show();
+
+                    // Verifica si el texto está vacío
+                    if (inputText.trim().isEmpty()) {
+                        // El TextInputEditText está vacío
+                        Toast.makeText(this, "Ingrese un nombre por favor.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // El TextInputEditText tiene texto
+                        // Realiza las acciones necesarias con el texto
+                        // Por ejemplo, puedes usar el valor de 'texto' aquí
+                    }
+
+                    //ESto elimina lo que existe en la SharedPreferences
                     if (signature != null) {
                         // Delete the file associated with the signature
                         File fileToDelete = new File(signature);
@@ -194,43 +255,65 @@ public class signature extends AppCompatActivity implements View.OnClickListener
 //                        editor.remove(GeneralConstants.SIGNATURE_B64);
 //                        editor.apply();
                     }
+
                 } else {
+                    // Si no esta vacia la firma
                     // If gestureOverlayView is not empty, manage the signature
-                    manageSignature();
-                    onBackPressed(); // Consider removing this line if you don't want to navigate back immediately
+                    // Verifica si el texto está vacío
+                    if (inputText.trim().isEmpty()) {
+                        // El TextInputEditText está vacío
+                        Toast.makeText(this, "Ingrese un nombre por favor.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // El TextInputEditText tiene texto
+                        // Realiza las acciones necesarias con el texto
+                        // Por ejemplo, puedes usar el valor de 'texto' aquí
+                        //Este metodo te manda a guardar firma y nombre
+                        manageSignature();
+
+                        //Regresa a la ventana que estabamos
+                        onBackPressed(); // Consider removing this line if you don't want to navigate back immediately
+                    }
                 }
 
                 break;
+
             case R.id.backTickets:
                 onBackPressed();
                 break;
+
             case R.id.eraseSignature:
                 SharedPreferences preferences1 = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                 String signaturePath = preferences1.getString(GeneralConstants.SIGNATURE_B64_DIR, null);
                 Log.e("sendEvidence", "dirFile"+signaturePath);
                 if (signaturePath != null) {
-                    // Delete the file associated with the signature path
+                    // Delete the file associated with the signature
                     File fileToDelete = new File(signaturePath);
-                    if (fileToDelete.exists()) {
-                        boolean deleted = fileToDelete.delete();
-                        if (deleted) {
-                            Log.d("FileDeleted", "File deleted successfully");
-                        } else {
-                            Log.e("FileDeleted", "Failed to delete file");
-                        }
+                    boolean deleted = fileToDelete.delete();
+                    if (!deleted) {
+                        // Handle the case where the file deletion fails
+                        Log.e("sendEvidence", "Failed to delete signature file");
                     } else {
-                        Log.e("FileDeleted", "File does not exist");
-                    }
+                        //Lo borro
+                        // Clear the stored signature data from SharedPreferences
+                        SharedPreferences.Editor editor = preferences1.edit();
+                        editor.remove(GeneralConstants.SIGNATURE_B64_DIR);
+                        editor.remove(GeneralConstants.SIGNATURE_B64);
+                        gestureOverlayView.setBackground(null);
+                        editor.apply();
 
-                    // Clear the stored signature data from SharedPreferences
-                    SharedPreferences.Editor editor = preferences1.edit();
-                    editor.remove(GeneralConstants.SIGNATURE_B64_DIR);
-                    editor.remove(GeneralConstants.SIGNATURE_B64);
-                    editor.apply();
+                        gestureOverlayView.cancelClearAnimation();
+                        gestureOverlayView.clear(true);
+                    }
+                } else {
+                    //Nada que borrar en la Shared, solo borra lo que esta actual en la pantalla
+                    gestureOverlayView.cancelClearAnimation();
+                    gestureOverlayView.clear(true);
                 }
 
-// Set the background of gestureOverlayView to null
-                gestureOverlayView.setBackground(null);
+                // Set the background of gestureOverlayView to null
+                //gestureOverlayView.setBackground(null);
+                /*gestureOverlayView.cancelClearAnimation();
+                gestureOverlayView.clear(true);*/
                 break;
         }
     }
