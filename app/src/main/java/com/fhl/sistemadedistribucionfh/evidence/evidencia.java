@@ -223,12 +223,14 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     private void removeShared(){
         SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(GeneralConstants.SIGNATURE_B64_DIR, null);
-        editor.putString(GeneralConstants.INPUT_TEXT_SIGTURE,null);
-        editor.putString(GeneralConstants.IMAGE_DIRECTORY,null);
-        editor.putString(GeneralConstants.DOCS_DIRECTORY, null);
-        editor.putString(GeneralConstants.RATE_STARS, null);
-        editor.commit();
+
+        editor.remove(GeneralConstants.SIGNATURE_B64_DIR);
+        editor.remove(GeneralConstants.INPUT_TEXT_SIGTURE);
+        editor.remove(GeneralConstants.IMAGE_DIRECTORY);
+        editor.remove(GeneralConstants.DOCS_DIRECTORY);
+        editor.remove(GeneralConstants.RATE_STARS);
+
+        editor.apply();
     }
     private void cleanFolder(){
         //.Toast.makeText(this, "Eliminar todo", Toast.LENGTH_SHORT).show();
@@ -254,8 +256,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     }
     private void gotomanifestV2(){
         Intent intent = new Intent(this, mainContainer.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);//
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
 
     }

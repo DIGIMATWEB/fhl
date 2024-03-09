@@ -65,7 +65,6 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
             public void onResponse(Call<responseManifestV2> call, Response<responseManifestV2> response) {
                 validateResponse(response, context);
             }
-
             @Override
             public void onFailure(Call<responseManifestV2> call, Throwable t) {
                 Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
