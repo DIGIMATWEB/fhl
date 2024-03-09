@@ -12,6 +12,7 @@ import com.fhl.sistemadedistribucionfh.evidence.documents.model.ApiResponse;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.InnerData;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.dataApiResponse;
 import com.fhl.sistemadedistribucionfh.evidence.util.serviceEvidence;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,14 +39,14 @@ public class cancelInteractorImpl implements cancelInteractor{
     }
 
     @Override
-    public void sendEvidences(List<String> directories) {
+    public void sendEvidences(List<String> directories, String folioTicket) {
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
         if(token!=null) {
-            uploadFiles(directories, 2, "test", token);
+            uploadFiles(directories, 2, "test", token,folioTicket);
         }
     }
-    private void uploadFiles(List<String> filePaths, Integer type, String Text, String token) {
+    private void uploadFiles(List<String> filePaths, Integer type, String Text, String token, String folioTicket) {
 
         List<MultipartBody.Part> filesParts = new ArrayList<>();
         for (String filePath : filePaths) {
@@ -60,16 +61,20 @@ public class cancelInteractorImpl implements cancelInteractor{
         }
 
         // Other parameters remain the same
-        RequestBody folioObjeto = RequestBody.create(MediaType.parse("text/plain"), "00000168");
+        RequestBody folioObjeto = RequestBody.create(MediaType.parse("text/plain"), folioTicket);
         RequestBody tipoEvidencia = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(type));
         RequestBody usuario = RequestBody.create(MediaType.parse("text/plain"), Text);
-
         // Authorization header remains the same
         String authorization = token;//"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI2IiwiRW1wbG95ZWVJZCI6IjciLCJQcm9maWxlSW1hZ2VJZCI6IjEwMDc4IiwiRW1wbG95ZWVOdW1iZXIiOiI4ODg4OCIsIlVzZXJOYW1lIjoidXNyUGhvZW5peEFkbWluIiwiTmFtZSI6IkFkbWluaXN0cmFkb3IgU0dEIiwiRW1haWwiOiJqaG9uYXRoYW5AZ3BzcGhvZW5peC5jb20iLCJNb2JpbGVQaG9uZSI6IjU1NTU1NTU1NTUiLCJEYXRlT2ZCaXJ0aCI6IjEvMS8wMDAxIiwiQ2xpZW50cyI6IltdIiwiZXhwIjoxNzA4NTAxMjY3fQ.hOqMzu1zK115a1Z739waaju9e3Co4dubb3bpYneUuAg";
 
         // Call the uploadFiles method in Retrofit service
-        Call<ApiResponse> call = service.uploadFiles(authorization, folioObjeto, tipoEvidencia, filesParts, usuario);
+        Call<ApiResponse> call = service.uploadFiles(authorization, folioObjeto, tipoEvidencia, filesParts, usuario,3);
 
+        Gson gson = new Gson();
+
+        // Convert the string to JSON
+        String jsonString = gson.toJson(call.request().body().toString());
+        Log.e("sendEvidence",""+jsonString);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
@@ -96,8 +101,9 @@ public class cancelInteractorImpl implements cancelInteractor{
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
-                Toast.makeText(context, "File upload failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e("sendEvidence",""+t.getMessage());
+                Toast.makeText(context, "File upload failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
     }

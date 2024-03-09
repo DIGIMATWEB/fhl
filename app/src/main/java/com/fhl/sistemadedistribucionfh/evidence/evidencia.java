@@ -47,10 +47,27 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     private requestEvidencePresenter presenter;
 
     private Integer secuenceRequest=1;
+    private Integer flujoId=0;
+    private String folioTicket;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evidence);
+        Intent intent = getIntent();
+
+        // Retrieve the Bundle from the Intent
+        Bundle bundle = intent.getExtras();
+
+        // Check if the bundle is not null
+        if (bundle != null) {
+            // Retrieve the integer value using the key "key_integer"
+             flujoId= bundle.getInt("flujoId");
+            folioTicket= bundle.getString("folioTicket");
+            // Now intValue contains the value passed from the previous activity
+            // You can use this value as needed
+            // For example, you can log it or display it in a TextView
+            Log.d("EvidenciaActivity", "Retrieved integer value: " + flujoId);
+        }
         initView();
         checkShared();
     }
@@ -189,9 +206,9 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 mrating = false;
                 secuenceRequest=1;
                 break;
-            case R.id.sendEvidence:
+            case R.id.sendEvidence://la primera vez la firma lo manda con esto
 
-                presenter.sendEvidence(secuenceRequest,signatureBase64,inputTextSignature,currusel,ffiles);
+                presenter.sendEvidence(secuenceRequest,signatureBase64,inputTextSignature,currusel,ffiles,flujoId,folioTicket);
                 Log.e("sendEvidence", "signatureBase64: " + signatureBase64 + "\n" +
                         "inputTextSignature: " + inputTextSignature + "\n" +
                         "carrusel:" + currusel + "\n" +
@@ -245,7 +262,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void setMessage() {
-        if(secuenceRequest<4) {
+        if(secuenceRequest<4) {//continuea el carrusel los archivos y la encuesta
             secuenceRequest = secuenceRequest + 1;
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -256,17 +273,17 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                             "ffiles: " + ffiles + "\n" +
                             "stars: " + stars+ "\n" +
                             "secuenceRequest: " +  secuenceRequest);
-                    presenter.sendEvidence(secuenceRequest,signatureBase64,inputTextSignature,currusel,ffiles);
+                    presenter.sendEvidence(secuenceRequest,signatureBase64,inputTextSignature,currusel,ffiles, flujoId,folioTicket);
                 }
             }, 4000);
 
-        }else if(secuenceRequest==4){
+        }else if(secuenceRequest==4){//envia la encuesta todo falta el comentario
             secuenceRequest = secuenceRequest + 1;
             Log.e("sendEvidence", "sendEvidence: " + secuenceRequest+" sendRate: "+ stars);
             int rating = (int) Math.round(Double.parseDouble(stars));
-            presenter.sendRate(rating);
+            presenter.sendRate(rating,folioTicket);
             //Toast.makeText(this, "mandar estrellas", Toast.LENGTH_SHORT).show();
-        }else if(secuenceRequest==5){
+        }else if(secuenceRequest==5){//borra todo lo relacionano y regresa
             Toast.makeText(this, "Cambiar estatus y regresar a manifiestos", Toast.LENGTH_SHORT).show();
             removeShared();
             cleanFolder();

@@ -18,9 +18,9 @@ public class cancelPresenterImpl  implements cancelPresenter{
         interactor=new cancelInteractorImpl(this,context);
     }
     @Override
-    public void sendEvidence(List<String> directories) {
+    public void sendEvidence(List<String> directories, String folioTicket) {
         if(view!=null){
-            interactor.sendEvidences(directories);
+            interactor.sendEvidences(directories,folioTicket);
         }
 
     }

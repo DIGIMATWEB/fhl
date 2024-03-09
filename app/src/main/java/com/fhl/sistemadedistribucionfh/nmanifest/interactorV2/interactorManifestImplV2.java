@@ -44,8 +44,15 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
         Log.e("TOKEN",""+token);
         profileResponse profileData = gson.fromJson(token2, profileResponse.class);
 
-        int idEmpleado = profileData.getUsuarioId();
-        String idEmpleadoString = String.valueOf(idEmpleado);
+//        Integer idEmpleado = profileData.getUsuarioId();
+//        String idEmpleadoString ="";
+//        if (idEmpleado != null) {
+//            idEmpleadoString = String.valueOf(idEmpleado);
+//        } else {
+//            // Handle the case where profileData.getUsuarioId() returns null
+//            idEmpleadoString = ""; // or any other default value you want to assign
+//        }
+
 
         //IdEmpleado correcto
         //TODO Cambiar por el token correcto
