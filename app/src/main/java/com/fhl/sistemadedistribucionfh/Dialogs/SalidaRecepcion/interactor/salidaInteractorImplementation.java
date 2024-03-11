@@ -200,9 +200,6 @@ public class salidaInteractorImplementation  implements salidainteractor {
             }
         });
     }
-
-
-
     private void validateResponsetickets(Response<responseTicketsManifestV2> response, Context context) {
         if (response != null) {
 
@@ -213,7 +210,6 @@ public class salidaInteractorImplementation  implements salidainteractor {
             }
         }
     }
-
     private void getTickets(Response<responseTicketsManifestV2> response, Context context) {
         responseTicketsManifestV2 resp = response.body();
         if(resp!=null){

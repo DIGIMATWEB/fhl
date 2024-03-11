@@ -40,7 +40,7 @@ public class adapterReasons extends RecyclerView.Adapter<adapterReasons.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-    holder.razonDesc.setText(data.get(position).getReason());
+    holder.razonDesc.setText(data.get(position).getDescripcionCausa());
     holder.checkBox.setChecked(position == checkedPosition);
 
         // Handle CheckBox click

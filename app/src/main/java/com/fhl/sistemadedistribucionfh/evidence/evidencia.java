@@ -3,10 +3,8 @@ package com.fhl.sistemadedistribucionfh.evidence;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -31,11 +29,8 @@ import com.fhl.sistemadedistribucionfh.evidence.presenter.requestEvidencePresent
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.calificacion;
 import com.fhl.sistemadedistribucionfh.evidence.signature.signature;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
-import com.fhl.sistemadedistribucionfh.nmanifest.viewV2.mmanifestV2;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
 
 public class evidencia extends AppCompatActivity implements View.OnClickListener,evidenceView {
     public static final String TAG = evidencia.class.getSimpleName();
@@ -52,10 +47,27 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     private requestEvidencePresenter presenter;
 
     private Integer secuenceRequest=1;
+    private Integer flujoId=0;
+    private String folioTicket;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evidence);
+        Intent intent = getIntent();
+
+        // Retrieve the Bundle from the Intent
+        Bundle bundle = intent.getExtras();
+
+        // Check if the bundle is not null
+        if (bundle != null) {
+            // Retrieve the integer value using the key "key_integer"
+             flujoId= bundle.getInt("flujoId");
+            folioTicket= bundle.getString("folioTicket");
+            // Now intValue contains the value passed from the previous activity
+            // You can use this value as needed
+            // For example, you can log it or display it in a TextView
+            Log.d("EvidenciaActivity", "Retrieved integer value: " + flujoId);
+        }
         initView();
         checkShared();
     }
@@ -194,9 +206,9 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 mrating = false;
                 secuenceRequest=1;
                 break;
-            case R.id.sendEvidence:
+            case R.id.sendEvidence://la primera vez la firma lo manda con esto
 
-                presenter.sendEvidence(secuenceRequest,signatureBase64,inputTextSignature,currusel,ffiles);
+                presenter.sendEvidence(secuenceRequest,signatureBase64,inputTextSignature,currusel,ffiles,flujoId,folioTicket);
                 Log.e("sendEvidence", "signatureBase64: " + signatureBase64 + "\n" +
                         "inputTextSignature: " + inputTextSignature + "\n" +
                         "carrusel:" + currusel + "\n" +
@@ -211,12 +223,14 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     private void removeShared(){
         SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(GeneralConstants.SIGNATURE_B64_DIR, null);
-        editor.putString(GeneralConstants.INPUT_TEXT_SIGTURE,null);
-        editor.putString(GeneralConstants.IMAGE_DIRECTORY,null);
-        editor.putString(GeneralConstants.DOCS_DIRECTORY, null);
-        editor.putString(GeneralConstants.RATE_STARS, null);
-        editor.commit();
+
+        editor.remove(GeneralConstants.SIGNATURE_B64_DIR);
+        editor.remove(GeneralConstants.INPUT_TEXT_SIGTURE);
+        editor.remove(GeneralConstants.IMAGE_DIRECTORY);
+        editor.remove(GeneralConstants.DOCS_DIRECTORY);
+        editor.remove(GeneralConstants.RATE_STARS);
+
+        editor.apply();
     }
     private void cleanFolder(){
         //.Toast.makeText(this, "Eliminar todo", Toast.LENGTH_SHORT).show();
@@ -242,15 +256,14 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     }
     private void gotomanifestV2(){
         Intent intent = new Intent(this, mainContainer.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);//
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
 
     }
 
     @Override
     public void setMessage() {
-        if(secuenceRequest<4) {
+        if(secuenceRequest<4) {//continuea el carrusel los archivos y la encuesta
             secuenceRequest = secuenceRequest + 1;
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -261,17 +274,17 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                             "ffiles: " + ffiles + "\n" +
                             "stars: " + stars+ "\n" +
                             "secuenceRequest: " +  secuenceRequest);
-                    presenter.sendEvidence(secuenceRequest,signatureBase64,inputTextSignature,currusel,ffiles);
+                    presenter.sendEvidence(secuenceRequest,signatureBase64,inputTextSignature,currusel,ffiles, flujoId,folioTicket);
                 }
             }, 4000);
 
-        }else if(secuenceRequest==4){
+        }else if(secuenceRequest==4){//envia la encuesta todo falta el comentario
             secuenceRequest = secuenceRequest + 1;
             Log.e("sendEvidence", "sendEvidence: " + secuenceRequest+" sendRate: "+ stars);
             int rating = (int) Math.round(Double.parseDouble(stars));
-            presenter.sendRate(rating);
+            presenter.sendRate(rating,folioTicket);
             //Toast.makeText(this, "mandar estrellas", Toast.LENGTH_SHORT).show();
-        }else if(secuenceRequest==5){
+        }else if(secuenceRequest==5){//borra todo lo relacionano y regresa
             Toast.makeText(this, "Cambiar estatus y regresar a manifiestos", Toast.LENGTH_SHORT).show();
             removeShared();
             cleanFolder();

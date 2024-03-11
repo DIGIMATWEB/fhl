@@ -35,6 +35,8 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
     private serviceEvidence service;
     private Retrofit retrofitClient;
     private String ftoken;
+    private Integer flujo;
+    private String ticket;
     public sendEvidenceInteractorImpl(requestEvidencePresenter presenter,Context context){
         this.presenter=presenter;
         this.context=context;
@@ -43,11 +45,14 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
 
     }
     @Override
-    public void requestEvidence(Integer secuenceRequest, String signatureBase64, String inputTextSignature, String currusel, String ffiles) {
+    public void requestEvidence(Integer secuenceRequest, String signatureBase64, String inputTextSignature, String currusel, String ffiles, Integer flujoId, String folioTicket) {
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
-        if(token!=null) {
-            this.ftoken=token;
+        this.ftoken=token;
+        this.flujo=flujoId;
+        this.ticket=folioTicket;
+        if(ftoken!=null) {
+
             //  Toast.makeText(context, "mandarEvidencias", Toast.LENGTH_SHORT).show();
             if (secuenceRequest == 1) {
                 uploadFile(signatureBase64, 1, inputTextSignature,token);
@@ -76,17 +81,17 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         MultipartBody.Part listaArchivos = MultipartBody.Part.createFormData("ListaArchivos", file.getName(), requestBody);
 
         // Other request parameters
-        RequestBody folioObjeto = RequestBody.create(MediaType.parse("text/plain"), "00000168");
+        RequestBody folioObjeto = RequestBody.create(MediaType.parse("text/plain"), ticket);
         RequestBody tipoEvidencia = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(type));
         RequestBody usuario = RequestBody.create(MediaType.parse("text/plain"), Text);
-
+        RequestBody flujoid= RequestBody.create(MediaType.parse("text/plain"), String.valueOf(flujo));
 //        SharedPreferences preferences =context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
 //        String token = preferences.getString(GeneralConstants.TOKEN, null);
         // Authorization header
         String authorization = token;//"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI2IiwiRW1wbG95ZWVJZCI6IjciLCJQcm9maWxlSW1hZ2VJZCI6IjEwMDc4IiwiRW1wbG95ZWVOdW1iZXIiOiI4ODg4OCIsIlVzZXJOYW1lIjoidXNyUGhvZW5peEFkbWluIiwiTmFtZSI6IkFkbWluaXN0cmFkb3IgU0dEIiwiRW1haWwiOiJqaG9uYXRoYW5AZ3BzcGhvZW5peC5jb20iLCJNb2JpbGVQaG9uZSI6IjU1NTU1NTU1NTUiLCJEYXRlT2ZCaXJ0aCI6IjEvMS8wMDAxIiwiQ2xpZW50cyI6IltdIiwiZXhwIjoxNzA4NTAxMjY3fQ.hOqMzu1zK115a1Z739waaju9e3Co4dubb3bpYneUuAg";
 
         // Call the uploadFile method in Retrofit service
-        Call<ApiResponse> call = service.uploadFile(authorization, folioObjeto, tipoEvidencia, listaArchivos, usuario);
+        Call<ApiResponse> call = service.uploadFile(authorization, folioObjeto, tipoEvidencia, listaArchivos, usuario,flujo);
 
 //        Log.e("sendEvidence", "URL: " + call.request().url());
 //        Log.e("sendEvidence", "Headers: " + call.request().headers());
@@ -106,10 +111,17 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
                                 // Handle the response data as needed
                                 if (innerData != null) {
                                     Log.e("sendEvidence", "" + innerData.getDocumentoId());
-                                }
+                                }else{
+                                Log.e("sendEvidence", "innerdatanull 1");
                             }
+
+                            }
+                        }else {
+                            Log.e("sendEvidence", "data is empty o null 1");
                         }
                         presenter.nextRequest();
+                    }else{
+                        Log.e("sendEvidence", "apiresponse null 1");
                     }
                 } else {
                     Toast.makeText(context, "File upload failed", Toast.LENGTH_SHORT).show();
@@ -141,15 +153,16 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         }
 
         // Other parameters remain the same
-        RequestBody folioObjeto = RequestBody.create(MediaType.parse("text/plain"), "00000168");
+        RequestBody folioObjeto = RequestBody.create(MediaType.parse("text/plain"), ticket);
         RequestBody tipoEvidencia = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(type));
         RequestBody usuario = RequestBody.create(MediaType.parse("text/plain"), Text);
-
+        RequestBody flujoid= RequestBody.create(MediaType.parse("text/plain"), String.valueOf(flujo));
         // Authorization header remains the same
         String authorization = token;//"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI2IiwiRW1wbG95ZWVJZCI6IjciLCJQcm9maWxlSW1hZ2VJZCI6IjEwMDc4IiwiRW1wbG95ZWVOdW1iZXIiOiI4ODg4OCIsIlVzZXJOYW1lIjoidXNyUGhvZW5peEFkbWluIiwiTmFtZSI6IkFkbWluaXN0cmFkb3IgU0dEIiwiRW1haWwiOiJqaG9uYXRoYW5AZ3BzcGhvZW5peC5jb20iLCJNb2JpbGVQaG9uZSI6IjU1NTU1NTU1NTUiLCJEYXRlT2ZCaXJ0aCI6IjEvMS8wMDAxIiwiQ2xpZW50cyI6IltdIiwiZXhwIjoxNzA4NTAxMjY3fQ.hOqMzu1zK115a1Z739waaju9e3Co4dubb3bpYneUuAg";
 
         // Call the uploadFiles method in Retrofit service
-        Call<ApiResponse> call = service.uploadFiles(authorization, folioObjeto, tipoEvidencia, filesParts, usuario);
+        Call<ApiResponse> call = service.uploadFiles(authorization, folioObjeto, tipoEvidencia, filesParts, usuario,flujo);
+
 
         call.enqueue(new Callback<ApiResponse>() {
             @Override
@@ -165,10 +178,16 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
                                 // Handle the response data as needed
                                 if (innerData != null) {
                                     Log.e("sendEvidence", "" + innerData.getDocumentoId());
+                                }else{
+                                    Log.e("sendEvidence", "innerdatanull");
                                 }
                             }
+                        }else {
+                            Log.e("sendEvidence", "data is empty o null");
                         }
                         presenter.nextRequest();
+                    }else{
+                        Log.e("sendEvidence", "apiresponse null");
                     }
                 } else {
                     Toast.makeText(context, "File upload failed", Toast.LENGTH_SHORT).show();
@@ -183,11 +202,14 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         });
     }
     @Override
-    public void sendRate(Integer stars) {
-        String authorization = ftoken;//"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI2IiwiRW1wbG95ZWVJZCI6IjciLCJQcm9maWxlSW1hZ2VJZCI6IjEwMDc4IiwiRW1wbG95ZWVOdW1iZXIiOiI4ODg4OCIsIlVzZXJOYW1lIjoidXNyUGhvZW5peEFkbWluIiwiTmFtZSI6IkFkbWluaXN0cmFkb3IgU0dEIiwiRW1haWwiOiJqaG9uYXRoYW5AZ3BzcGhvZW5peC5jb20iLCJNb2JpbGVQaG9uZSI6IjU1NTU1NTU1NTUiLCJEYXRlT2ZCaXJ0aCI6IjEvMS8wMDAxIiwiQ2xpZW50cyI6IltdIiwiZXhwIjoxNzA4NTAxMjY3fQ.hOqMzu1zK115a1Z739waaju9e3Co4dubb3bpYneUuAg";
+    public void sendRate(Integer stars, String folioTicket) {
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String token = preferences.getString(GeneralConstants.TOKEN, null);
+        this.ftoken=token;
 
-        requestRate request= new requestRate("m120",6,stars);
-        Call<responseRate> call =service.sendRate(authorization,request);
+
+        requestRate request= new requestRate(folioTicket,6,stars);
+        Call<responseRate> call =service.sendRate(ftoken,request);
         call.enqueue(new Callback<responseRate>() {
             @Override
             public void onResponse(Call<responseRate> call, Response<responseRate> response) {

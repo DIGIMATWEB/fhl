@@ -36,6 +36,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.sellosSalida.sell
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.ticketsSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.view.Salida;
 import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Tickets.detailTicketsSummary;
+import com.fhl.sistemadedistribucionfh.Dialogs.dialogCompleteValidador;
 import com.fhl.sistemadedistribucionfh.Dialogs.dialogCompletedSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.model.dataValidadorV2;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.view.validadorManifest;
@@ -87,6 +88,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
     private List<Sello> dataSellos;
     private String vehiclebarcode,rfcBarcode;
     private String vehiclebarcodeVal,rfcBarcodeVal;
+    private String codigoValidador="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -465,8 +467,11 @@ public class BarcodeScannerActivity extends AppCompatActivity
               if(currentStatus<4) {
                   currentStatus = currentStatus + 1;
                   if (currentStatus == 4) {
-                      dialogCompletedSalida bottonSheetv = new dialogCompletedSalida();
-                      bottonSheetv.show(getSupportFragmentManager(), "dialogCompletedSalida");
+                      Bundle bundle = new Bundle();
+                      bundle.putString("currentManifest", codigoValidador);
+                      dialogCompleteValidador bottonSheetv = new dialogCompleteValidador();
+                      bottonSheetv.setArguments(bundle);
+                      bottonSheetv.show(getSupportFragmentManager(), "dialogCompleteValidador");
                       stopCameraProcess();
                   }
               }              //aqui solo se debe visivilizar el escaner ya que no hay ventanas emergentes
@@ -735,6 +740,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                 String status = preferences.getString(GeneralConstants.STATUS_VALIDADOR, null);
                 Log.e("validador", "escanerActivity  " + status);
+
                 if (status == null) {
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString(GeneralConstants.STATUS_VALIDADOR, "1");
@@ -745,6 +751,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 }
                 String image = "";
                 if(currentStatus==1){
+                    this.codigoValidador=code;
                     Log.e("validador","last status "+currentStatus+"  "+code);
                     Bundle bundle = new Bundle();
                     bundle.putString("currentManifest", code);

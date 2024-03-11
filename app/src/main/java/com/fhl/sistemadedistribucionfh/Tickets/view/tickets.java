@@ -78,11 +78,18 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
     }
     private void cancelTrip() {
         Intent intent = new Intent(getActivity(), cancelarViaje.class);//evidencia
+        Bundle bundle = new Bundle();
+        bundle.putString("folioTicket",folioTicket);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 
     private void closeTrip() {
-        Intent intent2 = new Intent(getActivity(), evidencia.class);//
+        Intent intent2 = new Intent(getActivity(), evidencia.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("flujoId", 2);// Putting integer value with key "key_integer"
+        bundle.putString("folioTicket",folioTicket);
+        intent2.putExtras(bundle); // Attaching the bundle to the intent
         startActivity(intent2);
     }
 

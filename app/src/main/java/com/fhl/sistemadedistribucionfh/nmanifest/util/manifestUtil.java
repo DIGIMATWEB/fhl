@@ -1,16 +1,11 @@
 package com.fhl.sistemadedistribucionfh.nmanifest.util;
 
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitEndPoints;
-import com.fhl.sistemadedistribucionfh.nmanifest.model.requestManifest;
-import com.fhl.sistemadedistribucionfh.nmanifest.model.responseManifest;
 import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.responseManifestV2;
 
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.POST;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface manifestUtil {

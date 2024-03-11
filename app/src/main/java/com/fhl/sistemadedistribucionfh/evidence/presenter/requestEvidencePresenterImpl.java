@@ -18,15 +18,15 @@ public class requestEvidencePresenterImpl  implements requestEvidencePresenter{
 
     }
     @Override
-    public void sendEvidence(Integer secuenceRequest, String signatureBase64, String inputTextSignature, String currusel, String ffiles) {
+    public void sendEvidence(Integer secuenceRequest, String signatureBase64, String inputTextSignature, String currusel, String ffiles, Integer flujoId, String folioTicket) {
         if(view!=null){
-            interactor.requestEvidence(secuenceRequest,signatureBase64,inputTextSignature,currusel,ffiles);
+            interactor.requestEvidence(secuenceRequest,signatureBase64,inputTextSignature,currusel,ffiles,flujoId,folioTicket);
         }
     }
     @Override
-    public void sendRate(Integer stars) {
+    public void sendRate(Integer stars, String folioTicket) {
         if(view!=null){
-            interactor.sendRate(Integer.valueOf(stars));
+            interactor.sendRate(Integer.valueOf(stars),folioTicket);
         }
     }
     @Override

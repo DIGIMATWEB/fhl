@@ -26,8 +26,9 @@ public interface serviceEvidence {
             @Part("FolioObjeto") RequestBody folioObjeto,
             @Part("TipoEvidencia") RequestBody tipoEvidencia,
             @Part MultipartBody.Part listaArchivos,
-            @Part("Usuario") RequestBody usuario
-    );
+            @Part("Usuario") RequestBody usuario,
+            @Part("FlujoId") Integer FlujoId);
+
     @Multipart
     @POST("SetPickupEvidencia")
     Call<ApiResponse> uploadFiles(
@@ -35,8 +36,9 @@ public interface serviceEvidence {
             @Part("FolioObjeto") RequestBody folioObjeto,
             @Part("TipoEvidencia") RequestBody tipoEvidencia,
             @Part List<MultipartBody.Part> listaArchivos,
-            @Part("Usuario") RequestBody usuario
-    );
+            @Part("Usuario") RequestBody usuario,
+            @Part("FlujoId") Integer FlujoId);
+
     @POST(RetrofitEndPoints.RATE_STARS)
     Call<responseRate> sendRate(@Header("Authorization") String authorization,@Body requestRate request);
 }

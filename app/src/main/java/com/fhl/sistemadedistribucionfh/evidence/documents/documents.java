@@ -25,7 +25,6 @@ import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.evidence.documents.adapter.FileAdapter;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.ApiResponse;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.InnerData;
-import com.fhl.sistemadedistribucionfh.evidence.documents.util.FileUploadService;
 
 import java.io.File;
 import java.io.IOException;

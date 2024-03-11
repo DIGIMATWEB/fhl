@@ -6,9 +6,11 @@ import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitEndPoints;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface serviceDialogReasons {
-//      @POST(RetrofitEndPoints.REASONS)
-//      Call<responseReasons> getReasons(@Body requestReasons request);
+      @GET(RetrofitEndPoints.REASONS_SGD)
+      Call<responseReasons> getReasons(@Header("Authorization")String token);
 }

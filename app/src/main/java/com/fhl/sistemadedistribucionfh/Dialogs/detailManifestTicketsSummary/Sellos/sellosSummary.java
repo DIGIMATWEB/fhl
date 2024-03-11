@@ -80,6 +80,8 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
                 //Toast.makeText(getContext(), "ir a evidences", Toast.LENGTH_SHORT).show();
                 getActivity().finish();
                 Intent intent = new Intent(getActivity(), evidencia.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("flujoId", 1);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
 

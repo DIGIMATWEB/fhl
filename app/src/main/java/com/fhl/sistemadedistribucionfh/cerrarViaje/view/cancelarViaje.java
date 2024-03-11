@@ -77,10 +77,24 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
     private ArrayList<File> tempImageFiles = new ArrayList<>();
     private List<String> directories=new ArrayList<>();
     private cancelPresenter presenter;
+    private String folioTicket;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cerrar_viaje);
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+        // Check if the bundle is not null
+        if (bundle != null) {
+            // Retrieve the integer value using the key "key_integer"
+            folioTicket= bundle.getString("folioTicket");
+
+            // Now intValue contains the value passed from the previous activity
+            // You can use this value as needed
+            // For example, you can log it or display it in a TextView
+            Log.d("EvidenciaActivity", "Retrieved integer value: " + folioTicket);
+        }
         initView();
         imageCollections.clear();
         fillAdapter(imageCollections,getApplicationContext());
@@ -386,7 +400,7 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
                 if(idReason!=null) {//todo
                    Toast.makeText(this, "guardar evidencias, pendiente mostrar progressbar y endpoint de jose "+closeDialog , Toast.LENGTH_SHORT).show();
                    Log.e("","carrusel1"+directories);
-                   presenter.sendEvidence(directories);
+                   presenter.sendEvidence(directories,folioTicket);
 
                 }else {
                     Toast.makeText(this, "Falta seleccionar un motivo ", Toast.LENGTH_SHORT).show();

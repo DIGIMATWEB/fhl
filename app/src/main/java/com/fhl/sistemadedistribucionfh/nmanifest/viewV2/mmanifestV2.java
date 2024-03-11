@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.SearchView;
 
 import androidx.fragment.app.Fragment;
@@ -22,11 +21,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
-import com.fhl.sistemadedistribucionfh.login.view.login;
 import com.fhl.sistemadedistribucionfh.nmanifest.adapterV2.manifestAdapterV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.dataManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.presenterV2.manifestImplV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.presenterV2.presentermanifestV2;
+import com.fhl.sistemadedistribucionfh.login.view.login;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.view.manifestDetailV2;
 
 import java.io.File;

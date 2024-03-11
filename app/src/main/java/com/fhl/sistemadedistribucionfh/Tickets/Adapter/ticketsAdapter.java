@@ -39,34 +39,35 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ticketsAdapter.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-          if(data!=null && data.size()!=0) {
-              holder.ticketNum.setText("" + data.get(position).getFolioTicket());
-              holder.cliente.setText("" + data.get(position).getCliente().getRazonSocial());
-              holder.contacto.setText("" + data.get(position).getDestinatarios().getContacto().getNombre());
-              holder.Productos.setText(data.get(position).getCliente().getRazonSocial());
+        if(data!=null && data.size()!=0) {
+            holder.ticketNum.setText("" + data.get(position).getFolioTicket());
+            holder.cliente.setText("" + data.get(position).getCliente().getRazonSocial());
+            holder.contacto.setText("" + data.get(position).getDestinatarios().getContacto().getNombre());
+            holder.Productos.setText(data.get(position).getCliente().getRazonSocial());
 
-              //Comprobamos la data
-              if (data.size() > position && data.get(position).getCheckList() != null && !data.get(position).getCheckList().isEmpty()) {
-                  // Verificar si la lista checkList no está vacía antes de acceder al primer elemento
-                  holder.checklist.setText("" + data.get(position).getCheckList().get(0).getValor());
-              } else {
-                  // Manejar el caso en el que la lista está vacía o la posición es inválida
-                  holder.checklist.setText("--- --- ---");
-              }
+            //Comprobamos la data
+            if (data.size() > position && data.get(position).getCheckList() != null && !data.get(position).getCheckList().isEmpty()) {
+                // Verificar si la lista checkList no está vacía antes de acceder al primer elemento
+                holder.checklist.setText("" + data.get(position).getCheckList().get(0).getValor());
+            } else {
+                // Manejar el caso en el que la lista está vacía o la posición es inválida
+                holder.checklist.setText("--- --- ---");
+            }
 
-              //Esto estaba antes
-              //holder.checklist.setText("" + data.get(position).getCheckList().get(0).getValor());//considerar que pueden ser mas Valor de checklist
+            //Esto estaba antes
+            //holder.checklist.setText("" + data.get(position).getCheckList().get(0).getValor());//considerar que pueden ser mas Valor de checklist
 
-              holder.textAdjuntos.setText("Cantidad: " + data.get(position).getDocumentosAuxiliar().size());//todo catalogar todos los adjuntos
+            holder.textAdjuntos.setText("Cantidad: " + data.get(position).getDocumentosAuxiliar().size());//todo catalogar todos los adjuntos
 
-              holder.origen.setText("" + data.get(position).getOrigen());
-              holder.estado.setText("" + data.get(position).getOrigen());
-              //holder.salida.setText(""+data.get(position).getFechaSalidaEstimada());
-              holder.regreso.setText(data.get(position).getFechaPromesaRetorno());
-              holder.locationDesc.setText("");//+data.get(position).getEmpaque().get(0).getDestinatarios().get(0).getCiudad());
-              holder.latlongGeo.setText("" + data.get(position).getDestinatarios().getCoordenadas());
-              holder.lalongReport.setText("" + data.get(position).getFechaPromesaEntrega());
-           }
+            holder.origen.setText("" + data.get(position).getOrigen());
+            holder.estado.setText("" + data.get(position).getOrigen());
+            //holder.salida.setText(""+data.get(position).getFechaSalidaEstimada());
+            holder.regreso.setText(data.get(position).getFechaPromesaRetorno());
+            holder.locationDesc.setText("");//+data.get(position).getEmpaque().get(0).getDestinatarios().get(0).getCiudad());
+            holder.latlongGeo.setText("" + data.get(position).getDestinatarios().getCoordenadas());
+            holder.lalongReport.setText("" + data.get(position).getFechaPromesaEntrega());
+        }
+
         holder.cardOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
