@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -33,6 +34,9 @@ import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.nmanifest.view.mmanifest;
 import com.fhl.sistemadedistribucionfh.nmanifest.viewV2.mmanifestV2;
 import com.fhl.sistemadedistribucionfh.resguardo.view.resguardo;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.List;
 
@@ -60,6 +64,38 @@ public class mainContainer extends AppCompatActivity  implements view {
         manifiestosV2();
         showFragmentNavigationButtons();
         showTab();
+        FirebaseMessaging.getInstance().subscribeToTopic("topics/all")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "Subscribed";
+                        if (!task.isSuccessful()) {
+                            msg = "Subscribe failed";
+                        }
+                        Log.e("firebase","suscription: "+ msg);
+                        //Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.e("firebase", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+
+                        // Log and toast
+                        String msg = token;
+                        Log.d("tokenfirebase", msg);
+                        Log.e("firebase","token firebase: "+msg);
+                        //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override

@@ -27,4 +27,5 @@
     <string name="internetConection">Error, verifica tu conexión a internet</string>
     <string name="invalidateFormatResponse">Error, la respuesta contiene un formato que no se puede leer</string>
     <string name="unknownError1">Ocurrió un error desconocido</string>
+    <string name="notification_channel_id">notification_channel_id</string>
 </resources>
