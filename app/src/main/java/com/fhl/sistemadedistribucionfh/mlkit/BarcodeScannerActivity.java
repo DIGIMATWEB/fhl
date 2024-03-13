@@ -476,7 +476,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                   }
               }              //aqui solo se debe visivilizar el escaner ya que no hay ventanas emergentes
           }else{
-
+            Log.e("Recolectar","ver donde cae");
           }
 
         } else {
@@ -535,6 +535,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
 
     }
     public void detalManifestTicketsSummary(String mcurrentmanifest, List<dataTicketsManifestV2> codigoValidador, List<Sello> sellos){
+        stopCameraProcess();
         Bundle bundle = new Bundle();
         bundle.putString("currentManifest", mcurrentmanifest);
         bundle.putSerializable("dataTcikets",(Serializable) codigoValidador);
@@ -542,10 +543,11 @@ public class BarcodeScannerActivity extends AppCompatActivity
         detailTicketsSummary bottonSheetv = new detailTicketsSummary();
         bottonSheetv.setArguments(bundle);
         bottonSheetv.show(getSupportFragmentManager(), "detailTicketsSummary");
-        stopCameraProcess();
+
 
     }
     public void goTicketsSummary(){
+        stopCameraProcess();
         Bundle bundle = new Bundle();
         //bundle.putString("qrCode", code);
         bundle.putString("statusRecepcion", "3");
@@ -555,7 +557,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
         Salida bottonSheetv = new Salida();
         bottonSheetv.setArguments(bundle);
         bottonSheetv.show(getSupportFragmentManager(), "Salida");
-        stopCameraProcess();
+
     }
     public void goSellosSummary() {
         Bundle bundle = new Bundle();

@@ -9,4 +9,8 @@ public interface viewManifestDetailsV2 {
     void setTickets(List<dataTicketsManifestV2> data);
 
     void setSellos(List<Sello> response);
+
+    void showDialog();
+
+    void hideDialog();
 }

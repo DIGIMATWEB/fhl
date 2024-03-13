@@ -12,4 +12,8 @@ public interface presenterTicketsmanifestV2 {
     void getSellos(String folioDespachoId);
 
     void setSellos(List<Sello> response);
+
+    void showDialog();
+
+    void hideDialog();
 }

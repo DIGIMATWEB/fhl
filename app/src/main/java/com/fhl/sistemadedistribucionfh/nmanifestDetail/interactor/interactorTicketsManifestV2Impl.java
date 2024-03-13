@@ -48,6 +48,7 @@ public class interactorTicketsManifestV2Impl implements interactorTicketsManifes
 
         //requestTicketsManifestV2 request = new requestTicketsManifestV2(ticket);
         Call<responseTicketsManifestV2> call = service.getTicketsV2(ticket,  token);
+        presenter.showDialog();
         call.enqueue(new Callback<responseTicketsManifestV2>() {
             @Override
             public void onResponse(Call<responseTicketsManifestV2> call, Response<responseTicketsManifestV2> response) {
@@ -57,6 +58,7 @@ public class interactorTicketsManifestV2Impl implements interactorTicketsManifes
             @Override
             public void onFailure(Call<responseTicketsManifestV2> call, Throwable t) {
                 Toast.makeText(context, "bad request"+t.getMessage(), Toast.LENGTH_SHORT).show();
+                presenter.hideDialog();
                 //presenter.setDatahardcode();
             }
         });
@@ -69,6 +71,7 @@ public class interactorTicketsManifestV2Impl implements interactorTicketsManifes
                 getTickets(response, context);
             } else {
                 Toast.makeText(context, "fail respose" + response.message(), Toast.LENGTH_SHORT).show();
+                presenter.hideDialog();
             }
         }
     }
@@ -87,12 +90,15 @@ public class interactorTicketsManifestV2Impl implements interactorTicketsManifes
                     Log.e("manifestDetail","sin tickets asignados");
                    // Toast.makeText(context, "sin tickets asignados", Toast.LENGTH_SHORT).show();
                 }
+                presenter.hideDialog();
             }else{
                 Log.e("manifestDetail","response not ok");//Toast.makeText(context, "response not ok" + response.message(), Toast.LENGTH_SHORT).show();
+                presenter.hideDialog();
             }
 
         } else{
             Log.e("manifestDetail","response null");//Toast.makeText(context, "response null" + response.message(), Toast.LENGTH_SHORT).show();
+            presenter.hideDialog();
         }
     }
     @Override

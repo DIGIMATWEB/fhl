@@ -39,6 +39,7 @@ public class adapterTicketsManifestDetail extends RecyclerView.Adapter<adapterTi
     @Override
     public void onBindViewHolder(@NonNull adapterTicketsManifestDetail.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
       holder.razonDesc.setText(data.get(position).getFolioTicket());
+      holder.check.setVisibility(View.GONE);
 //        if(data.get(position).getFlag()==true){
 //            holder.check.setChecked(true);
 //            int tintColor = ContextCompat.getColor(context, R.color.yellow);

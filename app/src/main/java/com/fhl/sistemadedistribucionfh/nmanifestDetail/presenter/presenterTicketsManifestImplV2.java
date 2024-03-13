@@ -48,5 +48,21 @@ public class presenterTicketsManifestImplV2 implements presenterTicketsmanifestV
         }
     }
 
+    @Override
+    public void showDialog() {
+        if(view!=null){
+            view.showDialog();
+        }
+    }
+
+    @Override
+    public void hideDialog() {
+        if(view!=null){
+            if(view!=null){
+                view.hideDialog();
+            }
+        }
+    }
+
 
 }

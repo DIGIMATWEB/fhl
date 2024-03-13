@@ -3,6 +3,7 @@ package com.fhl.sistemadedistribucionfh.nmanifestDetail.view;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
@@ -19,6 +21,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.Loader.view.loaderFH;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 import com.fhl.sistemadedistribucionfh.Tickets.view.tickets;
@@ -47,6 +50,7 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
     private presenterTicketsmanifestV2 presenter;
     private TextView vehicleManifiesto, vehicleName, vehiclePlaca, vehicleCedis;
     private ImageButton recoletar;
+    private loaderFH progress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -81,9 +85,10 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         vehicleName.setText(vehiculoModeloId);
         vehiclePlaca.setText(vehiculoPlacaId);
         vehicleCedis.setText(cedisId);
-
+        progress = new loaderFH();
         presenter= new presenterTicketsManifestImplV2(this,getContext());
         presenter.getTickets(folioDespachoId);
+
         //setAdapter(data);
     }
 
@@ -124,15 +129,18 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
                 break;
             case R.id.recoletar:
                // Toast.makeText(getContext(), "recolectar", Toast.LENGTH_SHORT).show();
-                Bundle bundle = new Bundle();
-                bundle.putString("scannerType", "Recolectar");
-                bundle.putString("manifest",folioDespachoId);
-                bundle.putSerializable("tickets", (Serializable) data);
-                bundle.putSerializable("sellos", (Serializable) dataSellos);
-                Intent intent = new Intent(getActivity(), BarcodeScannerActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
-
+                if(data!=null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("scannerType", "Recolectar");
+                    bundle.putString("manifest", folioDespachoId);
+                    bundle.putSerializable("tickets", (Serializable) data);
+                    bundle.putSerializable("sellos", (Serializable) dataSellos);
+                    Intent intent = new Intent(getActivity(), BarcodeScannerActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getContext(), "No tienes tickets para recolectar", Toast.LENGTH_SHORT).show();
+                }
 //                Bundle bundle = new Bundle();
 //                bundle.putSerializable("tickets", (Serializable) data);
 //                ticketsSalida tickets = new ticketsSalida();
@@ -189,6 +197,27 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         this.dataSellos=response;
         Log.e("sellosdetailmanifest",""+dataSellos.size());
     }
+
+    @Override
+    public void showDialog() {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("HAS_TITLE", false);
+        bundle.putString("title","Cargando detalles");
+        progress.setArguments(bundle);
+        progress.show(getActivity().getSupportFragmentManager(), loaderFH.TAG);
+    }
+
+    @Override
+    public void hideDialog() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (progress != null && getView() != null)
+                    progress.dismiss();
+            }
+        }, 300);
+    }
+
     private void menutransition() {
         manager = getActivity().getSupportFragmentManager();
         transaction = manager.beginTransaction();

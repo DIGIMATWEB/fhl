@@ -1,6 +1,7 @@
 package com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Tickets;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Tick
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Salida.Model.v2.dataSalida;
 import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
+import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
 import java.io.Serializable;
@@ -63,7 +65,18 @@ public class detailTicketsSummary extends DialogFragment implements View.OnClick
                 imageButton=view.findViewById(R.id. imageButton);
                 imageButton.setOnClickListener(this);
         }
-
+        @Override
+        public void onResume() {
+                super.onResume();
+                getDialog().setOnKeyListener((dialog, keyCode, event) -> {
+                        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                                BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
+                                barcodeScannerActivity.onBackPressed();
+                                return true; // Change to 'false' if you want the dialog to close when back is pressed
+                        }
+                        return false;
+                });
+        }
         private void fillTicketsRV() {
                 adapter = new adapterTicketsManifestDetail(this,data,getContext());
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
