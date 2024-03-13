@@ -56,6 +56,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
 
             //  Toast.makeText(context, "mandarEvidencias", Toast.LENGTH_SHORT).show();
             if (secuenceRequest == 1) {
+                presenter.showDialog();
                 uploadFile(signatureBase64, 1, inputTextSignature,token);
                 //  Log.e("sendEvidence"," send signature : "+signatureBase64);
             } else if (secuenceRequest == 2) {
@@ -117,18 +118,22 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
                                 }else {
                                     Toast.makeText(context, ""+item.getMessage(), Toast.LENGTH_SHORT).show();
                                     Log.e("sendEvidence", "" + item.getMessage());
+                                    presenter.hideDialog();
                                 }
-
+                                presenter.nextRequest();
                             }
                         }else {
                             Log.e("sendEvidence", "data is empty o null 1");
+                            presenter.hideDialog();
                         }
-                        presenter.nextRequest();
+
                     }else{
                         Log.e("sendEvidence", "apiresponse null 1");
+                        presenter.hideDialog();
                     }
                 } else {
                     Toast.makeText(context, "File upload failed", Toast.LENGTH_SHORT).show();
+                    presenter.hideDialog();
                 }
             }
 
@@ -139,6 +144,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
                 String jsonString = gson.toJson(call.request().body());
                 Log.e("sendEvidence",""+t.getMessage()+"request  "+jsonString);
                // presenter.nextRequest();
+                presenter.hideDialog();
             }
         });
     }
@@ -187,18 +193,23 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
                                 }else{
                                     Log.e("sendEvidence", item.getMessage());
                                     Toast.makeText(context, ""+item.getMessage(), Toast.LENGTH_SHORT).show();
+                                    presenter.hideDialog();
                                 }
+                                presenter.nextRequest();
                             }
                         }else {
                             Log.e("sendEvidence", "data is empty o null");
+                            presenter.hideDialog();
                         }
-                        presenter.nextRequest();
+
                     }else{
                         Log.e("sendEvidence", "apiresponse null");
+                        presenter.hideDialog();
                     }
                 } else {
                     Log.e("sendEvidence", "File upload failed "+response.body());
                     Toast.makeText(context, "File upload failed", Toast.LENGTH_SHORT).show();
+                    presenter.hideDialog();
                 }
             }
 
@@ -206,6 +217,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
             public void onFailure(Call<ApiResponse> call, Throwable t) {
                 Toast.makeText(context, "File upload failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e("sendEvidence",""+t.getMessage());
+                presenter.hideDialog();
             }
         });
     }
@@ -226,9 +238,11 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
                //  Toast.makeText(context, ""+response.body().getData().getEncuestaOperadorPickup(), Toast.LENGTH_SHORT).show();
                   Log.e("ratingStars",""+response.body().getData().getEncuestaOperadorPickup());
                   presenter.nextRequest();
+
               }else{
                  // Toast.makeText(context,""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
                   Log.e("ratingStars",""+response.body().getMessage());
+                  presenter.hideDialog();
               }
             }
 
@@ -236,6 +250,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
             public void onFailure(Call<responseRate> call, Throwable t) {
               //  Toast.makeText(context, "Rate failed : " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e("ratingStars",""+t.getMessage());
+                presenter.hideDialog();
             }
         });
     }

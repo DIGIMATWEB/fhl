@@ -20,6 +20,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.Loader.view.loaderFH;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.evidence.documents.documents;
@@ -54,6 +55,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     private List<dataTicketsManifestV2> data;
     private Integer iterateidTickets=0;
     private Boolean isArrayofTickets=false;
+    private loaderFH progress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -178,6 +180,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         sendEvidence =findViewById(R.id.sendEvidence);
         sendEvidence.setOnClickListener(this);
         sendEvidence.setVisibility(View.GONE);
+        progress = new loaderFH();
         //icons
         presenter=new requestEvidencePresenterImpl(this,getBaseContext());
 
@@ -329,24 +332,54 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
              Toast.makeText(this, "usar sendtrip plus Cambiar estatus y regresar a manifiestos", Toast.LENGTH_SHORT).show();
 
             if(!isArrayofTickets) {
+                presenter.hideDialog();
                 removeShared();
                 cleanFolder();
                 gotomanifestV2();
+
             }else{
                 iterateidTickets=iterateidTickets+1;
                 Log.e("sendEvidence"," tickets "+iterateidTickets+" data: "+data.size());
                 if(iterateidTickets >(data.size()-1)){
+                    presenter.hideDialog();
                     removeShared();
                     cleanFolder();
                     gotomanifestV2();
+
                 }else {
                     secuenceRequest=1;
                     sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, data.get(iterateidTickets).getFolioTicket());
+
                 }
             }
+
         }else{
             Toast.makeText(this, "Todos los archivos se han enviado correctamente", Toast.LENGTH_SHORT).show();
             //todo regresar a manifiestos y limpiar toda la carpeta de archivos
+            presenter.hideDialog();
         }
+    }
+
+    @Override
+    public void showDialog() {
+        if (progress != null && !progress.isVisible()) {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("HAS_TITLE", false);
+            bundle.putString("title","Cargando detalles");
+            progress.setArguments(bundle);
+            progress.show(this.getSupportFragmentManager(), loaderFH.TAG);
+        }
+
+    }
+
+    @Override
+    public void hideDialog() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (progress != null && this != null)
+                    progress.dismiss();
+            }
+        }, 300);
     }
 }

@@ -6,4 +6,7 @@ public interface requestEvidencePresenter {
     void nextRequest();
 
     void sendRate(Integer stars, String folioTicket);
+    void showDialog();
+
+    void hideDialog();
 }

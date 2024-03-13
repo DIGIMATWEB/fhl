@@ -1,5 +1,6 @@
 package com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Tickets;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Tick
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Salida.Model.v2.dataSalida;
 import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
+import com.fhl.sistemadedistribucionfh.evidence.evidencia;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
@@ -89,13 +91,34 @@ public class detailTicketsSummary extends DialogFragment implements View.OnClick
                 switch (v.getId()) {
                         case R.id.imageButton:
                                 //Toast.makeText(getContext(), "isr a sellos sumarry", Toast.LENGTH_SHORT).show();
-                                Bundle bundle = new Bundle();
-                                bundle.putString("currentManifest", currentManifest);
-                                bundle.putSerializable("dataTcikets",(Serializable) data);
-                                bundle.putSerializable("sellos",(Serializable) sellos);
-                                sellosSummary bottomSheet = new sellosSummary();
-                                bottomSheet.setArguments(bundle);
-                                bottomSheet.show(getParentFragmentManager(), "sellosSummary");
+                                if(sellos!=null) {
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("currentManifest", currentManifest);
+                                        bundle.putSerializable("dataTcikets", (Serializable) data);
+                                        bundle.putSerializable("sellos", (Serializable) sellos);
+                                        sellosSummary bottomSheet = new sellosSummary();
+                                        bottomSheet.setArguments(bundle);
+                                        bottomSheet.show(getParentFragmentManager(), "sellosSummary");
+                                }else{
+
+                                        //esto es el bundle de sellos
+                                        // currentManifest = args.getString("currentManifest");
+                                        //            data= (List<dataTicketsManifestV2>) args.getSerializable("dataTcikets");
+                                        //            sellos = (List<Sello>) args.getSerializable("sellos");
+
+                                        //aqui te debe mandarSekkis
+                                        Toast.makeText(getContext(), "No tienes sellos", Toast.LENGTH_SHORT).show();
+                                        getActivity().finish();
+                                        Intent intent = new Intent(getActivity(), evidencia.class);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putInt("flujoId", 1);
+                                        bundle.putString("folioTicket", null);
+                                        bundle.putSerializable("dataTcikets",(Serializable) data);
+                                        intent.putExtras(bundle);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
+                                }
+
 
                                 break;
                 }

@@ -168,7 +168,13 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                 if(countok==model.size()){
 
                 }else {
-                    countok++;
+                    int checketCount=0;
+                    for(int i=0 ; i<data.size();i++){
+                        if(data.get(i).getFlag()==true){
+                            checketCount++;
+                        }
+                    }
+                    countok=checketCount;
                 }
             }
         }

@@ -35,6 +35,20 @@ public class requestEvidencePresenterImpl  implements requestEvidencePresenter{
             view.setMessage();
         }
     }
+    @Override
+    public void showDialog() {
+        if(view!=null){
+            view.showDialog();
+        }
+    }
 
+    @Override
+    public void hideDialog() {
+        if(view!=null){
+            if(view!=null){
+                view.hideDialog();
+            }
+        }
+    }
 
 }
