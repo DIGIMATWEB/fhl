@@ -3,8 +3,8 @@ package com.fhl.sistemadedistribucionfh.Retrofit;
 public class RetrofitEndPoints {
 
     public static final String URL_FH = "https://sistemasservice.trafficmanager.net/";
-    public static final String URL_PRODMANFEST = "https://operacionsgdservice.trafficmanager.net/App/Manifiesto/";//"http://pepserver:7420/app/manifiesto/"  //
-    public static final String URL_PRODVEHICLES = "https://operacionsgdservice.trafficmanager.net/App/Vehiculo/";//public static final String URL_PEPSERVER = "http://192.168.1.209:7420/app/manifiesto/";
+    public static final String URL_PRODMANFEST = "https://operacionsgdservice.trafficmanager.net/App/Manifiesto/";//http://192.168.1.227:7420/
+    public static final String URL_PRODVEHICLES = "https://operacionsgdservice.trafficmanager.net/App/Vehiculo/";//http://192.168.1.227:7420/
     //ENDPOINTS FH
     public static final String URL_FHL_SGD="https://administracionsgdservice.trafficmanager.net/";
     public static final String LOGIN = "Usuarios/Usuarios/Login";

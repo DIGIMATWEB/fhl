@@ -30,6 +30,7 @@ import com.fhl.sistemadedistribucionfh.MainActivity;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.login.view.login;
+import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
 
 public class HelpPermissionsViewImpl extends AppCompatActivity implements View.OnClickListener {
 
@@ -55,13 +56,24 @@ public class HelpPermissionsViewImpl extends AppCompatActivity implements View.O
 
         getShared();
     }
+    public void tokenExist() {
+        Intent intent = new Intent(this, mainContainer.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);//
 
+        startActivity(intent);
+    }
     public void getShared() {
         SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String permissionAccess = preferences.getString(GeneralConstants.PERMISSION_ACCESS, null);
+        String token = preferences.getString(GeneralConstants.TOKEN, null);
 
         if (permissionAccess != null) {
-            goToLoginContainer();
+            if(token!=null) {
+                tokenExist();
+            }else{
+                goToLoginContainer();
+            }
+
         } else {
             //RequestPermissions();
             //goToLoginContainer();

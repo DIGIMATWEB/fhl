@@ -23,6 +23,7 @@ import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 import com.fhl.sistemadedistribucionfh.evidence.evidencia;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class sellosSummary extends DialogFragment implements View.OnClickListener{
@@ -49,10 +50,16 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
         initView(view);
         if (args != null) {
             currentManifest = args.getString("currentManifest");
+            data= (List<dataTicketsManifestV2>) args.getSerializable("dataTcikets");
             sellos = (List<Sello>) args.getSerializable("sellos");
             if(sellos!=null){
                 fillTicketsRV();
             }
+        }
+        if(sellos!=null){
+
+        }else {
+            Toast.makeText(getContext(), "No tienes sellos", Toast.LENGTH_SHORT).show();
         }
 
         //setFonts();
@@ -82,6 +89,9 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
                 Intent intent = new Intent(getActivity(), evidencia.class);
                 Bundle bundle = new Bundle();
                 bundle.putInt("flujoId", 1);
+                bundle.putString("folioTicket", null);
+                bundle.putSerializable("dataTcikets",(Serializable) data);
+                intent.putExtras(bundle);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
 

@@ -89,6 +89,9 @@ public class cancelInteractorImpl implements cancelInteractor{
                                 // Handle the response data as needed
                                 if (innerData != null) {
                                     Log.e("sendEvidence", "" + innerData.getDocumentoId());
+                                }else {
+                                    Toast.makeText(context, ""+item.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Log.e("sendEvidence", "" + item.getMessage());
                                 }
                             }
                         }

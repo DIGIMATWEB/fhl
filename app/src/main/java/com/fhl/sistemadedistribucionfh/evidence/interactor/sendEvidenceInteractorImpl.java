@@ -14,6 +14,7 @@ import com.fhl.sistemadedistribucionfh.evidence.presenter.requestEvidencePresent
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.requestRate;
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.responseRate;
 import com.fhl.sistemadedistribucionfh.evidence.util.serviceEvidence;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -92,7 +93,9 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
 
         // Call the uploadFile method in Retrofit service
         Call<ApiResponse> call = service.uploadFile(authorization, folioObjeto, tipoEvidencia, listaArchivos, usuario,flujo);
-
+        Gson gson = new Gson();
+        String jsonString = gson.toJson("folio "+ticket+"   tipoEvidence "+ type+" listfiles "+ filePath+"  usuario " +Text +"  flow "+flujo);
+        Log.e("sendEvidence","request  "+jsonString);
 //        Log.e("sendEvidence", "URL: " + call.request().url());
 //        Log.e("sendEvidence", "Headers: " + call.request().headers());
 //        Log.e("sendEvidence", "Headers: " + call.request().headers());
@@ -102,7 +105,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 Log.e("sendEvidence",""+response.body());
                 if (response.isSuccessful()) {
-                    ApiResponse apiResponse = response.body();
+                   ApiResponse apiResponse = response.body();
                     if (apiResponse != null && apiResponse.getData() != null && !apiResponse.getData().isEmpty()) {
                         List<dataApiResponse> data = apiResponse.getData();
                         if (data != null && !data.isEmpty()) {
@@ -111,9 +114,10 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
                                 // Handle the response data as needed
                                 if (innerData != null) {
                                     Log.e("sendEvidence", "" + innerData.getDocumentoId());
-                                }else{
-                                Log.e("sendEvidence", "innerdatanull 1");
-                            }
+                                }else {
+                                    Toast.makeText(context, ""+item.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Log.e("sendEvidence", "" + item.getMessage());
+                                }
 
                             }
                         }else {
@@ -131,7 +135,9 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
                 Toast.makeText(context, "File upload failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.e("sendEvidence",""+t.getMessage());
+                Gson gson = new Gson();
+                String jsonString = gson.toJson(call.request().body());
+                Log.e("sendEvidence",""+t.getMessage()+"request  "+jsonString);
                // presenter.nextRequest();
             }
         });
@@ -179,7 +185,8 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
                                 if (innerData != null) {
                                     Log.e("sendEvidence", "" + innerData.getDocumentoId());
                                 }else{
-                                    Log.e("sendEvidence", "innerdatanull");
+                                    Log.e("sendEvidence", item.getMessage());
+                                    Toast.makeText(context, ""+item.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }else {
@@ -190,6 +197,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
                         Log.e("sendEvidence", "apiresponse null");
                     }
                 } else {
+                    Log.e("sendEvidence", "File upload failed "+response.body());
                     Toast.makeText(context, "File upload failed", Toast.LENGTH_SHORT).show();
                 }
             }

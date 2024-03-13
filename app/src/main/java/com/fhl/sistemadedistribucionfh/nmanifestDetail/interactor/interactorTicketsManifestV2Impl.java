@@ -84,14 +84,15 @@ public class interactorTicketsManifestV2Impl implements interactorTicketsManifes
                 if(data!=null){
                     presenter.setTickets(data);
                 }else{
-                    Toast.makeText(context, "sin tickets asignados", Toast.LENGTH_SHORT).show();
+                    Log.e("manifestDetail","sin tickets asignados");
+                   // Toast.makeText(context, "sin tickets asignados", Toast.LENGTH_SHORT).show();
                 }
             }else{
-                Toast.makeText(context, "response not ok" + response.message(), Toast.LENGTH_SHORT).show();
+                Log.e("manifestDetail","response not ok");//Toast.makeText(context, "response not ok" + response.message(), Toast.LENGTH_SHORT).show();
             }
 
         } else{
-            Toast.makeText(context, "response null" + response.message(), Toast.LENGTH_SHORT).show();
+            Log.e("manifestDetail","response null");//Toast.makeText(context, "response null" + response.message(), Toast.LENGTH_SHORT).show();
         }
     }
     @Override
@@ -138,7 +139,7 @@ public class interactorTicketsManifestV2Impl implements interactorTicketsManifes
                 if(resp.getData()!=null) {
                     presenter.setSellos(resp.getData().getSellos());
                 } else {
-                    Toast.makeText(context, "Sin tickets asignados2.", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "Sin tickets asignados2.", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();

@@ -56,6 +56,7 @@ public class login extends AppCompatActivity implements View.OnClickListener,log
 
         checkBoxState = false;
         presenter=new loginpresenterImplementation(this,getApplicationContext());
+
     }
 
     //Este metodo es para el boton de mostrar contraseña

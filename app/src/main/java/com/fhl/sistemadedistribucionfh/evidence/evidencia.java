@@ -29,8 +29,10 @@ import com.fhl.sistemadedistribucionfh.evidence.presenter.requestEvidencePresent
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.calificacion;
 import com.fhl.sistemadedistribucionfh.evidence.signature.signature;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
 import java.io.File;
+import java.util.List;
 
 public class evidencia extends AppCompatActivity implements View.OnClickListener,evidenceView {
     public static final String TAG = evidencia.class.getSimpleName();
@@ -49,6 +51,9 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     private Integer secuenceRequest=1;
     private Integer flujoId=0;
     private String folioTicket;
+    private List<dataTicketsManifestV2> data;
+    private Integer iterateidTickets=0;
+    private Boolean isArrayofTickets=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,10 +68,18 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             // Retrieve the integer value using the key "key_integer"
              flujoId= bundle.getInt("flujoId");
             folioTicket= bundle.getString("folioTicket");
+            data= (List<dataTicketsManifestV2>) bundle.getSerializable("dataTcikets");
+
             // Now intValue contains the value passed from the previous activity
             // You can use this value as needed
             // For example, you can log it or display it in a TextView
             Log.d("EvidenciaActivity", "Retrieved integer value: " + flujoId);
+            if(data!=null){
+                Log.e("EvidenciaActivity","folio "+folioTicket+" data "+data.size());
+            }else{
+              Log.e("EvidenciaActivity","folio "+folioTicket+" data : null");
+            }
+
         }
         initView();
         checkShared();
@@ -207,18 +220,30 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 secuenceRequest=1;
                 break;
             case R.id.sendEvidence://la primera vez la firma lo manda con esto
-
-                presenter.sendEvidence(secuenceRequest,signatureBase64,inputTextSignature,currusel,ffiles,flujoId,folioTicket);
-                Log.e("sendEvidence", "signatureBase64: " + signatureBase64 + "\n" +
-                        "inputTextSignature: " + inputTextSignature + "\n" +
-                        "carrusel:" + currusel + "\n" +
-                        "ffiles: " + ffiles + "\n" +
-                        "stars: " + stars+ "\n" +
-                        "secuenceRequest: " +  secuenceRequest);
-
+                Log.e("sendEvidence","folio "+folioTicket+" data "+data.size());
+                if(folioTicket!=null) {
+                    isArrayofTickets=false;
+                    presenter.sendEvidence(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, folioTicket);
+                    Log.e("sendEvidence", "signatureBase64: " + signatureBase64 + "\n" +
+                            "inputTextSignature: " + inputTextSignature + "\n" +
+                            "carrusel:" + currusel + "\n" +
+                            "ffiles: " + ffiles + "\n" +
+                            "stars: " + stars + "\n" +
+                            "secuenceRequest: " + secuenceRequest);
+                }else {
+                    if(data!=null) {
+                        isArrayofTickets=true;
+                        sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, data.get(iterateidTickets).getFolioTicket());
+                    }else{
+                        Toast.makeText(this, "No hay tickets al cual mandar evidencia", Toast.LENGTH_SHORT).show();
+                    }
+                }
                 break;
         }
 
+    }
+    private void sendEvidenceIfArrayofTickets(Integer secuenceRequest, String signatureBase64, String inputTextSignature, String currusel, String ffiles, Integer flujoId, String folioTicket){
+        presenter.sendEvidence(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, folioTicket);
     }
     private void removeShared(){
         SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
@@ -274,7 +299,15 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                             "ffiles: " + ffiles + "\n" +
                             "stars: " + stars+ "\n" +
                             "secuenceRequest: " +  secuenceRequest);
-                    presenter.sendEvidence(secuenceRequest,signatureBase64,inputTextSignature,currusel,ffiles, flujoId,folioTicket);
+                    if(folioTicket!=null) {
+                        presenter.sendEvidence(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, folioTicket);
+                    }else {
+                        if(data!=null) {
+                            sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, data.get(iterateidTickets).getFolioTicket());
+                        }else{
+                            Toast.makeText(getApplicationContext(), "No hay tickets al cual mandar evidencia", Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
             }, 4000);
 
@@ -282,13 +315,35 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             secuenceRequest = secuenceRequest + 1;
             Log.e("sendEvidence", "sendEvidence: " + secuenceRequest+" sendRate: "+ stars);
             int rating = (int) Math.round(Double.parseDouble(stars));
-            presenter.sendRate(rating,folioTicket);
+            if(folioTicket!=null) {
+                presenter.sendRate(rating, folioTicket);
+            }else {
+                if(data!=null) {
+                    presenter.sendRate(rating, data.get(iterateidTickets).getFolioTicket());
+                }else{
+                    Toast.makeText(this, "No hay tickets al cual mandar evidencia", Toast.LENGTH_SHORT).show();
+                }
+            }
             //Toast.makeText(this, "mandar estrellas", Toast.LENGTH_SHORT).show();
         }else if(secuenceRequest==5){//borra todo lo relacionano y regresa
-            Toast.makeText(this, "Cambiar estatus y regresar a manifiestos", Toast.LENGTH_SHORT).show();
-            removeShared();
-            cleanFolder();
-            gotomanifestV2();
+             Toast.makeText(this, "usar sendtrip plus Cambiar estatus y regresar a manifiestos", Toast.LENGTH_SHORT).show();
+
+            if(!isArrayofTickets) {
+                removeShared();
+                cleanFolder();
+                gotomanifestV2();
+            }else{
+                iterateidTickets=iterateidTickets+1;
+                Log.e("sendEvidence"," tickets "+iterateidTickets+" data: "+data.size());
+                if(iterateidTickets >(data.size()-1)){
+                    removeShared();
+                    cleanFolder();
+                    gotomanifestV2();
+                }else {
+                    secuenceRequest=1;
+                    sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, data.get(iterateidTickets).getFolioTicket());
+                }
+            }
         }else{
             Toast.makeText(this, "Todos los archivos se han enviado correctamente", Toast.LENGTH_SHORT).show();
             //todo regresar a manifiestos y limpiar toda la carpeta de archivos

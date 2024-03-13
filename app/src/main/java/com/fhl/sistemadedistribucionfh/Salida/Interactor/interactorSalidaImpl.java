@@ -142,7 +142,7 @@ public class interactorSalidaImpl implements interactorSalida {
                 if(resp.getData()!=null) {
                     presenter.setSalida(response);
                 } else {
-                    Toast.makeText(context, "Sin tickets asignados2.", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(context, "Sin tickets asignados2.", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();

@@ -78,6 +78,7 @@ public class detailTicketsSummary extends DialogFragment implements View.OnClick
                                 //Toast.makeText(getContext(), "isr a sellos sumarry", Toast.LENGTH_SHORT).show();
                                 Bundle bundle = new Bundle();
                                 bundle.putString("currentManifest", currentManifest);
+                                bundle.putSerializable("dataTcikets",(Serializable) data);
                                 bundle.putSerializable("sellos",(Serializable) sellos);
                                 sellosSummary bottomSheet = new sellosSummary();
                                 bottomSheet.setArguments(bundle);
