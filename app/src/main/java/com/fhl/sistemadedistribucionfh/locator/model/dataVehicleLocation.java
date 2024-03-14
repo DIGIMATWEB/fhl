@@ -12,13 +12,13 @@ public class dataVehicleLocation {
     @SerializedName("vin")
     private String vin;
     @SerializedName("latitud")
-    private Object latitud;
+    private Double latitud;
     @SerializedName("longitud")
-    private Object longitud;
+    private Double longitud;
     @SerializedName("foto")
-    private Object foto;
+    private String foto;
 
-    public dataVehicleLocation(Integer id, String placa, String economico, String vin, Object latitud, Object longitud, Object foto) {
+    public dataVehicleLocation(Integer id, String placa, String economico, String vin, Double latitud, Double longitud, String foto) {
         super();
         this.id = id;
         this.placa = placa;
@@ -61,27 +61,27 @@ public class dataVehicleLocation {
         this.vin = vin;
     }
 
-    public Object getLatitud() {
+    public Double getLatitud() {
         return latitud;
     }
 
-    public void setLatitud(Object latitud) {
+    public void setLatitud(Double latitud) {
         this.latitud = latitud;
     }
 
-    public Object getLongitud() {
+    public Double getLongitud() {
         return longitud;
     }
 
-    public void setLongitud(Object longitud) {
+    public void setLongitud(Double longitud) {
         this.longitud = longitud;
     }
 
-    public Object getFoto() {
+    public String getFoto() {
         return foto;
     }
 
-    public void setFoto(Object foto) {
+    public void setFoto(String foto) {
         this.foto = foto;
     }
 }

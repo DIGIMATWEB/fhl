@@ -47,7 +47,7 @@ public class locator  extends Fragment implements OnMapReadyCallback , LocationL
         private mainContainer mactivity;
         private LocationManager locationManager;
         private double latitude,longitude;
-        private Marker mainmarker;
+        private Marker mainmarker,vehicleMarker;
         String model = Build.MODEL;
         private TextView smartphone;
         private List<dataVehicleLocation> mdata;
@@ -159,6 +159,12 @@ public class locator  extends Fragment implements OnMapReadyCallback , LocationL
                 for(dataVehicleLocation vehicle:mdata){
                         if(vehicle.getLatitud()!=null&&vehicle.getLongitud()!=null) {
                                 Log.e("vehicleLoc", " Name " + vehicle.getPlaca() + " lat: " + vehicle.getLatitud() + " long: " + vehicle.getLongitud());
+                                BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.locatorsvg2);
+                                Bitmap b2 = bitmapdraw.getBitmap();
+                                Bitmap smallMarker2 = Bitmap.createScaledBitmap(b2, 100, 100, false);
+                                vehicleMarker=mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).icon(BitmapDescriptorFactory.fromBitmap(smallMarker2)));
+                                vehicleMarker.setPosition(new LatLng(vehicle.getLatitud(),vehicle.getLongitud()));
+                                break;
                         }
                 }
         }
