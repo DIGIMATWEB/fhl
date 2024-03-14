@@ -1,4 +1,4 @@
-package com.fhl.sistemadedistribucionfh.locator;
+package com.fhl.sistemadedistribucionfh.locator.view;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -18,9 +18,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import com.fhl.sistemadedistribucionfh.locator.model.dataVehicleLocation;
+import com.fhl.sistemadedistribucionfh.locator.presenter.presenterVehicles;
+import com.fhl.sistemadedistribucionfh.locator.presenter.presenterVehiclesImpl;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,7 +36,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.fhl.sistemadedistribucionfh.R;
-public class locator  extends Fragment implements OnMapReadyCallback , LocationListener {
+
+import java.util.List;
+
+public class locator  extends Fragment implements OnMapReadyCallback , LocationListener,locatorView {
         public static final String TAG = locator.class.getSimpleName();
 
         private GoogleMap mMap;
@@ -43,6 +50,8 @@ public class locator  extends Fragment implements OnMapReadyCallback , LocationL
         private Marker mainmarker;
         String model = Build.MODEL;
         private TextView smartphone;
+        private List<dataVehicleLocation> mdata;
+        private presenterVehicles presenter;
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -54,6 +63,7 @@ public class locator  extends Fragment implements OnMapReadyCallback , LocationL
                 if (mapView != null) {
                         mapView.getMapAsync(this);
                 }
+
                 return view;
         }
 
@@ -84,6 +94,8 @@ public class locator  extends Fragment implements OnMapReadyCallback , LocationL
                 mapView=view.findViewById(R.id.map);
                 smartphone=view.findViewById(R.id.modelSmarthphone);
                 smartphone.setText(model);
+                presenter= new presenterVehiclesImpl(this,getContext());
+                presenter.getVehicles();
         }
 
         @Override
@@ -141,6 +153,13 @@ public class locator  extends Fragment implements OnMapReadyCallback , LocationL
                 this.longitude=location.getLongitude();
                 drawLocation(latitude,longitude);
         }
-
-
+        @Override
+        public void setVehicles(List<dataVehicleLocation> data) {
+                this.mdata=data;
+                for(dataVehicleLocation vehicle:mdata){
+                        if(vehicle.getLatitud()!=null&&vehicle.getLongitud()!=null) {
+                                Log.e("vehicleLoc", " Name " + vehicle.getPlaca() + " lat: " + vehicle.getLatitud() + " long: " + vehicle.getLongitud());
+                        }
+                }
+        }
 }

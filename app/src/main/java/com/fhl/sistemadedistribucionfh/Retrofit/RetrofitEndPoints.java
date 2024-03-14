@@ -24,6 +24,7 @@ public class RetrofitEndPoints {
     public static final String URL_NEWLANDS ="http://digimat-interactive.com/fhl/";
     public static final String URL_MAP_API = "http://newlandapps.com/";
     public static final String REASONS_SGD = "Despachos/CausaCambio/GetAll";
+    public static final String LOCATION = "Vehiculos/Vehiculo/GetVehiculoAppMovil";
 
 //    public static final String MENUS = "menu.php";
 //    public static final String SALIDA = "salidaqr.php";
