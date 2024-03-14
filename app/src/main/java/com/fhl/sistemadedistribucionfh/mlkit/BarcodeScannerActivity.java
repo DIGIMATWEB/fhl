@@ -529,9 +529,10 @@ public class BarcodeScannerActivity extends AppCompatActivity
         editor.commit();
     }
     public void errorTicket() {
+        stopCameraProcess();
         errorDialog errorD = new errorDialog();
         errorD.show(getSupportFragmentManager(),"errorDialog");
-        stopCameraProcess();
+
 
     }
     public void detalManifestTicketsSummary(String mcurrentmanifest, List<dataTicketsManifestV2> codigoValidador, List<Sello> sellos){
@@ -560,6 +561,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
 
     }
     public void goSellosSummary() {
+        stopCameraProcess();
         Bundle bundle = new Bundle();
         //bundle.putString("qrCode", code);
         bundle.putString("statusRecepcion", "5");
@@ -569,7 +571,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
         Salida bottonSheetv = new Salida();
         bottonSheetv.setArguments(bundle);
         bottonSheetv.show(getSupportFragmentManager(), "Salida");
-        stopCameraProcess();
+
     }
     public void setTicketsArray(List<dataTicketsManifestV2> data) {
         this.dataTickets=data;
@@ -612,6 +614,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 if(status.equals("0")){
                     status="1";
                 }
+                stopCameraProcess();
                 Bundle bundle = new Bundle();
                 bundle.putString("qrCode", code);
                 bundle.putString("statusRecepcion", status);
@@ -619,7 +622,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 bottonSheetv.setArguments(bundle);
                 bottonSheetv.show(getSupportFragmentManager(),"Salida");
                 Toast.makeText(this, "verificar estatus de la salida y escaneo", Toast.LENGTH_SHORT).show();
-                stopCameraProcess();
+
             }
         }else
         {
