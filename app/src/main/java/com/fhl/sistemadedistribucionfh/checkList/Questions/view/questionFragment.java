@@ -19,12 +19,15 @@ import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.adapter.QuestionAdapter;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.model.Datum;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.model.responseChecklist;
+import com.fhl.sistemadedistribucionfh.checkList.Questions.model.sendChecklist.SendCheck;
+import com.fhl.sistemadedistribucionfh.checkList.Questions.model.sendChecklist.sendChecklist;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.presenter.presenterQuestions;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.presenter.presenterQuestionsImpl;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.Pregunta;
 import com.fhl.sistemadedistribucionfh.checkList.view.checkList;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class questionFragment extends Fragment implements View.OnClickListener ,questionsView {
@@ -32,13 +35,15 @@ public class questionFragment extends Fragment implements View.OnClickListener ,
     private Button buttonstartChecklist;
     private TextView helpertext;
     private ViewPager2 ViewPager;
-    private  List<Pregunta> mdata;
+    private  List<Pregunta> mfdata;
     private FragmentManager manager;
     private FragmentTransaction transaction;
     private String nombre,placa,vigencia,periodicida;
     private TextView namechecklist,vehiclTypeChecklist,manifestChecklist,statusChecklist;
     private Boolean ischeklistsetupok=false;
     private presenterQuestions presenter;
+    private sendChecklist sendChakclist;
+    private List<SendCheck> checklist=null;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,13 +84,23 @@ public class questionFragment extends Fragment implements View.OnClickListener ,
         manifestChecklist=view.findViewById(R.id. manifestChecklist);
         statusChecklist  =view.findViewById(R.id. statusChecklist);
         ViewPager = view.findViewById(R.id.ViewPager);
+        sendChakclist=new sendChecklist(checklist,"6",2);
         presenter= new presenterQuestionsImpl(this,getContext());
         presenter.requestQuestions();
     }
 
     @Override
     public void setQuestiomns(List<Pregunta> mdata) {
-        fillViewPager(mdata);
+        this.mfdata=mdata;
+        if(mfdata!=null){
+            checklist=new ArrayList<>();
+            checklist.clear();
+            for(Pregunta p: mfdata){
+                checklist.add(new SendCheck(p.getId(),0,"",""));
+
+            }
+        }
+        fillViewPager(mfdata);
         ischeklistsetupok=true;
     }
     public void fillViewPager(List<Pregunta> mdata){
@@ -150,5 +165,8 @@ public class questionFragment extends Fragment implements View.OnClickListener ,
 
                 break;
         }
+    }
+
+    public void setAndswersF(int pos, Integer id, Integer type, String answerDesc, Integer answerId) {
     }
 }

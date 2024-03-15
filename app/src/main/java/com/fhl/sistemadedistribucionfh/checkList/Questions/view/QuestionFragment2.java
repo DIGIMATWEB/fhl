@@ -5,7 +5,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -13,6 +15,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.checkList.Questions.model.Answer;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.model.Question;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.Pregunta;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.Respuesta;
@@ -27,6 +30,7 @@ public class QuestionFragment2 extends Fragment {
     private ConstraintLayout switchanswer,optionanswer,openanswer;
     private List<Pregunta> mquestions;
     private TextView textopenquestion,textopenquestion1,textbooleanonly,textPosition1,textPosition2,textPosition3;
+    private ImageButton buttonTrue,buttonFalse;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,21 +50,27 @@ public class QuestionFragment2 extends Fragment {
         textPosition1=view.findViewById(R.id.textPosition);
         textPosition2=view.findViewById(R.id. textPosition2);
         textPosition3=view.findViewById(R.id.textPosition3);
+
+        buttonTrue= view.findViewById(R.id.trueButton);
+        buttonFalse = view.findViewById(R.id.falseButton);
+
         // Set textPosition after initialization
 
 
-        if(question.getTipoCampo()==1){
+        if(question.getTipoCampo()==1){//todo TIPO SWITCH
             textPosition1.setText((pos + 1) + "/" + mquestions.size());
             textPosition1=view.findViewById(R.id.textPosition);
             switchanswer.setVisibility(View.VISIBLE);
             openanswer.setVisibility(View.GONE);
             optionanswer.setVisibility(View.GONE);
-        } else if(question.getTipoCampo()==2){
+            sendAnswer(3,"true",null);
+        } else if(question.getTipoCampo()==2){ //todo TIPO OPEN
             textPosition2.setText((pos + 1) + "/" + mquestions.size());
             openanswer.setVisibility(View.VISIBLE);
             switchanswer.setVisibility(View.GONE);
             optionanswer.setVisibility(View.GONE);
-        } else if(question.getTipoCampo()==3){
+            sendAnswer(3,"text",null);
+        } else if(question.getTipoCampo()==3){//todo TIPOS MULTIPLE
             textPosition3.setText((pos + 1) + "/" + mquestions.size());
             openanswer.setVisibility(View.GONE);
             switchanswer.setVisibility(View.GONE);
@@ -79,6 +89,24 @@ public class QuestionFragment2 extends Fragment {
 
             spinner.setPopupBackgroundResource(android.R.color.transparent); // Make dropdown background transparent
             spinner.setDropDownVerticalOffset(spinner.getHeight()); // Set vertical offset to position the dialog
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    Integer idAnswer=0;
+                    for(Respuesta r:mquestions.get(pos).getRespuestas()){
+                        if(r.getNombre()==parent.getSelectedItem()){
+                          idAnswer=  r.getPreguntaId();
+                        }
+                    }
+                    sendAnswer(3,parent.getSelectedItem().toString(),idAnswer);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
         }
 
         if (textopenquestion != null) {
@@ -86,6 +114,10 @@ public class QuestionFragment2 extends Fragment {
             textopenquestion1.setText(""+mquestions.get(pos).getNombre());
             textbooleanonly.setText(""+mquestions.get(pos).getNombre());
         }
+    }
+
+    private void sendAnswer(Integer type, String AnswerDesc,Integer AnswerId) {
+        mview.setAndswersF(pos,mquestions.get(pos).getId(),type,AnswerDesc,AnswerId);
     }
 
     public QuestionFragment2(Pregunta question, questionFragment mview, int position, List<Pregunta> questions) {
