@@ -8,7 +8,7 @@
         android:id="@+id/switchanswer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -57,10 +57,17 @@
                     app:layout_constraintTop_toTopOf="@+id/imageViewa" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="12dp"
+                    android:id="@+id/textPosition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="3dp"
-                    android:layout_marginEnd="6dp"
+                    android:layout_marginEnd="10dp"
+                    android:elevation="10dp"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textColor="@color/grey"
+                    android:textSize="8dp"
                     app:layout_constraintBottom_toBottomOf="@+id/imageViewa"
                     app:layout_constraintEnd_toEndOf="@+id/imageViewa"
                     app:layout_constraintStart_toEndOf="@+id/imageViewq"
@@ -212,14 +219,17 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/optionanswer"
-        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <androidx.cardview.widget.CardView
             android:layout_width="368dp"
             android:layout_height="380dp"
@@ -246,8 +256,8 @@
                     android:gravity="center"
                     android:text="Placas visibles y frontal trasera"
                     android:textAlignment="center"
-                    android:textStyle="bold"
                     android:textSize="18dp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/guidelinequestiona"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -255,37 +265,53 @@
 
                 </TextView>
 
-                <ImageView
-                    android:id="@+id/imageViewb"
-                    android:layout_width="50dp"
-                    android:layout_height="20dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/shape_counter"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/imageViewq1"
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:layout_marginStart="5dp"
-                    android:background="@drawable/quegreen"
-                    app:layout_constraintBottom_toBottomOf="@+id/imageViewb"
-                    app:layout_constraintStart_toStartOf="@+id/imageViewb"
-                    app:layout_constraintTop_toTopOf="@+id/imageViewb" />
+                    <ImageView
+                        android:id="@+id/imageViewb"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:layout_marginBottom="2dp"
+                        android:background="@drawable/shape_counter"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="12dp"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginEnd="6dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/imageViewb"
-                    app:layout_constraintEnd_toEndOf="@+id/imageViewb"
-                    app:layout_constraintStart_toEndOf="@+id/imageViewq1"
-                    app:layout_constraintTop_toTopOf="@+id/imageViewb" />
+                    <ImageView
+                        android:id="@+id/imageViewq1"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_marginStart="5dp"
+                        android:background="@drawable/quegreen"
+                        app:layout_constraintBottom_toBottomOf="@+id/imageViewb"
+                        app:layout_constraintStart_toStartOf="@+id/imageViewb"
+                        app:layout_constraintTop_toTopOf="@+id/imageViewb" />
 
+                    <TextView
+                        android:id="@+id/textPosition3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="10dp"
+                        android:elevation="10dp"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textColor="@color/grey"
+                        android:textSize="8dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/imageViewb"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/imageViewq1"
+                        app:layout_constraintTop_toTopOf="@+id/imageViewb" />
 
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <!--  <TextView
                      android:layout_width="wrap_content"
@@ -297,74 +323,74 @@
                      app:layout_constraintEnd_toEndOf="@+id/imagephoto"
                      app:layout_constraintStart_toStartOf="@+id/imagephoto"
                      app:layout_constraintTop_toBottomOf="@+id/textopenquestion" /-->
-                 <androidx.constraintlayout.widget.ConstraintLayout
-                     android:id="@+id/constraintLayout13"
-                     android:layout_width="0dp"
-                     android:layout_height="52dp"
-                     app:layout_constraintEnd_toEndOf="parent"
-                     app:layout_constraintStart_toStartOf="parent"
-                     app:layout_constraintTop_toTopOf="@+id/guidelinequestion212">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout13"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/guidelinequestion212">
 
-                     <androidx.constraintlayout.widget.ConstraintLayout
-                         android:id="@+id/cardView4"
-                         android:layout_width="0dp"
-                         android:layout_height="0dp"
-                         android:layout_marginStart="15dp"
-                         android:layout_marginTop="4dp"
-                         android:layout_marginEnd="15dp"
-                         android:layout_marginBottom="4dp"
-                         app:layout_constraintBottom_toBottomOf="parent"
-                         app:layout_constraintEnd_toEndOf="parent"
-                         app:layout_constraintStart_toStartOf="parent"
-                         app:layout_constraintTop_toTopOf="parent">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cardView4"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="4dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                         <Spinner
-                             android:id="@+id/spinnerquestionary"
-                             android:layout_width="match_parent"
-                             android:layout_height="match_parent"
-                             android:spinnerMode="dialog" />
-                     </androidx.constraintlayout.widget.ConstraintLayout>
+                        <Spinner
+                            android:id="@+id/spinnerquestionary"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:spinnerMode="dialog" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                 </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                 <ImageView
+                <ImageView
 
-                     android:visibility="gone"
-                     android:layout_width="30dp"
-                     android:layout_height="30dp"
-                     android:background="@drawable/ic_menu_gallery"
-                     app:layout_constraintBottom_toTopOf="@+id/guidelinequestion212"
-                     app:layout_constraintEnd_toEndOf="parent"
-                     app:layout_constraintStart_toEndOf="@+id/textopenquestion"
-                     app:layout_constraintTop_toTopOf="parent">
-                 </ImageView>
-                 <TextView
-                     android:layout_width="wrap_content"
-                     android:layout_height="30dp"
-                     android:layout_marginBottom="15dp"
-                     android:gravity="center"
-                     android:textColor="#C4C4C4"
-                     android:text="Fotrografía requerida"
-                     app:layout_constraintBottom_toTopOf="@+id/imagephoto"
-                     app:layout_constraintEnd_toEndOf="@+id/imagephoto"
-                     app:layout_constraintStart_toStartOf="@+id/imagephoto" />
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/ic_menu_gallery"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@+id/guidelinequestion212"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textopenquestion"
+                    app:layout_constraintTop_toTopOf="parent"></ImageView>
 
-                 <ImageView
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="15dp"
+                    android:gravity="center"
+                    android:text="Fotrografía requerida"
+                    android:textColor="#C4C4C4"
+                    app:layout_constraintBottom_toTopOf="@+id/imagephoto"
+                    app:layout_constraintEnd_toEndOf="@+id/imagephoto"
+                    app:layout_constraintStart_toStartOf="@+id/imagephoto" />
 
-                     android:id="@+id/imagephoto"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_marginBottom="15dp"
-                     android:background="@drawable/camera_vectors"
-                     android:backgroundTint="#C4C4C4"
-                     android:visibility="visible"
-                     app:layout_constraintBottom_toBottomOf="parent"
-                     app:layout_constraintEnd_toEndOf="parent"
-                     app:layout_constraintStart_toStartOf="parent">
+                <ImageView
 
-                 </ImageView>
-                 <!--<View
+                    android:id="@+id/imagephoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/camera_vectors"
+                    android:backgroundTint="#C4C4C4"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                </ImageView>
+                <!--<View
                      android:id="@+id/view72"
                      android:layout_width="0dp"
                      android:layout_height="1dp"
@@ -383,6 +409,7 @@
                     app:layout_constraintGuide_percent="0.65">
 
                 </androidx.constraintlayout.widget.Guideline>
+
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guidelinequestion212"
                     android:layout_width="wrap_content"
@@ -391,6 +418,7 @@
                     app:layout_constraintGuide_percent="0.55">
 
                 </androidx.constraintlayout.widget.Guideline>
+
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guidelinequestiona"
                     android:layout_width="wrap_content"
@@ -399,6 +427,7 @@
                     app:layout_constraintGuide_percent="0.45">
 
                 </androidx.constraintlayout.widget.Guideline>
+
                 <androidx.constraintlayout.widget.Guideline
 
                     android:id="@+id/guidelinequestion1"
@@ -411,6 +440,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/openanswer"
         android:visibility="gone"
@@ -436,7 +466,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="visible">
-
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible">
                 <ImageView
                     android:id="@+id/imageView21"
                     android:layout_width="50dp"
@@ -458,15 +491,22 @@
                     app:layout_constraintTop_toTopOf="@+id/imageView21" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="12dp"
+                    android:id="@+id/textPosition2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="3dp"
-                    android:layout_marginEnd="6dp"
+                    android:layout_marginEnd="10dp"
+                    android:elevation="10dp"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textColor="@color/grey"
+                    android:textSize="8dp"
                     app:layout_constraintBottom_toBottomOf="@+id/imageView21"
                     app:layout_constraintEnd_toEndOf="@+id/imageView21"
                     app:layout_constraintStart_toEndOf="@+id/imageView22"
                     app:layout_constraintTop_toTopOf="@+id/imageView21" />
-
+            </androidx.constraintlayout.widget.ConstraintLayout>
                 <TextView
                     android:id="@+id/textopenquestion1"
                     android:layout_width="0dp"
