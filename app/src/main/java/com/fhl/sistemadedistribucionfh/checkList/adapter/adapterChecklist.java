@@ -55,13 +55,15 @@ public class adapterChecklist extends RecyclerView.Adapter<adapterChecklist.View
 
         if (data.getVehiculoVsChecklist().get(position).getPeriodicidad() instanceof String) {
             periodicidad=data.getVehiculoVsChecklist().get(position).getPeriodicidad().toString();
+            holder.manifestChecklist.setText("Por " +periodicidad);
         } else if (data.getVehiculoVsChecklist().get(position).getPeriodicidad() instanceof Map) {
 //            List<String> dias = (List<String>) ((Map<String, Object>) periodicidad).get("dias");
 //            System.out.println("Periodicidad is an array of days: " + dias);
+            holder.manifestChecklist.setText("Por " );
         } else {
-
+            holder.manifestChecklist.setText(": " );
         }
-            holder.manifestChecklist.setText(periodicidad);
+
         String dateString=data.getVehiculoVsChecklist().get(position).getChecklist().getFechaVencimiento();
         LocalDateTime givenDate = LocalDateTime.parse(dateString, DateTimeFormatter.ISO_DATE_TIME);
         // Get the current date and time

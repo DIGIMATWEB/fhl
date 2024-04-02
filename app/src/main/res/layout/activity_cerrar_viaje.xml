@@ -339,7 +339,7 @@
         android:id="@+id/trashicon"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/textView65"
         app:layout_constraintEnd_toEndOf="@+id/dialogReasons"
         app:layout_constraintTop_toTopOf="@+id/textView65"

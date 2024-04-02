@@ -86,7 +86,7 @@
                 android:id="@+id/textView44"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Manifiesto"
+                android:text="Periodicidad"
                 android:textSize="@dimen/h6"
                 app:layout_constraintBottom_toTopOf="@+id/guidelinechecklist5"
                 app:layout_constraintStart_toStartOf="@+id/guidelinechecklist3"

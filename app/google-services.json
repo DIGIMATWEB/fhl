@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "737965642665",
+    "project_id": "fhl-notificaciones",
+    "storage_bucket": "fhl-notificaciones.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:737965642665:android:79749082a321df9a0eaab8",
+        "android_client_info": {
+          "package_name": "com.fhl.sistemadedistribucionfh"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTJCLsGvkyoSv-MYTBpbC7iDvBzOO-oRY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
