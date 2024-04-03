@@ -276,7 +276,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
     }
     @Override
     public void tokenAvocado() {
-        requestLoginAvocado request= new requestLoginAvocado("walmart*","walmart");
+        requestLoginAvocado request= new requestLoginAvocado("efren","efrenw");
         Call<responseLoginAvocado> call= service2.loginAvocado(request);
         call.enqueue(new Callback<responseLoginAvocado>() {
             @Override
@@ -316,6 +316,8 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
                     editor.putString(GeneralConstants.TOKEN_AVOCADO, String.valueOf( data.getToken()));
                    // editor.putString(GeneralConstants.CVE_EMPLOYE,String.valueOf(data.getCve_employee()));
                     editor.commit();
+                    Log.e("token"," token avocado: "+data.getToken());
+                    presenter.validateSendtrip();
 
                 }
             }else{

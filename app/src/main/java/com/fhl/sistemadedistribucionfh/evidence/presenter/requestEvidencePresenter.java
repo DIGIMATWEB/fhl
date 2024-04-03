@@ -13,4 +13,6 @@ public interface requestEvidencePresenter {
     void sendSentriplus();
 
     void tokenAvocado();
+
+    void validateSendtrip();
 }

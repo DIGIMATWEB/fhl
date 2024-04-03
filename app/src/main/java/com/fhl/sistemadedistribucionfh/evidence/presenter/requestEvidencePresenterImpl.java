@@ -44,6 +44,13 @@ public class requestEvidencePresenterImpl  implements requestEvidencePresenter{
     }
 
     @Override
+    public void validateSendtrip() {
+        if(view!=null){
+            view.validateSendtrip();
+        }
+    }
+
+    @Override
     public void nextRequest() {
         if(view!=null){
             view.setMessage();

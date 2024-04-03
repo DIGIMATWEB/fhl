@@ -5,4 +5,6 @@ public interface evidenceView {
     void showDialog();
 
     void hideDialog();
+
+    void validateSendtrip();
 }

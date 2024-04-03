@@ -186,7 +186,24 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         presenter.tokenAvocado();
 
     }
+    @Override
+    public void validateSendtrip() {
+        if(folioTicket!=null) {
+            isArrayofTickets=false;
 
+        }else {
+            if(data!=null) {
+                if(data.size()>1){
+                    isArrayofTickets=true;
+                }else{
+                    isArrayofTickets=false;
+
+                }
+            }else{
+
+            }
+        }
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
