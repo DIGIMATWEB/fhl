@@ -395,7 +395,8 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
             {
                 Log.e("sendtripplus","105");
                 if(data!=null) {
-                 Toast.makeText(context, ""+data.getOrderFolio(), Toast.LENGTH_SHORT).show();
+                 Toast.makeText(context, "Folio sendTrip: "+data.getOrderFolio(), Toast.LENGTH_SHORT).show();
+                    Log.e("sendtripplus","Folio sendTrip: "+data.getOrderFolio());
                   presenter.nextRequest();
                 }
             }else{
