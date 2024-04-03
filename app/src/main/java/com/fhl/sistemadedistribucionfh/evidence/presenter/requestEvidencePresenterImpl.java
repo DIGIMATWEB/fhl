@@ -30,6 +30,20 @@ public class requestEvidencePresenterImpl  implements requestEvidencePresenter{
         }
     }
     @Override
+    public void sendSentriplus() {
+        if(view!=null){
+            interactor.sendSentriplus();
+        }
+    }
+
+    @Override
+    public void tokenAvocado() {
+        if(view!=null){
+            interactor.tokenAvocado();
+        }
+    }
+
+    @Override
     public void nextRequest() {
         if(view!=null){
             view.setMessage();
@@ -45,10 +59,12 @@ public class requestEvidencePresenterImpl  implements requestEvidencePresenter{
     @Override
     public void hideDialog() {
         if(view!=null){
-            if(view!=null){
+
                 view.hideDialog();
-            }
+
         }
     }
+
+
 
 }

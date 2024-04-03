@@ -183,6 +183,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         progress = new loaderFH();
         //icons
         presenter=new requestEvidencePresenterImpl(this,getBaseContext());
+        presenter.tokenAvocado();
 
     }
 
@@ -235,8 +236,13 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                             "secuenceRequest: " + secuenceRequest);
                 }else {
                     if(data!=null) {
+                        if(data.size()>1){
                         isArrayofTickets=true;
                         sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, data.get(iterateidTickets).getFolioTicket());
+                        }else{
+                        isArrayofTickets=false;
+                        sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, data.get(0).getFolioTicket());
+                        }
                     }else{
                         Toast.makeText(this, "No hay tickets al cual mandar evidencia", Toast.LENGTH_SHORT).show();
                     }
@@ -328,25 +334,30 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 }
             }
             //Toast.makeText(this, "mandar estrellas", Toast.LENGTH_SHORT).show();
-        }else if(secuenceRequest==5){//borra todo lo relacionano y regresa
+        }else if(secuenceRequest==5){
+            secuenceRequest = secuenceRequest + 1;
+            Log.e("sendEvidence","Se envia a sendtripplus");
+            presenter.sendSentriplus();
+        }else if(secuenceRequest==6){//borra todo lo relacionano y regresa
              Toast.makeText(this, "usar sendtrip plus Cambiar estatus y regresar a manifiestos", Toast.LENGTH_SHORT).show();
 
-            if(!isArrayofTickets) {
+            if(!isArrayofTickets) {//todo si es solo uno manda el manifiesto
                 presenter.hideDialog();
                 removeShared();
                 cleanFolder();
                 gotomanifestV2();
 
-            }else{
+            }else{//todo si son variso tickets repite el proceso
+
                 iterateidTickets=iterateidTickets+1;
                 Log.e("sendEvidence"," tickets "+iterateidTickets+" data: "+data.size());
-                if(iterateidTickets >(data.size()-1)){
+                if(iterateidTickets >(data.size()-1)){//todo si es el ultimo ticket va a manifiestos
                     presenter.hideDialog();
                     removeShared();
                     cleanFolder();
                     gotomanifestV2();
 
-                }else {
+                }else {//todo si no es el ultimo ticket vuelve a iterar otra vez secuenceRequest sirve para mandar primero firma luego fotos luego archivos y por ultimo calificacion
                     secuenceRequest=1;
                     sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, data.get(iterateidTickets).getFolioTicket());
 

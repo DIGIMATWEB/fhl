@@ -6,7 +6,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
+import com.fhl.sistemadedistribucionfh.Retrofit.RetrifitClientAvocado;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientFHManifest;
+import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientNewlands;
+import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.ApiResponse;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.InnerData;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.dataApiResponse;
@@ -14,6 +17,14 @@ import com.fhl.sistemadedistribucionfh.evidence.presenter.requestEvidencePresent
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.requestRate;
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.responseRate;
 import com.fhl.sistemadedistribucionfh.evidence.util.serviceEvidence;
+import com.fhl.sistemadedistribucionfh.sendTripPlus.model.avocado.dataAvocado;
+import com.fhl.sistemadedistribucionfh.sendTripPlus.model.avocado.requestLoginAvocado;
+import com.fhl.sistemadedistribucionfh.sendTripPlus.model.avocado.responseLoginAvocado;
+import com.fhl.sistemadedistribucionfh.sendTripPlus.model.request.SendTripPlus;
+import com.fhl.sistemadedistribucionfh.sendTripPlus.model.request.Trip;
+import com.fhl.sistemadedistribucionfh.sendTripPlus.model.response.Data;
+import com.fhl.sistemadedistribucionfh.sendTripPlus.model.response.ResponseSendTripPlus;
+import com.fhl.sistemadedistribucionfh.sendTripPlus.util.serviceSendtripPlus;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -34,7 +45,8 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
     private Context context;
     private requestEvidencePresenter presenter;
     private serviceEvidence service;
-    private Retrofit retrofitClient;
+    private serviceSendtripPlus service2;
+    private Retrofit retrofitClient,retrofitClientV2;
     private String ftoken;
     private Integer flujo;
     private String ticket;
@@ -43,6 +55,9 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         this.context=context;
         retrofitClient = RetrofitClientFHManifest.getRetrofitInstance();
         service = retrofitClient.create(serviceEvidence.class);
+
+        retrofitClientV2= RetrifitClientAvocado.getRetrofitInstance();
+        service2 = retrofitClientV2.create(serviceSendtripPlus.class);
 
     }
     @Override
@@ -230,28 +245,166 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
 
         requestRate request= new requestRate(folioTicket,6,stars);
         Call<responseRate> call =service.sendRate(ftoken,request);
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(request);
+        Log.e("sendRate","request  "+jsonString+" token "+ftoken);
         call.enqueue(new Callback<responseRate>() {
             @Override
             public void onResponse(Call<responseRate> call, Response<responseRate> response) {
 
               if(response.body().getStatus()==200){
                //  Toast.makeText(context, ""+response.body().getData().getEncuestaOperadorPickup(), Toast.LENGTH_SHORT).show();
-                  Log.e("ratingStars",""+response.body().getData().getEncuestaOperadorPickup());
+                //  Log.e("ratingStars",""+response.body().getData().getEncuestaOperadorPickup());
                   presenter.nextRequest();
 
               }else{
                  // Toast.makeText(context,""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
                   Log.e("ratingStars",""+response.body().getMessage());
+
                   presenter.hideDialog();
               }
             }
 
             @Override
             public void onFailure(Call<responseRate> call, Throwable t) {
-              //  Toast.makeText(context, "Rate failed : " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.e("ratingStars",""+t.getMessage());
-                presenter.hideDialog();
+               Toast.makeText(context, "Rate failed : " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("ratingStars","1"+t.getMessage());
+                //presenter.hideDialog();
+                presenter.nextRequest();
             }
         });
+    }
+    @Override
+    public void tokenAvocado() {
+        requestLoginAvocado request= new requestLoginAvocado("walmart*","walmart");
+        Call<responseLoginAvocado> call= service2.loginAvocado(request);
+        call.enqueue(new Callback<responseLoginAvocado>() {
+            @Override
+            public void onResponse(Call<responseLoginAvocado> call, Response<responseLoginAvocado> response) {
+                validateOriginresponse(response,context);
+              
+            }
+
+            @Override
+            public void onFailure(Call<responseLoginAvocado> call, Throwable t) {
+                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void validateOriginresponse(Response<responseLoginAvocado> response, Context context) {
+        if (RetrofitValidations.checkSuccessCode(response.code())) {
+            responseOirgin(response,context);
+        } else {
+            Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void responseOirgin(Response<responseLoginAvocado> response, Context context) {
+        responseLoginAvocado responseOrigin=response.body();
+        if(responseOrigin!=null)
+        {
+            int responseCode=responseOrigin.getResponseCode();
+            String message=responseOrigin.getMessage();
+            dataAvocado data= responseOrigin.getData();
+            if(responseCode==100)
+            {
+
+                if(data!=null) {
+                    SharedPreferences preferencias = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferencias.edit();
+                    editor.putString(GeneralConstants.TOKEN_AVOCADO, String.valueOf( data.getToken()));
+                   // editor.putString(GeneralConstants.CVE_EMPLOYE,String.valueOf(data.getCve_employee()));
+                    editor.commit();
+
+                }
+            }else{
+            }
+        }else{
+        }
+    }
+
+    @Override
+    public void sendSentriplus() {
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String token_Avocado = preferences.getString(GeneralConstants.TOKEN_AVOCADO, null);
+        if(token_Avocado!=null){
+            requestSendtriplus(token_Avocado);
+            Log.e("sendtripplus","requestSendtriplus");
+        }
+    }
+
+    private void requestSendtriplus(String token_Avocado) {
+        Trip mtrip= new Trip("",0,"","",""
+                ,"","",0,0,
+                new ArrayList<>(),"","","","","","",
+                0,0,"",
+                "","","","","","","","",
+                "","","","","","","");
+        mtrip.setComments("PRUEBAS2022");
+        mtrip.setOrderFolio(0);
+        mtrip.setOrderDriver("WALMART");
+        mtrip.setOrderTimestampD("2024-04-02T17:41:44.152Z");
+        mtrip.setOrderTimestampIntervalE("2024-04-02T17:41:44.152Z");
+        mtrip.setOrderTimestampIntervalS("2024-04-02T17:41:44.152Z");
+        mtrip.setOrderTimestampO("2024-04-02T17:41:44.152Z");
+        mtrip.setOrderUploadingTime(0);
+        mtrip.setPackageCounts(0);
+        mtrip.setRecipientCompanyname("NEWGEODESTINO");
+        mtrip.setRecipientPostalcode("00000");
+        mtrip.setShipperCompanyname("NEWGEOORIGEN");
+        mtrip.setShipperPostalcode("00000");
+        mtrip.setVehicleName("NLA-003YF2");
+        mtrip.setVehiclePlate("NLA-003YF2");
+        SendTripPlus request= new SendTripPlus(token_Avocado,mtrip);
+        Call<ResponseSendTripPlus> call= service2.setSendtriplus(request);
+        call.enqueue(new Callback<ResponseSendTripPlus>() {
+            @Override
+            public void onResponse(Call<ResponseSendTripPlus> call, Response<ResponseSendTripPlus> response) {
+                validateSendtriplus(response,context);
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseSendTripPlus> call, Throwable t) {
+                Log.e("sendtripplus","onFailure");
+                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                presenter.nextRequest();
+            }
+        });
+    }
+
+    private void validateSendtriplus(Response<ResponseSendTripPlus> response, Context context) {
+        if (RetrofitValidations.checkSuccessCode(response.code())) {
+            responseSendtrip(response,context);
+        } else {
+            Log.e("sendtripplus","RetrofitValidations fail");
+            Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show();
+            presenter.nextRequest();
+        }
+    }
+
+    private void responseSendtrip(Response<ResponseSendTripPlus> response, Context context) {
+        ResponseSendTripPlus resp=response.body();
+        if(resp!=null)
+        {
+            int responseCode=resp.getResponseCode();
+            String message=resp.getMessage();
+            Data data= resp.getData();
+            if(responseCode==105)
+            {
+                Log.e("sendtripplus","105");
+                if(data!=null) {
+                 Toast.makeText(context, ""+data.getOrderFolio(), Toast.LENGTH_SHORT).show();
+                  presenter.nextRequest();
+                }
+            }else{
+                presenter.nextRequest();
+                Log.e("sendtripplus","no  105");
+            }
+        }else{
+            presenter.nextRequest();
+            Log.e("sendtripplus","resp null");
+        }
     }
 }

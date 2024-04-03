@@ -9,4 +9,8 @@ public interface requestEvidencePresenter {
     void showDialog();
 
     void hideDialog();
+
+    void sendSentriplus();
+
+    void tokenAvocado();
 }

@@ -3,10 +3,11 @@ package com.fhl.sistemadedistribucionfh.Retrofit;
 public class RetrofitEndPoints {
 
     public static final String URL_FH = "https://sistemasservice.trafficmanager.net/";
-    public static final String URL_PRODMANFEST = "https://operacionsgdservice.trafficmanager.net/App/Manifiesto/";//http://192.168.1.227:7420/
-    public static final String URL_PRODVEHICLES = "https://operacionsgdservice.trafficmanager.net/App/Vehiculo/";//http://192.168.1.227:7420/
+    public static final String URL_PRODMANFEST ="http://192.168.1.243:7420/App/Manifiesto/";//"https://operacionsgdservice.trafficmanager.net/App/Manifiesto/";//  //http://192.168.1.227:7420/
+    public static final String URL_PRODVEHICLES ="http://192.168.1.243:7420/App/Vehiculo/";//"https://operacionsgdservice.trafficmanager.net/App/Vehiculo/";// //http://192.168.1.227:7420/
     //ENDPOINTS FH
     public static final String URL_FHL_SGD="https://administracionsgdservice.trafficmanager.net/";
+    public static final String URL_AVOCADO="http://35.194.83.10/WS-phoenixApiPROD/";
     public static final String LOGIN = "Usuarios/Usuarios/Login";
     public static final String MENUSFH = "Catalogos/Modulos/GetListByUsuarioAplicacion/";
     //ENDPOINTS PEP
@@ -25,6 +26,8 @@ public class RetrofitEndPoints {
     public static final String URL_MAP_API = "http://newlandapps.com/";
     public static final String REASONS_SGD = "Despachos/CausaCambio/GetAll";
     public static final String LOCATION = "Vehiculos/Vehiculo/GetVehiculoAppMovil";
+    public static final String SENDTRIPPLUS ="logistic/sendTripPlus";
+    public static final String LOGINAVOCADO = "login/loginApp_v2";
 
 //    public static final String MENUS = "menu.php";
 //    public static final String SALIDA = "salidaqr.php";
