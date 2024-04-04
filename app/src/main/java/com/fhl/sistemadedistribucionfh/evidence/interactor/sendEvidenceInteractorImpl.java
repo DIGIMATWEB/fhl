@@ -346,7 +346,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
                 ,"","",0,0,
                 new ArrayList<>(),"","","","","","",
                 0,0,"",
-                "","","","","","","","",
+                "","","","","FH","","","",
                 "","","","","","","");
         mtrip.setComments(currentManifest);
         mtrip.setOrderFolio(Integer.valueOf(data.getFolioTicket()));//mtrip.setOrderFolio(0);
