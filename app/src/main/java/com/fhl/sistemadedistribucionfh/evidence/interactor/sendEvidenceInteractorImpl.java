@@ -369,8 +369,8 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         mtrip.setRecipientPostalcode(String.valueOf(data.getSendtripPlus().getDestinatario().getCodigoPostal()));//mtrip.setRecipientPostalcode("00000");//todo validar
         mtrip.setShipperCompanyname(data.getSendtripPlus().getRemitente().getCompania());//mtrip.setShipperCompanyname("NEWGEOORIGEN");//todo revisar alan
         mtrip.setShipperPostalcode(String.valueOf(data.getSendtripPlus().getRemitente().getCodigoPostal()));//mtrip.setShipperPostalcode("00000");
-        mtrip.setVehicleName("NLA-003YF2");
-        mtrip.setVehiclePlate("NLA-003YF2");
+        mtrip.setVehicleName(data.getVehiculo().getEconomico());//mtrip.setVehicleName("NLA-003YF2");//todo economico
+        mtrip.setVehiclePlate(data.getVehiculo().getPlaca());//mtrip.setVehiclePlate("NLA-003YF2");//todo placa
         SendTripPlus request= new SendTripPlus(token_Avocado,mtrip);
         Call<ResponseSendTripPlus> call= service2.setSendtriplus(request);
         call.enqueue(new Callback<ResponseSendTripPlus>() {

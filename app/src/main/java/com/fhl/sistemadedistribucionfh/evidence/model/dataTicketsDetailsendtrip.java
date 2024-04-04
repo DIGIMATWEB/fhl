@@ -82,7 +82,20 @@ public class dataTicketsDetailsendtrip {
     @SerializedName("Id")
     @Expose
     private Integer id;
-    public dataTicketsDetailsendtrip(List<DocumentosVehiculo> documentosVehiculo, List<HabilidadesOperador> habilidadesOperador, List<DocumentosOperador> documentosOperador, List<HabilidadesAuxiliar> habilidadesAuxiliar, List<DocumentosAuxiliar> documentosAuxiliar, List<EvidenciaSalida> evidenciaSalida, List<EvidenciaLlegada> evidenciaLlegada, List<Object> checkList, Cliente cliente, TipoVehiculo tipoVehiculo, TipoEntrega tipoEntrega, Estatus estatus, SendtripPlus sendtripPlus, String folioTicket, String origen, Integer clienteId, String referencia, Integer tipoSolicitudId, Integer tipoEntregaId, Integer estatusId, String comentarios, String secuencia, String tiempoParadaDestino, Integer tipoVehiculoId, Integer id) {
+    @SerializedName("VehiculoId")
+    @Expose
+    private Integer vehiculoId;
+    @SerializedName("Vehiculo")
+    @Expose
+    private VehiculoSendtrip vehiculo;
+    public dataTicketsDetailsendtrip(List<DocumentosVehiculo> documentosVehiculo, List<HabilidadesOperador> habilidadesOperador,
+                                     List<DocumentosOperador> documentosOperador, List<HabilidadesAuxiliar> habilidadesAuxiliar,
+                                     List<DocumentosAuxiliar> documentosAuxiliar, List<EvidenciaSalida> evidenciaSalida,
+                                     List<EvidenciaLlegada> evidenciaLlegada, List<Object> checkList, Cliente cliente, TipoVehiculo tipoVehiculo,
+                                     TipoEntrega tipoEntrega, Estatus estatus, SendtripPlus sendtripPlus, String folioTicket, String origen,
+                                     Integer clienteId, String referencia, Integer tipoSolicitudId, Integer tipoEntregaId, Integer estatusId,
+                                     String comentarios, String secuencia, String tiempoParadaDestino, Integer tipoVehiculoId, Integer id,Integer vehiculoId,VehiculoSendtrip vehiculo
+    ) {
         super();
         this.documentosVehiculo = documentosVehiculo;
         this.habilidadesOperador = habilidadesOperador;
@@ -109,8 +122,24 @@ public class dataTicketsDetailsendtrip {
         this.tiempoParadaDestino = tiempoParadaDestino;
         this.tipoVehiculoId = tipoVehiculoId;
         this.id = id;
+        this.vehiculoId = vehiculoId;
+        this.vehiculo = vehiculo;
+    }
+    public Integer getVehiculoId() {
+        return vehiculoId;
     }
 
+    public void setVehiculoId(Integer vehiculoId) {
+        this.vehiculoId = vehiculoId;
+    }
+
+    public VehiculoSendtrip getVehiculo() {
+        return vehiculo;
+    }
+
+    public void setVehiculo(VehiculoSendtrip vehiculo) {
+        this.vehiculo = vehiculo;
+    }
     public List<DocumentosVehiculo> getDocumentosVehiculo() {
         return documentosVehiculo;
     }
