@@ -370,7 +370,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         }else if(secuenceRequest==5){
             secuenceRequest = secuenceRequest + 1;
             Log.e("sendEvidence","Se envia a sendtripplus");
-            presenter.sendSentriplus(dataTicketSendtrip);
+            presenter.sendSentriplus(currentManifest,dataTicketSendtrip);
         }else if(secuenceRequest==6){//borra todo lo relacionano y regresa
              Toast.makeText(this, "usar sendtrip plus Cambiar estatus y regresar a manifiestos", Toast.LENGTH_SHORT).show();
 

@@ -331,24 +331,24 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
     }
 
     @Override
-    public void sendSentriplus(List<dataTicketsDetailsendtrip> dataTicketSendtrip) {
+    public void sendSentriplus(String currentManifest, List<dataTicketsDetailsendtrip> dataTicketSendtrip) {
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token_Avocado = preferences.getString(GeneralConstants.TOKEN_AVOCADO, null);
         String operadorId = preferences.getString(GeneralConstants.OPERADOR_ID, null);
         if(token_Avocado!=null){
-            requestSendtriplus(token_Avocado,dataTicketSendtrip.get(0),operadorId);
+            requestSendtriplus(token_Avocado,dataTicketSendtrip.get(0),operadorId,currentManifest);
             Log.e("sendtripplus","requestSendtriplus");
         }
     }
 
-    private void requestSendtriplus(String token_Avocado, dataTicketsDetailsendtrip data,String operadorId) {
+    private void requestSendtriplus(String token_Avocado, dataTicketsDetailsendtrip data, String operadorId, String currentManifest) {
         Trip mtrip= new Trip("",0,"","",""
                 ,"","",0,0,
                 new ArrayList<>(),"","","","","","",
                 0,0,"",
                 "","","","","","","","",
                 "","","","","","","");
-        mtrip.setComments("PRUEBAS2022");
+        mtrip.setComments(currentManifest);
         mtrip.setOrderFolio(Integer.valueOf(data.getFolioTicket()));//mtrip.setOrderFolio(0);
         mtrip.setOrderDriver(operadorId);//mtrip.setOrderDriver("WALMART");
         mtrip.setOrderTimestampD(data.getSendtripPlus().getFechaPromesaEntrega());//mtrip.setOrderTimestampD("2024-04-02T17:41:44.152Z");
@@ -373,6 +373,9 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         mtrip.setVehiclePlate(data.getVehiculo().getPlaca());//mtrip.setVehiclePlate("NLA-003YF2");//todo placa
         SendTripPlus request= new SendTripPlus(token_Avocado,mtrip);
         Call<ResponseSendTripPlus> call= service2.setSendtriplus(request);
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(request);
+        Log.e("sendtripplus","sendtriplus: "+ jsonString);
         call.enqueue(new Callback<ResponseSendTripPlus>() {
             @Override
             public void onResponse(Call<ResponseSendTripPlus> call, Response<ResponseSendTripPlus> response) {

@@ -33,9 +33,9 @@ public class requestEvidencePresenterImpl  implements requestEvidencePresenter{
         }
     }
     @Override
-    public void sendSentriplus(List<dataTicketsDetailsendtrip> dataTicketSendtrip) {
+    public void sendSentriplus(String currentManifest, List<dataTicketsDetailsendtrip> dataTicketSendtrip) {
         if(view!=null){
-            interactor.sendSentriplus(dataTicketSendtrip);
+            interactor.sendSentriplus(currentManifest,dataTicketSendtrip);
         }
     }
 
