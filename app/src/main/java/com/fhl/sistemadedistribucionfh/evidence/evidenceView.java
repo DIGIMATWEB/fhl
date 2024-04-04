@@ -1,5 +1,9 @@
 package com.fhl.sistemadedistribucionfh.evidence;
 
+import com.fhl.sistemadedistribucionfh.evidence.model.dataTicketsDetailsendtrip;
+
+import java.util.List;
+
 public interface evidenceView {
     void setMessage();
     void showDialog();
@@ -7,4 +11,6 @@ public interface evidenceView {
     void hideDialog();
 
     void validateSendtrip();
+
+    void setDetailTicketsentriplus(List<dataTicketsDetailsendtrip> data);
 }

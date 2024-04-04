@@ -8,11 +8,12 @@ import android.widget.Toast;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrifitClientAvocado;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientFHManifest;
-import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientNewlands;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.ApiResponse;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.InnerData;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.dataApiResponse;
+import com.fhl.sistemadedistribucionfh.evidence.model.TicketsDetailSentriplus;
+import com.fhl.sistemadedistribucionfh.evidence.model.dataTicketsDetailsendtrip;
 import com.fhl.sistemadedistribucionfh.evidence.presenter.requestEvidencePresenter;
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.requestRate;
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.responseRate;
@@ -28,6 +29,7 @@ import com.fhl.sistemadedistribucionfh.sendTripPlus.util.serviceSendtripPlus;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -292,6 +294,8 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         });
     }
 
+   
+
     private void validateOriginresponse(Response<responseLoginAvocado> response, Context context) {
         if (RetrofitValidations.checkSuccessCode(response.code())) {
             responseOirgin(response,context);
@@ -327,16 +331,17 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
     }
 
     @Override
-    public void sendSentriplus() {
+    public void sendSentriplus(List<dataTicketsDetailsendtrip> dataTicketSendtrip) {
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token_Avocado = preferences.getString(GeneralConstants.TOKEN_AVOCADO, null);
+        String operadorId = preferences.getString(GeneralConstants.OPERADOR_ID, null);
         if(token_Avocado!=null){
-            requestSendtriplus(token_Avocado);
+            requestSendtriplus(token_Avocado,dataTicketSendtrip.get(0),operadorId);
             Log.e("sendtripplus","requestSendtriplus");
         }
     }
 
-    private void requestSendtriplus(String token_Avocado) {
+    private void requestSendtriplus(String token_Avocado, dataTicketsDetailsendtrip data,String operadorId) {
         Trip mtrip= new Trip("",0,"","",""
                 ,"","",0,0,
                 new ArrayList<>(),"","","","","","",
@@ -344,18 +349,26 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
                 "","","","","","","","",
                 "","","","","","","");
         mtrip.setComments("PRUEBAS2022");
-        mtrip.setOrderFolio(0);
-        mtrip.setOrderDriver("WALMART");
-        mtrip.setOrderTimestampD("2024-04-02T17:41:44.152Z");
-        mtrip.setOrderTimestampIntervalE("2024-04-02T17:41:44.152Z");
-        mtrip.setOrderTimestampIntervalS("2024-04-02T17:41:44.152Z");
-        mtrip.setOrderTimestampO("2024-04-02T17:41:44.152Z");
-        mtrip.setOrderUploadingTime(0);
-        mtrip.setPackageCounts(0);
-        mtrip.setRecipientCompanyname("NEWGEODESTINO");
-        mtrip.setRecipientPostalcode("00000");
-        mtrip.setShipperCompanyname("NEWGEOORIGEN");
-        mtrip.setShipperPostalcode("00000");
+        mtrip.setOrderFolio(Integer.valueOf(data.getFolioTicket()));//mtrip.setOrderFolio(0);
+        mtrip.setOrderDriver(operadorId);//mtrip.setOrderDriver("WALMART");
+        mtrip.setOrderTimestampD(data.getSendtripPlus().getFechaPromesaEntrega());//mtrip.setOrderTimestampD("2024-04-02T17:41:44.152Z");
+        mtrip.setOrderTimestampIntervalE(data.getSendtripPlus().getFechaVentanaFin());//mtrip.setOrderTimestampIntervalE("2024-04-02T17:41:44.152Z");
+        mtrip.setOrderTimestampIntervalS(data.getSendtripPlus().getFechaVentanaInicio());//mtrip.setOrderTimestampIntervalS("2024-04-02T17:41:44.152Z");
+        mtrip.setOrderTimestampO(data.getSendtripPlus().getFechaPromesaCarga());//mtrip.setOrderTimestampO("2024-04-02T17:41:44.152Z");
+        int roundedMinutes=0;
+        if(data.getSendtripPlus().getTiempoCarga()!=null) {
+            LocalTime time = LocalTime.parse(data.getSendtripPlus().getTiempoCarga());
+            long totalMinutes = time.getHour() * 60 + time.getMinute() + time.getSecond() / 60;
+            roundedMinutes= (int) Math.round(totalMinutes);
+        }else{
+
+        }
+        mtrip.setOrderUploadingTime(roundedMinutes);//mtrip.setOrderUploadingTime(0);//todo revisar este campo
+        mtrip.setPackageCounts(data.getSendtripPlus().getCantidadPaquetes());//mtrip.setPackageCounts(0);
+        mtrip.setRecipientCompanyname(data.getSendtripPlus().getDestinatario().getCompania());//mtrip.setRecipientCompanyname("NEWGEODESTINO");//todo revisar
+        mtrip.setRecipientPostalcode(String.valueOf(data.getSendtripPlus().getDestinatario().getCodigoPostal()));//mtrip.setRecipientPostalcode("00000");//todo validar
+        mtrip.setShipperCompanyname(data.getSendtripPlus().getRemitente().getCompania());//mtrip.setShipperCompanyname("NEWGEOORIGEN");//todo revisar alan
+        mtrip.setShipperPostalcode(String.valueOf(data.getSendtripPlus().getRemitente().getCodigoPostal()));//mtrip.setShipperPostalcode("00000");
         mtrip.setVehicleName("NLA-003YF2");
         mtrip.setVehiclePlate("NLA-003YF2");
         SendTripPlus request= new SendTripPlus(token_Avocado,mtrip);
@@ -408,6 +421,68 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         }else{
             presenter.nextRequest();
             Log.e("sendtripplus","resp null");
+        }
+    }
+
+
+    @Override
+    public void requestDetailTicketsSendtriplus(boolean isArray, Integer iterateidTickets, String currentManifest, String folioTicket, String ticket) {
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String token = preferences.getString(GeneralConstants.TOKEN, null);
+        if(token!=null){
+            if(!isArray) {//todo no es uno solo es de la iteracion que le corresponde
+                requestDetailforSendtriplusTicket(token, ticket, currentManifest);
+            }else{//todo si es uno solo es el ticket que le corresponde
+                requestDetailforSendtriplusTicket(token, folioTicket, currentManifest);
+            }
+        }
+    }
+
+    private void requestDetailforSendtriplusTicket(String token, String iterateidTickets, String currentManifest) {
+        Call<TicketsDetailSentriplus> call= service.getTicket(token,currentManifest,iterateidTickets);
+        call.enqueue(new Callback<TicketsDetailSentriplus>() {
+            @Override
+            public void onResponse(Call<TicketsDetailSentriplus> call, Response<TicketsDetailSentriplus> response) {
+                validateDetailTicket(response,context);
+            }
+            @Override
+            public void onFailure(Call<TicketsDetailSentriplus> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void validateDetailTicket(Response<TicketsDetailSentriplus> response, Context context) {
+        if (RetrofitValidations.checkSuccessCode(response.code())) {
+            responseSendtripTicket(response,context);
+        } else {
+            Log.e("responseSendtripTicket","RetrofitValidations fail");
+            Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void responseSendtripTicket(Response<TicketsDetailSentriplus> response, Context context) {
+        TicketsDetailSentriplus resp=response.body();
+        if(resp!=null)
+        {
+            int responseCode=resp.getStatus();
+            String message=resp.getMessage();
+            List<dataTicketsDetailsendtrip> data= resp.getData();
+            if(responseCode==200)
+            {
+                Log.e("responseSendtripTicket","105");
+                if(data!=null) {
+                    Toast.makeText(context, "Folio sendTripDetail: "+data.get(0).getFolioTicket(), Toast.LENGTH_SHORT).show();
+                    Log.e("responseSendtripTicket","Folio sendTrip: "+data.get(0).getFolioTicket());
+                    presenter.setDetailTicketsentriplus(data);
+
+                }
+            }else{
+
+                Log.e("responseSendtripTicket","no  105");
+            }
+        }else{
+            Log.e("responseSendtripTicket","resp null");
         }
     }
 }

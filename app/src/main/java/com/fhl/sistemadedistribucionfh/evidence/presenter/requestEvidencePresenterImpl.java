@@ -5,6 +5,9 @@ import android.content.Context;
 import com.fhl.sistemadedistribucionfh.evidence.evidenceView;
 import com.fhl.sistemadedistribucionfh.evidence.interactor.sendEvidenceInteractor;
 import com.fhl.sistemadedistribucionfh.evidence.interactor.sendEvidenceInteractorImpl;
+import com.fhl.sistemadedistribucionfh.evidence.model.dataTicketsDetailsendtrip;
+
+import java.util.List;
 
 public class requestEvidencePresenterImpl  implements requestEvidencePresenter{
     private Context context;
@@ -30,9 +33,9 @@ public class requestEvidencePresenterImpl  implements requestEvidencePresenter{
         }
     }
     @Override
-    public void sendSentriplus() {
+    public void sendSentriplus(List<dataTicketsDetailsendtrip> dataTicketSendtrip) {
         if(view!=null){
-            interactor.sendSentriplus();
+            interactor.sendSentriplus(dataTicketSendtrip);
         }
     }
 
@@ -47,6 +50,20 @@ public class requestEvidencePresenterImpl  implements requestEvidencePresenter{
     public void validateSendtrip() {
         if(view!=null){
             view.validateSendtrip();
+        }
+    }
+
+    @Override
+    public void requestDetailTicketsSendtriplus(boolean isArray, Integer iterateidTickets, String currentManifest, String folioTicket, String ticket) {
+        if(view!=null){
+            interactor. requestDetailTicketsSendtriplus( isArray, iterateidTickets,currentManifest,folioTicket,ticket);
+        }
+    }
+
+    @Override
+    public void setDetailTicketsentriplus(List<dataTicketsDetailsendtrip> data) {
+        if(view!=null){
+            view.setDetailTicketsentriplus(data);
         }
     }
 

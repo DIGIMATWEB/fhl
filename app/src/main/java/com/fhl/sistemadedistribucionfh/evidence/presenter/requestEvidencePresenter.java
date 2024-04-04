@@ -1,5 +1,9 @@
 package com.fhl.sistemadedistribucionfh.evidence.presenter;
 
+import com.fhl.sistemadedistribucionfh.evidence.model.dataTicketsDetailsendtrip;
+
+import java.util.List;
+
 public interface requestEvidencePresenter {
     void sendEvidence(Integer secuenceRequest, String signatureBase64, String inputTextSignature, String currusel, String ffiles, Integer flujoId, String folioTicket);
 
@@ -10,9 +14,13 @@ public interface requestEvidencePresenter {
 
     void hideDialog();
 
-    void sendSentriplus();
+    void sendSentriplus(List<dataTicketsDetailsendtrip> dataTicketSendtrip);
 
     void tokenAvocado();
 
     void validateSendtrip();
+
+    void requestDetailTicketsSendtriplus(boolean b, Integer iterateidTickets, String currentManifest, String folioTicket, String ticket);
+
+    void setDetailTicketsentriplus(List<dataTicketsDetailsendtrip> data);
 }

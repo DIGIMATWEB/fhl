@@ -2,9 +2,9 @@ package com.fhl.sistemadedistribucionfh.evidence.util;
 
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitEndPoints;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.ApiResponse;
+import com.fhl.sistemadedistribucionfh.evidence.model.TicketsDetailSentriplus;
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.requestRate;
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.responseRate;
-import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.responseRateData;
 
 import java.util.List;
 
@@ -17,6 +17,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Query;
 
 public interface serviceEvidence {
     @Multipart
@@ -41,4 +42,10 @@ public interface serviceEvidence {
 
     @POST(RetrofitEndPoints.RATE_STARS)
     Call<responseRate> sendRate(@Header("Authorization") String authorization,@Body requestRate request);
+    @GET(RetrofitEndPoints.DETAIL_TICKET_SENDTRIPLUS)
+    Call<TicketsDetailSentriplus> getTicket(
+            @Header("Authorization") String authorizationHeader,
+            @Query("folioDespacho") String folioDespacho,
+            @Query("folioTicket") String folioTicket
+    );
 }

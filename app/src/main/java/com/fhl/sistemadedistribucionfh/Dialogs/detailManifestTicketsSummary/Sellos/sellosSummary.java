@@ -89,6 +89,7 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
                 Intent intent = new Intent(getActivity(), evidencia.class);
                 Bundle bundle = new Bundle();
                 bundle.putInt("flujoId", 1);
+                bundle.putString("currentManifest",currentManifest);
                 bundle.putString("folioTicket", null);
                 bundle.putSerializable("dataTcikets",(Serializable) data);
                 intent.putExtras(bundle);

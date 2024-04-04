@@ -42,7 +42,7 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
         if(data!=null && data.size()!=0) {
             holder.ticketNum.setText("" + data.get(position).getFolioTicket());
             holder.cliente.setText("" + data.get(position).getCliente().getRazonSocial());
-            holder.contacto.setText("" + data.get(position).getDestinatarios().getContacto().getNombre());
+            holder.contacto.setText("");// + data.get(position).getDestinatarios().getContacto().getNombre());
             holder.Productos.setText(data.get(position).getCliente().getRazonSocial());
 
             //Comprobamos la data
@@ -64,7 +64,7 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
             //holder.salida.setText(""+data.get(position).getFechaSalidaEstimada());
             holder.regreso.setText(data.get(position).getFechaPromesaRetorno());
             holder.locationDesc.setText("");//+data.get(position).getEmpaque().get(0).getDestinatarios().get(0).getCiudad());
-            holder.latlongGeo.setText("" + data.get(position).getDestinatarios().getCoordenadas());
+            holder.latlongGeo.setText(""); //+ data.get(position).getDestinatarios().getCoordenadas());
             holder.lalongReport.setText("" + data.get(position).getFechaPromesaEntrega());
         }
 

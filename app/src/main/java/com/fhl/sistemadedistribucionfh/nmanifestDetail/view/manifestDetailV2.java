@@ -254,3 +254,4 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
 
 
 }
+

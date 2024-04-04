@@ -24,6 +24,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.Loader.view.loaderFH;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.evidence.documents.documents;
+import com.fhl.sistemadedistribucionfh.evidence.model.dataTicketsDetailsendtrip;
 import com.fhl.sistemadedistribucionfh.evidence.photos.carrusel;
 import com.fhl.sistemadedistribucionfh.evidence.presenter.requestEvidencePresenter;
 import com.fhl.sistemadedistribucionfh.evidence.presenter.requestEvidencePresenterImpl;
@@ -54,8 +55,10 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     private String folioTicket;
     private List<dataTicketsManifestV2> data;
     private Integer iterateidTickets=0;
+    private String currentManifest;
     private Boolean isArrayofTickets=false;
     private loaderFH progress;
+    private List<dataTicketsDetailsendtrip> dataTicketSendtrip;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +72,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         if (bundle != null) {
             // Retrieve the integer value using the key "key_integer"
              flujoId= bundle.getInt("flujoId");
+            currentManifest = bundle.getString("currentManifest");
             folioTicket= bundle.getString("folioTicket");
             data= (List<dataTicketsManifestV2>) bundle.getSerializable("dataTcikets");
 
@@ -186,24 +190,36 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         presenter.tokenAvocado();
 
     }
-    @Override
+    @Override//todo este metodo se ejecuta despues de que el token con walmart esta ok
     public void validateSendtrip() {
-        if(folioTicket!=null) {
-            isArrayofTickets=false;
+        if(folioTicket!=null) {//todo si es un solo folio
+           // isArrayofTickets=false;
+            Log.e("folioTSendtrip","es un solo folio");
+            presenter.requestDetailTicketsSendtriplus(false,iterateidTickets,currentManifest, null,folioTicket);
 
         }else {
-            if(data!=null) {
-                if(data.size()>1){
-                    isArrayofTickets=true;
-                }else{
-                    isArrayofTickets=false;
-
+            if(data!=null) {//todo si es un arreglo de folios
+                Log.e("folioTSendtrip","son varios folios");
+                if(data.size()>1){//todo si solo es un folio
+                  //  isArrayofTickets=true;
+                    presenter.requestDetailTicketsSendtriplus(
+                            true,iterateidTickets, currentManifest,data.get(iterateidTickets).getFolioTicket(), null);//todo revisar esto en la secuencia
+                }else{//todo si son varios folios
+                //    isArrayofTickets=false;
+                    presenter.requestDetailTicketsSendtriplus(
+                            true,iterateidTickets, currentManifest, data.get(0).getFolioTicket(), null);//todo revisar esto en la secuencia
                 }
             }else{
 
             }
         }
     }
+
+    @Override
+    public void setDetailTicketsentriplus(List<dataTicketsDetailsendtrip> dataTicketSendtrip) {
+        this.dataTicketSendtrip=dataTicketSendtrip;
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -354,7 +370,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         }else if(secuenceRequest==5){
             secuenceRequest = secuenceRequest + 1;
             Log.e("sendEvidence","Se envia a sendtripplus");
-            presenter.sendSentriplus();
+            presenter.sendSentriplus(dataTicketSendtrip);
         }else if(secuenceRequest==6){//borra todo lo relacionano y regresa
              Toast.makeText(this, "usar sendtrip plus Cambiar estatus y regresar a manifiestos", Toast.LENGTH_SHORT).show();
 
@@ -378,6 +394,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                     secuenceRequest=1;
                     sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, data.get(iterateidTickets).getFolioTicket());
 
+                    presenter.requestDetailTicketsSendtriplus(true,iterateidTickets, currentManifest, data.get(iterateidTickets).getFolioTicket(), null);//todo revisar si esto se ejecuta correctamente ya que pide el detalle del ticket siguiente para el sendtriplus
                 }
             }
 
