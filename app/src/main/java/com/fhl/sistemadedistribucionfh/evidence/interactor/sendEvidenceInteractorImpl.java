@@ -271,7 +271,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
 
             @Override
             public void onFailure(Call<responseRate> call, Throwable t) {
-               Toast.makeText(context, "Rate failed : " + t.getMessage(), Toast.LENGTH_SHORT).show();
+               //Toast.makeText(context, "Rate failed : " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e("ratingStars","1"+t.getMessage());
                 //presenter.hideDialog();
                 presenter.nextRequest();
@@ -291,7 +291,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
 
             @Override
             public void onFailure(Call<responseLoginAvocado> call, Throwable t) {
-                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "token request Fail"+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -302,7 +302,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         if (RetrofitValidations.checkSuccessCode(response.code())) {
             responseOirgin(response,context);
         } else {
-            Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show();
+           // Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -467,7 +467,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         }
     }
 
-    private void responseSendtripTicket(Response<TicketsDetailSentriplus> response, Context context) {
+    private void responseSendtripTicket(Response<TicketsDetailSentriplus> response, Context context) {//todo metodo para obetener el detalle de ticket
         TicketsDetailSentriplus resp=response.body();
         if(resp!=null)
         {
@@ -478,7 +478,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
             {
                 Log.e("responseSendtripTicket","105");
                 if(data!=null) {
-                    Toast.makeText(context, "Folio sendTripDetail: "+data.get(0).getFolioTicket(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "Folio sendTripDetail: "+data.get(0).getFolioTicket(), Toast.LENGTH_SHORT).show();
                     Log.e("responseSendtripTicket","Folio sendTrip: "+data.get(0).getFolioTicket());
                     presenter.setDetailTicketsentriplus(data);
 
@@ -507,7 +507,13 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         }
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
-        Call<responseStatusManifestOrTicket> call= service.setEstatusByManifiestoOrTicket(token,currentManifest,statusDespacho,changeStatusTicket,statusTicket);
+        RequestBody currentManifestR = RequestBody.create(MediaType.parse("text/plain"), currentManifest);
+        RequestBody statusDespachoR = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(statusDespacho));
+        RequestBody changeStatusTicketR = RequestBody.create(MediaType.parse("text/plain"), changeStatusTicket);
+        RequestBody statusTicketR = RequestBody.create(MediaType.parse("text/plain"),String.valueOf( statusTicket));
+        Call<responseStatusManifestOrTicket> call= service.setEstatusByManifiestoOrTicket(token,currentManifestR,statusDespachoR,changeStatusTicketR,statusTicketR);
+        Log.e("changeStatus",currentManifestR+" "+statusDespachoR+" "+changeStatusTicketR+"  "+statusTicketR);
+
         call.enqueue(new Callback<responseStatusManifestOrTicket>() {
             @Override
             public void onResponse(Call<responseStatusManifestOrTicket> call, Response<responseStatusManifestOrTicket> response) {
@@ -528,7 +534,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         if (RetrofitValidations.checkSuccessCode(response.code())) {
             responseStatuscheck(response,context);
         } else {
-            Log.e("responseSendtripTicket","RetrofitValidations fail");
+            Log.e("changeStatus","RetrofitValidations fail");
             Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show();
             presenter.nextRequest();
         }
@@ -538,26 +544,28 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
                 responseStatusManifestOrTicket resp=response.body();
                 if(resp!=null)
                 {
+                    Log.e("changeStatus", "response not null");
                     int responseCode=resp.getStatus();
                     String message=resp.getMessage();
                     dataStatusManifestTicket data= resp.getData();
                     if(resp.getTotalRows()< 0) {
-                        Log.e("sendtripplus", "105");
+                        Log.e("changeStatus", "105");
                             if (data != null) {
                                 //Toast.makeText(context, "Folio sendTrip: " + , Toast.LENGTH_SHORT).show();
-                                Log.e("sendtripplus", "Folio sendTrip: " + data.getEstatusDespacho().getFolioDespacho());
+                              Log.e("changeStatus", "Folio sendTrip: " + resp.getMessage());
                                 presenter.nextRequest();
 
                             } else {
+                                Log.e("changeStatus", "Folio sendTrip: " + data.getEstatusDespacho().getFolioDespacho());
                                 presenter.nextRequest();
-                                Log.e("sendtripplus", "no  105");
+                                Log.e("changeStatus", "no  105");
                             }
                         }else{
                         presenter.nextRequest();
                         }
                 }else{
                     presenter.nextRequest();
-                    Log.e("sendtripplus","resp null");
+                    Log.e("changeStatus","resp null");
                 }
 
     }

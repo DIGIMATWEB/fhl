@@ -55,9 +55,9 @@ public interface serviceEvidence {
     @POST(RetrofitEndPoints.MANIFIESTO_SET_ESTATUS)
     Call<responseStatusManifestOrTicket> setEstatusByManifiestoOrTicket(
             @Header("Authorization") String authorization,
-            @Part("folioDespacho") String folioDespacho,
-            @Part("estatusIdDespacho") Integer estatusIdDespacho,
-            @Part("folioTicket") String folioTicket,
-            @Part("estatusIdTicket") Integer estatusIdTicket
+            @Part("folioDespacho") RequestBody folioDespacho,
+            @Part("estatusIdDespacho") RequestBody estatusIdDespacho,
+            @Part("folioTicket") RequestBody folioTicket,
+            @Part("estatusIdTicket") RequestBody estatusIdTicket
     );
 }

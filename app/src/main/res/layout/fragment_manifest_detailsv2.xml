@@ -294,6 +294,7 @@
                 </TextView>
 
                 <TextView
+                    android:id="@+id/statusManifest"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"

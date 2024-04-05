@@ -36,12 +36,21 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
     private FragmentTransaction transaction;
     private Button cerrarviaje, cancelar;
     private presenterTicketsDetail presenter;
-    private String folioDespachoId,folioTicket="";
+    private String folioDespachoId,folioTicket,statusManifest="";
     private TextView txtManifiesto;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tickets, container, false);
+        Bundle args = getArguments();
+        if (args != null) {
+            folioDespachoId = args.getString("folioDespachoId");
+            folioTicket = args.getString("folioTicket");
+            statusManifest = args.getString("statusManifest");
+
+            // Now you have the values and can use them as needed
+            // Example: Log.d(TAG, "folioDespachoId: " + folioDespachoId + ", folioTicket: " + folioTicket);
+        }
         initView(view);
         return view;
     }
@@ -55,18 +64,17 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
         txtManifiesto = view.findViewById(R.id.txtManifiestoTicket);
         cerrarviaje.setOnClickListener(this);
         cancelar.setOnClickListener(this);
-        Bundle args = getArguments();
-        if (args != null) {
-          folioDespachoId = args.getString("folioDespachoId");
-          folioTicket = args.getString("folioTicket");
+        txtManifiesto.setText(folioDespachoId);
 
-          txtManifiesto.setText(folioDespachoId);
-            // Now you have the values and can use them as needed
-            // Example: Log.d(TAG, "folioDespachoId: " + folioDespachoId + ", folioTicket: " + folioTicket);
-        }
         presenter= new presenterTicketsDetailImpl(this,getContext());
         presenter.requestDetailTickets(folioDespachoId,folioTicket);
-
+        if(statusManifest.equals("Confirmado")){
+            cerrarviaje.setVisibility(View.GONE);
+            cancelar.setVisibility(View.GONE);
+        }else  if(statusManifest.equals("En proceso")){
+            cerrarviaje.setVisibility(View.VISIBLE);
+            cancelar.setVisibility(View.VISIBLE);
+        }
     }
 
 

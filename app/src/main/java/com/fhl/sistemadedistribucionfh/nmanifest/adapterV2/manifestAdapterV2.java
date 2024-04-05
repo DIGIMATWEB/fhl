@@ -46,6 +46,7 @@ public class manifestAdapterV2 extends RecyclerView.Adapter<manifestAdapterV2.Vi
         holder.vehicleManifiesto.setText(data.get(position).getFolioDespacho());
         holder.vehicleCedis.setText(data.get(position).getOrigen());
         holder.validationTextInProgress.setText(data.get(position).getValidador().getEstatus());
+        holder.statusManifest.setText(data.get(position).getEstatus().getNombre());
         holder.cardOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,9 +60,10 @@ public class manifestAdapterV2 extends RecyclerView.Adapter<manifestAdapterV2.Vi
                 String supervisor = "";
                 String fechaEntrada = "";
                 String fechaSalida = "";
+                String statusManifest= data.get(position).getEstatus().getNombre();
 
                // Toast.makeText(context, ""+data.get(position).getIdmanifest(), Toast.LENGTH_SHORT).show();
-                mView.gotoTickets(position, folioDespacho, vehiculoModelo, vehiculoPlaca, cedis);
+                mView.gotoTickets(position, folioDespacho, vehiculoModelo, vehiculoPlaca, cedis,statusManifest);
             }
         });
     }
@@ -79,7 +81,7 @@ public class manifestAdapterV2 extends RecyclerView.Adapter<manifestAdapterV2.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout cardOrder;
-        TextView numberManifest, vehicleName, vehiclePlaca, vehicleManifiesto, vehicleCedis,validationTextInProgress;
+        TextView numberManifest, vehicleName, vehiclePlaca, vehicleManifiesto, vehicleCedis,validationTextInProgress,statusManifest;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -89,6 +91,7 @@ public class manifestAdapterV2 extends RecyclerView.Adapter<manifestAdapterV2.Vi
             vehicleManifiesto = itemView.findViewById(R.id.numberManifest);
             vehicleCedis = itemView.findViewById(R.id.textView39);
             validationTextInProgress = itemView.findViewById(R.id.validationTextInProgress);
+            statusManifest= itemView.findViewById(R.id.statusManifest);
         }
     }
 }

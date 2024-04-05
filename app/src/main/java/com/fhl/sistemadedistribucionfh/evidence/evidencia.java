@@ -383,6 +383,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             ///todo presenterchange statusmanifest
 
         }else if(secuenceRequest==6){
+            secuenceRequest = secuenceRequest + 1;
             presenter.changeStatusManifestTicket(currentManifest,changeStatusTicket,sentripPlusFlow);
 
         }else if(secuenceRequest==7){//borra todo lo relacionano y regresa

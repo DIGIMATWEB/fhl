@@ -67,12 +67,13 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(adapter);
     }
-    public void gotoTickets(int position, String folioDespacho, String vehiculoModelo, String vehiculoPlaca, String cedis) {
+    public void gotoTickets(int position, String folioDespacho, String vehiculoModelo, String vehiculoPlaca, String cedis, String statusManifest) {
         //TODO Agregar los demas datos al Bundle cuando se tengan
         Bundle bundle = new Bundle();
         bundle.putString("folioDespachoId",folioDespacho);
         bundle.putString("vehiculoModeloId", vehiculoModelo);
         bundle.putString("vehiculoPlacaId", vehiculoPlaca);
+        bundle.putString("statusManifest",statusManifest);
         bundle.putString("cedisId", cedis);
 
         manager = getActivity().getSupportFragmentManager();

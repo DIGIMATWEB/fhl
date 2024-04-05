@@ -44,11 +44,11 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
     private FragmentTransaction transaction;
     private SearchView searchViewManifestdetail;
     private ImageView searchicodetail;
-    private String folioDespachoId, vehiculoModeloId, vehiculoPlacaId, cedisId;
+    private String folioDespachoId, vehiculoModeloId, vehiculoPlacaId, cedisId,statusManifest;
     private List<dataTicketsManifestV2> data;
     private List<Sello> dataSellos;
     private presenterTicketsmanifestV2 presenter;
-    private TextView vehicleManifiesto, vehicleName, vehiclePlaca, vehicleCedis;
+    private TextView vehicleManifiesto, vehicleName, vehiclePlaca, vehicleCedis,status;
     private ImageButton recoletar;
     private loaderFH progress;
 
@@ -63,6 +63,7 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
             vehiculoModeloId = bundle.getString("vehiculoModeloId");
             vehiculoPlacaId = bundle.getString("vehiculoPlacaId");
             cedisId = bundle.getString("cedisId");
+            statusManifest= bundle.getString("statusManifest");
             Log.e("midManifest","" + folioDespachoId);
         }
         initView(view);
@@ -80,6 +81,8 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         vehicleName = view.findViewById(R.id.vehicle_namev2);
         vehiclePlaca = view.findViewById(R.id.placa_text);
         vehicleCedis = view.findViewById(R.id.textView78);
+        status=view.findViewById(R.id.statusManifest);
+        status.setText(statusManifest);
 
         vehicleManifiesto.setText(folioDespachoId);
         vehicleName.setText(vehiculoModeloId);
@@ -88,6 +91,9 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         progress = new loaderFH();
         presenter= new presenterTicketsManifestImplV2(this,getContext());
         presenter.getTickets(folioDespachoId);
+        if(statusManifest.equals("En proceso")){
+            recoletar.setVisibility(View.GONE);
+        }
 
         //setAdapter(data);
     }
@@ -167,6 +173,7 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         Bundle args = new Bundle();
         args.putString("folioDespachoId", folioDespachoId);
         args.putString("folioTicket", folioTicket);
+        args.putString("statusManifest",statusManifest);
         ticketsf.setArguments(args);
         transaction.replace(R.id.fragments, ticketsf, tickets.TAG)
                 .addToBackStack(null) // Agregar la transacción a la pila de retroceso
