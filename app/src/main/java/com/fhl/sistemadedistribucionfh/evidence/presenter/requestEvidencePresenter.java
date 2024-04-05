@@ -1,6 +1,6 @@
 package com.fhl.sistemadedistribucionfh.evidence.presenter;
 
-import com.fhl.sistemadedistribucionfh.evidence.model.dataTicketsDetailsendtrip;
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
 
 import java.util.List;
 

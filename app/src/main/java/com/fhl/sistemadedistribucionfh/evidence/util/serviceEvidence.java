@@ -2,7 +2,7 @@ package com.fhl.sistemadedistribucionfh.evidence.util;
 
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitEndPoints;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.ApiResponse;
-import com.fhl.sistemadedistribucionfh.evidence.model.TicketsDetailSentriplus;
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.TicketsDetailSentriplus;
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.requestRate;
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.responseRate;
 

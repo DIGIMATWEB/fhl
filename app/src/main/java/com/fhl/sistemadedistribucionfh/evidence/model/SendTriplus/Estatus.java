@@ -1,5 +1,5 @@
 
-package com.fhl.sistemadedistribucionfh.evidence.model;
+package com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus;
 
 
 import com.google.gson.annotations.Expose;

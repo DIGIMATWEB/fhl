@@ -1,12 +1,10 @@
 
-package com.fhl.sistemadedistribucionfh.evidence.model;
-
+package com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-
-public class EvidenciaLlegada {
+public class DocumentosAuxiliar {
 
     @SerializedName("Llave")
     @Expose
@@ -15,7 +13,7 @@ public class EvidenciaLlegada {
     @Expose
     private String valor;
 
-    public EvidenciaLlegada(Integer llave, String valor) {
+    public DocumentosAuxiliar(Integer llave, String valor) {
         super();
         this.llave = llave;
         this.valor = valor;

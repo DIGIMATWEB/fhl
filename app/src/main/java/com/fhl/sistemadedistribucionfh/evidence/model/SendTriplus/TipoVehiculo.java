@@ -1,12 +1,11 @@
 
-package com.fhl.sistemadedistribucionfh.evidence.model;
-
+package com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
-public class TipoEntrega {
+public class TipoVehiculo {
 
     @SerializedName("Nombre")
     @Expose
@@ -15,7 +14,7 @@ public class TipoEntrega {
     @Expose
     private Integer id;
 
-    public TipoEntrega(String nombre, Integer id) {
+    public TipoVehiculo(String nombre, Integer id) {
         super();
         this.nombre = nombre;
         this.id = id;

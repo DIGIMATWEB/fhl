@@ -5,7 +5,7 @@ import android.content.Context;
 import com.fhl.sistemadedistribucionfh.evidence.evidenceView;
 import com.fhl.sistemadedistribucionfh.evidence.interactor.sendEvidenceInteractor;
 import com.fhl.sistemadedistribucionfh.evidence.interactor.sendEvidenceInteractorImpl;
-import com.fhl.sistemadedistribucionfh.evidence.model.dataTicketsDetailsendtrip;
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
 
 import java.util.List;
 

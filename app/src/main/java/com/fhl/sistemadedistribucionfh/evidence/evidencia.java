@@ -24,7 +24,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.Loader.view.loaderFH;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.evidence.documents.documents;
-import com.fhl.sistemadedistribucionfh.evidence.model.dataTicketsDetailsendtrip;
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
 import com.fhl.sistemadedistribucionfh.evidence.photos.carrusel;
 import com.fhl.sistemadedistribucionfh.evidence.presenter.requestEvidencePresenter;
 import com.fhl.sistemadedistribucionfh.evidence.presenter.requestEvidencePresenterImpl;
@@ -374,6 +374,9 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             secuenceRequest = secuenceRequest + 1;
             Log.e("sendEvidence","Se envia a sendtripplus");
             presenter.sendSentriplus(currentManifest,dataTicketSendtrip,sentripPlusFlow);
+
+            ///todo presenterchange statusmanifest
+
         }else if(secuenceRequest==6){//borra todo lo relacionano y regresa
              Toast.makeText(this, "usar sendtrip plus Cambiar estatus y regresar a manifiestos", Toast.LENGTH_SHORT).show();
 
