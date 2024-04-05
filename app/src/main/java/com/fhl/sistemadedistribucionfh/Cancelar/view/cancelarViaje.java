@@ -1,8 +1,7 @@
-package com.fhl.sistemadedistribucionfh.cerrarViaje.view;
+package com.fhl.sistemadedistribucionfh.Cancelar.view;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -15,16 +14,12 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
@@ -37,15 +32,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.view.dialogReasons;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
-import com.fhl.sistemadedistribucionfh.cerrarViaje.adapter.adapterNoCompletado;
-import com.fhl.sistemadedistribucionfh.cerrarViaje.presenter.cancelPresenter;
-import com.fhl.sistemadedistribucionfh.cerrarViaje.presenter.cancelPresenterImpl;
+import com.fhl.sistemadedistribucionfh.Cancelar.adapter.adapterNoCompletado;
+import com.fhl.sistemadedistribucionfh.Cancelar.presenter.cancelPresenter;
+import com.fhl.sistemadedistribucionfh.Cancelar.presenter.cancelPresenterImpl;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -77,7 +71,7 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
     private ArrayList<File> tempImageFiles = new ArrayList<>();
     private List<String> directories=new ArrayList<>();
     private cancelPresenter presenter;
-    private String folioTicket;
+    private String folioTicket,currentManifest;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +83,7 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
         if (bundle != null) {
             // Retrieve the integer value using the key "key_integer"
             folioTicket= bundle.getString("folioTicket");
-
+            currentManifest= bundle.getString("currentManifest");
             // Now intValue contains the value passed from the previous activity
             // You can use this value as needed
             // For example, you can log it or display it in a TextView
@@ -355,7 +349,13 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
     }
     @Override
     public void okSendEvidence() {
-        goToManifest();
+        presenter.changemStatusManifestTicket(currentManifest,folioTicket);
+
+    }
+
+    @Override
+    public void okChangeStatus() {
+        goToManifest(); 
     }
 
     private void goToManifest() {

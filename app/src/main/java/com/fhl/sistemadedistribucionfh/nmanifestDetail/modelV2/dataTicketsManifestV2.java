@@ -1,6 +1,7 @@
 
 package com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2;
 
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Estatus;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -53,6 +54,8 @@ public class dataTicketsManifestV2 implements Serializable {
     @SerializedName("EstatusId")
     @Expose
     private Integer estatusId;
+    @SerializedName("Estatus")
+    private Estatus estatus;
     @SerializedName("Secuencia")
     @Expose
     private String secuencia;
@@ -166,7 +169,15 @@ public class dataTicketsManifestV2 implements Serializable {
      * @param referencia
      * @param requiereEvidenciaSeguroSocial
      */
-    public dataTicketsManifestV2(Integer despachoId, Integer ticketId, String folioTicket, String folioTicketWMS, String tipoFolio, String origen, Integer clienteId, Integer destinatariosId, String referencia, String solicitaServicio, String fechaSolicitud, Integer tipoSolicitudId, Integer tipoEntregaId, String comentarios, Integer estatusId, String secuencia, String fechaPromesaLlegadaOrigen, String fechaPromesaCarga, String fechaPromesaEntrega, String fechaPromesaRetorno, String tiempoCarga, String tiempoParadaDestino, String fechaVentanaInicio, String fechaVentanaFin, String fechaRestriccionCirculacionInicio, String fechaRestriccionCirculacionFin, Integer cantidad, Integer sumaAsegurada, Integer rutaId, Integer tipoVehiculoId, Integer maniobras, String custodia, String custodiaArmada, Integer tipoCustodiaId, String requiereEvidenciaSeguroSocial, Boolean seguro, Boolean servicioCobro, Integer destinatariosClienteId) {
+    public dataTicketsManifestV2(Integer despachoId, Integer ticketId, String folioTicket, String folioTicketWMS,
+                                 String tipoFolio, String origen, Integer clienteId, Integer destinatariosId, String referencia,
+                                 String solicitaServicio, String fechaSolicitud, Integer tipoSolicitudId, Integer tipoEntregaId,
+                                 String comentarios, Integer estatusId, String secuencia, String fechaPromesaLlegadaOrigen,
+                                 String fechaPromesaCarga, String fechaPromesaEntrega, String fechaPromesaRetorno, String tiempoCarga,
+                                 String tiempoParadaDestino, String fechaVentanaInicio, String fechaVentanaFin, String fechaRestriccionCirculacionInicio,
+                                 String fechaRestriccionCirculacionFin, Integer cantidad, Integer sumaAsegurada, Integer rutaId, Integer tipoVehiculoId,
+                                 Integer maniobras, String custodia, String custodiaArmada, Integer tipoCustodiaId, String requiereEvidenciaSeguroSocial,
+                                 Boolean seguro, Boolean servicioCobro, Integer destinatariosClienteId,Estatus estatus) {
         super();
         this.despachoId = despachoId;
         this.ticketId = ticketId;
@@ -206,6 +217,7 @@ public class dataTicketsManifestV2 implements Serializable {
         this.seguro = seguro;
         this.servicioCobro = servicioCobro;
         this.destinatariosClienteId = destinatariosClienteId;
+        this.estatus=estatus;
     }
 
     public Integer getDespachoId() {
@@ -512,4 +524,11 @@ public class dataTicketsManifestV2 implements Serializable {
         this.destinatariosClienteId = destinatariosClienteId;
     }
 
+    public Estatus getEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(Estatus estatus) {
+        this.estatus = estatus;
+    }
 }

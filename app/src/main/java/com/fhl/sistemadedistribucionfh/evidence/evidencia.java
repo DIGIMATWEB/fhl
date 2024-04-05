@@ -378,7 +378,10 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         }else if(secuenceRequest==5){
             secuenceRequest = secuenceRequest + 1;
             Log.e("sendEvidence","Se envia a sendtripplus");
-            presenter.sendSentriplus(currentManifest,dataTicketSendtrip,sentripPlusFlow);
+            if(sentripPlusFlow.equals("Recoleccion")){
+                presenter.sendSentriplus(currentManifest,dataTicketSendtrip,sentripPlusFlow);
+            }else if (sentripPlusFlow.equals("Entrega")){
+            }
 
             ///todo presenterchange statusmanifest
 

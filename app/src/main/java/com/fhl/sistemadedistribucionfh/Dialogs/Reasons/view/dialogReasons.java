@@ -18,8 +18,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.model.dataReasons;
 import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.presenter.dialogReasonsPresenter;
 import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.presenter.dialogReasonsPresenterImpl;
 import com.fhl.sistemadedistribucionfh.R;
-import com.fhl.sistemadedistribucionfh.cerrarViaje.view.cancelarViaje;
-import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
+import com.fhl.sistemadedistribucionfh.Cancelar.view.cancelarViaje;
 
 import java.util.List;
 

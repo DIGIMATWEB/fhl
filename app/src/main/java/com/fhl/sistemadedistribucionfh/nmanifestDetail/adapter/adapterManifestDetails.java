@@ -37,6 +37,27 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
     @Override
     public void onBindViewHolder(@NonNull adapterManifestDetails.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.ticketFolio.setText(data.get(position).getFolioTicket());//data.get(position).getFolioTicket());
+        Integer statusId= data.get(position).getEstatusId();
+        if(data.get(position).getEstatusId() != null) {
+            if(statusId==1){
+                holder.statusTicket.setText("En cola");
+            }else if(statusId==2){
+                holder.statusTicket.setText("Asignado");
+            }else if(statusId==3){
+                holder.statusTicket.setText("En ruta");
+            }else if(statusId==4){
+                holder.statusTicket.setText("Entregado");
+            }else if(statusId==5){
+                holder.statusTicket.setText("No entregado");
+            }else if(statusId==6){
+                holder.statusTicket.setText("Transferido");
+            }else{
+                holder.statusTicket.setText("");
+            }
+
+        } else {
+            holder.statusTicket.setText(""); // or any other default value you prefer
+        }
         holder.cardOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,11 +77,12 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout cardOrder;
-        TextView ticketFolio;
+        TextView ticketFolio,statusTicket;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             cardOrder=itemView.findViewById(R.id.constrainCard);
             ticketFolio = itemView.findViewById(R.id.ticketFolio);
+            statusTicket= itemView.findViewById(R.id.statusTicket);
         }
     }
 }

@@ -21,7 +21,7 @@ import com.fhl.sistemadedistribucionfh.Tickets.Adapter.ticketsAdapter;
 import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.dataDetailTickets;
 import com.fhl.sistemadedistribucionfh.Tickets.presenter.presenterTicketsDetail;
 import com.fhl.sistemadedistribucionfh.Tickets.presenter.presenterTicketsDetailImpl;
-import com.fhl.sistemadedistribucionfh.cerrarViaje.view.cancelarViaje;
+import com.fhl.sistemadedistribucionfh.Cancelar.view.cancelarViaje;
 import com.fhl.sistemadedistribucionfh.evidence.evidencia;
 import com.fhl.sistemadedistribucionfh.nmanifest.viewV2.mmanifestV2;
 
@@ -41,7 +41,7 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tickets, container, false);
+        View view = inflater.inflate(R.layout.fragment_tickets_main, container, false);
         Bundle args = getArguments();
         if (args != null) {
             folioDespachoId = args.getString("folioDespachoId");
@@ -87,6 +87,7 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
     private void cancelTrip() {
         Intent intent = new Intent(getActivity(), cancelarViaje.class);//evidencia
         Bundle bundle = new Bundle();
+        bundle.putString("currentManifest",folioDespachoId);
         bundle.putString("folioTicket",folioTicket);
         intent.putExtras(bundle);
         startActivity(intent);

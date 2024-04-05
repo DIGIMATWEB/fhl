@@ -99,7 +99,7 @@
         <activity android:name=".evidence.rateDriver.calificacion"
             android:exported="true"
             android:screenOrientation="portrait" />
-        <activity android:name=".cerrarViaje.view.cancelarViaje"
+        <activity android:name=".Cancelar.view.cancelarViaje"
             android:exported="true"
             android:screenOrientation="portrait" />
         <provider

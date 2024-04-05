@@ -1,4 +1,4 @@
-package com.fhl.sistemadedistribucionfh.cerrarViaje.adapter;
+package com.fhl.sistemadedistribucionfh.Cancelar.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -17,7 +17,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.fhl.sistemadedistribucionfh.R;
-import com.fhl.sistemadedistribucionfh.cerrarViaje.view.cancelarViaje;
+import com.fhl.sistemadedistribucionfh.Cancelar.view.cancelarViaje;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.fhl.sistemadedistribucionfh.cerrarViaje.interactor;
+package com.fhl.sistemadedistribucionfh.Cancelar.interactor;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -7,10 +7,13 @@ import android.widget.Toast;
 
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientFHManifest;
-import com.fhl.sistemadedistribucionfh.cerrarViaje.presenter.cancelPresenterImpl;
+import com.fhl.sistemadedistribucionfh.Cancelar.presenter.cancelPresenterImpl;
+import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.ApiResponse;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.InnerData;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.dataApiResponse;
+import com.fhl.sistemadedistribucionfh.evidence.model.changeStatusmanifestticket.dataStatusManifestTicket;
+import com.fhl.sistemadedistribucionfh.evidence.model.changeStatusmanifestticket.responseStatusManifestOrTicket;
 import com.fhl.sistemadedistribucionfh.evidence.util.serviceEvidence;
 import com.google.gson.Gson;
 
@@ -46,6 +49,73 @@ public class cancelInteractorImpl implements cancelInteractor{
             uploadFiles(directories, 2, "test", token,folioTicket);
         }
     }
+
+    @Override
+    public void changemStatusManifestTicket(String currentManifest, String folioTicket) {
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String token = preferences.getString(GeneralConstants.TOKEN, null);
+
+        RequestBody currentManifestR = null;
+        RequestBody statusDespachoR = null;
+        RequestBody changeStatusTicketR = RequestBody.create(MediaType.parse("text/plain"), folioTicket);
+            RequestBody statusTicketR = RequestBody.create(MediaType.parse("text/plain"),String.valueOf( 5));
+
+        Call<responseStatusManifestOrTicket> call= service.setEstatusByManifiestoOrTicket(token,currentManifestR,statusDespachoR,changeStatusTicketR,statusTicketR);
+        Log.e("changeStatus",currentManifestR+" "+statusDespachoR+" "+changeStatusTicketR+"  "+statusTicketR);
+
+        call.enqueue(new Callback<responseStatusManifestOrTicket>() {
+            @Override
+            public void onResponse(Call<responseStatusManifestOrTicket> call, Response<responseStatusManifestOrTicket> response) {
+                validateChangeStatus(response,context);
+            }
+
+            @Override
+            public void onFailure(Call<responseStatusManifestOrTicket> call, Throwable t) {
+                Log.e("changeStatus",""+t.getMessage());
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                presenter.okChangeStatus();
+            }
+        });
+    }
+    private void validateChangeStatus(Response<responseStatusManifestOrTicket> response, Context context) {
+        if (RetrofitValidations.checkSuccessCode(response.code())) {
+            responseStatuscheck(response,context);
+        } else {
+            Log.e("changeStatus","RetrofitValidations fail");
+            Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show();
+            presenter.okChangeStatus();
+        }
+    }
+    private void responseStatuscheck(Response<responseStatusManifestOrTicket> response, Context context) {
+        responseStatusManifestOrTicket resp=response.body();
+        if(resp!=null)
+        {
+            Log.e("changeStatus", "response not null");
+            int responseCode=resp.getStatus();
+            String message=resp.getMessage();
+            dataStatusManifestTicket data= resp.getData();
+            if(resp.getTotalRows()< 0) {
+                Log.e("changeStatus", "105");
+                if (data != null) {
+                    //Toast.makeText(context, "Folio sendTrip: " + , Toast.LENGTH_SHORT).show();
+                    Log.e("changeStatus", "Folio status: " + resp.getMessage());
+                    presenter.okChangeStatus();
+
+                } else {
+                    Log.e("changeStatus", "Folio status: " + data.getEstatusDespacho().getFolioDespacho());
+                    presenter.okChangeStatus();
+                    Log.e("changeStatus", "no  105");
+                }
+            }else{
+                presenter.okChangeStatus();
+            }
+        }else{
+            presenter.okChangeStatus();
+            Log.e("changeStatus","resp null");
+        }
+
+    }
+
     private void uploadFiles(List<String> filePaths, Integer type, String Text, String token, String folioTicket) {
 
         List<MultipartBody.Part> filesParts = new ArrayList<>();

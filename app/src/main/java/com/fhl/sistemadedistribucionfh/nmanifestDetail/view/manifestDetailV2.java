@@ -135,11 +135,19 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
                 break;
             case R.id.recoletar:
                // Toast.makeText(getContext(), "recolectar", Toast.LENGTH_SHORT).show();
+                List<dataTicketsManifestV2> fdata= new ArrayList<>();
+                fdata.clear();
                 if(data!=null) {
+                    for (dataTicketsManifestV2 mdata:data){//este metodo se usa para filtrar los tickets que ya se han cerrado
+                        if(mdata.getEstatusId()==2);{
+                            fdata.add(mdata);
+                        }
+                    }
+
                     Bundle bundle = new Bundle();
                     bundle.putString("scannerType", "Recolectar");
                     bundle.putString("manifest", folioDespachoId);
-                    bundle.putSerializable("tickets", (Serializable) data);
+                    bundle.putSerializable("tickets", (Serializable) fdata);
                     bundle.putSerializable("sellos", (Serializable) dataSellos);
                     Intent intent = new Intent(getActivity(), BarcodeScannerActivity.class);
                     intent.putExtras(bundle);

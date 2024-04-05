@@ -493,24 +493,38 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
     }
     @Override
     public void changeStatusManifestTicket(String currentManifest, String changeStatusTicket, String sentripPlusFlow) {
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String token = preferences.getString(GeneralConstants.TOKEN, null);
         Integer statusDespacho=0;
         Integer statusTicket = 0;
+        RequestBody currentManifestR =null ;
+        RequestBody statusDespachoR = null;
+        RequestBody changeStatusTicketR = null;
+        RequestBody statusTicketR = null;
         if(sentripPlusFlow.equals("Recoleccion")){
             statusDespacho=3;
             statusTicket=3;
+             currentManifestR = RequestBody.create(MediaType.parse("text/plain"), currentManifest);
+             statusDespachoR = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(statusDespacho));
+             changeStatusTicketR = RequestBody.create(MediaType.parse("text/plain"), changeStatusTicket);
+             statusTicketR = RequestBody.create(MediaType.parse("text/plain"),String.valueOf( statusTicket));
         }else if (sentripPlusFlow.equals("Entrega")){
             statusDespacho=4;
             statusTicket=4;
+             currentManifestR = null;
+             statusDespachoR = null;
+             changeStatusTicketR = RequestBody.create(MediaType.parse("text/plain"), changeStatusTicket);
+             statusTicketR = RequestBody.create(MediaType.parse("text/plain"),String.valueOf( statusTicket));
         }else{
             statusDespacho=2;
             statusTicket=2;
+            currentManifestR = null;
+            statusDespachoR = null;
+            changeStatusTicketR = null;
+            statusTicketR = null;
         }
-        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
-        String token = preferences.getString(GeneralConstants.TOKEN, null);
-        RequestBody currentManifestR = RequestBody.create(MediaType.parse("text/plain"), currentManifest);
-        RequestBody statusDespachoR = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(statusDespacho));
-        RequestBody changeStatusTicketR = RequestBody.create(MediaType.parse("text/plain"), changeStatusTicket);
-        RequestBody statusTicketR = RequestBody.create(MediaType.parse("text/plain"),String.valueOf( statusTicket));
+
+
         Call<responseStatusManifestOrTicket> call= service.setEstatusByManifiestoOrTicket(token,currentManifestR,statusDespachoR,changeStatusTicketR,statusTicketR);
         Log.e("changeStatus",currentManifestR+" "+statusDespachoR+" "+changeStatusTicketR+"  "+statusTicketR);
 

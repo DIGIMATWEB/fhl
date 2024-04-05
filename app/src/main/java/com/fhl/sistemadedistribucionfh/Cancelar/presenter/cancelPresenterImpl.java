@@ -1,10 +1,10 @@
-package com.fhl.sistemadedistribucionfh.cerrarViaje.presenter;
+package com.fhl.sistemadedistribucionfh.Cancelar.presenter;
 
 import android.content.Context;
 
-import com.fhl.sistemadedistribucionfh.cerrarViaje.interactor.cancelInteractor;
-import com.fhl.sistemadedistribucionfh.cerrarViaje.interactor.cancelInteractorImpl;
-import com.fhl.sistemadedistribucionfh.cerrarViaje.view.cancelView;
+import com.fhl.sistemadedistribucionfh.Cancelar.interactor.cancelInteractor;
+import com.fhl.sistemadedistribucionfh.Cancelar.interactor.cancelInteractorImpl;
+import com.fhl.sistemadedistribucionfh.Cancelar.view.cancelView;
 
 import java.util.List;
 
@@ -24,6 +24,19 @@ public class cancelPresenterImpl  implements cancelPresenter{
         }
 
     }
+    @Override
+    public void changemStatusManifestTicket(String currentManifest, String folioTicket) {
+        if (view != null) {
+            interactor.changemStatusManifestTicket(currentManifest,folioTicket);
+        }
+    }
+
+    @Override
+    public void okChangeStatus() {
+        if(view!=null){
+            view.okChangeStatus();
+        }
+    }
 
     @Override
     public void okSendEvidence() {
@@ -31,4 +44,6 @@ public class cancelPresenterImpl  implements cancelPresenter{
             view.okSendEvidence();
         }
     }
+
+
 }
