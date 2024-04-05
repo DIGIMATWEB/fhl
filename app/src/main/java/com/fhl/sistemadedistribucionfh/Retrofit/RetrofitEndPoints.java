@@ -29,6 +29,7 @@ public class RetrofitEndPoints {
     public static final String SENDTRIPPLUS ="logistic/sendTripPlus";
     public static final String LOGINAVOCADO = "login/loginApp_v2";
     public static final String DETAIL_TICKET_SENDTRIPLUS = "GetTicketsByManifiesto";
+    public static final String MANIFIESTO_SET_ESTATUS = "SetEstatusByManifiestoOrTicket";
 
 //    public static final String MENUS = "menu.php";
 //    public static final String SALIDA = "salidaqr.php";

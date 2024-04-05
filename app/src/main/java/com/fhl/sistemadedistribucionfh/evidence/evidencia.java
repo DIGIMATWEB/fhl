@@ -52,7 +52,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
     private Integer secuenceRequest=1;
     private Integer flujoId=0;
-    private String folioTicket;
+    private String folioTicket,changeStatusTicket;
     private List<dataTicketsManifestV2> data;
     private Integer iterateidTickets=0;
     private String currentManifest,sentripPlusFlow;
@@ -197,6 +197,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
            // isArrayofTickets=false;
             Log.e("folioTSendtrip","es un solo folio");
             presenter.requestDetailTicketsSendtriplus(false,iterateidTickets,currentManifest, null,folioTicket);
+            changeStatusTicket=folioTicket;
 
         }else {
             if(data!=null) {//todo si es un arreglo de folios
@@ -205,10 +206,12 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                   //  isArrayofTickets=true;
                     presenter.requestDetailTicketsSendtriplus(
                             true,iterateidTickets, currentManifest,data.get(iterateidTickets).getFolioTicket(), null);//todo revisar esto en la secuencia
+                changeStatusTicket=data.get(iterateidTickets).getFolioTicket();
                 }else{//todo si son varios folios
                 //    isArrayofTickets=false;
                     presenter.requestDetailTicketsSendtriplus(
                             true,iterateidTickets, currentManifest, data.get(0).getFolioTicket(), null);//todo revisar esto en la secuencia
+                    changeStatusTicket=data.get(0).getFolioTicket();
                 }
             }else{
 
@@ -362,9 +365,11 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             int rating = (int) Math.round(Double.parseDouble(stars));
             if(folioTicket!=null) {
                 presenter.sendRate(rating, folioTicket);
+                changeStatusTicket=folioTicket;
             }else {
                 if(data!=null) {
                     presenter.sendRate(rating, data.get(iterateidTickets).getFolioTicket());
+                    changeStatusTicket=data.get(iterateidTickets).getFolioTicket();
                 }else{
                     Toast.makeText(this, "No hay tickets al cual mandar evidencia", Toast.LENGTH_SHORT).show();
                 }
@@ -377,7 +382,10 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
             ///todo presenterchange statusmanifest
 
-        }else if(secuenceRequest==6){//borra todo lo relacionano y regresa
+        }else if(secuenceRequest==6){
+            presenter.changeStatusManifestTicket(currentManifest,changeStatusTicket,sentripPlusFlow);
+
+        }else if(secuenceRequest==7){//borra todo lo relacionano y regresa
              Toast.makeText(this, "usar sendtrip plus Cambiar estatus y regresar a manifiestos", Toast.LENGTH_SHORT).show();
 
             if(!isArrayofTickets) {//todo si es solo uno manda el manifiesto

@@ -23,4 +23,6 @@ public interface requestEvidencePresenter {
     void requestDetailTicketsSendtriplus(boolean b, Integer iterateidTickets, String currentManifest, String folioTicket, String ticket);
 
     void setDetailTicketsentriplus(List<dataTicketsDetailsendtrip> data);
+
+    void changeStatusManifestTicket(String currentManifest, String changeStatusTicket, String sentripPlusFlow);
 }

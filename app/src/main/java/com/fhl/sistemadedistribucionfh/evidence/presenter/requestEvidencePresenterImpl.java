@@ -59,13 +59,20 @@ public class requestEvidencePresenterImpl  implements requestEvidencePresenter{
             interactor. requestDetailTicketsSendtriplus( isArray, iterateidTickets,currentManifest,folioTicket,ticket);
         }
     }
-
+    @Override
+    public void changeStatusManifestTicket(String currentManifest, String changeStatusTicket, String sentripPlusFlow) {
+        if(view!=null){
+            interactor.changeStatusManifestTicket(currentManifest,changeStatusTicket,sentripPlusFlow);
+        }
+    }
     @Override
     public void setDetailTicketsentriplus(List<dataTicketsDetailsendtrip> data) {
         if(view!=null){
             view.setDetailTicketsentriplus(data);
         }
     }
+
+
 
     @Override
     public void nextRequest() {

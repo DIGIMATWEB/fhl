@@ -14,4 +14,6 @@ public interface sendEvidenceInteractor {
     void tokenAvocado();
 
     void requestDetailTicketsSendtriplus(boolean isArray, Integer iterateidTickets, String currentManifest, String folioTicket, String ticket);
+
+    void changeStatusManifestTicket(String currentManifest, String changeStatusTicket, String sentripPlusFlow);
 }

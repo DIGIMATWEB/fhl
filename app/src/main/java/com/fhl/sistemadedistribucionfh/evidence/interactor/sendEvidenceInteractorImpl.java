@@ -14,6 +14,8 @@ import com.fhl.sistemadedistribucionfh.evidence.documents.model.InnerData;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.dataApiResponse;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.TicketsDetailSentriplus;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
+import com.fhl.sistemadedistribucionfh.evidence.model.changeStatusmanifestticket.dataStatusManifestTicket;
+import com.fhl.sistemadedistribucionfh.evidence.model.changeStatusmanifestticket.responseStatusManifestOrTicket;
 import com.fhl.sistemadedistribucionfh.evidence.presenter.requestEvidencePresenter;
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.requestRate;
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.responseRate;
@@ -55,12 +57,12 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
     public sendEvidenceInteractorImpl(requestEvidencePresenter presenter,Context context){
         this.presenter=presenter;
         this.context=context;
+        //TODO esta es la instancia de SGD
         retrofitClient = RetrofitClientFHManifest.getRetrofitInstance();
         service = retrofitClient.create(serviceEvidence.class);
-
+        //todo este es la instancia de la peticion para el token de avocado y el TEA
         retrofitClientV2= RetrifitClientAvocado.getRetrofitInstance();
         service2 = retrofitClientV2.create(serviceSendtripPlus.class);
-
     }
     @Override
     public void requestEvidence(Integer secuenceRequest, String signatureBase64, String inputTextSignature, String currusel, String ffiles, Integer flujoId, String folioTicket) {
@@ -441,6 +443,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         }
     }
 
+
     private void requestDetailforSendtriplusTicket(String token, String iterateidTickets, String currentManifest) {
         Call<TicketsDetailSentriplus> call= service.getTicket(token,currentManifest,iterateidTickets);
         call.enqueue(new Callback<TicketsDetailSentriplus>() {
@@ -487,5 +490,75 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         }else{
             Log.e("responseSendtripTicket","resp null");
         }
+    }
+    @Override
+    public void changeStatusManifestTicket(String currentManifest, String changeStatusTicket, String sentripPlusFlow) {
+        Integer statusDespacho=0;
+        Integer statusTicket = 0;
+        if(sentripPlusFlow.equals("Recoleccion")){
+            statusDespacho=3;
+            statusTicket=3;
+        }else if (sentripPlusFlow.equals("Entrega")){
+            statusDespacho=4;
+            statusTicket=4;
+        }else{
+            statusDespacho=2;
+            statusTicket=2;
+        }
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String token = preferences.getString(GeneralConstants.TOKEN, null);
+        Call<responseStatusManifestOrTicket> call= service.setEstatusByManifiestoOrTicket(token,currentManifest,statusDespacho,changeStatusTicket,statusTicket);
+        call.enqueue(new Callback<responseStatusManifestOrTicket>() {
+            @Override
+            public void onResponse(Call<responseStatusManifestOrTicket> call, Response<responseStatusManifestOrTicket> response) {
+                validateChangeStatus(response,context);
+            }
+
+            @Override
+            public void onFailure(Call<responseStatusManifestOrTicket> call, Throwable t) {
+                Log.e("changeStatus",""+t.getMessage());
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                presenter.nextRequest();
+            }
+        });
+
+    }
+
+    private void validateChangeStatus(Response<responseStatusManifestOrTicket> response, Context context) {
+        if (RetrofitValidations.checkSuccessCode(response.code())) {
+            responseStatuscheck(response,context);
+        } else {
+            Log.e("responseSendtripTicket","RetrofitValidations fail");
+            Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show();
+            presenter.nextRequest();
+        }
+    }
+
+    private void responseStatuscheck(Response<responseStatusManifestOrTicket> response, Context context) {
+                responseStatusManifestOrTicket resp=response.body();
+                if(resp!=null)
+                {
+                    int responseCode=resp.getStatus();
+                    String message=resp.getMessage();
+                    dataStatusManifestTicket data= resp.getData();
+                    if(resp.getTotalRows()< 0) {
+                        Log.e("sendtripplus", "105");
+                            if (data != null) {
+                                //Toast.makeText(context, "Folio sendTrip: " + , Toast.LENGTH_SHORT).show();
+                                Log.e("sendtripplus", "Folio sendTrip: " + data.getEstatusDespacho().getFolioDespacho());
+                                presenter.nextRequest();
+
+                            } else {
+                                presenter.nextRequest();
+                                Log.e("sendtripplus", "no  105");
+                            }
+                        }else{
+                        presenter.nextRequest();
+                        }
+                }else{
+                    presenter.nextRequest();
+                    Log.e("sendtripplus","resp null");
+                }
+
     }
 }
