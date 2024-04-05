@@ -1,5 +1,7 @@
 package com.fhl.sistemadedistribucionfh.checkList.Questions.view;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -16,6 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.adapter.QuestionAdapter;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.model.Datum;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.model.responseChecklist;
@@ -75,6 +78,8 @@ public class questionFragment extends Fragment implements View.OnClickListener ,
 
 
     private void initView(View view) {
+        SharedPreferences preferences = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String user = preferences.getString(GeneralConstants.OPERADOR_ID, null);
         buttonstartChecklist=view.findViewById(R.id.buttonstartChecklist);
         buttonstartChecklist.setOnClickListener(this);
         helpertext=view.findViewById(R.id.helpertext);
@@ -84,7 +89,7 @@ public class questionFragment extends Fragment implements View.OnClickListener ,
         manifestChecklist=view.findViewById(R.id. manifestChecklist);
         statusChecklist  =view.findViewById(R.id. statusChecklist);
         ViewPager = view.findViewById(R.id.ViewPager);
-        sendChakclist=new sendChecklist(checklist,"6",2);
+        sendChakclist=new sendChecklist(checklist,user,2);
         presenter= new presenterQuestionsImpl(this,getContext());
         presenter.requestQuestions();
     }

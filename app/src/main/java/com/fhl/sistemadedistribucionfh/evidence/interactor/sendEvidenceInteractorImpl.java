@@ -334,7 +334,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
     public void sendSentriplus(String currentManifest, List<dataTicketsDetailsendtrip> dataTicketSendtrip, String sentripPlusFlow) {
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token_Avocado = preferences.getString(GeneralConstants.TOKEN_AVOCADO, null);
-        String operadorId = preferences.getString(GeneralConstants.OPERADOR_ID, null);
+        String operadorId = preferences.getString(GeneralConstants.OPERADOR_NAME, null);
         if(token_Avocado!=null){
             requestSendtriplus(token_Avocado,dataTicketSendtrip.get(0),operadorId,currentManifest,sentripPlusFlow);
             Log.e("sendtripplus","requestSendtriplus");

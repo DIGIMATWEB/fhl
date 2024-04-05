@@ -258,8 +258,9 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 secuenceRequest=1;
                 break;
             case R.id.sendEvidence://la primera vez la firma lo manda con esto
-                Log.e("sendEvidence","folio "+folioTicket+" data "+data.size());
+
                 if(folioTicket!=null) {
+                    Log.e("sendEvidence","folio "+folioTicket);
                     isArrayofTickets=false;
                     presenter.sendEvidence(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, folioTicket);
                     Log.e("sendEvidence", "signatureBase64: " + signatureBase64 + "\n" +
@@ -270,6 +271,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                             "secuenceRequest: " + secuenceRequest);
                 }else {
                     if(data!=null) {
+                        Log.e("sendEvidence"," data "+data.size());
                         if(data.size()>1){
                         isArrayofTickets=true;
                         sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, data.get(iterateidTickets).getFolioTicket());

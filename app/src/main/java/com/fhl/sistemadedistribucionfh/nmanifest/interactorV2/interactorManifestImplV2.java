@@ -40,6 +40,7 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
         Gson gson = new Gson();
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token2 = preferences.getString(GeneralConstants.USER_VALUES, null);
+        String user = preferences.getString(GeneralConstants.OPERADOR_ID, null);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
         Log.e("TOKEN",""+token);
         profileResponse profileData = gson.fromJson(token2, profileResponse.class);
@@ -57,8 +58,7 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
         //IdEmpleado correcto
         //TODO Cambiar por el token correcto
         presenter.showProgress();
-        Call<responseManifestV2> call = service.getManifestV2(token,  "6" +
-                "");
+        Call<responseManifestV2> call = service.getManifestV2(token,  user);
         Log.e("requestmanifest",""+call.request().toString());
         call.enqueue(new Callback<responseManifestV2>() {
             @Override
