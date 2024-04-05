@@ -55,7 +55,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     private String folioTicket;
     private List<dataTicketsManifestV2> data;
     private Integer iterateidTickets=0;
-    private String currentManifest;
+    private String currentManifest,sentripPlusFlow;
     private Boolean isArrayofTickets=false;
     private loaderFH progress;
     private List<dataTicketsDetailsendtrip> dataTicketSendtrip;
@@ -73,6 +73,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             // Retrieve the integer value using the key "key_integer"
              flujoId= bundle.getInt("flujoId");
             currentManifest = bundle.getString("currentManifest");
+            sentripPlusFlow= bundle.getString("sentripPlusFlow");
             folioTicket= bundle.getString("folioTicket");
             data= (List<dataTicketsManifestV2>) bundle.getSerializable("dataTcikets");
 
@@ -370,7 +371,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         }else if(secuenceRequest==5){
             secuenceRequest = secuenceRequest + 1;
             Log.e("sendEvidence","Se envia a sendtripplus");
-            presenter.sendSentriplus(currentManifest,dataTicketSendtrip);
+            presenter.sendSentriplus(currentManifest,dataTicketSendtrip,sentripPlusFlow);
         }else if(secuenceRequest==6){//borra todo lo relacionano y regresa
              Toast.makeText(this, "usar sendtrip plus Cambiar estatus y regresar a manifiestos", Toast.LENGTH_SHORT).show();
 

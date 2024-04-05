@@ -9,7 +9,7 @@ public interface sendEvidenceInteractor {
 
     void sendRate(Integer stars, String folioTicket);
 
-    void sendSentriplus(String currentManifest, List<dataTicketsDetailsendtrip> dataTicketSendtrip);
+    void sendSentriplus(String currentManifest, List<dataTicketsDetailsendtrip> dataTicketSendtrip, String sentripPlusFlow);
 
     void tokenAvocado();
 

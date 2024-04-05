@@ -89,6 +89,7 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
         Bundle bundle = new Bundle();
         bundle.putInt("flujoId", 2);// Putting integer value with key "key_integer"
         bundle.putString("currentManifest",folioDespachoId);
+        bundle.putString("sentripPlusFlow","Entrega");
         bundle.putString("folioTicket",folioTicket);
         intent2.putExtras(bundle); // Attaching the bundle to the intent
         startActivity(intent2);

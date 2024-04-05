@@ -331,22 +331,22 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
     }
 
     @Override
-    public void sendSentriplus(String currentManifest, List<dataTicketsDetailsendtrip> dataTicketSendtrip) {
+    public void sendSentriplus(String currentManifest, List<dataTicketsDetailsendtrip> dataTicketSendtrip, String sentripPlusFlow) {
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token_Avocado = preferences.getString(GeneralConstants.TOKEN_AVOCADO, null);
         String operadorId = preferences.getString(GeneralConstants.OPERADOR_ID, null);
         if(token_Avocado!=null){
-            requestSendtriplus(token_Avocado,dataTicketSendtrip.get(0),operadorId,currentManifest);
+            requestSendtriplus(token_Avocado,dataTicketSendtrip.get(0),operadorId,currentManifest,sentripPlusFlow);
             Log.e("sendtripplus","requestSendtriplus");
         }
     }
 
-    private void requestSendtriplus(String token_Avocado, dataTicketsDetailsendtrip data, String operadorId, String currentManifest) {
+    private void requestSendtriplus(String token_Avocado, dataTicketsDetailsendtrip data, String operadorId, String currentManifest, String sentripPlusFlow) {
         Trip mtrip= new Trip("",0,"","",""
                 ,"","",0,0,
                 new ArrayList<>(),"","","","","","",
                 0,0,"",
-                "","","","","FH","","","",
+                "","","","",sentripPlusFlow,"","","",
                 "","","","","","","");
         mtrip.setComments(currentManifest);
         mtrip.setOrderFolio(Integer.valueOf(data.getFolioTicket()));//mtrip.setOrderFolio(0);

@@ -14,7 +14,7 @@ public interface requestEvidencePresenter {
 
     void hideDialog();
 
-    void sendSentriplus(String currentManifest, List<dataTicketsDetailsendtrip> dataTicketSendtrip);
+    void sendSentriplus(String currentManifest, List<dataTicketsDetailsendtrip> dataTicketSendtrip, String sentripPlusFlow);
 
     void tokenAvocado();
 

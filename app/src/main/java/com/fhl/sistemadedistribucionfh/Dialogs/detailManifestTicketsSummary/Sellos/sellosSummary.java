@@ -90,6 +90,7 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
                 Bundle bundle = new Bundle();
                 bundle.putInt("flujoId", 1);
                 bundle.putString("currentManifest",currentManifest);
+                bundle.putString("sentripPlusFlow","Recoleccion");
                 bundle.putString("folioTicket", null);
                 bundle.putSerializable("dataTcikets",(Serializable) data);
                 intent.putExtras(bundle);
