@@ -355,7 +355,7 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void okChangeStatus() {
-        goToManifest(); 
+        goToManifest();
     }
 
     private void goToManifest() {

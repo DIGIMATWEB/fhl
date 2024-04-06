@@ -103,8 +103,8 @@ public class mainContainer extends AppCompatActivity  implements view {
                 checkList();
                 break;
             case "Gastos operativos":
-                Toast.makeText(this, "modulo en desarrollo", Toast.LENGTH_SHORT).show();
-                //gastosF();
+                //Toast.makeText(this, "modulo en desarrollo", Toast.LENGTH_SHORT).show();
+                gastosF();
                 break;
             case "Resguardo":
                 Toast.makeText(this, "modulo en desarrollo", Toast.LENGTH_SHORT).show();
