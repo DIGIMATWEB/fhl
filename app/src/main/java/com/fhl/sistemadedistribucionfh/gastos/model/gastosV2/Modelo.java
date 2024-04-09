@@ -1,14 +1,14 @@
 
-package com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus;
-
+package com.fhl.sistemadedistribucionfh.gastos.model.gastosV2;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
+public class Modelo {
 
-public class Estatus implements Serializable {
-
+    @SerializedName("MarcaId")
+    @Expose
+    private Integer marcaId;
     @SerializedName("Nombre")
     @Expose
     private String nombre;
@@ -16,18 +16,23 @@ public class Estatus implements Serializable {
     @Expose
     private Integer id;
 
-    public Estatus(String nombre, Integer id) {
+    public Modelo(Integer marcaId, String nombre, Integer id) {
         super();
+        this.marcaId = marcaId;
         this.nombre = nombre;
         this.id = id;
     }
 
+    public Integer getMarcaId() {
+        return marcaId;
+    }
+
+    public void setMarcaId(Integer marcaId) {
+        this.marcaId = marcaId;
+    }
+
     public String getNombre() {
-        if (nombre != null) {
-            return nombre;
-        } else {
-            return "";
-        }
+        return nombre;
     }
 
     public void setNombre(String nombre) {

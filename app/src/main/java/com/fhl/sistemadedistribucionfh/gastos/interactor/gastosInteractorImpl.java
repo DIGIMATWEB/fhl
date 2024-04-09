@@ -1,12 +1,17 @@
 package com.fhl.sistemadedistribucionfh.gastos.interactor;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
+import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClient;
+import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientFHManifest;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientNewlands;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
 import com.fhl.sistemadedistribucionfh.gastos.model.dataGastos;
+import com.fhl.sistemadedistribucionfh.gastos.model.gastosV2.ResponseGastosv2;
+import com.fhl.sistemadedistribucionfh.gastos.model.gastosV2.dataGastosOperativos;
 import com.fhl.sistemadedistribucionfh.gastos.model.requestGastos;
 import com.fhl.sistemadedistribucionfh.gastos.model.responseGastos;
 import com.fhl.sistemadedistribucionfh.gastos.presenter.presenterGastos;
@@ -28,28 +33,29 @@ public class gastosInteractorImpl implements gastosInteractor{
     public gastosInteractorImpl(presenterGastos presenter,Context context){
         this.presenter=presenter;
         this.context=context;
-        retrofitClient = RetrofitClientNewlands.getRetrofitInstance();
+        retrofitClient = RetrofitClientFHManifest.getRetrofitInstance();
         service=retrofitClient.create(serviceGastos.class);
     }
     @Override
     public void requestGastos() {
-        requestGastos request=new requestGastos("asdada");
-//        Call<responseGastos> call=service.getGastos(request);
-//        call.enqueue(new Callback<responseGastos>() {
-//            @Override
-//            public void onResponse(Call<responseGastos> call, Response<responseGastos> response) {
-//                validateResponseGastos(response,context);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<responseGastos> call, Throwable t) {
-//                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String user = preferences.getString(GeneralConstants.OPERADOR_ID, null);
+        String token = preferences.getString(GeneralConstants.TOKEN, null);
+        Call<ResponseGastosv2> call = service.getgastos(token,  user,true);
+        call.enqueue(new Callback<ResponseGastosv2>() {
+            @Override
+            public void onResponse(Call<ResponseGastosv2> call, Response<ResponseGastosv2> response) {
+                validateResponseGastos(response,context);
+            }
 
+            @Override
+            public void onFailure(Call<ResponseGastosv2> call, Throwable t) {
+                Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    private void validateResponseGastos(Response<responseGastos> response, Context context) {
+    private void validateResponseGastos(Response<ResponseGastosv2> response, Context context) {
         if (response != null) {
 
             if (RetrofitValidations.checkSuccessCode(response.code())) {
@@ -60,13 +66,13 @@ public class gastosInteractorImpl implements gastosInteractor{
         }
     }
 
-    private void getGastos(Response<responseGastos> response, Context context) {
-        responseGastos resp=response.body();
+    private void getGastos(Response<ResponseGastosv2> response, Context context) {
+        ResponseGastosv2 resp=response.body();
         if(resp!=null){
             String message = resp.getMessage();
-            int responseCode = resp.getResconseCode();
-            if(resp.getResconseCode()== GeneralConstants.RESPONSE_CODE_OK){
-                List<dataGastos> data=resp.getData();
+            int responseCode = resp.getStatus();
+            if(responseCode== 200){
+                List<dataGastosOperativos> data=resp.getData();
 
                 if(data!=null){
                     presenter.setGastos(data);

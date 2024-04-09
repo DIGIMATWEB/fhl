@@ -12,18 +12,21 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
-import com.fhl.sistemadedistribucionfh.gastos.model.dataGastos;
+import com.fhl.sistemadedistribucionfh.gastos.model.gastosV2.GastosOperativo;
+import com.fhl.sistemadedistribucionfh.gastos.model.gastosV2.dataGastosOperativos;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class adapterGastos extends RecyclerView.Adapter<adapterGastos.ViewHolder> {
     private Context context;
-    private List<dataGastos> data;
+    private List<GastosOperativo> data;
+    private List<dataGastosOperativos> maindata;
 
-    public adapterGastos(List<dataGastos> data, Context context) {
+    public adapterGastos(List<GastosOperativo> data, Context context, List<dataGastosOperativos> maindata) {
        this.data = data;
         this.context = context;
+        this.maindata=maindata;
     }
 
     @NonNull
@@ -35,10 +38,10 @@ public class adapterGastos extends RecyclerView.Adapter<adapterGastos.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull adapterGastos.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-        holder.colaboradorGastos.setText(data.get(position).getOperadorGastos());
-        holder.manifestGastos.setText(data.get(position).getManifestGastos());
-        if(data.get(position).getStatusGastos().equals("1")){
-            holder.statusGastos.setText("Liquidado");
+        holder.colaboradorGastos.setText(maindata.get(position).getOperador().getNombre());
+       holder.manifestGastos.setText(maindata.get(position).getFolioDespacho());
+        if(maindata.get(position).getEstatus().equals("2")){
+            holder.statusGastos.setText("Confirmado");
             int mcolor=context.getColor(R.color.green);
             holder.statusGastos.setTextColor(mcolor);
         }else{
@@ -50,10 +53,10 @@ public class adapterGastos extends RecyclerView.Adapter<adapterGastos.ViewHolder
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return maindata.size();
     }
 
-    public void setFilter(List<dataGastos> filterList) {
+    public void setFilter(List<GastosOperativo> filterList) {
         this.data = new ArrayList<>();
         this.data.addAll(filterList);
         notifyDataSetChanged();

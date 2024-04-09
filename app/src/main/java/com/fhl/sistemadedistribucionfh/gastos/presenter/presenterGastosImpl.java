@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.fhl.sistemadedistribucionfh.gastos.interactor.gastosInteractor;
 import com.fhl.sistemadedistribucionfh.gastos.interactor.gastosInteractorImpl;
-import com.fhl.sistemadedistribucionfh.gastos.model.dataGastos;
+import com.fhl.sistemadedistribucionfh.gastos.model.gastosV2.dataGastosOperativos;
 import com.fhl.sistemadedistribucionfh.gastos.view.gastosView;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public class presenterGastosImpl implements presenterGastos{
     }
 
     @Override
-    public void setGastos(List<dataGastos> data) {
+    public void setGastos(List<dataGastosOperativos> data) {
         if(view!=null){
             view.setDataGastos(data);
         }

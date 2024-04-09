@@ -1,37 +1,42 @@
 
-package com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus;
-
+package com.fhl.sistemadedistribucionfh.gastos.model.gastosV2;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
-public class Estatus implements Serializable {
+public class Operador {
 
     @SerializedName("Nombre")
     @Expose
     private String nombre;
+    @SerializedName("RFC")
+    @Expose
+    private String rfc;
     @SerializedName("Id")
     @Expose
     private Integer id;
 
-    public Estatus(String nombre, Integer id) {
+    public Operador(String nombre, String rfc, Integer id) {
         super();
         this.nombre = nombre;
+        this.rfc = rfc;
         this.id = id;
     }
 
     public String getNombre() {
-        if (nombre != null) {
-            return nombre;
-        } else {
-            return "";
-        }
+        return nombre;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getRfc() {
+        return rfc;
+    }
+
+    public void setRfc(String rfc) {
+        this.rfc = rfc;
     }
 
     public Integer getId() {

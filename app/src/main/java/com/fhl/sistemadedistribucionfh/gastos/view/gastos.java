@@ -13,7 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.gastos.adapter.adapterGastos;
-import com.fhl.sistemadedistribucionfh.gastos.model.dataGastos;
+import com.fhl.sistemadedistribucionfh.gastos.model.gastosV2.GastosOperativo;
+import com.fhl.sistemadedistribucionfh.gastos.model.gastosV2.dataGastosOperativos;
 import com.fhl.sistemadedistribucionfh.gastos.presenter.presenterGastos;
 import com.fhl.sistemadedistribucionfh.gastos.presenter.presenterGastosImpl;
 
@@ -25,7 +26,8 @@ public class gastos extends Fragment implements View.OnClickListener,gastosView 
     private RecyclerView rv;
     private adapterGastos adapter;
     private SearchView searchView;
-    private List<dataGastos> data;
+    private List<GastosOperativo> data;
+    private List<dataGastosOperativos> maindata;
     private presenterGastos presenter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,8 +37,8 @@ public class gastos extends Fragment implements View.OnClickListener,gastosView 
 
         return view;
     }
-    private void fillSellos( List<dataGastos> data) {
-        adapter=new adapterGastos(data,getContext());
+    private void fillGastos(List<GastosOperativo> data, List<dataGastosOperativos> maindata) {
+        adapter=new adapterGastos(data,getContext(),maindata);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(adapter);
@@ -56,7 +58,7 @@ public class gastos extends Fragment implements View.OnClickListener,gastosView 
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                List<dataGastos> filterList =filter(data,newText);
+                List<GastosOperativo> filterList =filter(data,newText);
                 adapter.setFilter(filterList);
                 return true;
             }
@@ -64,13 +66,13 @@ public class gastos extends Fragment implements View.OnClickListener,gastosView 
         presenter= new presenterGastosImpl(this,getContext());
         presenter.getGastos();
     }
-    private List<dataGastos> filter(List<dataGastos> data, String text) {
-        List<dataGastos> mfilterList= new ArrayList<>();
+    private List<GastosOperativo> filter(List<GastosOperativo> data, String text) {
+        List<GastosOperativo> mfilterList= new ArrayList<>();
         text =text.toLowerCase();
         if(data!=null){
-            for(dataGastos gastosList:data)
+            for(GastosOperativo gastosList:data)
             {
-                String manifestname=gastosList.getManifestGastos().toLowerCase();
+                String manifestname=gastosList.getTipoGasto().getNombre().toLowerCase();
                 if(manifestname.contains(text)){
                     mfilterList.add(gastosList);
                 }
@@ -84,8 +86,9 @@ public class gastos extends Fragment implements View.OnClickListener,gastosView 
     }
 
     @Override
-    public void setDataGastos(List<dataGastos> data) {
-        this.data=data;
-        fillSellos(data);
+    public void setDataGastos(List<dataGastosOperativos> data) {
+        this.maindata=data;
+        this.data=  data.get(0).getGastosOperativos();;
+        fillGastos(this.data,maindata);
     }
 }
