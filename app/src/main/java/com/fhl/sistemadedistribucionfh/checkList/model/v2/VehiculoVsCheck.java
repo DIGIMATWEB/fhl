@@ -12,7 +12,7 @@ public class VehiculoVsCheck {
     @SerializedName("ChecklistId")
     private Integer checklistId;
     @SerializedName("Checklist")
-    private Checklist checklist;
+    private Checklist checklist=null;
 
     public VehiculoVsCheck(Integer id, String periodicidad, String fechaInicio, Integer checklistId, Checklist checklist) {
         super();

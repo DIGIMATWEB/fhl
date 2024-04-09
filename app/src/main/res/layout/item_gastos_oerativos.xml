@@ -7,7 +7,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="0dp"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent=".4" />
+                app:layout_constraintGuide_percent=".33" />
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelinechecklist4"
                 android:layout_width="wrap_content"
@@ -52,18 +52,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Manifisto"
+                android:text="Manifiesto"
                 android:textSize="@dimen/h6"
                 app:layout_constraintBottom_toTopOf="@+id/guidelinechecklist5"
-                app:layout_constraintStart_toStartOf="@+id/guidelinechecklist2"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Colaborador"
-                android:textSize="@dimen/h6"
-                app:layout_constraintBottom_toTopOf="@+id/guidelinechecklist5"
+                app:layout_constraintEnd_toStartOf="@+id/guidelinechecklist4"
                 app:layout_constraintStart_toStartOf="@+id/guidelinechecklist3"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -77,31 +69,11 @@
                 android:textSize="@dimen/h5"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guidelinechecklist2"
-                app:layout_constraintTop_toTopOf="@+id/guidelinechecklist5" />
-
-            <TextView
-                android:id="@+id/colaboradorGastos"
-                android:layout_width="110dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text=""
-                android:textSize="@dimen/h7"
-                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/guidelinechecklist4"
                 app:layout_constraintStart_toStartOf="@+id/guidelinechecklist3"
                 app:layout_constraintTop_toTopOf="@+id/guidelinechecklist5" />
 
-            <TextView
-                android:id="@+id/statusGastos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="@color/red"
-                android:textSize="@dimen/h6"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/guidelinechecklist5"
-                app:layout_constraintStart_toStartOf="@+id/guidelinechecklist4"
-                app:layout_constraintTop_toTopOf="@+id/guidelinechecklist5" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
@@ -114,6 +86,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
         app:cardCornerRadius="12dp"
+        android:visibility="gone"
         app:cardElevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

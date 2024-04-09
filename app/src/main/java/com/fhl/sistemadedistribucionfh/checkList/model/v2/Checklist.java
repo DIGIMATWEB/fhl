@@ -66,10 +66,16 @@ public class Checklist {
     }
 
     public String getNombre() {
-        return nombre;
+        if(nombre==null){
+            return "";
+        }else {
+            return nombre;
+        }
     }
 
+
     public void setNombre(String nombre) {
+
         this.nombre = nombre;
     }
 

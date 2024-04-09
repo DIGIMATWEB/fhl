@@ -13,17 +13,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
-import com.fhl.sistemadedistribucionfh.checkList.model.v1.dataChecklist;
-import com.fhl.sistemadedistribucionfh.checkList.model.v2.VehiculoVsCheck;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.dataChecklistV2;
 import com.fhl.sistemadedistribucionfh.checkList.view.checkList;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class adapterChecklist extends RecyclerView.Adapter<adapterChecklist.ViewHolder> {
@@ -48,7 +42,14 @@ public class adapterChecklist extends RecyclerView.Adapter<adapterChecklist.View
 
     @Override
     public void onBindViewHolder(@NonNull adapterChecklist.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-           holder.namechecklist.setText(data.getVehiculoVsChecklist().get(position).getChecklist().getNombre());
+        if(data.getVehiculoVsChecklist()!=null) {
+            if(data.getVehiculoVsChecklist().get(position).getChecklist()!=null) {
+                if(data.getVehiculoVsChecklist().get(position).getChecklist().getNombre()!=null) {
+                    holder.namechecklist.setText(data.getVehiculoVsChecklist().get(position).getChecklist().getNombre());
+                    periodicity(holder,position);
+                }
+            }
+        }
           holder.vehiclTypeChecklist.setText(data.getVehiculo().getPlaca());
 
 
@@ -64,32 +65,7 @@ public class adapterChecklist extends RecyclerView.Adapter<adapterChecklist.View
             holder.manifestChecklist.setText(": " );
         }
 
-        String dateString=data.getVehiculoVsChecklist().get(position).getChecklist().getFechaVencimiento();
-        LocalDateTime givenDate = LocalDateTime.parse(dateString, DateTimeFormatter.ISO_DATE_TIME);
-        // Get the current date and time
-        LocalDateTime currentDate = LocalDateTime.now();
-        // Compare the given date with the current date
-        if (currentDate.isBefore(givenDate)) {
-            vigencia="Vigente";
-            holder.statusChecklist.setText("Vigente");
-                int mcolor=context.getColor(R.color.green);
-                holder.statusChecklist.setTextColor(mcolor);
-            // Your code for the past date scenario goes here
-        } else if (givenDate.isEqual(currentDate)) {
-            holder.statusChecklist.setText("No vigente");
-            vigencia="No vigente";
-                int mcolor=context.getColor(R.color.red);
-                holder.statusChecklist.setTextColor(mcolor);
-                holder.siguienteChecklist.setVisibility(View.GONE);
-                holder.moreChecklist.setVisibility(View.GONE);
-        } else {
-            vigencia="No vigente";
-            holder.statusChecklist.setText("No vigente");
-            int mcolor=context.getColor(R.color.red);
-            holder.statusChecklist.setTextColor(mcolor);
-            holder.siguienteChecklist.setVisibility(View.GONE);
-            holder.moreChecklist.setVisibility(View.GONE);
-        }
+
 
             holder.siguienteChecklist.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -98,7 +74,34 @@ public class adapterChecklist extends RecyclerView.Adapter<adapterChecklist.View
                 }
             });
     }
-
+    public  void periodicity(ViewHolder holder, int position){
+        String dateString=data.getVehiculoVsChecklist().get(position).getChecklist().getFechaVencimiento();
+        LocalDateTime givenDate = LocalDateTime.parse(dateString, DateTimeFormatter.ISO_DATE_TIME);
+        // Get the current date and time
+        LocalDateTime currentDate = LocalDateTime.now();
+        // Compare the given date with the current date
+        if (currentDate.isBefore(givenDate)) {
+            vigencia="Vigente";
+            holder.statusChecklist.setText("Vigente");
+            int mcolor=context.getColor(R.color.green);
+            holder.statusChecklist.setTextColor(mcolor);
+            // Your code for the past date scenario goes here
+        } else if (givenDate.isEqual(currentDate)) {
+            holder.statusChecklist.setText("No vigente");
+            vigencia="No vigente";
+            int mcolor=context.getColor(R.color.red);
+            holder.statusChecklist.setTextColor(mcolor);
+            holder.siguienteChecklist.setVisibility(View.GONE);
+            holder.moreChecklist.setVisibility(View.GONE);
+        } else {
+            vigencia="No vigente";
+            holder.statusChecklist.setText("No vigente");
+            int mcolor=context.getColor(R.color.red);
+            holder.statusChecklist.setTextColor(mcolor);
+            holder.siguienteChecklist.setVisibility(View.GONE);
+            holder.moreChecklist.setVisibility(View.GONE);
+        }
+    }
     @Override
     public int getItemCount() {
         return data.getVehiculoVsChecklist().size();

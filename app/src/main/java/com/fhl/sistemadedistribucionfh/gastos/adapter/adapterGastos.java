@@ -38,17 +38,9 @@ public class adapterGastos extends RecyclerView.Adapter<adapterGastos.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull adapterGastos.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-        holder.colaboradorGastos.setText(maindata.get(position).getOperador().getNombre());
-       holder.manifestGastos.setText(maindata.get(position).getFolioDespacho());
-        if(maindata.get(position).getEstatus().equals("2")){
-            holder.statusGastos.setText("Confirmado");
-            int mcolor=context.getColor(R.color.green);
-            holder.statusGastos.setTextColor(mcolor);
-        }else{
-            holder.statusGastos.setText("No Liquidado");
-            int mcolor=context.getColor(R.color.red);
-            holder.statusGastos.setTextColor(mcolor);
-        }
+     holder.manifestGastos.setText(maindata.get(position).getFolioDespacho());
+
+
     }
 
     @Override
@@ -64,14 +56,12 @@ public class adapterGastos extends RecyclerView.Adapter<adapterGastos.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout cardOrder;
-        TextView statusGastos,colaboradorGastos,manifestGastos;
+        TextView manifestGastos;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             cardOrder = itemView.findViewById(R.id.constrainCard);
-            statusGastos=itemView.findViewById(R.id.statusGastos);
-            colaboradorGastos= itemView.findViewById(R.id.colaboradorGastos);
             manifestGastos=itemView.findViewById(R.id.manifestGastos);
 
         }
