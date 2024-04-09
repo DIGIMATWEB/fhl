@@ -104,7 +104,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="50dp"
         android:elevation="3dp"
         android:text="Total del balance"
         app:layout_constraintBottom_toBottomOf="@+id/pieChart2"

@@ -65,9 +65,9 @@ public class Chart extends Fragment implements View.OnClickListener {
 
         //initializing data
         Map<String, Integer> typeAmountMap = new HashMap<>();
-        typeAmountMap.put("Entregado",terminados);
+        typeAmountMap.put("terminados",terminados);//todo este vaalor es en porcentaje  //("terminados",1)
         //typeAmountMap.put("No entregado",noentregados);
-        typeAmountMap.put("Cancelado",cancelados);
+        typeAmountMap.put("cancelados",cancelados);
 
 
         //initializing colors for the entries
@@ -121,8 +121,9 @@ public class Chart extends Fragment implements View.OnClickListener {
         PieData pieData = new PieData(pieDataSet);
         //showing the value of the entries, default true if not set
         chart.getDescription().setEnabled(false);
+
         chart.setRotationEnabled(true);
-        chart.setCenterText(terminados+" de "+String.valueOf(12));
+        chart.setCenterText(2+" de "+String.valueOf(12));
         pieData.setDrawValues(true);
         chart.setHoleRadius(70f);
         chart.getLegend().setEnabled(false);
