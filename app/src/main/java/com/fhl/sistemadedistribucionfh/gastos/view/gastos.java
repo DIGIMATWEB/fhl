@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,6 +32,7 @@ public class gastos extends Fragment implements View.OnClickListener,gastosView 
     private List<GastosOperativo> data;
     private List<dataGastosOperativos> maindata;
     private presenterGastos presenter;
+    private ImageView chart;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,6 +49,8 @@ public class gastos extends Fragment implements View.OnClickListener,gastosView 
     }
     private void initView(View view) {
         rv=view.findViewById(R.id.rvgastos);
+        chart=view.findViewById(R.id.chart);
+        chart.setOnClickListener(this);
         searchView=view.findViewById(R.id.searchViewgastos);
         searchView.setQueryHint("Buscar manifiesto");
         Drawable background= getContext().getDrawable(R.drawable.shape_button);
@@ -82,7 +88,17 @@ public class gastos extends Fragment implements View.OnClickListener,gastosView 
     }
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()) {
+            case R.id.chart:
+                gochart();
+                break;
+        }
+    }
+    private void gochart(){
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        Chart grafica= new Chart();
+        transaction.replace(R.id.fragments, grafica, Chart.TAG).commit();
     }
 
     @Override

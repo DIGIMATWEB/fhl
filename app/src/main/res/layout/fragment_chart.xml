@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/chartback"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/title"
+        app:layout_constraintStart_toStartOf="@+id/title"
+        app:layout_constraintTop_toTopOf="@+id/title"
+        app:srcCompat="@drawable/ic_arrowback" />
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="Balance"
+        android:textColor="@color/black"
+        android:textSize="@dimen/h2"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewchart"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        app:cardCornerRadius="22dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textView64"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:elevation="2dp"
+        android:text="Tu gasto"
+        android:textSize="@dimen/h1"
+        app:layout_constraintStart_toStartOf="@+id/cardViewchart"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <TextView
+        android:id="@+id/textViewL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:elevation="2dp"
+        android:text="Liquidado"
+        android:textSize="@dimen/h6"
+        app:layout_constraintStart_toStartOf="@+id/pieChart2"
+        app:layout_constraintTop_toBottomOf="@+id/pieChart2" />
+
+    <TextView
+        android:id="@+id/textViewL2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        android:text="$1.950,00"
+        android:textSize="@dimen/h2"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/textViewL"
+        app:layout_constraintStart_toStartOf="@+id/pieChart2"
+        app:layout_constraintTop_toBottomOf="@+id/textViewL" />
+    <TextView
+        android:id="@+id/textViewnL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:elevation="2dp"
+        android:text="No liquidado"
+        android:textSize="@dimen/h6"
+        app:layout_constraintEnd_toEndOf="@+id/pieChart2"
+        app:layout_constraintTop_toBottomOf="@+id/pieChart2" />
+
+    <TextView
+        android:id="@+id/textViewnL2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        android:text="$1.350,00"
+        android:textSize="@dimen/h2"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/pieChart2"
+        app:layout_constraintStart_toStartOf="@+id/textViewnL"
+        app:layout_constraintTop_toBottomOf="@+id/textViewnL" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:elevation="3dp"
+        android:text="Total del balance"
+        app:layout_constraintBottom_toBottomOf="@+id/pieChart2"
+        app:layout_constraintEnd_toEndOf="@+id/pieChart2"
+        app:layout_constraintStart_toStartOf="@+id/pieChart2"
+        app:layout_constraintTop_toTopOf="@+id/pieChart2" />
+    <TextView
+        android:id="@+id/textView82"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="80dp"
+        android:elevation="2dp"
+        android:text="Total de manifiestos:"
+        android:textSize="@dimen/h1"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/cardViewchart"
+        app:layout_constraintEnd_toEndOf="@+id/cardViewchart"
+        app:layout_constraintStart_toStartOf="@+id/cardViewchart" />
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/pieChart2"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:layout_marginTop="100dp"
+        android:elevation="2dp"
+        app:layout_constraintEnd_toEndOf="@+id/cardViewchart"
+        app:layout_constraintStart_toStartOf="@+id/cardViewchart"
+        app:layout_constraintTop_toTopOf="@+id/cardViewchart" />
+</androidx.constraintlayout.widget.ConstraintLayout>
