@@ -129,20 +129,31 @@ public class gastos extends Fragment implements View.OnClickListener,gastosView 
         noLiquidado=0;//balance-liquidado
         for(dataGastosOperativos alldispercion:maindata){
             for(int i=0;i<alldispercion.getGastosOperativos().size();i++) {
-                if (alldispercion.getGastosOperativos().get(0).getDispersion().getMonto()!=null){
-                    dispercion=dispercion+alldispercion.getGastosOperativos().get(0).getDispersion().getMonto();
+                if (alldispercion.getGastosOperativos().get(i).getDispersion().getMonto()!=null){
+                    if(alldispercion.getGastosOperativos().get(i).getDispersion().getMoneda().getId()==2) {
+                        Double convertion= (alldispercion.getGastosOperativos().get(i).getDispersion().getMonto()*16.39);
+                        Integer round= Math.toIntExact(Math.round(convertion));
+                        Log.e("gastos","dolares  dispersion");
+                        dispercion = dispercion +round;
+                    }else {
+                        Log.e("gastos","peso  liquidacion");
+                       dispercion = dispercion + alldispercion.getGastosOperativos().get(i).getDispersion().getMonto();
+                    }
                 }
-                if(alldispercion.getGastosOperativos().get(0).getLiquidacion()!=null){
-                    if(alldispercion.getGastosOperativos().get(0).getLiquidacion().getMoneda().getId()!=2) {//si es dolar
-                       Double convertion= (alldispercion.getGastosOperativos().get(0).getLiquidacion().getMonto()*16.39);
+                if(alldispercion.getGastosOperativos().get(i).getLiquidacion()!=null){
+                    if(alldispercion.getGastosOperativos().get(i).getLiquidacion().getMoneda().getId()==2) {//si es dolar
+                       Double convertion= (alldispercion.getGastosOperativos().get(i).getLiquidacion().getMonto()*16.39);
                        Integer round= Math.toIntExact(Math.round(convertion));
+                        Log.e("gastos","dolares  liquidacion");
                         liquinacion=liquinacion+round;
                     }else {//sso es peso
-                        liquinacion=liquinacion+alldispercion.getGastosOperativos().get(0).getLiquidacion().getMonto();
+                        Log.e("gastos","peso liquidacion");
+                        liquinacion=liquinacion+alldispercion.getGastosOperativos().get(i).getLiquidacion().getMonto();
                     }
 
                 }
             }
         }
+        Log.e("gastos","liquidacion "+liquinacion+" dispersion "+dispercion);
     }
 }
