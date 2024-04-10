@@ -38,6 +38,7 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
     private presenterTicketsDetail presenter;
     private String folioDespachoId,folioTicket,statusManifest="";
     private TextView txtManifiesto;
+    private Integer statusTicket=0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,13 +48,28 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
             folioDespachoId = args.getString("folioDespachoId");
             folioTicket = args.getString("folioTicket");
             statusManifest = args.getString("statusManifest");
-
+            statusTicket= args.getInt("statusTicket");
             // Now you have the values and can use them as needed
             // Example: Log.d(TAG, "folioDespachoId: " + folioDespachoId + ", folioTicket: " + folioTicket);
         }
         initView(view);
         return view;
     }
+    //if(statusId==1){
+    //                holder.statusTicket.setText("En cola");
+    //            }else if(statusId==2){
+    //                holder.statusTicket.setText("Asignado");
+    //            }else if(statusId==3){
+    //                holder.statusTicket.setText("En ruta");
+    //            }else if(statusId==4){
+    //                holder.statusTicket.setText("Entregado");
+    //            }else if(statusId==5){
+    //                holder.statusTicket.setText("No entregado");
+    //            }else if(statusId==6){
+    //                holder.statusTicket.setText("Transferido");
+    //            }else{
+    //                holder.statusTicket.setText("");
+    //            }
 
     private void initView(View view) {
         rvTickets = view.findViewById(R.id.rvTickets);
@@ -74,6 +90,11 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
         }else  if(statusManifest.equals("En proceso")){
             cerrarviaje.setVisibility(View.VISIBLE);
             cancelar.setVisibility(View.VISIBLE);
+        }else{
+            if(statusTicket>3){
+                cerrarviaje.setVisibility(View.GONE);
+                cancelar.setVisibility(View.GONE);
+            }
         }
     }
 

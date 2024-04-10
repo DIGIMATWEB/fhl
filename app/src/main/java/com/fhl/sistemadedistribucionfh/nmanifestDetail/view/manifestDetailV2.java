@@ -173,7 +173,7 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
 
     }
 
-    public void gotoTickets(int position, String folioTicket) {
+    public void gotoTickets(int position, String folioTicket, Integer statusTicket) {
         //folioDespachoId
         manager = getActivity().getSupportFragmentManager();
         transaction = manager.beginTransaction();
@@ -182,6 +182,7 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         args.putString("folioDespachoId", folioDespachoId);
         args.putString("folioTicket", folioTicket);
         args.putString("statusManifest",statusManifest);
+        args.putInt("statusTicket",statusTicket);
         ticketsf.setArguments(args);
         transaction.replace(R.id.fragments, ticketsf, tickets.TAG)
                 .addToBackStack(null) // Agregar la transacción a la pila de retroceso
