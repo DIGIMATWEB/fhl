@@ -381,6 +381,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             if(sentripPlusFlow.equals("Recoleccion")){
                 presenter.sendSentriplus(currentManifest,dataTicketSendtrip,sentripPlusFlow);
             }else if (sentripPlusFlow.equals("Entrega")){
+                presenter.sendSentriplus(currentManifest,dataTicketSendtrip,sentripPlusFlow);
             }
 
             ///todo presenterchange statusmanifest

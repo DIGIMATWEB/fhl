@@ -33,6 +33,7 @@ public class gastos extends Fragment implements View.OnClickListener,gastosView 
     private List<dataGastosOperativos> maindata;
     private presenterGastos presenter;
     private ImageView chart;
+    private Integer total=0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -98,12 +99,16 @@ public class gastos extends Fragment implements View.OnClickListener,gastosView 
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         Chart grafica= new Chart();
+        Bundle bundle = new Bundle();
+        bundle.putInt("total", total);
+        grafica.setArguments(bundle);
         transaction.replace(R.id.fragments, grafica, Chart.TAG).commit();
     }
 
     @Override
     public void setDataGastos(List<dataGastosOperativos> data) {
         this.maindata=data;
+        total=maindata.size();
         this.data=  data.get(0).getGastosOperativos();;
         fillGastos(this.data,maindata);
     }

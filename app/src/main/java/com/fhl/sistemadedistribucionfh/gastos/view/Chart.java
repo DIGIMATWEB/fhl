@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -32,11 +33,17 @@ public class Chart extends Fragment implements View.OnClickListener {
     private List<String> strings = new ArrayList<>();
     private PieChart chart;
     private ImageView chartback;
+    private Integer total=0;
+    private TextView textTotal;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chart, container, false);
-
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            total = bundle.getInt("total"); // Retrieve the data using the key
+            // Do whatever you need with the data
+        }
        // strings.add("No entregado");
         initView(view);
 
@@ -44,6 +51,8 @@ public class Chart extends Fragment implements View.OnClickListener {
     }
 
     private void initView(View view) {
+        textTotal=view.findViewById(R.id.textTotal);
+        textTotal.setText("Total de manifiestos: "+total);
         chart=view.findViewById(R.id.pieChart2);
         chartback=view.findViewById(R.id.chartback);
         chartback.setOnClickListener(this);
@@ -87,7 +96,8 @@ public class Chart extends Fragment implements View.OnClickListener {
 
         chart.getDescription().setEnabled(false);
         chart.setRotationEnabled(false);
-        chart.setCenterText("Total: " + total); // Display total count
+        chart.setCenterText("$3.250,00");//"Total: " + total); Display total count
+        chart.setCenterTextSize(19);
         chart.setHoleRadius(70f);
         chart.getLegend().setEnabled(false);
         chart.setData(pieData);

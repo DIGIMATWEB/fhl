@@ -56,8 +56,9 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
 
             //Esto estaba antes
             //holder.checklist.setText("" + data.get(position).getCheckList().get(0).getValor());//considerar que pueden ser mas Valor de checklist
-
-            holder.textAdjuntos.setText("Cantidad: " + data.get(position).getDocumentosAuxiliar().size());//todo catalogar todos los adjuntos
+            if(data.get(position).getDocumentosAuxiliar()!=null) {
+                holder.textAdjuntos.setText("Cantidad: " + data.get(position).getDocumentosAuxiliar().size());//todo catalogar todos los adjuntos
+            }
 
             holder.origen.setText("" + data.get(position).getOrigen());
             holder.estado.setText("" + data.get(position).getOrigen());
