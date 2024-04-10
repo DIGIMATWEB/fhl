@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
@@ -33,9 +35,10 @@ public class Chart extends Fragment implements View.OnClickListener {
     private List<String> strings = new ArrayList<>();
     private PieChart chart;
     private ImageView chartback;
-    private Integer totalManifest,todalBalance,liquidacion=0;
-    private TextView textTotal,liquidaciontext,textViewnL2;
-    private Integer noLiquidado=0;
+    private Integer totalManifest,todalBalanceMXN,liquidacionMXN,todalBalanceUSD,liquidacionUSD=0;
+    private TextView textTotal,liquidaciontext,textViewnL2,textViewcurrency,flag;
+    private Integer noLiquidadoMXN,noLiquidadoUSD=0;
+    private Switch MXNUSD;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,9 +46,12 @@ public class Chart extends Fragment implements View.OnClickListener {
         Bundle bundle = getArguments();
         if (bundle != null) {
             totalManifest = bundle.getInt("total"); // Retrieve the data using the key
-            todalBalance= bundle.getInt("Dispersion");
-            liquidacion=bundle.getInt("Liquidacion");
-            noLiquidado=todalBalance-liquidacion;
+            todalBalanceMXN= bundle.getInt("DispersionMXN");
+            liquidacionMXN=bundle.getInt("LiquidacionMXN");
+            todalBalanceUSD= bundle.getInt("DispersionUSD");
+            liquidacionUSD=bundle.getInt("LiquidacionUSD");
+            noLiquidadoMXN=todalBalanceMXN-liquidacionMXN;
+            noLiquidadoUSD=todalBalanceUSD-liquidacionUSD;
             // Do whatever you need with the data
         }
        // strings.add("No entregado");
@@ -57,10 +63,13 @@ public class Chart extends Fragment implements View.OnClickListener {
     private void initView(View view) {
         textTotal=view.findViewById(R.id.textTotal);
         liquidaciontext=view.findViewById(R.id.liquidacion);
+        MXNUSD=view.findViewById(R.id.MXNUSD);
+        flag=view.findViewById(R.id.flag);
 
-        liquidaciontext.setText(""+liquidacion);
         textViewnL2=view.findViewById(R.id.textViewnL2);
-        textViewnL2.setText(""+noLiquidado);
+        textViewcurrency=view.findViewById(R.id.textViewcurrency);
+
+
         textTotal.setText("Total de manifiestos: "+totalManifest);
         chart=view.findViewById(R.id.pieChart2);
         chartback=view.findViewById(R.id.chartback);
@@ -69,11 +78,32 @@ public class Chart extends Fragment implements View.OnClickListener {
         strings.add("Liquidado");
         strings.add("No liquidado");
         strings.add("No liquidado");
+        MXNUSD.setChecked(false);
+        textViewnL2.setText(""+noLiquidadoMXN);
+        liquidaciontext.setText(""+liquidacionMXN);
+        showPieChart(todalBalanceMXN,liquidacionMXN,noLiquidadoMXN);
+        textViewcurrency.setText("MXN");
+        flag.setText("U+1F1F2 U+1F1FD\t&#127474");
+        MXNUSD.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){//USD
+                    textViewnL2.setText(""+noLiquidadoUSD);
+                    liquidaciontext.setText(""+liquidacionUSD);
+                    showPieChart(todalBalanceUSD,liquidacionUSD,noLiquidadoUSD);
+                    textViewcurrency.setText("USD");
+                }else{//MXN
+                    textViewnL2.setText(""+noLiquidadoMXN);
+                    liquidaciontext.setText(""+liquidacionMXN);
+                    showPieChart(todalBalanceMXN,liquidacionMXN,noLiquidadoMXN);
+                    textViewcurrency.setText("MXN");
+                }
+            }
+        });
 
-        showPieChart();
     }
 
-    private void showPieChart() {
+    private void showPieChart(Integer todalBalance,Integer liquidacion,Integer noLiquidado) {
         int total = strings.size(); // total count of elements
 
         int terminados = Collections.frequency(strings, "Liquidado");

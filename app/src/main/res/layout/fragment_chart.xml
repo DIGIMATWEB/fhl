@@ -13,6 +13,19 @@
         app:layout_constraintStart_toStartOf="@+id/title"
         app:layout_constraintTop_toTopOf="@+id/title"
         app:srcCompat="@drawable/ic_arrowback" />
+
+    <Switch
+        android:id="@+id/MXNUSD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:elevation="15dp"
+        android:focusable="false"
+        android:padding="10dp"
+        android:thumb="@drawable/round_switch"
+        android:track="@drawable/switch_bg_track"
+        app:layout_constraintEnd_toEndOf="@+id/pieChart2"
+        app:layout_constraintTop_toTopOf="@+id/textView64" />
     <TextView
         android:id="@+id/title"
         android:layout_width="0dp"
@@ -56,6 +69,23 @@
         app:layout_constraintStart_toStartOf="@+id/cardViewchart"
         app:layout_constraintTop_toBottomOf="@+id/title" />
 
+    <TextView
+        android:id="@+id/textViewcurrency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        android:text="MXN"
+        android:textSize="@dimen/h5"
+        app:layout_constraintEnd_toEndOf="@+id/MXNUSD"
+        app:layout_constraintTop_toBottomOf="@+id/MXNUSD" />
+
+    <TextView
+        android:id="@+id/flag"
+        android:layout_width="40dp"
+        android:layout_height="20dp"
+
+        app:layout_constraintEnd_toStartOf="@+id/textViewcurrency"
+        app:layout_constraintTop_toBottomOf="@+id/MXNUSD" />
     <TextView
         android:id="@+id/textViewL"
         android:layout_width="wrap_content"

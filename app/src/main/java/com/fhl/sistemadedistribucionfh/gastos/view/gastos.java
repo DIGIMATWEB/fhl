@@ -36,8 +36,8 @@ public class gastos extends Fragment implements View.OnClickListener,gastosView 
     private presenterGastos presenter;
     private ImageView chart;
     private Integer total=0;
-    private Integer dispercion;
-    private Integer liquinacion;
+    private Integer dispercionMXN,dispercionUSD;
+    private Integer liquidacionMXN,liquidacionUSD;
     private Integer noLiquidado;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -106,8 +106,10 @@ public class gastos extends Fragment implements View.OnClickListener,gastosView 
         Chart grafica= new Chart();
         Bundle bundle = new Bundle();
         bundle.putInt("total", total);
-        bundle.putInt("Dispersion",dispercion);
-        bundle.putInt("Liquidacion",liquinacion);
+        bundle.putInt("DispersionMXN",dispercionMXN);
+        bundle.putInt("LiquidacionMXN",liquidacionMXN);
+        bundle.putInt("DispersionUSD",dispercionUSD);
+        bundle.putInt("LiquidacionUSD",liquidacionUSD);
         grafica.setArguments(bundle);
         transaction.replace(R.id.fragments, grafica, Chart.TAG).commit();
     }
@@ -124,36 +126,38 @@ public class gastos extends Fragment implements View.OnClickListener,gastosView 
     }
 
     private void calculateMoney(List<dataGastosOperativos> maindata) {
-        dispercion=0;//total de balance
-        liquinacion=0;//
-        noLiquidado=0;//balance-liquidado
+        dispercionUSD=0;//total de balance
+        liquidacionUSD=0;//balance-liquidado
+        dispercionMXN=0;//total de balance
+        liquidacionMXN=0;//balance-liquidado
         for(dataGastosOperativos alldispercion:maindata){
             for(int i=0;i<alldispercion.getGastosOperativos().size();i++) {
                 if (alldispercion.getGastosOperativos().get(i).getDispersion().getMonto()!=null){
                     if(alldispercion.getGastosOperativos().get(i).getDispersion().getMoneda().getId()==2) {
-                        Double convertion= (alldispercion.getGastosOperativos().get(i).getDispersion().getMonto()*16.39);
+                        Double convertion= (alldispercion.getGastosOperativos().get(i).getDispersion().getMonto()).doubleValue();//*16.39
                         Integer round= Math.toIntExact(Math.round(convertion));
                         Log.e("gastos","dolares  dispersion");
-                        dispercion = dispercion +round;
+                        dispercionUSD = dispercionUSD +round;
                     }else {
                         Log.e("gastos","peso  liquidacion");
-                       dispercion = dispercion + alldispercion.getGastosOperativos().get(i).getDispersion().getMonto();
+                       dispercionMXN = dispercionMXN + alldispercion.getGastosOperativos().get(i).getDispersion().getMonto();
                     }
                 }
                 if(alldispercion.getGastosOperativos().get(i).getLiquidacion()!=null){
                     if(alldispercion.getGastosOperativos().get(i).getLiquidacion().getMoneda().getId()==2) {//si es dolar
-                       Double convertion= (alldispercion.getGastosOperativos().get(i).getLiquidacion().getMonto()*16.39);
+                       Double convertion= alldispercion.getGastosOperativos().get(i).getLiquidacion().getMonto().doubleValue();//*16.39
                        Integer round= Math.toIntExact(Math.round(convertion));
                         Log.e("gastos","dolares  liquidacion");
-                        liquinacion=liquinacion+round;
+                        liquidacionUSD=liquidacionUSD+round;
                     }else {//sso es peso
                         Log.e("gastos","peso liquidacion");
-                        liquinacion=liquinacion+alldispercion.getGastosOperativos().get(i).getLiquidacion().getMonto();
+                        liquidacionMXN=liquidacionMXN+alldispercion.getGastosOperativos().get(i).getLiquidacion().getMonto();
                     }
 
                 }
             }
         }
-        Log.e("gastos","liquidacion "+liquinacion+" dispersion "+dispercion);
+        Log.e("gastos","liquidacion MXN "+liquidacionMXN+" dispersion "+dispercionMXN);
+        Log.e("gastos","liquidacion USD"+liquidacionMXN+" dispersion "+dispercionMXN);
     }
 }
