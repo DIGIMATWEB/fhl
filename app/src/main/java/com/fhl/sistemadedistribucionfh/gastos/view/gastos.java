@@ -36,6 +36,9 @@ public class gastos extends Fragment implements View.OnClickListener,gastosView 
     private presenterGastos presenter;
     private ImageView chart;
     private Integer total=0;
+    private Integer dispercion;
+    private Integer liquinacion;
+    private Integer noLiquidado;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -103,6 +106,8 @@ public class gastos extends Fragment implements View.OnClickListener,gastosView 
         Chart grafica= new Chart();
         Bundle bundle = new Bundle();
         bundle.putInt("total", total);
+        bundle.putInt("Dispersion",dispercion);
+        bundle.putInt("Liquidacion",liquinacion);
         grafica.setArguments(bundle);
         transaction.replace(R.id.fragments, grafica, Chart.TAG).commit();
     }
@@ -114,7 +119,30 @@ public class gastos extends Fragment implements View.OnClickListener,gastosView 
         String jsonString = gson.toJson(maindata);
         Log.e("json",jsonString);
         total=maindata.size();
-
+        calculateMoney(maindata);
         fillGastos(maindata);
+    }
+
+    private void calculateMoney(List<dataGastosOperativos> maindata) {
+        dispercion=0;//total de balance
+        liquinacion=0;//
+        noLiquidado=0;//balance-liquidado
+        for(dataGastosOperativos alldispercion:maindata){
+            for(int i=0;i<alldispercion.getGastosOperativos().size();i++) {
+                if (alldispercion.getGastosOperativos().get(0).getDispersion().getMonto()!=null){
+                    dispercion=dispercion+alldispercion.getGastosOperativos().get(0).getDispersion().getMonto();
+                }
+                if(alldispercion.getGastosOperativos().get(0).getLiquidacion()!=null){
+                    if(alldispercion.getGastosOperativos().get(0).getLiquidacion().getMoneda().getId()!=2) {//si es dolar
+                       Double convertion= (alldispercion.getGastosOperativos().get(0).getLiquidacion().getMonto()*16.39);
+                       Integer round= Math.toIntExact(Math.round(convertion));
+                        liquinacion=liquinacion+round;
+                    }else {//sso es peso
+                        liquinacion=liquinacion+alldispercion.getGastosOperativos().get(0).getLiquidacion().getMonto();
+                    }
+
+                }
+            }
+        }
     }
 }

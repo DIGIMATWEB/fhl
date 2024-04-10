@@ -33,15 +33,19 @@ public class Chart extends Fragment implements View.OnClickListener {
     private List<String> strings = new ArrayList<>();
     private PieChart chart;
     private ImageView chartback;
-    private Integer total=0;
-    private TextView textTotal;
+    private Integer totalManifest,todalBalance,liquidacion=0;
+    private TextView textTotal,liquidaciontext,textViewnL2;
+    private Integer noLiquidado=0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chart, container, false);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            total = bundle.getInt("total"); // Retrieve the data using the key
+            totalManifest = bundle.getInt("total"); // Retrieve the data using the key
+            todalBalance= bundle.getInt("Dispersion");
+            liquidacion=bundle.getInt("Liquidacion");
+            noLiquidado=todalBalance-liquidacion;
             // Do whatever you need with the data
         }
        // strings.add("No entregado");
@@ -52,7 +56,12 @@ public class Chart extends Fragment implements View.OnClickListener {
 
     private void initView(View view) {
         textTotal=view.findViewById(R.id.textTotal);
-        textTotal.setText("Total de manifiestos: "+total);
+        liquidaciontext=view.findViewById(R.id.liquidacion);
+
+        liquidaciontext.setText(""+liquidacion);
+        textViewnL2=view.findViewById(R.id.textViewnL2);
+        textViewnL2.setText(""+noLiquidado);
+        textTotal.setText("Total de manifiestos: "+totalManifest);
         chart=view.findViewById(R.id.pieChart2);
         chartback=view.findViewById(R.id.chartback);
         chartback.setOnClickListener(this);
@@ -70,8 +79,8 @@ public class Chart extends Fragment implements View.OnClickListener {
         int terminados = Collections.frequency(strings, "Liquidado");
         int cancelados = Collections.frequency(strings, "No liquidado");
 
-        float terminadosPercentage = ((float) terminados / total) * 100;
-        float canceladosPercentage = ((float) cancelados / total) * 100;
+        float terminadosPercentage = ((float) liquidacion / todalBalance) * 100;
+        float canceladosPercentage = ((float) noLiquidado / todalBalance) * 100;
 
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
 
@@ -96,7 +105,7 @@ public class Chart extends Fragment implements View.OnClickListener {
 
         chart.getDescription().setEnabled(false);
         chart.setRotationEnabled(false);
-        chart.setCenterText("$3.250,00");//"Total: " + total); Display total count
+        chart.setCenterText(""+todalBalance);//"Total: " + total); Display total count
         chart.setCenterTextSize(19);
         chart.setHoleRadius(70f);
         chart.getLegend().setEnabled(false);

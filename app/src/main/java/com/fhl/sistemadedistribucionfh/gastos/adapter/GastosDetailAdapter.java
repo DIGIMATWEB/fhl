@@ -10,15 +10,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.gastos.model.gastosV2.GastosOperativo;
-import com.fhl.sistemadedistribucionfh.gastos.model.gastosV2.dataGastosOperativos;
 
 import java.util.List;
 
 public class GastosDetailAdapter extends RecyclerView.Adapter<GastosDetailAdapter.ViewHolder> {
     private List<GastosOperativo> data;// private List<GastosOperativo> data;
+    private String status;
 
-    public GastosDetailAdapter(List<GastosOperativo> data) {
+    public GastosDetailAdapter(List<GastosOperativo> data, String nombre) {
         this.data = data;
+        this.status=nombre;
     }
 
     @NonNull
@@ -33,7 +34,9 @@ public class GastosDetailAdapter extends RecyclerView.Adapter<GastosDetailAdapte
         // Bind data to views in the item layout
         // For example:
         GastosOperativo item = data.get(position);
-      //  holder.textView.setText(item.getName());
+        holder.tipoGasto.setText(item.getTipoGasto().getNombre());
+        holder.Monto.setText(""+item.getDispersion().getMonto());
+        holder.estatusGasto.setText(status);
         // Bind other views as needed
     }
 
@@ -43,11 +46,13 @@ public class GastosDetailAdapter extends RecyclerView.Adapter<GastosDetailAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textView;
+        TextView tipoGasto,Monto,estatusGasto;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.textView);
+            tipoGasto = itemView.findViewById(R.id.tipoGasto);
+            Monto= itemView.findViewById(R.id.Monto);
+            estatusGasto= itemView.findViewById(R.id. estatusGasto);
             // Initialize other views here if needed
         }
     }

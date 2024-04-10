@@ -68,7 +68,7 @@
         app:layout_constraintTop_toBottomOf="@+id/pieChart2" />
 
     <TextView
-        android:id="@+id/textViewL2"
+        android:id="@+id/liquidacion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elevation="2dp"

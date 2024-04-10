@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
@@ -52,12 +53,14 @@ public class adapterGastos extends RecyclerView.Adapter<adapterGastos.ViewHolder
             public void onClick(View v) {
                 expandedPosition = isExpanded ? -1 : position;
                 notifyDataSetChanged();
+                GastosDetailAdapter detailAdapter = new GastosDetailAdapter(maindata.get(position).getGastosOperativos(),maindata.get(position).getEstatus().getNombre());
+                holder.gastosDetail.setAdapter(detailAdapter);
+                holder.texmanifestD.setText(maindata.get(position).getFolioDespacho());
 
             }
         });
         // Fill gastosDetail RecyclerView with data for the current position
-//        GastosDetailAdapter detailAdapter = new GastosDetailAdapter(data.get(position).getTipoGasto());
-//        holder.gastosDetail.setAdapter(detailAdapter);
+
     }
 
     @Override
@@ -73,7 +76,7 @@ public class adapterGastos extends RecyclerView.Adapter<adapterGastos.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout cardOrder,detialCard;
-        TextView manifestGastos;
+        TextView manifestGastos,texmanifestD;
         RecyclerView gastosDetail;
 
         public ViewHolder(@NonNull View itemView) {
@@ -82,8 +85,9 @@ public class adapterGastos extends RecyclerView.Adapter<adapterGastos.ViewHolder
             detialCard = itemView.findViewById(R.id.detialCard);
             manifestGastos=itemView.findViewById(R.id.manifestGastos);
             gastosDetail=itemView.findViewById(R.id.rvGastosLiquidados);
-//            LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-//            gastosDetail.setLayoutManager(layoutManager);
+            texmanifestD=itemView.findViewById(R.id.texmanifestD);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+            gastosDetail.setLayoutManager(layoutManager);
         }
     }
 }
