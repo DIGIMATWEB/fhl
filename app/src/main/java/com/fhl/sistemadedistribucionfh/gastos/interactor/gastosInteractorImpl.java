@@ -17,6 +17,7 @@ import com.fhl.sistemadedistribucionfh.gastos.model.responseGastos;
 import com.fhl.sistemadedistribucionfh.gastos.presenter.presenterGastos;
 import com.fhl.sistemadedistribucionfh.gastos.util.serviceGastos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -75,7 +76,17 @@ public class gastosInteractorImpl implements gastosInteractor{
                 List<dataGastosOperativos> data=resp.getData();
 
                 if(data!=null){
-                    presenter.setGastos(data);
+
+                    List<dataGastosOperativos> fdata= new ArrayList<>();
+                    fdata.clear();
+                    for(dataGastosOperativos gasto:data){
+                        if( gasto.getGastosOperativos()!=null){
+                            fdata.add(gasto);
+                        }
+                    }
+                    if(fdata!=null) {
+                        presenter.setGastos(fdata);
+                    }
                 }else{
                     Toast.makeText(context, "sin tickets asignados", Toast.LENGTH_SHORT).show();
                 }

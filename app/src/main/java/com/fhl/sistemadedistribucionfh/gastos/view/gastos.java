@@ -2,6 +2,7 @@ package com.fhl.sistemadedistribucionfh.gastos.view;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.fhl.sistemadedistribucionfh.gastos.model.gastosV2.GastosOperativo;
 import com.fhl.sistemadedistribucionfh.gastos.model.gastosV2.dataGastosOperativos;
 import com.fhl.sistemadedistribucionfh.gastos.presenter.presenterGastos;
 import com.fhl.sistemadedistribucionfh.gastos.presenter.presenterGastosImpl;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +44,8 @@ public class gastos extends Fragment implements View.OnClickListener,gastosView 
 
         return view;
     }
-    private void fillGastos(List<GastosOperativo> data, List<dataGastosOperativos> maindata) {
-        adapter=new adapterGastos(data,getContext(),maindata);
+    private void fillGastos(List<dataGastosOperativos> maindata) {
+        adapter=new adapterGastos(getContext(),maindata);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(adapter);
@@ -65,7 +67,7 @@ public class gastos extends Fragment implements View.OnClickListener,gastosView 
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                List<GastosOperativo> filterList =filter(data,newText);
+                List<dataGastosOperativos> filterList =filter(maindata,newText);
                 adapter.setFilter(filterList);
                 return true;
             }
@@ -73,13 +75,13 @@ public class gastos extends Fragment implements View.OnClickListener,gastosView 
         presenter= new presenterGastosImpl(this,getContext());
         presenter.getGastos();
     }
-    private List<GastosOperativo> filter(List<GastosOperativo> data, String text) {
-        List<GastosOperativo> mfilterList= new ArrayList<>();
+    private List<dataGastosOperativos> filter(List<dataGastosOperativos> data, String text) {
+        List<dataGastosOperativos> mfilterList= new ArrayList<>();
         text =text.toLowerCase();
         if(data!=null){
-            for(GastosOperativo gastosList:data)
+            for(dataGastosOperativos gastosList:data)
             {
-                String manifestname=gastosList.getTipoGasto().getNombre().toLowerCase();
+                String manifestname=gastosList.getFolioDespacho();
                 if(manifestname.contains(text)){
                     mfilterList.add(gastosList);
                 }
@@ -108,8 +110,11 @@ public class gastos extends Fragment implements View.OnClickListener,gastosView 
     @Override
     public void setDataGastos(List<dataGastosOperativos> data) {
         this.maindata=data;
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(maindata);
+        Log.e("json",jsonString);
         total=maindata.size();
-        this.data=  data.get(0).getGastosOperativos();;
-        fillGastos(this.data,maindata);
+
+        fillGastos(maindata);
     }
 }

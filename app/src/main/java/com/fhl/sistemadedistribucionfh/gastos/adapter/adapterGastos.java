@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
@@ -21,12 +20,12 @@ import java.util.List;
 
 public class adapterGastos extends RecyclerView.Adapter<adapterGastos.ViewHolder> {
     private Context context;
-    private List<GastosOperativo> data;
+
     private List<dataGastosOperativos> maindata;
     private int expandedPosition = -1; // Track the currently expanded item position
 
-    public adapterGastos(List<GastosOperativo> data, Context context, List<dataGastosOperativos> maindata) {
-        this.data = data;
+    public adapterGastos(Context context, List<dataGastosOperativos> maindata) {
+
         this.context = context;
         this.maindata=maindata;
     }
@@ -66,9 +65,9 @@ public class adapterGastos extends RecyclerView.Adapter<adapterGastos.ViewHolder
         return maindata.size();
     }
 
-    public void setFilter(List<GastosOperativo> filterList) {
-        this.data = new ArrayList<>();
-        this.data.addAll(filterList);
+    public void setFilter(List<dataGastosOperativos> filterList) {
+        this.maindata = new ArrayList<>();
+        this.maindata.addAll(filterList);
         notifyDataSetChanged();
     }
 
@@ -83,8 +82,8 @@ public class adapterGastos extends RecyclerView.Adapter<adapterGastos.ViewHolder
             detialCard = itemView.findViewById(R.id.detialCard);
             manifestGastos=itemView.findViewById(R.id.manifestGastos);
             gastosDetail=itemView.findViewById(R.id.rvGastosLiquidados);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-            gastosDetail.setLayoutManager(layoutManager);
+//            LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+//            gastosDetail.setLayoutManager(layoutManager);
         }
     }
 }

@@ -15,7 +15,7 @@ import com.fhl.sistemadedistribucionfh.gastos.model.gastosV2.dataGastosOperativo
 import java.util.List;
 
 public class GastosDetailAdapter extends RecyclerView.Adapter<GastosDetailAdapter.ViewHolder> {
-    private List<GastosOperativo> data;
+    private List<GastosOperativo> data;// private List<GastosOperativo> data;
 
     public GastosDetailAdapter(List<GastosOperativo> data) {
         this.data = data;

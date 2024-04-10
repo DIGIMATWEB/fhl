@@ -36,7 +36,7 @@ public class dataGastosOperativos {
     private Vehiculo vehiculo;
     @SerializedName("GastosOperativos")
     @Expose
-    private List<GastosOperativo> gastosOperativos=null;
+    private List<GastosOperativo> gastosOperativos;
     @SerializedName("Id")
     @Expose
     private Integer id;

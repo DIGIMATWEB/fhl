@@ -26,22 +26,6 @@ public class ResponseGastosv2 {
     @Expose
     private String sTiempos;
 
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public ResponseGastosv2() {
-    }
-
-    /**
-     * 
-     * @param data
-     * @param sTiempos
-     * @param function
-     * @param totalRows
-     * @param message
-     * @param status
-     */
     public ResponseGastosv2(Integer totalRows, Integer status, String message, List<dataGastosOperativos> data, String function, String sTiempos) {
         super();
         this.totalRows = totalRows;
