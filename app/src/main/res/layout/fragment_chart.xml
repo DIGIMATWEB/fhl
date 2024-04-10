@@ -73,17 +73,18 @@
         android:id="@+id/textViewcurrency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
         android:elevation="2dp"
         android:text="MXN"
         android:textSize="@dimen/h5"
         app:layout_constraintEnd_toEndOf="@+id/MXNUSD"
         app:layout_constraintTop_toBottomOf="@+id/MXNUSD" />
 
-    <TextView
+    <ImageView
         android:id="@+id/flag"
         android:layout_width="40dp"
         android:layout_height="20dp"
-
+        android:src=" @mipmap/country_flag"
         app:layout_constraintEnd_toStartOf="@+id/textViewcurrency"
         app:layout_constraintTop_toBottomOf="@+id/MXNUSD" />
     <TextView

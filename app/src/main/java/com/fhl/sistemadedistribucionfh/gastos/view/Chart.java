@@ -36,7 +36,8 @@ public class Chart extends Fragment implements View.OnClickListener {
     private PieChart chart;
     private ImageView chartback;
     private Integer totalManifest,todalBalanceMXN,liquidacionMXN,todalBalanceUSD,liquidacionUSD=0;
-    private TextView textTotal,liquidaciontext,textViewnL2,textViewcurrency,flag;
+    private TextView textTotal,liquidaciontext,textViewnL2,textViewcurrency;
+    private ImageView flag;
     private Integer noLiquidadoMXN,noLiquidadoUSD=0;
     private Switch MXNUSD;
     @Override
@@ -83,7 +84,7 @@ public class Chart extends Fragment implements View.OnClickListener {
         liquidaciontext.setText(""+liquidacionMXN);
         showPieChart(todalBalanceMXN,liquidacionMXN,noLiquidadoMXN);
         textViewcurrency.setText("MXN");
-        flag.setText("U+1F1F2 U+1F1FD\t&#127474");
+        flag.setText("🇲🇽");
         MXNUSD.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -97,6 +98,7 @@ public class Chart extends Fragment implements View.OnClickListener {
                     liquidaciontext.setText(""+liquidacionMXN);
                     showPieChart(todalBalanceMXN,liquidacionMXN,noLiquidadoMXN);
                     textViewcurrency.setText("MXN");
+                    flag.setText("🇲🇽");
                 }
             }
         });
