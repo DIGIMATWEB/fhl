@@ -36,8 +36,7 @@ public class Chart extends Fragment implements View.OnClickListener {
     private PieChart chart;
     private ImageView chartback;
     private Integer totalManifest,todalBalanceMXN,liquidacionMXN,todalBalanceUSD,liquidacionUSD=0;
-    private TextView textTotal,liquidaciontext,textViewnL2,textViewcurrency;
-    private ImageView flag;
+    private TextView textTotal,liquidaciontext,textViewnL2,textViewcurrency,flag;
     private Integer noLiquidadoMXN,noLiquidadoUSD=0;
     private Switch MXNUSD;
     @Override

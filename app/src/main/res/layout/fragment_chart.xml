@@ -80,11 +80,11 @@
         app:layout_constraintEnd_toEndOf="@+id/MXNUSD"
         app:layout_constraintTop_toBottomOf="@+id/MXNUSD" />
 
-    <ImageView
+    <TextView
         android:id="@+id/flag"
         android:layout_width="40dp"
         android:layout_height="20dp"
-        android:src=" @mipmap/country_flag"
+        android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/textViewcurrency"
         app:layout_constraintTop_toBottomOf="@+id/MXNUSD" />
     <TextView

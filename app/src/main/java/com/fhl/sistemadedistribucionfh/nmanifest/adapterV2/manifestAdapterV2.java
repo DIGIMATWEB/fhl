@@ -2,13 +2,16 @@ package com.fhl.sistemadedistribucionfh.nmanifest.adapterV2;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
@@ -47,6 +50,15 @@ public class manifestAdapterV2 extends RecyclerView.Adapter<manifestAdapterV2.Vi
         holder.vehicleCedis.setText(data.get(position).getOrigen());
         holder.validationTextInProgress.setText(data.get(position).getValidador().getEstatus());
         holder.statusManifest.setText(data.get(position).getEstatus().getNombre());
+        if (data.get(position).getEstatus().getNombre().equals("Confirmado")) {
+            holder.statusManifest.setTextColor(ContextCompat.getColor(context, R.color.green));
+        } else if (data.get(position).getEstatus().getNombre().equals("En proceso")) {
+            holder.statusManifest.setTextColor(ContextCompat.getColor(context, R.color.yellowdark));
+        } else if (data.get(position).getEstatus().getNombre().equals("Cerrado")) {
+            holder.statusManifest.setTextColor(ContextCompat.getColor(context, R.color.red));
+        } else {
+            holder.statusManifest.setTextColor(ContextCompat.getColor(context, R.color.black));
+        }
         holder.cardOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +75,11 @@ public class manifestAdapterV2 extends RecyclerView.Adapter<manifestAdapterV2.Vi
                 String statusManifest= data.get(position).getEstatus().getNombre();
 
                // Toast.makeText(context, ""+data.get(position).getIdmanifest(), Toast.LENGTH_SHORT).show();
-                mView.gotoTickets(position, folioDespacho, vehiculoModelo, vehiculoPlaca, cedis,statusManifest);
+                if(!data.get(position).getEstatus().getNombre().equals("Cerrado")) {
+                    mView.gotoTickets(position, folioDespacho, vehiculoModelo, vehiculoPlaca, cedis, statusManifest);
+                }else{
+                    Toast.makeText(context, "Este manifiesto ya fue cerrado", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

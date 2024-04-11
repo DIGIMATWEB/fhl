@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -65,6 +66,8 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
             cedisId = bundle.getString("cedisId");
             statusManifest= bundle.getString("statusManifest");
             Log.e("midManifest","" + folioDespachoId);
+
+
         }
         initView(view);
         return view;
@@ -83,7 +86,15 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         vehicleCedis = view.findViewById(R.id.textView78);
         status=view.findViewById(R.id.statusManifest);
         status.setText(statusManifest);
-
+        if (statusManifest.equals("Confirmado")) {
+            status.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+        } else if (statusManifest.equals("En proceso")) {
+            status.setTextColor(ContextCompat.getColor(getContext(), R.color.yellowdark));
+        } else if (statusManifest.equals("Cerrado")) {
+            status.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+        } else {
+            status.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+        }
         vehicleManifiesto.setText(folioDespachoId);
         vehicleName.setText(vehiculoModeloId);
         vehiclePlaca.setText(vehiculoPlacaId);
