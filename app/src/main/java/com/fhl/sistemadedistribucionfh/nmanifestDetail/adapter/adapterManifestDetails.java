@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
@@ -41,14 +42,19 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
         if(data.get(position).getEstatusId() != null) {
             if(statusId==1){
                 holder.statusTicket.setText("En cola");
+                holder.statusTicket.setTextColor(ContextCompat.getColor(context, R.color.grey));
             }else if(statusId==2){
                 holder.statusTicket.setText("Asignado");
+                holder.statusTicket.setTextColor(ContextCompat.getColor(context, R.color.yellowdark));
             }else if(statusId==3){
                 holder.statusTicket.setText("En ruta");
+                holder.statusTicket.setTextColor(ContextCompat.getColor(context, R.color.purpleenruta));
             }else if(statusId==4){
                 holder.statusTicket.setText("Entregado");
+                holder.statusTicket.setTextColor(ContextCompat.getColor(context, R.color.green));
             }else if(statusId==5){
                 holder.statusTicket.setText("No entregado");
+                holder.statusTicket.setTextColor(ContextCompat.getColor(context, R.color.orangenoentregado));
             }else if(statusId==6){
                 holder.statusTicket.setText("Transferido");
             }else{

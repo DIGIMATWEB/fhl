@@ -24,6 +24,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -79,8 +80,11 @@ public class Chart extends Fragment implements View.OnClickListener {
         strings.add("No liquidado");
         strings.add("No liquidado");
         MXNUSD.setChecked(false);
-        textViewnL2.setText(""+noLiquidadoMXN);
-        liquidaciontext.setText(""+liquidacionMXN);
+        DecimalFormat df = new DecimalFormat("#,##0.00");
+        String formattedBalance1 = df.format(noLiquidadoMXN);
+        String formattedBalance2 = df.format(liquidacionMXN);
+        textViewnL2.setText("$"+formattedBalance1);
+        liquidaciontext.setText("$"+formattedBalance2);
         showPieChart(todalBalanceMXN,liquidacionMXN,noLiquidadoMXN);
         textViewcurrency.setText("MXN");
         flag.setText("🇲🇽");
@@ -88,13 +92,19 @@ public class Chart extends Fragment implements View.OnClickListener {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){//USD
-                    textViewnL2.setText(""+noLiquidadoUSD);
-                    liquidaciontext.setText(""+liquidacionUSD);
+                    DecimalFormat df = new DecimalFormat("#,##0.00");
+                    String formattedBalance1 = df.format(noLiquidadoUSD);
+                    String formattedBalance2 = df.format(liquidacionUSD);
+                    textViewnL2.setText("$"+formattedBalance1);
+                    liquidaciontext.setText("$"+formattedBalance2);
                     showPieChart(todalBalanceUSD,liquidacionUSD,noLiquidadoUSD);
                     textViewcurrency.setText("USD");
                 }else{//MXN
-                    textViewnL2.setText(""+noLiquidadoMXN);
-                    liquidaciontext.setText(""+liquidacionMXN);
+                    DecimalFormat df = new DecimalFormat("#,##0.00");
+                    String formattedBalance1 = df.format(noLiquidadoMXN);
+                    String formattedBalance2 = df.format(liquidacionMXN);
+                    textViewnL2.setText("$"+formattedBalance1);
+                    liquidaciontext.setText("$"+formattedBalance2);
                     showPieChart(todalBalanceMXN,liquidacionMXN,noLiquidadoMXN);
                     textViewcurrency.setText("MXN");
                     flag.setText("🇲🇽");
@@ -136,7 +146,9 @@ public class Chart extends Fragment implements View.OnClickListener {
 
         chart.getDescription().setEnabled(false);
         chart.setRotationEnabled(false);
-        chart.setCenterText(""+todalBalance);//"Total: " + total); Display total count
+        DecimalFormat df = new DecimalFormat("#,##0.00");
+        String formattedBalance = df.format(todalBalance);
+        chart.setCenterText("$"+formattedBalance);//"Total: " + total); Display total count
         chart.setCenterTextSize(19);
         chart.setHoleRadius(70f);
         chart.getLegend().setEnabled(false);
