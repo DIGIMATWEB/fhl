@@ -47,6 +47,7 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     private SearchView searchViewv2;
     private List<dataManifestV2> data;
     private ProgressDialog mprogres;
+    private int dialogfilter=0;
     @SuppressLint("NewApi")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -94,7 +95,10 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.finderfilter:
-                new manifestStatus().show(getActivity().getSupportFragmentManager(),"manifestStatus");
+                if(dialogfilter==0) {
+                    new manifestStatus().show(getActivity().getSupportFragmentManager(), "manifestStatus");
+                    dialogfilter=1;
+                }
                 break;
             case R.id.finder:
                 if (searchViewv2.getVisibility() == View.GONE) {
@@ -144,7 +148,11 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         }
         return mfilterList;
     }
+    public void skipDialog() {
+        dialogfilter=0;
+    }
     public void setFilterDialog(String fcheckedItem) {
+        dialogfilter=0;
         Log.e("filterbystatus",""+fcheckedItem);
         if(!fcheckedItem.equals("Todo")) {
             List<dataManifestV2> filterList = filterbystatus(data, fcheckedItem);
@@ -218,6 +226,7 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
             return false;
         }
     }
+
 
 
 }
