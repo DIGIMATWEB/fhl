@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -144,17 +145,21 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         return mfilterList;
     }
     public void setFilterDialog(String fcheckedItem) {
-        List<dataManifestV2> filterList = filterbystatus(data, fcheckedItem);
-        adapter.setFilterV2(filterList);
+        Log.e("filterbystatus",""+fcheckedItem);
+        if(!fcheckedItem.equals("Todo")) {
+            List<dataManifestV2> filterList = filterbystatus(data, fcheckedItem);
+            Log.e("filterbystatus", "" + filterList.size());
+            adapter.setFilterV2(filterList);
+        }else{
+            adapter.setFilterV2(data);
+        }
     }
     private List<dataManifestV2> filterbystatus(List<dataManifestV2> data, String text) {
         List<dataManifestV2> mfilterList = new ArrayList<>();
-        text = text.toLowerCase();
         if (data!=null) {
             for(dataManifestV2 manifestV2:data){
                 //TODO cambiar al valor corecto
-                String manifestname = String.valueOf( manifestV2.getEstatus());
-                if(manifestname.contains(text)) {
+                if(manifestV2.getEstatus().getNombre().equals(text)) {
                     mfilterList.add(manifestV2);
                 }
             }

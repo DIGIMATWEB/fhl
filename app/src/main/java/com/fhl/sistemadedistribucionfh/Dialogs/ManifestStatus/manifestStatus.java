@@ -61,6 +61,7 @@ public class manifestStatus extends DialogFragment implements View.OnClickListen
         closeReasons.setOnClickListener(this);
         List<String> listaManifestStatus=new ArrayList<>();
         listaManifestStatus.clear();
+        listaManifestStatus.add("Todo");
         listaManifestStatus.add("Confirmado");
         listaManifestStatus.add("En proceso");
         listaManifestStatus.add("Cerrado");
