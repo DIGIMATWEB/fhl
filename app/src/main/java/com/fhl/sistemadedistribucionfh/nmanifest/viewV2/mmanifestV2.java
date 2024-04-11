@@ -19,6 +19,9 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.ManifestStatus.manifestStatus;
+import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.view.dialogReasons;
+import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Tickets.detailTicketsSummary;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.nmanifest.adapterV2.manifestAdapterV2;
@@ -39,7 +42,7 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     private FragmentManager manager;
     private FragmentTransaction transaction;
     private presentermanifestV2 presenter;
-    private ImageView finder;
+    private ImageView finder,finderfilter;
     private SearchView searchViewv2;
     private List<dataManifestV2> data;
     private ProgressDialog mprogres;
@@ -54,6 +57,8 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     private void initView(View view) {
         rv = view.findViewById(R.id.rvmanifest);
         finder = view.findViewById(R.id.finder);
+        finderfilter= view.findViewById(R.id.finderfilter);
+        finderfilter.setOnClickListener(this);
         finder.setOnClickListener(this);
         mprogres = new ProgressDialog(getActivity());
         searchViewv2 = view.findViewById(R.id.searchViewManifest);
@@ -87,6 +92,9 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.finderfilter:
+                new manifestStatus().show(getActivity().getSupportFragmentManager(),"manifestStatus");
+                break;
             case R.id.finder:
                 if (searchViewv2.getVisibility() == View.GONE) {
                     searchViewv2.setVisibility(View.VISIBLE);
@@ -128,6 +136,24 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
             for(dataManifestV2 manifestV2:data){
                 //TODO cambiar al valor corecto
                 String manifestname = String.valueOf( manifestV2.getFolioDespacho());
+                if(manifestname.contains(text)) {
+                    mfilterList.add(manifestV2);
+                }
+            }
+        }
+        return mfilterList;
+    }
+    public void setFilterDialog(String fcheckedItem) {
+        List<dataManifestV2> filterList = filterbystatus(data, fcheckedItem);
+        adapter.setFilterV2(filterList);
+    }
+    private List<dataManifestV2> filterbystatus(List<dataManifestV2> data, String text) {
+        List<dataManifestV2> mfilterList = new ArrayList<>();
+        text = text.toLowerCase();
+        if (data!=null) {
+            for(dataManifestV2 manifestV2:data){
+                //TODO cambiar al valor corecto
+                String manifestname = String.valueOf( manifestV2.getEstatus());
                 if(manifestname.contains(text)) {
                     mfilterList.add(manifestV2);
                 }
@@ -187,4 +213,6 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
             return false;
         }
     }
+
+
 }

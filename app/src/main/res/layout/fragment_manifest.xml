@@ -52,7 +52,18 @@
 
         </ImageView>
 
+        <ImageView
+            android:id="@+id/finderfilter"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="6dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/finder"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/filtercup">
 
+        </ImageView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
