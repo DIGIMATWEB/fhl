@@ -102,17 +102,17 @@ public class questionFragment extends Fragment implements View.OnClickListener ,
             checklist.clear();
             for(Pregunta p: mfdata){
                 checklist.add(new SendCheck(p.getId(),0,"",""));
-
             }
         }
+
         fillViewPager(mfdata);
         ischeklistsetupok=true;
     }
-    public void fillViewPager(List<Pregunta> mdata){
+
+    public void fillViewPager(List<Pregunta> mdata) {
         QuestionAdapter questionAdapter = new QuestionAdapter(mdata,this.getActivity(),this,ViewPager); // Pass the list of questions to the adapter
         ViewPager.setAdapter(questionAdapter);
     }
-
 
     public void showbutton() {
         buttonstartChecklist.setVisibility(View.VISIBLE);
@@ -123,13 +123,18 @@ public class questionFragment extends Fragment implements View.OnClickListener ,
         buttonstartChecklist.setVisibility(View.GONE);
         buttonstartChecklist.setText("Iniciar");
     }
-    private  void mangeF()
-    {
+
+    public void updated() {
+        ViewPager.notifyAll();
+    }
+
+    private  void mangeF() {
         manager = getActivity().getSupportFragmentManager();
         transaction = manager.beginTransaction();
         checkList mcheckList= new checkList();
         transaction.replace(R.id.fragments, mcheckList, checkList.TAG).commit();
     }
+
     @Override
     //Pressed return button - returns to the results menu
     public void onResume() { //onback
@@ -173,5 +178,6 @@ public class questionFragment extends Fragment implements View.OnClickListener ,
     }
 
     public void setAndswersF(int pos, Integer id, Integer type, String answerDesc, Integer answerId) {
+
     }
 }

@@ -30,6 +30,9 @@ public class QuestionAdapter extends FragmentStateAdapter {
                 super.onPageSelected(position);
                 if (position != (questionList.size()-1)) {
                     mview.hidebutton();
+                    //mview.fillViewPager(questionList);
+                    //createFragment(position);
+                    //mview.updated();
                 } else {
                     mview.showbutton();
                 }
@@ -39,6 +42,7 @@ public class QuestionAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
+        // Aqui manda toda la data
         return QuestionFragment2.newInstance(questions.get(position),mview,position,questions );
     }
     @Override
