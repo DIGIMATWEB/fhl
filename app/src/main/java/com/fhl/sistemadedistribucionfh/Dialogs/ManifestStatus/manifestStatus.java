@@ -1,6 +1,7 @@
 package com.fhl.sistemadedistribucionfh.Dialogs.ManifestStatus;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,6 +75,13 @@ public class manifestStatus extends DialogFragment implements View.OnClickListen
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvReasons.setLayoutManager(linearLayoutManager);
         rvReasons.setAdapter(adapter);
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        mmanifestV2 manifest = (mmanifestV2) getActivity().getSupportFragmentManager().findFragmentByTag(mmanifestV2.TAG);
+        manifest.skipDialog();
     }
 
     public void closeDialog() {
