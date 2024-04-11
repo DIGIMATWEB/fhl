@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Outer circle -->
+    <item>
+        <shape
+            android:shape="oval">
+            <solid android:color="@android:color/white" />
+        </shape>
+    </item>
+    <!-- Inner circle (the hole) -->
+    <item>
+        <shape
+            android:shape="oval">
+            <solid android:color="@android:color/transparent" />
+            <stroke
+                android:width="3dp"
+                android:color="@color/purplechart" />
+            <!-- Adjust the size of the inner circle (hole) -->
+            <size
+                android:width="100dp"
+                android:height="100dp" />
+        </shape>
+    </item>
+</layer-list>
