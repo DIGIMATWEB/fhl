@@ -1,5 +1,7 @@
 package com.fhl.sistemadedistribucionfh.checkList.Questions.view;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,7 +31,7 @@ public class QuestionFragment2 extends Fragment {
     private  questionFragment mview;
     private ConstraintLayout switchanswer,optionanswer,openanswer;
     private List<Pregunta> mquestions;
-    private TextView textopenquestion,textopenquestion1,textbooleanonly,textPosition1,textPosition2,textPosition3;
+    private TextView textopenquestion,textopenquestion1,textbooleanonly,textPosition1,textPosition2,textPosition3, textButtonFalse, textButtonTrue;
     private ImageButton buttonTrue,buttonFalse;
 
     @Override
@@ -40,7 +42,7 @@ public class QuestionFragment2 extends Fragment {
         return view;
     }
 
-    private void initView(View view) {
+    public void initView(View view) {
         switchanswer=view.findViewById(R.id.switchanswer);
         optionanswer=view.findViewById(R.id.optionanswer);
         openanswer=view.findViewById(R.id.openanswer);
@@ -50,9 +52,37 @@ public class QuestionFragment2 extends Fragment {
         textPosition1=view.findViewById(R.id.textPosition);
         textPosition2=view.findViewById(R.id. textPosition2);
         textPosition3=view.findViewById(R.id.textPosition3);
+        textButtonFalse = view.findViewById(R.id.textView21);
+        textButtonTrue = view.findViewById(R.id.textView22);
 
         buttonTrue= view.findViewById(R.id.trueButton);
         buttonFalse = view.findViewById(R.id.falseButton);
+        buttonFalse.setOnClickListener(this::initView);
+        buttonTrue.setOnClickListener(this::initView);
+
+        buttonFalse.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("UseCompatLoadingForColorStateLists")
+            @Override
+            public void onClick(View view) {
+                buttonFalse.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.purple));
+                textButtonFalse.setTextColor(Color.WHITE);
+
+                buttonTrue.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.grayalfa));
+                textButtonTrue.setTextColor(getContext().getResources().getColorStateList(R.color.purple));
+            }
+        });
+
+        buttonTrue.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("UseCompatLoadingForColorStateLists")
+            @Override
+            public void onClick(View view) {
+                buttonTrue.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.purple));
+                textButtonTrue.setTextColor(Color.WHITE);
+
+                buttonFalse.setBackgroundTintList(getContext().getResources().getColorStateList(R.color.grayalfa));
+                textButtonFalse.setTextColor(getContext().getResources().getColorStateList(R.color.purple));
+            }
+        });
 
         // Set textPosition after initialization
 
@@ -128,6 +158,7 @@ public class QuestionFragment2 extends Fragment {
     }
 
     public static QuestionFragment2 newInstance(Pregunta question, questionFragment mview, int position, List<Pregunta> questions) {
+        // Aqui crea las vistas
         return new QuestionFragment2(question,mview,position,questions);
     }
 }

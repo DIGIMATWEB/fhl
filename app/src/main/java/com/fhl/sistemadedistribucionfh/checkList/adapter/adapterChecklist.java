@@ -70,7 +70,15 @@ public class adapterChecklist extends RecyclerView.Adapter<adapterChecklist.View
             holder.siguienteChecklist.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mview.goQuestions(data.getVehiculoVsChecklist().get(position).getChecklist().getNombre(),data.getVehiculo().getPlaca(),vigencia,periodicidad);
+                    String nombreTemp = "NombreTemp";
+                    /*if (data.getVehiculoVsChecklist().get(position).getChecklist().getNombre()== null) {
+                        nombreTemp = "NombreTemp";
+                    } else {
+                        nombreTemp = data.getVehiculoVsChecklist().get(position).getChecklist().getNombre();
+                    }*/
+
+                    mview.goQuestions(nombreTemp,data.getVehiculo().getPlaca(),vigencia,periodicidad);
+                    //mview.goQuestions(data.getVehiculoVsChecklist().get(position).getChecklist().getNombre(),data.getVehiculo().getPlaca(),vigencia,periodicidad);
                 }
             });
     }

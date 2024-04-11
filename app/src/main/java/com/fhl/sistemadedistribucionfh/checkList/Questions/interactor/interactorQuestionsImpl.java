@@ -43,7 +43,7 @@ public class interactorQuestionsImpl  implements  interactorQuestions{
     }
 
     private void requestQuestions(String token) {
-       Call<responseQuestions> call= service.getChecklist(token,6,2);
+       Call<responseQuestions> call= service.getChecklist(token,136,4);
        call.enqueue(new Callback<responseQuestions>() {
            @Override
            public void onResponse(Call<responseQuestions> call, Response<responseQuestions> response) {
