@@ -18,11 +18,18 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
+
+import java.util.List;
 
 public class dialogCompletedSalida extends DialogFragment implements View.OnClickListener {
     public static final String TAG = dialogCompletedSalida.class.getSimpleName();
     private ImageButton imageButton2;
+    private List<dataTicketsManifestV2> dataTickets;
+    private List<Sello> dataSellos;
+    private String currentManifest;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +42,13 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
         View view = inflater.inflate(R.layout.dialog_despacho_salida, container, false);
         //getDialog().getWindow().setBackgroundDrawableResource(R.color.customTransparent);
         setCancelable(true);
+        Bundle args = getArguments();
+        if (args != null) {
+         currentManifest = args.getString("manifest");
+         dataTickets= (List<dataTicketsManifestV2>) args.getSerializable("tickets");
+         dataSellos = (List<Sello>) args.getSerializable("sellos");
+         Log.e("salida",""+currentManifest+" tickets "+ dataTickets+" sellos "+dataSellos);
+        }
         initDialog(view);
         //setFonts();
         return view;

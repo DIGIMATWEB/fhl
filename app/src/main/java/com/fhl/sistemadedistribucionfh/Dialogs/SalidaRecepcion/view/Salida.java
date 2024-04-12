@@ -217,7 +217,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
 
     @Override
     public void setdataCortina(dataCortina data) {
-        Log.e("datadecortina",""+data.getFolioDespacho());
+       // Log.e("datadecortina",""+data.getFolioDespacho());
         BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
         barcodeScannerActivity1.setCortina(data.getDestino(),data.getAnden().getQrCodigo(),data.getAnden().getCodigoAnden(),codigoValidador);
 

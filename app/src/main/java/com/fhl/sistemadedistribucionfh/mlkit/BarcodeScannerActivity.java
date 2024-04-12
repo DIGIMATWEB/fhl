@@ -488,6 +488,11 @@ public class BarcodeScannerActivity extends AppCompatActivity
     public void godialogCheck(){
         Log.e("dialogSalida","godialogCheck");
         dialogCompletedSalida bottonSheetv=new dialogCompletedSalida();
+        Bundle bundle = new Bundle();
+        bundle.putString("manifest", currentmanifest);
+        bundle.putSerializable("tickets", (Serializable) dataTickets);
+        bundle.putSerializable("sellos", (Serializable) dataSellos);
+        bottonSheetv.setArguments(bundle);
         bottonSheetv.show(getSupportFragmentManager(),"dialogCompletedSalida");
     }
     public void resumeValidador(){
