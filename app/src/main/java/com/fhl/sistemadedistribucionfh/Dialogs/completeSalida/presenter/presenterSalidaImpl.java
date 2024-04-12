@@ -5,15 +5,16 @@ import android.content.Context;
 import com.fhl.sistemadedistribucionfh.Dialogs.completeSalida.dialogCompletedSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.completeSalida.interactor.interactorSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.completeSalida.interactor.interactorSalidaImpl;
+import com.fhl.sistemadedistribucionfh.Dialogs.completeSalida.view.dialogCompletedSalidaImp;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
 
 import java.util.List;
 
 public class presenterSalidaImpl implements presenterSalida{
-    private dialogCompletedSalida view;
+    private dialogCompletedSalidaImp view;
     private Context context;
     private interactorSalida interactor;
-    public presenterSalidaImpl(dialogCompletedSalida view, Context context){
+    public presenterSalidaImpl(dialogCompletedSalidaImp view, Context context){
         this.view=view;
         this.context= context;
         interactor= new interactorSalidaImpl(this,context);
@@ -58,6 +59,13 @@ public class presenterSalidaImpl implements presenterSalida{
     public void validateSendtrip() {
         if(view!=null){
             view.startSendtriplus();
+        }
+    }
+
+    @Override
+    public void setDetailTicketsentriplus(List<dataTicketsDetailsendtrip> data) {
+        if(view!=null){
+            view.setDetailTicketsentriplus(data);
         }
     }
 }

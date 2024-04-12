@@ -492,12 +492,12 @@ public class BarcodeScannerActivity extends AppCompatActivity
         bundle.putSerializable("tickets", (Serializable) dataTickets);
         bundle.putSerializable("sellos", (Serializable) dataSellos);
         bottonSheetv.setArguments(bundle);
-        bottonSheetv.show(getSupportFragmentManager(),"dialogCompletedSalida");
+        bottonSheetv.show(getSupportFragmentManager(),"dialogCompletedSalidaImp");
     }
     public void resumeValidador(){
         Log.e("dialogSalida","resumeValidador");
         dialogCompletedSalida bottonSheetv=new dialogCompletedSalida();
-        bottonSheetv.show(getSupportFragmentManager(),"dialogCompletedSalida");
+        bottonSheetv.show(getSupportFragmentManager(),"dialogCompletedSalidaImp");
     }
     public void dismissTickets(){
         if(botonsheettickets!=null) {

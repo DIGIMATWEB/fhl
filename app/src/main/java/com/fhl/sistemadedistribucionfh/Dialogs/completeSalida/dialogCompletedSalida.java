@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,20 +15,24 @@ import androidx.fragment.app.DialogFragment;
 
 import com.fhl.sistemadedistribucionfh.Dialogs.completeSalida.presenter.presenterSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.completeSalida.presenter.presenterSalidaImpl;
+import com.fhl.sistemadedistribucionfh.Dialogs.completeSalida.view.dialogCompletedSalidaImp;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
 import java.util.List;
 
-public class dialogCompletedSalida extends DialogFragment implements View.OnClickListener {
+public class dialogCompletedSalida extends DialogFragment implements View.OnClickListener, dialogCompletedSalidaImp {
     public static final String TAG = dialogCompletedSalida.class.getSimpleName();
     private ImageButton imageButton2;
     private List<dataTicketsManifestV2> dataTickets;
     private List<Sello> dataSellos;
     private String currentManifest;
     private presenterSalida presenter;
+    private Integer iteratedidTicket,secuence=0;
+    private List<dataTicketsDetailsendtrip> dataticketDetail;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,11 +45,13 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
         View view = inflater.inflate(R.layout.dialog_despacho_salida, container, false);
         //getDialog().getWindow().setBackgroundDrawableResource(R.color.customTransparent);
         setCancelable(true);
+        iteratedidTicket=0;
+        secuence=0;
         Bundle args = getArguments();
         if (args != null) {
          currentManifest = args.getString("manifest");
-         dataTickets= (List<dataTicketsManifestV2>) args.getSerializable("tickets");
-         dataSellos = (List<Sello>) args.getSerializable("sellos");
+         this.dataTickets= (List<dataTicketsManifestV2>) args.getSerializable("tickets");
+         this.dataSellos = (List<Sello>) args.getSerializable("sellos");
          Log.e("salida",""+currentManifest+" tickets "+ dataTickets+" sellos "+dataSellos);
         }
         initDialog(view);
@@ -57,31 +64,76 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
         imageButton2.setOnClickListener(this);
         presenter= new presenterSalidaImpl(this,getContext());
         presenter.requestTokenAvocado();
-        presenter.requestDetailTicketsSendtriplus(false,0,currentManifest, null,dataTickets.get(0).getFolioTicket());    //este metodo es por si venia solo como string o como array
-    }
-
-    public void closeDialog() {
-        this.dismiss();
 
     }
-    public void startSendtriplus() {
+    @Override
+    public void startSendtriplus() {//1 ya existe el token de avocado
+        if(dataTickets!=null) {//se otienen los detalles del ticket por posicion
+            iteratedidTicket=0;
+            Log.e("salidaSentrip","iteratedidTicket "+iteratedidTicket);
+            Log.e("salidaSentrip","currentManifest "+currentManifest);
+            Log.e("salidaSentrip","getFolioTicket "+dataTickets.get(iteratedidTicket).getFolioTicket());
+            presenter.requestDetailTicketsSendtriplus(true, iteratedidTicket, currentManifest, null, dataTickets.get(iteratedidTicket).getFolioTicket());    //este metodo es por si venia solo como string o como array
+        }else {
+            Toast.makeText(getContext(), "El manifiesto no cuenta con ningun ticket", Toast.LENGTH_SHORT).show();
+        }
     }
-    public void nextRequest() {
+    @Override
+    public void setDetailTicketsentriplus(List<dataTicketsDetailsendtrip> data) {// 2 ya tiene la data del ticket 0
+        this.dataticketDetail=data;
+        if(iteratedidTicket!=0){
+            initSendFolios();
+            Log.e("salidaSentrip","iterador es "+iteratedidTicket);
+        }else{
+            Log.e("salidaSentrip","iterador es 0");
+        }
+    }
+    @Override
+    public void nextRequest() {// este metodo se usa en
+
+        secuence=secuence+1;
+        if(secuence==1){
+            initSendFolios();
+        }else if(secuence==2){
+            changestatus();
+        }else if(secuence==3)
+            iteratedidTicket=iteratedidTicket+1;
+        if(iteratedidTicket >(dataTickets.size()-1)){//si el iterador de tickets es igual el maximo de tickets termina y regresa a los manifiestos
+            Intent intent = new Intent(getContext(), mainContainer.class);
+            startActivity(intent);
+            closeDialog();
+        }else{
+            presenter.requestDetailTicketsSendtriplus(true, iteratedidTicket, currentManifest, null, dataTickets.get(iteratedidTicket).getFolioTicket());
+            secuence=1;
+        }
+
+    }
+    private void initSendFolios() {//manda al sentripplus regresa y cae en next
+        presenter.sendSentriplus(currentManifest,dataticketDetail,"Entrega");
+    }
+    private void changestatus(){
+        presenter.changeStatusManifestTicket(currentManifest,dataTickets.get(iteratedidTicket).getFolioTicket(),"Entrega");
     }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.imageButton2:
-                //closeDialog();
-                presenter.sendSentriplus(currentManifest,null,"Entrega");
-                Intent intent = new Intent(getContext(), mainContainer.class);
-                startActivity(intent);
-                // Close the dialog if needed
-                closeDialog();
-                Log.e("salida", "ir a manifiestos");
+            case R.id.imageButton2://
+                initSendFolios();
+
                 break;
         }
     }
+
+
+
+    @Override
+    public void closeDialog() {
+        Intent intent = new Intent(getContext(), mainContainer.class);
+        startActivity(intent);
+        closeDialog();
+        Log.e("salida", "ir a manifiestos");
+    }
+
 
 
 

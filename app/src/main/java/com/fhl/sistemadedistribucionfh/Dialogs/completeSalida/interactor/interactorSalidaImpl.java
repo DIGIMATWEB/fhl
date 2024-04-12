@@ -8,11 +8,13 @@ import android.widget.Toast;
 import com.fhl.sistemadedistribucionfh.Dialogs.completeSalida.presenter.presenterSalida;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrifitClientAvocado;
+import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientFHManifest;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.TicketsDetailSentriplus;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
 import com.fhl.sistemadedistribucionfh.evidence.model.changeStatusmanifestticket.dataStatusManifestTicket;
 import com.fhl.sistemadedistribucionfh.evidence.model.changeStatusmanifestticket.responseStatusManifestOrTicket;
+import com.fhl.sistemadedistribucionfh.evidence.util.serviceEvidence;
 import com.fhl.sistemadedistribucionfh.sendTripPlus.model.avocado.dataAvocado;
 import com.fhl.sistemadedistribucionfh.sendTripPlus.model.avocado.requestLoginAvocado;
 import com.fhl.sistemadedistribucionfh.sendTripPlus.model.avocado.responseLoginAvocado;
@@ -38,10 +40,14 @@ public class interactorSalidaImpl implements interactorSalida{
     private presenterSalida presenter;
     private Context context;
     private serviceSendtripPlus service2;
-    private Retrofit retrofitClientV2;
+    private serviceEvidence service;
+    private Retrofit retrofitClientV2,retrofitClient;
     public  interactorSalidaImpl(presenterSalida presenter , Context context){
         this.presenter=presenter;
         this.context=context;
+        retrofitClient = RetrofitClientFHManifest.getRetrofitInstance();
+        service = retrofitClient.create(serviceEvidence.class);
+        //todo este es la instancia de la peticion para el token de avocado y el TEA
         retrofitClientV2= RetrifitClientAvocado.getRetrofitInstance();
         service2 = retrofitClientV2.create(serviceSendtripPlus.class);
     }
@@ -101,9 +107,16 @@ public class interactorSalidaImpl implements interactorSalida{
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token_Avocado = preferences.getString(GeneralConstants.TOKEN_AVOCADO, null);
         String operadorId = preferences.getString(GeneralConstants.OPERADOR_NAME, null);
-        if(token_Avocado!=null){
+        if(token_Avocado!=null&&operadorId!=null){
+            Log.e("sendtripplus","token_Avocado "+token_Avocado);
+            Log.e("sendtripplus","dataTicketSendtrip "+dataTicketSendtrip.get(0));
+            Log.e("sendtripplus","operadorId "+operadorId);
+            Log.e("sendtripplus","currentManifest "+currentManifest);
+            Log.e("sendtripplus","sentripPlusFlow "+sentripPlusFlow);
             requestSendtriplus(token_Avocado,dataTicketSendtrip.get(0),operadorId,currentManifest,sentripPlusFlow);
-            Log.e("sendtripplus","requestSendtriplus");
+
+        }else {
+            Log.e("salidaSentrip","token "+token_Avocado+"  operadorId "+operadorId);
         }
     }
 
@@ -162,7 +175,7 @@ public class interactorSalidaImpl implements interactorSalida{
         if (RetrofitValidations.checkSuccessCode(response.code())) {
             responseSendtrip(response,context);
         } else {
-            Log.e("sendtripplus","RetrofitValidations fail");
+            Log.e("sendtripplus","RetrofitValidations fail sentrip");
             Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show();
             presenter.nextRequest();
         }
@@ -249,7 +262,7 @@ public class interactorSalidaImpl implements interactorSalida{
         if (RetrofitValidations.checkSuccessCode(response.code())) {
             responseStatuscheck(response,context);
         } else {
-            Log.e("changeStatus","RetrofitValidations fail");
+            Log.e("changeStatus","RetrofitValidations fail change");
             Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show();
             presenter.nextRequest();
         }
@@ -290,7 +303,7 @@ public class interactorSalidaImpl implements interactorSalida{
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
         if(token!=null){
-            if(!isArray) {//todo no es uno solo es de la iteracion que le corresponde
+            if(isArray) {//todo no es uno solo es de la iteracion que le corresponde
                 requestDetailforSendtriplusTicket(token, ticket, currentManifest);
             }else{//todo si es uno solo es el ticket que le corresponde
                 requestDetailforSendtriplusTicket(token, folioTicket, currentManifest);
@@ -300,6 +313,9 @@ public class interactorSalidaImpl implements interactorSalida{
 
 
     private void requestDetailforSendtriplusTicket(String token, String iterateidTickets, String currentManifest) {
+        Log.e("salidaSentrip","token "+token);
+        Log.e("salidaSentrip","iterateidTickets "+iterateidTickets);
+        Log.e("salidaSentrip","currentManifest "+currentManifest);
         Call<TicketsDetailSentriplus> call= service2.getTicket(token,currentManifest,iterateidTickets);
         call.enqueue(new Callback<TicketsDetailSentriplus>() {
             @Override
@@ -317,7 +333,8 @@ public class interactorSalidaImpl implements interactorSalida{
         if (RetrofitValidations.checkSuccessCode(response.code())) {
             responseSendtripTicket(response,context);
         } else {
-            Log.e("responseSendtripTicket","RetrofitValidations fail");
+            Log.e("responseSendtripTicket","RetrofitValidations fail Ticket");
+            Log.e("responseSendtripTicket",""+response.message());
             Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show();
         }
     }
