@@ -37,12 +37,11 @@ import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.tic
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.view.Salida;
 import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Tickets.detailTicketsSummary;
 import com.fhl.sistemadedistribucionfh.Dialogs.dialogCompleteValidador;
-import com.fhl.sistemadedistribucionfh.Dialogs.dialogCompletedSalida;
+import com.fhl.sistemadedistribucionfh.Dialogs.completeSalida.dialogCompletedSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.model.dataValidadorV2;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.view.validadorManifest;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.escanearValidador;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
-import com.fhl.sistemadedistribucionfh.Salida.Model.v2.dataSalida;
 import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.google.mlkit.common.MlKitException;

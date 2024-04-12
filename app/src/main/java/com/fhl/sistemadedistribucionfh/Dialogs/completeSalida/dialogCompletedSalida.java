@@ -1,4 +1,4 @@
-package com.fhl.sistemadedistribucionfh.Dialogs;
+package com.fhl.sistemadedistribucionfh.Dialogs.completeSalida;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,17 +6,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.completeSalida.presenter.presenterSalida;
+import com.fhl.sistemadedistribucionfh.Dialogs.completeSalida.presenter.presenterSalidaImpl;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
@@ -30,6 +27,7 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
     private List<dataTicketsManifestV2> dataTickets;
     private List<Sello> dataSellos;
     private String currentManifest;
+    private presenterSalida presenter;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,18 +55,25 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
     private void initDialog(View view) {
         imageButton2=view.findViewById(R.id.imageButton2);
         imageButton2.setOnClickListener(this);
+        presenter= new presenterSalidaImpl(this,getContext());
+        presenter.requestTokenAvocado();
+        presenter.requestDetailTicketsSendtriplus(false,0,currentManifest, null,dataTickets.get(0).getFolioTicket());    //este metodo es por si venia solo como string o como array
     }
 
     public void closeDialog() {
         this.dismiss();
 
     }
-
+    public void startSendtriplus() {
+    }
+    public void nextRequest() {
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imageButton2:
                 //closeDialog();
+                presenter.sendSentriplus(currentManifest,null,"Entrega");
                 Intent intent = new Intent(getContext(), mainContainer.class);
                 startActivity(intent);
                 // Close the dialog if needed
@@ -77,4 +82,8 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
                 break;
         }
     }
+
+
+
+
 }
