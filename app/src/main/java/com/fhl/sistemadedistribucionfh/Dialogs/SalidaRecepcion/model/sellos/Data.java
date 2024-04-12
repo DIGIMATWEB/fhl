@@ -14,7 +14,7 @@ public class Data {
     private String qrCodigo;
     @SerializedName("Sellos")
     @Expose
-    private List<Sello> sellos;
+    private List<Sello> sellos=null;
     @SerializedName("Origen")
     @Expose
     private String origen;

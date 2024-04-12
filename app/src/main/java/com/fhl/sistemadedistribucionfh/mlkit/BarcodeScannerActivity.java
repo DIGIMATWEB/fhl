@@ -397,6 +397,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
             bindAllCameraUseCases();
             if(typeScanner.equals("Salida")) {
                 if (currentStatus == 3) {
+                    Log.e("dialogSalida","currentStatus 3");
                     binding.barcodeRawValue.setText("escanea los tickets");
                     if (getSupportFragmentManager().findFragmentByTag("ticketsSalida") == null) {
                         Bundle bundle = new Bundle();
@@ -407,6 +408,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     }
 
                 } else if (currentStatus == 5) {
+                    Log.e("dialogSalida","currentStatus 5");
                     binding.barcodeRawValue.setText("escanea los sellos");
                     if (getSupportFragmentManager().findFragmentByTag("sellosSalida") == null) {
                         Bundle bundle = new Bundle();
@@ -484,16 +486,26 @@ public class BarcodeScannerActivity extends AppCompatActivity
         }
     }
     public void godialogCheck(){
+        Log.e("dialogSalida","godialogCheck");
+        dialogCompletedSalida bottonSheetv=new dialogCompletedSalida();
+        bottonSheetv.show(getSupportFragmentManager(),"dialogCompletedSalida");
+    }
+    public void resumeValidador(){
+        Log.e("dialogSalida","resumeValidador");
         dialogCompletedSalida bottonSheetv=new dialogCompletedSalida();
         bottonSheetv.show(getSupportFragmentManager(),"dialogCompletedSalida");
     }
     public void dismissTickets(){
-        botonsheettickets.closeDialog();
-        currentStatus=4;
-        Log.e("salida","ir a sellos");
+        if(botonsheettickets!=null) {
+            botonsheettickets.closeDialog();
+            currentStatus = 4;
+            Log.e("salida", "ir a sellos");
+        }
     }
     public void dismissSellos(){
-        botonsheetsellos.closeDialog();
+        if(botonsheetsellos!=null) {
+            botonsheetsellos.closeDialog();
+        }
     }
 
     public void resetShared(){
@@ -503,10 +515,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
         editor.putString(GeneralConstants.STATUS_SALIDA,String.valueOf(currentStatus));
         editor.commit();
     }
-    public void resumeValidador(){
-        dialogCompletedSalida bottonSheetv=new dialogCompletedSalida();
-        bottonSheetv.show(getSupportFragmentManager(),"dialogCompletedSalida");
-    }
+
     public void goResumenValidador(){
         currentStatus = 3;
         SharedPreferences preferences =getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
@@ -551,7 +560,16 @@ public class BarcodeScannerActivity extends AppCompatActivity
         stopCameraProcess();
         Bundle bundle = new Bundle();
         //bundle.putString("qrCode", code);
-        bundle.putString("statusRecepcion", "3");
+        String statusrecepcion="3";
+        if(dataSellos!=null){
+            Log.e("dialogSalida","existen sellos");
+        }else{
+            Log.e("dialogSalida","no existen sellos");
+            statusrecepcion="5";
+            Toast.makeText(this, "No tienes sellos", Toast.LENGTH_SHORT).show();
+            dismissSellos();
+        }
+        bundle.putString("statusRecepcion", statusrecepcion);
         // bundle.putString("cortinaDestino", cortinaDestination);
         //bundle.putString("mQR", mQR);
         bundle.putString("currentManifest", currentmanifest);
@@ -576,6 +594,9 @@ public class BarcodeScannerActivity extends AppCompatActivity
     public void setTicketsArray(List<dataTicketsManifestV2> data) {
         this.dataTickets=data;
 
+    }
+    public void setSellosNull() {
+        this.typeScanner="Salida";
     }
     public void setSellosArray(List<Sello> response) {
         this.dataSellos=response;

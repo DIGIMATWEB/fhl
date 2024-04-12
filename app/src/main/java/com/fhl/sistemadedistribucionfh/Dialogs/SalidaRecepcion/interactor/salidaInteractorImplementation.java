@@ -266,11 +266,21 @@ public class salidaInteractorImplementation  implements salidainteractor {
             int responseCode = resp.getStatus();
 
             if (resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_PEP) {//cada ticket tiene N cantidad de sellos
-                List<Sello> sellos= resp.getData().getSellos();
+                if(resp.getData()!=null) {
+
+
+                    List<Sello> sellos = resp.getData().getSellos();
 
                     if (sellos != null) {
                         presenter.setSellos(sellos);
+                    } else {
+                        Log.e("dialogSalida","sellos null");
+                        presenter.setSellos(null);
                     }
+                }else {
+                    Log.e("dialogSalida","datasellosnull");
+                    presenter.setSellos(null);
+                }
 
             } else {
                 Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();

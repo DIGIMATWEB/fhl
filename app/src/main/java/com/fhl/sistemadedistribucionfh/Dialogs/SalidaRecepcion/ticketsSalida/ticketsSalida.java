@@ -113,15 +113,21 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                 //closeDialog();
                 if(countok==model.size()) {
                    // Toast.makeText(getContext(), "ir a sellostodos fueron escaneados", Toast.LENGTH_SHORT).show();
-                    if(typeScanner.equals("Recolectar")){
-                        //Toast.makeText(getContext(), "sumarydetailtickets", Toast.LENGTH_SHORT).show();
-                        BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
-                        barcodeScannerActivity1.detalManifestTicketsSummary(currentmanifest,codigoValidador,sellos);
-                    }else {
-                        BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
-                        barcodeScannerActivity1.goTicketsSummary();
-                    }
-                    closeDialog();
+                  if(typeScanner!=null) {
+                      if (typeScanner.equals("Recolectar")) {
+                          //Toast.makeText(getContext(), "sumarydetailtickets", Toast.LENGTH_SHORT).show();
+                          BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                          barcodeScannerActivity1.detalManifestTicketsSummary(currentmanifest, codigoValidador, sellos);
+                      } else {
+                          BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                          barcodeScannerActivity1.goTicketsSummary();
+                      }
+                      closeDialog();
+                  }else{
+                      Log.e("dialogSalida","ticketssalida null pending review recolection");
+                      BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                      barcodeScannerActivity1.goTicketsSummary();
+                  }
 
                 }else{
                    Toast.makeText(getContext(), "faltan tickets por escanear", Toast.LENGTH_SHORT).show();

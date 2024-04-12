@@ -68,6 +68,9 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
             textChekcs.setText("0/"+model.size());
             fillAdapter(model,getContext());
         }//setFonts();
+        else {
+            dismiss();
+        }
         return view;
     }
     @Override

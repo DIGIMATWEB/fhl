@@ -241,9 +241,14 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
 
     @Override
     public void setSellos(List<Sello> response) {
-        Log.e("ticketsArray","sellos: "+response.size()+" testfirst:" + response.get(0).getNumeroSello());
-        BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
-        barcodeScannerActivity1.setSellosArray(response);
+        if(response!=null) {
+            Log.e("ticketsArray", "sellos: " + response.size() + " testfirst:" + response.get(0).getNumeroSello());
+            BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+            barcodeScannerActivity1.setSellosArray(response);
+        }else {
+            BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+            barcodeScannerActivity1.setSellosNull();
+        }
     }
 
     private void fillmanifest(List<responseManifestSalidaV2data> data) {
@@ -288,6 +293,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                     barcodeScannerActivity1.dismissTickets();
                 }else if(codigoValidador1.equals("5")) {
                 BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                barcodeScannerActivity1.dismissTickets();
                 barcodeScannerActivity1.dismissSellos();
                 barcodeScannerActivity1.godialogCheck();
                 }
