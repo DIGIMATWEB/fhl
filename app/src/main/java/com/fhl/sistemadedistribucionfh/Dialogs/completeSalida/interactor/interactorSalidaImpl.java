@@ -316,7 +316,7 @@ public class interactorSalidaImpl implements interactorSalida{
         Log.e("salidaSentrip","token "+token);
         Log.e("salidaSentrip","iterateidTickets "+iterateidTickets);
         Log.e("salidaSentrip","currentManifest "+currentManifest);
-        Call<TicketsDetailSentriplus> call= service2.getTicket(token,currentManifest,iterateidTickets);
+        Call<TicketsDetailSentriplus> call= service.getTicket(token,currentManifest,iterateidTickets);
         call.enqueue(new Callback<TicketsDetailSentriplus>() {
             @Override
             public void onResponse(Call<TicketsDetailSentriplus> call, Response<TicketsDetailSentriplus> response) {
@@ -336,6 +336,7 @@ public class interactorSalidaImpl implements interactorSalida{
             Log.e("responseSendtripTicket","RetrofitValidations fail Ticket");
             Log.e("responseSendtripTicket",""+response.message());
             Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show();
+            presenter.failDetailTicket();
         }
     }
 

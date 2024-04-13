@@ -15,4 +15,6 @@ public interface presenterSalida {
 
 
     void setDetailTicketsentriplus(List<dataTicketsDetailsendtrip> data);
+
+    void failDetailTicket();
 }

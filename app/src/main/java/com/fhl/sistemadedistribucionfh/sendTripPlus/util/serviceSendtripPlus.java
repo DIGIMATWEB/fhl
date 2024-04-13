@@ -33,10 +33,5 @@ public interface serviceSendtripPlus {
             @Part("folioTicket") RequestBody folioTicket,
             @Part("estatusIdTicket") RequestBody estatusIdTicket
     );
-    @GET(RetrofitEndPoints.DETAIL_TICKET_SENDTRIPLUS)
-    Call<TicketsDetailSentriplus> getTicket(
-            @Header("Authorization") String authorizationHeader,
-            @Query("folioDespacho") String folioDespacho,
-            @Query("folioTicket") String folioTicket
-    );
+
 }

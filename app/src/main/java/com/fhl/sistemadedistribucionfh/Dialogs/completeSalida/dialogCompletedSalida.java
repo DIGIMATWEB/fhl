@@ -82,12 +82,19 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
     public void setDetailTicketsentriplus(List<dataTicketsDetailsendtrip> data) {// 2 ya tiene la data del ticket 0
         this.dataticketDetail=data;
         if(iteratedidTicket!=0){
-            initSendFolios();
+           //
             Log.e("salidaSentrip","iterador es "+iteratedidTicket);
         }else{
+            initSendFolios();
             Log.e("salidaSentrip","iterador es 0");
         }
     }
+
+    @Override
+    public void failDetailTicket() {
+       //esto no va presenter.requestDetailTicketsSendtriplus(true, iteratedidTicket, currentManifest, null, dataTickets.get(iteratedidTicket).getFolioTicket());
+    }
+
     @Override
     public void nextRequest() {// este metodo se usa en
 

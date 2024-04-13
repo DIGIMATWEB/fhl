@@ -68,4 +68,11 @@ public class presenterSalidaImpl implements presenterSalida{
             view.setDetailTicketsentriplus(data);
         }
     }
+
+    @Override
+    public void failDetailTicket() {
+        if(view!=null){
+            view.failDetailTicket();
+        }
+    }
 }

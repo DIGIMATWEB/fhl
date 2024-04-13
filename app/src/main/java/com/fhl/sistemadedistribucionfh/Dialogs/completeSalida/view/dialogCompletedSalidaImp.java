@@ -9,4 +9,6 @@ public interface dialogCompletedSalidaImp {
     void startSendtriplus();
     void nextRequest();
     void setDetailTicketsentriplus(List<dataTicketsDetailsendtrip> data);
+
+    void failDetailTicket();
 }
