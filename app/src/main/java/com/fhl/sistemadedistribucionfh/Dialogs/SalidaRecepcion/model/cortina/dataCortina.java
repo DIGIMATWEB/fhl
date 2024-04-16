@@ -48,7 +48,11 @@ public class dataCortina {
     }
 
     public String getDestino() {
+        if(destino!=null){
         return destino;
+        }else{
+            return "";
+        }
     }
 
     public void setDestino(String destino) {

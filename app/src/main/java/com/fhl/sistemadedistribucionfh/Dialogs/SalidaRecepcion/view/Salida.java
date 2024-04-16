@@ -219,6 +219,10 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
     public void setdataCortina(dataCortina data) {
        // Log.e("datadecortina",""+data.getFolioDespacho());
         BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+        Log.e("salidaSentrip","destino cortina "+data.getDestino());
+        Log.e("salidaSentrip",""+data.getAnden().getQrCodigo());
+        Log.e("salidaSentrip",""+data.getAnden().getCodigoAnden());
+        Log.e("salidaSentrip",""+codigoValidador);
         barcodeScannerActivity1.setCortina(data.getDestino(),data.getAnden().getQrCodigo(),data.getAnden().getCodigoAnden(),codigoValidador);
 
     }
@@ -292,10 +296,10 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                     BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
                     barcodeScannerActivity1.dismissTickets();
                 }else if(codigoValidador1.equals("5")) {
-                BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
-                barcodeScannerActivity1.dismissTickets();
-                barcodeScannerActivity1.dismissSellos();
-                barcodeScannerActivity1.godialogCheck();
+                    BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                    barcodeScannerActivity1.dismissTickets();
+                    barcodeScannerActivity1.dismissSellos();
+                    barcodeScannerActivity1.godialogCheck();
                 }
                 closeDialog();
                 break;

@@ -33,6 +33,7 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
     private presenterSalida presenter;
     private Integer iteratedidTicket,secuence=0;
     private List<dataTicketsDetailsendtrip> dataticketDetail;
+    private boolean isInitSendFoliosCalled = false;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,10 +50,10 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
         secuence=0;
         Bundle args = getArguments();
         if (args != null) {
-         currentManifest = args.getString("manifest");
+         this.currentManifest = args.getString("manifest");
          this.dataTickets= (List<dataTicketsManifestV2>) args.getSerializable("tickets");
          this.dataSellos = (List<Sello>) args.getSerializable("sellos");
-         Log.e("salida",""+currentManifest+" tickets "+ dataTickets+" sellos "+dataSellos);
+         Log.e("salidaSentrip",""+currentManifest+" tickets "+ dataTickets+" sellos "+dataSellos);
         }
         initDialog(view);
         //setFonts();
@@ -70,10 +71,12 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
     public void startSendtriplus() {//1 ya existe el token de avocado
         if(dataTickets!=null) {//se otienen los detalles del ticket por posicion
             iteratedidTicket=0;
-            Log.e("salidaSentrip","iteratedidTicket "+iteratedidTicket);
-            Log.e("salidaSentrip","currentManifest "+currentManifest);
-            Log.e("salidaSentrip","getFolioTicket "+dataTickets.get(iteratedidTicket).getFolioTicket());
-            presenter.requestDetailTicketsSendtriplus(true, iteratedidTicket, currentManifest, null, dataTickets.get(iteratedidTicket).getFolioTicket());    //este metodo es por si venia solo como string o como array
+            if(iteratedidTicket == 0) {
+                Log.e("salidaSentrip", "iteratedidTicket " + iteratedidTicket);
+                Log.e("salidaSentrip", "currentManifest " + currentManifest);
+                Log.e("salidaSentrip", "getFolioTicket " + dataTickets.get(iteratedidTicket).getFolioTicket());
+                presenter.requestDetailTicketsSendtriplus(true, iteratedidTicket, currentManifest, null, dataTickets.get(0).getFolioTicket());    //este metodo es por si venia solo como string o como array
+            }
         }else {
             Toast.makeText(getContext(), "El manifiesto no cuenta con ningun ticket", Toast.LENGTH_SHORT).show();
         }
@@ -83,10 +86,10 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
         this.dataticketDetail=data;
         if(iteratedidTicket!=0){
            //
-            Log.e("salidaSentrip","iterador es "+iteratedidTicket);
-        }else{
+            Log.e("salidaSentrip","iterador es "+iteratedidTicket+" ");//+dataticketDetail.get(iteratedidTicket).getFolioTicket());
             initSendFolios();
-            Log.e("salidaSentrip","iterador es 0");
+        }else{
+            Log.e("salidaSentrip","iterador es 0 "+iteratedidTicket+" ");//+dataticketDetail.get(iteratedidTicket).getFolioTicket());
         }
     }
 
@@ -94,39 +97,46 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
     public void failDetailTicket() {
        //esto no va presenter.requestDetailTicketsSendtriplus(true, iteratedidTicket, currentManifest, null, dataTickets.get(iteratedidTicket).getFolioTicket());
     }
-
+    private void initSendFolios() {//manda al sentripplus regresa y cae en next
+        presenter.sendSentriplus(currentManifest,dataticketDetail,"Entrega");
+    }
+    private void changestatus(){
+        Log.e("salidaSentrip","else secuence "+secuence);
+        presenter.changeStatusManifestTicket(currentManifest,dataTickets.get(iteratedidTicket).getFolioTicket(),"Entrega");
+    }
     @Override
     public void nextRequest() {// este metodo se usa en
 
         secuence=secuence+1;
         if(secuence==1){
-            initSendFolios();
+            if (!isInitSendFoliosCalled) {
+                initSendFolios();
+                isInitSendFoliosCalled = true; // Set the flag to true
+            }
         }else if(secuence==2){
             changestatus();
-        }else if(secuence==3)
-            iteratedidTicket=iteratedidTicket+1;
-        if(iteratedidTicket >(dataTickets.size()-1)){//si el iterador de tickets es igual el maximo de tickets termina y regresa a los manifiestos
-            Intent intent = new Intent(getContext(), mainContainer.class);
-            startActivity(intent);
-            closeDialog();
-        }else{
-            presenter.requestDetailTicketsSendtriplus(true, iteratedidTicket, currentManifest, null, dataTickets.get(iteratedidTicket).getFolioTicket());
-            secuence=1;
+        }else if(secuence==3) {
+            iteratedidTicket = iteratedidTicket + 1;
+            if (iteratedidTicket > (dataTickets.size() - 1)) {//si el iterador de tickets es igual el maximo de tickets termina y regresa a los manifiestos
+                Intent intent = new Intent(getActivity().getApplicationContext(), mainContainer.class);
+                startActivity(intent);
+                // Close the dialog if needed
+                closeDialog();
+            } else {
+                presenter.requestDetailTicketsSendtriplus(true, iteratedidTicket, currentManifest, null, dataTickets.get(iteratedidTicket).getFolioTicket());
+                secuence = 1;
+            }
+        }else {
+            Log.e("salidaSentrip","else secuence "+secuence);
         }
 
     }
-    private void initSendFolios() {//manda al sentripplus regresa y cae en next
-        presenter.sendSentriplus(currentManifest,dataticketDetail,"Entrega");
-    }
-    private void changestatus(){
-        presenter.changeStatusManifestTicket(currentManifest,dataTickets.get(iteratedidTicket).getFolioTicket(),"Entrega");
-    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imageButton2://
                 initSendFolios();
-
                 break;
         }
     }
@@ -140,9 +150,5 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
         closeDialog();
         Log.e("salida", "ir a manifiestos");
     }
-
-
-
-
 
 }

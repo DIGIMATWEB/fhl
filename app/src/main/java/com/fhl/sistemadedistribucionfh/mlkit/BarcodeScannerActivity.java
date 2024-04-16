@@ -486,6 +486,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
     }
     public void godialogCheck(){
         Log.e("dialogSalida","godialogCheck");
+        dismissSellos();
         dialogCompletedSalida bottonSheetv=new dialogCompletedSalida();
         Bundle bundle = new Bundle();
         bundle.putString("manifest", currentmanifest);

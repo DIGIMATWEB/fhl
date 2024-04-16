@@ -164,7 +164,7 @@ public class interactorSalidaImpl implements interactorSalida{
 
             @Override
             public void onFailure(Call<ResponseSendTripPlus> call, Throwable t) {
-                Log.e("sendtripplus","onFailure");
+                Log.e("salidaSentrip","onFailure");
                 Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
                 presenter.nextRequest();
             }
@@ -175,7 +175,7 @@ public class interactorSalidaImpl implements interactorSalida{
         if (RetrofitValidations.checkSuccessCode(response.code())) {
             responseSendtrip(response,context);
         } else {
-            Log.e("sendtripplus","RetrofitValidations fail sentrip");
+            Log.e("salidaSentrip","RetrofitValidations fail sentrip");
             Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show();
             presenter.nextRequest();
         }
@@ -190,21 +190,22 @@ public class interactorSalidaImpl implements interactorSalida{
             Data data= resp.getData();
             if(responseCode==105)
             {
-                Log.e("sendtripplus","105");
+                Log.e("salidaSentrip","105");
                 if(data!=null) {
                     Toast.makeText(context, "Folio sendTrip: "+data.getOrderFolio(), Toast.LENGTH_SHORT).show();
-                    Log.e("sendtripplus","Folio sendTrip: "+data.getOrderFolio());
+                    Log.e("salidaSentrip","Folio sendTrip: "+data.getOrderFolio());
                     presenter.nextRequest();
                 }
             }else{
                 presenter.nextRequest();
-                Log.e("sendtripplus","no  105");
+                Log.e("salidaSentrip","no  105");
             }
         }else{
             presenter.nextRequest();
-            Log.e("sendtripplus","resp null");
+            Log.e("salidaSentrip","resp null");
         }
     }
+    //region change status ticket
     @Override
     public void changeStatusManifestTicket(String currentManifest, String changeStatusTicket, String sentripPlusFlow) {
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
@@ -215,18 +216,11 @@ public class interactorSalidaImpl implements interactorSalida{
         RequestBody statusDespachoR = null;
         RequestBody changeStatusTicketR = null;
         RequestBody statusTicketR = null;
-        if(sentripPlusFlow.equals("Recoleccion")){
+        if (sentripPlusFlow.equals("Entrega")){
             statusDespacho=3;
             statusTicket=3;
             currentManifestR = RequestBody.create(MediaType.parse("text/plain"), currentManifest);
             statusDespachoR = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(statusDespacho));
-            changeStatusTicketR = RequestBody.create(MediaType.parse("text/plain"), changeStatusTicket);
-            statusTicketR = RequestBody.create(MediaType.parse("text/plain"),String.valueOf( statusTicket));
-        }else if (sentripPlusFlow.equals("Entrega")){
-            statusDespacho=4;
-            statusTicket=4;
-            currentManifestR = null;
-            statusDespachoR = null;
             changeStatusTicketR = RequestBody.create(MediaType.parse("text/plain"), changeStatusTicket);
             statusTicketR = RequestBody.create(MediaType.parse("text/plain"),String.valueOf( statusTicket));
         }else{
@@ -239,8 +233,8 @@ public class interactorSalidaImpl implements interactorSalida{
         }
 
 
-        Call<responseStatusManifestOrTicket> call= service2.setEstatusByManifiestoOrTicket(token,currentManifestR,statusDespachoR,changeStatusTicketR,statusTicketR);
-        Log.e("changeStatus",currentManifestR+" "+statusDespachoR+" "+changeStatusTicketR+"  "+statusTicketR);
+        Call<responseStatusManifestOrTicket> call= service.setEstatusByManifiestoOrTicket(token,currentManifestR,statusDespachoR,changeStatusTicketR,statusTicketR);
+        Log.e("salidaSentrip","C "+currentManifest+" "+statusDespacho+" "+changeStatusTicket+"  "+statusTicket);
 
         call.enqueue(new Callback<responseStatusManifestOrTicket>() {
             @Override
@@ -250,7 +244,7 @@ public class interactorSalidaImpl implements interactorSalida{
 
             @Override
             public void onFailure(Call<responseStatusManifestOrTicket> call, Throwable t) {
-                Log.e("changeStatus",""+t.getMessage());
+                Log.e("salidaSentrip",""+t.getMessage());
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
                 presenter.nextRequest();
             }
@@ -262,7 +256,7 @@ public class interactorSalidaImpl implements interactorSalida{
         if (RetrofitValidations.checkSuccessCode(response.code())) {
             responseStatuscheck(response,context);
         } else {
-            Log.e("changeStatus","RetrofitValidations fail change");
+            Log.e("salidaSentrip","RetrofitValidations fail change C");
             Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show();
             presenter.nextRequest();
         }
@@ -272,31 +266,32 @@ public class interactorSalidaImpl implements interactorSalida{
         responseStatusManifestOrTicket resp=response.body();
         if(resp!=null)
         {
-            Log.e("changeStatus", "response not null");
+            Log.e("salidaSentrip", "response not null C");
             int responseCode=resp.getStatus();
             String message=resp.getMessage();
             dataStatusManifestTicket data= resp.getData();
             if(resp.getTotalRows()< 0) {
-                Log.e("changeStatus", "105");
+                Log.e("salidaSentrip", "C 105");
                 if (data != null) {
                     //Toast.makeText(context, "Folio sendTrip: " + , Toast.LENGTH_SHORT).show();
-                    Log.e("changeStatus", "Folio sendTrip: " + resp.getMessage());
+                    Log.e("salidaSentrip", "Folio sendTrip: C" + resp.getMessage());
                     presenter.nextRequest();
 
                 } else {
-                    Log.e("changeStatus", "Folio sendTrip: " + data.getEstatusDespacho().getFolioDespacho());
+                    Log.e("salidaSentrip", "Folio sendTrip: C" + data.getEstatusDespacho().getFolioDespacho());
                     presenter.nextRequest();
-                    Log.e("changeStatus", "no  105");
+                    Log.e("salidaSentrip", "no  105 C");
                 }
             }else{
                 presenter.nextRequest();
             }
         }else{
             presenter.nextRequest();
-            Log.e("changeStatus","resp null");
+            Log.e("salidaSentrip","resp null C");
         }
 
     }
+    //endregion change status ticket
 
     @Override
     public void requestDetailTicketsSendtriplus(boolean isArray, Integer iterateidTickets, String currentManifest, String folioTicket, String ticket) {
@@ -333,8 +328,8 @@ public class interactorSalidaImpl implements interactorSalida{
         if (RetrofitValidations.checkSuccessCode(response.code())) {
             responseSendtripTicket(response,context);
         } else {
-            Log.e("responseSendtripTicket","RetrofitValidations fail Ticket");
-            Log.e("responseSendtripTicket",""+response.message());
+            Log.e("salidaSentrip","RetrofitValidations fail Ticket");
+            Log.e("salidaSentrip","detalle ticket "+response.message());
             Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show();
             presenter.failDetailTicket();
         }
@@ -349,19 +344,19 @@ public class interactorSalidaImpl implements interactorSalida{
             List<dataTicketsDetailsendtrip> data= resp.getData();
             if(responseCode==200)
             {
-                Log.e("responseSendtripTicket","105");
+                Log.e("salidaSentrip","105");
                 if(data!=null) {
                     //Toast.makeText(context, "Folio sendTripDetail: "+data.get(0).getFolioTicket(), Toast.LENGTH_SHORT).show();
-                    Log.e("responseSendtripTicket","Folio sendTrip: "+data.get(0).getFolioTicket());
+                    Log.e("salidaSentrip","Folio sendTrip: "+data.get(0).getFolioTicket());
                     presenter.setDetailTicketsentriplus(data);
 
                 }
             }else{
 
-                Log.e("responseSendtripTicket","no  105");
+                Log.e("salidaSentrip","no  105");
             }
         }else{
-            Log.e("responseSendtripTicket","resp null");
+            Log.e("salidaSentrip","resp null");
         }
     }
 
