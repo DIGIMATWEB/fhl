@@ -70,30 +70,19 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
     }
     @Override
     public void startSendtriplus() {//1 ya existe el token de avocado
-        if(dataTickets!=null) {//se otienen los detalles del ticket por posicion
-            iteratedidTicket=0;
-            if(iteratedidTicket == 0) {
-                Log.e("salidaSentrip", "iteratedidTicket " + iteratedidTicket);
-                Log.e("salidaSentrip", "currentManifest " + currentManifest);
-                Log.e("salidaSentrip", "getFolioTicket " + dataTickets.get(iteratedidTicket).getFolioTicket());
-                presenter.requestDetailTicketsSendtriplus(true, iteratedidTicket, currentManifest, null, dataTickets.get(0).getFolioTicket());    //este metodo es por si venia solo como string o como array
-            }
-        }else {
-            Toast.makeText(getContext(), "El manifiesto no cuenta con ningun ticket", Toast.LENGTH_SHORT).show();
+        if (dataTickets != null && iteratedidTicket == 0) { // Check if dataTickets is not null and iteratedidTicket is 0
+            presenter.requestDetailTicketsSendtriplus(true, iteratedidTicket, currentManifest, null, dataTickets.get(iteratedidTicket).getFolioTicket());
+        } else {
+            Toast.makeText(getContext(), "El manifiesto no cuenta con ningún ticket o ya se ha iniciado el proceso", Toast.LENGTH_SHORT).show();
         }
     }
     @Override
     public void setDetailTicketsentriplus(List<dataTicketsDetailsendtrip> data) {// 2 ya tiene la data del ticket 0
-        this.dataticketDetail=data;
-        if(iteratedidTicket!=0){
-           //
-            Log.e("failsentrip","iterador es "+iteratedidTicket+" ");//+dataticketDetail.get(iteratedidTicket).getFolioTicket());
-            Log.e("failsentrip","size es "+(dataTickets.size() - 1)+" ");
-         if(iteratedidTicket!=(dataTickets.size() - 1)) {
-                initSendFolios();
-           }
-        }else{
-            Log.e("salidaSentrip","iterador es 0 "+iteratedidTicket+" ");//+dataticketDetail.get(iteratedidTicket).getFolioTicket());
+        this.dataticketDetail = data;
+        if (iteratedidTicket != 0) {
+            if (iteratedidTicket < (dataTickets.size() - 1)) {
+                presenter.nextRequest();
+            }
         }
     }
 
@@ -102,46 +91,39 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
        //esto no va presenter.requestDetailTicketsSendtriplus(true, iteratedidTicket, currentManifest, null, dataTickets.get(iteratedidTicket).getFolioTicket());
     }
     private void initSendFolios() {//manda al sentripplus regresa y cae en next
+
+        Log.e("failsentrip","folio"+dataticketDetail.get(iteratedidTicket).getFolioTicket());
         presenter.sendSentriplus(currentManifest,dataticketDetail,"Entrega");
-        Log.e("failsentrip",dataticketDetail.get(0).getFolioTicket());
     }
     private void changestatus(){
-        Log.e("salidaSentrip","else secuence "+secuence);
+        Log.e("failsentrip","else secuence "+secuence);
         presenter.changeStatusManifestTicket(currentManifest,dataTickets.get(iteratedidTicket).getFolioTicket(),"Entrega");
     }
     @Override
     public void nextRequest() {// este metodo se usa en
 
-        secuence=secuence+1;
-        if(secuence==1){
-            if (!isInitSendFoliosCalled) {
-                initSendFolios();
-                isInitSendFoliosCalled = true; // Set the flag to true
-            }
-        }else if(secuence==2){
+        secuence = secuence + 1;
+        if (secuence == 1 && !isInitSendFoliosCalled) {
+            initSendFolios();
+            isInitSendFoliosCalled = true;
+        } else if (secuence == 2) {
             changestatus();
-        }else if(secuence==3) {
+        } else if (secuence == 3) {
             iteratedidTicket = iteratedidTicket + 1;
-            if (iteratedidTicket > (dataTickets.size() - 1)) {//si el iterador de tickets es igual el maximo de tickets termina y regresa a los manifiestos
-                //Intent intent = new Intent(getContext(), mainContainer.class);
-                //startActivity(intent);
-                // Close the dialog if needed
+            if (iteratedidTicket > (dataTickets.size() - 1)) {
                 closeDialog();
             } else {
+                secuence = 0;
                 presenter.requestDetailTicketsSendtriplus(true, iteratedidTicket, currentManifest, null, dataTickets.get(iteratedidTicket).getFolioTicket());
-                secuence = 1;
             }
-        }else {
-            Log.e("salidaSentrip","else secuence "+secuence);
         }
-
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imageButton2://
-                initSendFolios();
+                presenter.nextRequest();
                 break;
         }
     }

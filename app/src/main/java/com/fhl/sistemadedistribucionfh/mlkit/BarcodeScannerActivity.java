@@ -859,6 +859,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+        resetShared();
         super.onBackPressed();
 
     }
