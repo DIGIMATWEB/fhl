@@ -17,4 +17,6 @@ public interface presenterSalida {
     void setDetailTicketsentriplus(List<dataTicketsDetailsendtrip> data);
 
     void failDetailTicket();
+    void showDialog();
+    void hideDialog();
 }

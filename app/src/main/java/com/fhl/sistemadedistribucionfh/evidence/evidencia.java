@@ -440,6 +440,21 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     }
 
     @Override
+    protected void onDestroy() {
+        removeShared();
+        cleanFolder();
+        super.onDestroy();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        removeShared();
+        cleanFolder();
+        super.onBackPressed();
+    }
+
+    @Override
     public void hideDialog() {
         new Handler().postDelayed(new Runnable() {
             @Override

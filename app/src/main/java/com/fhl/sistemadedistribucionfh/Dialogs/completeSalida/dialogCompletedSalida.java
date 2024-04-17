@@ -2,6 +2,7 @@ package com.fhl.sistemadedistribucionfh.Dialogs.completeSalida;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.Loader.view.loaderFH;
 import com.fhl.sistemadedistribucionfh.Dialogs.completeSalida.presenter.presenterSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.completeSalida.presenter.presenterSalidaImpl;
 import com.fhl.sistemadedistribucionfh.Dialogs.completeSalida.view.dialogCompletedSalidaImp;
@@ -34,6 +36,7 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
     private presenterSalida presenter;
     private Integer iteratedidTicket,secuence=0;
     private List<dataTicketsDetailsendtrip> dataticketDetail;
+    private loaderFH progress;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +67,7 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
     private void initDialog(View view) {
         imageButton2=view.findViewById(R.id.imageButton2);
         imageButton2.setOnClickListener(this);
+        progress = new loaderFH();
         presenter= new presenterSalidaImpl(this,getContext());
         presenter.requestTokenAvocado();
 
@@ -88,12 +92,34 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
     public void failDetailTicket() {
        //esto no va presenter.requestDetailTicketsSendtriplus(true, iteratedidTicket, currentManifest, null, dataTickets.get(iteratedidTicket).getFolioTicket());
     }
-    private void initSendFolios() {//manda al sentripplus regresa y cae en next
 
+    @Override
+    public void showDialog() {
+        if (progress != null && !progress.isVisible()) {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("HAS_TITLE", false);
+            bundle.putString("title","Cargando detalles");
+            progress.setArguments(bundle);
+            progress.show(getParentFragmentManager(), loaderFH.TAG);
+        }
+    }
+
+    @Override
+    public void hideDialog() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (progress != null && this != null)
+                    progress.dismiss();
+            }
+        }, 300);
+    }
+
+    private void initSendFolios() {//manda al sentripplus regresa y cae en next
         Log.e("failsentrip","folio "+dataticketDetail.get(0).getFolioTicket());
         presenter.sendSentriplus(currentManifest,dataticketDetail,"Entrega");
     }
-    private void changestatus(){
+    private void changestatus(){//estatus 2
         Log.e("failsentrip","else secuence "+secuence);
         Log.e("failsentrip","else secuence "+iteratedidTicket);
         presenter.changeStatusManifestTicket(currentManifest,dataTickets.get(iteratedidTicket).getFolioTicket(),"Entrega");
@@ -109,11 +135,14 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
         } else if (secuence == 3) {
             iteratedidTicket = iteratedidTicket + 1;
             if (iteratedidTicket > (dataTickets.size() - 1)) {
+                presenter.hideDialog();
                 closeDialog();
             } else {
                 secuence = 0;
                 presenter.requestDetailTicketsSendtriplus(true, iteratedidTicket, currentManifest, null, dataTickets.get(iteratedidTicket).getFolioTicket());
             }
+        }else {
+            presenter.hideDialog();
         }
     }
 
@@ -122,6 +151,7 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
         switch (view.getId()) {
             case R.id.imageButton2://
                 presenter.nextRequest();
+                presenter.showDialog();
                 break;
         }
     }

@@ -224,6 +224,13 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
                 if (mdata.getEstatusId() == 2) ;
                 {
                     fdata.add(mdata);
+                }//todo pasar esto al else if
+                if(mdata.getTipoEntregaId()==2){//este id es para el modulo de salida y para mostrarce dee estar en ruta y el estatus 2
+                    recoletar.setVisibility(View.GONE);
+                }else if(mdata.getTipoEntregaId()==1){
+                    recoletar.setVisibility(View.VISIBLE);
+                }else{
+                    recoletar.setVisibility(View.GONE);
                 }
             }
         }

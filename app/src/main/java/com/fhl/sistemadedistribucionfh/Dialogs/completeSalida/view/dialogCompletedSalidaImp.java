@@ -11,4 +11,7 @@ public interface dialogCompletedSalidaImp {
     void setDetailTicketsentriplus(List<dataTicketsDetailsendtrip> data);
 
     void failDetailTicket();
+    void showDialog();
+    void hideDialog();
+
 }
