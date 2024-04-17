@@ -193,7 +193,7 @@ public class interactorSalidaImpl implements interactorSalida{
                 Log.e("salidaSentrip","105");
                 if(data!=null) {
                     Toast.makeText(context, "Folio sendTrip: "+data.getOrderFolio(), Toast.LENGTH_SHORT).show();
-                    Log.e("salidaSentrip","Folio sendTrip: "+data.getOrderFolio());
+                    Log.e("salidaSentrip","Folio sendTrip:  STP"+data.getOrderFolio());
                     presenter.nextRequest();
                 }
             }else{
