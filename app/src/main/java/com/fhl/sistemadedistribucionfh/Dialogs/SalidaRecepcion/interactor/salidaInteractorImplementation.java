@@ -104,7 +104,7 @@ public class salidaInteractorImplementation  implements salidainteractor {
                     }
                     presenter.hideProgress();
                 } else {
-                    Toast.makeText(context, "Sin tickets asignados.", Toast.LENGTH_SHORT).show();
+                     Toast.makeText(context, "Sin tickets asignados.", Toast.LENGTH_SHORT).show();
                    presenter.hideProgress();
                 }
             } else {

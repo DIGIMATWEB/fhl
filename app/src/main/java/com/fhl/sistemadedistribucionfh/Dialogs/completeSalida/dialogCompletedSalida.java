@@ -20,6 +20,7 @@ import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
+import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
 import java.util.List;
@@ -86,8 +87,11 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
         this.dataticketDetail=data;
         if(iteratedidTicket!=0){
            //
-            Log.e("salidaSentrip","iterador es "+iteratedidTicket+" ");//+dataticketDetail.get(iteratedidTicket).getFolioTicket());
-            initSendFolios();
+            Log.e("failsentrip","iterador es "+iteratedidTicket+" ");//+dataticketDetail.get(iteratedidTicket).getFolioTicket());
+            Log.e("failsentrip","size es "+(dataTickets.size() - 1)+" ");
+         if(iteratedidTicket!=(dataTickets.size() - 1)) {
+                initSendFolios();
+           }
         }else{
             Log.e("salidaSentrip","iterador es 0 "+iteratedidTicket+" ");//+dataticketDetail.get(iteratedidTicket).getFolioTicket());
         }
@@ -99,6 +103,7 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
     }
     private void initSendFolios() {//manda al sentripplus regresa y cae en next
         presenter.sendSentriplus(currentManifest,dataticketDetail,"Entrega");
+        Log.e("failsentrip",dataticketDetail.get(0).getFolioTicket());
     }
     private void changestatus(){
         Log.e("salidaSentrip","else secuence "+secuence);
@@ -118,8 +123,8 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
         }else if(secuence==3) {
             iteratedidTicket = iteratedidTicket + 1;
             if (iteratedidTicket > (dataTickets.size() - 1)) {//si el iterador de tickets es igual el maximo de tickets termina y regresa a los manifiestos
-                Intent intent = new Intent(getActivity().getApplicationContext(), mainContainer.class);
-                startActivity(intent);
+                //Intent intent = new Intent(getContext(), mainContainer.class);
+                //startActivity(intent);
                 // Close the dialog if needed
                 closeDialog();
             } else {
@@ -145,9 +150,9 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
 
     @Override
     public void closeDialog() {
-        Intent intent = new Intent(getContext(), mainContainer.class);
-        startActivity(intent);
-        closeDialog();
+        BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+        barcodeScannerActivity1.onBackPressed();
+        dismiss();
         Log.e("salida", "ir a manifiestos");
     }
 

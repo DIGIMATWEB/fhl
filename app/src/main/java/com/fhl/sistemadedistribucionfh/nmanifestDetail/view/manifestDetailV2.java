@@ -217,6 +217,16 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
     public void setTickets(List<dataTicketsManifestV2> data) {
         this.data = data;
         setAdapter(data);
+        List<dataTicketsManifestV2> fdata= new ArrayList<>();
+        fdata.clear();
+        if(data!=null) {
+            for (dataTicketsManifestV2 mdata : data) {//este metodo se usa para filtrar los tickets que ya se han cerrado
+                if (mdata.getEstatusId() == 2) ;
+                {
+                    fdata.add(mdata);
+                }
+            }
+        }
     }
 
     @Override
