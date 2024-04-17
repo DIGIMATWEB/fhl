@@ -284,6 +284,7 @@ public class interactorSalidaImpl implements interactorSalida{
                 }
             }else{
                 presenter.nextRequest();
+                Log.e("salidaSentrip","err0r null C");
             }
         }else{
             presenter.nextRequest();

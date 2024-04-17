@@ -34,7 +34,7 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
     private presenterSalida presenter;
     private Integer iteratedidTicket,secuence=0;
     private List<dataTicketsDetailsendtrip> dataticketDetail;
-    private boolean isInitSendFoliosCalled = false;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,9 +80,7 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
     public void setDetailTicketsentriplus(List<dataTicketsDetailsendtrip> data) {// 2 ya tiene la data del ticket 0
         this.dataticketDetail = data;
         if (iteratedidTicket != 0) {
-            if (iteratedidTicket < (dataTickets.size() - 1)) {
                 presenter.nextRequest();
-            }
         }
     }
 
@@ -92,20 +90,20 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
     }
     private void initSendFolios() {//manda al sentripplus regresa y cae en next
 
-        Log.e("failsentrip","folio"+dataticketDetail.get(iteratedidTicket).getFolioTicket());
+        Log.e("failsentrip","folio "+dataticketDetail.get(0).getFolioTicket());
         presenter.sendSentriplus(currentManifest,dataticketDetail,"Entrega");
     }
     private void changestatus(){
         Log.e("failsentrip","else secuence "+secuence);
+        Log.e("failsentrip","else secuence "+iteratedidTicket);
         presenter.changeStatusManifestTicket(currentManifest,dataTickets.get(iteratedidTicket).getFolioTicket(),"Entrega");
     }
     @Override
     public void nextRequest() {// este metodo se usa en
 
         secuence = secuence + 1;
-        if (secuence == 1 && !isInitSendFoliosCalled) {
+        if (secuence == 1 ) {
             initSendFolios();
-            isInitSendFoliosCalled = true;
         } else if (secuence == 2) {
             changestatus();
         } else if (secuence == 3) {
