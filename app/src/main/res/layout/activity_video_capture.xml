@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/sawLast"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:visibility="gone"
+            android:background="@drawable/ic_warning_validador"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/eraseFolder"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:visibility="gone"
+            android:background="@drawable/ic_trash_ico"
+            app:layout_constraintEnd_toStartOf="@+id/sawLast"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/backImage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            app:srcCompat="@drawable/ic_arrowback" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="Foto"
+            android:textColor="@color/black"
+            android:textSize="@dimen/h2"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/imageButton1"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/guidelinef1"
+            app:layout_constraintTop_toTopOf="@+id/guidelinef1h"
+            android:src="@drawable/ic_cameraportraitico"/>
+
+        <!-- More ImageButtons and TextViews for capturing different types of images -->
+
+        <!-- Button for video recording -->
+        <ImageButton
+            android:id="@+id/recordButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/ic_menu_camera"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- Guidelines for positioning -->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelinef1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.33" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelinef1h"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.2" />
+        <!-- Define other guidelines as needed -->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

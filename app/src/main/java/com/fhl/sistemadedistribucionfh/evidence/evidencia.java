@@ -30,6 +30,7 @@ import com.fhl.sistemadedistribucionfh.evidence.presenter.requestEvidencePresent
 import com.fhl.sistemadedistribucionfh.evidence.presenter.requestEvidencePresenterImpl;
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.calificacion;
 import com.fhl.sistemadedistribucionfh.evidence.signature.signature;
+import com.fhl.sistemadedistribucionfh.evidence.videos.videoRecord;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
@@ -41,7 +42,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     private FragmentManager manager;
     private FragmentTransaction transaction;
 
-    private ConstraintLayout firma,foto,archivos,rating;
+    private ConstraintLayout firma,foto,archivos,rating,video;
     private Float frating;
     private String signatureBase64,inputTextSignature,currusel,ffiles,stars="";
     private ImageView star,signatureImage,cameraico,clipDocs;
@@ -175,6 +176,8 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         star=findViewById(R.id.imageMenu3);
         clipDocs=findViewById(R.id.clipDocs);
         eraseShared=findViewById(R.id.eraseShared);
+        video= findViewById(R.id.video);
+        video.setOnClickListener(this);
         eraseShared.setOnClickListener(this);
         firma.setOnClickListener(this);
         foto.setOnClickListener(this);
@@ -247,6 +250,10 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 Intent rating = new Intent(this, calificacion.class);
                 startActivity(rating);
                 Log.e("evidence","rating ");
+                break;
+            case R.id.video:
+                Intent video = new Intent(this, videoRecord.class);
+                startActivity(video);
                 break;
             case R.id.eraseShared:
                 removeShared();
