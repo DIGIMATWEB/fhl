@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
@@ -11,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -18,8 +20,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -29,6 +33,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.Cancelar.adapter.adapterNoCompletado;
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.evidence.videos.adaoter.OnItemClickListener;
 import com.fhl.sistemadedistribucionfh.evidence.videos.adaoter.adapterVideoRecord;
 
 import java.io.File;
@@ -38,7 +43,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class videoRecord  extends AppCompatActivity implements View.OnClickListener{
+public class videoRecord  extends AppCompatActivity implements View.OnClickListener, OnItemClickListener {
 
     private static final String TAG = "videoRecord";
     private static final int REQUEST_CODE_PERMISSIONS = 101;
@@ -98,6 +103,7 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
             // Video recorded successfully
             // Handle the recorded video using the videoUri
             Toast.makeText(this, "Video recorded: " + videoUri.toString(), Toast.LENGTH_SHORT).show();
+            adapter.addVideoUri(videoUri);
         }
     }
     private void startRecording() {
@@ -130,6 +136,24 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
     }
     //endregion
     @Override
+    public void onItemClick(Uri videoUri) {
+        // Show a dialog to play the video
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_video_play, null);
+        VideoView videoView = dialogView.findViewById(R.id.videoView);
+        videoView.setVideoURI(videoUri);
+        videoView.start();
+        builder.setView(dialogView);
+        builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+    @Override
     public void onClick(View v) {
         if (!isRecording) {
             startRecording();
@@ -138,7 +162,7 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
         }
     }
     private void fillAdapter( ) {
-        adapter=new adapterVideoRecord(getApplicationContext());
+        adapter=new adapterVideoRecord(getApplicationContext(),this);
         LinearLayoutManager linearLayoutManager = new GridLayoutManager(getApplicationContext(),3);
         rv.setLayoutManager(linearLayoutManager);
         rv.setAdapter(adapter);
