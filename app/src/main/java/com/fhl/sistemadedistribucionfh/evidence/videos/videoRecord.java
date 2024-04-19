@@ -1,23 +1,16 @@
 package com.fhl.sistemadedistribucionfh.evidence.videos;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Surface;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -31,7 +24,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.fhl.sistemadedistribucionfh.Cancelar.adapter.adapterNoCompletado;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.evidence.videos.adaoter.OnItemClickListener;
 import com.fhl.sistemadedistribucionfh.evidence.videos.adaoter.adapterVideoRecord;
@@ -40,7 +32,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class videoRecord  extends AppCompatActivity implements View.OnClickListener, OnItemClickListener {
@@ -106,6 +97,7 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
             // Video recorded successfully
             // Handle the recorded video using the videoUri
             Toast.makeText(this, "Video recorded: " + videoUri.toString(), Toast.LENGTH_SHORT).show();
+            Log.e("video",""+videoUri.toString());
             adapter.addVideoUri(videoUri);
         }
     }
@@ -139,7 +131,7 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
     }
     //endregion
     @Override
-    public void onItemClick(Uri videoUri) {
+    public void onItemClick(Uri videoUri, int position) {
         // Show a dialog to play the video
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -148,8 +140,15 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
         videoView.setVideoURI(videoUri);
         videoView.start();
         builder.setView(dialogView);
-        builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Eliminar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                positionErase=position;
+                adapter.removeItem(positionErase);
                 dialog.dismiss();
             }
         });
@@ -157,10 +156,7 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
         dialog.show();
     }
 
-    @Override
-    public void onLongclick(Integer pos) {
-        this.positionErase=pos;
-    }
+
 
     @Override
     public void onClick(View v) {

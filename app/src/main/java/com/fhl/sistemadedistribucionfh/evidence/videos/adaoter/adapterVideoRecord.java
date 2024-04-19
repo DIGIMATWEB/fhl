@@ -44,6 +44,7 @@ public class adapterVideoRecord extends RecyclerView.Adapter<adapterVideoRecord.
     }
     @Override
     public void onBindViewHolder(@NonNull final adapterVideoRecord.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+       // holder.overlay.setVisibility(View.GONE);
         if(!videoUriList.isEmpty()){
             Uri videoUri = videoUriList.get(position);
             Glide.with(context)
@@ -54,25 +55,16 @@ public class adapterVideoRecord extends RecyclerView.Adapter<adapterVideoRecord.
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
-                        listener.onItemClick(videoUri);
+//                        if(holder.overlay.getVisibility()==View.GONE){
+//                            holder.overlay.setVisibility(View.VISIBLE);
+//                        }else{
+//                            holder.overlay.setVisibility(View.GONE);
+//                        }
+                        listener.onItemClick(videoUri,position);
                     }
                 }
             });
-            holder.evidence.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    if (listener != null) {
-                        if(holder.overlay.getVisibility()==View.GONE){
-                            holder.overlay.setVisibility(View.VISIBLE);
-                        }else{
-                            holder.overlay.setVisibility(View.GONE);
-                        }
 
-                        listener.onLongclick(position);
-                    }
-                    return false;
-                }
-            });
         }
 
     }
@@ -88,7 +80,7 @@ public class adapterVideoRecord extends RecyclerView.Adapter<adapterVideoRecord.
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             evidence=itemView.findViewById(R.id.evidenceVideo);
-            overlay=itemView.findViewById(R.id. overlay);
+          //  overlay=itemView.findViewById(R.id. overlay);
         }
     }
 }
