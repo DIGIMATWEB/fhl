@@ -21,13 +21,13 @@
 
     <ImageView
         android:id="@+id/overlay"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/ic_cameraportraitico"
         android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/evidenceVideo"
+        app:layout_constraintStart_toStartOf="@+id/evidenceVideo"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@color/teal_700"/>
+        app:srcCompat="@drawable/ic_cameraico" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

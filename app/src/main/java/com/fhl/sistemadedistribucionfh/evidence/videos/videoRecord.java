@@ -50,11 +50,12 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
     private static final String[] REQUIRED_PERMISSIONS = {Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO};
     private static final int REQUEST_CODE_VIDEO_CAPTURE = 102;
 
-    private ImageButton recordButton;
+    private ImageButton recordButton,eraseFolder;
     private boolean isRecording = false;
     private Uri videoUri;
     private RecyclerView rv;
     private adapterVideoRecord adapter;
+    private Integer positionErase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,8 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
         rv=findViewById(R.id.rvVideos);
         recordButton = findViewById(R.id.recordButton);
         recordButton.setOnClickListener(this);
+        eraseFolder = findViewById(R.id.eraseFolder);
+        eraseFolder.setOnClickListener(this);
         fillAdapter();
     }
 
@@ -153,12 +156,28 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
+    @Override
+    public void onLongclick(Integer pos) {
+        this.positionErase=pos;
+    }
+
     @Override
     public void onClick(View v) {
-        if (!isRecording) {
-            startRecording();
-        } else {
-            stopRecording();
+        switch (v.getId()) {
+            case R.id.recordButton:
+                if (!isRecording) {
+                    startRecording();
+                } else {
+                    stopRecording();
+                }
+                break;
+            case R.id.eraseFolder:
+                if(positionErase!=null){
+                    Log.e("video","video to remove by position " +positionErase);
+                    adapter.removeItem(positionErase);
+                }
+                break;
         }
     }
     private void fillAdapter( ) {

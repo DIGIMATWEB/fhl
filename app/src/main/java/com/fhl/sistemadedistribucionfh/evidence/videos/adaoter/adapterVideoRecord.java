@@ -30,6 +30,12 @@ public class adapterVideoRecord extends RecyclerView.Adapter<adapterVideoRecord.
         videoUriList.add(videoUri);
         notifyDataSetChanged(); // Notify adapter that data set has changed
     }
+    public void removeItem(int position) {
+        if (position >= 0 && position < videoUriList.size()) {
+            videoUriList.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -52,6 +58,21 @@ public class adapterVideoRecord extends RecyclerView.Adapter<adapterVideoRecord.
                     }
                 }
             });
+            holder.evidence.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (listener != null) {
+                        if(holder.overlay.getVisibility()==View.GONE){
+                            holder.overlay.setVisibility(View.VISIBLE);
+                        }else{
+                            holder.overlay.setVisibility(View.GONE);
+                        }
+
+                        listener.onLongclick(position);
+                    }
+                    return false;
+                }
+            });
         }
 
     }
@@ -59,11 +80,15 @@ public class adapterVideoRecord extends RecyclerView.Adapter<adapterVideoRecord.
     public int getItemCount() {
         return videoUriList.size();
     }
+
+
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView evidence;
+        ImageView evidence,overlay;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             evidence=itemView.findViewById(R.id.evidenceVideo);
+            overlay=itemView.findViewById(R.id. overlay);
         }
     }
 }
