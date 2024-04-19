@@ -3,6 +3,7 @@ package com.fhl.sistemadedistribucionfh.evidence.videos;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
@@ -22,13 +23,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.fhl.sistemadedistribucionfh.Cancelar.adapter.adapterNoCompletado;
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.evidence.videos.adaoter.adapterVideoRecord;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class videoRecord  extends AppCompatActivity implements View.OnClickListener{
@@ -41,29 +48,27 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
     private ImageButton recordButton;
     private boolean isRecording = false;
     private Uri videoUri;
+    private RecyclerView rv;
+    private adapterVideoRecord adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_capture);
-
-        recordButton = findViewById(R.id.recordButton);
-        recordButton.setOnClickListener(this);
-
+        initView();
         if (!allPermissionsGranted()) {
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
         }
     }
 
-    private boolean allPermissionsGranted() {
-        for (String permission : REQUIRED_PERMISSIONS) {
-            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-                return false;
-            }
-        }
-        return true;
+    private void initView() {
+        rv=findViewById(R.id.rvVideos);
+        recordButton = findViewById(R.id.recordButton);
+        recordButton.setOnClickListener(this);
+        fillAdapter();
     }
 
+    //region camera permissions
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -76,16 +81,25 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
-
+    private boolean allPermissionsGranted() {
+        for (String permission : REQUIRED_PERMISSIONS) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
+    }
+    //endregion
+    //region activity result video record
     @Override
-    public void onClick(View v) {
-        if (!isRecording) {
-            startRecording();
-        } else {
-            stopRecording();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_VIDEO_CAPTURE && resultCode == RESULT_OK) {
+            // Video recorded successfully
+            // Handle the recorded video using the videoUri
+            Toast.makeText(this, "Video recorded: " + videoUri.toString(), Toast.LENGTH_SHORT).show();
         }
     }
-
     private void startRecording() {
         Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
@@ -103,27 +117,30 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, "No app can handle video recording", Toast.LENGTH_SHORT).show();
         }
     }
-
     private File createVideoFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String videoFileName = "VIDEO_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(null);
         return File.createTempFile(videoFileName, ".mp4", storageDir);
     }
-
     private void stopRecording() {
         isRecording = false;
         recordButton.setImageResource(R.drawable.ic_menu_camera); // Change button icon to record
         // Implement any additional logic needed when stopping recording
     }
-
+    //endregion
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_VIDEO_CAPTURE && resultCode == RESULT_OK) {
-            // Video recorded successfully
-            // Handle the recorded video using the videoUri
-            Toast.makeText(this, "Video recorded: " + videoUri.toString(), Toast.LENGTH_SHORT).show();
+    public void onClick(View v) {
+        if (!isRecording) {
+            startRecording();
+        } else {
+            stopRecording();
         }
+    }
+    private void fillAdapter( ) {
+        adapter=new adapterVideoRecord(getApplicationContext());
+        LinearLayoutManager linearLayoutManager = new GridLayoutManager(getApplicationContext(),3);
+        rv.setLayoutManager(linearLayoutManager);
+        rv.setAdapter(adapter);
     }
 }
