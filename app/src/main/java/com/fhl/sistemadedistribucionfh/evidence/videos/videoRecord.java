@@ -97,7 +97,7 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
             // Video recorded successfully
             // Handle the recorded video using the videoUri
             Toast.makeText(this, "Video recorded: " + videoUri.toString(), Toast.LENGTH_SHORT).show();
-            Log.e("video",""+videoUri.toString());
+            Log.e("FHvideoR",""+videoUri.toString());
             adapter.addVideoUri(videoUri);
         }
     }
@@ -118,12 +118,12 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, "No app can handle video recording", Toast.LENGTH_SHORT).show();
         }
     }
-    private File createVideoFile() throws IOException {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-        String videoFileName = "VIDEO_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(null);
-        return File.createTempFile(videoFileName, ".mp4", storageDir);
-    }
+//    private File createVideoFile() throws IOException {
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+//        String videoFileName = "VIDEO_" + timeStamp + "_";
+//        File storageDir = getExternalFilesDir(null);
+//        return File.createTempFile(videoFileName, ".mp4", storageDir);
+//    }
     private void stopRecording() {
         isRecording = false;
         recordButton.setImageResource(R.drawable.ic_menu_camera); // Change button icon to record
@@ -170,7 +170,7 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.eraseFolder:
                 if(positionErase!=null){
-                    Log.e("video","video to remove by position " +positionErase);
+                    Log.e("FHvideoR","video to remove by position " +positionErase);
                     adapter.removeItem(positionErase);
                 }
                 break;
