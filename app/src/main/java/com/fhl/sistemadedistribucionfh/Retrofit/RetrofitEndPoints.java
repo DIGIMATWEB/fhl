@@ -2,9 +2,9 @@ package com.fhl.sistemadedistribucionfh.Retrofit;
 
 public class RetrofitEndPoints {
 
-    public static final String URL_FH = "https://sistemasservice.trafficmanager.net/";
-    public static final String URL_PRODMANFEST ="http://192.168.1.208:7420/App/Manifiesto/";//"https://operacionsgdservice.trafficmanager.net/App/Manifiesto/";//  //http://192.168.1.227:7420/
-    public static final String URL_PRODVEHICLES ="http://192.168.1.208:7420/App/Vehiculo/";//"https://operacionsgdservice.trafficmanager.net/App/Vehiculo/";// //http://192.168.1.227:7420/
+    public static final String URL_FH ="https://64vdvmnq-7220.usw3.devtunnels.ms/"; //"https://sistemasservice.trafficmanager.net/";
+    public static final String URL_PRODMANFEST ="https://w5r7bljm-6220.usw3.devtunnels.ms/";//"http://192.168.1.208:7420/App/Manifiesto/";//jose//"https://operacionsgdservice.trafficmanager.net/App/Manifiesto/";//  //http://192.168.1.227:7420/
+    public static final String URL_PRODVEHICLES ="https://w5r7bljm-6220.usw3.devtunnels.ms/";//"http://192.168.1.208:7420/App/Vehiculo/";//jose//"https://operacionsgdservice.trafficmanager.net/App/Vehiculo/";// //http://192.168.1.227:7420/
     //ENDPOINTS FH
     public static final String URL_FHL_SGD="https://administracionsgdservice.trafficmanager.net/";
     public static final String URL_AVOCADO="http://35.194.83.10/WS-phoenixApiPROD/";
