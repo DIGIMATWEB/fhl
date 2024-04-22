@@ -6,11 +6,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
-import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientNewlands;
-import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
-import com.fhl.sistemadedistribucionfh.mainContainer.model.dataMenuItems;
-import com.fhl.sistemadedistribucionfh.mainContainer.model.requestMenuItems;
-import com.fhl.sistemadedistribucionfh.mainContainer.model.responseMenuItems;
 import com.fhl.sistemadedistribucionfh.mainContainer.presenter.prensentermainContainerImpl;
 import com.fhl.sistemadedistribucionfh.mainContainer.util.mainService;
 import com.google.gson.Gson;
@@ -30,8 +25,8 @@ public class interactormainContainerImpl implements interactormainContainer{
     public interactormainContainerImpl(prensentermainContainerImpl presenter, Context context) {
          this.context=context;
          this.presenter=presenter;
-                retrofitClient = RetrofitClientNewlands.getRetrofitInstance();
-                service=retrofitClient.create(mainService.class);
+//                retrofitClient = RetrofitClientNewlands.getRetrofitInstance();
+//                service=retrofitClient.create(mainService.class);
     }
 
     @Override

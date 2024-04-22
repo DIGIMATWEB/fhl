@@ -7,7 +7,6 @@ import android.widget.Toast;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClient;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientFHManifest;
-import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientNewlands;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
 import com.fhl.sistemadedistribucionfh.gastos.model.dataGastos;
 import com.fhl.sistemadedistribucionfh.gastos.model.gastosV2.ResponseGastosv2;

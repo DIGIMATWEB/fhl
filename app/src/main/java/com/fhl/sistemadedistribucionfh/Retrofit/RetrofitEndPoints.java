@@ -22,7 +22,7 @@ public class RetrofitEndPoints {
     public static final String SETVALIDACION = "SetValidacionManifiesto" ;
 
 //region endpoints entorno de pruebas
-    public static final String URL_NEWLANDS ="http://digimat-interactive.com/fhl/";
+
     public static final String URL_MAP_API = "http://newlandapps.com/";
     public static final String REASONS_SGD = "Despachos/CausaCambio/GetAll";
     public static final String LOCATION = "Vehiculos/Vehiculo/GetVehiculoAppMovil";
@@ -31,6 +31,7 @@ public class RetrofitEndPoints {
     public static final String DETAIL_TICKET_SENDTRIPLUS = "GetTicketsByManifiesto";
     public static final String MANIFIESTO_SET_ESTATUS = "SetEstatusByManifiestoOrTicket";
 
+// public static final String URL_NEWLANDS ="http://digimat-interactive.com/fhl/";
 //    public static final String MENUS = "menu.php";
 //    public static final String SALIDA = "salidaqr.php";
 //    public static final String MANIFEST = "manifest.php";
@@ -40,6 +41,5 @@ public class RetrofitEndPoints {
 //    public static final String TICKETS = "tickets.php";
 //    public static final String VALIDADOR = "validador.php";
 //    public static final String REASONS = "reasons.php";
-    //endregion
-
+//endregion
 }

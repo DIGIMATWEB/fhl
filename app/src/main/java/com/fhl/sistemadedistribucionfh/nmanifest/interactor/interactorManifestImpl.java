@@ -1,8 +1,6 @@
 package com.fhl.sistemadedistribucionfh.nmanifest.interactor;
 
 import android.content.Context;
-
-import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientNewlands;
 import com.fhl.sistemadedistribucionfh.nmanifest.presenter.presentermanifest;
 import com.fhl.sistemadedistribucionfh.nmanifest.util.manifestUtil;
 
@@ -17,8 +15,8 @@ public class interactorManifestImpl  implements  interactorManifest{
     public interactorManifestImpl(presentermanifest presenter, Context context) {
         this.context=context;
         this.presenter=presenter;
-        retrofitClient = RetrofitClientNewlands.getRetrofitInstance();
-        service=retrofitClient.create(manifestUtil.class);
+//        retrofitClient = RetrofitClientNewlands.getRetrofitInstance();
+//        service=retrofitClient.create(manifestUtil.class);
     }
 /*
     public void getAllmanifest() {
