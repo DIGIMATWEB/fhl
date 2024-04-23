@@ -10,6 +10,7 @@ import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientFHManifest;
 import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.ResoponseTicketsDetail;
 import com.fhl.sistemadedistribucionfh.Tickets.presenter.presenterTicketsDetail;
 import com.fhl.sistemadedistribucionfh.Tickets.util.ticketsService;
+import com.google.gson.Gson;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,6 +35,7 @@ public class ticketsInteractirImpl implements ticketsInteractor{
         String token = preferences.getString(GeneralConstants.TOKEN, null);
         if(token!=null){
             requestDetailTicket(token,folioDespachoId,folioTicket);
+            Log.e("requestDetailTicket",""+folioDespachoId+" " +folioTicket);
         }
 
     }
@@ -44,7 +46,10 @@ public class ticketsInteractirImpl implements ticketsInteractor{
             @Override
             public void onResponse(Call<ResoponseTicketsDetail> call, Response<ResoponseTicketsDetail> response) {
                 if(response.code()==200) {
-                  Log.e("requestDetailTicket",""+response.body());
+
+                    Gson gson=new Gson();
+                    String jsonstring= gson.toJson(response.body());
+                    Log.e("requestDetailTicket",""+jsonstring);
                   presenter.setTikets(response.body().getData());
                 }else {
                     Log.e("requestDetailTicket",""+response.code()+" "+response.message());

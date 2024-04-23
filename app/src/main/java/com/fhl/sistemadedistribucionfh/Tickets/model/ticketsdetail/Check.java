@@ -1,10 +1,15 @@
 
 package com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail;
+import com.fhl.sistemadedistribucionfh.checkList.model.v2.Pregunta;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Check {
+import java.util.List;
 
+public class Check {
+    @SerializedName("Preguntas")
+    @Expose
+    private List<Pregunta> preguntas;
     @SerializedName("Llave")
     @Expose
     private Integer llave;
@@ -12,22 +17,19 @@ public class Check {
     @Expose
     private String valor;
 
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public Check() {
-    }
-
-    /**
-     * 
-     * @param llave
-     * @param valor
-     */
-    public Check(Integer llave, String valor) {
+    public Check(List<Pregunta> preguntas, Integer llave, String valor) {
         super();
+        this.preguntas = preguntas;
         this.llave = llave;
         this.valor = valor;
+    }
+
+    public List<Pregunta> getPreguntas() {
+        return preguntas;
+    }
+
+    public void setPreguntas(List<Pregunta> preguntas) {
+        this.preguntas = preguntas;
     }
 
     public Integer getLlave() {
@@ -45,5 +47,4 @@ public class Check {
     public void setValor(String valor) {
         this.valor = valor;
     }
-
 }
