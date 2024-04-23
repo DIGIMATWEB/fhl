@@ -7,11 +7,9 @@ import android.widget.Toast;
 import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.model.requestReasons;
 import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.model.responseReasons;
 import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.presenter.dialogReasonsPresenter;
-import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.presenter.dialogReasonsPresenterImpl;
 import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.util.serviceDialogReasons;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrifitClientSGD;
-import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientNewlands;
 
 import retrofit2.Call;
 import retrofit2.Callback;

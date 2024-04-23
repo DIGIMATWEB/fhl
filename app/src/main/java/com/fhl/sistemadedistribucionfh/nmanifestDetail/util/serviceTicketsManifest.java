@@ -21,6 +21,7 @@ public interface serviceTicketsManifest {
              /*@Header("Authorization") String authorizationHeader,
              @Query("folioDespacho") String folioDespacho*/
              @Query("folioDespacho") String folioDespacho,
+             @Query("gastosOperativos") Boolean gastosoperativos,
              @Header("Authorization") String authorizationHeader
      );
 

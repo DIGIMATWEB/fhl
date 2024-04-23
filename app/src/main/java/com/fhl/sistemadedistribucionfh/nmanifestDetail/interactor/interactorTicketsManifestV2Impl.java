@@ -13,6 +13,7 @@ import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManife
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.responseTicketsManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.presenter.presenterTicketsmanifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.util.serviceTicketsManifest;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -47,7 +48,10 @@ public class interactorTicketsManifestV2Impl implements interactorTicketsManifes
         Log.e("TOKEN",""+token);
 
         //requestTicketsManifestV2 request = new requestTicketsManifestV2(ticket);
-        Call<responseTicketsManifestV2> call = service.getTicketsV2(ticket,  token);
+        Call<responseTicketsManifestV2> call = service.getTicketsV2(ticket, false, token);
+        Gson gson =new Gson();
+        String json = gson.toJson(call.request());
+        Log.e("getticketsdetail",""+json);
         presenter.showDialog();
         call.enqueue(new Callback<responseTicketsManifestV2>() {
             @Override

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
-import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientNewlands;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
 import com.fhl.sistemadedistribucionfh.resguardo.model.dataResguardo;
 import com.fhl.sistemadedistribucionfh.resguardo.model.requestResguardo;
@@ -27,8 +26,8 @@ public class resgiuardoInteractorImpl implements  resguardoInteractor{
     public resgiuardoInteractorImpl(presenterResguardo presenter, Context context){
         this.presenter=presenter;
         this.context=context;
-        retrofitClient = RetrofitClientNewlands.getRetrofitInstance();
-                service=retrofitClient.create(serviceResguardo.class);
+//        retrofitClient = RetrofitClientNewlands.getRetrofitInstance();
+//                service=retrofitClient.create(serviceResguardo.class);
     }
     @Override
     public void requestResguardo() {

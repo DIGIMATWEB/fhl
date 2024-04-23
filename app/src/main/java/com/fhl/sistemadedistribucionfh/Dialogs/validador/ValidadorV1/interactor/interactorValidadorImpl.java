@@ -9,7 +9,6 @@ import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV1.model.respo
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV1.util.utilValidador;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV1.presenter.presenterValidador;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
-import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientNewlands;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
 
 import java.util.List;
@@ -27,8 +26,8 @@ public class interactorValidadorImpl implements  interactorValidador{
     public interactorValidadorImpl(presenterValidador presenter, Context context) {
         this.presenter=presenter;
         this.context=context;
-        retrofitClient = RetrofitClientNewlands.getRetrofitInstance();
-        service=retrofitClient.create(utilValidador.class);
+//        retrofitClient = RetrofitClientNewlands.getRetrofitInstance();
+//        service=retrofitClient.create(utilValidador.class);
     }
 
     @Override
