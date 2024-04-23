@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -102,6 +103,7 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
         }
     }
     private void startRecording() {
+      //  createVideoDirectory();
         Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
             ContentValues values = new ContentValues();
@@ -118,12 +120,21 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, "No app can handle video recording", Toast.LENGTH_SHORT).show();
         }
     }
-//    private File createVideoFile() throws IOException {
-//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-//        String videoFileName = "VIDEO_" + timeStamp + "_";
-//        File storageDir = getExternalFilesDir(null);
-//        return File.createTempFile(videoFileName, ".mp4", storageDir);
-//    }
+    private void createVideoDirectory() {//todo crea el directorio en pictures pero no es correcto hacer esto ya que el media store es generico para android
+        File picturesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File videosDir = new File(picturesDir, "FHLVideos");
+
+        // Check if the directory doesn't exist, then create it
+        if (!videosDir.exists()) {
+            if (videosDir.mkdirs()) {
+                Log.d(TAG, "Directory created successfully");
+            } else {
+                Log.e(TAG, "Failed to create directory");
+            }
+        } else {
+            Log.d(TAG, "Directory already exists");
+        }
+    }
     private void stopRecording() {
         isRecording = false;
         recordButton.setImageResource(R.drawable.ic_menu_camera); // Change button icon to record
@@ -148,6 +159,7 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
         builder.setNegativeButton("Eliminar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 positionErase=position;
+                adapter.removeFile(videoUri);
                 adapter.removeItem(positionErase);
                 dialog.dismiss();
             }
@@ -156,6 +168,22 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
         dialog.show();
     }
 
+    @Override
+    public void removeformmedia(Uri uri) {
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).toURI().toString()+uri);
+
+        // Check if the file exists
+        if (file.exists()) {
+            // Attempt to delete the file
+            if (file.delete()) {
+                Log.e("FHvideoR", "File removed successfully: " + String.valueOf(file));
+            } else {
+                Log.e("FHvideoR", "Failed to remove file: " + String.valueOf(file));
+            }
+        } else {
+            Log.e("FHvideoR", "File does not exist: " + String.valueOf(file));
+        }
+    }
 
 
     @Override

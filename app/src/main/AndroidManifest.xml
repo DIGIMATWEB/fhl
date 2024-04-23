@@ -49,11 +49,7 @@
             android:name="com.fhl.sistemadedistribucionfh.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name="com.fhl.sistemadedistribucionfh.HelpPermissions.HelpPermissionsViewImpl"
             android:screenOrientation="portrait" >
@@ -64,7 +60,13 @@
         </activity>
         <activity
             android:name=".evidence.videos.videoRecord"
+            android:exported="true"
             android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.fhl.sistemadedistribucionfh.mainContainer.mainContainer"

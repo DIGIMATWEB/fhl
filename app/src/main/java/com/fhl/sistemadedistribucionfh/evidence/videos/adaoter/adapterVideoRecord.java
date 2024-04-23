@@ -33,8 +33,12 @@ public class adapterVideoRecord extends RecyclerView.Adapter<adapterVideoRecord.
     public void removeItem(int position) {
         if (position >= 0 && position < videoUriList.size()) {
             videoUriList.remove(position);
+
             notifyItemRemoved(position);
         }
+    }
+    public void removeFile(Uri videoUri) {
+        listener.removeformmedia(videoUri);
     }
     @NonNull
     @Override
@@ -72,6 +76,7 @@ public class adapterVideoRecord extends RecyclerView.Adapter<adapterVideoRecord.
     public int getItemCount() {
         return videoUriList.size();
     }
+
 
 
 
