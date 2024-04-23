@@ -7,5 +7,5 @@ import java.util.List;
 public interface presenterTicketsDetail {
     void requestDetailTickets(String folioDespachoId, String folioTicket);
 
-    void setTikets(List<dataDetailTickets> data);
+    void setTikets(List<dataDetailTickets> data, String jsonstring);
 }

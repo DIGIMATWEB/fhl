@@ -50,7 +50,7 @@ public class ticketsInteractirImpl implements ticketsInteractor{
                     Gson gson=new Gson();
                     String jsonstring= gson.toJson(response.body());
                     Log.e("requestDetailTicket",""+jsonstring);
-                  presenter.setTikets(response.body().getData());
+                  presenter.setTikets(response.body().getData(),jsonstring);
                 }else {
                     Log.e("requestDetailTicket",""+response.code()+" "+response.message());
                 }

@@ -23,6 +23,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.fhl.sistemadedistribucionfh.Dialogs.Loader.view.loaderFH;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
+import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.ResoponseTicketsDetail;
+import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.dataDetailTickets;
 import com.fhl.sistemadedistribucionfh.evidence.documents.documents;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
 import com.fhl.sistemadedistribucionfh.evidence.photos.carrusel;
@@ -33,8 +35,11 @@ import com.fhl.sistemadedistribucionfh.evidence.signature.signature;
 import com.fhl.sistemadedistribucionfh.evidence.videos.videoRecord;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
+import java.lang.reflect.Type;
 import java.util.List;
 
 public class evidencia extends AppCompatActivity implements View.OnClickListener,evidenceView {
@@ -60,6 +65,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     private Boolean isArrayofTickets=false;
     private loaderFH progress;
     private List<dataTicketsDetailsendtrip> dataTicketSendtrip;
+    private String detailTicket;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +82,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             currentManifest = bundle.getString("currentManifest");
             sentripPlusFlow= bundle.getString("sentripPlusFlow");
             folioTicket= bundle.getString("folioTicket");
+            detailTicket=bundle.getString("detailString");//esto es el detalle de tickets para el flujo cerrar viaje(Entregado)
             data= (List<dataTicketsManifestV2>) bundle.getSerializable("dataTcikets");
 
             // Now intValue contains the value passed from the previous activity
@@ -86,6 +93,22 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 Log.e("EvidenciaActivity","folio "+folioTicket+" data "+data.size());
             }else{
               Log.e("EvidenciaActivity","folio "+folioTicket+" data : null");
+            }
+            if(detailTicket!=null){
+                Gson gson=new Gson();
+                String jsonstring= gson.toJson(detailTicket);
+            //    Type listType = new TypeToken<List<dataDetailTickets>>(){}.getType();
+                ResoponseTicketsDetail jsonObje= gson.fromJson(detailTicket,ResoponseTicketsDetail.class);
+                Log.e("EvidenciaActivity",jsonstring);
+                if(jsonObje.getData().get(0).getEvidenciaLlegada()!=null) {//esto en caso de no haber evidencias de llegada
+                    Log.e("EvidenciaActivity", "" + jsonObje.getData().get(0).getEvidenciaLlegada().size());
+                }
+                if(jsonObje.getData().get(0).getEvidenciaSalida()!=null){//esto en caso de no haber evidencias de salida
+                    Log.e("EvidenciaActivity",""+jsonObje.getData().get(0).getEvidenciaSalida().size());
+                }
+                if(jsonObje.getData().get(0).getCheckList()!=null) {//esto en caso de no haber checklist
+                    Log.e("EvidenciaActivity", "" + jsonObje.getData().get(0).getCheckList().size());
+                }
             }
 
         }

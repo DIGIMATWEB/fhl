@@ -7,5 +7,5 @@ import java.util.List;
 public interface ticketsView {
     void getTicketsDetail();
 
-    void setTiketsDetail(List<dataDetailTickets> data);
+    void setTiketsDetail(List<dataDetailTickets> data, String jsonstring);
 }

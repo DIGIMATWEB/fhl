@@ -30,9 +30,9 @@ public class presenterTicketsDetailImpl implements presenterTicketsDetail{
     }
 
     @Override
-    public void setTikets(List<dataDetailTickets> data) {
+    public void setTikets(List<dataDetailTickets> data, String jsonstring) {
         if(view!=null){
-            view.setTiketsDetail(data);
+            view.setTiketsDetail(data,jsonstring);
 
         }
     }

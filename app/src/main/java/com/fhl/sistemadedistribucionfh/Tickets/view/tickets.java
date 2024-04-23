@@ -39,6 +39,7 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
     private String folioDespachoId,folioTicket,statusManifest="";
     private TextView txtManifiesto;
     private Integer statusTicket=0;
+    private String detailTicket="";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -121,6 +122,7 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
         bundle.putString("currentManifest",folioDespachoId);
         bundle.putString("sentripPlusFlow","Entrega");
         bundle.putString("folioTicket",folioTicket);
+        bundle.putString("detailString",detailTicket);
         intent2.putExtras(bundle); // Attaching the bundle to the intent
         startActivity(intent2);
     }
@@ -141,7 +143,8 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
     }
 
     @Override
-    public void setTiketsDetail(List<dataDetailTickets> data) {
+    public void setTiketsDetail(List<dataDetailTickets> data, String jsonstring) {
+        this.detailTicket=jsonstring;
         setAdapter(data);
     }
     private void menutransition() {
