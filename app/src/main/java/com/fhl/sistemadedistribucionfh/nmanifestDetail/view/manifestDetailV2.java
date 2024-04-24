@@ -154,15 +154,20 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
                             fdata.add(mdata);
                         }
                     }
+                    if(fdata.size()!=0) {
 
-                    Bundle bundle = new Bundle();
-                    bundle.putString("scannerType", "Recolectar");
-                    bundle.putString("manifest", folioDespachoId);
-                    bundle.putSerializable("tickets", (Serializable) fdata);
-                    bundle.putSerializable("sellos", (Serializable) dataSellos);
-                    Intent intent = new Intent(getActivity(), BarcodeScannerActivity.class);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
+
+                        Bundle bundle = new Bundle();
+                        bundle.putString("scannerType", "Recolectar");
+                        bundle.putString("manifest", folioDespachoId);
+                        bundle.putSerializable("tickets", (Serializable) fdata);
+                        bundle.putSerializable("sellos", (Serializable) dataSellos);
+                        Intent intent = new Intent(getActivity(), BarcodeScannerActivity.class);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }else{
+
+                    }
                 }else{
                     Toast.makeText(getContext(), "No tienes tickets para recolectar", Toast.LENGTH_SHORT).show();
                 }
@@ -228,11 +233,22 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
                 if(mdata.getTipoEntregaId()==2){//este id es para el modulo de salida y para mostrarce dee estar en ruta y el estatus 2
                     recoletar.setVisibility(View.GONE);
                 }else if(mdata.getTipoEntregaId()==1){
-                    recoletar.setVisibility(View.VISIBLE);
+                    if(fdata.size()!=0){
+                        if(mdata.getEstatusId()<3) {
+                            recoletar.setVisibility(View.VISIBLE);
+                        }else{
+                            recoletar.setVisibility(View.GONE);
+                        }
+                    }else {
+                        recoletar.setVisibility(View.GONE);
+                    }
+
                 }else{
                     recoletar.setVisibility(View.GONE);
                 }
             }
+
+
         }
     }
 
