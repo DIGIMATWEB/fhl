@@ -54,7 +54,7 @@ public class signature extends AppCompatActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signature);
         initView();
-        checkShared();
+     //   checkShared();
 
     }
 
