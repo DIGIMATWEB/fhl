@@ -247,7 +247,15 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
                     recoletar.setVisibility(View.GONE);
                 }
             }
-
+            if(fdata.size()!=0){
+                for (dataTicketsManifestV2 mdata : data) {
+                    if (mdata.getEstatusId() < 3) {
+                        recoletar.setVisibility(View.VISIBLE);
+                    }
+                }
+            }else {
+                recoletar.setVisibility(View.GONE);
+            }
 
         }
     }
