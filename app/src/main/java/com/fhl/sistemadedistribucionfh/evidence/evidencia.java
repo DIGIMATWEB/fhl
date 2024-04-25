@@ -97,9 +97,11 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             if(detailTicket!=null){
                 Gson gson=new Gson();
                 String jsonstring= gson.toJson(detailTicket);
+                jsonstring = jsonstring.replace("\\", "");
             //    Type listType = new TypeToken<List<dataDetailTickets>>(){}.getType();
                 ResoponseTicketsDetail jsonObje= gson.fromJson(detailTicket,ResoponseTicketsDetail.class);
-                Log.e("EvidenciaActivity",jsonstring);
+
+                Log.e("EvidenciaActivity","json   "+jsonstring);// esto es para uno
                 if(jsonObje.getData().get(0).getEvidenciaLlegada()!=null) {//esto en caso de no haber evidencias de llegada
                     Log.e("EvidenciaActivity", "" + jsonObje.getData().get(0).getEvidenciaLlegada().size());
                 }
