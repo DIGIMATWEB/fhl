@@ -66,6 +66,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     private loaderFH progress;
     private List<dataTicketsDetailsendtrip> dataTicketSendtrip;
     private String detailTicket;
+    private Integer flowDetail=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +96,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
               Log.e("EvidenciaActivity","folio "+folioTicket+" data : null");
             }
             if(detailTicket!=null){
+                flowDetail=1;
                 Gson gson=new Gson();
                 String jsonstring= gson.toJson(detailTicket);
                 jsonstring = jsonstring.replace("\\", "");
@@ -111,8 +113,9 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 if(jsonObje.getData().get(0).getCheckList()!=null) {//esto en caso de no haber checklist
                     Log.e("EvidenciaActivity", "" + jsonObje.getData().get(0).getCheckList().size());
                 }
+            }else {
+                flowDetail=2;
             }
-
         }
         initView();
         checkShared();
@@ -219,26 +222,26 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         presenter.tokenAvocado();
 
     }
-    @Override//todo este metodo se ejecuta despues de que el token con walmart esta ok
+    @Override// este metodo se ejecuta despues de que el token con walmart esta ok
     public void validateSendtrip() {
-        if(folioTicket!=null) {//todo si es un solo folio
+        if(folioTicket!=null) {/** si es un solo folio**/
            // isArrayofTickets=false;
             Log.e("folioTSendtrip","es un solo folio");
             presenter.requestDetailTicketsSendtriplus(false,iterateidTickets,currentManifest, null,folioTicket);
             changeStatusTicket=folioTicket;
 
         }else {
-            if(data!=null) {//todo si es un arreglo de folios
+            if(data!=null) {// si es un arreglo de folios
                 Log.e("folioTSendtrip","son varios folios");
-                if(data.size()>1){//todo si solo es un folio
+                if(data.size()>1){// si solo es un folio
                   //  isArrayofTickets=true;
                     presenter.requestDetailTicketsSendtriplus(
-                            true,iterateidTickets, currentManifest,data.get(iterateidTickets).getFolioTicket(), null);//todo revisar esto en la secuencia
+                            true,iterateidTickets, currentManifest,data.get(iterateidTickets).getFolioTicket(), null);//
                 changeStatusTicket=data.get(iterateidTickets).getFolioTicket();
-                }else{//todo si son varios folios
+                }else{// si son varios folios
                 //    isArrayofTickets=false;
                     presenter.requestDetailTicketsSendtriplus(
-                            true,iterateidTickets, currentManifest, data.get(0).getFolioTicket(), null);//todo revisar esto en la secuencia
+                            true,iterateidTickets, currentManifest, data.get(0).getFolioTicket(), null);//
                     changeStatusTicket=data.get(0).getFolioTicket();
                 }
             }else{
@@ -250,6 +253,14 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     @Override
     public void setDetailTicketsentriplus(List<dataTicketsDetailsendtrip> dataTicketSendtrip) {
         this.dataTicketSendtrip=dataTicketSendtrip;
+        Gson gson= new Gson();
+        String json= gson.toJson(dataTicketSendtrip);
+        Log.e("detailticket"," flowdetail "+flowDetail+" json ticket:"+json);
+        fillEvidenceRequired();
+    }
+
+    private void fillEvidenceRequired() {
+
     }
 
     @Override
@@ -338,7 +349,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         editor.apply();
     }
     private void cleanFolder(){
-        //.Toast.makeText(this, "Eliminar todo", Toast.LENGTH_SHORT).show();
+        //.Toast.makeText(this, "Eliminar todos", Toast.LENGTH_SHORT).show();
 
         File picturesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File imagesDir = new File(picturesDir, "MyImages");
@@ -391,7 +402,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 }
             }, 4000);
 
-        }else if(secuenceRequest==4){//envia la encuesta todo falta el comentario
+        }else if(secuenceRequest==4){//envia la encuesta  falta el comentario
             secuenceRequest = secuenceRequest + 1;
             Log.e("sendEvidence", "sendEvidence: " + secuenceRequest+" sendRate: "+ stars);
             int rating = (int) Math.round(Double.parseDouble(stars));
@@ -419,42 +430,45 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
             }
 
-            ///todo presenterchange statusmanifest
+            /// presenterchange statusmanifest ESTO YA LO HACEE JOSE
 
         }else if(secuenceRequest==6){
             secuenceRequest = secuenceRequest + 1;
             presenter.changeStatusManifestTicket(currentManifest,changeStatusTicket,sentripPlusFlow);
 
-        }else if(secuenceRequest==7){//borra todo lo relacionano y regresa
+        }else if(secuenceRequest==7){//borra  lo relacionano y regresa
              Toast.makeText(this, "usar sendtrip plus Cambiar estatus y regresar a manifiestos", Toast.LENGTH_SHORT).show();
 
-            if(!isArrayofTickets) {//todo si es solo uno manda el manifiesto
+            if(!isArrayofTickets) {// si es solo uno manda el manifiesto
                 presenter.hideDialog();
                 removeShared();
                 cleanFolder();
                 gotomanifestV2();
 
-            }else{//todo si son variso tickets repite el proceso
+            }else{// si son variso tickets repite el proceso
 
                 iterateidTickets=iterateidTickets+1;
                 Log.e("sendEvidence"," tickets "+iterateidTickets+" data: "+data.size());
-                if(iterateidTickets >(data.size()-1)){//todo si es el ultimo ticket va a manifiestos
+                if(iterateidTickets >(data.size()-1)){// si es el ultimo ticket va a manifiestos
                     presenter.hideDialog();
                     removeShared();
                     cleanFolder();
                     gotomanifestV2();
 
-                }else {//todo si no es el ultimo ticket vuelve a iterar otra vez secuenceRequest sirve para mandar primero firma luego fotos luego archivos y por ultimo calificacion
+                }else {// si no es el ultimo ticket vuelve a iterar otra vez secuenceRequest sirve para mandar primero firma luego fotos luego archivos y por ultimo calificacion
                     secuenceRequest=1;
-                    sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, data.get(iterateidTickets).getFolioTicket());
-
-                    presenter.requestDetailTicketsSendtriplus(true,iterateidTickets, currentManifest, data.get(iterateidTickets).getFolioTicket(), null);//todo revisar si esto se ejecuta correctamente ya que pide el detalle del ticket siguiente para el sendtriplus
+                    //todo
+                    //todo
+                    /*****///TODO SI COMENTAS ESTA LINEA SE DEJA DE HACER EL ENVIO DE EVIDENCIAAS EN AUTOMATICO DE FORMA SECUENCIAL
+                    sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId,data.get(iterateidTickets).getFolioTicket());
+                    //todo
+                    presenter.requestDetailTicketsSendtriplus(true,iterateidTickets, currentManifest, data.get(iterateidTickets).getFolioTicket(), null);// revisar si esto se ejecuta correctamente ya que pide el detalle del ticket siguiente para el sendtriplus
                 }
             }
 
         }else{
             Toast.makeText(this, "Todos los archivos se han enviado correctamente", Toast.LENGTH_SHORT).show();
-            //todo regresar a manifiestos y limpiar toda la carpeta de archivos
+            // regresar a manifiestos y limpiar toda la carpeta de archivos
             presenter.hideDialog();
         }
     }

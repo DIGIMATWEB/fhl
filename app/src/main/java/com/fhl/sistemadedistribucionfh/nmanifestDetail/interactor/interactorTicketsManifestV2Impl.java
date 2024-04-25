@@ -87,7 +87,9 @@ public class interactorTicketsManifestV2Impl implements interactorTicketsManifes
             int responseCode = resp.getStatus();
             if(resp.getStatus()== GeneralConstants.RESPONSE_CODE_OK_PEP){
                 List<dataTicketsManifestV2> data = resp.getData();
-
+                Gson gson=new Gson();
+                String json=gson.toJson(data);
+                Log.e("manifestDetail","json tickets "+json);
                 if(data!=null){
                     presenter.setTickets(data);
                 }else{
