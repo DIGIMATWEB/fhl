@@ -8,4 +8,6 @@ public interface checklistPresenter {
     void setChecklist(dataChecklistV2 data);
 
     void getVehicleManifest();
+
+    void continueChecklist();
 }

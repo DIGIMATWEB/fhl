@@ -41,7 +41,7 @@ public class checklistInteractorImpl implements checklistInteractor {
         service = retrofitClient.create(serviceChecklist.class);
 
         retrofitClient2 = RetrofitClientFHManifest.getRetrofitInstance();
-        service2 = retrofitClient.create(manifestUtil.class);
+        service2 = retrofitClient2.create(manifestUtil.class);
 
     }
 
@@ -143,10 +143,12 @@ public class checklistInteractorImpl implements checklistInteractor {
                 Log.e("respDatamanifest",""+json);
                 if(data!=null) {
                     if (data.get(0) != null) {
+                        Log.e("vehicleId",""+data.get(0).getVehiculoId());
                         SharedPreferences preferencias = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = preferencias.edit();
                         editor.putString(GeneralConstants.VEHICLEID,String.valueOf(data.get(0).getVehiculoId()));
                         editor.commit();
+                        presenter.continueChecklist();
                     }
                 } else {
                     Toast.makeText(context, "Sin tickets asignados.", Toast.LENGTH_SHORT).show();

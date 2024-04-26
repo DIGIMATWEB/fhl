@@ -31,6 +31,13 @@ public class checkListPresenterImpl implements checklistPresenter{
     }
 
     @Override
+    public void continueChecklist() {
+        if(view!=null) {
+            view.continueChecklist();
+        }
+    }
+
+    @Override
     public void setChecklist(dataChecklistV2 data) {
         if(view!=null){
             view.setCheckList(data);

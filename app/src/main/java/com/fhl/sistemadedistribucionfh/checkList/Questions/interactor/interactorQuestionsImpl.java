@@ -42,7 +42,7 @@ public class interactorQuestionsImpl  implements  interactorQuestions {
     public void getQeustions(Integer positionRespuestas,Integer checklistId) {
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
-        String vehicle =preferences.getString(GeneralConstants. VEHICLEID,null);
+        String vehicle =preferences.getString(GeneralConstants.VEHICLEID,null);
         if (token != null) {
             requestQuestions(token, positionRespuestas,vehicle,checklistId);
         }

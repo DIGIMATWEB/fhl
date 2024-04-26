@@ -52,7 +52,7 @@ public class checkList extends Fragment implements View.OnClickListener,checklis
         rv=view.findViewById(R.id.rvchecklist);
         presenter= new checkListPresenterImpl(this,getContext());
         presenter.getVehicleManifest();
-        presenter.getCheckList();
+
         searchView=view.findViewById(R.id.searchViewChecklist);
         searchView.setQueryHint("Buscar manifiesto");
         Drawable background= getContext().getDrawable(R.drawable.shape_button);
@@ -98,6 +98,11 @@ public class checkList extends Fragment implements View.OnClickListener,checklis
     public void setCheckList(dataChecklistV2 data) {
         this.data=data;
         fillSellos(data);
+    }
+
+    @Override
+    public void continueChecklist() {
+        presenter.getCheckList();
     }
 
     public void goQuestions(String nombre, String placa, String vigencia, String periodicida, Integer position, dataChecklistV2 dataV2) {
