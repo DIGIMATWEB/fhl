@@ -23,6 +23,12 @@ public class checkListPresenterImpl implements checklistPresenter{
             interactor.requestChecklist();
         }
     }
+    @Override
+    public void getVehicleManifest() {
+        if(view!=null) {
+            interactor.requestManifestVehicle();
+        }
+    }
 
     @Override
     public void setChecklist(dataChecklistV2 data) {
@@ -30,4 +36,6 @@ public class checkListPresenterImpl implements checklistPresenter{
             view.setCheckList(data);
         }
     }
+
+
 }

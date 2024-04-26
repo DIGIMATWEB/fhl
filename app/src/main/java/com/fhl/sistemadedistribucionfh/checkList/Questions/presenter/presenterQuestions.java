@@ -6,7 +6,7 @@ import com.fhl.sistemadedistribucionfh.checkList.model.v2.VehiculoVsCheck;
 import java.util.List;
 
 public interface presenterQuestions {
-    void requestQuestions(Integer position);
+    void requestQuestions(Integer position, Integer checklistId);
     void setQuestions( List<Pregunta> mdata);
     void setData (List<VehiculoVsCheck> data);
     void sendDataChecklist(Integer vehiculoChkId, Integer despachoId, String fechaAplicado, String jsonRespuestas, String usuario, Integer vehiculoId, Integer checklistId);

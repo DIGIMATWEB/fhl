@@ -20,9 +20,9 @@ public class presenterQuestionsImpl  implements  presenterQuestions{
 
     }
     @Override
-    public void requestQuestions(Integer position) {
+    public void requestQuestions(Integer position, Integer checklistId) {
         if(view!=null) {
-            interactor.getQeustions(position);
+            interactor.getQeustions(position,checklistId);
         }
     }
 

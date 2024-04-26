@@ -51,6 +51,7 @@ public class checkList extends Fragment implements View.OnClickListener,checklis
     private void initView(View view) {
         rv=view.findViewById(R.id.rvchecklist);
         presenter= new checkListPresenterImpl(this,getContext());
+        presenter.getVehicleManifest();
         presenter.getCheckList();
         searchView=view.findViewById(R.id.searchViewChecklist);
         searchView.setQueryHint("Buscar manifiesto");

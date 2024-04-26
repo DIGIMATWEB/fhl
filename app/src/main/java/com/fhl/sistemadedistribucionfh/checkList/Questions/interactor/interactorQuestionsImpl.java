@@ -39,16 +39,17 @@ public class interactorQuestionsImpl  implements  interactorQuestions {
     }
 
     @Override
-    public void getQeustions(Integer positionRespuestas) {
+    public void getQeustions(Integer positionRespuestas,Integer checklistId) {
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
+        String vehicle =preferences.getString(GeneralConstants. VEHICLEID,null);
         if (token != null) {
-            requestQuestions(token, positionRespuestas);
+            requestQuestions(token, positionRespuestas,vehicle,checklistId);
         }
     }
 
-    private void requestQuestions(String token, Integer positionRespuestas) {
-        Call<responseQuestions> call = service.getChecklist(token, 136, 6);
+    private void requestQuestions(String token, Integer positionRespuestas, String vehicle, Integer checklistId) {
+        Call<responseQuestions> call = service.getChecklist(token, Integer.valueOf(vehicle), checklistId);
         call.enqueue(new Callback<responseQuestions>() {
             @Override
             public void onResponse(Call<responseQuestions> call, Response<responseQuestions> response) {

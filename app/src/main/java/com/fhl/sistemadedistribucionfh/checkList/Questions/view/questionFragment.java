@@ -154,7 +154,7 @@ public class questionFragment extends Fragment implements View.OnClickListener ,
 
         sendChakclist = new sendChecklist(checklist, user, 2);
         presenter = new presenterQuestionsImpl(this, getContext());
-        presenter.requestQuestions(positionRespuestas);
+        presenter.requestQuestions(positionRespuestas,checklistId);
     }
 
     @Override

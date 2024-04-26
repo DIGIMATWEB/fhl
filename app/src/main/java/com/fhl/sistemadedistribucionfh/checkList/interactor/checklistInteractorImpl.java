@@ -2,9 +2,11 @@ package com.fhl.sistemadedistribucionfh.checkList.interactor;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
+import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientFHManifest;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientFHVehicles;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.VehiculoVsCheck;
@@ -12,7 +14,12 @@ import com.fhl.sistemadedistribucionfh.checkList.model.v2.dataChecklistV2;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.responseChecklistV2;
 import com.fhl.sistemadedistribucionfh.checkList.presenter.checklistPresenter;
 import com.fhl.sistemadedistribucionfh.checkList.util.serviceChecklist;
+import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.dataManifestV2;
+import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.responseManifestV2;
+import com.fhl.sistemadedistribucionfh.nmanifest.util.manifestUtil;
+import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -24,13 +31,17 @@ public class checklistInteractorImpl implements checklistInteractor {
     private Context context;
     private checklistPresenter presenter;
     private serviceChecklist service;
-    private Retrofit retrofitClient;
+    private manifestUtil service2;
+    private Retrofit retrofitClient,retrofitClient2;
 
     public checklistInteractorImpl(checklistPresenter presenter, Context context) {
         this.presenter = presenter;
         this.context = context;
         retrofitClient = RetrofitClientFHVehicles.getRetrofitInstance();
         service = retrofitClient.create(serviceChecklist.class);
+
+        retrofitClient2 = RetrofitClientFHManifest.getRetrofitInstance();
+        service2 = retrofitClient.create(manifestUtil.class);
 
     }
 
@@ -53,7 +64,6 @@ public class checklistInteractorImpl implements checklistInteractor {
         });
 
     }
-
     private void validateResponseChecklist(Response<responseChecklistV2> response, Context context) {
         if (response != null) {
 
@@ -88,6 +98,67 @@ public class checklistInteractorImpl implements checklistInteractor {
 
         } else {
             Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
+        }
+    }
+    @Override
+    public void requestManifestVehicle() {
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String token = preferences.getString(GeneralConstants.TOKEN, null);
+        String user = preferences.getString(GeneralConstants.OPERADOR_ID, null);
+        Call<responseManifestV2> call = service2.getManifestV2(token,  user);
+        Log.e("requestmanifest",""+call.request().toString());
+        call.enqueue(new Callback<responseManifestV2>() {
+            @Override
+            public void onResponse(Call<responseManifestV2> call, Response<responseManifestV2> response) {
+                validateResponse(response, context);
+            }
+            @Override
+            public void onFailure(Call<responseManifestV2> call, Throwable t) {
+                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+    private void validateResponse(Response<responseManifestV2> response, Context context) {
+        if (response!=null) {
+            if(RetrofitValidations.checkSuccessCode(response.code())) {
+                getManifest(response, context);
+            } else {
+                Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
+
+            }
+        }
+    }
+
+    private void getManifest(Response<responseManifestV2> response, Context context) {
+        responseManifestV2 resp = response.body();
+        if(resp!=null) {
+            String message = resp.getMessage();
+            int responseCode = resp.getStatus();
+            if(resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_PEP) {
+
+                List<dataManifestV2> data = resp.getData();
+                Gson gson = new Gson();
+                String json = gson.toJson(data);
+                Log.e("respDatamanifest",""+json);
+                if(data!=null) {
+                    if (data.get(0) != null) {
+                        SharedPreferences preferencias = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferencias.edit();
+                        editor.putString(GeneralConstants.VEHICLEID,String.valueOf(data.get(0).getVehiculoId()));
+                        editor.commit();
+                    }
+                } else {
+                    Toast.makeText(context, "Sin tickets asignados.", Toast.LENGTH_SHORT).show();
+
+                }
+            } else {
+                Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
+
+            }
+        } else {
+            Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
+
         }
     }
 }
