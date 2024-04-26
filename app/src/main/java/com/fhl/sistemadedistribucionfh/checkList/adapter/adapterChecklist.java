@@ -24,13 +24,13 @@ public class adapterChecklist extends RecyclerView.Adapter<adapterChecklist.View
     private Context context;
     private dataChecklistV2 data;
     private checkList mview;
-    private String vigencia="";
-    private String periodicidad="";
+    private String vigencia = "";
+    private String periodicidad = "";
 
     public adapterChecklist(checkList mview, dataChecklistV2 data, Context context) {
         this.data = data;
         this.context = context;
-        this.mview= mview;
+        this.mview = mview;
     }
 
     @NonNull
@@ -42,74 +42,84 @@ public class adapterChecklist extends RecyclerView.Adapter<adapterChecklist.View
 
     @Override
     public void onBindViewHolder(@NonNull adapterChecklist.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-        if(data.getVehiculoVsChecklist()!=null) {
-            if(data.getVehiculoVsChecklist().get(position).getChecklist()!=null) {
-                if(data.getVehiculoVsChecklist().get(position).getChecklist().getNombre()!=null) {
+        if (data.getVehiculoVsChecklist() != null) {
+            if (data.getVehiculoVsChecklist().get(position).getChecklist() != null) {
+                if (data.getVehiculoVsChecklist().get(position).getChecklist().getNombre() != null) {
                     holder.namechecklist.setText(data.getVehiculoVsChecklist().get(position).getChecklist().getNombre());
-                    periodicity(holder,position);
+                    periodicity(holder, position);
                 }
             }
         }
-          holder.vehiclTypeChecklist.setText(data.getVehiculo().getPlaca());
-
+        holder.vehiclTypeChecklist.setText(data.getVehiculo().getPlaca());
 
 
         if (data.getVehiculoVsChecklist().get(position).getPeriodicidad() instanceof String) {
-            periodicidad=data.getVehiculoVsChecklist().get(position).getPeriodicidad().toString();
-            holder.manifestChecklist.setText("Por " +periodicidad);
+            periodicidad = data.getVehiculoVsChecklist().get(position).getPeriodicidad().toString();
+            holder.manifestChecklist.setText("Por " + periodicidad);
         } else if (data.getVehiculoVsChecklist().get(position).getPeriodicidad() instanceof Map) {
 //            List<String> dias = (List<String>) ((Map<String, Object>) periodicidad).get("dias");
 //            System.out.println("Periodicidad is an array of days: " + dias);
-            holder.manifestChecklist.setText("Por " );
+            holder.manifestChecklist.setText("Por ");
         } else {
-            holder.manifestChecklist.setText(": " );
+            holder.manifestChecklist.setText(": ");
         }
 
+        if(data.getVehiculoVsChecklist().get(position).getAplicadoId() != null) {
+            // Cuando esta vacio
+            holder.siguienteChecklist.setVisibility(View.GONE);
+            holder.moreChecklist.setVisibility(View.GONE);
+        } else {
+            // Cuando no esta vacio
+            holder.siguienteChecklist.setVisibility(View.VISIBLE);
+            holder.moreChecklist.setVisibility(View.VISIBLE);
+        }
 
-
-            holder.siguienteChecklist.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String nombreTemp = "NombreTemp";
+        holder.siguienteChecklist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nombreTemp = "NombreTemp";
                     /*if (data.getVehiculoVsChecklist().get(position).getChecklist().getNombre()== null) {
                         nombreTemp = "NombreTemp";
                     } else {
                         nombreTemp = data.getVehiculoVsChecklist().get(position).getChecklist().getNombre();
                     }*/
 
-                    mview.goQuestions(nombreTemp,data.getVehiculo().getPlaca(),vigencia,periodicidad);
-                    //mview.goQuestions(data.getVehiculoVsChecklist().get(position).getChecklist().getNombre(),data.getVehiculo().getPlaca(),vigencia,periodicidad);
-                }
-            });
+                // TODO: Mandar toda la data
+                mview.goQuestions(nombreTemp, data.getVehiculo().getPlaca(), vigencia, periodicidad, position, data);
+                //mview.goQuestions(data.getVehiculoVsChecklist().get(position).getChecklist().getNombre(),data.getVehiculo().getPlaca(),vigencia,periodicidad);
+            }
+        });
     }
-    public  void periodicity(ViewHolder holder, int position){
-        String dateString=data.getVehiculoVsChecklist().get(position).getChecklist().getFechaVencimiento();
+
+    public void periodicity(ViewHolder holder, int position) {
+        String dateString = data.getVehiculoVsChecklist().get(position).getChecklist().getFechaVencimiento();
         LocalDateTime givenDate = LocalDateTime.parse(dateString, DateTimeFormatter.ISO_DATE_TIME);
         // Get the current date and time
         LocalDateTime currentDate = LocalDateTime.now();
         // Compare the given date with the current date
         if (currentDate.isBefore(givenDate)) {
-            vigencia="Vigente";
+            vigencia = "Vigente";
             holder.statusChecklist.setText("Vigente");
-            int mcolor=context.getColor(R.color.green);
+            int mcolor = context.getColor(R.color.green);
             holder.statusChecklist.setTextColor(mcolor);
             // Your code for the past date scenario goes here
         } else if (givenDate.isEqual(currentDate)) {
             holder.statusChecklist.setText("No vigente");
-            vigencia="No vigente";
-            int mcolor=context.getColor(R.color.red);
+            vigencia = "No vigente";
+            int mcolor = context.getColor(R.color.red);
             holder.statusChecklist.setTextColor(mcolor);
             holder.siguienteChecklist.setVisibility(View.GONE);
             holder.moreChecklist.setVisibility(View.GONE);
         } else {
-            vigencia="No vigente";
+            vigencia = "No vigente";
             holder.statusChecklist.setText("No vigente");
-            int mcolor=context.getColor(R.color.red);
+            int mcolor = context.getColor(R.color.red);
             holder.statusChecklist.setTextColor(mcolor);
             holder.siguienteChecklist.setVisibility(View.GONE);
             holder.moreChecklist.setVisibility(View.GONE);
         }
     }
+
     @Override
     public int getItemCount() {
         return data.getVehiculoVsChecklist().size();
@@ -123,19 +133,19 @@ public class adapterChecklist extends RecyclerView.Adapter<adapterChecklist.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout cardOrder;
-        TextView vehiclTypeChecklist,manifestChecklist,statusChecklist,moreChecklist,namechecklist;
+        TextView vehiclTypeChecklist, manifestChecklist, statusChecklist, moreChecklist, namechecklist;
         ImageView siguienteChecklist;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             cardOrder = itemView.findViewById(R.id.constrainCard);
-            siguienteChecklist=itemView.findViewById(R.id.siguienteChecklist);
-            vehiclTypeChecklist= itemView.findViewById(R.id.vehiclTypeChecklist);
-            manifestChecklist= itemView.findViewById(R.id.manifestChecklist);
-            statusChecklist= itemView.findViewById(R.id.statusChecklist);
-            moreChecklist= itemView.findViewById(R.id.moreChecklist);
-            namechecklist=itemView.findViewById(R.id.namechecklist);
+            siguienteChecklist = itemView.findViewById(R.id.siguienteChecklist);
+            vehiclTypeChecklist = itemView.findViewById(R.id.vehiclTypeChecklist);
+            manifestChecklist = itemView.findViewById(R.id.manifestChecklist);
+            statusChecklist = itemView.findViewById(R.id.statusChecklist);
+            moreChecklist = itemView.findViewById(R.id.moreChecklist);
+            namechecklist = itemView.findViewById(R.id.namechecklist);
 
         }
     }
