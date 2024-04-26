@@ -262,9 +262,6 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void setDetailTicketsentriplus(List<dataTicketsDetailsendtrip> dataTicketSendtrip) {
-        if(iterateidTickets!=0) {
-            presenter.hideDialog();
-        }
         this.dataTicketSendtrip=dataTicketSendtrip;
         Gson gson= new Gson();
         String json= gson.toJson(dataTicketSendtrip);
@@ -480,6 +477,9 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                   //  sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId,data.get(iterateidTickets).getFolioTicket());
 
                     //todo
+                    presenter.hideDialog();
+                    removeShared();
+                    cleanFolder();
                     presenter.requestDetailTicketsSendtriplus(true,iterateidTickets, currentManifest, data.get(iterateidTickets).getFolioTicket(), null);// revisar si esto se ejecuta correctamente ya que pide el detalle del ticket siguiente para el sendtriplus
                 }
             }
