@@ -5,6 +5,7 @@ import android.content.Context;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.interactor.interactorQuestionsImpl;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.view.questionsView;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.Pregunta;
+import com.fhl.sistemadedistribucionfh.checkList.model.v2.VehiculoVsCheck;
 
 import java.util.List;
 
@@ -19,16 +20,58 @@ public class presenterQuestionsImpl  implements  presenterQuestions{
 
     }
     @Override
-    public void requestQuestions() {
-        if(view!=null){
-            interactor.getQeustions();
+    public void requestQuestions(Integer position) {
+        if(view!=null) {
+            interactor.getQeustions(position);
         }
     }
 
     @Override
     public void setQuestions( List<Pregunta>  mdata) {
-        if(view!=null){
+        if(view!=null) {
             view.setQuestiomns(mdata);
+        }
+    }
+
+    @Override
+    public void setData(List<VehiculoVsCheck> data) {
+        if(view!=null) {
+            view.setData(data);
+        }
+    }
+
+    @Override
+    public void showpDialog() {
+        if(view!=null) {
+            view.showDialog();
+        }
+    }
+
+    @Override
+    public void hidepDialog() {
+        if(view!=null) {
+            view.hideDialog();
+        }
+    }
+
+    @Override
+    public void closeChecklistError() {
+        if(view!=null){
+            view.closeCheckListError2();
+        }
+    }
+
+    @Override
+    public void gotoChecklistAgain() {
+        if(view!=null) {
+            view.successetCehcklist();
+        }
+    }
+
+    @Override
+    public void sendDataChecklist(Integer vehiculoChkId, Integer despachoId, String fechaAplicado, String jsonRespuestas, String usuario, Integer vehiculoId, Integer checklistId){
+        if(view!=null) {
+            interactor.sendDataChecklist(vehiculoChkId, despachoId, fechaAplicado,jsonRespuestas, usuario, vehiculoId, checklistId);
         }
     }
 }

@@ -51,4 +51,14 @@ public class SendCheck {
     public void setArchivoDeEvidencia(String archivoDeEvidencia) {
         this.archivoDeEvidencia = archivoDeEvidencia;
     }
+
+    @Override
+    public String toString() {
+        return "SendCheck{" +
+                "cvePregunta=" + cvePregunta +
+                ", cveAnswer='" + cveAnswer + '\'' +
+                ", descAnswerAbierta='" + descAnswerAbierta + '\'' +
+                ", archivoDeEvidencia='" + archivoDeEvidencia + '\'' +
+                '}';
+    }
 }

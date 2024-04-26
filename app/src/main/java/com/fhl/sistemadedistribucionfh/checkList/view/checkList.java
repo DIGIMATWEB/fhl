@@ -99,19 +99,36 @@ public class checkList extends Fragment implements View.OnClickListener,checklis
         fillSellos(data);
     }
 
-    public void goQuestions(String nombre, String placa, String vigencia, String periodicida) {
-        manager = getActivity().getSupportFragmentManager();
-        transaction = manager.beginTransaction();
-        questionFragment q = new questionFragment();
-        // Create a Bundle to pass data to the fragment
-        Bundle bundle = new Bundle();
-        bundle.putString("nombre", nombre);
-        bundle.putString("placa", placa);
-        bundle.putString("vigencia", vigencia);
-        bundle.putString("periodicida", periodicida);
-        // Set the arguments for the fragment
-        q.setArguments(bundle);
-        // Replace the fragment with arguments
-        transaction.replace(R.id.fragments, q, questionFragment.TAG).commit();
+    public void goQuestions(String nombre, String placa, String vigencia, String periodicida, Integer position, dataChecklistV2 dataV2) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+        if (fragmentManager != null) {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            questionFragment questionFragment = new questionFragment();
+
+            // Crear un Bundle para pasar datos al fragmento
+            Bundle bundle = new Bundle();
+            bundle.putString("nombre", nombre);
+            bundle.putString("placa", placa);
+            bundle.putString("vigencia", vigencia);
+            bundle.putString("periodicida", periodicida);
+            bundle.putInt("position", position);
+
+            // Datos para enviar el checklist
+            bundle.putInt("VehiculoChkId", dataV2.getVehiculoVsChecklist().get(position).getId());
+            bundle.putInt("DespachoId", dataV2.getVehiculoVsChecklist().get(position).getDespacho().getId());
+            bundle.putString("FechaAplicado", dataV2.getVehiculoVsChecklist().get(position).getFechaAplicado());
+            bundle.putInt("VehiculoId", dataV2.getVehiculoId());
+            bundle.putInt("ChecklistId", dataV2.getVehiculoVsChecklist().get(position).getChecklistId());
+
+            // Establecer los argumentos para el fragmento
+            questionFragment.setArguments(bundle);
+
+            // Reemplazar el fragmento con los argumentos
+            fragmentTransaction.replace(R.id.fragments, questionFragment, questionFragment.TAG);
+
+            // Confirmar la transacción
+            fragmentTransaction.commit();
+        }
     }
 }
