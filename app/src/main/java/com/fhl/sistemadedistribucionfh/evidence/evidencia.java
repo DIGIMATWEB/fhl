@@ -20,16 +20,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.fhl.sistemadedistribucionfh.Cancelar.adapter.adapterNoCompletado;
 import com.fhl.sistemadedistribucionfh.Dialogs.Loader.view.loaderFH;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.ResoponseTicketsDetail;
-import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.dataDetailTickets;
 import com.fhl.sistemadedistribucionfh.evidence.adapter.adapterEvidence;
 import com.fhl.sistemadedistribucionfh.evidence.documents.documents;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
@@ -42,10 +39,8 @@ import com.fhl.sistemadedistribucionfh.evidence.videos.videoRecord;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
-import java.lang.reflect.Type;
 import java.util.List;
 
 public class evidencia extends AppCompatActivity implements View.OnClickListener,evidenceView {
@@ -266,12 +261,12 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         Gson gson= new Gson();
         String json= gson.toJson(dataTicketSendtrip);
         Log.e("detailticket"," flowdetail "+flowDetail+" json ticket:"+json);
-        fillEvidenceRequired();
+        fillEvidenceRequired(flowDetail,dataTicketSendtrip);
         textFol.setText("Folio: "+dataTicketSendtrip.get(0).getFolioTicket());
     }
 
-    private void fillEvidenceRequired() {
-        adapter=new adapterEvidence(getApplicationContext());
+    private void fillEvidenceRequired(Integer flowDetail, List<dataTicketsDetailsendtrip> dataTicketSendtrip) {
+        adapter=new adapterEvidence(flowDetail,getApplicationContext(),dataTicketSendtrip);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());//GridLayoutManager(getApplicationContext(),3);
         rv.setLayoutManager(linearLayoutManager);
         rv.setAdapter(adapter);

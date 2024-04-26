@@ -10,25 +10,53 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
-import com.fhl.sistemadedistribucionfh.Salida.Adapter.adapterSellos;
-import com.fhl.sistemadedistribucionfh.Salida.Model.test.Sello;
-import com.fhl.sistemadedistribucionfh.Salida.View.sellos;
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaSalida;
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHolder> {
     private Context context;
+    private Integer flowDetail;
+    private List<dataTicketsDetailsendtrip> data;
+    private Integer hassignature,hasReview,hasphotos,hasdocuments,hasvideos;
 
 
-    public adapterEvidence( Context context) {
-
+    public adapterEvidence(Integer flowDetail, Context context, List<dataTicketsDetailsendtrip> data) {
+        this.flowDetail=flowDetail;
         this.context = context;
+        this.data=data;
+        hassignature=1;
+        hasReview=1;
+        if(flowDetail==2){//TODO viene de recoleccion salida
+            if(data.get(0).getEvidenciaSalida()!=null){
+                for(EvidenciaSalida evidence:data.get(0).getEvidenciaSalida()){
+                    if(evidence.getTipoEvidencia()==2){
+                        hasphotos=1;
+                    }else if(evidence.getTipoEvidencia()==3){
+                        hasdocuments=1;
+                    }else if(evidence.getTipoEvidencia()==4){
+                        hasvideos=1;
+                    }
+                }
+            }
+        }else{//TODO viene de entrega de ticket
+            if(data.get(0).getEvidenciaLlegada()!=null){
+                for(EvidenciaSalida evidence:data.get(0).getEvidenciaSalida()){
+                    if(evidence.getTipoEvidencia()==2){
+                        hasphotos=1;
+                    }else if(evidence.getTipoEvidencia()==3){
+                        hasdocuments=1;
+                    }else if(evidence.getTipoEvidencia()==4){
+                        hasvideos=1;
+                    }
+                }
+            }
+        }
     }
 
     @NonNull
@@ -40,40 +68,71 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull adapterEvidence.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-        switch (position) {
-            case 0://Firma siempre va
-                // Handle logic for position 0
+        int itemCount = 0;
+        if (hassignature == 1) {
+            if (position == itemCount) {
+                // Firma always exists at position 0
                 Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_signature_ico);
                 holder.image.setBackground(background);
                 holder.description.setText("Firma");
-                break;
-            case 1:
-                // Handle logic for position 1
-                break;
-            case 2:
-                // Handle logic for position 1
-                break;
-            case 3:
-                // Handle logic for position 1
-                break;
-            case 4:
-                // Handle logic for position 1
+                return;
+            }
+            itemCount++;
+        }
+
+        if (hasReview == 1) {
+            if (position == itemCount) {
                 Drawable background4 = ContextCompat.getDrawable(context, R.drawable.ic_rankico);
                 holder.image.setBackground(background4);
                 holder.description.setText("Encuesta");
-                break;
-            // Add more cases as needed
-            default:
-                // Handle default logic for other positions
-                break;
+                return;
+            }
+            itemCount++;
         }
 
+        if (hasphotos == 1) {
+            if (position == itemCount) {
+                Drawable backgroundf = ContextCompat.getDrawable(context, R.drawable.ic_cameraico);
+                holder.image.setBackground(backgroundf);
+                holder.description.setText("Foto");
+                if (flowDetail == 2) { // TODO viene de recoleccion salida
+                    if (data.get(0).getEvidenciaSalida() != null) {
+                        // Handle photo evidence logic
+                    }
+                } else { // TODO viene de entrega de ticket
+                    if (data.get(0).getEvidenciaLlegada() != null) {
+                        // Handle photo evidence logic
+                    }
+                }
+                return;
+            }
+            itemCount++;
+        }
 
+        if (hasdocuments == 1) {
+            if (position == itemCount) {
+                Drawable backgroundD = ContextCompat.getDrawable(context, R.drawable.ic_clipo);
+                holder.image.setBackground(backgroundD);
+                holder.description.setText("Archivo adjunto");
+                return;
+            }
+            itemCount++;
+        }
+
+        if (hasvideos == 1) {
+            if (position == itemCount) {
+                Drawable backgroundV = ContextCompat.getDrawable(context, R.drawable.video);
+                holder.image.setBackground(backgroundV);
+                holder.description.setText("Video");
+                // Handle video logic if needed
+                return;
+            }
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return hassignature+hasReview+hasphotos+hasdocuments+hasvideos;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

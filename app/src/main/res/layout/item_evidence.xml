@@ -41,7 +41,6 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginStart="10dp"
-                android:background="@drawable/ic_menu_camera"
 
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +54,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="15dp"
                 android:gravity="center"
-                android:text="Video"
+                android:text=""
                 android:textSize="@dimen/h4"
                 app:layout_constraintStart_toEndOf="@+id/imageMenu3video"
                 tools:layout_editor_absoluteY="0dp">
