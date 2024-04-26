@@ -42,13 +42,13 @@
                 android:layout_height="35dp"
                 android:layout_marginStart="10dp"
                 android:background="@drawable/ic_menu_camera"
-                android:backgroundTint="#ED2727"
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
             </ImageView>
-
+<!--android:backgroundTint="#ED2727"-->
             <TextView
                 android:id="@+id/menuName3video"
                 android:layout_width="wrap_content"
