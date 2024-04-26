@@ -114,6 +114,7 @@ public class interactorQuestionsImpl  implements  interactorQuestions {
         // Token
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
+        String user = preferences.getString(GeneralConstants.OPERADOR_NAME,null);
 
         // RequestBody
         RequestBody VehiculoChkId = null;
@@ -129,13 +130,14 @@ public class interactorQuestionsImpl  implements  interactorQuestions {
         DespachoId = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(despachoId));
         FechaAplicado = RequestBody.create(MediaType.parse("text/plain"), fechaAplicado);
         JsonRespuestas = RequestBody.create(MediaType.parse("text/plain"), jsonRespuestas);
-        Usuario = RequestBody.create(MediaType.parse("text/plain"), "");
+        Usuario = RequestBody.create(MediaType.parse("text/plain"), user);
         VehiculoId = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(vehiculoId));
         ChecklistId = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(checklistId));
 
         // Enviamos los datos
         Call<responseSendChecklist> call= service.setChecklistByVehiculo(token,VehiculoChkId,DespachoId,FechaAplicado,JsonRespuestas,Usuario,VehiculoId,ChecklistId);
-        Log.d("SendCheck: ", token + VehiculoChkId + DespachoId + FechaAplicado + JsonRespuestas + Usuario + VehiculoId + ChecklistId);
+       // Log.e("SendCheck: ", token + VehiculoChkId + DespachoId + FechaAplicado + JsonRespuestas + Usuario + VehiculoId + ChecklistId);//TODO no puedes logear correctamente un requestbody no usar asi
+        Log.e("SendCheck: ",  "vehicleCheckId: "+vehiculoChkId+" Despacho: " + despachoId+" fecha: "+ fechaAplicado+" JSON: " + jsonRespuestas + " vehicleId: " + vehiculoId+" checkListId: " + checklistId);
         call.enqueue(new Callback<responseSendChecklist>() {
             @Override
             public void onResponse(Call<responseSendChecklist> call, Response<responseSendChecklist> response) {
@@ -158,7 +160,7 @@ public class interactorQuestionsImpl  implements  interactorQuestions {
 
             if(responseCode == GeneralConstants.RESPONSE_CODE_OK_PEP) {
                 String message = responseSendChecklist.getMessage();
-
+                Log.e("SendCheck","respuesta: "+message);
                 if(message.isEmpty()) {
                     // Cuando viene vacio el mensaje
                 } else {
