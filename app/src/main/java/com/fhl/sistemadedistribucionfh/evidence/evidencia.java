@@ -13,18 +13,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.fhl.sistemadedistribucionfh.Cancelar.adapter.adapterNoCompletado;
 import com.fhl.sistemadedistribucionfh.Dialogs.Loader.view.loaderFH;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.ResoponseTicketsDetail;
 import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.dataDetailTickets;
+import com.fhl.sistemadedistribucionfh.evidence.adapter.adapterEvidence;
 import com.fhl.sistemadedistribucionfh.evidence.documents.documents;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
 import com.fhl.sistemadedistribucionfh.evidence.photos.carrusel;
@@ -67,6 +73,9 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     private List<dataTicketsDetailsendtrip> dataTicketSendtrip;
     private String detailTicket;
     private Integer flowDetail=0;
+    private adapterEvidence adapter;
+    private RecyclerView rv;
+    private TextView textFol;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -204,15 +213,16 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         star=findViewById(R.id.imageMenu3);
         clipDocs=findViewById(R.id.clipDocs);
         eraseShared=findViewById(R.id.eraseShared);
-        video= findViewById(R.id.video);
-        video.setOnClickListener(this);
+//        video= findViewById(R.id.video);
+//        video.setOnClickListener(this);
         eraseShared.setOnClickListener(this);
         firma.setOnClickListener(this);
         foto.setOnClickListener(this);
         archivos.setOnClickListener(this);
         rating.setOnClickListener(this);
         signatureImage=findViewById(R.id.signatureImage);
-
+        rv=findViewById(R.id.rvEvidence);
+        textFol=findViewById(R.id.textFol);
         sendEvidence =findViewById(R.id.sendEvidence);
         sendEvidence.setOnClickListener(this);
         sendEvidence.setVisibility(View.GONE);
@@ -252,15 +262,20 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void setDetailTicketsentriplus(List<dataTicketsDetailsendtrip> dataTicketSendtrip) {
+        presenter.hideDialog();
         this.dataTicketSendtrip=dataTicketSendtrip;
         Gson gson= new Gson();
         String json= gson.toJson(dataTicketSendtrip);
         Log.e("detailticket"," flowdetail "+flowDetail+" json ticket:"+json);
         fillEvidenceRequired();
+        textFol.setText("Folio: "+dataTicketSendtrip.get(0).getFolioTicket());
     }
 
     private void fillEvidenceRequired() {
-
+        adapter=new adapterEvidence(getApplicationContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());//GridLayoutManager(getApplicationContext(),3);
+        rv.setLayoutManager(linearLayoutManager);
+        rv.setAdapter(adapter);
     }
 
     @Override
@@ -460,7 +475,8 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                     //todo
                     //todo
                     /*****///TODO SI COMENTAS ESTA LINEA SE DEJA DE HACER EL ENVIO DE EVIDENCIAAS EN AUTOMATICO DE FORMA SECUENCIAL
-                    sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId,data.get(iterateidTickets).getFolioTicket());
+                  //  sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId,data.get(iterateidTickets).getFolioTicket());
+
                     //todo
                     presenter.requestDetailTicketsSendtriplus(true,iterateidTickets, currentManifest, data.get(iterateidTickets).getFolioTicket(), null);// revisar si esto se ejecuta correctamente ya que pide el detalle del ticket siguiente para el sendtriplus
                 }

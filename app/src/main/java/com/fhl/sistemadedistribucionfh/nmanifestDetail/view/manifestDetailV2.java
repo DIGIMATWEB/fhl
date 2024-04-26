@@ -151,7 +151,9 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
                 if(data!=null) {
                     for (dataTicketsManifestV2 mdata:data){//este metodo se usa para filtrar los tickets que ya se han cerrado
                         if(mdata.getEstatusId()==2);{
-                            fdata.add(mdata);
+                            if(mdata.getEstatus().getId()==2) {
+                                fdata.add(mdata);
+                            }
                         }
                     }
 

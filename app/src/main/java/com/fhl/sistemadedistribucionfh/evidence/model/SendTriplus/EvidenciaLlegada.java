@@ -11,14 +11,17 @@ public class EvidenciaLlegada {
     @SerializedName("Llave")
     @Expose
     private Integer llave;
+    @SerializedName("TipoEvidencia")
+    private Integer TipoEvidencia;
     @SerializedName("Valor")
     @Expose
     private String valor;
 
-    public EvidenciaLlegada(Integer llave, String valor) {
+    public EvidenciaLlegada(Integer TipoEvidencia,Integer llave, String valor) {
         super();
         this.llave = llave;
         this.valor = valor;
+        this.TipoEvidencia=TipoEvidencia;
     }
 
     public Integer getLlave() {
@@ -35,6 +38,13 @@ public class EvidenciaLlegada {
 
     public void setValor(String valor) {
         this.valor = valor;
+    }
+    public Integer getTipoEvidencia() {
+        return TipoEvidencia;
+    }
+
+    public void setTipoEvidencia(Integer tipoEvidencia) {
+        TipoEvidencia = tipoEvidencia;
     }
 
 }

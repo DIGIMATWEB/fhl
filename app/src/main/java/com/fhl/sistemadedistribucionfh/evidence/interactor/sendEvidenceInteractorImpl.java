@@ -445,6 +445,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
 
 
     private void requestDetailforSendtriplusTicket(String token, String iterateidTickets, String currentManifest) {
+        Log.e("detailticket"," T: "+iterateidTickets+" M: "+currentManifest+" T: "+token);
         Call<TicketsDetailSentriplus> call= service.getTicket(token,currentManifest,iterateidTickets);
         call.enqueue(new Callback<TicketsDetailSentriplus>() {
             @Override

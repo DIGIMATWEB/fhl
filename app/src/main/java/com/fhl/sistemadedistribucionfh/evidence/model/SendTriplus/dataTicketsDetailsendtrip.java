@@ -2,6 +2,8 @@
 package com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus;
 
 import java.util.List;
+
+import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.Check;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -30,7 +32,7 @@ public class dataTicketsDetailsendtrip {
     private List<EvidenciaLlegada> evidenciaLlegada;
     @SerializedName("CheckList")
     @Expose
-    private List<Object> checkList;
+    private List<Check> checkList;
     @SerializedName("Cliente")
     @Expose
     private Cliente cliente;
@@ -91,7 +93,7 @@ public class dataTicketsDetailsendtrip {
     public dataTicketsDetailsendtrip(List<DocumentosVehiculo> documentosVehiculo, List<HabilidadesOperador> habilidadesOperador,
                                      List<DocumentosOperador> documentosOperador, List<HabilidadesAuxiliar> habilidadesAuxiliar,
                                      List<DocumentosAuxiliar> documentosAuxiliar, List<EvidenciaSalida> evidenciaSalida,
-                                     List<EvidenciaLlegada> evidenciaLlegada, List<Object> checkList, Cliente cliente, TipoVehiculo tipoVehiculo,
+                                     List<EvidenciaLlegada> evidenciaLlegada, List<Check> checkList, Cliente cliente, TipoVehiculo tipoVehiculo,
                                      TipoEntrega tipoEntrega, Estatus estatus, SendtripPlus sendtripPlus, String folioTicket, String origen,
                                      Integer clienteId, String referencia, Integer tipoSolicitudId, Integer tipoEntregaId, Integer estatusId,
                                      String comentarios, String secuencia, String tiempoParadaDestino, Integer tipoVehiculoId, Integer id,Integer vehiculoId,VehiculoSendtrip vehiculo
@@ -196,11 +198,11 @@ public class dataTicketsDetailsendtrip {
         this.evidenciaLlegada = evidenciaLlegada;
     }
 
-    public List<Object> getCheckList() {
+    public List<Check> getCheckList() {
         return checkList;
     }
 
-    public void setCheckList(List<Object> checkList) {
+    public void setCheckList(List<Check> checkList) {
         this.checkList = checkList;
     }
 
