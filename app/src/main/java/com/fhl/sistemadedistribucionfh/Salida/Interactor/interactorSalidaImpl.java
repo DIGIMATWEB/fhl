@@ -88,7 +88,7 @@ public class interactorSalidaImpl implements interactorSalida {
         if(resp!=null){
             String message = resp.getMessage();
             int responseCode = resp.getStatus();
-            if(resp.getStatus()== GeneralConstants.RESPONSE_CODE_OK_PEP){
+            if(resp.getStatus()== GeneralConstants.RESPONSE_CODE_OK_FH){
                 List<dataTicketsManifestV2> data = resp.getData();
 
                 if(data!=null){
@@ -136,7 +136,7 @@ public class interactorSalidaImpl implements interactorSalida {
         if(resp!=null) {
             String message = resp.getMessage();
             int responseCode = resp.getStatus();
-            if(resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_PEP) {
+            if(resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_FH) {
 
 
                 if(resp.getData()!=null) {

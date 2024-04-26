@@ -90,7 +90,7 @@ public class salidaInteractorImplementation  implements salidainteractor {
         if(resp!=null) {
             String message = resp.getMessage();
             int responseCode = resp.getStatus();
-            if(resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_PEP) {
+            if(resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_FH) {
 
                 List<responseManifestSalidaV2data> data = resp.getData();
                 Gson gson = new Gson();
@@ -154,7 +154,7 @@ public class salidaInteractorImplementation  implements salidainteractor {
         if(resp!=null) {
             String message = resp.getMessage();
             int responseCode = resp.getStatus();
-            if(resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_PEP) {
+            if(resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_FH) {
 
                 dataCortina data = resp.getData();
 //                Gson gson = new Gson();
@@ -215,7 +215,7 @@ public class salidaInteractorImplementation  implements salidainteractor {
         if(resp!=null){
             String message = resp.getMessage();
             int responseCode = resp.getStatus();
-            if(resp.getStatus()== GeneralConstants.RESPONSE_CODE_OK_PEP){
+            if(resp.getStatus()== GeneralConstants.RESPONSE_CODE_OK_FH){
                 List<dataTicketsManifestV2> data = resp.getData();
 
                 if(data!=null){
@@ -265,7 +265,7 @@ public class salidaInteractorImplementation  implements salidainteractor {
             String message = resp.getMessage();
             int responseCode = resp.getStatus();
 
-            if (resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_PEP) {//cada ticket tiene N cantidad de sellos
+            if (resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_FH) {//cada ticket tiene N cantidad de sellos
                 if(resp.getData()!=null) {
 
 

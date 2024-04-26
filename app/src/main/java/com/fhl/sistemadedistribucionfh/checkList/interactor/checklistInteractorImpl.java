@@ -19,7 +19,6 @@ import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.responseManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.util.manifestUtil;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -81,7 +80,7 @@ public class checklistInteractorImpl implements checklistInteractor {
         if (resp != null) {
             String message = resp.getMessage();
             int responseCode = resp.getStatus();
-            if (resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_PEP) {
+            if (resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_FH) {
                 dataChecklistV2 mdata = resp.getData();
                 if (mdata != null) {
                     List<VehiculoVsCheck> data = mdata.getVehiculoVsChecklist();
@@ -140,7 +139,7 @@ public class checklistInteractorImpl implements checklistInteractor {
         if(resp!=null) {
             String message = resp.getMessage();
             int responseCode = resp.getStatus();
-            if(resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_PEP) {
+            if(resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_FH) {
 
                 List<dataManifestV2> data = resp.getData();
                 Gson gson = new Gson();

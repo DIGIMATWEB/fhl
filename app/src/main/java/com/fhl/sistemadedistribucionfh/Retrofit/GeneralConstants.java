@@ -14,7 +14,7 @@ public class GeneralConstants {
     public static final String CHECK_BOX_STATE = "false";
     //responseCode
     public static final int RESPONSE_CODE_OK = 105;
-    public static final int RESPONSE_CODE_OK_PEP = 200;
+    public static final int RESPONSE_CODE_OK_FH = 200;
     public static final int RESPONSE_CODE_SESSION_EXPIRED = 104;
     public static final String RATE_STARS = "RATE";
     public static final String SIGNATURE_B64_DIR = "DIR_IMAGE_BASE64";

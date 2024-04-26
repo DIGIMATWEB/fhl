@@ -79,7 +79,7 @@ public class interactorQuestionsImpl  implements  interactorQuestions {
         if (resp != null) {
             String message = resp.getMessage();
             int responseCode = resp.getStatus();
-            if (resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_PEP) {
+            if (resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_FH) {
                 dataQuestions mdata = resp.getData();
                 if (mdata != null) {
                     List<VehiculoVsCheck> data = mdata.getVehiculoVsChecklist();
@@ -158,7 +158,7 @@ public class interactorQuestionsImpl  implements  interactorQuestions {
             Integer responseCode = responseSendChecklist.getStatus();
             String function = responseSendChecklist.getFunction();
 
-            if(responseCode == GeneralConstants.RESPONSE_CODE_OK_PEP) {
+            if(responseCode == GeneralConstants.RESPONSE_CODE_OK_FH) {
                 String message = responseSendChecklist.getMessage();
                 Log.e("SendCheck","respuesta: "+message);
                 if(message.isEmpty()) {
