@@ -25,7 +25,7 @@ public class VehiculoVsCheck {
     @SerializedName("ChecklistId")
     private Integer checklistId;
     @SerializedName("Checklist")
-    private Checklist checklist=null;
+    private Checklist checklist;
     @SerializedName("AplicadoId")
     private Integer aplicadoId;
     @SerializedName("Aplicado")

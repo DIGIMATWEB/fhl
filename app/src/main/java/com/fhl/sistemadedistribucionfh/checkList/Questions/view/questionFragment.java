@@ -174,8 +174,10 @@ public class questionFragment extends Fragment implements View.OnClickListener ,
     }
 
     public void fillViewPager(List<Pregunta> mdata) {
-        QuestionAdapter questionAdapter = new QuestionAdapter(mdata, this.getActivity(), this, ViewPager); // Pass the list of questions to the adapter
-        ViewPager.setAdapter(questionAdapter);
+        if(this.getActivity()!=null) {
+            QuestionAdapter questionAdapter = new QuestionAdapter(mdata, this.getActivity(), this, ViewPager); // Pass the list of questions to the adapter
+            ViewPager.setAdapter(questionAdapter);
+        }
     }
 
     public void setData(List<VehiculoVsCheck> data) {
@@ -220,8 +222,22 @@ public class questionFragment extends Fragment implements View.OnClickListener ,
     }
 
     private void mangeF() {
-        manager = getActivity().getSupportFragmentManager();
-        transaction = manager.beginTransaction();
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+
+        // Remove any existing fragments from the container
+        Fragment existingFragment = manager.findFragmentById(R.id.fragments);
+        if (existingFragment != null) {
+            manager.beginTransaction().remove(existingFragment).commit();
+        }
+
+        // Clear the back stack
+        manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+        // Release any references to fragments and transactions
+        manager.executePendingTransactions();
+
+        // Begin transaction to replace the fragment
+        FragmentTransaction transaction = manager.beginTransaction();
         checkList mcheckList = new checkList();
         transaction.replace(R.id.fragments, mcheckList, checkList.TAG).commit();
     }

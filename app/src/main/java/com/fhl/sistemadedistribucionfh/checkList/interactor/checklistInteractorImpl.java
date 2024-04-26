@@ -49,8 +49,9 @@ public class checklistInteractorImpl implements checklistInteractor {
     public void requestChecklist() {
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
+        String vehicle= preferences.getString(GeneralConstants.VEHICLEID,null);
         // requestChecklist request= new requestChecklist("asfasfaesweqwf");
-        Call<responseChecklistV2> call = service.getChecklist(token, 136);
+        Call<responseChecklistV2> call = service.getChecklist(token, Integer.valueOf(vehicle));
         call.enqueue(new Callback<responseChecklistV2>() {
             @Override
             public void onResponse(Call<responseChecklistV2> call, Response<responseChecklistV2> response) {
@@ -84,7 +85,11 @@ public class checklistInteractorImpl implements checklistInteractor {
                 dataChecklistV2 mdata = resp.getData();
                 if (mdata != null) {
                     List<VehiculoVsCheck> data = mdata.getVehiculoVsChecklist();
+
                     if (data != null) {
+                        Gson gson= new Gson();
+                        String jsonChecklist=gson.toJson(mdata);
+                        Log.e("checklist",""+jsonChecklist);
                         presenter.setChecklist(mdata);
                     } else {
                         Toast.makeText(context, "sin tickets asignados", Toast.LENGTH_SHORT).show();
