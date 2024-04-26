@@ -262,7 +262,9 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void setDetailTicketsentriplus(List<dataTicketsDetailsendtrip> dataTicketSendtrip) {
-        presenter.hideDialog();
+        if(iterateidTickets!=0) {
+            presenter.hideDialog();
+        }
         this.dataTicketSendtrip=dataTicketSendtrip;
         Gson gson= new Gson();
         String json= gson.toJson(dataTicketSendtrip);
