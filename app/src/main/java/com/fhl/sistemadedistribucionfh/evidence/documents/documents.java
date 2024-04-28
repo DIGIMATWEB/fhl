@@ -25,11 +25,14 @@ import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.evidence.documents.adapter.FileAdapter;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.ApiResponse;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.InnerData;
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaLlegada;
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaSalida;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -55,6 +58,14 @@ public class documents extends AppCompatActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_documents);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            List<EvidenciaSalida> evidenciaSalida = (List<EvidenciaSalida>) extras.getSerializable("evidenciaSalida");
+            List<EvidenciaLlegada> evidenciaLlegada = (List<EvidenciaLlegada>) extras.getSerializable("evidenciaLlegada");
+            // Now you have your lists, you can use them as needed
+        } else {
+            // Handle case when extras bundle is null
+        }
         initView();
         checkShared();
 

@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.evidence.evidencia;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaSalida;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
 
@@ -24,12 +25,14 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
     private Integer flowDetail;
     private List<dataTicketsDetailsendtrip> data;
     private Integer hassignature,hasReview,hasphotos,hasdocuments,hasvideos;
+    private evidencia mview;
 
 
-    public adapterEvidence(Integer flowDetail, Context context, List<dataTicketsDetailsendtrip> data) {
+    public adapterEvidence(evidencia mview,Integer flowDetail, Context context, List<dataTicketsDetailsendtrip> data) {
         this.flowDetail=flowDetail;
         this.context = context;
         this.data=data;
+        this.mview=mview;
         hassignature=1;
         hasReview=1;
         if(flowDetail==2){//TODO viene de recoleccion salida
@@ -75,6 +78,14 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
                 Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_signature_ico);
                 holder.image.setBackground(background);
                 holder.description.setText("Firma");
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Handle signature click
+                        // Example: Toast.makeText(context, "Signature clicked", Toast.LENGTH_SHORT).show();
+                        mview.gosignature();
+                    }
+                });
                 return;
             }
             itemCount++;
@@ -85,6 +96,13 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
                 Drawable background4 = ContextCompat.getDrawable(context, R.drawable.ic_rankico);
                 holder.image.setBackground(background4);
                 holder.description.setText("Encuesta");
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Handle signature click
+                        mview.goReview();
+                    }
+                });
                 return;
             }
             itemCount++;
@@ -95,15 +113,24 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
                 Drawable backgroundf = ContextCompat.getDrawable(context, R.drawable.ic_cameraico);
                 holder.image.setBackground(backgroundf);
                 holder.description.setText("Foto");
-                if (flowDetail == 2) { // TODO viene de recoleccion salida
-                    if (data.get(0).getEvidenciaSalida() != null) {
-                        // Handle photo evidence logic
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (flowDetail == 2) { // TODO viene de recoleccion salida
+                            if (data.get(0).getEvidenciaSalida() != null) {
+                                // Handle photo evidence logic
+                                mview.goCarrusel(data.get(0).getEvidenciaSalida(),null);
+                            }
+                        } else { // TODO viene de entrega de ticket
+                            if (data.get(0).getEvidenciaLlegada() != null) {
+                                // Handle photo evidence logic
+                                mview.goCarrusel(null,data.get(0).getEvidenciaLlegada());
+                            }
+                        }
+
                     }
-                } else { // TODO viene de entrega de ticket
-                    if (data.get(0).getEvidenciaLlegada() != null) {
-                        // Handle photo evidence logic
-                    }
-                }
+                });
                 return;
             }
             itemCount++;
@@ -114,6 +141,20 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
                 Drawable backgroundD = ContextCompat.getDrawable(context, R.drawable.ic_clipo);
                 holder.image.setBackground(backgroundD);
                 holder.description.setText("Archivo adjunto");
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (flowDetail == 2) { // TODO viene de recoleccion salida
+                            if (data.get(0).getEvidenciaSalida() != null) {
+                                mview.goDocuments(data.get(0).getEvidenciaSalida(),null);
+                            }
+                        } else { // TODO viene de entrega de ticket
+                           if (data.get(0).getEvidenciaLlegada() != null) {
+                               mview.goDocuments(null, data.get(0).getEvidenciaLlegada());
+                            }
+                        }
+                    }
+                });
                 return;
             }
             itemCount++;
@@ -125,6 +166,20 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
                 holder.image.setBackground(backgroundV);
                 holder.description.setText("Video");
                 // Handle video logic if needed
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (flowDetail == 2) { // TODO viene de recoleccion salida
+                            if (data.get(0).getEvidenciaSalida() != null) {
+                                mview.goVideos(data.get(0).getEvidenciaSalida(),null);
+                            }
+                        } else { // TODO viene de entrega de ticket
+                            if (data.get(0).getEvidenciaLlegada() != null) {
+                                mview.goVideos(null, data.get(0).getEvidenciaLlegada());
+                            }
+                        }
+                    }
+                });
                 return;
             }
         }

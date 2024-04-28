@@ -29,6 +29,8 @@ import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.ResoponseTicketsDetail;
 import com.fhl.sistemadedistribucionfh.evidence.adapter.adapterEvidence;
 import com.fhl.sistemadedistribucionfh.evidence.documents.documents;
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaLlegada;
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaSalida;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
 import com.fhl.sistemadedistribucionfh.evidence.photos.carrusel;
 import com.fhl.sistemadedistribucionfh.evidence.presenter.requestEvidencePresenter;
@@ -41,6 +43,7 @@ import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManife
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.List;
 
 public class evidencia extends AppCompatActivity implements View.OnClickListener,evidenceView {
@@ -266,7 +269,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     }
 
     private void fillEvidenceRequired(Integer flowDetail, List<dataTicketsDetailsendtrip> dataTicketSendtrip) {
-        adapter=new adapterEvidence(flowDetail,getApplicationContext(),dataTicketSendtrip);
+        adapter=new adapterEvidence(this,flowDetail,getApplicationContext(),dataTicketSendtrip);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());//GridLayoutManager(getApplicationContext(),3);
         rv.setLayoutManager(linearLayoutManager);
         rv.setAdapter(adapter);
@@ -523,4 +526,57 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             }
         }, 300);
     }
+    public void gosignature() {
+        Intent intentfirma = new Intent(this, signature.class);
+        startActivity(intentfirma);
+    }
+    public void goCarrusel(List<EvidenciaSalida> evidenciaSalida,  List<EvidenciaLlegada> evidenciallegada) {
+        Log.e("evidence","foto ");//TODO manejar bundle para el tipo de evidencias del carrusel
+        Bundle bundle = new Bundle();
+        if (evidenciaSalida != null) {
+            bundle.putSerializable("evidenciaSalida", (Serializable) evidenciaSalida);
+        }
+        if (evidenciallegada != null) {
+            bundle.putSerializable("evidenciaLlegada", (Serializable) evidenciallegada);
+        }
+        Intent fotos = new Intent(this, carrusel.class);
+        fotos.putExtras(bundle);
+        startActivity(fotos);
+    }
+    public void goVideos(List<EvidenciaSalida> evidenciaSalida, List<EvidenciaLlegada> evidenciaLlegada) {
+        Bundle bundle = new Bundle();
+        if (evidenciaSalida != null) {
+            bundle.putSerializable("evidenciaSalida", (Serializable) evidenciaSalida);
+        }
+        if (evidenciaLlegada != null) {
+            bundle.putSerializable("evidenciaLlegada", (Serializable) evidenciaLlegada);
+        }
+        Intent video = new Intent(this, videoRecord.class);
+        video.putExtras(bundle);
+        startActivity(video);
+    }
+
+    public void goDocuments(List<EvidenciaSalida> evidenciaSalida, List<EvidenciaLlegada> evidenciaLlegada) {
+        Bundle bundle = new Bundle();
+        if (evidenciaSalida != null) {
+            bundle.putSerializable("evidenciaSalida", (Serializable) evidenciaSalida);
+        }
+        if (evidenciaLlegada != null) {
+            bundle.putSerializable("evidenciaLlegada", (Serializable) evidenciaLlegada);
+        }
+        Intent files = new Intent(this, documents.class);
+        startActivity(files);
+        files.putExtras(bundle);
+        Log.e("evidence","archivos ");
+    }
+
+
+
+    public void goReview() {
+        Intent rating = new Intent(this, calificacion.class);
+        startActivity(rating);
+        Log.e("evidence","rating ");
+    }
+
+
 }
