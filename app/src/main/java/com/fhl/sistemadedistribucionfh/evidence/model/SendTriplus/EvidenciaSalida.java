@@ -5,7 +5,9 @@ package com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class EvidenciaSalida {
+import java.io.Serializable;
+
+public class EvidenciaSalida implements Serializable {
 
     @SerializedName("Llave")
     @Expose

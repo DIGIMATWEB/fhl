@@ -27,11 +27,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaLlegada;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaSalida;
+import com.fhl.sistemadedistribucionfh.evidence.photos.adapter.adapterCarrusel;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -53,6 +57,11 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
         private List<String> directories=new ArrayList<>();
         private ImageButton sawLast,eraseFolder;
         private Integer lasphoto=0;
+        private RecyclerView carruselrv;
+        private adapterCarrusel adapter;
+        private List<EvidenciaSalida> mevidenciaSalida=new ArrayList<>();
+        private  List<EvidenciaLlegada> mevidenciaLlegada=new ArrayList<>();
+        private Integer typeImages=0;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
@@ -61,43 +70,67 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                 if (extras != null) {
                         List<EvidenciaSalida> evidenciaSalida = (List<EvidenciaSalida>) extras.getSerializable("evidenciaSalida");
                         List<EvidenciaLlegada> evidenciaLlegada = (List<EvidenciaLlegada>) extras.getSerializable("evidenciaLlegada");
+                        mevidenciaSalida.clear();
+                        mevidenciaLlegada.clear();
+                       if(evidenciaSalida!=null&&evidenciaLlegada==null){
+                               typeImages=1;
+                               Log.e("carruselE",""+typeImages);//esta en recoleccion o salida
+                               for(EvidenciaSalida sal:evidenciaSalida){
+                                       if(sal.getTipoEvidencia()==2) {
+                                               mevidenciaSalida.add(sal);
+                                       }
+                               }
+
+                       }else if(evidenciaSalida==null&&evidenciaLlegada!=null){
+                               typeImages=2;
+                               Log.e("carruselE",""+typeImages);//esta en entrega
+                               for(EvidenciaLlegada lle:evidenciaLlegada){
+                                       if(lle.getTipoEvidencia()==2) {
+                                               mevidenciaLlegada.add(lle);
+                                       }
+                               }
+                       }else {
+                               typeImages=3;
+                               Log.e("carruselE",""+typeImages);
+                       }
                         // Now you have your lists, you can use them as needed
                 } else {
                         // Handle case when extras bundle is null
                 }
                 initView();
-                directories.clear();
-                checkFilesExist();
+//                directories.clear();
+//                checkFilesExist();
         }
 
         private void initView() {
                 backImage = findViewById(R.id.backImage);
-                imageButton1 = findViewById(R.id.imageButton1);
-                imageButton3 = findViewById(R.id.imageButton3);
-                imageButton4 = findViewById(R.id.imageButton4);
-                imageButton5 = findViewById(R.id.imageButton5);
-                imageButton6 = findViewById(R.id.imageButton6);
-                imageButton7 = findViewById(R.id.imageButton7);
-                imageButton8 = findViewById(R.id.imageButton8);
-                imageButton9 = findViewById(R.id.imageButton9);
+                carruselrv = findViewById(R.id.carruselrv);
+//                imageButton1 = findViewById(R.id.imageButton1);
+//                imageButton3 = findViewById(R.id.imageButton3);
+//                imageButton4 = findViewById(R.id.imageButton4);
+//                imageButton5 = findViewById(R.id.imageButton5);
+//                imageButton6 = findViewById(R.id.imageButton6);
+//                imageButton7 = findViewById(R.id.imageButton7);
+//                imageButton8 = findViewById(R.id.imageButton8);
+//                imageButton9 = findViewById(R.id.imageButton9);
 
-                backImage.setOnClickListener(this);
-                imageButton1.setOnClickListener(this);
-                imageButton1.setOnLongClickListener(this);
-                imageButton3.setOnClickListener(this);
-                imageButton3.setOnLongClickListener(this);
-                imageButton4.setOnClickListener(this);
-                imageButton4.setOnLongClickListener(this);
-                imageButton5.setOnClickListener(this);
-                imageButton5.setOnLongClickListener(this);
-                imageButton6.setOnClickListener(this);
-                imageButton6.setOnLongClickListener(this);
-                imageButton7.setOnClickListener(this);
-                imageButton7.setOnLongClickListener(this);
-                imageButton8.setOnClickListener(this);
-                imageButton8.setOnLongClickListener(this);
-                imageButton9.setOnClickListener(this);
-                imageButton9.setOnLongClickListener(this);
+//                backImage.setOnClickListener(this);
+//                imageButton1.setOnClickListener(this);
+//                imageButton1.setOnLongClickListener(this);
+//                imageButton3.setOnClickListener(this);
+//                imageButton3.setOnLongClickListener(this);
+//                imageButton4.setOnClickListener(this);
+//                imageButton4.setOnLongClickListener(this);
+//                imageButton5.setOnClickListener(this);
+//                imageButton5.setOnLongClickListener(this);
+//                imageButton6.setOnClickListener(this);
+//                imageButton6.setOnLongClickListener(this);
+//                imageButton7.setOnClickListener(this);
+//                imageButton7.setOnLongClickListener(this);
+//                imageButton8.setOnClickListener(this);
+//                imageButton8.setOnLongClickListener(this);
+//                imageButton9.setOnClickListener(this);
+//                imageButton9.setOnLongClickListener(this);
 
                 eraseFolder= findViewById(R.id.eraseFolder);
                 eraseFolder.setOnClickListener(this);
@@ -107,15 +140,24 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
 
                 guardarFotosButon = findViewById(R.id.guardarFotosButon);
                 guardarFotosButon.setOnClickListener(this);
-                imageButton1.setTag(1);
-                imageButton3.setTag(3);
-                imageButton4.setTag(4);
-                imageButton5.setTag(5);
-                imageButton6.setTag(6);
-                imageButton7.setTag(7);
-                imageButton8.setTag(8);
-                imageButton9.setTag(9);
+//                imageButton1.setTag(1);
+//                imageButton3.setTag(3);
+//                imageButton4.setTag(4);
+//                imageButton5.setTag(5);
+//                imageButton6.setTag(6);
+//                imageButton7.setTag(7);
+//                imageButton8.setTag(8);
+//                imageButton9.setTag(9);
+                fillAdapter(getApplicationContext(),mevidenciaSalida,mevidenciaLlegada,typeImages);
         }
+
+        private void fillAdapter(Context context, List<EvidenciaSalida> evidenciaSalidaList,List<EvidenciaLlegada> evidenciaLlegada,int type) {
+                adapter = new adapterCarrusel(context, evidenciaSalidaList, evidenciaLlegada, type);
+                GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
+                carruselrv.setLayoutManager(gridLayoutManager);
+                carruselrv.setAdapter(adapter);
+        }
+
         private void checkFilesExist() {
                 File picturesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
                 File imagesDir = new File(picturesDir, "MyImages");
@@ -408,19 +450,19 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                         case R.id.backImage:
                                 onBackPressed();
                                 break;
-                        case R.id.imageButton1:
-                        case R.id.imageButton3:
-                        case R.id.imageButton4:
-                        case R.id.imageButton5:
-                        case R.id.imageButton6:
-                        case R.id.imageButton7:
-                        case R.id.imageButton8:
-                        case R.id.imageButton9:
+//                        case R.id.imageButton1:
+//                        case R.id.imageButton3:
+//                        case R.id.imageButton4:
+//                        case R.id.imageButton5:
+//                        case R.id.imageButton6:
+//                        case R.id.imageButton7:
+//                        case R.id.imageButton8:
+//                        case R.id.imageButton9:
                                 // Set the lastClickedImageButton to the currently clicked ImageButton
-                                lastClickedImageButton = (ImageButton) v;
-                                // Open camera to capture image
-                                openCamera((int) v.getTag());
-                                break;
+//                                lastClickedImageButton = (ImageButton) v;
+//                                // Open camera to capture image
+//                                openCamera((int) v.getTag());
+//                                break;
                 }
         }
 
@@ -428,30 +470,30 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
         public boolean onLongClick(View v) {
                 Drawable drawable = null;
                 switch (v.getId()) {
-                        case R.id.imageButton1:
-                                drawable = imageButton1.getDrawable();
-                                break;
-                        case R.id.imageButton3:
-                                drawable = imageButton3.getDrawable();
-                                break;
-                        case R.id.imageButton4:
-                                drawable = imageButton4.getDrawable();
-                                break;
-                        case R.id.imageButton5:
-                                drawable = imageButton5.getDrawable();
-                                break;
-                        case R.id.imageButton6:
-                                drawable = imageButton6.getDrawable();
-                                break;
-                        case R.id.imageButton7:
-                                drawable = imageButton7.getDrawable();
-                                break;
-                        case R.id.imageButton8:
-                                drawable = imageButton8.getDrawable();
-                                break;
-                        case R.id.imageButton9:
-                                drawable = imageButton9.getDrawable();
-                                break;
+//                        case R.id.imageButton1:
+//                                drawable = imageButton1.getDrawable();
+//                                break;
+//                        case R.id.imageButton3:
+//                                drawable = imageButton3.getDrawable();
+//                                break;
+//                        case R.id.imageButton4:
+//                                drawable = imageButton4.getDrawable();
+//                                break;
+//                        case R.id.imageButton5:
+//                                drawable = imageButton5.getDrawable();
+//                                break;
+//                        case R.id.imageButton6:
+//                                drawable = imageButton6.getDrawable();
+//                                break;
+//                        case R.id.imageButton7:
+//                                drawable = imageButton7.getDrawable();
+//                                break;
+//                        case R.id.imageButton8:
+//                                drawable = imageButton8.getDrawable();
+//                                break;
+//                        case R.id.imageButton9:
+//                                drawable = imageButton9.getDrawable();
+//                                break;
                 }
                 if (drawable instanceof BitmapDrawable) {
                         Bitmap imageBitmap = ((BitmapDrawable) drawable).getBitmap();

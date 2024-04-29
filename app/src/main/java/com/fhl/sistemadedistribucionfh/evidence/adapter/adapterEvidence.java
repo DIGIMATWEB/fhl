@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.evidence.evidencia;
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaLlegada;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaSalida;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
 
@@ -24,7 +25,7 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
     private Context context;
     private Integer flowDetail;
     private List<dataTicketsDetailsendtrip> data;
-    private Integer hassignature,hasReview,hasphotos,hasdocuments,hasvideos;
+    private Integer hassignature,hasReview,hasphotos,hasdocuments,hasvideos,haschecklist;
     private evidencia mview;
 
 
@@ -47,9 +48,12 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
                     }
                 }
             }
+            if(data.get(0).getCheckList()!=null){
+                haschecklist=1;
+            }
         }else{//TODO viene de entrega de ticket
             if(data.get(0).getEvidenciaLlegada()!=null){
-                for(EvidenciaSalida evidence:data.get(0).getEvidenciaSalida()){
+                for(EvidenciaLlegada evidence:data.get(0).getEvidenciaLlegada()){
                     if(evidence.getTipoEvidencia()==2){
                         hasphotos=1;
                     }else if(evidence.getTipoEvidencia()==3){
@@ -58,6 +62,9 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
                         hasvideos=1;
                     }
                 }
+            }
+            if(data.get(0).getCheckList()!=null){
+                haschecklist=1;
             }
         }
     }
@@ -182,12 +189,28 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
                 });
                 return;
             }
+            itemCount++;
+        }
+        if(haschecklist==1){
+            if (position == itemCount) {
+                Drawable backgroundV = ContextCompat.getDrawable(context, R.drawable.ic_menu_checklist_icon);
+                holder.image.setBackground(backgroundV);
+                holder.description.setText("Checklist");
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mview.gochecklist(data.get(0).getCheckList());
+                    }
+                });
+                return;
+            }
+
         }
     }
 
     @Override
     public int getItemCount() {
-        return hassignature+hasReview+hasphotos+hasdocuments+hasvideos;
+        return hassignature+hasReview+hasphotos+hasdocuments+hasvideos+haschecklist;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

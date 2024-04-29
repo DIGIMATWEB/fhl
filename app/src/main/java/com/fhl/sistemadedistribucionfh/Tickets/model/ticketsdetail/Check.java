@@ -4,9 +4,10 @@ import com.fhl.sistemadedistribucionfh.checkList.model.v2.Pregunta;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Check {
+public class Check implements Serializable {
     @SerializedName("Preguntas")
     @Expose
     private List<Pregunta> preguntas;
