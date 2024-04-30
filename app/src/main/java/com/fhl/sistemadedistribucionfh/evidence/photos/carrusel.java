@@ -36,6 +36,7 @@ import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaLlegada;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaSalida;
 import com.fhl.sistemadedistribucionfh.evidence.photos.adapter.adapterCarrusel;
+import com.fhl.sistemadedistribucionfh.evidence.photos.model.bitmapArange;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -62,6 +63,7 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
         private List<EvidenciaSalida> mevidenciaSalida=new ArrayList<>();
         private  List<EvidenciaLlegada> mevidenciaLlegada=new ArrayList<>();
         private Integer typeImages=0;
+        private List<bitmapArange> bitmaplist= new ArrayList<>();
         @Override
         protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
@@ -78,6 +80,7 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                                for(EvidenciaSalida sal:evidenciaSalida){
                                        if(sal.getTipoEvidencia()==2) {
                                                mevidenciaSalida.add(sal);
+                                               bitmaplist .add(new bitmapArange(null,0));
                                        }
                                }
 
@@ -87,13 +90,13 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                                for(EvidenciaLlegada lle:evidenciaLlegada){
                                        if(lle.getTipoEvidencia()==2) {
                                                mevidenciaLlegada.add(lle);
+                                               bitmaplist .add(new bitmapArange(null,0));
                                        }
                                }
                        }else {
                                typeImages=3;
                                Log.e("carruselE",""+typeImages);
                        }
-                        // Now you have your lists, you can use them as needed
                 } else {
                         // Handle case when extras bundle is null
                 }
@@ -152,7 +155,7 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
         }
 
         private void fillAdapter(Context context, List<EvidenciaSalida> evidenciaSalidaList,List<EvidenciaLlegada> evidenciaLlegada,int type) {
-                adapter = new adapterCarrusel(context, evidenciaSalidaList, evidenciaLlegada, type);
+                adapter = new adapterCarrusel(this,context, evidenciaSalidaList, evidenciaLlegada, type,bitmaplist);
                 GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
                 carruselrv.setLayoutManager(gridLayoutManager);
                 carruselrv.setAdapter(adapter);
@@ -165,7 +168,6 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                         Log.e("carrusel", "MyImages directory not found");
                         return;
                 }
-
                 for (int i = 1; i <= 9; i++) {
                         String fileNamePrefix = i + "_temp_image";
                         File[] files = imagesDir.listFiles(new FilenameFilter() {
@@ -220,7 +222,10 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                                 // Save the image to a temporary file
                               //  tempImageFile = saveTempImage(imageBitmap);
                                 tempImageFiles.add(saveTempImage(imageBitmap,lasphoto));
+
                         }
+                        bitmaplist.set(lasphoto, new bitmapArange(imageBitmap,lasphoto));
+                        adapter. updateBitmapslist(bitmaplist);
                 }
         }
 
@@ -266,7 +271,7 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                 dialog.show();
         }
 
-        private void openCamera(int index) {
+        public void openCamera(int index) {
                 this.lasphoto=index;
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -342,8 +347,6 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                                 Log.e("carrusel1", "Source file does not exist: " + tempImageFile.getAbsolutePath());
                         }
                 }
-
-               // tempImageFiles.clear(); // Clear the list of temporary image files
         }
 
         private String convertImageToBase64(File imageFile) throws IOException {

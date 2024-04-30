@@ -266,7 +266,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         Gson gson= new Gson();
         String json= gson.toJson(dataTicketSendtrip);
         Log.e("detailticket"," flowdetail "+flowDetail+" json ticket:"+json);
-        fillEvidenceRequired(flowDetail,dataTicketSendtrip);
+        fillEvidenceRequired(flowDetail,dataTicketSendtrip);//2para test
         textFol.setText("Folio: "+dataTicketSendtrip.get(0).getFolioTicket());
     }
 

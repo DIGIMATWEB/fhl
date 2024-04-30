@@ -1,6 +1,9 @@
 package com.fhl.sistemadedistribucionfh.evidence.photos.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +17,10 @@ import com.bumptech.glide.Glide;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaLlegada;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaSalida;
+import com.fhl.sistemadedistribucionfh.evidence.photos.carrusel;
+import com.fhl.sistemadedistribucionfh.evidence.photos.model.bitmapArange;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class adapterCarrusel extends RecyclerView.Adapter<adapterCarrusel.ViewHolder> {
@@ -22,12 +28,17 @@ public class adapterCarrusel extends RecyclerView.Adapter<adapterCarrusel.ViewHo
     private List<EvidenciaSalida> evidenciaSalidaList;
     private List<EvidenciaLlegada> evidenciaLlegada;
     private Integer type=0;
+    private carrusel mview;
+    private  ViewHolder mholder;
+    private List<bitmapArange> bitmaplist;
 
-    public adapterCarrusel(Context context, List<EvidenciaSalida> evidenciaSalidaList,List<EvidenciaLlegada> evidenciaLlegada,int type) {
+    public adapterCarrusel(carrusel mview,Context context, List<EvidenciaSalida> evidenciaSalidaList,List<EvidenciaLlegada> evidenciaLlegada,int type,List<bitmapArange> bitmaplist) {
         this.context = context;
         this.evidenciaSalidaList = evidenciaSalidaList;
         this.evidenciaLlegada=evidenciaLlegada;
         this.type=type;
+        this.mview=mview;
+        this.bitmaplist=bitmaplist;
     }
 
 
@@ -39,8 +50,10 @@ public class adapterCarrusel extends RecyclerView.Adapter<adapterCarrusel.ViewHo
         return new ViewHolder(view);
     }
 
+
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        mholder=holder;
         if(type==2){
             holder.description.setText(""+evidenciaLlegada.get(position).getValor());
         }else if(type==1){
@@ -49,12 +62,37 @@ public class adapterCarrusel extends RecyclerView.Adapter<adapterCarrusel.ViewHo
         }else {
             holder.description.setText("");
         }
-//    Glide.with(context)
-//            .load(R.drawable.camera_vectors)
-//            .centerCrop()
-//            .into(holder.picture);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mview.openCamera(position);
+            }
+        });
+        if(bitmaplist.size()!=0) {
+            if (bitmaplist.get(position).getImageBitmap() != null) {
+                if (bitmaplist.get(position).getPosition() == position) {
+                    Glide.with(context)
+                            .load(bitmaplist.get(position).getImageBitmap())
+                            .centerCrop()
+                            .into(mholder.picture);
+                } else {
+                    Glide.with(context)
+                            .load(R.drawable.ic_cameraico)
+                            .centerCrop()
+                            .into(mholder.picture);
+                }
+            } else {
+                Glide.with(context)
+                        .load(R.drawable.ic_cameraico)
+                        .centerCrop()
+                        .into(mholder.picture);
+
+            }
+        }
+
 
     }
+
 
     @Override
     public int getItemCount() {
@@ -66,6 +104,12 @@ public class adapterCarrusel extends RecyclerView.Adapter<adapterCarrusel.ViewHo
             return 0;
         }
 
+    }
+
+    public void updateBitmapslist(List<bitmapArange> newbitmaplist) {
+        this.bitmaplist=new ArrayList<>(); // Clear the existing list
+        this.bitmaplist.addAll(newbitmaplist); // Add all elements from the new list
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
