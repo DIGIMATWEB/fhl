@@ -154,35 +154,40 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
                 break;
             case R.id.recoletar:
                // Toast.makeText(getContext(), "recolectar", Toast.LENGTH_SHORT).show();
+                if(selectedItems!=null) {
+                    if(selectedItems.size()!=0){
 
-                List<dataTicketsManifestV2> fdata= new ArrayList<>();
-                fdata.clear();
-                if(data!=null) {
-                    for (dataTicketsManifestV2 mdata:data){//este metodo se usa para filtrar los tickets que ya se han cerrado
-                        if(mdata.getEstatusId()==2);{
-                            if(mdata.getEstatus().getId()==2) {
-                                fdata.add(mdata);
+                    List<dataTicketsManifestV2> fdata = new ArrayList<>();
+                    fdata.clear();
+                    if (data != null) {
+                        for (dataTicketsManifestV2 mdata : data) {//este metodo se usa para filtrar los tickets que ya se han cerrado
+                            if (mdata.getEstatusId() == 2) ;
+                            {
+                                if (mdata.getEstatus().getId() == 2) {
+                                    if(selectedItems.contains(mdata.getFolioTicket())) {
+                                        fdata.add(mdata);
+                                    }
+                                }
                             }
                         }
+
+                        Bundle bundle = new Bundle();
+                        bundle.putString("scannerType", "Recolectar");
+                        bundle.putString("manifest", folioDespachoId);
+                        bundle.putSerializable("tickets", (Serializable) fdata);
+                        bundle.putSerializable("sellos", (Serializable) dataSellos);
+                        Intent intent = new Intent(getActivity(), BarcodeScannerActivity.class);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getContext(), "No tienes tickets para recolectar", Toast.LENGTH_SHORT).show();
                     }
 
-                    Bundle bundle = new Bundle();
-                    bundle.putString("scannerType", "Recolectar");
-                    bundle.putString("manifest", folioDespachoId);
-                    bundle.putSerializable("tickets", (Serializable) fdata);
-                    bundle.putSerializable("sellos", (Serializable) dataSellos);
-                    Intent intent = new Intent(getActivity(), BarcodeScannerActivity.class);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                }else{
-                    Toast.makeText(getContext(), "No tienes tickets para recolectar", Toast.LENGTH_SHORT).show();
-                }
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("tickets", (Serializable) data);
-//                ticketsSalida tickets = new ticketsSalida();
-//                tickets.setArguments(bundle);
-//                tickets.show(getParentFragmentManager(), "ticketsSalida");
 
+                    }else {
+                        Toast.makeText(getContext(), "Necesitas seleccionar al menos un ticket", Toast.LENGTH_SHORT).show();
+                    }
+                }
                 break;
         }
     }
