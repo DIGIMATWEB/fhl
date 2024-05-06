@@ -25,7 +25,7 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
     private Context context;
     private Integer flowDetail;
     private List<dataTicketsDetailsendtrip> data;
-    private Integer hassignature,hasReview,hasphotos,hasdocuments,hasvideos,haschecklist;
+    private Integer hassignature,hasReview,hasphotos,hasdocuments,hasvideos,haschecklist=0;
     private evidencia mview;
 
 
@@ -210,7 +210,12 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
 
     @Override
     public int getItemCount() {
-        return hassignature+hasReview+hasphotos+hasdocuments+hasvideos+haschecklist;
+        return hassignature
+                +hasReview
+                +hasphotos
+                +hasdocuments
+                +hasvideos
+                +haschecklist;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

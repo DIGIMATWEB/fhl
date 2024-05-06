@@ -5,6 +5,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,8 +24,10 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
     private manifestDetailV2 mview;
     private Context context;
     private List<dataTicketsManifestV2> data;
+    private List<String> selectedItems=new ArrayList<>();
     private int size;
     public adapterManifestDetails(manifestDetailV2 mview, List<dataTicketsManifestV2> data, int size, Context context) {
+        selectedItems.clear();
         this.mview=mview;
         this.size = size;
         this.context=context;
@@ -46,6 +50,22 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
             }else if(statusId==2){
                 holder.statusTicket.setText("Asignado");
                 holder.statusTicket.setTextColor(ContextCompat.getColor(context, R.color.yellowdark));
+                holder.switchSelector.setVisibility(View.VISIBLE);
+                holder.switchSelector.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if(isChecked){
+                            if(!selectedItems.contains(data.get(position).getFolioTicket())) {
+                                selectedItems.add(data.get(position).getFolioTicket());
+                            }//else do nothing
+                        }else{
+                            if(selectedItems.contains(data.get(position).getFolioTicket())) {
+                                selectedItems.remove(data.get(position).getFolioTicket());
+                            }
+                        }
+                        mview.checkFoliosSelected(selectedItems);
+                    }
+                });
             }else if(statusId==3){
                 holder.statusTicket.setText("En ruta");
                 holder.statusTicket.setTextColor(ContextCompat.getColor(context, R.color.purpleenruta));
@@ -84,11 +104,13 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
     public class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout cardOrder;
         TextView ticketFolio,statusTicket;
+        Switch switchSelector;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             cardOrder=itemView.findViewById(R.id.constrainCard);
             ticketFolio = itemView.findViewById(R.id.ticketFolio);
             statusTicket= itemView.findViewById(R.id.statusTicket);
+            switchSelector = itemView.findViewById(R.id.switchSelector);
         }
     }
 }

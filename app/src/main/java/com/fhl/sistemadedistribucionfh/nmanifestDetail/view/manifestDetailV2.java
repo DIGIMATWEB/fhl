@@ -32,6 +32,7 @@ import com.fhl.sistemadedistribucionfh.nmanifestDetail.adapter.adapterManifestDe
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.presenter.presenterTicketsManifestImplV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.presenter.presenterTicketsmanifestV2;
+import com.google.gson.Gson;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -49,9 +50,10 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
     private List<dataTicketsManifestV2> data;
     private List<Sello> dataSellos;
     private presenterTicketsmanifestV2 presenter;
-    private TextView vehicleManifiesto, vehicleName, vehiclePlaca, vehicleCedis,status;
+    private TextView vehicleManifiesto, vehicleName, vehiclePlaca, vehicleCedis,status,recolectartxt;
     private ImageButton recoletar;
     private loaderFH progress;
+    private List<String> selectedItems=new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -74,12 +76,14 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
     }
 
     private void initView(View view) {
+        selectedItems.clear();
         rvlistTickets = view.findViewById(R.id.rvlistTickets);
         searchViewManifestdetail = view.findViewById(R.id.searchViewManifestdetail);
         searchicodetail = view.findViewById(R.id.searchicodetail);
         searchicodetail.setOnClickListener(this);
         recoletar=view.findViewById(R.id.recoletar);
         recoletar.setOnClickListener(this);
+        recolectartxt=view.findViewById(R.id.recolectartxt);
         vehicleManifiesto = view.findViewById(R.id.numeroManifiesto2);
         vehicleName = view.findViewById(R.id.vehicle_namev2);
         vehiclePlaca = view.findViewById(R.id.placa_text);
@@ -105,7 +109,11 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         if(statusManifest.equals("En proceso")){
             recoletar.setVisibility(View.GONE);
         }
-
+        if(selectedItems!=null) {
+            recolectartxt.setText("Recolectar (" + selectedItems.size() + ")");
+        }else{
+            recolectartxt.setText("Recolectar (0)");
+        }
         //setAdapter(data);
     }
 
@@ -146,6 +154,7 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
                 break;
             case R.id.recoletar:
                // Toast.makeText(getContext(), "recolectar", Toast.LENGTH_SHORT).show();
+
                 List<dataTicketsManifestV2> fdata= new ArrayList<>();
                 fdata.clear();
                 if(data!=null) {
@@ -230,11 +239,30 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
                 if(mdata.getTipoEntregaId()==2){//este id es para el modulo de salida y para mostrarce dee estar en ruta y el estatus 2
                     recoletar.setVisibility(View.GONE);
                 }else if(mdata.getTipoEntregaId()==1){
-                    recoletar.setVisibility(View.VISIBLE);
+                    if(fdata.size()!=0){
+                        if(mdata.getEstatusId()<3) {
+                            recoletar.setVisibility(View.VISIBLE);
+                        }else{
+                            recoletar.setVisibility(View.GONE);
+                        }
+                    }else {
+                        recoletar.setVisibility(View.GONE);
+                    }
+
                 }else{
                     recoletar.setVisibility(View.GONE);
                 }
             }
+            if(fdata.size()!=0){
+                for (dataTicketsManifestV2 mdata : data) {
+                    if (mdata.getEstatusId() < 3) {
+                        recoletar.setVisibility(View.VISIBLE);
+                    }
+                }
+            }else {
+                recoletar.setVisibility(View.GONE);
+            }
+
         }
     }
 
@@ -271,7 +299,17 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         transaction.replace(R.id.fragments, checklist, mmanifestV2.TAG).commit();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
     }
-
+    public void checkFoliosSelected(List<String> selectedItems) {
+        this.selectedItems=selectedItems;
+        Gson gson=new Gson();
+        String json =gson.toJson(selectedItems);
+        Log.e("selectedItems",json);
+        if(selectedItems!=null) {
+            recolectartxt.setText("Recolectar (" + selectedItems.size() + ")");
+        }else{
+            recolectartxt.setText("Recolectar (0)");
+        }
+    }
     @Override
     public void onResume() {
         super.onResume();
@@ -297,7 +335,5 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
             });
         }
     }
-
-
 }
 
