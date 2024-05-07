@@ -23,8 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.evidence.documents.adapter.FileAdapter;
-import com.fhl.sistemadedistribucionfh.evidence.documents.model.ApiResponse;
-import com.fhl.sistemadedistribucionfh.evidence.documents.model.InnerData;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaLlegada;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaSalida;
 
@@ -33,15 +31,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class documents extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG = documents.class.getSimpleName();
@@ -54,14 +43,38 @@ public class documents extends AppCompatActivity implements View.OnClickListener
     private TextView menuName;
     private RecyclerView recyclerView;
     private FileAdapter fileAdapter;
+    private Integer flowDetail;
+    private Integer mpos=0;
+    private List<String> lisEvidence=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_documents);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+            lisEvidence.clear();
             List<EvidenciaSalida> evidenciaSalida = (List<EvidenciaSalida>) extras.getSerializable("evidenciaSalida");
             List<EvidenciaLlegada> evidenciaLlegada = (List<EvidenciaLlegada>) extras.getSerializable("evidenciaLlegada");
+
+            flowDetail=extras.getInt("flowDetail");//todo si es 2 es de recoleccion o salida si es 1 es de llegada
+            if(flowDetail==2){
+                if(evidenciaSalida!=null){
+                    for(EvidenciaSalida evidence:evidenciaSalida){
+                        if(evidence.getTipoEvidencia()==3) {
+                            lisEvidence.add(evidence.getValor());
+                        }
+                    }
+                }
+            }else {
+                if(evidenciaLlegada!=null)
+                {
+                    for (EvidenciaLlegada evidence:evidenciaLlegada){
+                        if(evidence.getTipoEvidencia()==3) {
+                            lisEvidence.add(evidence.getValor());
+                        }
+                    }
+                }
+            }
             // Now you have your lists, you can use them as needed
         } else {
             // Handle case when extras bundle is null
@@ -92,9 +105,9 @@ public class documents extends AppCompatActivity implements View.OnClickListener
                 tempImageFilesNames.add(fileName);
             }
             filleAdapter();
-        }
-        else{
+        }else{
             imageMenu.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
+            filleAdapter();
         }
     }
 
@@ -127,8 +140,22 @@ public class documents extends AppCompatActivity implements View.OnClickListener
                         }else{
                             imageMenu.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
                         }
-                        tempImageFiles.add(filePath);
-                        tempImageFilesNames.add(fileName);
+                        if (mpos != -1) {//esto agrega los nombres de archivos y la uri del mismo para su futura manipulacion
+                            if (!tempImageFiles.isEmpty() && mpos < tempImageFiles.size()) {
+                                tempImageFiles.set(mpos, filePath);
+                            } else {
+                                tempImageFiles.add(filePath);
+                            }
+
+                            if (!tempImageFilesNames.isEmpty() && mpos < tempImageFilesNames.size()) {
+                                tempImageFilesNames.set(mpos, fileName);
+                            } else {
+                                tempImageFilesNames.add(fileName);
+                            }
+                        } else {
+                            tempImageFiles.add(filePath);
+                            tempImageFilesNames.add(fileName);
+                        }
                         Log.e("uploader",""+filePath);
                         String[] filePathSplit = filePath.split("\\.");
                         String fileExtension = filePathSplit[filePathSplit.length - 1];
@@ -178,19 +205,23 @@ public class documents extends AppCompatActivity implements View.OnClickListener
     private void filleAdapter() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         // Initialize adapter with tempImageFiles
-        fileAdapter = new FileAdapter(tempImageFilesNames);
+        fileAdapter = new FileAdapter(tempImageFilesNames,this,lisEvidence);
         recyclerView.setAdapter(fileAdapter);
+    }
+    public void getFile(int position){
+        this.mpos=position;
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*"); // Allow any file type to be selected
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(intent, REQUEST_PICK_FILE);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.firma:
+            case R.id.firma://todo cambiar el nombre esto es el boton iniciañ
                 // Specify the file path
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("*/*"); // Allow any file type to be selected
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                startActivityForResult(intent, REQUEST_PICK_FILE);
+                getFile(-1);
                 break;
             case R.id.saveFilesDir:
                 if(tempImageFiles!=null){

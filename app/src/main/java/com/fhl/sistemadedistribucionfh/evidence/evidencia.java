@@ -103,7 +103,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             }else{
               Log.e("EvidenciaActivity","folio "+folioTicket+" data : null");
             }
-            if(detailTicket!=null){
+            if(detailTicket!=null){//todo esto es si es cerrar viaje
                 flowDetail=1;
                 Gson gson=new Gson();
                 String jsonstring= gson.toJson(detailTicket);
@@ -122,7 +122,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                     Log.e("EvidenciaActivity", "" + jsonObje.getData().get(0).getCheckList().size());
                 }
             }else {
-                flowDetail=2;
+                flowDetail=2;//todo esto es si viene de recoleccion
             }
         }
         initView();
@@ -265,7 +265,8 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         this.dataTicketSendtrip=dataTicketSendtrip;
         Gson gson= new Gson();
         String json= gson.toJson(dataTicketSendtrip);
-        Log.e("detailticket"," flowdetail "+flowDetail+" json ticket:"+json);
+        Log.e("detailticket"," json ticket:"+json);
+        Log.e("detailticket"," flowdetail "+flowDetail);
         fillEvidenceRequired(flowDetail,dataTicketSendtrip);//2para test
         textFol.setText("Folio: "+dataTicketSendtrip.get(0).getFolioTicket());
     }
@@ -558,8 +559,9 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         startActivity(video);
     }
 
-    public void goDocuments(List<EvidenciaSalida> evidenciaSalida, List<EvidenciaLlegada> evidenciaLlegada) {
+    public void goDocuments(List<EvidenciaSalida> evidenciaSalida, List<EvidenciaLlegada> evidenciaLlegada, Integer flowDetail) {
         Bundle bundle = new Bundle();
+        bundle.putInt("flowDetail",flowDetail);
         if (evidenciaSalida != null) {
             bundle.putSerializable("evidenciaSalida", (Serializable) evidenciaSalida);
         }
@@ -567,8 +569,9 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             bundle.putSerializable("evidenciaLlegada", (Serializable) evidenciaLlegada);
         }
         Intent files = new Intent(this, documents.class);
-        startActivity(files);
+
         files.putExtras(bundle);
+        startActivity(files);
         Log.e("evidence","archivos ");
     }
 

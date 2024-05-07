@@ -64,14 +64,22 @@
             </ImageView>
 
             <TextView
+                android:id="@+id/descriptionEvidence"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/h8"
+                app:layout_constraintStart_toStartOf="@+id/menuName"
+                app:layout_constraintTop_toBottomOf="@+id/menuName" />
+            <TextView
                 android:id="@+id/menuName"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
-                android:text="Documento"
+                android:text="----"
                 android:textAlignment="textStart"
                 android:textSize="@dimen/h5"
                 app:layout_constraintBottom_toBottomOf="parent"

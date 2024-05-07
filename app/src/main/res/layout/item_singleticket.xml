@@ -21,7 +21,14 @@
         android:id="@+id/constrainCard"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
+        <FrameLayout
+            android:id="@+id/switchContainer"
+            android:layout_width="80dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
         <Switch
             android:id="@+id/switchSelector"
             android:layout_width="wrap_content"
@@ -29,11 +36,12 @@
             android:elevation="15dp"
             android:layout_height="20dp"
             android:thumb="@drawable/round_switch"
+            android:layout_marginTop="25dp"
             android:track="@drawable/switch_bg_track"
-            android:layout_marginStart="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+        </FrameLayout>
         <TextView
             android:id="@+id/textView9"
             android:layout_width="wrap_content"
