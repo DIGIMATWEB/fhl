@@ -50,10 +50,11 @@ public class adapterVideoRecord extends RecyclerView.Adapter<adapterVideoRecord.
     }
     @Override
     public void onBindViewHolder(@NonNull final adapterVideoRecord.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-       // holder.overlay.setVisibility(View.GONE);
+        // holder.overlay.setVisibility(View.GONE);
         holder.descVideo.setText(lisEvidenceVideo.get(position));
-        if(!videoUriList.isEmpty()){
-            Uri videoUri = videoUriList.get(position);
+
+        if (!videoUriList.isEmpty() && position < videoUriList.size()) {
+            final Uri videoUri = videoUriList.get(position);
             Glide.with(context)
                     .load(videoUri)
                     .centerCrop()
@@ -62,18 +63,20 @@ public class adapterVideoRecord extends RecyclerView.Adapter<adapterVideoRecord.
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
-//                        if(holder.overlay.getVisibility()==View.GONE){
-//                            holder.overlay.setVisibility(View.VISIBLE);
-//                        }else{
-//                            holder.overlay.setVisibility(View.GONE);
-//                        }
-                        listener.onItemClick(videoUri,position);
+                        listener.onItemClick(videoUri, position);
                     }
                 }
             });
-
+        } else {
+            holder.evidence.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        listener.startRecord();
+                    }
+                }
+            });
         }
-
     }
     @Override
     public int getItemCount() {

@@ -215,6 +215,15 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    public void startRecord() {
+        if (!isRecording) {
+            startRecording();
+        } else {
+            stopRecording();
+        }
+    }
+
 
     @Override
     public void onClick(View v) {
