@@ -28,15 +28,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaLlegada;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaSalida;
-import com.fhl.sistemadedistribucionfh.evidence.videos.adaoter.OnItemClickListener;
-import com.fhl.sistemadedistribucionfh.evidence.videos.adaoter.adapterVideoRecord;
+import com.fhl.sistemadedistribucionfh.evidence.videos.adapter.OnItemClickListener;
+import com.fhl.sistemadedistribucionfh.evidence.videos.adapter.adapterVideoRecord;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class videoRecord  extends AppCompatActivity implements View.OnClickListener, OnItemClickListener {
 
@@ -51,15 +48,37 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
     private RecyclerView rv;
     private adapterVideoRecord adapter;
     private Integer positionErase;
-
+    private List<String> lisEvidenceVideo=new ArrayList<>();
+    private Integer flowDetail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_capture);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+            lisEvidenceVideo.clear();
             List<EvidenciaSalida> evidenciaSalida = (List<EvidenciaSalida>) extras.getSerializable("evidenciaSalida");
             List<EvidenciaLlegada> evidenciaLlegada = (List<EvidenciaLlegada>) extras.getSerializable("evidenciaLlegada");
+
+            flowDetail=extras.getInt("flowDetail");//todo si es 2 es de recoleccion o salida si es 1 es de llegada
+            if(flowDetail==2){
+                if(evidenciaSalida!=null){
+                    for(EvidenciaSalida evidence:evidenciaSalida){
+                        if(evidence.getTipoEvidencia()==4) {
+                            lisEvidenceVideo.add(evidence.getValor());
+                        }
+                    }
+                }
+            }else {
+                if(evidenciaLlegada!=null)
+                {
+                    for (EvidenciaLlegada evidence:evidenciaLlegada){
+                        if(evidence.getTipoEvidencia()==4) {
+                            lisEvidenceVideo.add(evidence.getValor());
+                        }
+                    }
+                }
+            }
             // Now you have your lists, you can use them as needed
         } else {
             // Handle case when extras bundle is null
@@ -216,7 +235,7 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
         }
     }
     private void fillAdapter( ) {
-        adapter=new adapterVideoRecord(getApplicationContext(),this);
+        adapter=new adapterVideoRecord(getApplicationContext(),this,lisEvidenceVideo);
         LinearLayoutManager linearLayoutManager = new GridLayoutManager(getApplicationContext(),3);
         rv.setLayoutManager(linearLayoutManager);
         rv.setAdapter(adapter);

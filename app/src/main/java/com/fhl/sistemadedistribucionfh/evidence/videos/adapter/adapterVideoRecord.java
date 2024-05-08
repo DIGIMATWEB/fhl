@@ -1,4 +1,4 @@
-package com.fhl.sistemadedistribucionfh.evidence.videos.adaoter;
+package com.fhl.sistemadedistribucionfh.evidence.videos.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,10 +22,12 @@ public class adapterVideoRecord extends RecyclerView.Adapter<adapterVideoRecord.
     private Context context;
     private List<Uri> videoUriList=new ArrayList<>();
     private OnItemClickListener listener;
+    private List<String> lisEvidenceVideo;
 
-    public adapterVideoRecord( Context context,OnItemClickListener listener) {
+    public adapterVideoRecord(Context context, OnItemClickListener listener, List<String> lisEvidenceVideo) {
         this.context=context;
         this.listener=listener;
+        this.lisEvidenceVideo=lisEvidenceVideo;
     }
     public void addVideoUri(Uri videoUri) {
         videoUriList.add(videoUri);
@@ -33,7 +36,6 @@ public class adapterVideoRecord extends RecyclerView.Adapter<adapterVideoRecord.
     public void removeItem(int position) {
         if (position >= 0 && position < videoUriList.size()) {
             videoUriList.remove(position);
-
             notifyItemRemoved(position);
         }
     }
@@ -49,6 +51,7 @@ public class adapterVideoRecord extends RecyclerView.Adapter<adapterVideoRecord.
     @Override
     public void onBindViewHolder(@NonNull final adapterVideoRecord.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
        // holder.overlay.setVisibility(View.GONE);
+        holder.descVideo.setText(lisEvidenceVideo.get(position));
         if(!videoUriList.isEmpty()){
             Uri videoUri = videoUriList.get(position);
             Glide.with(context)
@@ -74,7 +77,7 @@ public class adapterVideoRecord extends RecyclerView.Adapter<adapterVideoRecord.
     }
     @Override
     public int getItemCount() {
-        return videoUriList.size();
+        return lisEvidenceVideo.size();//videoUriList.size();
     }
 
 
@@ -82,9 +85,11 @@ public class adapterVideoRecord extends RecyclerView.Adapter<adapterVideoRecord.
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView evidence,overlay;
+        TextView descVideo;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             evidence=itemView.findViewById(R.id.evidenceVideo);
+            descVideo=itemView.findViewById(R.id.descVideo);
           //  overlay=itemView.findViewById(R.id. overlay);
         }
     }

@@ -546,8 +546,9 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         fotos.putExtras(bundle);
         startActivity(fotos);
     }
-    public void goVideos(List<EvidenciaSalida> evidenciaSalida, List<EvidenciaLlegada> evidenciaLlegada) {
+    public void goVideos(List<EvidenciaSalida> evidenciaSalida, List<EvidenciaLlegada> evidenciaLlegada, Integer flowDetail) {
         Bundle bundle = new Bundle();
+        bundle.putInt("flowDetail",flowDetail);
         if (evidenciaSalida != null) {
             bundle.putSerializable("evidenciaSalida", (Serializable) evidenciaSalida);
         }

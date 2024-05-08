@@ -1,4 +1,4 @@
-package com.fhl.sistemadedistribucionfh.evidence.videos.adaoter;
+package com.fhl.sistemadedistribucionfh.evidence.videos.adapter;
 
 import android.net.Uri;
 
