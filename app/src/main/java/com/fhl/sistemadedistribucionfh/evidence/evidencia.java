@@ -29,6 +29,7 @@ import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.Check;
 import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.ResoponseTicketsDetail;
 import com.fhl.sistemadedistribucionfh.evidence.adapter.adapterEvidence;
+import com.fhl.sistemadedistribucionfh.evidence.checklist.checklistEvidence;
 import com.fhl.sistemadedistribucionfh.evidence.documents.documents;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaLlegada;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaSalida;
@@ -586,6 +587,13 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
 
     public void gochecklist(List<Check> checkList) {
-        Toast.makeText(this, "Crear intent de checklist", Toast.LENGTH_SHORT).show();
+        Bundle bundle = new Bundle();
+        //Toast.makeText(this, "Crear intent de checklist", Toast.LENGTH_SHORT).show();
+        if (checkList != null) {
+            bundle.putSerializable("checklist", (Serializable)checkList);
+        }
+        Intent checklist = new Intent(this, checklistEvidence.class);
+        checklist.putExtras(bundle);
+        startActivity(checklist);
     }
 }

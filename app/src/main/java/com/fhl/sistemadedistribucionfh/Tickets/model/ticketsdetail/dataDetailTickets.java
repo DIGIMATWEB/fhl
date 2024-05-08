@@ -1,11 +1,12 @@
 
 package com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail;
 
+import java.io.Serializable;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class dataDetailTickets {
+public class dataDetailTickets implements Serializable {
 
     @SerializedName("TicketId")
     @Expose

@@ -136,17 +136,16 @@ public class questionFragment extends Fragment implements View.OnClickListener ,
     }
 
     @Override
-    //Pressed return button - returns to the results menu
-    public void onResume() { //onback
+    public void onResume() {
         super.onResume();
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
         getView().setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                Log.e("drahEventes"," "+keyCode+" "+event);
-                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
-                    mangeF();
+                Log.e("drahEventes", " " + keyCode + " " + event);
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+                    requireActivity().getSupportFragmentManager().popBackStack();
                     return true;
                 }
                 return false;

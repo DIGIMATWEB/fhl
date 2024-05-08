@@ -1,13 +1,14 @@
 
 package com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.Check;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class dataTicketsDetailsendtrip {
+public class dataTicketsDetailsendtrip implements Serializable {
 
     @SerializedName("DocumentosVehiculo")
     @Expose

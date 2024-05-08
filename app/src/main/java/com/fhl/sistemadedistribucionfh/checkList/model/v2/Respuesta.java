@@ -3,7 +3,9 @@ package com.fhl.sistemadedistribucionfh.checkList.model.v2;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Respuesta {
+import java.io.Serializable;
+
+public class Respuesta implements Serializable {
     @SerializedName("CheckListId")
     @Expose
     private Integer checkListId;
