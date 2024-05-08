@@ -125,7 +125,7 @@ public class checklistEvidence extends AppCompatActivity implements View.OnClick
     }
 
     public void goQuestions(String nombre, String placa, String vigencia, String periodicida) {
-        manager = this.getSupportFragmentManager();
+        manager = getSupportFragmentManager();
         transaction = manager.beginTransaction();
         questionFragment q = new questionFragment();
         // Create a Bundle to pass data to the fragment
@@ -137,6 +137,10 @@ public class checklistEvidence extends AppCompatActivity implements View.OnClick
         // Set the arguments for the fragment
         q.setArguments(bundle);
         // Replace the fragment with arguments
-        transaction.replace(R.id.fragments, q, questionFragment.TAG).commit();
+        transaction.replace(R.id.fragments, q, questionFragment.TAG);
+        // Add the transaction to the back stack
+        transaction.addToBackStack(null);
+        // Commit the transaction
+        transaction.commit();
     }
 }
