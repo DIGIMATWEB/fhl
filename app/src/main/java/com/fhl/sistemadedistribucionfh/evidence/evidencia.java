@@ -29,7 +29,7 @@ import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.Check;
 import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.ResoponseTicketsDetail;
 import com.fhl.sistemadedistribucionfh.evidence.adapter.adapterEvidence;
-import com.fhl.sistemadedistribucionfh.evidence.checklist.checklistEvidence;
+import com.fhl.sistemadedistribucionfh.evidence.checklist.view.checklistEvidence;
 import com.fhl.sistemadedistribucionfh.evidence.documents.documents;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaLlegada;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaSalida;

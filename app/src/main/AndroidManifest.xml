@@ -62,7 +62,7 @@
             android:name="com.fhl.sistemadedistribucionfh.login.view.login"
             android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".evidence.checklist.checklistEvidence"
+        <activity android:name=".evidence.checklist.view.checklistEvidence"
             android:screenOrientation="portrait" >
         </activity>
         <activity

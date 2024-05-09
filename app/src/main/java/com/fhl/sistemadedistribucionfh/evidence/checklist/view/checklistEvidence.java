@@ -1,16 +1,13 @@
-package com.fhl.sistemadedistribucionfh.evidence.checklist;
+package com.fhl.sistemadedistribucionfh.evidence.checklist.view;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,16 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.Check;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.view.questionFragment;
-import com.fhl.sistemadedistribucionfh.checkList.adapter.adapterChecklist;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.VehiculoVsCheck;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.dataChecklistV2;
-import com.fhl.sistemadedistribucionfh.checkList.presenter.checkListPresenterImpl;
 import com.fhl.sistemadedistribucionfh.checkList.presenter.checklistPresenter;
-import com.fhl.sistemadedistribucionfh.checkList.view.checkList;
 import com.fhl.sistemadedistribucionfh.checkList.view.checklistView;
 import com.fhl.sistemadedistribucionfh.evidence.checklist.adapter.adapterChecklistEvidence;
-import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaLlegada;
-import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaSalida;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -52,31 +44,27 @@ public class checklistEvidence extends AppCompatActivity implements View.OnClick
 
         return view;
     }*/
-
+    private List<Check> checkList=new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragmet_checklist_evidence);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            List<Check> checkList = (List<Check>) extras.getSerializable("checklist");
+            checkList = (List<Check>) extras.getSerializable("checklist");
             Gson gson= new Gson();
             String json =gson.toJson(checkList);
             Log.e("jsonChecklist",""+json);
         }
         initView();
+        fillSellos(checkList);
     }
 
-    private void fillSellos(dataChecklistV2 data) {
-        adapter=new adapterChecklistEvidence(this,data,getApplicationContext());
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        rv.setLayoutManager(layoutManager);
-        rv.setAdapter(adapter);
-    }
+
     private void initView() {
         rv=findViewById(R.id.rvchecklist);
-        presenter= new checkListPresenterImpl(this,getApplicationContext());
-        presenter.getCheckList();
+//        presenter= new checkListPresenterImpl(this,getApplicationContext());
+//        presenter.getCheckList();
         searchView=findViewById(R.id.searchViewChecklist);
         searchView.setQueryHint("Buscar manifiesto");
         Drawable background= getApplicationContext().getDrawable(R.drawable.shape_button);
@@ -96,6 +84,7 @@ public class checklistEvidence extends AppCompatActivity implements View.OnClick
 //                return true;
 //            }
 //        });
+
     }
 
     private List<VehiculoVsCheck> filter(List<VehiculoVsCheck> data, String text) {
@@ -121,10 +110,16 @@ public class checklistEvidence extends AppCompatActivity implements View.OnClick
     @Override
     public void setCheckList(dataChecklistV2 data) {
         this.data=data;
-        fillSellos(data);
+        //fillSellos(data);
     }
-
-    public void goQuestions(String nombre, String placa, String vigencia, String periodicida) {
+    private void fillSellos(List<Check> data) {
+        adapter=new adapterChecklistEvidence(this,data,getApplicationContext());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        rv.setLayoutManager(layoutManager);
+        rv.setAdapter(adapter);
+    }
+ /*
+ public void goQuestions(String nombre, String placa, String vigencia, String periodicida) {
         manager = getSupportFragmentManager();
         transaction = manager.beginTransaction();
         questionFragment q = new questionFragment();
@@ -143,4 +138,5 @@ public class checklistEvidence extends AppCompatActivity implements View.OnClick
         // Commit the transaction
         transaction.commit();
     }
+   */
 }

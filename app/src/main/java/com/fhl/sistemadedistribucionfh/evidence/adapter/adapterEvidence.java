@@ -36,6 +36,7 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
         this.mview=mview;
         hassignature=1;
         hasReview=1;
+        hasphotos=0;
         if(flowDetail==2){//TODO viene de recoleccion o salida
             if(data.get(0).getEvidenciaSalida()!=null){
                 for(EvidenciaSalida evidence:data.get(0).getEvidenciaSalida()){

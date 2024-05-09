@@ -146,8 +146,7 @@ public class questionFragment extends Fragment implements View.OnClickListener ,
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 Log.e("drahEventes"," "+keyCode+" "+event);
                 if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
-                    getActivity().getSupportFragmentManager().popBackStack();
-                    //mangeF();
+                    mangeF();
                     return true;
                 }
                 return false;

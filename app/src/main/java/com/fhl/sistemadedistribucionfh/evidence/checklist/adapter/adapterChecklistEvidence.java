@@ -2,7 +2,6 @@ package com.fhl.sistemadedistribucionfh.evidence.checklist.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,25 +13,19 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
-import com.fhl.sistemadedistribucionfh.checkList.adapter.adapterChecklist;
-import com.fhl.sistemadedistribucionfh.checkList.model.v2.dataChecklistV2;
-import com.fhl.sistemadedistribucionfh.checkList.view.checkList;
-import com.fhl.sistemadedistribucionfh.evidence.checklist.checklistEvidence;
+import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.Check;
+import com.fhl.sistemadedistribucionfh.evidence.checklist.view.checklistEvidence;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.Map;
+import java.util.List;
 
 public class adapterChecklistEvidence extends RecyclerView.Adapter<adapterChecklistEvidence.ViewHolder> {
     private Context context;
-    private dataChecklistV2 data;
+    private List<Check> data;
     private checklistEvidence mview;
     private String vigencia="";
     private String periodicidad="";
 
-    public adapterChecklistEvidence(checklistEvidence mview, dataChecklistV2 data, Context context) {
+    public adapterChecklistEvidence(checklistEvidence mview, List<Check> data, Context context) {
         this.data = data;
         this.context = context;
         this.mview= mview;
@@ -47,47 +40,50 @@ public class adapterChecklistEvidence extends RecyclerView.Adapter<adapterCheckl
 
     @Override
     public void onBindViewHolder(@NonNull adapterChecklistEvidence.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-        if(data.getVehiculoVsChecklist()!=null) {
-            if(data.getVehiculoVsChecklist().get(position).getChecklist()!=null) {
-                if(data.getVehiculoVsChecklist().get(position).getChecklist().getNombre()!=null) {
-                    holder.namechecklist.setText(data.getVehiculoVsChecklist().get(position).getChecklist().getNombre());
-                    periodicity(holder,position);
-                }
-            }
-        }
-        holder.vehiclTypeChecklist.setText(data.getVehiculo().getPlaca());
-
-
-
-        if (data.getVehiculoVsChecklist().get(position).getPeriodicidad() instanceof String) {
-            periodicidad=data.getVehiculoVsChecklist().get(position).getPeriodicidad().toString();
-            holder.manifestChecklist.setText("Por " +periodicidad);
-        } else if (data.getVehiculoVsChecklist().get(position).getPeriodicidad() instanceof Map) {
-//            List<String> dias = (List<String>) ((Map<String, Object>) periodicidad).get("dias");
-//            System.out.println("Periodicidad is an array of days: " + dias);
-            holder.manifestChecklist.setText("Por " );
-        } else {
-            holder.manifestChecklist.setText(": " );
-        }
-
-
-
-        holder.siguienteChecklist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String nombreTemp = "NombreTemp";
-                    /*if (data.getVehiculoVsChecklist().get(position).getChecklist().getNombre()== null) {
-                        nombreTemp = "NombreTemp";
-                    } else {
-                        nombreTemp = data.getVehiculoVsChecklist().get(position).getChecklist().getNombre();
-                    }*/
-
-                mview.goQuestions(nombreTemp,data.getVehiculo().getPlaca(),vigencia,periodicidad);
-                //mview.goQuestions(data.getVehiculoVsChecklist().get(position).getChecklist().getNombre(),data.getVehiculo().getPlaca(),vigencia,periodicidad);
-            }
-        });
+        holder.namechecklist.setText(data.get(position).getValor());
+        //region other module checklist
+//        if(data.getVehiculoVsChecklist()!=null) {
+//            if(data.getVehiculoVsChecklist().get(position).getChecklist()!=null) {
+//                if(data.getVehiculoVsChecklist().get(position).getChecklist().getNombre()!=null) {
+//                    holder.namechecklist.setText(data.getVehiculoVsChecklist().get(position).getChecklist().getNombre());
+//                    periodicity(holder,position);
+//                }
+//            }
+//        }
+//        holder.vehiclTypeChecklist.setText(data.getVehiculo().getPlaca());
+//
+//
+//
+//        if (data.getVehiculoVsChecklist().get(position).getPeriodicidad() instanceof String) {
+//            periodicidad=data.getVehiculoVsChecklist().get(position).getPeriodicidad().toString();
+//            holder.manifestChecklist.setText("Por " +periodicidad);
+//        } else if (data.getVehiculoVsChecklist().get(position).getPeriodicidad() instanceof Map) {
+////            List<String> dias = (List<String>) ((Map<String, Object>) periodicidad).get("dias");
+////            System.out.println("Periodicidad is an array of days: " + dias);
+//            holder.manifestChecklist.setText("Por " );
+//        } else {
+//            holder.manifestChecklist.setText(": " );
+//        }
+//
+//
+//
+//        holder.siguienteChecklist.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String nombreTemp = "NombreTemp";
+//                    /*if (data.getVehiculoVsChecklist().get(position).getChecklist().getNombre()== null) {
+//                        nombreTemp = "NombreTemp";
+//                    } else {
+//                        nombreTemp = data.getVehiculoVsChecklist().get(position).getChecklist().getNombre();
+//                    }*/
+//
+//                mview.goQuestions(nombreTemp,data.getVehiculo().getPlaca(),vigencia,periodicidad);
+//                //mview.goQuestions(data.getVehiculoVsChecklist().get(position).getChecklist().getNombre(),data.getVehiculo().getPlaca(),vigencia,periodicidad);
+//            }
+//        });
+        //endregion
     }
-    public void periodicity(adapterChecklistEvidence.ViewHolder holder, int position) {
+    /*public void periodicity(adapterChecklistEvidence.ViewHolder holder, int position) {
         String dateString = data.getVehiculoVsChecklist().get(position).getChecklist().getFechaVencimiento();
 
         try {
@@ -122,10 +118,10 @@ public class adapterChecklistEvidence extends RecyclerView.Adapter<adapterCheckl
 
             // Handle the case where the date string cannot be parsed
         }
-    }
+    }*/
     @Override
     public int getItemCount() {
-        return data.getVehiculoVsChecklist().size();
+        return data.size();
     }
 
 //    public void setFilter(List<VehiculoVsCheck> filterList) {
