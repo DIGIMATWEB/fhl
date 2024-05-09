@@ -41,6 +41,15 @@ public class adapterChecklistEvidence extends RecyclerView.Adapter<adapterCheckl
     @Override
     public void onBindViewHolder(@NonNull adapterChecklistEvidence.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         holder.namechecklist.setText(data.get(position).getValor());
+        holder.cardOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mview.goQuestions("","","","");
+            }
+        });
+
+
+
         //region other module checklist
 //        if(data.getVehiculoVsChecklist()!=null) {
 //            if(data.getVehiculoVsChecklist().get(position).getChecklist()!=null) {

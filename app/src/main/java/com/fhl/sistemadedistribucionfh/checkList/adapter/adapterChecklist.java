@@ -2,6 +2,7 @@ package com.fhl.sistemadedistribucionfh.checkList.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,10 @@ import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.dataChecklistV2;
 import com.fhl.sistemadedistribucionfh.checkList.view.checkList;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Map;
 
 public class adapterChecklist extends RecyclerView.Adapter<adapterChecklist.ViewHolder> {
@@ -123,30 +126,39 @@ public class adapterChecklist extends RecyclerView.Adapter<adapterChecklist.View
      * ***/
     public  void periodicity(ViewHolder holder, int position){
         String dateString=data.getVehiculoVsChecklist().get(position).getChecklist().getFechaVencimiento();
-        LocalDateTime givenDate = LocalDateTime.parse(dateString, DateTimeFormatter.ISO_DATE_TIME);
-        // Get the current date and time
-        LocalDateTime currentDate = LocalDateTime.now();
-        // Compare the given date with the current date
-        if (currentDate.isBefore(givenDate)) {
-            vigencia="Vigente";
-            holder.statusChecklist.setText("Vigente");
-            int mcolor=context.getColor(R.color.green);
-            holder.statusChecklist.setTextColor(mcolor);
-            // Your code for the past date scenario goes here
-        } else if (givenDate.isEqual(currentDate)) {
-            holder.statusChecklist.setText("No vigente");
-            vigencia="No vigente";
-            int mcolor=context.getColor(R.color.red);
-            holder.statusChecklist.setTextColor(mcolor);
-            holder.siguienteChecklist.setVisibility(View.GONE);
-            holder.moreChecklist.setVisibility(View.GONE);
-        } else {
-            vigencia="No vigente";
-            holder.statusChecklist.setText("No vigente");
-            int mcolor=context.getColor(R.color.red);
-            holder.statusChecklist.setTextColor(mcolor);
-            holder.siguienteChecklist.setVisibility(View.GONE);
-            holder.moreChecklist.setVisibility(View.GONE);
+        if(dateString!=null&&dateString!="") {
+            try {
+                  LocalDate givenDate = LocalDate.parse(dateString, DateTimeFormatter.ISO_LOCAL_DATE);
+                  // Get the current date
+                  LocalDate currentDate = LocalDate.now();
+
+                  if (currentDate.isBefore(givenDate)) {
+                      vigencia = "Vigente";
+                      holder.statusChecklist.setText("Vigente");
+                      int mcolor = context.getColor(R.color.green);
+                      holder.statusChecklist.setTextColor(mcolor);
+                      // Your code for the future date scenario goes here
+                  } else if (givenDate.isEqual(currentDate)) {
+                      vigencia = "No vigente";
+                      holder.statusChecklist.setText("No vigente");
+                      int mcolor = context.getColor(R.color.red);
+                      holder.statusChecklist.setTextColor(mcolor);
+                      holder.siguienteChecklist.setVisibility(View.GONE);
+                      holder.moreChecklist.setVisibility(View.GONE);
+                  } else {
+                      vigencia = "No vigente";
+                      holder.statusChecklist.setText("No vigente");
+                      int mcolor = context.getColor(R.color.red);
+                      holder.statusChecklist.setTextColor(mcolor);
+                      holder.siguienteChecklist.setVisibility(View.GONE);
+                      holder.moreChecklist.setVisibility(View.GONE);
+                  }
+              } catch (DateTimeParseException e) {
+                  e.printStackTrace();
+                  Log.e("jsonChecklist",""+e.getMessage());
+
+                  // Handle the case where the date string cannot be parsed
+              }
         }
     }
     @Override

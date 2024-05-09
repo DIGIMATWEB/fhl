@@ -21,6 +21,7 @@ import com.fhl.sistemadedistribucionfh.checkList.model.v2.dataChecklistV2;
 import com.fhl.sistemadedistribucionfh.checkList.presenter.checklistPresenter;
 import com.fhl.sistemadedistribucionfh.checkList.view.checklistView;
 import com.fhl.sistemadedistribucionfh.evidence.checklist.adapter.adapterChecklistEvidence;
+import com.fhl.sistemadedistribucionfh.evidence.checklist.zQuestionCheckllist.questionEvidence;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -118,11 +119,10 @@ public class checklistEvidence extends AppCompatActivity implements View.OnClick
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(adapter);
     }
- /*
  public void goQuestions(String nombre, String placa, String vigencia, String periodicida) {
         manager = getSupportFragmentManager();
         transaction = manager.beginTransaction();
-        questionFragment q = new questionFragment();
+        questionEvidence q = new questionEvidence();
         // Create a Bundle to pass data to the fragment
         Bundle bundle = new Bundle();
         bundle.putString("nombre", nombre);
@@ -132,11 +132,10 @@ public class checklistEvidence extends AppCompatActivity implements View.OnClick
         // Set the arguments for the fragment
         q.setArguments(bundle);
         // Replace the fragment with arguments
-        transaction.replace(R.id.fragments, q, questionFragment.TAG);
+        transaction.replace(R.id.fragments, q, questionEvidence.TAG);
         // Add the transaction to the back stack
         transaction.addToBackStack(null);
         // Commit the transaction
         transaction.commit();
     }
-   */
 }
