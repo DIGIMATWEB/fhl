@@ -53,9 +53,9 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
                 hasphotos=0;
                 hasvideos=0;
             }
-            if(data.get(0).getCheckList()!=null){
-                haschecklist=1;
-            }
+//            if(data.get(0).getCheckList()!=null){
+//                haschecklist=1;
+//            }
         }else{//TODO viene de entrega de ticket
             if(data.get(0).getEvidenciaLlegada()!=null){
                 for(EvidenciaLlegada evidence:data.get(0).getEvidenciaLlegada()){
