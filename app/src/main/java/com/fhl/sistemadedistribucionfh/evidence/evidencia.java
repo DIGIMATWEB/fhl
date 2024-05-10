@@ -147,40 +147,63 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             mfirma=true;
             signatureBase64=signature;
             inputTextSignature=inputText;
+            if(adapter!=null) {
+                adapter.updatefirma(mfirma);
+            }
         }else{
             signatureImage.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
             mfirma=false;
             signatureBase64="";
             inputTextSignature="";
+            if(adapter!=null) {
+                adapter.updatefirma(mfirma);
+            }
         }
         if(images!=null){
             cameraico.setColorFilter(Color.rgb(0, 187, 41), PorterDuff.Mode.SRC_ATOP);
             mfoto=true;
             currusel=images;
-
+            if(adapter!=null) {
+                adapter.foto(mfoto);
+            }
         }else{
             cameraico.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
             mfoto=false;
             currusel="";
+            if(adapter!=null) {
+                adapter.foto(mfoto);
+            }
         }
         if(docs!=null){
             clipDocs.setColorFilter(Color.rgb(0, 187, 41), PorterDuff.Mode.SRC_ATOP);
             mfiles=true;
             ffiles=docs;
+            if(adapter!=null) {
+                adapter.archivo(mfiles);
+            }
         }else{
             clipDocs.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
             mfiles=false;
             ffiles="";
+            if(adapter!=null) {
+                adapter.archivo(mfiles);
+            }
         }
         if(rate!=null){
             frating = Float.valueOf( rate);
             star.setColorFilter(Color.rgb(0, 187, 41), PorterDuff.Mode.SRC_ATOP);
             mrating=true;
             stars=rate;
+            if(adapter!=null) {
+                adapter.encuesta(mrating);
+            }
         }else{
             star.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
             mrating=false;
             stars="";
+            if(adapter!=null) {
+                adapter.encuesta(mrating);
+            }
         }
     }
 
@@ -277,6 +300,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());//GridLayoutManager(getApplicationContext(),3);
         rv.setLayoutManager(linearLayoutManager);
         rv.setAdapter(adapter);
+        checkShared();
     }
 
     @Override
@@ -318,6 +342,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 star.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
                 mrating = false;
                 secuenceRequest=1;
+                checkShared();
                 break;
             case R.id.sendEvidence://la primera vez la firma lo manda con esto
 

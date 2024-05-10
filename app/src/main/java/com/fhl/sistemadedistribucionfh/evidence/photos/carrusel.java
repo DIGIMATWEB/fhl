@@ -108,32 +108,6 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
         private void initView() {
                 backImage = findViewById(R.id.backImage);
                 carruselrv = findViewById(R.id.carruselrv);
-//                imageButton1 = findViewById(R.id.imageButton1);
-//                imageButton3 = findViewById(R.id.imageButton3);
-//                imageButton4 = findViewById(R.id.imageButton4);
-//                imageButton5 = findViewById(R.id.imageButton5);
-//                imageButton6 = findViewById(R.id.imageButton6);
-//                imageButton7 = findViewById(R.id.imageButton7);
-//                imageButton8 = findViewById(R.id.imageButton8);
-//                imageButton9 = findViewById(R.id.imageButton9);
-
-//                backImage.setOnClickListener(this);
-//                imageButton1.setOnClickListener(this);
-//                imageButton1.setOnLongClickListener(this);
-//                imageButton3.setOnClickListener(this);
-//                imageButton3.setOnLongClickListener(this);
-//                imageButton4.setOnClickListener(this);
-//                imageButton4.setOnLongClickListener(this);
-//                imageButton5.setOnClickListener(this);
-//                imageButton5.setOnLongClickListener(this);
-//                imageButton6.setOnClickListener(this);
-//                imageButton6.setOnLongClickListener(this);
-//                imageButton7.setOnClickListener(this);
-//                imageButton7.setOnLongClickListener(this);
-//                imageButton8.setOnClickListener(this);
-//                imageButton8.setOnLongClickListener(this);
-//                imageButton9.setOnClickListener(this);
-//                imageButton9.setOnLongClickListener(this);
 
                 eraseFolder= findViewById(R.id.eraseFolder);
                 eraseFolder.setOnClickListener(this);
@@ -143,14 +117,6 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
 
                 guardarFotosButon = findViewById(R.id.guardarFotosButon);
                 guardarFotosButon.setOnClickListener(this);
-//                imageButton1.setTag(1);
-//                imageButton3.setTag(3);
-//                imageButton4.setTag(4);
-//                imageButton5.setTag(5);
-//                imageButton6.setTag(6);
-//                imageButton7.setTag(7);
-//                imageButton8.setTag(8);
-//                imageButton9.setTag(9);
                 fillAdapter(getApplicationContext(),mevidenciaSalida,mevidenciaLlegada,typeImages);
         }
 
@@ -447,7 +413,7 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                                                 savePathsOnShared();
                                         }
                                 }
-                                onBackPressed();
+                               // onBackPressed();
 
                                 break;
                         case R.id.backImage:
