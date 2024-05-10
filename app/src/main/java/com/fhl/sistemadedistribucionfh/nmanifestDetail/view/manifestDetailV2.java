@@ -184,8 +184,6 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
                     }
                     if(fdata.size()!=0) {
 
-<<<<<<< HEAD
-=======
 
                         Bundle bundle = new Bundle();
                         bundle.putString("scannerType", "Recolectar");
@@ -206,11 +204,7 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
 //                ticketsSalida tickets = new ticketsSalida();
 //                tickets.setArguments(bundle);
 //                tickets.show(getParentFragmentManager(), "ticketsSalida");
->>>>>>> main
 
-                    }else {
-                        Toast.makeText(getContext(), "Necesitas seleccionar al menos un ticket", Toast.LENGTH_SHORT).show();
-                    }
                 }
                 break;
         }

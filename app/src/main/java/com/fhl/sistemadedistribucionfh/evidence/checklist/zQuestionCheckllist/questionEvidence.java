@@ -26,6 +26,7 @@ import com.fhl.sistemadedistribucionfh.checkList.Questions.presenter.presenterQu
 import com.fhl.sistemadedistribucionfh.checkList.Questions.presenter.presenterQuestionsImpl;
 import com.fhl.sistemadedistribucionfh.checkList.Questions.view.questionsView;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.Pregunta;
+import com.fhl.sistemadedistribucionfh.checkList.model.v2.VehiculoVsCheck;
 import com.fhl.sistemadedistribucionfh.checkList.view.checkList;
 import com.fhl.sistemadedistribucionfh.evidence.adapter.QuestionAdapterEvidence;
 
@@ -106,6 +107,36 @@ public class questionEvidence extends Fragment implements View.OnClickListener ,
 
         fillViewPager(mfdata);
         ischeklistsetupok=true;
+    }
+
+    @Override
+    public void changeStatusManifestTicket() {
+
+    }
+
+    @Override
+    public void setData(List<VehiculoVsCheck> data) {
+
+    }
+
+    @Override
+    public void showDialog() {
+
+    }
+
+    @Override
+    public void hideDialog() {
+
+    }
+
+    @Override
+    public void closeCheckListError2() {
+
+    }
+
+    @Override
+    public void successetCehcklist() {
+
     }
 
     public void fillViewPager(List<Pregunta> mdata) {
