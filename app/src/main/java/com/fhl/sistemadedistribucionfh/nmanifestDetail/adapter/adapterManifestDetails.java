@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -84,7 +85,7 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
         } else {
             holder.statusTicket.setText(""); // or any other default value you prefer
         }
-        holder.cardOrder.setOnClickListener(new View.OnClickListener() {
+        holder.freametouch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                // Toast.makeText(context, ""+position, Toast.LENGTH_SHORT).show();
@@ -105,8 +106,10 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
         ConstraintLayout cardOrder;
         TextView ticketFolio,statusTicket;
         Switch switchSelector;
+        FrameLayout freametouch;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            freametouch=itemView.findViewById(R.id.freametouch);
             cardOrder=itemView.findViewById(R.id.constrainCard);
             ticketFolio = itemView.findViewById(R.id.ticketFolio);
             statusTicket= itemView.findViewById(R.id.statusTicket);
