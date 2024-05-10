@@ -2,6 +2,7 @@ package com.fhl.sistemadedistribucionfh.checkList.view;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.fhl.sistemadedistribucionfh.checkList.model.v2.VehiculoVsCheck;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.dataChecklistV2;
 import com.fhl.sistemadedistribucionfh.checkList.presenter.checkListPresenterImpl;
 import com.fhl.sistemadedistribucionfh.checkList.presenter.checklistPresenter;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,6 +99,9 @@ public class checkList extends Fragment implements View.OnClickListener,checklis
     @Override
     public void setCheckList(dataChecklistV2 data) {
         this.data=data;
+        Gson gson=new Gson();
+        String json=gson.toJson(data);
+        Log.e("checklistData",""+json);
         fillSellos(data);
     }
 

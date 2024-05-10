@@ -113,6 +113,12 @@ public class checklistEvidence extends AppCompatActivity implements View.OnClick
         this.data=data;
         //fillSellos(data);
     }
+
+    @Override
+    public void continueChecklist() {
+
+    }
+
     private void fillSellos(List<Check> data) {
         adapter=new adapterChecklistEvidence(this,data,getApplicationContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());

@@ -47,6 +47,10 @@ public class questionEvidence extends Fragment implements View.OnClickListener ,
     private presenterQuestions presenter;
     private sendChecklist sendChakclist;
     private List<SendCheck> checklist=null;
+
+    private Integer cvetemp, positionRespuestas;
+    private Integer positionTemp, vehiculoChkId, despachoId, vehiculoId, checklistId;
+    private String fechaAplicado;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,6 +63,14 @@ public class questionEvidence extends Fragment implements View.OnClickListener ,
             placa = args.getString("placa");
             vigencia = args.getString("vigencia");
             periodicida = args.getString("periodicida");
+            positionRespuestas = args.getInt("position", 0); // Valor predeterminado 0 si no se encuentra
+
+            // Esto es para enviar el checklist
+            vehiculoChkId = args.getInt("VehiculoChkId" , 0);
+            despachoId = args.getInt("DespachoId", 0);
+        //    fechaAplicado = args.getString("FechaAplicado", "");
+            vehiculoId = args.getInt("VehiculoId", 0);
+            checklistId = args.getInt("ChecklistId", 0);
             if (vigencia.equals("Vigente")) {
                 int mcolor = getContext().getColor(R.color.green);
                 statusChecklist.setTextColor(mcolor);
@@ -91,7 +103,7 @@ public class questionEvidence extends Fragment implements View.OnClickListener ,
         ViewPager = view.findViewById(R.id.ViewPager);
         sendChakclist=new sendChecklist(checklist,user,2);
         presenter= new presenterQuestionsImpl(this,getContext());
-        presenter.requestQuestions();
+        presenter.requestQuestions(positionRespuestas,checklistId);
     }
 
     @Override
