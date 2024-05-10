@@ -187,9 +187,10 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                                 lastClickedImageButton.setImageBitmap(imageBitmap);
                                 // Save the image to a temporary file
                               //  tempImageFile = saveTempImage(imageBitmap);
-                                tempImageFiles.add(saveTempImage(imageBitmap,lasphoto));
+                             /**   tempImageFiles.add(saveTempImage(imageBitmap,lasphoto));TODO ESO SE QUITO POR QUE  EL FLUJO DEJO DE SER ESTATICO**/
 
                         }
+                        tempImageFiles.add(saveTempImage(imageBitmap,lasphoto));
                         bitmaplist.set(lasphoto, new bitmapArange(imageBitmap,lasphoto));
                         adapter. updateBitmapslist(bitmaplist);
                 }
@@ -413,7 +414,7 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
                                                 savePathsOnShared();
                                         }
                                 }
-                               // onBackPressed();
+                               onBackPressed();
 
                                 break;
                         case R.id.backImage:
