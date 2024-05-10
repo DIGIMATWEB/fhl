@@ -92,7 +92,7 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
         if(resp!=null) {
             String message = resp.getMessage();
             int responseCode = resp.getStatus();
-            if(resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_PEP) {
+            if(resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_FH) {
 
                 List<dataManifestV2> data = resp.getData();
                 Gson gson = new Gson();
@@ -101,6 +101,10 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
                 if(data!=null) {
                     presenter.setmanifestV2(data);
                     presenter.hideProgress();
+                    SharedPreferences preferencias = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferencias.edit();
+                    editor.putString(GeneralConstants.VEHICLEID,String.valueOf(data.get(0).getVehiculoId()));
+                    editor.commit();
                     List<String> folios = new ArrayList<>();
                     folios.clear();
                     for (int i=0; i<data.size();i++){

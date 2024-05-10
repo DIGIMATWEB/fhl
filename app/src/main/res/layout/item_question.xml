@@ -9,7 +9,7 @@
         android:id="@+id/switchanswer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -116,8 +116,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp"
-                    android:background="@drawable/camera_vectors"
-                    android:backgroundTint="#C4C4C4"
+                    android:src="@drawable/camera_vectors"
+
                     android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -369,12 +369,14 @@
                     android:layout_height="30dp"
                     android:background="@drawable/ic_menu_gallery"
                     android:visibility="gone"
+
                     app:layout_constraintBottom_toTopOf="@+id/guidelinequestion212"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/textopenquestion"
                     app:layout_constraintTop_toTopOf="parent"></ImageView>
 
                 <TextView
+                    android:id="@+id/cameraTextMulti"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_marginBottom="15dp"
@@ -391,8 +393,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp"
-                    android:background="@drawable/camera_vectors"
-                    android:backgroundTint="#C4C4C4"
+                    android:src="@drawable/camera_vectors"
+
                     android:visibility="visible"
 
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -437,7 +439,7 @@
         android:id="@+id/openanswer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -565,6 +567,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
+                    android:id="@+id/cameraTextOpen"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_marginBottom="15dp"
@@ -592,8 +595,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:background="@drawable/camera_vectors"
-                    android:backgroundTint="#C4C4C4"
+                    android:src="@drawable/camera_vectors"
+
                     android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

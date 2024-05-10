@@ -182,7 +182,31 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
                     } else {
                         Toast.makeText(getContext(), "No tienes tickets para recolectar", Toast.LENGTH_SHORT).show();
                     }
+                    if(fdata.size()!=0) {
 
+<<<<<<< HEAD
+=======
+
+                        Bundle bundle = new Bundle();
+                        bundle.putString("scannerType", "Recolectar");
+                        bundle.putString("manifest", folioDespachoId);
+                        bundle.putSerializable("tickets", (Serializable) fdata);
+                        bundle.putSerializable("sellos", (Serializable) dataSellos);
+                        Intent intent = new Intent(getActivity(), BarcodeScannerActivity.class);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }else{
+
+                    }
+                }else{
+                    Toast.makeText(getContext(), "No tienes tickets para recolectar", Toast.LENGTH_SHORT).show();
+                }
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("tickets", (Serializable) data);
+//                ticketsSalida tickets = new ticketsSalida();
+//                tickets.setArguments(bundle);
+//                tickets.show(getParentFragmentManager(), "ticketsSalida");
+>>>>>>> main
 
                     }else {
                         Toast.makeText(getContext(), "Necesitas seleccionar al menos un ticket", Toast.LENGTH_SHORT).show();

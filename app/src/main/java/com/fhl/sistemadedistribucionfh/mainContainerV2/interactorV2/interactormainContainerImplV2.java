@@ -113,7 +113,7 @@ public class interactormainContainerImplV2 implements interactormainContainerV2 
             String message = resp.getMessage();
             int responseCode = resp.getStatus();
 
-            if(responseCode == GeneralConstants.RESPONSE_CODE_OK_PEP) {
+            if(responseCode == GeneralConstants.RESPONSE_CODE_OK_FH) {
                 try {
                     // Obtener la cadena JSON interna
                     String jsonString = response.body().getData();

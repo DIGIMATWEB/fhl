@@ -78,7 +78,7 @@ public class interactorVehiclesImpl implements interactorVehicles{
                 if(resp!=null){
                     String message = resp.getMessage();
                     int responseCode = resp.getStatus();
-                    if(resp.getStatus()== GeneralConstants.RESPONSE_CODE_OK_PEP){
+                    if(resp.getStatus()== GeneralConstants.RESPONSE_CODE_OK_FH){
                        List<dataVehicleLocation> data = resp.getData();
 
                         if(data!=null){
