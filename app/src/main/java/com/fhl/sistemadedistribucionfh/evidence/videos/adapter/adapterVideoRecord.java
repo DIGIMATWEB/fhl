@@ -101,6 +101,10 @@ public class adapterVideoRecord extends RecyclerView.Adapter<adapterVideoRecord.
                 }
             });
             }else{
+                Glide.with(context)
+                        .load(android.R.color.black) // Load a black placeholder
+                        .centerCrop()
+                        .into(holder.evidence);
                 holder.evidence.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
