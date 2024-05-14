@@ -6,5 +6,5 @@ public interface OnItemClickListener {
     void onItemClick(Uri videoUri, int position);
 
     void removeformmedia(Uri uri);
-    void startRecord();
+    void startRecord(int position);
 }

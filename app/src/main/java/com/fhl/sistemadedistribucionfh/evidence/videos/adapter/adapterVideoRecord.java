@@ -3,6 +3,7 @@ package com.fhl.sistemadedistribucionfh.evidence.videos.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,18 +30,46 @@ public class adapterVideoRecord extends RecyclerView.Adapter<adapterVideoRecord.
         this.listener=listener;
         this.lisEvidenceVideo=lisEvidenceVideo;
     }
-    public void addVideoUri(Uri videoUri) {
-        videoUriList.add(videoUri);
-        notifyDataSetChanged(); // Notify adapter that data set has changed
+    public void addVideoUri(Uri videoUri, Integer posVid) {
+        Log.e("addVideoUri", "position " + posVid + "  video " + videoUri);
+        if (lisEvidenceVideo != null) {
+            int evidenceSize = lisEvidenceVideo.size();
+            int currentSize = videoUriList.size();
+            if (posVid < currentSize) {
+                videoUriList.set(posVid, videoUri);
+            } else if (posVid == currentSize) {
+                videoUriList.add(videoUri);
+            } else {
+                // If the position exceeds the current size, you might want to handle this case.
+                // For now, let's add null values until the position matches.
+                while (currentSize < posVid) {
+                    videoUriList.add(null);
+                    currentSize++;
+                }
+                videoUriList.add(videoUri);
+            }
+
+            // If evidence size is greater than the current size of videoUriList,
+            // add null values to videoUriList until it reaches the same size as lisEvidenceVideo.
+            while (videoUriList.size() < evidenceSize) {
+                videoUriList.add(null);
+            }
+
+            notifyDataSetChanged();
+        }
     }
+
+
+
     public void removeItem(int position) {
         if (position >= 0 && position < videoUriList.size()) {
-            videoUriList.remove(position);
-            notifyItemRemoved(position);
+            videoUriList.set(position,null);
+            //notifyItemRemoved(position);
         }
     }
     public void removeFile(Uri videoUri) {
         listener.removeformmedia(videoUri);
+        notifyDataSetChanged();
     }
     @NonNull
     @Override
@@ -54,6 +83,10 @@ public class adapterVideoRecord extends RecyclerView.Adapter<adapterVideoRecord.
         holder.descVideo.setText(lisEvidenceVideo.get(position));
 
         if (!videoUriList.isEmpty() && position < videoUriList.size()) {
+            Log.e("addVideoUri","validation1 "+!videoUriList.isEmpty() +" validation2"+ (position < videoUriList.size())+" validation3 "+(videoUriList.get(position)!=null));
+            if(videoUriList.get(position)!=null){
+                Log.e("addVideoUri",videoUriList.get(position).toString());
+
             final Uri videoUri = videoUriList.get(position);
             Glide.with(context)
                     .load(videoUri)
@@ -67,12 +100,22 @@ public class adapterVideoRecord extends RecyclerView.Adapter<adapterVideoRecord.
                     }
                 }
             });
+            }else{
+                holder.evidence.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (listener != null) {
+                            listener.startRecord(position);
+                        }
+                    }
+                });
+            }
         } else {
             holder.evidence.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
-                        listener.startRecord();
+                        listener.startRecord(position);
                     }
                 }
             });
@@ -82,10 +125,6 @@ public class adapterVideoRecord extends RecyclerView.Adapter<adapterVideoRecord.
     public int getItemCount() {
         return lisEvidenceVideo.size();//videoUriList.size();
     }
-
-
-
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView evidence,overlay;
         TextView descVideo;

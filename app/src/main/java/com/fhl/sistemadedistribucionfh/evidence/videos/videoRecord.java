@@ -50,6 +50,7 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
     private Integer positionErase;
     private List<String> lisEvidenceVideo=new ArrayList<>();
     private Integer flowDetail;
+    private Integer posVid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,7 +130,7 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
             // Handle the recorded video using the videoUri
             Toast.makeText(this, "Video recorded: " + videoUri.toString(), Toast.LENGTH_SHORT).show();
             Log.e("FHvideoR",""+videoUri.toString());
-            adapter.addVideoUri(videoUri);
+            adapter.addVideoUri(videoUri,posVid);
         }
     }
     private void startRecording() {
@@ -216,7 +217,8 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void startRecord() {
+    public void startRecord(int position) {
+        this.posVid=position;
         if (!isRecording) {
             startRecording();
         } else {

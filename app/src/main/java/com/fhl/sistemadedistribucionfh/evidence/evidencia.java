@@ -380,13 +380,11 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     private void removeShared(){
         SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-
         editor.remove(GeneralConstants.SIGNATURE_B64_DIR);
         editor.remove(GeneralConstants.INPUT_TEXT_SIGTURE);
         editor.remove(GeneralConstants.IMAGE_DIRECTORY);
         editor.remove(GeneralConstants.DOCS_DIRECTORY);
         editor.remove(GeneralConstants.RATE_STARS);
-
         editor.apply();
     }
     private void cleanFolder(){
@@ -417,7 +415,6 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         startActivity(intent);
 
     }
-
     @Override
     public void setMessage() {
         if(secuenceRequest<4) {//continuea el carrusel los archivos y la encuesta

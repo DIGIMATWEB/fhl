@@ -57,9 +57,9 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
                     }else if(evidence.getTipoEvidencia()==3){
                         hasdocuments=1;
                     }
-//                    else if(evidence.getTipoEvidencia()==4){todo descomentar una vez mergeado a master
-//                        hasvideos=1;
-//                    }
+                    else if(evidence.getTipoEvidencia()==4){//todo descomentar una vez mergeado a master
+                        hasvideos=1;
+                    }
                 }
             }else {
                 hasdocuments=0;
@@ -77,9 +77,9 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
                     }else if(evidence.getTipoEvidencia()==3){
                         hasdocuments=1;
                     }
-//                    else if(evidence.getTipoEvidencia()==4){todo descomentar una vez mergeado a master
-//                        hasvideos=1;
-//                    }
+                    else if(evidence.getTipoEvidencia()==4){// todo descomentar una vez mergeado a master
+                        hasvideos=1;
+                    }
                 }
             }
             if(data.get(0).getCheckList()!=null){
@@ -239,6 +239,14 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
             if (position == itemCount) {
                 Drawable backgroundV = ContextCompat.getDrawable(context, R.drawable.video);
                 holder.image.setBackground(backgroundV);
+                if(hasSignatureok==true){
+                    Drawable background2 = ContextCompat.getDrawable(context, R.drawable.video_green);
+                    holder.image.setBackground(background2);
+                    Log.e("color de imagen","verde firma");
+                }else{
+                    //  holder.image.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
+                    Log.e("color de imagen","gris firma");
+                }
                 holder.description.setText("Video");
                 // Handle video logic if needed
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
