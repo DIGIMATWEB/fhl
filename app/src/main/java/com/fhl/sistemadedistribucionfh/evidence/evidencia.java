@@ -55,9 +55,9 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
     private ConstraintLayout firma,foto,archivos,rating,video;
     private Float frating;
-    private String signatureBase64,inputTextSignature,currusel,ffiles,stars="";
+    private String signatureBase64,inputTextSignature,currusel,ffiles,stars,fvideos="";
     private ImageView star,signatureImage,cameraico,clipDocs;
-    private Boolean mfirma,mfoto,mfiles,mrating=false;
+    private Boolean mfirma,mfoto,mfiles,mrating,mvideos=false;
     private Button sendEvidence;
     private ImageButton eraseShared;
     private requestEvidencePresenter presenter;
@@ -203,6 +203,19 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             stars="";
             if(adapter!=null) {
                 adapter.encuesta(mrating);
+            }
+        }
+        if(video!=null){
+            mvideos=true;
+            fvideos=video;
+            if(adapter!=null) {
+                adapter.video(mrating);
+            }
+        }else{
+            mvideos=false;
+            fvideos="";
+            if(adapter!=null) {
+                adapter.video(mvideos);
             }
         }
     }

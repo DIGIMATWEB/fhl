@@ -71,7 +71,18 @@
                 app:layout_constraintTop_toTopOf="parent">
 
             </TextView>
+            <TextView
+                android:id="@+id/namechecklist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Nombre de checklist"
+                android:textSize="@dimen/h4"
+                app:layout_constraintBottom_toTopOf="@+id/guidelinechecklist6"
+                app:layout_constraintStart_toStartOf="@+id/guidelinechecklist2"
+                app:layout_constraintTop_toTopOf="parent">
 
+            </TextView>
             <TextView
                 android:id="@+id/textView42"
                 android:layout_width="wrap_content"

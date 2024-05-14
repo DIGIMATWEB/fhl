@@ -66,9 +66,9 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
                 hasphotos=0;
                 hasvideos=0;
             }
-//            if(data.get(0).getCheckList()!=null){todo descomentar una vez mergeado a master
-//                haschecklist=1;
-//            }
+            if(data.get(0).getCheckList()!=null){//todo descomentar una vez mergeado a master
+                haschecklist=1;
+            }
         }else{//TODO viene de entrega de ticket
             if(data.get(0).getEvidenciaLlegada()!=null){
                 for(EvidenciaLlegada evidence:data.get(0).getEvidenciaLlegada()){
@@ -104,8 +104,9 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
         this.hasFilesok=mfiles;
         notifyDataSetChanged();
     }
-    public void video(){
-        //todo hacer para este
+    public void video(Boolean mVideos){
+        this.hasVideosok=mVideos;
+        notifyDataSetChanged();
     }
     @NonNull
     @Override
@@ -239,7 +240,7 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
             if (position == itemCount) {
                 Drawable backgroundV = ContextCompat.getDrawable(context, R.drawable.video);
                 holder.image.setBackground(backgroundV);
-                if(hasSignatureok==true){
+                if(hasVideosok==true){
                     Drawable background2 = ContextCompat.getDrawable(context, R.drawable.video_green);
                     holder.image.setBackground(background2);
                     Log.e("color de imagen","verde firma");

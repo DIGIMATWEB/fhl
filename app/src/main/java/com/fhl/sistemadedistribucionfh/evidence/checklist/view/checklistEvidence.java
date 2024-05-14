@@ -119,8 +119,8 @@ public class checklistEvidence extends AppCompatActivity implements View.OnClick
 
     }
 
-    private void fillSellos(List<Check> data) {
-        adapter=new adapterChecklistEvidence(this,data,getApplicationContext());
+    private void fillSellos(List<Check> mdata) {
+        adapter=new adapterChecklistEvidence(this,mdata,getApplicationContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(adapter);
