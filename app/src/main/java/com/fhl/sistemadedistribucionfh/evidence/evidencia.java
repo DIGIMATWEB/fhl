@@ -209,7 +209,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             mvideos=true;
             fvideos=video;
             if(adapter!=null) {
-                adapter.video(mrating);
+                adapter.video(mvideos);
             }
         }else{
             mvideos=false;
@@ -396,6 +396,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         editor.remove(GeneralConstants.SIGNATURE_B64_DIR);
         editor.remove(GeneralConstants.INPUT_TEXT_SIGTURE);
         editor.remove(GeneralConstants.IMAGE_DIRECTORY);
+        editor.remove(GeneralConstants.VIDEO_DIRECTORY);
         editor.remove(GeneralConstants.DOCS_DIRECTORY);
         editor.remove(GeneralConstants.RATE_STARS);
         editor.apply();
