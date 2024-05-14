@@ -130,14 +130,14 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         checkShared();
     }
 
-    private void checkShared() {
+    private void checkShared() {//todo agregar video
         SharedPreferences preferences = getBaseContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String signature = preferences.getString(GeneralConstants.SIGNATURE_B64_DIR, null);
         String inputText = preferences.getString(GeneralConstants.INPUT_TEXT_SIGTURE,null);
         String images=preferences.getString(GeneralConstants.IMAGE_DIRECTORY,null);
         String docs=preferences.getString(GeneralConstants.DOCS_DIRECTORY, null);
         String rate = preferences.getString(GeneralConstants.RATE_STARS, null);
-
+        String video = preferences.getString(GeneralConstants.VIDEO_DIRECTORY,null);
 
 
 

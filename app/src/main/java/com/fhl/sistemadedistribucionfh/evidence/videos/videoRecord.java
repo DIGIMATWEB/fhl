@@ -2,9 +2,12 @@ package com.fhl.sistemadedistribucionfh.evidence.videos;
 
 import android.Manifest;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -12,6 +15,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -26,6 +30,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaLlegada;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaSalida;
 import com.fhl.sistemadedistribucionfh.evidence.videos.adapter.OnItemClickListener;
@@ -51,6 +56,8 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
     private List<String> lisEvidenceVideo=new ArrayList<>();
     private Integer flowDetail;
     private Integer posVid;
+    private List<Uri> mfUrilist;
+    private Button guardarVidosButon;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +103,8 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
         recordButton.setOnClickListener(this);
         eraseFolder = findViewById(R.id.eraseFolder);
         eraseFolder.setOnClickListener(this);
+        guardarVidosButon = findViewById(R.id.guardarVidosButon);
+        guardarVidosButon.setOnClickListener(this);
         fillAdapter();
     }
 
@@ -132,6 +141,17 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
             Log.e("FHvideoR",""+videoUri.toString());
             adapter.addVideoUri(videoUri,posVid);
         }
+    }
+    private String getRealPathFromURI(Uri contentUri) {
+        String[] projection = {MediaStore.Video.Media.DATA};
+        Cursor cursor = getContentResolver().query(contentUri, projection, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
+            String filePath = cursor.getString(columnIndex);
+            cursor.close();
+            return filePath;
+        }
+        return null; // If cursor is null or empty, or if file path not found
     }
     private void startRecording() {
       //  createVideoDirectory();
@@ -226,7 +246,39 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    public void setUrilist(List<Uri> videoUriList) {
+        this.mfUrilist=videoUriList;
+        Log.e("faddVideoUri",""+mfUrilist);
+        if(mfUrilist.isEmpty()){
+            guardarVidosButon.setVisibility(View.GONE);
+        }else{
+            savePathsOnShared();
+            guardarVidosButon.setVisibility(View.VISIBLE);
+        }
+    }
 
+    private void savePathsOnShared() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < mfUrilist.size(); i++) {
+            if (mfUrilist.get(i) != null) {
+                String filePath = getRealPathFromURI(mfUrilist.get(i));
+                if (filePath != null) {
+                    stringBuilder.append(filePath);
+                    if (i < mfUrilist.size() - 1) {
+                        stringBuilder.append(","); // Append delimiter except for the last element
+                    }
+                }
+            }
+        }
+
+        String filePathsString = stringBuilder.toString(); // Convert StringBuilder to String
+
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(GeneralConstants.VIDEO_DIRECTORY, filePathsString);
+        editor.apply(); // Use apply() instead of commit() for asynchronous save
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -242,6 +294,15 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
                     Log.e("FHvideoR","video to remove by position " +positionErase);
                     adapter.removeItem(positionErase);
                 }
+                break;
+            case R.id.guardarVidosButon://TODO una URI no es lo mismo que un filepath
+                SharedPreferences preferences = getBaseContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                String videos=preferences.getString(GeneralConstants.VIDEO_DIRECTORY,null);
+                Log.e("faddVideoUri","full list "+mfUrilist);
+                Log.e("faddVideoUri","not null "+videos);
+                Toast.makeText(this, "guardar uris", Toast.LENGTH_SHORT).show();
+                onBackPressed();
+
                 break;
         }
     }

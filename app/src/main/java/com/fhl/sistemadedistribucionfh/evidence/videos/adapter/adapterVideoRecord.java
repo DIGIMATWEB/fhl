@@ -54,6 +54,7 @@ public class adapterVideoRecord extends RecyclerView.Adapter<adapterVideoRecord.
             while (videoUriList.size() < evidenceSize) {
                 videoUriList.add(null);
             }
+            listener.setUrilist(videoUriList);
 
             notifyDataSetChanged();
         }
