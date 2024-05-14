@@ -21,9 +21,9 @@ public class requestEvidencePresenterImpl  implements requestEvidencePresenter{
 
     }
     @Override
-    public void sendEvidence(Integer secuenceRequest, String signatureBase64, String inputTextSignature, String currusel, String ffiles, Integer flujoId, String folioTicket) {
+    public void sendEvidence(Integer secuenceRequest, String signatureBase64, String inputTextSignature, String currusel, String ffiles, Integer flujoId, String folioTicket, String fvideos) {
         if(view!=null){
-            interactor.requestEvidence(secuenceRequest,signatureBase64,inputTextSignature,currusel,ffiles,flujoId,folioTicket);
+            interactor.requestEvidence(secuenceRequest,signatureBase64,inputTextSignature,currusel,ffiles,flujoId,folioTicket,fvideos);
         }
     }
     @Override

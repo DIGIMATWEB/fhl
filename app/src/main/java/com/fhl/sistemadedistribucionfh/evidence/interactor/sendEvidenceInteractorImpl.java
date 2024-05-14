@@ -65,7 +65,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         service2 = retrofitClientV2.create(serviceSendtripPlus.class);
     }
     @Override
-    public void requestEvidence(Integer secuenceRequest, String signatureBase64, String inputTextSignature, String currusel, String ffiles, Integer flujoId, String folioTicket) {
+    public void requestEvidence(Integer secuenceRequest, String signatureBase64, String inputTextSignature, String currusel, String ffiles, Integer flujoId, String folioTicket, String fvideos) {
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
         this.ftoken=token;
@@ -82,7 +82,9 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
                 uploadFiles(currusel, 2, "test",token);
             } else if (secuenceRequest == 3) {
                 uploadFiles(ffiles, 3, "test", token);
-            } else if (secuenceRequest == 4) {
+            }else if (secuenceRequest == 4) {
+                uploadFiles(fvideos, 4, "test", token);
+            } else if (secuenceRequest == 5) {
                 presenter.nextRequest();
             } else {
 

@@ -224,7 +224,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     protected void onResume() {
         super.onResume();
         checkShared();
-        if(mfirma==true&&mfoto==true&&mfiles==true&&mrating==true)
+        if(mfirma==true&&mfoto==true&&mfiles==true&&mrating==true&&mvideos==true)
         {
             sendEvidence.setVisibility(View.VISIBLE);
         }else{
@@ -362,7 +362,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 if(folioTicket!=null) {
                     Log.e("sendEvidence","folio "+folioTicket);
                     isArrayofTickets=false;
-                    presenter.sendEvidence(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, folioTicket);
+                    presenter.sendEvidence(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, folioTicket, fvideos);
                     Log.e("sendEvidence", "signatureBase64: " + signatureBase64 + "\n" +
                             "inputTextSignature: " + inputTextSignature + "\n" +
                             "carrusel:" + currusel + "\n" +
@@ -374,10 +374,10 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                         Log.e("sendEvidence"," data "+data.size());
                         if(data.size()>1){
                         isArrayofTickets=true;
-                        sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, data.get(iterateidTickets).getFolioTicket());
+                        sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, data.get(iterateidTickets).getFolioTicket(), fvideos);
                         }else{
                         isArrayofTickets=false;
-                        sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, data.get(0).getFolioTicket());
+                        sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, data.get(0).getFolioTicket(), fvideos);
                         }
                     }else{
                         Toast.makeText(this, "No hay tickets al cual mandar evidencia", Toast.LENGTH_SHORT).show();
@@ -387,8 +387,8 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         }
 
     }
-    private void sendEvidenceIfArrayofTickets(Integer secuenceRequest, String signatureBase64, String inputTextSignature, String currusel, String ffiles, Integer flujoId, String folioTicket){
-        presenter.sendEvidence(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, folioTicket);
+    private void sendEvidenceIfArrayofTickets(Integer secuenceRequest, String signatureBase64, String inputTextSignature, String currusel, String ffiles, Integer flujoId, String folioTicket, String fvideos){
+        presenter.sendEvidence(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, folioTicket,fvideos);
     }
     private void removeShared(){
         SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
@@ -431,7 +431,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     }
     @Override
     public void setMessage() {
-        if(secuenceRequest<4) {//continuea el carrusel los archivos y la encuesta
+        if(secuenceRequest<5) {//continuea el carrusel los archivos y la encuesta
             secuenceRequest = secuenceRequest + 1;
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -443,10 +443,10 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                             "stars: " + stars+ "\n" +
                             "secuenceRequest: " +  secuenceRequest);
                     if(folioTicket!=null) {
-                        presenter.sendEvidence(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, folioTicket);
+                        presenter.sendEvidence(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, folioTicket,fvideos);
                     }else {
                         if(data!=null) {
-                            sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, data.get(iterateidTickets).getFolioTicket());
+                            sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, data.get(iterateidTickets).getFolioTicket(),fvideos);
                         }else{
                             Toast.makeText(getApplicationContext(), "No hay tickets al cual mandar evidencia", Toast.LENGTH_SHORT).show();
                         }
@@ -454,7 +454,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 }
             }, 4000);
 
-        }else if(secuenceRequest==4){//envia la encuesta  falta el comentario
+        }else if(secuenceRequest==5){//envia la encuesta  falta el comentario
             secuenceRequest = secuenceRequest + 1;
             Log.e("sendEvidence", "sendEvidence: " + secuenceRequest+" sendRate: "+ stars);
             int rating = (int) Math.round(Double.parseDouble(stars));
@@ -470,7 +470,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 }
             }
             //Toast.makeText(this, "mandar estrellas", Toast.LENGTH_SHORT).show();
-        }else if(secuenceRequest==5){
+        }else if(secuenceRequest==6){
             secuenceRequest = secuenceRequest + 1;
             Log.e("sendEvidence","Se envia a sendtripplus");
             if(sentripPlusFlow.equals("Recoleccion")){
@@ -484,11 +484,11 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
             /// presenterchange statusmanifest ESTO YA LO HACEE JOSE
 
-        }else if(secuenceRequest==6){
+        }else if(secuenceRequest==7){
             secuenceRequest = secuenceRequest + 1;
             presenter.changeStatusManifestTicket(currentManifest,changeStatusTicket,sentripPlusFlow);
 
-        }else if(secuenceRequest==7){//borra  lo relacionano y regresa
+        }else if(secuenceRequest==8){//borra  lo relacionano y regresa
              Toast.makeText(this, "usar sendtrip plus Cambiar estatus y regresar a manifiestos", Toast.LENGTH_SHORT).show();
 
             if(!isArrayofTickets) {// si es solo uno manda el manifiesto

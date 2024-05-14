@@ -5,7 +5,7 @@ import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDet
 import java.util.List;
 
 public interface sendEvidenceInteractor {
-    void requestEvidence(Integer secuenceRequest, String signatureBase64, String inputTextSignature, String currusel, String ffiles, Integer flujoId, String folioTicket);
+    void requestEvidence(Integer secuenceRequest, String signatureBase64, String inputTextSignature, String currusel, String ffiles, Integer flujoId, String folioTicket, String fvideos);
 
     void sendRate(Integer stars, String folioTicket);
 
