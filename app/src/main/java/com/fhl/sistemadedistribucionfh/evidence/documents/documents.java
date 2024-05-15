@@ -57,7 +57,7 @@ public class documents extends AppCompatActivity implements View.OnClickListener
             List<EvidenciaLlegada> evidenciaLlegada = (List<EvidenciaLlegada>) extras.getSerializable("evidenciaLlegada");
 
             flowDetail=extras.getInt("flowDetail");//todo si es 2 es de recoleccion o salida si es 1 es de llegada
-            if(flowDetail==2){
+            if(flowDetail==1){
                 if(evidenciaSalida!=null){
                     for(EvidenciaSalida evidence:evidenciaSalida){
                         if(evidence.getTipoEvidencia()==3) {

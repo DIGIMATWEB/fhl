@@ -223,12 +223,15 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
                     public void onClick(View v) {
                         if (flowDetail == 2) { // TODO viene de recoleccion salida
                             if (data.get(0).getEvidenciaSalida() != null) {
-                                mview.goDocuments(null, data.get(0).getEvidenciaLlegada(),flowDetail);
+                                if (data.get(0).getEvidenciaLlegada() != null) {
+                                    mview.goDocuments(data.get(0).getEvidenciaSalida(), data.get(0).getEvidenciaLlegada(),flowDetail);
+                                }
                             }
                         } else { // TODO viene de entrega de ticket
-                           if (data.get(0).getEvidenciaLlegada() != null) {
-
-                               mview.goDocuments(data.get(0).getEvidenciaSalida(),null,flowDetail);
+                            if (data.get(0).getEvidenciaSalida() != null) {
+                                if (data.get(0).getEvidenciaLlegada() != null) {
+                                    mview.goDocuments(data.get(0).getEvidenciaSalida(), data.get(0).getEvidenciaLlegada(),flowDetail);
+                                }
                             }
                         }
                     }
@@ -257,12 +260,16 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
                     public void onClick(View v) {
                         if (flowDetail == 2) { // TODO viene de recoleccion salida
                             if (data.get(0).getEvidenciaSalida() != null) {
-                                mview.goVideos(null, data.get(0).getEvidenciaLlegada(),flowDetail);
+                                if (data.get(0).getEvidenciaLlegada() != null) {
+                                    mview.goVideos(data.get(0).getEvidenciaSalida(), data.get(0).getEvidenciaLlegada(),flowDetail);
+                                }
                             }
                         } else { // TODO viene de entrega de ticket
-                            if (data.get(0).getEvidenciaLlegada() != null) {
 
-                                mview.goVideos(data.get(0).getEvidenciaSalida(),null,flowDetail);
+                            if (data.get(0).getEvidenciaSalida() != null) {
+                                if (data.get(0).getEvidenciaLlegada() != null) {
+                                    mview.goVideos(data.get(0).getEvidenciaSalida(), data.get(0).getEvidenciaLlegada(),flowDetail);
+                                }
                             }
                         }
                     }
