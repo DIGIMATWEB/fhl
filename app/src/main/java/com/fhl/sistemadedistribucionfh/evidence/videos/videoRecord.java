@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -58,6 +59,7 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
     private Integer posVid;
     private List<Uri> mfUrilist;
     private Button guardarVidosButon;
+    private ImageView backImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +101,8 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
 
     private void initView() {
         rv=findViewById(R.id.rvVideos);
+        backImage = findViewById(R.id.backImage);
+        backImage.setOnClickListener(this);
         recordButton = findViewById(R.id.recordButton);
         recordButton.setOnClickListener(this);
         eraseFolder = findViewById(R.id.eraseFolder);
@@ -288,6 +292,9 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
                 } else {
                     stopRecording();
                 }
+                break;
+            case R.id.backImage:
+                onBackPressed();
                 break;
             case R.id.eraseFolder:
                 if(positionErase!=null){

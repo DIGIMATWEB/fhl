@@ -107,6 +107,7 @@ public class carrusel extends AppCompatActivity implements View.OnClickListener,
 
         private void initView() {
                 backImage = findViewById(R.id.backImage);
+                backImage.setOnClickListener(this);
                 carruselrv = findViewById(R.id.carruselrv);
 
                 eraseFolder= findViewById(R.id.eraseFolder);

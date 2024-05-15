@@ -47,7 +47,7 @@ public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup c
         }
 
 private void initDialog(View view) {
-        imageButton2=view.findViewById(R.id.imageButton2);
+        imageButton2=view.findViewById(R.id.imageButtonValidador);
         imageButton2.setOnClickListener(this);
         presentador= new presenterSetValidacionImpl(this,getContext());
 
@@ -77,9 +77,10 @@ public void closeDialog() {
         @Override
 public void onClick(View view) {
         switch (view.getId()) {
-        case R.id.imageButton2:
+        case R.id.imageButtonValidador:
         //closeDialog();
-                presentador.setValidacionMenifest(manifest);
+                Toast.makeText(getContext(), "Validador pendiente hailidades", Toast.LENGTH_SHORT).show();
+                //presentador.setValidacionMenifest(manifest);
 
         break;
         }

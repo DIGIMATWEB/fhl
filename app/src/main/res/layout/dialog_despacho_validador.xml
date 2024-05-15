@@ -43,7 +43,7 @@
         </TextView>
 
         <ImageButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/imageButtonValidador"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginStart="20dp"
@@ -199,10 +199,10 @@
             android:textColor="@color/white"
             android:textSize="@dimen/h4"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/imageButton2"
+            app:layout_constraintBottom_toBottomOf="@+id/imageButtonValidador"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageButton2">
+            app:layout_constraintTop_toTopOf="@+id/imageButtonValidador">
 
         </TextView>
     </androidx.constraintlayout.widget.ConstraintLayout>
