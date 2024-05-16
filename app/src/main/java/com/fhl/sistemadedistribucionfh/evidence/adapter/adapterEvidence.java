@@ -49,6 +49,7 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
         hasReview=1;
         hasphotos=0;
         hasvideos=0;
+        hasdocuments=0;
         if(flowDetail==2){//TODO viene de recoleccion o salida
             if(data.get(0).getEvidenciaSalida()!=null){
                 for(EvidenciaSalida evidence:data.get(0).getEvidenciaSalida()){
@@ -66,9 +67,9 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
                 hasphotos=0;
                 hasvideos=0;
             }
-//            if(data.get(0).getCheckList()!=null){//todo descomentar una vez mergeado a master
-//                haschecklist=1;
-//            }
+            if(data.get(0).getCheckList()!=null){//todo descomentar una vez mergeado a master
+                haschecklist=1;
+            }
         }else{//TODO viene de entrega de ticket
             if(data.get(0).getEvidenciaLlegada()!=null){
                 for(EvidenciaLlegada evidence:data.get(0).getEvidenciaLlegada()){
@@ -82,9 +83,9 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
                     }
                 }
             }
-//            if(data.get(0).getCheckList()!=null){
-//                haschecklist=1;
-//            }
+            if(data.get(0).getCheckList()!=null){
+                haschecklist=1;
+            }
         }
     }
     public void updatefirma(Boolean mfirma){
