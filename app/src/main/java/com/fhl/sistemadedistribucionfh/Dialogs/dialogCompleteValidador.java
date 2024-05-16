@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.fhl.sistemadedistribucionfh.Dialogs.habilities.model.driver.habiltiesDriver;
@@ -44,6 +46,9 @@ private List<String> vehicleL= new ArrayList<>();
 private List<String> operadorL= new ArrayList<>();
 private List<habiltiesVehicle> mhabiltiesVehicle= new ArrayList<>();
 private List<habiltiesDriver> mhabiltiesDriver= new ArrayList<>();
+private Boolean allmVehicles=false;
+private Boolean allmDrivers=false;
+private ImageView imageViewHC ,imageokHC,imageHV,imageokHV;
 @Override
 public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +78,10 @@ private void initDialog(View view) {
         bottomStatusManifestHabilidades.setOnClickListener(this);
         bottomStatusManifestHabilidadesVehiculo=view.findViewById(R.id. bottomStatusManifestHabilidadesVehiculo);
         bottomStatusManifestHabilidadesVehiculo.setOnClickListener(this);
+        imageViewHC=view.findViewById(R.id.imageViewHC);
+        imageokHC=view.findViewById(R.id.imageokHC);
+        imageHV =view.findViewById(R.id.imageHV);
+        imageokHV=view.findViewById(R.id.imageokHV);
         presentador= new presenterSetValidacionImpl(this,getContext());
         presentador.getdriverHabilities();
         presentador.getVehicleHabilities();
@@ -219,6 +228,7 @@ public void closeDialog() {
                                                 }
                                         }
                                 }
+                                checkStatus();
                         }
                 });
 
@@ -226,31 +236,87 @@ public void closeDialog() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                                 // User cancelled the dialog
+                                checkStatus();
                                 dialog.dismiss();
+
                         }
                 });
 
                 // Create and show the dialog
                 builder.create().show();
         }
+        private void checkStatus(){
+                if (mhabiltiesVehicle != null)
+                {
+                        boolean allVehicleSelected = true;
+                        for (habiltiesVehicle vehicle : mhabiltiesVehicle) {
+                                if (!vehicle.getSelected()) {
+                                        allVehicleSelected = false;
+                                        break;
+                                }
+                        }
+                        // Use allVehicleSelected and allDriverSelected as needed
+                        if (allVehicleSelected) {
+                                Log.e("habilidades", " todas las habilidades en vehiculos estan seleccionadas");
+                                allmVehicles=true;
+                                imageHV.setBackgroundResource(R.drawable.ic_inventary_icon);
+                                imageokHV.setBackgroundResource(R.drawable.ic_checkokqr);
+                        } else {
+                                Log.e("habilidades", " NO todas las habilidades en vehiculos estan seleccionadas");
+                                allmVehicles=false;
+                                imageHV.setBackgroundResource(R.drawable.ic_inventary_icongrey);
+                                imageokHV.setBackgroundResource(R.drawable.ic_checkokqrgrey);
+                        }
+                }
+                if(mhabiltiesDriver!=null) {
+                        boolean allDriverSelected = true;
+                        for (habiltiesDriver driver : mhabiltiesDriver) {
+                                if (!driver.getSelected()) {
+                                        allDriverSelected = false;
+                                        break;
+                                }
+                        }
+                        if (allDriverSelected) {
+                                Log.e("habilidades", " todas las habilidades en operadores estan seleccionadas");
+                                allmDrivers=true;
+                                imageViewHC.setBackgroundResource(R.drawable.ic_inventary_icon);
+                                imageokHC.setBackgroundResource(R.drawable.ic_checkokqr);
+                        } else {
+                                Log.e("habilidades", " NO todas las habilidades en operadores estan seleccionadas");
+                                allmDrivers=false;
+                                imageViewHC.setBackgroundResource(R.drawable.ic_inventary_icongrey);
+                                imageokHC.setBackgroundResource(R.drawable.ic_checkokqrgrey);
+                        }
+                }
+        }
+
+
+
         @Override
         public void onClick(View view) {
         switch (view.getId()) {
                 case R.id.imageButtonValidador:
                 //closeDialog();
-                        Toast.makeText(getContext(), "Validador pendiente hailidades", Toast.LENGTH_SHORT).show();
+                        if(allmDrivers&&allmVehicles){
+                                Toast.makeText(getContext(), "Continuar", Toast.LENGTH_SHORT).show();
+                        }else {
+                                Toast.makeText(getContext(), "Validar  habilidades", Toast.LENGTH_SHORT).show();
+                        }
+
                       //presentador.setValidacionMenifest(manifest);
                 break;
                 case R.id.bottomStatusManifestHabilidadesVehiculo:
-                        Toast.makeText(getContext(), "aqui va un dialog del vehiculo", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), "aqui va un dialog del vehiculo", Toast.LENGTH_SHORT).show();
                         if(vehicleL!=null) {
                                 showDialogWithCheckbox(getContext(), vehicleL,true);
+                                checkStatus();
                         }
                          break;
                 case R.id.bottomStatusManifestHabilidades:
-                        Toast.makeText(getContext(), "aqui va un dialog del Operador", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), "aqui va un dialog del Operador", Toast.LENGTH_SHORT).show();
                         if(operadorL!=null) {
                                 showDialogWithCheckbox(getContext(), operadorL,false);
+                                checkStatus();
                         }
                         break;
                }
