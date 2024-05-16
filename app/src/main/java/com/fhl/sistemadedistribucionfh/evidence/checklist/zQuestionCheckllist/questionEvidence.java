@@ -218,19 +218,17 @@ public class questionEvidence extends Fragment implements View.OnClickListener ,
         mfdata.clear();
         finalQ.clear();
 
-        positionChecklist = 2;
-        status = true;
         // Guardamos el resultado cuando es positivo
-        if (status) {
+        if (status == false) {
             // Cuando es false
         } else {
             // Cuando es true
             // Verificamos si la posición es válida
             if (positionChecklist >= 0 && positionChecklist < checklistEvidence.checkList.size()) {
-                // Obtenemos el objeto SendCheck en la posición especificada
+                // Obtenemos el objeto Check en la posición especificada
                 Check sendCheck = checklistEvidence.checkList.get(positionChecklist);
 
-                // Actualizamos el campo archivoDeEvidencia del objeto SendCheck
+                // Actualizamos el campo aplicado del objeto Check
                 //sendCheck.setArchivoDeEvidencia(encoded);
                 sendCheck.setAplicado(status);
             } else {
@@ -242,7 +240,7 @@ public class questionEvidence extends Fragment implements View.OnClickListener ,
             //QuestionAdapterEvidence.updateViewPagerAtPosition();
 
             //mQuestionFragment.changeStatusCameraButton();
-            Log.d("SendCheck despues de la foto: ", Arrays.toString(checklistEvidence.checkList.toArray()));
+            Log.d("SendCheck despues de mandar el checklist: ", Arrays.toString(checklistEvidence.checkList.toArray()));
             //positionChecklist
         }
         //checklistEvidence.checkList.get(0).getAplicado();
