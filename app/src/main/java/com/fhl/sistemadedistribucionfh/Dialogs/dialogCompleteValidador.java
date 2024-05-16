@@ -42,8 +42,8 @@ private String manifest;
 private ConstraintLayout bottomStatusManifestHabilidades,bottomStatusManifestHabilidadesVehiculo;
 private List<String> vehicleL= new ArrayList<>();
 private List<String> operadorL= new ArrayList<>();
-private List<habiltiesVehicle> habiltiesVehicle= new ArrayList<>();
-private List<habiltiesDriver> habiltiesDriver= new ArrayList<>();
+private List<habiltiesVehicle> mhabiltiesVehicle= new ArrayList<>();
+private List<habiltiesDriver> mhabiltiesDriver= new ArrayList<>();
 @Override
 public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,14 +103,14 @@ public void closeDialog() {
 //                Gson gson=new Gson();
 //                String json=gson.toJson(habilidades);
                 operadorL.clear();
-                habiltiesDriver.clear();
+                mhabiltiesDriver.clear();
                 List<String> habilidadesList = extractNombreValues(habilidades);
 
                 // Print the list of "Nombre" values
                 for (String habilidad : habilidadesList) {
                         Log.e("habilidades", "Operador json " + habilidad);
                         operadorL.add(habilidad);
-                        habiltiesDriver.add(new habiltiesDriver(habilidad,false));
+                        mhabiltiesDriver.add(new habiltiesDriver(habilidad,false));
                 }
         }
         private List<String> extractNombreValues(String habilidadesJson) {
@@ -133,14 +133,14 @@ public void closeDialog() {
         public void setVehicleHailities(String habilidadVehiculos) {
                 Log.e("habilidades","Vehiculo "+habilidadVehiculos);
                 vehicleL.clear();
-                habiltiesVehicle.clear();
+                mhabiltiesVehicle.clear();
                 List<String> habilidadesList = extractNombreValues2(habilidadVehiculos);
 
                 // Print the list of "Nombre" values
                 for (String habilidad : habilidadesList) {
                         Log.e("habilidades", "Operador json " + habilidad);
                         vehicleL.add(habilidad);
-                        habiltiesVehicle.add(new habiltiesVehicle(habilidad,false));
+                        mhabiltiesVehicle.add(new habiltiesVehicle(habilidad,false));
                 }
         }
         private List<String> extractNombreValues2(String habilidadesJson) {
@@ -172,6 +172,21 @@ public void closeDialog() {
                         CheckBox checkBox = new CheckBox(context);
                         checkBox.setText(item);
                         layout.addView(checkBox);
+                        if (vehicleDriver) {
+                                for (habiltiesVehicle vehicle : mhabiltiesVehicle) {
+                                        if (vehicle.getHabilidad().equals(item)) {
+                                                checkBox.setChecked(vehicle.getSelected()); // Set checkbox checked based on isSelected
+                                                break;
+                                        }
+                                }
+                        } else {
+                                for (habiltiesDriver driver : mhabiltiesDriver) {
+                                        if (driver.getHabilidad().equals(item)) {
+                                                checkBox.setChecked(driver.getSelected()); // Set checkbox checked based on isSelected
+                                                break;
+                                        }
+                                }
+                        }
                 }
 
                 builder.setView(layout);
@@ -184,10 +199,24 @@ public void closeDialog() {
                                 // You can iterate through the checkboxes to see which ones are checked
                                 for (int i = 0; i < layout.getChildCount(); i++) {
                                         CheckBox checkBox = (CheckBox) layout.getChildAt(i);
-                                        if (checkBox.isChecked()) {
-                                                // Checkbox is checked
-                                                // Handle the checked checkbox here
-                                                // For example: Toast.makeText(MainActivity.this, checkBox.getText() + " is checked", Toast.LENGTH_SHORT).show();
+                                        String itemName = checkBox.getText().toString();
+                                        boolean isChecked = checkBox.isChecked();
+
+                                        // Update isSelected field based on checkbox status
+                                        if (vehicleDriver) {
+                                                for (habiltiesVehicle vehicle : mhabiltiesVehicle) {
+                                                        if (vehicle.getHabilidad().equals(itemName)) {
+                                                                vehicle.setSelected(isChecked);
+                                                                break;
+                                                        }
+                                                }
+                                        } else {
+                                                for (habiltiesDriver driver : mhabiltiesDriver) {
+                                                        if (driver.getHabilidad().equals(itemName)) {
+                                                                driver.setSelected(isChecked);
+                                                                break;
+                                                        }
+                                                }
                                         }
                                 }
                         }
