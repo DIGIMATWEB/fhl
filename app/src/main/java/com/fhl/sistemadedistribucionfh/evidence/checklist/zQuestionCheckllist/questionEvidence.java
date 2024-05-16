@@ -161,6 +161,7 @@ public class questionEvidence extends Fragment implements View.OnClickListener ,
 
         fillViewPager(mfdata);
         ischeklistsetupok=true;
+        successetCehcklist(false);
     }
 
     @Override
@@ -217,11 +218,31 @@ public class questionEvidence extends Fragment implements View.OnClickListener ,
         mfdata.clear();
         finalQ.clear();
 
+        positionChecklist = 2;
+        status = true;
         // Guardamos el resultado cuando es positivo
         if (status) {
             // Cuando es false
         } else {
             // Cuando es true
+            // Verificamos si la posición es válida
+            if (positionChecklist >= 0 && positionChecklist < checklistEvidence.checkList.size()) {
+                // Obtenemos el objeto SendCheck en la posición especificada
+                Check sendCheck = checklistEvidence.checkList.get(positionChecklist);
+
+                // Actualizamos el campo archivoDeEvidencia del objeto SendCheck
+                //sendCheck.setArchivoDeEvidencia(encoded);
+                sendCheck.setAplicado(status);
+            } else {
+                // Manejar el caso en el que la posición especificada no es válida
+                System.out.println("La posición especificada no es válida.");
+            }
+
+            // Recargamos la vista para cambiar el color
+            //QuestionAdapterEvidence.updateViewPagerAtPosition();
+
+            //mQuestionFragment.changeStatusCameraButton();
+            Log.d("SendCheck despues de la foto: ", Arrays.toString(checklistEvidence.checkList.toArray()));
             //positionChecklist
         }
         //checklistEvidence.checkList.get(0).getAplicado();
