@@ -29,6 +29,7 @@ public class RetrofitEndPoints {
     public static final String CORTINA = "GetCortinasByManifiesto";
     public static final String CHECKLISTV2 = "GetChecklistByVehiculo" ;
     public static final String SETCHECKLISTBYVEHICULO = "SetChecklistByVehiculo";
+    public static final String SETCHECKLISTBYTICKET = "SetChecklistByTicket";
     public static final String SETVALIDACION = "SetValidacionManifiesto" ;
 
 //region endpoints entorno de pruebas

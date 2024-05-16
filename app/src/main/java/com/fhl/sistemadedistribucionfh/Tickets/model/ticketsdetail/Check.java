@@ -17,12 +17,14 @@ public class Check implements Serializable {
     @SerializedName("Valor")
     @Expose
     private String valor;
+    private Boolean aplicado = false;
 
-    public Check(List<Pregunta> preguntas, Integer llave, String valor) {
+    public Check(List<Pregunta> preguntas, Integer llave, String valor, Boolean aplicado) {
         super();
         this.preguntas = preguntas;
         this.llave = llave;
         this.valor = valor;
+        this.aplicado = aplicado;
     }
 
     public List<Pregunta> getPreguntas() {
@@ -47,5 +49,13 @@ public class Check implements Serializable {
 
     public void setValor(String valor) {
         this.valor = valor;
+    }
+
+    public Boolean getAplicado() {
+        return aplicado;
+    }
+
+    public void setAplicado(Boolean aplicado) {
+        this.aplicado = aplicado;
     }
 }

@@ -300,6 +300,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     @Override
     public void setDetailTicketsentriplus(List<dataTicketsDetailsendtrip> dataTicketSendtrip) {
         this.dataTicketSendtrip=dataTicketSendtrip;
+        dataTicketSendtrip.get(0).getFolioTicket();
         Gson gson= new Gson();
         String json= gson.toJson(dataTicketSendtrip);
         Log.e("detailticket"," json ticket:"+json);
@@ -627,6 +628,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         if (checkList != null) {
             bundle.putSerializable("checklist", (Serializable)checkList);
         }
+        bundle.putString("folioTicket", dataTicketSendtrip.get(0).getFolioTicket());
         Intent checklist = new Intent(this, checklistEvidence.class);
         checklist.putExtras(bundle);
         startActivity(checklist);

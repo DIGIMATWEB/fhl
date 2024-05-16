@@ -43,10 +43,25 @@ public class adapterChecklistEvidence extends RecyclerView.Adapter<adapterCheckl
 
         holder.namechecklist.setText("" + data.get(position).getValor());
 
+        // Para el aplicado y no aplicado
+        if (data.get(position).getAplicado() != null) {
+            // Tiene datos
+            if (data.get(position).getAplicado()) {
+                // Es true
+                holder.statusChecklist.setText("Contestado");
+            } else {
+                // Es false
+                holder.statusChecklist.setText("No contestado");
+            }
+        } else {
+            // No tiene datos
+            holder.statusChecklist.setText("No contestado");
+        }
+
         holder.cardOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mview.goQuestions("","","","");
+                mview.goQuestions(data, position);
             }
         });
 

@@ -41,4 +41,15 @@ public interface utilQuestionary {
             @Part("VehiculoId") RequestBody vehiculoId,
             @Part("ChecklistId") RequestBody checklistId
     );
+
+    @Multipart
+    @POST(RetrofitEndPoints.SETCHECKLISTBYTICKET)
+    Call<responseSendChecklist> setChecklistByTicket(
+            @Header("Authorization") String authorization,
+            @Part("JsonRespuestas") RequestBody jsonRespuestas,
+            @Part("Usuario") RequestBody usuario,
+            @Part("FolioTicket") RequestBody folioTicket,
+            @Part("VehiculoId") RequestBody vehiculoId,
+            @Part("ChecklistId") RequestBody checklistId
+    );
 }
