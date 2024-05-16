@@ -123,7 +123,7 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
 
             @Override
             public void onFailure(Call<responseDriver> call, Throwable t) {
-                Log.e("errorGetDriver",""+t.getMessage());
+                Log.e("habilidades",""+t.getMessage());
             }
         });
     }
@@ -133,7 +133,7 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
             if(RetrofitValidations.checkSuccessCode(response.code())) {
                 setValidaciongoGetDriver(response, context);
             } else {
-                Log.e("errorGetDriver",""+response.code());
+                Log.e("habilidades",""+response.code());
             }
         }
     }
@@ -146,10 +146,10 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
             if(resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_FH) {
                 presenter.setDriverHailities(resp.getData().getHabilidades());
             } else {
-               Log.e("errorGetVehicle",""+message);
+               Log.e("habilidades",""+message);
             }
         } else {
-            Log.e("errorGetVehicle","respuesta nula");
+            Log.e("habilidades","respuesta nula");
         }
     }
 
@@ -174,7 +174,7 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
 
             @Override
             public void onFailure(Call<responseVehicle> call, Throwable t) {
-                Log.e("errorGetVehicle",""+t.getMessage());
+                Log.e("habilidades",""+t.getMessage());
             }
         });
     }
@@ -184,7 +184,7 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
             if(RetrofitValidations.checkSuccessCode(response.code())) {
                 setValidaciongoGetVehicle(response, context);
             } else {
-                Log.e("errorGetVehicle",""+response.code());
+                Log.e("habilidades",""+response.code());
             }
         }
     }
@@ -197,10 +197,10 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
                     if(resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_FH) {
                         presenter.setDriverVehicle(resp.getData().getHabilidadVehiculos());
                     } else {
-                       Log.e("errorGetVehicle",""+message);
+                       Log.e("habilidades",""+message);
                     }
                 } else {
-                    Log.e("errorGetVehicle","respuesta nula");
+                    Log.e("habilidades","respuesta nula");
                 }
     }
 }
