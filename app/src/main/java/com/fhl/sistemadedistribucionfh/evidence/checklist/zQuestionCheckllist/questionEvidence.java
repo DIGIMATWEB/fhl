@@ -161,7 +161,6 @@ public class questionEvidence extends Fragment implements View.OnClickListener ,
 
         fillViewPager(mfdata);
         ischeklistsetupok=true;
-        successetCehcklist(false);
     }
 
     @Override
