@@ -22,6 +22,34 @@ public class presenterSetValidacionImpl implements  presenterSetValidacion{
             interactor.setValidacionMenifest(manifest);
         }
     }
+    @Override
+    public void getdriverHabilities() {
+        if(view!=null){
+            interactor.getDrirver();
+        }
+    }
+
+    @Override
+    public void getVehicleHabilities() {
+        if(view!=null){
+            interactor.getVehicle();
+        }
+    }
+
+    @Override
+    public void setDriverHailities(String habilidades) {
+        if(view!=null){
+            view.setDriverHailities(habilidades);
+        }
+    }
+
+    @Override
+    public void setDriverVehicle(String habilidadVehiculos) {
+        if(view!=null){
+            view.setVehicleHailities(habilidadVehiculos);
+        }
+
+    }
 
     @Override
     public void setresponseValidacionMenifest(String code) {
@@ -29,4 +57,6 @@ public class presenterSetValidacionImpl implements  presenterSetValidacion{
             view.statusValidacion(code);
         }
     }
+
+
 }

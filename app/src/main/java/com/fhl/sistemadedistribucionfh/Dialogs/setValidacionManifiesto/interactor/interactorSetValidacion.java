@@ -2,4 +2,6 @@ package com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.interact
 
 public interface interactorSetValidacion {
     void setValidacionMenifest(String manifest);
+    void getDrirver();
+    void getVehicle();
 }

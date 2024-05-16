@@ -13,13 +13,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.habilities.presenter.presenterHabilidades;
+import com.fhl.sistemadedistribucionfh.Dialogs.habilities.view.dialogCompleteValidadorView;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.presenter.presenterSetValidacion;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.presenter.presenterSetValidacionImpl;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.view.viewSetValidacion;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
 
-public class dialogCompleteValidador extends DialogFragment implements View.OnClickListener, viewSetValidacion {
+public class dialogCompleteValidador extends DialogFragment implements View.OnClickListener, viewSetValidacion  {
 public static final String TAG = dialogCompleteValidador.class.getSimpleName();
 private ImageButton imageButton2;
 private presenterSetValidacion presentador;
@@ -50,7 +52,8 @@ private void initDialog(View view) {
         imageButton2=view.findViewById(R.id.imageButtonValidador);
         imageButton2.setOnClickListener(this);
         presentador= new presenterSetValidacionImpl(this,getContext());
-
+        presentador.getdriverHabilities();
+        presentador.getVehicleHabilities();
         }
 
 public void closeDialog() {
@@ -72,6 +75,15 @@ public void closeDialog() {
 
         }
 
+        @Override
+        public void setDriverHailities(String habilidades) {
+                Log.e("habilidades","Driver"+habilidades);
+        }
+
+        @Override
+        public void setVehicleHailities(String habilidadVehiculos) {
+                Log.e("habilidades","Driver"+habilidadVehiculos);
+        }
 
 
         @Override
@@ -80,7 +92,7 @@ public void onClick(View view) {
         case R.id.imageButtonValidador:
         //closeDialog();
                 Toast.makeText(getContext(), "Validador pendiente hailidades", Toast.LENGTH_SHORT).show();
-                //presentador.setValidacionMenifest(manifest);
+              presentador.setValidacionMenifest(manifest);
 
         break;
         }

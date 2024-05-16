@@ -13,7 +13,7 @@ public class RetrofitEndPoints {
 //
 //>>>>>>> main
     //ENDPOINTS FH
-    public static final String URL_FHL_SGD="https://administracionsgdservice.trafficmanager.net/";
+    public static final String URL_FHL_SGD="https://64vdvmnq-7220.usw3.devtunnels.ms/";//"https://administracionsgdservice.trafficmanager.net/";
     public static final String URL_AVOCADO="http://35.194.83.10/WS-phoenixApiPROD/";
     //
     public static final String LOGIN = "Usuarios/Usuarios/Login";
@@ -40,6 +40,14 @@ public class RetrofitEndPoints {
     public static final String LOGINAVOCADO = "login/loginApp_v2";
     public static final String DETAIL_TICKET_SENDTRIPLUS = "GetTicketsByManifiesto";
     public static final String MANIFIESTO_SET_ESTATUS = "SetEstatusByManifiestoOrTicket";
+
+    //region hailidades//TODO se requiere que en el menu de escaner se agreguen checks para la hailidades
+    public static final String HABILITIES_VEHICLELIST ="Vehiculos/Vehiculo/GetId/";
+    public static final String HABILITIES_VEHICLE = "Vehiculos/HabilidadesVehiculo/GetId/";
+
+    public static final String HABILITIES_DRIVERLIST ="Colaboradores/Colaborador/GetId/";
+    public static final String HABILITIES_DRIVER = "Colaboradores/HabilidadesColaborador/";
+    //endregion
 
 // public static final String URL_NEWLANDS ="http://digimat-interactive.com/fhl/";
 //    public static final String MENUS = "menu.php";
