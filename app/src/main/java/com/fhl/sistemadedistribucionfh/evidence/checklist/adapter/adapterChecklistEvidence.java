@@ -46,7 +46,7 @@ public class adapterChecklistEvidence extends RecyclerView.Adapter<adapterCheckl
         // Para el aplicado y no aplicado
         if (data.get(position).getAplicado() != null) {
             // Tiene datos
-            if (data.get(position).getAplicado()) {
+            if (data.get(position).getAplicado() == true) {
                 // Es true
                 holder.statusChecklist.setText("Contestado");
             } else {
