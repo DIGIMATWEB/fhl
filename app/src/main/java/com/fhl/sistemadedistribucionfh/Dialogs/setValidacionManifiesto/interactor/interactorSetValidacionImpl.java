@@ -107,6 +107,7 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
         String operador= preferences.getString(GeneralConstants.OPERADOR_ID,null);
+        Log.e("habilidades","operador "+operador);
         if(token!=null){
             goGetDriver(token,operador);
         }
@@ -157,13 +158,14 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
         String vehiculo= preferences.getString(GeneralConstants.VEHICLEID,null);
+        Log.e("habilidades","vehiculo "+vehiculo);
         if(token!=null){
             goGetVehicle(token,vehiculo);
         }
     }
 
     private void goGetVehicle(String token, String vehiculo) {
-        Call<responseVehicle> call= service2.getVehicleInfor(token,Integer.valueOf(vehiculo));
+        Call<responseVehicle> call = service2.getVehicleInfor(token, Integer.valueOf(vehiculo));
         call.enqueue(new Callback<responseVehicle>() {
             @Override
             public void onResponse(Call<responseVehicle> call, Response<responseVehicle> response) {

@@ -77,12 +77,12 @@ public void closeDialog() {
 
         @Override
         public void setDriverHailities(String habilidades) {
-                Log.e("habilidades","Driver"+habilidades);
+                Log.e("habilidades","Operador "+habilidades);
         }
 
         @Override
         public void setVehicleHailities(String habilidadVehiculos) {
-                Log.e("habilidades","Driver"+habilidadVehiculos);
+                Log.e("habilidades","Driver "+habilidadVehiculos);
         }
 
 
@@ -92,7 +92,7 @@ public void onClick(View view) {
         case R.id.imageButtonValidador:
         //closeDialog();
                 Toast.makeText(getContext(), "Validador pendiente hailidades", Toast.LENGTH_SHORT).show();
-              presentador.setValidacionMenifest(manifest);
+              //presentador.setValidacionMenifest(manifest);
 
         break;
         }
