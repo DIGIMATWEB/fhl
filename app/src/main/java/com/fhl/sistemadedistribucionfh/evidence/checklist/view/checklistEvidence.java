@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.Check;
-import com.fhl.sistemadedistribucionfh.checkList.Questions.view.questionFragment;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.VehiculoVsCheck;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.dataChecklistV2;
 import com.fhl.sistemadedistribucionfh.checkList.presenter.checklistPresenter;
@@ -24,6 +23,7 @@ import com.fhl.sistemadedistribucionfh.evidence.checklist.adapter.adapterCheckli
 import com.fhl.sistemadedistribucionfh.evidence.checklist.zQuestionCheckllist.questionEvidence;
 import com.google.gson.Gson;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,10 +33,10 @@ public class checklistEvidence extends AppCompatActivity implements View.OnClick
     private RecyclerView rv;
     private adapterChecklistEvidence adapter;
     private SearchView searchView;
-    private checklistPresenter presenter;
     private dataChecklistV2 data;
     private FragmentManager manager;
     private FragmentTransaction transaction;
+    private String folioTicket;
    /*@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class checklistEvidence extends AppCompatActivity implements View.OnClick
 
         return view;
     }*/
-    private List<Check> checkList=new ArrayList<>();
+    public static List<Check> checkList=new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,10 +57,22 @@ public class checklistEvidence extends AppCompatActivity implements View.OnClick
             String json =gson.toJson(checkList);
             Log.e("jsonChecklist",""+json);
         }
+        folioTicket = extras.getString("folioTicket");
+        Log.d("SendCheck: ","Cargando la vista");
         initView();
         fillSellos(checkList);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Aquí puedes colocar cualquier lógica de actualización de la vista que necesites
+        // Por ejemplo, si tienes una lista de elementos que se debe actualizar, puedes volver a cargar esa lista aquí
+        // Por ejemplo:
+        // actualizarLista();
+        Log.d("SendCheck: ","Cargando la vista onResume");
+        Log.e("jsonChecklist",""+checkList);
+    }
 
     private void initView() {
         rv=findViewById(R.id.rvchecklist);
@@ -125,16 +137,27 @@ public class checklistEvidence extends AppCompatActivity implements View.OnClick
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(adapter);
     }
- public void goQuestions(String nombre, String placa, String vigencia, String periodicida) {
+    public void goQuestions(List<Check> dataQ, int positionChecklist) {
+        //TODO cambiar todo este metodo
         manager = getSupportFragmentManager();
         transaction = manager.beginTransaction();
         questionEvidence q = new questionEvidence();
+
         // Create a Bundle to pass data to the fragment
         Bundle bundle = new Bundle();
+        String nombre = dataQ.get(positionChecklist).getValor();
+        Integer llave = dataQ.get(positionChecklist).getLlave();
+        Integer positionSelected = positionChecklist;
+
         bundle.putString("nombre", nombre);
-        bundle.putString("placa", placa);
-        bundle.putString("vigencia", vigencia);
-        bundle.putString("periodicida", periodicida);
+        bundle.putInt("llave", llave);
+        bundle.putString("folioTicket", folioTicket);
+        bundle.putInt("posicionChecklist", positionSelected);
+
+        if (dataQ != null) {
+            bundle.putSerializable("preguntas", (Serializable)dataQ.get(positionChecklist).getPreguntas());
+        }
+
         // Set the arguments for the fragment
         q.setArguments(bundle);
         // Replace the fragment with arguments
