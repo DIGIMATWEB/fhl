@@ -55,9 +55,9 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
     private ConstraintLayout firma,foto,archivos,rating,video;
     private Float frating;
-    private String signatureBase64,inputTextSignature,currusel,ffiles,stars,fvideos="";
+    private String signatureBase64,inputTextSignature,currusel,ffiles,stars,fvideos,fchecklist="";
     private ImageView star,signatureImage,cameraico,clipDocs;
-    private Boolean mfirma,mfoto,mfiles,mrating,mvideos=false;
+    private Boolean mfirma,mfoto,mfiles,mrating,mvideos,mchecklist=false;
     private Button sendEvidence;
     private ImageButton eraseShared;
     private requestEvidencePresenter presenter;
@@ -138,6 +138,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         String docs=preferences.getString(GeneralConstants.DOCS_DIRECTORY, null);
         String rate = preferences.getString(GeneralConstants.RATE_STARS, null);
         String video = preferences.getString(GeneralConstants.VIDEO_DIRECTORY,null);
+        String checklist= preferences.getString(GeneralConstants.CHECKLIST_EVIDENCE,null);
 
 
 
@@ -218,13 +219,34 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 adapter.video(mvideos);
             }
         }
-    }
+        if(checklist!=null) {
+            if (checklist.equals("true")) {
+                mchecklist = true;
+                if (adapter != null) {
+                    adapter.checklist(mchecklist);
+                }
+             } else {
+                mvideos = false;
+                if (adapter != null) {
+                    adapter.checklist(mchecklist);
+                }
+
+            }
+        }else{
+                mvideos = true;
+            if (adapter != null) {
+                adapter.checklist(false);
+            }
+            }
+        }
+
+
 
     @Override
     protected void onResume() {
         super.onResume();
         checkShared();
-        if(mfirma==true&&mfoto==true&&mfiles==true&&mrating==true&&mvideos==true)
+        if(mfirma==true&&mfoto==true&&mfiles==true&&mrating==true&&mvideos==true&&mvideos==true)
         {
             sendEvidence.setVisibility(View.VISIBLE);
         }else{
@@ -400,6 +422,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         editor.remove(GeneralConstants.VIDEO_DIRECTORY);
         editor.remove(GeneralConstants.DOCS_DIRECTORY);
         editor.remove(GeneralConstants.RATE_STARS);
+        editor.remove(GeneralConstants.CHECKLIST_EVIDENCE);
         editor.apply();
     }
     private void cleanFolder(){

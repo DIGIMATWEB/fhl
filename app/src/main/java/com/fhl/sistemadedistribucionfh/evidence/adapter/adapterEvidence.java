@@ -29,7 +29,7 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
     private Integer flowDetail;
     private List<dataTicketsDetailsendtrip> data;
     private Integer hassignature,hasReview,hasphotos,hasdocuments,hasvideos,haschecklist=0;
-    private Boolean hasSignatureok,hasReviewok,hasPhotosok,hasFilesok,hasVideosok=false;
+    private Boolean hasSignatureok,hasReviewok,hasPhotosok,hasFilesok,hasVideosok,haschecklistok=false;
     private evidencia mview;
 
 
@@ -108,6 +108,9 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
     public void video(Boolean mVideos){
         this.hasVideosok=mVideos;
         notifyDataSetChanged();
+    }
+    public void checklist(Boolean mchecklist) {
+        this.haschecklistok=mchecklist;
     }
     @NonNull
     @Override
@@ -283,6 +286,14 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
             if (position == itemCount) {
                 Drawable backgroundV = ContextCompat.getDrawable(context, R.drawable.ic_menu_checklist_icon);
                 holder.image.setBackground(backgroundV);
+                if(haschecklistok==true){
+                    Drawable background2 = ContextCompat.getDrawable(context, R.drawable.ic_menu_checklist_icon_green);
+                    holder.image.setBackground(background2);
+                    Log.e("color de imagen","verde firma");
+                }else{
+                    //  holder.image.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
+                    Log.e("color de imagen","gris firma");
+                }
                 holder.description.setText("Checklist");
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -305,6 +316,8 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
                 +hasvideos
                 +haschecklist;
     }
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView image;

@@ -24,4 +24,5 @@ public class GeneralConstants {
     public static final String VIDEO_DIRECTORY = "VIDEO_STORAGE";
     public static final String DOCS_DIRECTORY = "DOCUMENTS_DIR";
     public static final String TOKEN_AVOCADO = "AVOCADO_TOKEN";
+    public static final String CHECKLIST_EVIDENCE = "CHECKLIST_EVIDENCES";
 }

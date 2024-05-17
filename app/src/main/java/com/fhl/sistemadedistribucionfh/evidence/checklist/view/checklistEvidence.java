@@ -1,5 +1,7 @@
 package com.fhl.sistemadedistribucionfh.evidence.checklist.view;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.Check;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.VehiculoVsCheck;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.dataChecklistV2;
@@ -45,6 +48,7 @@ public class checklistEvidence extends AppCompatActivity implements View.OnClick
         return view;
     }*/
     public static List<Check> checkList=new ArrayList<>();
+    private boolean allItemsApplied = false;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -186,5 +190,21 @@ public class checklistEvidence extends AppCompatActivity implements View.OnClick
             }
         }
          adapter.notifyDataSetChanged();
+        checkAllItemsApplied();
+    }
+    private void checkAllItemsApplied() {
+        allItemsApplied = true;
+        for (Check item : checkList) {
+            if (item.getAplicado() == null || !item.getAplicado()) {
+                allItemsApplied = false;
+                return;
+            }
+        }
+        Log.e("itemsforshared","bool "+allItemsApplied);
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(GeneralConstants.CHECKLIST_EVIDENCE,String.valueOf(allItemsApplied));
+        editor.apply();
+
     }
 }

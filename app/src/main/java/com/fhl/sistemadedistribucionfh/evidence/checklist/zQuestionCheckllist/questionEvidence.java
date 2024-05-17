@@ -88,6 +88,7 @@ public class questionEvidence extends Fragment implements View.OnClickListener ,
     public static final int CAMERA_REQUEST_CODE = 102;
     private Integer positionTemp, vehiculoChkId, despachoId, vehiculoId, checklistId, llave;
     private String fechaAplicado;
+    private Boolean checklistisOK=false;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -212,6 +213,7 @@ public class questionEvidence extends Fragment implements View.OnClickListener ,
 
     @Override
     public void successetCehcklist(Boolean status) {
+        this.checklistisOK=status;
         //TODO hacer metodos faltantes
         //Limpiar variables
         checklist.clear();
@@ -222,6 +224,7 @@ public class questionEvidence extends Fragment implements View.OnClickListener ,
         if (status == false) {
             // Cuando es false
         } else {
+
             // Cuando es true
             // Verificamos si la posición es válida
             if (positionChecklist >= 0 && positionChecklist < checklistEvidence.checkList.size()) {
@@ -267,8 +270,10 @@ public class questionEvidence extends Fragment implements View.OnClickListener ,
 //        Intent checklist = new Intent(this, checklistEvidence.class);
 //        //checklist.putExtras(bundle);
 //        startActivity(checklist);
-        checklistEvidence checkEvidence = (checklistEvidence) getActivity();
-        checkEvidence.setmypostandvalues(positionChecklist);
+        if(checklistisOK) {
+            checklistEvidence checkEvidence = (checklistEvidence) getActivity();
+            checkEvidence.setmypostandvalues(positionChecklist);
+        }
 
 
         // Find the current fragment by tag if you have set a tag when adding/replacing the fragment
