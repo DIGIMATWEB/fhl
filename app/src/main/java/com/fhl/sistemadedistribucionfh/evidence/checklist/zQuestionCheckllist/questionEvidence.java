@@ -92,7 +92,7 @@ public class questionEvidence extends Fragment implements View.OnClickListener ,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_questions, container, false);
+        View view = inflater.inflate(R.layout.fragment_questions_evidences, container, false);
         Bundle args = getArguments();
 
         if (args != null) {

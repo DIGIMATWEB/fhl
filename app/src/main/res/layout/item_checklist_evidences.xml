@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constrainCard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelinechecklist1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".6" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelinechecklist2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".02" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelinechecklist3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".32" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelinechecklist4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".73" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelinechecklist5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent=".70" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelinechecklist6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent=".44" />
+
+            <TextView
+                android:id="@+id/namechecklistN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text=""
+                android:textSize="@dimen/h4"
+                app:layout_constraintBottom_toTopOf="@+id/guidelinechecklist6"
+                app:layout_constraintStart_toStartOf="@+id/guidelinechecklist2"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/namechecklist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Nombre de checklist"
+                android:textSize="@dimen/h4"
+                app:layout_constraintBottom_toTopOf="@+id/guidelinechecklist5"
+                app:layout_constraintStart_toStartOf="@+id/guidelinechecklist2"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </TextView>
+
+
+
+
+            <TextView
+                android:id="@+id/vehiclTypeChecklist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:text=""
+                android:textSize="@dimen/h5"
+                android:maxLength="14"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guidelinechecklist2"
+                app:layout_constraintTop_toTopOf="@+id/guidelinechecklist5" />
+
+            <TextView
+                android:id="@+id/manifestChecklist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:text=""
+                android:textSize="@dimen/h5"
+                android:maxLength="15"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guidelinechecklist3"
+                app:layout_constraintTop_toTopOf="@+id/guidelinechecklist5" />
+
+            <TextView
+                android:id="@+id/statusChecklist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:text="No Vigente"
+                android:textColor="@color/red"
+                android:textSize="@dimen/h6"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guidelinechecklist4"
+                app:layout_constraintTop_toTopOf="@+id/namechecklist" />
+
+            <TextView
+                android:id="@+id/moreChecklist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="30dp"
+                android:text="Más"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guidelinechecklist5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guidelinechecklist5">
+
+            </TextView>
+
+            <ImageView
+                android:id="@+id/siguienteChecklist"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="5dp"
+                app:layout_constraintBottom_toBottomOf="@+id/moreChecklist"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/moreChecklist"
+                app:srcCompat="@drawable/ic_arrow_tiket">
+
+            </ImageView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -39,7 +39,7 @@ public class adapterChecklistEvidence extends RecyclerView.Adapter<adapterCheckl
     @NonNull
     @Override
     public adapterChecklistEvidence.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_checklist, parent, false);//item_carrito
+        View view = LayoutInflater.from(context).inflate(R.layout.item_checklist_evidences, parent, false);//item_carrito
         return new adapterChecklistEvidence.ViewHolder(view);
     }
 
