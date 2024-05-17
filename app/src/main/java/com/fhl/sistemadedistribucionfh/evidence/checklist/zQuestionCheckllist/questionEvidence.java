@@ -34,6 +34,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.fhl.sistemadedistribucionfh.Cancelar.view.cancelarViaje;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.Check;
@@ -266,9 +267,12 @@ public class questionEvidence extends Fragment implements View.OnClickListener ,
 //        Intent checklist = new Intent(this, checklistEvidence.class);
 //        //checklist.putExtras(bundle);
 //        startActivity(checklist);
+        checklistEvidence checkEvidence = (checklistEvidence) getActivity();
+        checkEvidence.setmypostandvalues(positionChecklist);
 
+
+        // Find the current fragment by tag if you have set a tag when adding/replacing the fragment
         requireActivity().getSupportFragmentManager().popBackStack();
-        //getActivity().finish();
     }
 
     @Override

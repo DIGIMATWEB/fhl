@@ -17,7 +17,6 @@ import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.Check;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.VehiculoVsCheck;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.dataChecklistV2;
-import com.fhl.sistemadedistribucionfh.checkList.presenter.checklistPresenter;
 import com.fhl.sistemadedistribucionfh.checkList.view.checklistView;
 import com.fhl.sistemadedistribucionfh.evidence.checklist.adapter.adapterChecklistEvidence;
 import com.fhl.sistemadedistribucionfh.evidence.checklist.zQuestionCheckllist.questionEvidence;
@@ -27,7 +26,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class checklistEvidence extends AppCompatActivity implements View.OnClickListener, checklistView {
+public class checklistEvidence extends AppCompatActivity implements View.OnClickListener, checklistView,ChecklistObserver {
 
     public static final String TAG = checklistEvidence.class.getSimpleName();
     private RecyclerView rv;
@@ -86,7 +85,8 @@ public class checklistEvidence extends AppCompatActivity implements View.OnClick
         searchView.clearFocus();
 //        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 //            @Override
-//            public boolean onQueryTextSubmit(String query) {
+//            public boolean onQueryTextSu
+//            bmit(String query) {
 //                return false;
 //            }
 //
@@ -166,5 +166,25 @@ public class checklistEvidence extends AppCompatActivity implements View.OnClick
         transaction.addToBackStack(null);
         // Commit the transaction
         transaction.commit();
+    }
+
+    @Override
+    public void onChecklistChanged(List<Check> updatedChecklist) {
+        fillSellos(updatedChecklist);
+        Log.e("jsonChecklist", new Gson().toJson(updatedChecklist));
+    }
+
+    public void setmypostandvalues(Integer positionChecklist) {
+        Log.e("jsonChecklist","checklist name" + " positionchecklist "+positionChecklist);
+        if(checkList!=null)
+        {
+            for(int i=0; i<checkList.size();i++)
+            {
+                if(i==positionChecklist){
+                    checkList.get(positionChecklist).setAplicado(true);
+                }
+            }
+        }
+         adapter.notifyDataSetChanged();
     }
 }
