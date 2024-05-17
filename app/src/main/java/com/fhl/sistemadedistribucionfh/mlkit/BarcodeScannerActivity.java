@@ -87,6 +87,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
     private List<Sello> dataSellos;
     private String vehiclebarcode,rfcBarcode;
     private String vehiclebarcodeVal,rfcBarcodeVal;
+    private Integer claveVehicleID;
     private String codigoValidador="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -470,6 +471,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                   if (currentStatus == 4) {
                       Bundle bundle = new Bundle();
                       bundle.putString("currentManifest", codigoValidador);
+                      bundle.putInt("claveVehicleID",claveVehicleID);
                       dialogCompleteValidador bottonSheetv = new dialogCompleteValidador();
                       bottonSheetv.setArguments(bundle);
                       bottonSheetv.show(getSupportFragmentManager(), "dialogCompleteValidador");
@@ -620,11 +622,12 @@ public class BarcodeScannerActivity extends AppCompatActivity
 
     public void setVehicleandDriver(List<dataValidadorV2> data) {
     }
-    public void setVehicleandDriverBarcodes(String vehiclebarcode, String rfcBarcode, String vehiclebarcodeVal, String rfcBarcodeVal){
+    public void setVehicleandDriverBarcodes(String vehiclebarcode, String rfcBarcode, String vehiclebarcodeVal, String rfcBarcodeVal, Integer claveVehicleID){
         this.vehiclebarcode=vehiclebarcode;
         this.rfcBarcode=rfcBarcode;
         this.vehiclebarcodeVal=vehiclebarcodeVal;
         this.rfcBarcodeVal=rfcBarcodeVal;
+        this.claveVehicleID=claveVehicleID;
     }
     private void barcodesCollection(String code)
     {

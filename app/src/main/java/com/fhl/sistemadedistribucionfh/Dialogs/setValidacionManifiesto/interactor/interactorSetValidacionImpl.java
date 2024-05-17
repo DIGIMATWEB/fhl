@@ -154,18 +154,18 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
     }
 
     @Override
-    public void getVehicle() {
+    public void getVehicle(Integer claveVehicleID) {
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
         String vehiculo= preferences.getString(GeneralConstants.VEHICLEID,null);
-        Log.e("habilidades","vehiculo "+vehiculo);
+        Log.e("habilidades","vehiculo "+claveVehicleID);
         if(token!=null){
-            goGetVehicle(token,vehiculo);
+            goGetVehicle(token,claveVehicleID);
         }
     }
 
-    private void goGetVehicle(String token, String vehiculo) {
-        Call<responseVehicle> call = service2.getVehicleInfor(token, Integer.valueOf(vehiculo));
+    private void goGetVehicle(String token, Integer vehiculo) {
+        Call<responseVehicle> call = service2.getVehicleInfor(token, vehiculo);
         call.enqueue(new Callback<responseVehicle>() {
             @Override
             public void onResponse(Call<responseVehicle> call, Response<responseVehicle> response) {

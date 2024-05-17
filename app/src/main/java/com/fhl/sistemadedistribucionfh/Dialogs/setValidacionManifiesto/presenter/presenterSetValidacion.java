@@ -6,7 +6,7 @@ public interface presenterSetValidacion {
     void setresponseValidacionMenifest(String s);
 
     void getdriverHabilities();
-    void getVehicleHabilities();
+    void getVehicleHabilities(Integer claveVehicleID);
 
     void setDriverHailities(String habilidades);
 

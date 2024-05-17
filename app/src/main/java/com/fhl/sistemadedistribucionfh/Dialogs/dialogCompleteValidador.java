@@ -49,6 +49,7 @@ private List<habiltiesDriver> mhabiltiesDriver= new ArrayList<>();
 private Boolean allmVehicles=false;
 private Boolean allmDrivers=false;
 private ImageView imageViewHC ,imageokHC,imageHV,imageokHV;
+private Integer  claveVehicleID;
 @Override
 public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +65,7 @@ public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup c
         Bundle args = getArguments();
         if (args != null) {
                 manifest = args.getString("currentManifest");
+                claveVehicleID= args.getInt("claveVehicleID");
         }
         initDialog(view);
 
@@ -84,7 +86,7 @@ private void initDialog(View view) {
         imageokHV=view.findViewById(R.id.imageokHV);
         presentador= new presenterSetValidacionImpl(this,getContext());
         presentador.getdriverHabilities();
-        presentador.getVehicleHabilities();
+        presentador.getVehicleHabilities(claveVehicleID);
         }
 
 public void closeDialog() {

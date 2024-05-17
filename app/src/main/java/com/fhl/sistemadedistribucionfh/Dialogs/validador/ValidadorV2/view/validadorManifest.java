@@ -55,6 +55,7 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
     private Boolean isCanceled =true;
     private String vehiclebarcode,rfcBarcode;
     private String vehiclebarcodeVal,rfcBarcodeVal;
+    private Integer claveVehicleID;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -236,9 +237,10 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
         rfcBarcode=data.get(0).getOperador().getRfcBarcode();
         vehiclebarcodeVal=data.get(0).getVehiculo().getVin();
         rfcBarcodeVal=data.get(0).getOperador().getRfc();
+        claveVehicleID=data.get(0).getVehiculoId();
         if(codigoValidador1.equals("1")){
             BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
-            barcodeScannerActivity.setVehicleandDriverBarcodes(vehiclebarcode,rfcBarcode,vehiclebarcodeVal,rfcBarcodeVal);
+            barcodeScannerActivity.setVehicleandDriverBarcodes(vehiclebarcode,rfcBarcode,vehiclebarcodeVal,rfcBarcodeVal,claveVehicleID);
         }
         //barcodes data.get(0).getOperador().getRfcBarcode()+data.get(0).getVehiculo().getBarcodeVehicle()
 //        BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();

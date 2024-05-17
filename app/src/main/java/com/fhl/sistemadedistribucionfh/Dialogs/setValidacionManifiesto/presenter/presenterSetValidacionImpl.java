@@ -30,9 +30,9 @@ public class presenterSetValidacionImpl implements  presenterSetValidacion{
     }
 
     @Override
-    public void getVehicleHabilities() {
+    public void getVehicleHabilities(Integer claveVehicleID) {
         if(view!=null){
-            interactor.getVehicle();
+            interactor.getVehicle(claveVehicleID);
         }
     }
 

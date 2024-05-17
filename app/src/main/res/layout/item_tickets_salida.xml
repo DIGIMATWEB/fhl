@@ -29,11 +29,11 @@
                 android:id="@+id/recyclerViewPaquetes"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/checkSalida"
+                app:layout_constraintEnd_toEndOf="@+id/checkSalida"
                 app:layout_constraintStart_toEndOf="@+id/icticket"
-                app:layout_constraintTop_toBottomOf="@+id/razonDescSalida" />
+                app:layout_constraintTop_toBottomOf="@+id/numberticket" />
 
             <CheckBox
                 android:id="@+id/checkSalida"
@@ -42,43 +42,44 @@
                 android:layout_marginEnd="10dp"
                 android:button="@drawable/checkbox_background"
                 android:checked="false"
-                app:layout_constraintBottom_toBottomOf="@+id/razonDescSalida"
+                app:layout_constraintBottom_toBottomOf="@+id/numberticket"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/numberticket" />
+                app:layout_constraintTop_toTopOf="@+id/numberticket" />
 
             <TextView
                 android:id="@+id/numberticket"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:text="Numero de ticket"
-                android:textSize="14sp"
                 android:textColor="@color/customTransparent"
+                android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintBottom_toBottomOf="@+id/icticket"
+                app:layout_constraintStart_toEndOf="@+id/icticket"
+                app:layout_constraintTop_toTopOf="@+id/icticket" />
 
             <TextView
                 android:id="@+id/razonDescSalida"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
                 android:text=""
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/recyclerViewPaquetes"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/numberticket" />
+                app:layout_constraintBottom_toBottomOf="@+id/numberticket"
+                app:layout_constraintStart_toEndOf="@+id/numberticket"
+                app:layout_constraintTop_toTopOf="@+id/numberticket" />
 
             <ImageView
                 android:id="@+id/icticket"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/ticket"
-                app:layout_constraintBottom_toBottomOf="@+id/razonDescSalida"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/numberticket" />
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
