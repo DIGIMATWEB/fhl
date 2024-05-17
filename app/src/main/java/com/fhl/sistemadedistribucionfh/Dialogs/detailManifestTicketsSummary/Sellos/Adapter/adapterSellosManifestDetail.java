@@ -30,7 +30,7 @@ public class adapterSellosManifestDetail extends RecyclerView.Adapter<adapterSel
     @NonNull
     @Override
     public adapterSellosManifestDetail.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_tickets_salida, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_sellos_salida, parent, false);
         return new adapterSellosManifestDetail.ViewHolder(view);
     }
 

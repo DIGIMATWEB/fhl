@@ -2,6 +2,7 @@
 package com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2;
 
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Estatus;
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.SendtripPlus;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -126,7 +127,9 @@ public class dataTicketsManifestV2 implements Serializable {
     @Expose
     private Integer destinatariosClienteId;
 
-
+    @SerializedName("SendtripPlus")
+    @Expose
+    private SendtripPlus sendtripPlus;
 
     /**
      * 
@@ -177,7 +180,7 @@ public class dataTicketsManifestV2 implements Serializable {
                                  String tiempoParadaDestino, String fechaVentanaInicio, String fechaVentanaFin, String fechaRestriccionCirculacionInicio,
                                  String fechaRestriccionCirculacionFin, Integer cantidad, Integer sumaAsegurada, Integer rutaId, Integer tipoVehiculoId,
                                  Integer maniobras, String custodia, String custodiaArmada, Integer tipoCustodiaId, String requiereEvidenciaSeguroSocial,
-                                 Boolean seguro, Boolean servicioCobro, Integer destinatariosClienteId,Estatus estatus) {
+                                 Boolean seguro, Boolean servicioCobro, Integer destinatariosClienteId,Estatus estatus,SendtripPlus sendtripPlus) {
         super();
         this.despachoId = despachoId;
         this.ticketId = ticketId;
@@ -218,6 +221,7 @@ public class dataTicketsManifestV2 implements Serializable {
         this.servicioCobro = servicioCobro;
         this.destinatariosClienteId = destinatariosClienteId;
         this.estatus=estatus;
+        this.sendtripPlus=sendtripPlus;
     }
 
     public Integer getDespachoId() {
@@ -530,5 +534,13 @@ public class dataTicketsManifestV2 implements Serializable {
 
     public void setEstatus(Estatus estatus) {
         this.estatus = estatus;
+    }
+
+    public SendtripPlus getSendtripPlus() {
+        return sendtripPlus;
+    }
+
+    public void setSendtripPlus(SendtripPlus sendtripPlus) {
+        this.sendtripPlus = sendtripPlus;
     }
 }

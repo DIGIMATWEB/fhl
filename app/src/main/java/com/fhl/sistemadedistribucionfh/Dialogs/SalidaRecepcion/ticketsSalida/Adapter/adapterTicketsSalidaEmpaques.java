@@ -14,22 +14,20 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.ticketsSalida;
 import com.fhl.sistemadedistribucionfh.R;
-import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
 import java.util.List;
 
-public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSalida.ViewHolder> {
+public class adapterTicketsSalidaEmpaques extends RecyclerView.Adapter<adapterTicketsSalidaEmpaques.ViewHolder> {
     private Context context;
     private List<ticketsScanned> data;
     private ticketsSalida mview;
 
-    public adapterTicketsSalida(ticketsSalida mview, List<ticketsScanned> data, Context context) {
+    public adapterTicketsSalidaEmpaques(ticketsSalida mview, List<ticketsScanned> data, Context context) {
         this.context = context;
         this.data=data;
         this.mview=mview;
@@ -37,13 +35,13 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public adapterTicketsSalidaEmpaques.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_tickets_salida, parent, false);
-        return new adapterTicketsSalida.ViewHolder(view);
+        return new adapterTicketsSalidaEmpaques.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull adapterTicketsSalida.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull adapterTicketsSalidaEmpaques.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.razonDesc.setText(data.get(position).getFolio());
         if(data.get(position).getFlag()==true){
             holder.check.setChecked(true);
@@ -53,10 +51,10 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
             mview.updatescanedData(data);
 
         }else {
-           holder.check.setChecked(false);
+            holder.check.setChecked(false);
         }
-        holder.setupRecyclerViewPaquetes();
     }
+
     @Override
     public int getItemCount() {
         return data.size();
@@ -71,28 +69,11 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
         private TextView razonDesc;
         private CheckBox check;
         private ImageView icticket;
-        private RecyclerView recyclerViewPaquetes;
-        private adapterEmpaque empaqueAdapter;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             razonDesc=itemView.findViewById(R.id.razonDescSalida);
             check=itemView.findViewById(R.id.checkSalida );
             icticket=itemView.findViewById(R.id.icticket);
-            recyclerViewPaquetes = itemView.findViewById(R.id.recyclerViewPaquetes);
-           fillEmpaqueAdapter();
-
-        }
-
-        private void fillEmpaqueAdapter() {
-            empaqueAdapter = new adapterEmpaque(context);
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-            recyclerViewPaquetes.setLayoutManager(linearLayoutManager);
-            recyclerViewPaquetes.setAdapter(empaqueAdapter);
-        }
-
-        public void setupRecyclerViewPaquetes() {
-            // You can further customize the setup if needed
-            empaqueAdapter.notifyDataSetChanged();
         }
     }
 }

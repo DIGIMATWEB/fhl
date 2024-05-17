@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.Adapter.adapterTicketsSalida;
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.Adapter.adapterTicketsSalidaEmpaques;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Salida.Model.v2.dataSalida;
@@ -30,8 +31,9 @@ import java.util.List;
 
 public class ticketsSalida extends DialogFragment implements View.OnClickListener {
     public static final String TAG = ticketsSalida.class.getSimpleName();
-    private RecyclerView rvReasons;
+    private RecyclerView rvReasons,rv;
     private adapterTicketsSalida adapter;
+    private adapterTicketsSalidaEmpaques adapter2;
 //    private dialogReasonsPresenter presenter;
     private ImageView closeReasons;
     private List<ticketsScanned> model=new ArrayList<>();
@@ -67,7 +69,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
             model.clear();
             Log.e("ticketsArray2", "adapter size" + codigoValidador.size());
             for(int i=0; i< codigoValidador.size();i++){
-                model.add(new ticketsScanned(codigoValidador.get(i).getFolioTicket(),false));
+                model.add(new ticketsScanned(codigoValidador.get(i).getFolioTicket(),false,codigoValidador.get(i).getSendtripPlus()));
                 Log.e("ticketsArray2", "model size: " + model.get(i).getFolio()+"  "+model.get(i).getFlag());
 
             }
@@ -83,7 +85,8 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimationBottonSheet;
     }
     private void initDialog(View view) {
-        rvReasons=view.findViewById(R.id.rvTickets);
+        rvReasons=view.findViewById(R.id.rvTicketsSalidaL);
+        rv=view.findViewById(R.id. rvTicketsEmpaques);
         imageButton = view.findViewById(R.id.imageButton);
         imageButton.setOnClickListener(this);
         textChekcs=view.findViewById(R.id.textChekcs);
@@ -99,6 +102,14 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvReasons.setLayoutManager(linearLayoutManager);
         rvReasons.setAdapter(adapter);
+        fillAdapter2(data,context);
+    }
+    private void fillAdapter2(List<ticketsScanned> data, Context context) {
+
+        adapter2 = new adapterTicketsSalidaEmpaques(this,data,context);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        rv.setLayoutManager(linearLayoutManager);
+        rv.setAdapter(adapter2);
     }
 
     public void closeDialog() {
