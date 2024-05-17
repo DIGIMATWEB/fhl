@@ -4,7 +4,9 @@ package com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class DocumentosOperador {
+import java.io.Serializable;
+
+public class DocumentosOperador implements Serializable {
 
     @SerializedName("Llave")
     @Expose

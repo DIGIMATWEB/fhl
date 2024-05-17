@@ -33,7 +33,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/checkSalida"
                 app:layout_constraintStart_toEndOf="@+id/icticket"
-                app:layout_constraintTop_toBottomOf="@+id/numberticket" />
+                app:layout_constraintTop_toBottomOf="@+id/icticket" />
 
             <CheckBox
                 android:id="@+id/checkSalida"
@@ -53,9 +53,8 @@
                 android:layout_marginStart="5dp"
                 android:text="Numero de ticket"
                 android:textColor="@color/customTransparent"
-                android:textSize="14sp"
+                android:textSize="11sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/icticket"
                 app:layout_constraintStart_toEndOf="@+id/icticket"
                 app:layout_constraintTop_toTopOf="@+id/icticket" />
 
@@ -63,13 +62,11 @@
                 android:id="@+id/razonDescSalida"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
                 android:text=""
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/numberticket"
-                app:layout_constraintStart_toEndOf="@+id/numberticket"
-                app:layout_constraintTop_toTopOf="@+id/numberticket" />
+                app:layout_constraintStart_toStartOf="@+id/numberticket"
+                app:layout_constraintTop_toBottomOf="@+id/numberticket" />
 
             <ImageView
                 android:id="@+id/icticket"

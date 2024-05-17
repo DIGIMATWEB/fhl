@@ -4,7 +4,9 @@ package com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Rutas {
+import java.io.Serializable;
+
+public class Rutas implements Serializable {
 
     @SerializedName("Id")
     @Expose

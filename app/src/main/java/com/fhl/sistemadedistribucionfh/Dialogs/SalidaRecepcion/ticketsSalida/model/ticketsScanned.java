@@ -5,9 +5,11 @@ import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.SendtripPlus;
 public class ticketsScanned {
     private String folio;
     private Boolean flag;
+    private SendtripPlus sendtripPlus;
     public ticketsScanned(String folio, Boolean flag, SendtripPlus sendtripPlus){
         this.folio=folio;
         this.flag=flag;
+        this.sendtripPlus=sendtripPlus;
     }
 
     public Boolean getFlag() {
@@ -24,5 +26,13 @@ public class ticketsScanned {
 
     public void setFolio(String folio) {
         this.folio = folio;
+    }
+
+    public SendtripPlus getSendtripPlus() {
+        return sendtripPlus;
+    }
+
+    public void setSendtripPlus(SendtripPlus sendtripPlus) {
+        this.sendtripPlus = sendtripPlus;
     }
 }

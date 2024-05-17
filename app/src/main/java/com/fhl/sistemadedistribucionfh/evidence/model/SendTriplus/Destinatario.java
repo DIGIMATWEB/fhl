@@ -4,7 +4,9 @@ package com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Destinatario {
+import java.io.Serializable;
+
+public class Destinatario  implements Serializable {
 
     @SerializedName("Nombre")
     @Expose

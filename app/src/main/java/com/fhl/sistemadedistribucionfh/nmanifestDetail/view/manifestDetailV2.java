@@ -175,7 +175,9 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
                         bundle.putString("scannerType", "Recolectar");
                         bundle.putString("manifest", folioDespachoId);
                         bundle.putSerializable("tickets", (Serializable) fdata);
-                        bundle.putSerializable("sellos", (Serializable) dataSellos);
+                        if(dataSellos!=null) {
+                            bundle.putSerializable("sellos", (Serializable) dataSellos);
+                        }
                         Intent intent = new Intent(getActivity(), BarcodeScannerActivity.class);
                         intent.putExtras(bundle);
                         startActivity(intent);

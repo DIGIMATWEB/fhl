@@ -102,7 +102,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvReasons.setLayoutManager(linearLayoutManager);
         rvReasons.setAdapter(adapter);
-        fillAdapter2(data,context);
+        //fillAdapter2(data,context);
     }
     private void fillAdapter2(List<ticketsScanned> data, Context context) {
 

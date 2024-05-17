@@ -245,7 +245,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
 
     @Override
     public void setSellos(List<Sello> response) {
-        if(response!=null) {
+        if(response!=null&&!response.isEmpty()) {
             Log.e("ticketsArray", "sellos: " + response.size() + " testfirst:" + response.get(0).getNumeroSello());
             BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
             barcodeScannerActivity1.setSellosArray(response);

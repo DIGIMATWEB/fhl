@@ -22,6 +22,7 @@ import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManife
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.responseTicketsManifestV2;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -279,7 +280,8 @@ public class salidaInteractorImplementation  implements salidainteractor {
                     }
                 }else {
                     Log.e("dialogSalida","datasellosnull");
-                    presenter.setSellos(null);
+                    List<Sello> sellos =new ArrayList<>();
+                            presenter.setSellos(sellos);
                 }
 
             } else {

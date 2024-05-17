@@ -1,13 +1,14 @@
 
 package com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.sellos;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Data {
+public class Data implements Serializable {
 
     @SerializedName("QrCodigo")
     @Expose

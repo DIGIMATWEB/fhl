@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.ticketsSalida;
 import com.fhl.sistemadedistribucionfh.R;
-import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Paquete;
 
 import java.util.List;
 
@@ -55,7 +55,7 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
         }else {
            holder.check.setChecked(false);
         }
-        holder.setupRecyclerViewPaquetes();
+        holder.setupRecyclerViewPaquetes(data.get(position).getSendtripPlus().getPaquetes());
     }
     @Override
     public int getItemCount() {
@@ -79,19 +79,20 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
             check=itemView.findViewById(R.id.checkSalida );
             icticket=itemView.findViewById(R.id.icticket);
             recyclerViewPaquetes = itemView.findViewById(R.id.recyclerViewPaquetes);
-           fillEmpaqueAdapter();
+
 
         }
 
-        private void fillEmpaqueAdapter() {
-            empaqueAdapter = new adapterEmpaque(context);
+        private void fillEmpaqueAdapter(List<Paquete> paquetes) {
+            empaqueAdapter = new adapterEmpaque(paquetes,context);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
             recyclerViewPaquetes.setLayoutManager(linearLayoutManager);
             recyclerViewPaquetes.setAdapter(empaqueAdapter);
         }
 
-        public void setupRecyclerViewPaquetes() {
+        public void setupRecyclerViewPaquetes(List<Paquete> paquetes) {
             // You can further customize the setup if needed
+            fillEmpaqueAdapter(paquetes);
             empaqueAdapter.notifyDataSetChanged();
         }
     }

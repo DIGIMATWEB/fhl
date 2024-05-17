@@ -1,12 +1,13 @@
 
 package com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus;
 
+import java.io.Serializable;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
-public class Paquete {
+public class Paquete implements Serializable {
 
     @SerializedName("Nombre")
     @Expose

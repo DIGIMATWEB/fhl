@@ -26,9 +26,9 @@ public class dataDetailTickets implements Serializable {
     @SerializedName("DestinatariosId")
     @Expose
     private Integer destinatariosId;
-    @SerializedName("Destinatarios")
-    @Expose
-    private Destinatarios destinatarios;
+//    @SerializedName("Destinatarios")
+//    @Expose
+//    private Destinatarios destinatarios;
     @SerializedName("Referencia")
     @Expose
     private String referencia;
@@ -117,53 +117,7 @@ public class dataDetailTickets implements Serializable {
     @Expose
     private Integer destinatariosClienteId;
 
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public dataDetailTickets() {
-    }
-
-    /**
-     * 
-     * @param fechaPromesaRetorno
-     * @param rutaId
-     * @param fechaVentanaFin
-     * @param folioTicket
-     * @param origen
-     * @param estatusId
-     * @param tipoSolicitudId
-     * @param fechaRestriccionCirculacionInicio
-     * @param destinatariosClienteId
-     * @param tiempoCarga
-     * @param fechaRestriccionCirculacionFin
-     * @param destinatarios
-     * @param fechaPromesaLlegadaOrigen
-     * @param documentosAuxiliar
-     * @param habilidadesAuxiliar
-     * @param fechaVentanaInicio
-     * @param comentarios
-     * @param destinatariosId
-     * @param habilidadesOperadoro
-     * @param secuencia
-     * @param evidenciaLlegada
-     * @param fechaPromesaCarga
-     * @param documentosVehiculo
-     * @param tipoEntregaId
-     * @param cliente
-     * @param tipoVehiculoId
-     * @param clienteId
-     * @param tiempoParadaDestino
-     * @param documentosOperador
-     * @param fechaPromesaEntrega
-     * @param checkList
-     * @param tipoVehiculo
-     * @param ticketId
-     * @param referencia
-     * @param rutas
-     * @param evidenciaSalida
-     */
-    public dataDetailTickets(Integer ticketId, String folioTicket, String origen, Integer clienteId, Cliente cliente, Integer destinatariosId, Destinatarios destinatarios, String referencia, Integer tipoSolicitudId, Integer tipoEntregaId, String comentarios, Integer estatusId, String secuencia, String fechaPromesaLlegadaOrigen, String fechaPromesaCarga, String fechaPromesaEntrega, String fechaPromesaRetorno, String tiempoCarga, String tiempoParadaDestino, String fechaVentanaInicio, String fechaVentanaFin, String fechaRestriccionCirculacionInicio, String fechaRestriccionCirculacionFin, Integer rutaId, Rutas rutas, Integer tipoVehiculoId, TipoVehiculo tipoVehiculo, List<DocumentosVehiculo> documentosVehiculo, List<HabilidadesOperadoro> habilidadesOperadoro, List<DocumentosOperador> documentosOperador, List<HabilidadesAuxiliar> habilidadesAuxiliar, List<DocumentosAuxiliar> documentosAuxiliar, List<EvidenciaSalida> evidenciaSalida, List<EvidenciaLlegada> evidenciaLlegada, List<Check> checkList, Integer destinatariosClienteId) {
+    public dataDetailTickets(Integer ticketId, String folioTicket, String origen, Integer clienteId, Cliente cliente, Integer destinatariosId,  String referencia, Integer tipoSolicitudId, Integer tipoEntregaId, String comentarios, Integer estatusId, String secuencia, String fechaPromesaLlegadaOrigen, String fechaPromesaCarga, String fechaPromesaEntrega, String fechaPromesaRetorno, String tiempoCarga, String tiempoParadaDestino, String fechaVentanaInicio, String fechaVentanaFin, String fechaRestriccionCirculacionInicio, String fechaRestriccionCirculacionFin, Integer rutaId, Rutas rutas, Integer tipoVehiculoId, TipoVehiculo tipoVehiculo, List<DocumentosVehiculo> documentosVehiculo, List<HabilidadesOperadoro> habilidadesOperadoro, List<DocumentosOperador> documentosOperador, List<HabilidadesAuxiliar> habilidadesAuxiliar, List<DocumentosAuxiliar> documentosAuxiliar, List<EvidenciaSalida> evidenciaSalida, List<EvidenciaLlegada> evidenciaLlegada, List<Check> checkList, Integer destinatariosClienteId) {
         super();
         this.ticketId = ticketId;
         this.folioTicket = folioTicket;
@@ -171,7 +125,7 @@ public class dataDetailTickets implements Serializable {
         this.clienteId = clienteId;
         this.cliente = cliente;
         this.destinatariosId = destinatariosId;
-        this.destinatarios = destinatarios;
+       // this.destinatarios = destinatarios;
         this.referencia = referencia;
         this.tipoSolicitudId = tipoSolicitudId;
         this.tipoEntregaId = tipoEntregaId;
@@ -251,13 +205,13 @@ public class dataDetailTickets implements Serializable {
         this.destinatariosId = destinatariosId;
     }
 
-    public Destinatarios getDestinatarios() {
-        return destinatarios;
-    }
-
-    public void setDestinatarios(Destinatarios destinatarios) {
-        this.destinatarios = destinatarios;
-    }
+//    public Destinatarios getDestinatarios() {
+//        return destinatarios;
+//    }
+//
+//    public void setDestinatarios(Destinatarios destinatarios) {
+//        this.destinatarios = destinatarios;
+//    }
 
     public String getReferencia() {
         return referencia;

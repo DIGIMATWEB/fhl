@@ -2,31 +2,26 @@ package com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.Ad
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.ColorFilter;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
-import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.ticketsSalida;
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Paquete;
 
 import java.util.List;
 
 public class adapterEmpaque extends RecyclerView.Adapter<adapterEmpaque.ViewHolder> {
     private Context context;
+    private List<Paquete> paquetes;
 
-    public adapterEmpaque( Context context) {
+    public adapterEmpaque(List<Paquete> paquetes, Context context) {
         this.context = context;
+        this.paquetes=paquetes;
     }
 
     @NonNull
@@ -38,12 +33,12 @@ public class adapterEmpaque extends RecyclerView.Adapter<adapterEmpaque.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull adapterEmpaque.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-    holder.razonDescSalida.setText("Example");
+    holder.razonDescSalida.setText(""+paquetes.get(position).getNombre());
     }
 
     @Override
     public int getItemCount() {
-        return 4;
+        return paquetes.size();
     }
 
 
