@@ -175,7 +175,6 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                                 codeFound = true;
                                 if (!ticket.getSendtripPlus().getPaquetes().get(i).getFlag()) {
                                     ticket.getSendtripPlus().getPaquetes().get(i).setFlag(true);
-                                    codeFound = true;
                                     Log.e("empaque", "código escaneado correctamente");
                                 } else {
                                     Log.e("empaque", "código ya fue escaneado");

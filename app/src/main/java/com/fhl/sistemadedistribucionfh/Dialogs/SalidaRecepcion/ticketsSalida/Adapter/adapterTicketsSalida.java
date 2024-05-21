@@ -49,11 +49,12 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
             holder.check.setChecked(true);
             int tintColor = ContextCompat.getColor(context, R.color.yellow);
             ColorFilter colorFilter = new PorterDuffColorFilter(tintColor, PorterDuff.Mode.SRC_IN);
-            holder.icticket.setColorFilter(colorFilter);
+            holder.icticket.setBackground(ContextCompat.getDrawable(context, R.drawable.ticket_green));
             mview.updatescanedData(data);
 
         }else {
            holder.check.setChecked(false);
+            holder.icticket.setBackground(ContextCompat.getDrawable(context, R.drawable.ticket));
         }
         holder.setupRecyclerViewPaquetes(mview, data.get(position).getSendtripPlus().getPaquetes());
     }

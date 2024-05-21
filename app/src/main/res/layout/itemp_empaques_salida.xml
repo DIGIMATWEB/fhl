@@ -16,7 +16,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:text="Empaque"
+            android:text="Lote"
             android:textColor="@color/customTransparent"
             android:textSize="14dp"
             android:textStyle="bold"

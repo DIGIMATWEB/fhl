@@ -55,6 +55,7 @@ public class detailTicketsSummary extends DialogFragment implements View.OnClick
                 sellos = (List<Sello>) args.getSerializable("sellos");
                 if(data!=null){
                         fillTicketsRV();
+                        
                 }
                 }
 
