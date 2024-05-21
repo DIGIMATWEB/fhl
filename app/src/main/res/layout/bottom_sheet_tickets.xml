@@ -41,6 +41,15 @@
         app:layout_constraintStart_toStartOf="@+id/textView66"
         app:layout_constraintTop_toBottomOf="@+id/textView66" />
 
+    <TextView
+        android:id="@+id/textEmpaques"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0/0"
+        app:layout_constraintEnd_toEndOf="@+id/textView66"
+        app:layout_constraintStart_toEndOf="@+id/textChekcs"
+        app:layout_constraintTop_toBottomOf="@+id/textView66" />
+
     <ImageView
         android:id="@+id/closeReasons"
         android:layout_width="wrap_content"

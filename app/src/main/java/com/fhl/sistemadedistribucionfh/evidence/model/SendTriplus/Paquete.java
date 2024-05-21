@@ -15,10 +15,12 @@ public class Paquete implements Serializable {
     @SerializedName("Items")
     @Expose
     private List<Item> items;
-    public Paquete(String nombre, List<Item> items) {
+    private Boolean flag;
+    public Paquete(String nombre, List<Item> items,Boolean flag) {
         super();
         this.nombre = nombre;
         this.items = items;
+        this.flag=flag;
     }
 
     public String getNombre() {
@@ -37,4 +39,11 @@ public class Paquete implements Serializable {
         this.items = items;
     }
 
+    public Boolean getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Boolean flag) {
+        this.flag = flag;
+    }
 }
