@@ -41,6 +41,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
     private ImageButton imageButton;
     private TextView textChekcs;
     private Integer countok=0;
+    private Integer countokEmpaques=0;
     private String typeScanner,currentmanifest;
     private TextView recoleccion,textEmpaques;
 
@@ -125,14 +126,14 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         switch (view.getId()) {
             case R.id.imageButton:
                 //closeDialog();
-                if(countok==10000) {//todo hasta igualar los empaques model.size()
+                if(countok== model.size()) {//todo hasta igualar los empaques model.size()
                    // Toast.makeText(getContext(), "ir a sellostodos fueron escaneados", Toast.LENGTH_SHORT).show();
                   if(typeScanner!=null) {
                       if (typeScanner.equals("Recolectar")) {
                           //Toast.makeText(getContext(), "sumarydetailtickets", Toast.LENGTH_SHORT).show();
                           BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
                           barcodeScannerActivity1.detalManifestTicketsSummary(currentmanifest, codigoValidador, sellos);
-                      } else {
+                      } else {//Salida
                           BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
                           barcodeScannerActivity1.goTicketsSummary();
                       }
@@ -144,40 +145,70 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                   }
 
                 }else{
-                   Toast.makeText(getContext(), "faltan tickets por escanear", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(getContext(), "faltan Empaques por escanear", Toast.LENGTH_SHORT).show();
 
                 }
                 break;
         }
     }
 
-    public void sendToast(String code) {
-        if(model != null) {
-           // Log.e("ticketsArray2", "comprueva el modelo " + model.size() + " comprueba el codigo " + code);
+    public void sendToast(String code) {//para cada codigo recibido
+        if (model != null) {   //si existe ingotmacions
+            // Log.e("ticketsArray2", "comprueva el modelo " + model.size() + " comprueba el codigo " + code);
             boolean codeFound = false;
 
-            for (ticketsScanned ticket : model) {
-                if (ticket.getFolio() != null && ticket.getFolio().equals(code)) {
-                    codeFound = true;
-                    if (!ticket.getFlag()) {
-                        ticket.setFlag(true);
-                        Log.e("ticketsArray2", "codigo escaneado correctamente");
+            for (ticketsScanned ticket : model) {             //se usca por ticket
+                if (ticket.getFolio() != null && ticket.getFolio().equals(code)) {   //si existe folio y es igual alcodigo
+                    codeFound = true;                                                //el codigo existe en la lista
+                    if (!ticket.getFlag()) {                                         //se no esta togglea el ticket
+                        // ticket.setFlag(true);                                        //se setea en true
+                        Log.e("empaque", "codigo escaneado correctamente pero se cambio solo para empaques ATENCION");
                     } else {
-                        Log.e("ticketsArray2", "codigo ya escaneado");
+                        Log.e("ticketsArray2", "codigo ya escaneado");     //si no se tice que ya se escanneo
                     }
-                    Log.e("ticketsArray2", ""+ticket.getFolio());
+                    Log.e("ticketsArray2", "" + ticket.getFolio());
                     break;
+                } else {
+                    if (ticket.getSendtripPlus().getPaquetes() != null) {
+                        for (int i = 0; i < ticket.getSendtripPlus().getPaquetes().size(); i++) {  // se busca por paquete
+                            if (code.equals(ticket.getSendtripPlus().getPaquetes().get(i).getNombre())) {
+                                codeFound = true;
+                                if (!ticket.getSendtripPlus().getPaquetes().get(i).getFlag()) {
+                                    ticket.getSendtripPlus().getPaquetes().get(i).setFlag(true);
+                                    codeFound = true;
+                                    Log.e("empaque", "código escaneado correctamente");
+                                } else {
+                                    Log.e("empaque", "código ya fue escaneado");
+                                }
+                                Log.e("empaque", "" + ticket.getSendtripPlus().getPaquetes().get(i).getNombre());
+                                break;
+                            }
+                        }
+                    }
+                    // Check if all paquetes flags are true
+                    boolean allPaquetesFlagged = true;
+                    for (int i = 0; i < ticket.getSendtripPlus().getPaquetes().size(); i++) {
+                        if (!ticket.getSendtripPlus().getPaquetes().get(i).getFlag()) {
+                            allPaquetesFlagged = false;
+                            break;
+                        }
+                    }
+                    if (allPaquetesFlagged) {
+                        ticket.setFlag(true);
+                        codeFound = true;
+                    }
                 }
             }
-            if (!codeFound) {
-                Log.e("ticketsArray2", "codigo no pertenece a la lista");
-                BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
-                barcodeScannerActivity1.errorTicket();
-            }
-            if (adapter != null) {
-                adapter.updateData(model);
-                adapter.notifyDataSetChanged();
-            }
+                if (!codeFound) {
+                    Log.e("ticketsArray2", "codigo no pertenece a la lista");
+                    BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                    barcodeScannerActivity1.errorTicket();
+                }
+                if (adapter != null) {
+                    adapter.updateData(model);
+                    adapter.notifyDataSetChanged();
+                }
+
         }
     }
 
@@ -211,4 +242,9 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         Log.e("ticketsArray2","textcount: "+countok);
         textChekcs.setText(countok+"/"+model.size());
     }
+
+    public void updatescanedDataEmpaque(List<Paquete> paquetes) {
+    }
 }
+
+

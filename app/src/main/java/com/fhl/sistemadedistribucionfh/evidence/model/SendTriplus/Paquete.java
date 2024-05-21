@@ -15,7 +15,7 @@ public class Paquete implements Serializable {
     @SerializedName("Items")
     @Expose
     private List<Item> items;
-    private Boolean flag;
+    private Boolean flag=false;
     public Paquete(String nombre, List<Item> items,Boolean flag) {
         super();
         this.nombre = nombre;
@@ -40,7 +40,12 @@ public class Paquete implements Serializable {
     }
 
     public Boolean getFlag() {
-        return flag;
+        if(flag!=null) {
+            return flag;
+        }else{
+            flag=false;
+            return flag;
+        }
     }
 
     public void setFlag(Boolean flag) {

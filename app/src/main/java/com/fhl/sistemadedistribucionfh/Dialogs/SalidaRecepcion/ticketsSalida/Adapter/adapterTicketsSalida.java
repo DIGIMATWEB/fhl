@@ -55,7 +55,7 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
         }else {
            holder.check.setChecked(false);
         }
-        holder.setupRecyclerViewPaquetes(data.get(position).getSendtripPlus().getPaquetes());
+        holder.setupRecyclerViewPaquetes(mview, data.get(position).getSendtripPlus().getPaquetes());
     }
     @Override
     public int getItemCount() {
@@ -83,16 +83,16 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
 
         }
 
-        private void fillEmpaqueAdapter(List<Paquete> paquetes) {
-            empaqueAdapter = new adapterEmpaque(paquetes,context);
+        private void fillEmpaqueAdapter(ticketsSalida mview, List<Paquete> paquetes) {
+            empaqueAdapter = new adapterEmpaque(mview,paquetes,context);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
             recyclerViewPaquetes.setLayoutManager(linearLayoutManager);
             recyclerViewPaquetes.setAdapter(empaqueAdapter);
         }
 
-        public void setupRecyclerViewPaquetes(List<Paquete> paquetes) {
+        public void setupRecyclerViewPaquetes(ticketsSalida mview, List<Paquete> paquetes) {
             // You can further customize the setup if needed
-            fillEmpaqueAdapter(paquetes);
+            fillEmpaqueAdapter(mview,paquetes);
             empaqueAdapter.notifyDataSetChanged();
         }
     }

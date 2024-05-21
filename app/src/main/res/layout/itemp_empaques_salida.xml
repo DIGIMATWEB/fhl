@@ -28,14 +28,23 @@
             android:id="@+id/razonDescSalidaEmpaques"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="20dp"
             android:text=""
             android:textSize="14dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/checkEmpaque"
             app:layout_constraintTop_toTopOf="parent" />
-
+        <CheckBox
+            android:id="@+id/checkEmpaque"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="10dp"
+            android:button="@drawable/checkbox_background"
+            android:checked="false"
+            app:layout_constraintBottom_toBottomOf="@+id/numberticket"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/numberticket" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
