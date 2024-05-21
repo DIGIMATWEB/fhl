@@ -94,7 +94,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         imageButton = view.findViewById(R.id.imageButton);
         imageButton.setOnClickListener(this);
         textChekcs=view.findViewById(R.id.textChekcs);
-        recoleccion.setText("Tickets escaneados ®");
+        recoleccion.setText("Lotes escaneados");
         //presenter= new dialogReasonsPresenterImpl(this,getContext());
 
 
@@ -145,7 +145,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                   }
 
                 }else{
-                   Toast.makeText(getContext(), "faltan Empaques por escanear", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(getContext(), "Faltan empaques por escanear", Toast.LENGTH_SHORT).show();
 
                 }
                 break;
