@@ -58,15 +58,9 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
     private ConstraintLayout firma, foto, archivos, rating, video;
     private Float frating;
-<<<<<<< HEAD
-    private String signatureBase64, inputTextSignature, currusel, ffiles, stars, fvideos, fchecklist = "";
-    private ImageView star, signatureImage, cameraico, clipDocs;
-    private Boolean mfirma, mfoto, mfiles, mrating, mvideos, mchecklist = false;
-=======
     private String signatureBase64,inputTextSignature,currusel,ffiles,stars,fvideos,fchecklist="";
     private ImageView star,signatureImage,cameraico,clipDocs, buttonBack;
     private Boolean mfirma,mfoto,mfiles,mrating,mvideos,mchecklist=false;
->>>>>>> feature_luis2
     private Button sendEvidence;
     private ImageButton eraseShared;
     private requestEvidencePresenter presenter;
@@ -402,17 +396,6 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     }
 
     private void initView() {
-
-<<<<<<< HEAD
-        firma = findViewById(R.id.firma);
-        foto = findViewById(R.id.foto);
-        archivos = findViewById(R.id.archivos);
-        rating = findViewById(R.id.ratingd);
-        cameraico = findViewById(R.id.cameraico);
-        star = findViewById(R.id.imageMenu3);
-        clipDocs = findViewById(R.id.clipDocs);
-        eraseShared = findViewById(R.id.eraseShared);
-=======
         buttonBack = findViewById(R.id.imageView25);
         buttonBack.setOnClickListener(this);
         firma=findViewById(R.id.firma);
@@ -423,7 +406,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         star=findViewById(R.id.imageMenu3);
         clipDocs=findViewById(R.id.clipDocs);
         eraseShared=findViewById(R.id.eraseShared);
->>>>>>> feature_luis2
+
 //        video= findViewById(R.id.video);
 //        video.setOnClickListener(this);
         eraseShared.setOnClickListener(this);
