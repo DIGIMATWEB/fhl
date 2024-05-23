@@ -265,7 +265,7 @@ public class questionEvidence extends Fragment implements View.OnClickListener ,
         buttonstartChecklist.setText("Iniciar");
     }
 
-    private  void mangeF() {
+    private void mangeF() {
         //TODO cambiar esto
 //        Intent checklist = new Intent(this, checklistEvidence.class);
 //        //checklist.putExtras(bundle);
@@ -273,8 +273,8 @@ public class questionEvidence extends Fragment implements View.OnClickListener ,
         if(checklistisOK) {
             checklistEvidence checkEvidence = (checklistEvidence) getActivity();
             checkEvidence.setmypostandvalues(positionChecklist);
+            checklistEvidence.saveCheckList(getContext(), checklistEvidence.checkList);
         }
-
 
         // Find the current fragment by tag if you have set a tag when adding/replacing the fragment
         requireActivity().getSupportFragmentManager().popBackStack();
