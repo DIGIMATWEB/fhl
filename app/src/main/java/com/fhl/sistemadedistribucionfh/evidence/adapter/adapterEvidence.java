@@ -295,6 +295,7 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
         }
 
         if (hasvideos == 1) {
+
             if (position == itemCount) {
                 Drawable backgroundV = ContextCompat.getDrawable(context, R.drawable.video);
                 holder.image.setBackground(backgroundV);
@@ -313,16 +314,14 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
                     public void onClick(View v) {
                         if (flowDetail == 2) { // TODO viene de recoleccion salida
                             if (data.get(0).getEvidenciaSalida() != null) {
-                                if (data.get(0).getEvidenciaLlegada() != null) {
-                                    mview.goVideos(data.get(0).getEvidenciaSalida(), data.get(0).getEvidenciaLlegada(),flowDetail);
-                                }
+                                // Handle photo evidence logic
+                                mview.goVideos(data.get(0).getEvidenciaSalida(),null,flowDetail);
                             }
                         } else { // TODO viene de entrega de ticket
+                            if (data.get(0).getEvidenciaLlegada() != null) {
+                                // Handle photo evidence logic
 
-                            if (data.get(0).getEvidenciaSalida() != null) {
-                                if (data.get(0).getEvidenciaLlegada() != null) {
-                                    mview.goVideos(data.get(0).getEvidenciaSalida(), data.get(0).getEvidenciaLlegada(),flowDetail);
-                                }
+                                mview.goVideos(null,data.get(0).getEvidenciaLlegada(),flowDetail);
                             }
                         }
                     }

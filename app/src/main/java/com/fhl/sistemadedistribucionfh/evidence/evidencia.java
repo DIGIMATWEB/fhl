@@ -763,11 +763,14 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     public void goVideos(List<EvidenciaSalida> evidenciaSalida, List<EvidenciaLlegada> evidenciaLlegada, Integer flowDetail) {
         Bundle bundle = new Bundle();
         bundle.putInt("flowDetail", flowDetail);
+
         if (evidenciaSalida != null) {
             bundle.putSerializable("evidenciaSalida", (Serializable) evidenciaSalida);
+            Log.e("detailticket","ES"+evidenciaSalida.size());
         }
         if (evidenciaLlegada != null) {
             bundle.putSerializable("evidenciaLlegada", (Serializable) evidenciaLlegada);
+            Log.e("detailticket","ELl"+evidenciaLlegada.size());
         }
         Intent video = new Intent(this, videoRecord.class);
         video.putExtras(bundle);

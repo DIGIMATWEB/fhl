@@ -71,7 +71,7 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
             List<EvidenciaLlegada> evidenciaLlegada = (List<EvidenciaLlegada>) extras.getSerializable("evidenciaLlegada");
 
             flowDetail=extras.getInt("flowDetail");//todo si es 2 es de recoleccion o salida si es 1 es de llegada
-            if(flowDetail==1){
+            if(flowDetail==2){
                 if(evidenciaSalida!=null){
                     for(EvidenciaSalida evidence:evidenciaSalida){
                         if(evidence.getTipoEvidencia()==4) {
