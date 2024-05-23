@@ -58,4 +58,14 @@ public class Check implements Serializable {
     public void setAplicado(Boolean aplicado) {
         this.aplicado = aplicado;
     }
+
+    @Override
+    public String toString() {
+        return "Check{" +
+                "preguntas=" + preguntas +
+                ", llave=" + llave +
+                ", valor='" + valor + '\'' +
+                ", aplicado=" + aplicado +
+                '}';
+    }
 }

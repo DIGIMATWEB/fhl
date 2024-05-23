@@ -25,4 +25,8 @@ public class GeneralConstants {
     public static final String DOCS_DIRECTORY = "DOCUMENTS_DIR";
     public static final String TOKEN_AVOCADO = "AVOCADO_TOKEN";
     public static final String CHECKLIST_EVIDENCE = "CHECKLIST_EVIDENCES";
+
+    // Checklist array
+    public static final String PREFS_NAME = "my_prefs";
+    public static final String KEY_CHECK_LIST = "check_list";
 }

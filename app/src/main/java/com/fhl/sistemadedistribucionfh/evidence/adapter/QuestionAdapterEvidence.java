@@ -120,7 +120,7 @@ public class QuestionAdapterEvidence extends FragmentStateAdapter {
                     }
                 }
 
-                if (position != (questionList.size()-1)) {
+                if (pos != (questionList.size()-1)) {
                     mview.hidebutton();
                     //mview.fillViewPager(questionList);
                     //createFragment(position);

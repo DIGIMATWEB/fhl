@@ -127,7 +127,7 @@ public class QuestionAdapter extends FragmentStateAdapter {
                     }*/
 
                 // Esto es del boton
-                if (position != (questionList.size()-1)) {
+                if (pos != (questionList.size()-1)) {
                     mview.hidebutton();
 
                 } else {

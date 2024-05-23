@@ -1,11 +1,14 @@
 package com.fhl.sistemadedistribucionfh.evidence.checklist.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,10 +26,14 @@ import com.fhl.sistemadedistribucionfh.checkList.model.v2.dataChecklistV2;
 import com.fhl.sistemadedistribucionfh.checkList.view.checklistView;
 import com.fhl.sistemadedistribucionfh.evidence.checklist.adapter.adapterChecklistEvidence;
 import com.fhl.sistemadedistribucionfh.evidence.checklist.zQuestionCheckllist.questionEvidence;
+import com.fhl.sistemadedistribucionfh.evidence.signature.signature;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class checklistEvidence extends AppCompatActivity implements View.OnClickListener, checklistView,ChecklistObserver {
@@ -39,6 +46,7 @@ public class checklistEvidence extends AppCompatActivity implements View.OnClick
     private FragmentManager manager;
     private FragmentTransaction transaction;
     private String folioTicket;
+    private ImageView backButton;
    /*@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,7 +56,7 @@ public class checklistEvidence extends AppCompatActivity implements View.OnClick
         return view;
     }*/
     public static List<Check> checkList=new ArrayList<>();
-    private boolean allItemsApplied = false;
+    private Boolean allItemsApplied = false;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +71,14 @@ public class checklistEvidence extends AppCompatActivity implements View.OnClick
         folioTicket = extras.getString("folioTicket");
         Log.d("SendCheck: ","Cargando la vista");
         initView();
+
+        // Revisamos la data
+        List<Check> checklist1 = getCheckList(this);
+        if (checklist1 != null) {
+            checkList = checklist1;
+            Log.d("SendCheck: ","Paso por checkList1" + Arrays.toString(checkList.toArray()));
+        }
+
         fillSellos(checkList);
     }
 
@@ -77,6 +93,23 @@ public class checklistEvidence extends AppCompatActivity implements View.OnClick
         Log.e("jsonChecklist",""+checkList);
     }
 
+    public static void saveCheckList(Context context, List<Check> checkList) {
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(checkList);
+        editor.putString(GeneralConstants.KEY_CHECK_LIST, json);
+        editor.apply();
+    }
+
+    public static List<Check> getCheckList(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = prefs.getString(GeneralConstants.KEY_CHECK_LIST, null);
+        Type type = new TypeToken<ArrayList<Check>>() {}.getType();
+        return gson.fromJson(json, type);
+    }
+
     private void initView() {
         rv=findViewById(R.id.rvchecklist);
 //        presenter= new checkListPresenterImpl(this,getApplicationContext());
@@ -87,6 +120,11 @@ public class checklistEvidence extends AppCompatActivity implements View.OnClick
         searchView.setIconified(false);
         searchView.setBackground(background);
         searchView.clearFocus();
+        // Quitamos el SearchBar
+        searchView.setVisibility(View.GONE);
+
+        backButton = findViewById(R.id.backButtonCheck);
+        backButton.setOnClickListener(this);
 //        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 //            @Override
 //            public boolean onQueryTextSu
@@ -121,7 +159,20 @@ public class checklistEvidence extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.backButtonCheck:
+                //Log.e("evidence", "firma ");
+                //Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+                onBackPressed();
+                break;
+        }
+    }
 
+    @Override
+    public void onBackPressed() {
+        // Tu lógica adicional aquí
+        //Log.e("evidence", "Se presionó el botón atrás");
+        super.onBackPressed(); // Llamar al comportamiento predeterminado de 'onBackPressed'
     }
 
     @Override
