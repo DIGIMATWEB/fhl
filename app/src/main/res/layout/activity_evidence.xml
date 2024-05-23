@@ -292,6 +292,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="30dp"
+        android:visibility="gone"
         android:text="Guardar"
         android:textAllCaps="false"
         app:backgroundTint="@color/purple"

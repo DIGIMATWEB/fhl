@@ -37,7 +37,7 @@ public class calificacion extends AppCompatActivity implements View.OnClickListe
         SharedPreferences preferences = getBaseContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String rate = preferences.getString(GeneralConstants.RATE_STARS, null);
 
-        if(rate!=null){
+        if(rate!=null&&!rate.equals("")){
             frating = Float.valueOf( rate);
             starRate.setRating(frating);
         }

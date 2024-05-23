@@ -110,6 +110,7 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
             }
         }
         editor.apply();
+        mview.setinitValues(hassignature,hasReview,hasphotos,hasdocuments,hasvideos,haschecklist);
     }
     public void updatefirma(Boolean mfirma){
         if(mfirma!=null) {
@@ -137,15 +138,28 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
         notifyDataSetChanged();
     }
     public void archivo(Boolean mfiles){
-        this.hasFilesok=mfiles;
+        if(mfiles!=null) {
+            this.hasFilesok=mfiles;
+        }else{
+            this.hasFilesok=false;
+        }
         notifyDataSetChanged();
     }
     public void video(Boolean mVideos){
-        this.hasVideosok=mVideos;
+        if(mVideos!=null) {
+            this.hasVideosok = mVideos;
+        }else{
+            this.hasVideosok = false;
+        }
         notifyDataSetChanged();
     }
     public void checklist(Boolean mchecklist) {
-        this.haschecklistok=mchecklist;
+        if(mchecklist!=null) {
+            this.haschecklistok = mchecklist;
+        }else{
+            this.haschecklistok = false;
+        }
+        notifyDataSetChanged();
     }
     @NonNull
     @Override
@@ -340,6 +354,7 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
             }
 
         }
+
     }
 
     @Override
