@@ -12,6 +12,7 @@ public class RetrofitEndPoints {
 //    public static final String URL_PRODVEHICLES ="https://w5r7bljm-6220.usw3.devtunnels.ms/App/Vehiculo/";//"";//jose//"https://operacionsgdservice.trafficmanager.net/App/Vehiculo/";// //http://192.168.1.227:7420/
 //
 //>>>>>>> main
+
     //ENDPOINTS FH
     public static final String URL_FHL_SGD="http://23.81.206.137:7220/";//"https://64vdvmnq-7220.usw3.devtunnels.ms/";//"https://administracionsgdservice.trafficmanager.net/";
     public static final String URL_AVOCADO="http://35.194.83.10/WS-phoenixApiPROD/";
@@ -50,15 +51,5 @@ public class RetrofitEndPoints {
     public static final String HABILITIES_DRIVER = "Colaboradores/HabilidadesColaborador/";
     //endregion
 
-// public static final String URL_NEWLANDS ="http://digimat-interactive.com/fhl/";
-//    public static final String MENUS = "menu.php";
-//    public static final String SALIDA = "salidaqr.php";
-//    public static final String MANIFEST = "manifest.php";
-//    public static final String CHECKLIST = "checklist.php" ;
-//    public static final String GASTOS = "gastos.php" ;
-//    public static final String RESGUARDO = "resguardo.php";
-//    public static final String TICKETS = "tickets.php";
-//    public static final String VALIDADOR = "validador.php";
-//    public static final String REASONS = "reasons.php";
-//endregion
+//todo FIN DE PROYECTO ENTREGA 2
 }
