@@ -59,7 +59,11 @@ public class adapterEmpaque2 extends RecyclerView.Adapter<adapterEmpaque2.ViewHo
 
     @Override
     public int getItemCount() {
-        return paquetes.size();
+        if(paquetes!=null) {
+            return paquetes.size();
+        }else {
+            return 0;
+        }
     }
 
 

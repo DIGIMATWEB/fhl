@@ -25,11 +25,13 @@ public class adapterEmpaque extends RecyclerView.Adapter<adapterEmpaque.ViewHold
     private Context context;
     private List<Paquete> paquetes;
     private ticketsSalida mview;
+    private String folioTicket;
 
-    public adapterEmpaque(ticketsSalida mview, List<Paquete> paquetes, Context context) {
+    public adapterEmpaque(ticketsSalida mview, List<Paquete> paquetes, Context context, String folio) {
         this.context = context;
         this.paquetes=paquetes;
         this.mview=mview;
+        this.folioTicket=folio;
     }
 
     @NonNull
@@ -58,7 +60,12 @@ public class adapterEmpaque extends RecyclerView.Adapter<adapterEmpaque.ViewHold
 
     @Override
     public int getItemCount() {
-        return paquetes.size();
+        if(paquetes!=null) {
+            return paquetes.size();
+        }else{
+            mview.nullempaquesCheckticket(folioTicket);
+            return 0;
+        }
     }
 
 

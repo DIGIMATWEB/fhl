@@ -30,20 +30,20 @@ import java.util.List;
 
 public class ticketsSalida extends DialogFragment implements View.OnClickListener {
     public static final String TAG = ticketsSalida.class.getSimpleName();
-    private RecyclerView rvReasons,rv;
+    private RecyclerView rvReasons, rv;
     private adapterTicketsSalida adapter;
- //   private adapterTicketsSalidaEmpaques adapter2;
+    //   private adapterTicketsSalidaEmpaques adapter2;
 //    private dialogReasonsPresenter presenter;
     private ImageView closeReasons;
-    private List<ticketsScanned> model=new ArrayList<>();
-    private  List<dataTicketsManifestV2> codigoValidador;
+    private List<ticketsScanned> model = new ArrayList<>();
+    private List<dataTicketsManifestV2> codigoValidador;
     private List<Sello> sellos;
     private ImageButton imageButton;
     private TextView textChekcs;
-    private Integer countok=0;
-    private Integer countokEmpaques=0;
-    private String typeScanner,currentmanifest;
-    private TextView recoleccion,textEmpaques;
+    private Integer countok = 0;
+    private Integer countokEmpaques = 0;
+    private String typeScanner, currentmanifest;
+    private TextView recoleccion, textEmpaques;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,40 +60,42 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         setCancelable(true);
         Bundle args = getArguments();
         if (args != null) {
-            codigoValidador= (List<dataTicketsManifestV2>) args.getSerializable("tickets");
+            codigoValidador = (List<dataTicketsManifestV2>) args.getSerializable("tickets");
             sellos = (List<Sello>) args.getSerializable("sellos");
-            typeScanner= args.getString("typeScanner");
-            currentmanifest= args.getString("currentmanifest");
-            Log.e("typeScanner",""+typeScanner);
+            typeScanner = args.getString("typeScanner");
+            currentmanifest = args.getString("currentmanifest");
+            Log.e("typeScanner", "" + typeScanner);
         }
         initDialog(view);
-        if(codigoValidador!=null) {
+        if (codigoValidador != null) {
             model.clear();
             Log.e("ticketsArray2", "adapter size" + codigoValidador.size());
-            for(int i=0; i< codigoValidador.size();i++){
-                model.add(new ticketsScanned(codigoValidador.get(i).getFolioTicket(),false,codigoValidador.get(i).getSendtripPlus()));
-                Log.e("ticketsArray2", "model size: " + model.get(i).getFolio()+"  "+model.get(i).getFlag());
+            for (int i = 0; i < codigoValidador.size(); i++) {
+                model.add(new ticketsScanned(codigoValidador.get(i).getFolioTicket(), false, codigoValidador.get(i).getSendtripPlus()));
+                Log.e("ticketsArray2", "model size: " + model.get(i).getFolio() + "  " + model.get(i).getFlag());
 
             }
-            textChekcs.setText("0/"+model.size());
-            fillAdapter(model,getContext());
+            textChekcs.setText("0/" + model.size());
+            fillAdapter(model, getContext());
         }
         //setFonts();
         return view;
     }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimationBottonSheet;
     }
+
     private void initDialog(View view) {
-        recoleccion=view.findViewById(R.id.textView66);
-        textEmpaques=view.findViewById(R.id. textEmpaques);
-        rvReasons=view.findViewById(R.id.rvTicketsSalidaL);
-        rv=view.findViewById(R.id. rvTicketsEmpaques);
+        recoleccion = view.findViewById(R.id.textView66);
+        textEmpaques = view.findViewById(R.id.textEmpaques);
+        rvReasons = view.findViewById(R.id.rvTicketsSalidaL);
+        rv = view.findViewById(R.id.rvTicketsEmpaques);
         imageButton = view.findViewById(R.id.imageButton);
         imageButton.setOnClickListener(this);
-        textChekcs=view.findViewById(R.id.textChekcs);
+        textChekcs = view.findViewById(R.id.textChekcs);
         recoleccion.setText("Lotes escaneados");
         //presenter= new dialogReasonsPresenterImpl(this,getContext());
 
@@ -102,12 +104,24 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
     }
 
     private void fillAdapter(List<ticketsScanned> data, Context context) {
-       adapter = new adapterTicketsSalida(this,data,context);
+        adapter = new adapterTicketsSalida(this, data, context);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvReasons.setLayoutManager(linearLayoutManager);
         rvReasons.setAdapter(adapter);
         //fillAdapter2(data,context);
     }
+
+    public void nullempaquesCheckticket(String folioTicket) {
+        for (ticketsScanned ticket : model) {
+            if (ticket.getFolio().equals(folioTicket)) {
+                ticket.setFlag(true);
+                break;
+            }
+        }
+      //  adapter.updateData(model);
+        // adapter.notifyDataSetChanged();
+    }
+
 //    private void fillAdapter2(List<ticketsScanned> data, Context context) {
 //
 //        adapter2 = new adapterTicketsSalidaEmpaques(this,data,context);
@@ -126,26 +140,26 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         switch (view.getId()) {
             case R.id.imageButton:
                 //closeDialog();
-                if(countok== model.size()) {//todo hasta igualar los empaques model.size()
-                   // Toast.makeText(getContext(), "ir a sellostodos fueron escaneados", Toast.LENGTH_SHORT).show();
-                  if(typeScanner!=null) {
-                      if (typeScanner.equals("Recolectar")) {
-                          //Toast.makeText(getContext(), "sumarydetailtickets", Toast.LENGTH_SHORT).show();
-                          BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
-                          barcodeScannerActivity1.detalManifestTicketsSummary(currentmanifest, codigoValidador, sellos);
-                      } else {//Salida
-                          BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
-                          barcodeScannerActivity1.goTicketsSummary();
-                      }
-                      closeDialog();
-                  }else{
-                      Log.e("dialogSalida","ticketssalida null pending review recolection");
-                      BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
-                      barcodeScannerActivity1.goTicketsSummary();
-                  }
+                if (countok == model.size()) {//todo hasta igualar los empaques model.size()
+                    // Toast.makeText(getContext(), "ir a sellostodos fueron escaneados", Toast.LENGTH_SHORT).show();
+                    if (typeScanner != null) {
+                        if (typeScanner.equals("Recolectar")) {
+                            //Toast.makeText(getContext(), "sumarydetailtickets", Toast.LENGTH_SHORT).show();
+                            BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                            barcodeScannerActivity1.detalManifestTicketsSummary(currentmanifest, codigoValidador, sellos);
+                        } else {//Salida
+                            BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                            barcodeScannerActivity1.goTicketsSummary();
+                        }
+                        closeDialog();
+                    } else {
+                        Log.e("dialogSalida", "ticketssalida null pending review recolection");
+                        BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                        barcodeScannerActivity1.goTicketsSummary();
+                    }
 
-                }else{
-                   Toast.makeText(getContext(), "Faltan empaques por escanear", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Faltan empaques por escanear", Toast.LENGTH_SHORT).show();
 
                 }
                 break;
@@ -198,52 +212,54 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                     }
                 }
             }
-                if (!codeFound) {
-                    Log.e("ticketsArray2", "codigo no pertenece a la lista");
-                    BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
-                    barcodeScannerActivity1.errorTicket();
-                }
-                if (adapter != null) {
-                    adapter.updateData(model);
-                    adapter.notifyDataSetChanged();
-                }
+            if (!codeFound) {
+                Log.e("ticketsArray2", "codigo no pertenece a la lista");
+                BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                barcodeScannerActivity1.errorTicket();
+            }
+            if (adapter != null) {
+                adapter.updateData(model);
+                adapter.notifyDataSetChanged();
+            }
 
         }
     }
 
     public void updatescanedData(List<ticketsScanned> data) {
-        List<Paquete> lotes=new ArrayList<>();
+        List<Paquete> lotes = new ArrayList<>();
         lotes.clear();
         for (ticketsScanned b : data) {
             if (b.getFlag()) {
-                if(countok==model.size()){
+                if (countok == model.size()) {
 
-                }else {
-                    int checketCount=0;
-                    for(int i=0 ; i<data.size();i++){
-                        if(data.get(i).getFlag()==true){
+                } else {
+                    int checketCount = 0;
+                    for (int i = 0; i < data.size(); i++) {
+                        if (data.get(i).getFlag() == true) {
                             checketCount++;
                         }
                     }
-                    countok=checketCount;
+                    countok = checketCount;
                 }
             }
             //textEmpaques
-            b.getSendtripPlus().getPaquetes().size();
-            if(b.getSendtripPlus().getPaquetes()!=null){
-                for(int i=0; i<b.getSendtripPlus().getPaquetes().size();i++){
-                    lotes.add(b.getSendtripPlus().getPaquetes().get(i));
-                    Log.e("Lotes","ticket: "+b.getFolio()+" contiene "+b.getSendtripPlus().getPaquetes().size() +" empaques"+" empaque "+b.getSendtripPlus().getPaquetes().get(i).getNombre());
+            if(b.getSendtripPlus().getPaquetes()!=null) {
+                b.getSendtripPlus().getPaquetes().size();
+                if (b.getSendtripPlus().getPaquetes() != null) {
+                    for (int i = 0; i < b.getSendtripPlus().getPaquetes().size(); i++) {
+                        lotes.add(b.getSendtripPlus().getPaquetes().get(i));
+                        Log.e("Lotes", "ticket: " + b.getFolio() + " contiene " + b.getSendtripPlus().getPaquetes().size() + " empaques" + " empaque " + b.getSendtripPlus().getPaquetes().get(i).getNombre());
+                    }
                 }
             }
 
         }
-        Log.e("ticketsArray2","textcount: "+countok);
-        textChekcs.setText(countok+"/"+model.size());
+        Log.e("ticketsArray2", "textcount: " + countok);
+        textChekcs.setText(countok + "/" + model.size());
     }
 
     public void updatescanedDataEmpaque(List<Paquete> paquetes) {
     }
+
+
 }
-
-

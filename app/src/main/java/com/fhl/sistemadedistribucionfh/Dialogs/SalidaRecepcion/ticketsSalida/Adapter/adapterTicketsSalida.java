@@ -29,6 +29,7 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
     private List<ticketsScanned> data;
     private ticketsSalida mview;
 
+
     public adapterTicketsSalida(ticketsSalida mview, List<ticketsScanned> data, Context context) {
         this.context = context;
         this.data=data;
@@ -45,6 +46,12 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
     @Override
     public void onBindViewHolder(@NonNull adapterTicketsSalida.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.razonDesc.setText(data.get(position).getFolio());
+
+        if( data.get(position).getSendtripPlus().getPaquetes()!=null) {
+            holder.setupRecyclerViewPaquetes(mview, data.get(position).getSendtripPlus().getPaquetes(), data.get(position).getFolio());
+        }else{
+            data.get(position).setFlag(true);
+        }
         if(data.get(position).getFlag()==true){
             holder.check.setChecked(true);
             int tintColor = ContextCompat.getColor(context, R.color.yellow);
@@ -53,10 +60,9 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
             mview.updatescanedData(data);
 
         }else {
-           holder.check.setChecked(false);
+            holder.check.setChecked(false);
             holder.icticket.setBackground(ContextCompat.getDrawable(context, R.drawable.ticket));
         }
-        holder.setupRecyclerViewPaquetes(mview, data.get(position).getSendtripPlus().getPaquetes());
     }
     @Override
     public int getItemCount() {
@@ -84,16 +90,16 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
 
         }
 
-        private void fillEmpaqueAdapter(ticketsSalida mview, List<Paquete> paquetes) {
-            empaqueAdapter = new adapterEmpaque(mview,paquetes,context);
+        private void fillEmpaqueAdapter(ticketsSalida mview, List<Paquete> paquetes, String folio) {
+            empaqueAdapter = new adapterEmpaque(mview,paquetes,context,folio);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
             recyclerViewPaquetes.setLayoutManager(linearLayoutManager);
             recyclerViewPaquetes.setAdapter(empaqueAdapter);
         }
 
-        public void setupRecyclerViewPaquetes(ticketsSalida mview, List<Paquete> paquetes) {
+        public void setupRecyclerViewPaquetes(ticketsSalida mview, List<Paquete> paquetes, String folio) {
             // You can further customize the setup if needed
-            fillEmpaqueAdapter(mview,paquetes);
+            fillEmpaqueAdapter(mview,paquetes,folio);
             empaqueAdapter.notifyDataSetChanged();
         }
     }
