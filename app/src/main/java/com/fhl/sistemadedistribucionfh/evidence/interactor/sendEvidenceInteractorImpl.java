@@ -481,6 +481,9 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
             {
                 Log.e("responseSendtripTicket","105");
                 if(data!=null) {
+                    Gson gson=new Gson();
+                    String json= gson.toJson(data);
+                    Log.e("empaque","json: "+json);
                     //Toast.makeText(context, "Folio sendTripDetail: "+data.get(0).getFolioTicket(), Toast.LENGTH_SHORT).show();
                     Log.e("responseSendtripTicket","Folio sendTrip: "+data.get(0).getFolioTicket());
                     presenter.setDetailTicketsentriplus(data);

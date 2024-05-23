@@ -2,6 +2,7 @@ package com.fhl.sistemadedistribucionfh.evidence.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -17,6 +18,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.evidence.evidencia;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaLlegada;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaSalida;
@@ -45,21 +47,36 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
         this.context = context;
         this.data=data;
         this.mview=mview;
+
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
         hassignature=1;
+        editor.putString(GeneralConstants.SIGNATURE_B64_DIR, "");
+        editor.putString(GeneralConstants.SIGNATURE_B64, "");
+        editor.putString(GeneralConstants.INPUT_TEXT_SIGTURE, "");
+
         hasReview=1;
+        editor.putString(GeneralConstants.RATE_STARS, "");
+
         hasphotos=0;
         hasvideos=0;
         hasdocuments=0;
+
+
         if(flowDetail==2){//TODO viene de recoleccion o salida
             if(data.get(0).getEvidenciaSalida()!=null){
                 for(EvidenciaSalida evidence:data.get(0).getEvidenciaSalida()){
                     if(evidence.getTipoEvidencia()==2){
                         hasphotos=1;
+                        editor.putString(GeneralConstants.IMAGE_DIRECTORY, "");
                     }else if(evidence.getTipoEvidencia()==3){
                         hasdocuments=1;
+                        editor.putString(GeneralConstants.DOCS_DIRECTORY, "");
                     }
                     else if(evidence.getTipoEvidencia()==4){//todo descomentar una vez mergeado a master
                         hasvideos=1;
+                        editor.putString(GeneralConstants.VIDEO_DIRECTORY, "");
                     }
                 }
             }else {
@@ -69,36 +86,54 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
             }
             if(data.get(0).getCheckList()!=null){//todo descomentar una vez mergeado a master
                 haschecklist=1;
+                editor.putString(GeneralConstants.CHECKLIST_EVIDENCE, "");
             }
         }else{//TODO viene de entrega de ticket
             if(data.get(0).getEvidenciaLlegada()!=null){
                 for(EvidenciaLlegada evidence:data.get(0).getEvidenciaLlegada()){
                     if(evidence.getTipoEvidencia()==2){
                         hasphotos=1;
+                        editor.putString(GeneralConstants.IMAGE_DIRECTORY, "");
                     }else if(evidence.getTipoEvidencia()==3){
                         hasdocuments=1;
+                        editor.putString(GeneralConstants.DOCS_DIRECTORY, "");
                     }
                     else if(evidence.getTipoEvidencia()==4){// todo descomentar una vez mergeado a master
                         hasvideos=1;
+                        editor.putString(GeneralConstants.VIDEO_DIRECTORY, "");
                     }
                 }
             }
             if(data.get(0).getCheckList()!=null){
                 haschecklist=1;
+                editor.putString(GeneralConstants.CHECKLIST_EVIDENCE, "");
             }
         }
+        editor.apply();
     }
     public void updatefirma(Boolean mfirma){
-        this.hasSignatureok=mfirma;
+        if(mfirma!=null) {
+            this.hasSignatureok = mfirma;
+        }else{
+            this.hasSignatureok = false;
+        }
         Log.e("color de imagen","set firma "+hasSignatureok);
         notifyDataSetChanged();
     }
     public void encuesta(Boolean mrating){
-        this.hasReviewok=mrating;
+        if(mrating!=null) {
+            this.hasReviewok = mrating;
+        }else {
+            this.hasReviewok = false;
+        }
         notifyDataSetChanged();
     }
     public void foto(Boolean mfoto){
-        this.hasPhotosok=mfoto;
+        if(mfoto!=null){
+            this.hasPhotosok=mfoto;
+        }else{
+            this.hasPhotosok=false;
+        }
         notifyDataSetChanged();
     }
     public void archivo(Boolean mfiles){

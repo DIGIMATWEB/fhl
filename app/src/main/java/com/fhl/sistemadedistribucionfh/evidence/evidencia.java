@@ -127,7 +127,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             }
         }
         initView();
-        checkShared();
+        //checkShared();
     }
 
     private void checkShared() {//todo agregar video
@@ -148,12 +148,12 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             mfirma=true;
             signatureBase64=signature;
             inputTextSignature=inputText;
-            if(adapter!=null) {
+            if(adapter!=null&&!signature.equals("")) {
                 adapter.updatefirma(mfirma);
             }
         }else{
             signatureImage.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
-            mfirma=false;
+            mfirma=null;
             signatureBase64="";
             inputTextSignature="";
             if(adapter!=null) {
@@ -164,12 +164,12 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             cameraico.setColorFilter(Color.rgb(0, 187, 41), PorterDuff.Mode.SRC_ATOP);
             mfoto=true;
             currusel=images;
-            if(adapter!=null) {
+            if(adapter!=null&&!images.equals("")) {
                 adapter.foto(mfoto);
             }
         }else{
             cameraico.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
-            mfoto=false;
+            mfoto=null;
             currusel="";
             if(adapter!=null) {
                 adapter.foto(mfoto);
@@ -179,28 +179,31 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             clipDocs.setColorFilter(Color.rgb(0, 187, 41), PorterDuff.Mode.SRC_ATOP);
             mfiles=true;
             ffiles=docs;
-            if(adapter!=null) {
+            if(adapter!=null&&!docs.equals("")) {
                 adapter.archivo(mfiles);
             }
         }else{
             clipDocs.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
-            mfiles=false;
+            mfiles=null;
             ffiles="";
             if(adapter!=null) {
                 adapter.archivo(mfiles);
             }
         }
         if(rate!=null){
+            if(rate.equals("")){
+                rate="0.0";
+            }
             frating = Float.valueOf( rate);
             star.setColorFilter(Color.rgb(0, 187, 41), PorterDuff.Mode.SRC_ATOP);
             mrating=true;
             stars=rate;
-            if(adapter!=null) {
+            if(adapter!=null&&!rate.equals("")) {
                 adapter.encuesta(mrating);
             }
         }else{
             star.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
-            mrating=false;
+            mrating=null;
             stars="";
             if(adapter!=null) {
                 adapter.encuesta(mrating);
@@ -209,11 +212,11 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         if(video!=null){
             mvideos=true;
             fvideos=video;
-            if(adapter!=null) {
+            if(adapter!=null&&!video.equals("")) {
                 adapter.video(mvideos);
             }
         }else{
-            mvideos=false;
+            mvideos=null;
             fvideos="";
             if(adapter!=null) {
                 adapter.video(mvideos);
@@ -222,23 +225,23 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         if(checklist!=null) {
             if (checklist.equals("true")) {
                 mchecklist = true;
-                if (adapter != null) {
+                if (adapter != null&&!checklist.equals("")) {
                     adapter.checklist(mchecklist);
                 }
              } else {
-                mvideos = false;
+                mchecklist = false;
                 if (adapter != null) {
                     adapter.checklist(mchecklist);
                 }
 
             }
         }else{
-                mvideos = true;
+            mchecklist = null;
             if (adapter != null) {
                 adapter.checklist(false);
             }
             }
-        }
+    }
 
 
 
@@ -246,11 +249,19 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     protected void onResume() {
         super.onResume();
         checkShared();
-        if(mfirma==true&&mfoto==true&&mfiles==true&&mrating==true&&mvideos==true&&mvideos==true)
+        if(Boolean.TRUE.equals(mfirma) &&
+                Boolean.TRUE.equals(mfoto) &&
+                Boolean.TRUE.equals(mfiles) &&
+                Boolean.TRUE.equals(mrating) &&
+                Boolean.TRUE.equals(mvideos) &&
+                Boolean.TRUE.equals(mchecklist))
+
         {
             sendEvidence.setVisibility(View.VISIBLE);
+            Log.e("empaque","VISIBLE mfirma: "+mfirma+" mfoto: "+ mfoto+" mfiles: "+mfiles+" mrating:"+mrating+" mvideos:"+mvideos+" mchecklist: "+mchecklist);
         }else{
             sendEvidence.setVisibility(View.GONE);
+            Log.e("empaque","GONE    mfirma: "+mfirma+" mfoto: "+ mfoto+" mfiles: "+mfiles+" mrating:"+mrating+" mvideos:"+mvideos+" mchecklist: "+mchecklist);
         }
 
     }
@@ -336,7 +347,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());//GridLayoutManager(getApplicationContext(),3);
         rv.setLayoutManager(linearLayoutManager);
         rv.setAdapter(adapter);
-        checkShared();
+       //z checkShared();
     }
 
     @Override
