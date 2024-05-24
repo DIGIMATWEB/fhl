@@ -185,7 +185,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 adapter.updatefirma(mfirma);
             }
         }
-        if (images != null) {
+        if (images != null&&!images.equals("")) {
             cameraico.setColorFilter(Color.rgb(0, 187, 41), PorterDuff.Mode.SRC_ATOP);
             for(objectEvidence ev:evidenceList){
                 if(ev.getEvidence().equals("Fotos")){
