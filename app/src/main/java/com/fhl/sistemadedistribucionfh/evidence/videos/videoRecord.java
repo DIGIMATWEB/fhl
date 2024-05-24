@@ -236,7 +236,7 @@ public class videoRecord  extends AppCompatActivity implements View.OnClickListe
                 Log.e("FHvideoR", "Failed to remove file: " + String.valueOf(file));
             }
         } else {
-            Log.e("FHvideoR", "File does not exist: " + String.valueOf(file));
+            Log.e("FHvideoR", "File does not exist: V " + String.valueOf(file));
         }
     }
 

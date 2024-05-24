@@ -54,6 +54,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
     private String ftoken;
     private Integer flujo;
     private String ticket;
+    private String fvideo;
     public sendEvidenceInteractorImpl(requestEvidencePresenter presenter,Context context){
         this.presenter=presenter;
         this.context=context;
@@ -71,6 +72,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         this.ftoken=token;
         this.flujo=flujoId;
         this.ticket=folioTicket;
+        this.fvideo=fvideos;
         if(ftoken!=null) {
 
             //  Toast.makeText(context, "mandarEvidencias", Toast.LENGTH_SHORT).show();
@@ -83,7 +85,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
             } else if (secuenceRequest == 3) {
                 uploadFiles(ffiles, 3, "test", token);
             }else if (secuenceRequest == 4) {
-                uploadFiles(fvideos, 4, "test", token);
+                uploadFiles(fvideo, 4, "test", token);
             } else if (secuenceRequest == 5) {
                 presenter.nextRequest();
             } else {
@@ -170,6 +172,8 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         });
     }
     private void uploadFiles(String filePaths, Integer type, String Text, String token) {
+        Log.e("FHvideoR","File "+filePaths);
+
         String[] filePathsArray = filePaths.split(",");
         ArrayList<String> filePathsList = new ArrayList<>(Arrays.asList(filePathsArray));
 
@@ -181,7 +185,8 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
                 MultipartBody.Part filePart = MultipartBody.Part.createFormData("ListaArchivos", file.getName(), requestBody);
                 filesParts.add(filePart);
             } else {
-                Log.e("sendEvidence", "File does not exist: " + filePath);
+                Log.e("sendEvidence", "File does not exist: F " + filePath);
+                presenter.nextRequest();
             }
         }
 

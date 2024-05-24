@@ -195,6 +195,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             }
             mfoto = true;
             currusel = images;
+            Log.e("FHvideoR","foto "+fvideos);
             if (adapter != null ) {
                 adapter.foto(mfoto);
             }
@@ -267,7 +268,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 adapter.encuesta(mrating);
             }
         }
-        if (video != null) {
+        if (video != null&&!video.equals("")) {
             for(objectEvidence ev:evidenceList){
                 if(ev.getEvidence().equals("Videos")){
                     ev.setTaken(true);
@@ -276,6 +277,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             }
             mvideos = true;
             fvideos = video;
+            Log.e("FHvideoR","video "+fvideos);
             if (adapter != null && !video.equals("")) {
                 adapter.video(mvideos);
             }
@@ -410,6 +412,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 //        video= findViewById(R.id.video);
 //        video.setOnClickListener(this);
         eraseShared.setOnClickListener(this);
+
         firma.setOnClickListener(this);
         foto.setOnClickListener(this);
         archivos.setOnClickListener(this);
@@ -605,6 +608,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void setMessage() {
+        Log.e("videoVar",""+fvideos);
         if (secuenceRequest < 5) {//continuea el carrusel los archivos y la encuesta
             secuenceRequest = secuenceRequest + 1;
             new Handler().postDelayed(new Runnable() {
