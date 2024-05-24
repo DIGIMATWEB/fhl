@@ -66,13 +66,21 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         service2 = retrofitClientV2.create(serviceSendtripPlus.class);
     }
     @Override
-    public void requestEvidence(Integer secuenceRequest, String signatureBase64, String inputTextSignature, String currusel, String ffiles, Integer flujoId, String folioTicket, String fvideos) {
+    public void requestEvidence(Integer secuenceRequest, String signatureBase64, String inputTextSignature, String currusel, String ffiles, Integer flujoId, String folioTicket, String rvideos) {
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
+        String svideo = preferences.getString(GeneralConstants.VIDEO_DIRECTORY, null);
+        if(svideo!=null&&!svideo.equals("")){
+            if(!rvideos.equals("")&&rvideos!=null){
+                this.fvideo=rvideos;
+            }else{
+                this.fvideo=svideo;
+            }
+        }
         this.ftoken=token;
         this.flujo=flujoId;
         this.ticket=folioTicket;
-        this.fvideo=fvideos;
+
         if(ftoken!=null) {
 
             //  Toast.makeText(context, "mandarEvidencias", Toast.LENGTH_SHORT).show();
@@ -219,7 +227,6 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
                                 }else{
                                     Log.e("sendEvidence", item.getMessage());
                                     Toast.makeText(context, ""+item.getMessage(), Toast.LENGTH_SHORT).show();
-                                    presenter.hideDialog();
                                 }
                                 presenter.nextRequest();
                             }

@@ -64,7 +64,7 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
         hasdocuments=0;
 
 
-        if(flowDetail==2){//TODO viene de recoleccion o salida
+        if(flowDetail==1){//TODO viene de recoleccion o salida
             if(data.get(0).getEvidenciaSalida()!=null){
                 for(EvidenciaSalida evidence:data.get(0).getEvidenciaSalida()){
                     if(evidence.getTipoEvidencia()==2){
@@ -315,13 +315,13 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
                         if (flowDetail == 2) { // TODO viene de recoleccion salida
                             if (data.get(0).getEvidenciaSalida() != null) {
                                 // Handle photo evidence logic
-                                mview.goVideos(data.get(0).getEvidenciaSalida(),null,flowDetail);
+                                mview.goVideos(null,data.get(0).getEvidenciaLlegada(),flowDetail);
                             }
                         } else { // TODO viene de entrega de ticket
                             if (data.get(0).getEvidenciaLlegada() != null) {
                                 // Handle photo evidence logic
 
-                                mview.goVideos(null,data.get(0).getEvidenciaLlegada(),flowDetail);
+                                mview.goVideos(data.get(0).getEvidenciaSalida(),null,flowDetail);
                             }
                         }
                     }

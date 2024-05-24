@@ -55,7 +55,6 @@ public class documents extends AppCompatActivity implements View.OnClickListener
             lisEvidence.clear();
             List<EvidenciaSalida> evidenciaSalida = (List<EvidenciaSalida>) extras.getSerializable("evidenciaSalida");
             List<EvidenciaLlegada> evidenciaLlegada = (List<EvidenciaLlegada>) extras.getSerializable("evidenciaLlegada");
-
             flowDetail=extras.getInt("flowDetail");//todo si es 2 es de recoleccion o salida si es 1 es de llegada
             if(flowDetail==1){
                 if(evidenciaSalida!=null){

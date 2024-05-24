@@ -54,11 +54,10 @@ public class cancelInteractorImpl implements cancelInteractor{
     public void changemStatusManifestTicket(String currentManifest, String folioTicket) {
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
-
         RequestBody currentManifestR = null;
         RequestBody statusDespachoR = null;
         RequestBody changeStatusTicketR = RequestBody.create(MediaType.parse("text/plain"), folioTicket);
-            RequestBody statusTicketR = RequestBody.create(MediaType.parse("text/plain"),String.valueOf( 5));
+        RequestBody statusTicketR = RequestBody.create(MediaType.parse("text/plain"),String.valueOf( 5));
 
         Call<responseStatusManifestOrTicket> call= service.setEstatusByManifiestoOrTicket(token,currentManifestR,statusDespachoR,changeStatusTicketR,statusTicketR);
         Log.e("changeStatus",currentManifestR+" "+statusDespachoR+" "+changeStatusTicketR+"  "+statusTicketR);
