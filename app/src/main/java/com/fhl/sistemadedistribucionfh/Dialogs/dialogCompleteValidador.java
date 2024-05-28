@@ -305,7 +305,7 @@ public void closeDialog() {
                                 Toast.makeText(getContext(), "Validar  habilidades", Toast.LENGTH_SHORT).show();
                         }
 
-                      //presentador.setValidacionMenifest(manifest);
+                      presentador.setValidacionMenifest(manifest);
                 break;
                 case R.id.bottomStatusManifestHabilidadesVehiculo:
                         //Toast.makeText(getContext(), "aqui va un dialog del vehiculo", Toast.LENGTH_SHORT).show();

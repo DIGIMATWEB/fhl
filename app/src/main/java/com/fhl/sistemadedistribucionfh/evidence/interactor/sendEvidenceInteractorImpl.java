@@ -76,6 +76,12 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
             }else{
                 this.fvideo=svideo;
             }
+        }else {
+            if(!rvideos.equals("")&&rvideos!=null){
+                this.fvideo=rvideos;
+            }else{
+
+            }
         }
         this.ftoken=token;
         this.flujo=flujoId;
@@ -93,7 +99,11 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
             } else if (secuenceRequest == 3) {
                 uploadFiles(ffiles, 3, "test", token);
             }else if (secuenceRequest == 4) {
-                uploadFiles(fvideo, 4, "test", token);
+                if(fvideo!=null) {
+                    uploadFiles(fvideo, 4, "test", token);
+                }else {
+                    presenter.nextRequest();
+                }
             } else if (secuenceRequest == 5) {
                 presenter.nextRequest();
             } else {
@@ -149,7 +159,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
                                 }else {
                                     Toast.makeText(context, ""+item.getMessage(), Toast.LENGTH_SHORT).show();
                                     Log.e("sendEvidence", "" + item.getMessage());
-                                    presenter.hideDialog();
+                                   // presenter.hideDialog();
                                 }
                                 presenter.nextRequest();
                             }

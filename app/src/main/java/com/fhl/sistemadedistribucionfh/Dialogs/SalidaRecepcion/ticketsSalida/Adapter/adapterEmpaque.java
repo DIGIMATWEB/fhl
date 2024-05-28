@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -56,6 +58,8 @@ public class adapterEmpaque extends RecyclerView.Adapter<adapterEmpaque.ViewHold
                 holder.checkEmpaque.setChecked(false);
             }
         }
+        holder.checkEmpaque.setEnabled(false);
+
     }
 
     @Override
@@ -72,10 +76,13 @@ public class adapterEmpaque extends RecyclerView.Adapter<adapterEmpaque.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView razonDescSalida;
         CheckBox checkEmpaque;
+        ImageView imagealpha;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             razonDescSalida=itemView.findViewById(R.id.razonDescSalidaEmpaques);
             checkEmpaque =itemView.findViewById(R.id.checkEmpaque);
+            imagealpha =itemView.findViewById(R.id.imagealpha);
         }
     }
 }

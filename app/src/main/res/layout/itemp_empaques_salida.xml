@@ -46,6 +46,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/numberticket" />
 
+        <ImageView
+            android:id="@+id/imagealpha"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:elevation="10dp"
+            android:background="#0CFFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
