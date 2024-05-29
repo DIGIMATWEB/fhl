@@ -10,4 +10,8 @@ public interface cancelPresenter {
     void changemStatusManifestTicket(String currentManifest, String folioTicket);
 
     void okChangeStatus();
+
+    void SetTicketNoEntregado(String currentManifest, String folioTicket, Integer idReason, String name);
+
+    void nextRequest();
 }

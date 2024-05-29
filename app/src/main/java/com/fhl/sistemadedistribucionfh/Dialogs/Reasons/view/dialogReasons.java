@@ -83,7 +83,7 @@ public class dialogReasons extends DialogFragment implements View.OnClickListene
 
         this.fcheckedItem= checkedItem.getDescripcionCausa();//+checkedItem.getIdReason();
         cancelarViaje cancelarViaje = (cancelarViaje) getActivity();
-        cancelarViaje.showToast(fcheckedItem,checkedItem.getDescripcionCausa());
+        cancelarViaje.showToast(fcheckedItem,checkedItem.getId());
         dismiss();
         // Implement your logic here
         // For example, you can show a toast with the checked item's details

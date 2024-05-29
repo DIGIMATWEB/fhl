@@ -30,6 +30,19 @@ public class cancelPresenterImpl  implements cancelPresenter{
             interactor.changemStatusManifestTicket(currentManifest,folioTicket);
         }
     }
+    @Override
+    public void SetTicketNoEntregado(String currentManifest, String folioTicket, Integer idReason, String name) {
+        if(view!=null){
+            interactor.setTicketNoEntregado(currentManifest,folioTicket,idReason,name);
+        }
+    }
+
+    @Override
+    public void nextRequest() {
+        if(view!=null){
+            view.nextRequest();
+        }
+    }
 
     @Override
     public void okChangeStatus() {
@@ -37,6 +50,8 @@ public class cancelPresenterImpl  implements cancelPresenter{
             view.okChangeStatus();
         }
     }
+
+
 
     @Override
     public void okSendEvidence() {

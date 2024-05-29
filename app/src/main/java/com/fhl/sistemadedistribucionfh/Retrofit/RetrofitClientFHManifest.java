@@ -13,8 +13,8 @@ public class RetrofitClientFHManifest {
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {
             okHttpClient = new OkHttpClient.Builder()
-                    .readTimeout(300, TimeUnit.SECONDS)
-                    .connectTimeout(300, TimeUnit.SECONDS)
+                    .readTimeout(2000, TimeUnit.SECONDS)
+                    .connectTimeout(2000, TimeUnit.SECONDS)
                     .build();
             retrofit = new retrofit2.Retrofit.Builder()
                     .baseUrl(BASE_URL)

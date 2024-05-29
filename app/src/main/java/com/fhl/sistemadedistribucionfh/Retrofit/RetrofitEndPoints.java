@@ -32,6 +32,7 @@ public class RetrofitEndPoints {
     public static final String SETCHECKLISTBYVEHICULO = "SetChecklistByVehiculo";
     public static final String SETCHECKLISTBYTICKET = "SetChecklistByTicket";
     public static final String SETVALIDACION = "SetValidacionManifiesto" ;
+    public static final String TICKET_NO_ENTREGADO="SetTicketNoEntregado";
 
 //region endpoints entorno de pruebas
 

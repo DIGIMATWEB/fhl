@@ -1,5 +1,6 @@
 package com.fhl.sistemadedistribucionfh.evidence.util;
 
+import com.fhl.sistemadedistribucionfh.Cancelar.model.responseTicketNoEntregado;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitEndPoints;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.ApiResponse;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.TicketsDetailSentriplus;
@@ -59,5 +60,14 @@ public interface serviceEvidence {
             @Part("estatusIdDespacho") RequestBody estatusIdDespacho,
             @Part("folioTicket") RequestBody folioTicket,
             @Part("estatusIdTicket") RequestBody estatusIdTicket
+    );
+    @Multipart
+    @POST(RetrofitEndPoints.TICKET_NO_ENTREGADO)
+    Call<responseTicketNoEntregado> setTicketNoEntregado(
+            @Header("Authorization") String authorization,
+            @Part("FolioDespacho") RequestBody folioDespacho,
+            @Part("FolioTicket") RequestBody folioTicket,
+            @Part("CausaCambioId") RequestBody causaCambio,
+            @Part("Usuario") RequestBody usuarioCambio
     );
 }

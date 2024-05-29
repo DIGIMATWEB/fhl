@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.fhl.sistemadedistribucionfh.Cancelar.model.dataTicketNoEntregado;
+import com.fhl.sistemadedistribucionfh.Cancelar.model.responseTicketNoEntregado;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientFHManifest;
 import com.fhl.sistemadedistribucionfh.Cancelar.presenter.cancelPresenterImpl;
@@ -76,6 +78,8 @@ public class cancelInteractorImpl implements cancelInteractor{
             }
         });
     }
+
+
     private void validateChangeStatus(Response<responseStatusManifestOrTicket> response, Context context) {
         if (RetrofitValidations.checkSuccessCode(response.code())) {
             responseStatuscheck(response,context);
@@ -179,4 +183,67 @@ public class cancelInteractorImpl implements cancelInteractor{
             }
         });
     }
+    @Override
+    public void setTicketNoEntregado(String currentManifest, String folioTicket, Integer idReason, String name) {
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String token = preferences.getString(GeneralConstants.TOKEN, null);
+        RequestBody currenmanifest = RequestBody.create(MediaType.parse("text/plain"), currentManifest);
+        RequestBody folioTicketr = RequestBody.create(MediaType.parse("text/plain"), folioTicket);
+        RequestBody idReasonr = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(idReason));
+        RequestBody namer = RequestBody.create(MediaType.parse("text/plain"), name);
+
+        Call<responseTicketNoEntregado> call=service.setTicketNoEntregado(token,currenmanifest,folioTicketr,idReasonr,namer);
+        call.enqueue(new Callback<responseTicketNoEntregado>() {
+            @Override
+            public void onResponse(Call<responseTicketNoEntregado> call, Response<responseTicketNoEntregado> response) {
+                validateticketStatus(response,context);
+            }
+
+            @Override
+            public void onFailure(Call<responseTicketNoEntregado> call, Throwable t) {
+                Toast.makeText(context, "File upload failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                presenter.nextRequest();
+            }
+        });
+    }
+
+    private void validateticketStatus(Response<responseTicketNoEntregado> response, Context context) {
+        if (RetrofitValidations.checkSuccessCode(response.code())) {
+            responseNoEntregadocheck(response,context);
+        } else {
+            Log.e("changeStatus","RetrofitValidations fail");
+            Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show();
+            presenter.nextRequest();
+        }
+    }
+
+    private void responseNoEntregadocheck(Response<responseTicketNoEntregado> response, Context context) {
+         responseTicketNoEntregado resp=response.body();
+                if(resp!=null)
+                {
+                    Log.e("changeStatus", "response not null");
+                    int responseCode=resp.getStatus();
+                    String message=resp.getMessage();
+                    dataTicketNoEntregado data= resp.getData();
+                    if(message.equals("Ejecución completada correctamente")) {
+                        Log.e("changeStatus", "105");
+                        if (data != null) {
+                            //Toast.makeText(context, "Folio sendTrip: " + , Toast.LENGTH_SHORT).show();
+                            Log.e("changeStatus", "Folio status: " + resp.getMessage());
+                            presenter.nextRequest();
+
+                        } else {
+
+                            presenter.nextRequest();
+                            Log.e("changeStatus", "no  105");
+                        }
+                    }else{
+                        presenter.nextRequest();
+                    }
+                }else{
+                    presenter.nextRequest();
+                    Log.e("changeStatus","resp null");
+                }
+    }
+
 }

@@ -66,7 +66,7 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
     private List<String> meraseList=new ArrayList<>();
     private Button buttonSave;
     private  String closeDialog;
-    private String idReason;
+    private Integer idReason;
     private TextView textView9111;
     private ArrayList<File> tempImageFiles = new ArrayList<>();
     private List<String> directories=new ArrayList<>();
@@ -309,9 +309,11 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
         this.meraseList=eraseList;
 
     }
-    public void showToast(String closeDialog,String idReason) {
+    public void showToast(String closeDialog,Integer idReason) {
         this.closeDialog=closeDialog;
         this.idReason=idReason;
+//        Log.e("ticketNoEntregado","closeId: "+closeDialog);
+//        Log.e("ticketNoEntregado","idReason: "+idReason);
         textView9111.setText(this.closeDialog);
 
     }
@@ -349,13 +351,27 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
     }
     @Override
     public void okSendEvidence() {
-        presenter.changemStatusManifestTicket(currentManifest,folioTicket);
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String name = preferences.getString(GeneralConstants.OPERADOR_NAME, null);
+        if(name!=null){
+
+        }else{
+            name="test";
+        }
+        Log.e("ticketNoEntregado","values : "+" currentManifest: "+currentManifest+" folio: "+folioTicket+" idReason: "+idReason+" nombreUser: "+name);
+       presenter.SetTicketNoEntregado(currentManifest,folioTicket,idReason,name);
+
 
     }
 
     @Override
     public void okChangeStatus() {
         goToManifest();
+    }
+
+    @Override
+    public void nextRequest() {
+       presenter.changemStatusManifestTicket(currentManifest,folioTicket);
     }
 
     private void goToManifest() {
@@ -398,7 +414,7 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
               //  moveImagesToPhotosFolder(); este metodo no sirve todo eliminar
              //   cleanFolder();
                 if(idReason!=null) {//todo
-                   Toast.makeText(this, "guardar evidencias, pendiente mostrar progressbar y endpoint de jose "+closeDialog , Toast.LENGTH_SHORT).show();
+                 //  Toast.makeText(this, "guardar evidencias, pendiente mostrar progressbar y endpoint de jose "+closeDialog , Toast.LENGTH_SHORT).show();
                    Log.e("","carrusel1"+directories);
                    presenter.sendEvidence(directories,folioTicket);
 
