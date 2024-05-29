@@ -1,5 +1,6 @@
 package com.fhl.sistemadedistribucionfh.evidence;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
@@ -43,6 +45,8 @@ import com.fhl.sistemadedistribucionfh.evidence.rateDriver.calificacion;
 import com.fhl.sistemadedistribucionfh.evidence.signature.signature;
 import com.fhl.sistemadedistribucionfh.evidence.videos.videoRecord;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
+import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
+import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.google.gson.Gson;
 
@@ -55,13 +59,13 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     public static final String TAG = evidencia.class.getSimpleName();
     private FragmentManager manager;
     private FragmentTransaction transaction;
-
+    private static final int REQUEST_CODE = 1234;
     private ConstraintLayout firma, foto, archivos, rating, video;
     private Float frating;
     private String signatureBase64,inputTextSignature,currusel,ffiles,stars,fvideos,fchecklist="";
     private ImageView star,signatureImage,cameraico,clipDocs, buttonBack;
     private Boolean mfirma,mfoto,mfiles,mrating,mvideos,mchecklist=false;
-    private Button sendEvidence;
+    private Button sendEvidence,checkLotes;
     private ImageButton eraseShared;
     private requestEvidencePresenter presenter;
 
@@ -80,9 +84,11 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     private RecyclerView rv;
     private TextView textFol;
     private List<objectEvidence> evidenceList= new ArrayList<>();
+    private Boolean showSendEvidenceAfterLotes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        showSendEvidenceAfterLotes=false;
         setContentView(R.layout.activity_evidence);
         Intent intent = getIntent();
 
@@ -422,6 +428,8 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         textFol = findViewById(R.id.textFol);
         sendEvidence = findViewById(R.id.sendEvidence);
         sendEvidence.setOnClickListener(this);
+        checkLotes = findViewById(R.id.checkLotes);
+        checkLotes.setOnClickListener(this);
         sendEvidence.setVisibility(View.GONE);
         progress = new loaderFH();
         //icons
@@ -526,6 +534,11 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 secuenceRequest = 1;
                 checkShared();
                 break;
+            case R.id.checkLotes:
+                Toast.makeText(this, "Verificar lotes", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this.getApplicationContext(), BarcodeScannerActivity2.class);
+                startActivityForResult(intent, REQUEST_CODE);
+                break;
             case R.id.sendEvidence://la primera vez la firma lo manda con esto
 
                 if (folioTicket != null) {
@@ -606,6 +619,21 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            // Recibe los datos desde Activity2
+            String result = data.getStringExtra("result_key");
+            Log.e("qrs","onactivityResult "+result);
+            // Haz algo con el resultado, por ejemplo, pasarlo al fragmento
+            sendResultToFragment(result);
+        }
+    }
+    private void sendResultToFragment(String result) {
+        this.showSendEvidenceAfterLotes=true;
+        // Aquí puedes manejar el resultado y actualizar tu UI en el DialogFragment
+    }
     @Override
     public void setMessage() {
         Log.e("videoVar",""+fvideos);

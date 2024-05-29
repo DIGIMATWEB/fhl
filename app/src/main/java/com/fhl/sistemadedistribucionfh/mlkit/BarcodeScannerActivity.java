@@ -876,8 +876,9 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 {
                 }else {
                     gotoListBarcode = "ready";
-                    break;
                 }
+                    break;
+
         }
     }
 

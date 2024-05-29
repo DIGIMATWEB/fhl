@@ -279,12 +279,27 @@
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/sendEvidence"
+        app:layout_constraintBottom_toTopOf="@+id/checkLotes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView6" />
 
+    <Button
+        android:id="@+id/checkLotes"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="visible"
+        android:text="Verificar lotes"
+        android:textAllCaps="false"
+        app:backgroundTint="@color/purple"
+        app:layout_constraintBottom_toTopOf="@+id/sendEvidence"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
+    </Button>
     <Button
         android:id="@+id/sendEvidence"
         android:layout_width="0dp"
