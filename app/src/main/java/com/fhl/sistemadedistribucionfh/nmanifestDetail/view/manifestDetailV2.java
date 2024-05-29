@@ -255,9 +255,13 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         setAdapter(data);
         List<dataTicketsManifestV2> fdata= new ArrayList<>();
         fdata.clear();
+            Gson gson=new Gson();
+
         if(data!=null) {
             for (dataTicketsManifestV2 mdata : data) {//este metodo se usa para filtrar los tickets que ya se han cerrado
-                if (mdata.getEstatusId() == 2) ;
+                String jsondata= gson.toJson(mdata);
+                Log.e("jsondata",""+jsondata);
+                if (mdata.getEstatusId() == 2) ;//ticket en cola
                 {
                     fdata.add(mdata);
                 }//todo pasar esto al else if
@@ -281,7 +285,11 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
             if(fdata.size()!=0){
                 for (dataTicketsManifestV2 mdata : data) {
                     if (mdata.getEstatusId() < 3) {
-                        recoletar.setVisibility(View.VISIBLE);
+                        if(mdata.getTipoEntregaId()==2){
+                            recoletar.setVisibility(View.GONE);
+                        }else {
+                            recoletar.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
             }else {

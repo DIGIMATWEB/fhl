@@ -13,6 +13,8 @@ import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.dataManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.responseManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.presenterV2.presentermanifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.util.manifestUtil;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.responseTicketsManifestV2;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -128,5 +130,73 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
     @Override
     public void getmymanifestV2() {
         getAllmanifestV2();
+    }
+
+    @Override
+    public void getTicketByManigest(String idmanifest) {
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String token = preferences.getString(GeneralConstants.TOKEN, null);
+        Log.e("TOKEN",""+token);
+
+        //requestTicketsManifestV2 request = new requestTicketsManifestV2(ticket);
+        Call<responseTicketsManifestV2> call = service.getTicketsV2(idmanifest, false, token);
+        Gson gson =new Gson();
+        String json = gson.toJson(call.request());
+        Log.e("getticketsdetail",""+json);
+        presenter.showProgress();
+        call.enqueue(new Callback<responseTicketsManifestV2>() {
+            @Override
+            public void onResponse(Call<responseTicketsManifestV2> call, Response<responseTicketsManifestV2> response) {
+                validateResponset(response,context);
+            }
+
+            @Override
+            public void onFailure(Call<responseTicketsManifestV2> call, Throwable t) {
+                Toast.makeText(context, "bad request"+t.getMessage(), Toast.LENGTH_SHORT).show();
+                presenter.hideProgress();
+                //presenter.setDatahardcode();
+            }
+        });
+    }
+
+    private void validateResponset(Response<responseTicketsManifestV2> response, Context context) {
+        if (response != null) {
+
+            if (RetrofitValidations.checkSuccessCode(response.code())) {
+                getTickets(response, context);
+            } else {
+                Toast.makeText(context, "fail respose" + response.message(), Toast.LENGTH_SHORT).show();
+                presenter.hideProgress();
+            }
+        }
+    }
+
+    private void getTickets(Response<responseTicketsManifestV2> response, Context context) {
+        responseTicketsManifestV2 resp = response.body();
+        if(resp!=null){
+            String message = resp.getMessage();
+            int responseCode = resp.getStatus();
+            if(resp.getStatus()== GeneralConstants.RESPONSE_CODE_OK_FH){
+                List<dataTicketsManifestV2> data = resp.getData();
+                Gson gson=new Gson();
+                String json=gson.toJson(data);
+                Log.e("manifestDetail","json tickets "+json);
+                if(data!=null){
+                    presenter.setTickets(data);
+                }else{
+                    Log.e("manifestDetail","sin tickets asignados");
+                    presenter.setTickets(data);
+                    // Toast.makeText(context, "sin tickets asignados", Toast.LENGTH_SHORT).show();
+                }
+                presenter.hideProgress();
+            }else{
+                Log.e("manifestDetail","response not ok");//Toast.makeText(context, "response not ok" + response.message(), Toast.LENGTH_SHORT).show();
+                presenter.hideProgress();
+            }
+
+        } else{
+            Log.e("manifestDetail","response null");//Toast.makeText(context, "response null" + response.message(), Toast.LENGTH_SHORT).show();
+            presenter.hideProgress();
+        }
     }
 }

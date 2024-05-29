@@ -6,6 +6,7 @@ import com.fhl.sistemadedistribucionfh.nmanifest.interactorV2.interactorManifest
 import com.fhl.sistemadedistribucionfh.nmanifest.interactorV2.interactorManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.dataManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.viewV2.viewManifestV2;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
 import java.util.List;
 
@@ -24,6 +25,19 @@ public class manifestImplV2 implements presentermanifestV2 {
     public void getmanifestV2() {
         if(view!=null) {
             interactor.getmymanifestV2();
+        }
+    }
+    @Override
+    public void getTicketByManigest(String idmanifest) {
+        if(view!=null) {
+            interactor.getTicketByManigest(idmanifest);
+        }
+    }
+
+    @Override
+    public void setTickets(List<dataTicketsManifestV2> data) {
+        if(view!=null) {
+            view.checkTickets(data);
         }
     }
 

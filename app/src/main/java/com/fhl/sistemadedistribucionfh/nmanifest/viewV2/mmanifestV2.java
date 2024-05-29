@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -21,8 +22,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.Dialogs.ManifestStatus.manifestStatus;
-import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.view.dialogReasons;
-import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Tickets.detailTicketsSummary;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.nmanifest.adapterV2.manifestAdapterV2;
@@ -30,6 +29,7 @@ import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.dataManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.presenterV2.manifestImplV2;
 import com.fhl.sistemadedistribucionfh.nmanifest.presenterV2.presentermanifestV2;
 import com.fhl.sistemadedistribucionfh.login.view.login;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.view.manifestDetailV2;
 
 import java.io.File;
@@ -74,22 +74,69 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(adapter);
     }
-    public void gotoTickets(int position, String folioDespacho, String vehiculoModelo, String vehiculoPlaca, String cedis, String statusManifest) {
-        //TODO Agregar los demas datos al Bundle cuando se tengan
-        Bundle bundle = new Bundle();
-        bundle.putString("folioDespachoId",folioDespacho);
-        bundle.putString("vehiculoModeloId", vehiculoModelo);
-        bundle.putString("vehiculoPlacaId", vehiculoPlaca);
-        bundle.putString("statusManifest",statusManifest);
-        bundle.putString("cedisId", cedis);
+    @Override
+    public void checkTickets(List<dataTicketsManifestV2> data) {
+        if(data!=null){
+            Boolean isAtListOne=true;
+            for(dataTicketsManifestV2 ticket:data){
+                if(ticket.getTipoEntregaId()==2){
+                    isAtListOne=false;
+                    break;
+                }else {
 
-        manager = getActivity().getSupportFragmentManager();
-        transaction = manager.beginTransaction();
-        manifestDetailV2 manifestdetail = new manifestDetailV2();
-        manifestdetail.setArguments(bundle);
-        transaction.replace(R.id.fragments, manifestdetail, manifestDetailV2.TAG)
-                .addToBackStack(null) // Agregar la transacción a la pila de retroceso
-                .commit();
+                }
+
+            }
+            if(isAtListOne){
+                showToast();
+            }else{
+                gotoTicketsDetail();
+            }
+        }else {
+            Toast.makeText(getContext(), "No hay ningun ticket", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    private void gotoTicketsDetail() {
+        Bundle bundle = new Bundle();
+//        bundle.putString("folioDespachoId",folioDespacho);
+//        bundle.putString("vehiculoModeloId", vehiculoModelo);
+//        bundle.putString("vehiculoPlacaId", vehiculoPlaca);
+//        bundle.putString("statusManifest",statusManifest);
+//        bundle.putString("cedisId", cedis);
+//
+//        manager = getActivity().getSupportFragmentManager();
+//        transaction = manager.beginTransaction();
+//        manifestDetailV2 manifestdetail = new manifestDetailV2();
+//        manifestdetail.setArguments(bundle);
+//        transaction.replace(R.id.fragments, manifestdetail, manifestDetailV2.TAG)
+//                .addToBackStack(null) // Agregar la transacción a la pila de retroceso
+//                .commit();
+    }
+
+    private void showToast() {//todo camiar por un dialogo y crear un endpoint para los datos de salida
+        Toast.makeText(getContext(), "Validación requerida", Toast.LENGTH_SHORT).show();
+    }
+
+
+    public void gotoTickets(int position, String folioDespacho, String vehiculoModelo, String vehiculoPlaca, String cedis, String statusManifest) {
+        presenter.getTicketByManigest(folioDespacho);
+
+//        Bundle bundle = new Bundle();
+//        bundle.putString("folioDespachoId",folioDespacho);
+//        bundle.putString("vehiculoModeloId", vehiculoModelo);
+//        bundle.putString("vehiculoPlacaId", vehiculoPlaca);
+//        bundle.putString("statusManifest",statusManifest);
+//        bundle.putString("cedisId", cedis);
+//
+//        manager = getActivity().getSupportFragmentManager();
+//        transaction = manager.beginTransaction();
+//        manifestDetailV2 manifestdetail = new manifestDetailV2();
+//        manifestdetail.setArguments(bundle);
+//        transaction.replace(R.id.fragments, manifestdetail, manifestDetailV2.TAG)
+//                .addToBackStack(null) // Agregar la transacción a la pila de retroceso
+//                .commit();
     }
     @Override
     public void onClick(View view) {
@@ -203,6 +250,8 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
 //        mprogres.setCancelable(false);
 //        mprogres.show();
     }
+
+
 
     private void deleteCache(Context context) {
         try {
