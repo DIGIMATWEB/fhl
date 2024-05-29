@@ -1,8 +1,10 @@
 package com.fhl.sistemadedistribucionfh.nmanifest.viewV2;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -48,6 +50,7 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     private List<dataManifestV2> data;
     private ProgressDialog mprogres;
     private int dialogfilter=0;
+    private String folioDespachoG, vehiculoModeloG, vehiculoPlacaG, statusManifestG, cedisG;
     @SuppressLint("NewApi")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -87,7 +90,7 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
                 }
 
             }
-            if(isAtListOne){
+            if(!isAtListOne){
                 showToast();
             }else{
                 gotoTicketsDetail();
@@ -100,28 +103,50 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
 
     private void gotoTicketsDetail() {
         Bundle bundle = new Bundle();
-//        bundle.putString("folioDespachoId",folioDespacho);
-//        bundle.putString("vehiculoModeloId", vehiculoModelo);
-//        bundle.putString("vehiculoPlacaId", vehiculoPlaca);
-//        bundle.putString("statusManifest",statusManifest);
-//        bundle.putString("cedisId", cedis);
-//
-//        manager = getActivity().getSupportFragmentManager();
-//        transaction = manager.beginTransaction();
-//        manifestDetailV2 manifestdetail = new manifestDetailV2();
-//        manifestdetail.setArguments(bundle);
-//        transaction.replace(R.id.fragments, manifestdetail, manifestDetailV2.TAG)
-//                .addToBackStack(null) // Agregar la transacción a la pila de retroceso
-//                .commit();
+        bundle.putString("folioDespachoId",folioDespachoG);
+        bundle.putString("vehiculoModeloId", vehiculoModeloG);
+        bundle.putString("vehiculoPlacaId", vehiculoPlacaG);
+        bundle.putString("statusManifest",statusManifestG);
+        bundle.putString("cedisId", cedisG);
+
+        manager = getActivity().getSupportFragmentManager();
+        transaction = manager.beginTransaction();
+        manifestDetailV2 manifestdetail = new manifestDetailV2();
+        manifestdetail.setArguments(bundle);
+        transaction.replace(R.id.fragments, manifestdetail, manifestDetailV2.TAG)
+                .addToBackStack(null) // Agregar la transacción a la pila de retroceso
+                .commit();
     }
 
     private void showToast() {//todo camiar por un dialogo y crear un endpoint para los datos de salida
-        Toast.makeText(getContext(), "Validación requerida", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "Validación requerida", Toast.LENGTH_SHORT).show();
+        // Dialog
+        mostrarAlerta();
     }
 
+    private void mostrarAlerta() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Alerta");
+        builder.setMessage("Debes pasar por el aprobador");
+        builder.setPositiveButton("Entendido", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
     public void gotoTickets(int position, String folioDespacho, String vehiculoModelo, String vehiculoPlaca, String cedis, String statusManifest) {
         presenter.getTicketByManigest(folioDespacho);
+        Log.e("SendTicket", "Datos: " + position + " " + folioDespacho + " " + vehiculoModelo + " " + vehiculoPlaca + " " + cedis + " " + statusManifest);
+
+        this.folioDespachoG = folioDespacho;
+        this.vehiculoModeloG = vehiculoModelo;
+        this.vehiculoPlacaG = vehiculoPlaca;
+        this.cedisG = cedis;
+        this.statusManifestG = statusManifest;
 
 //        Bundle bundle = new Bundle();
 //        bundle.putString("folioDespachoId",folioDespacho);

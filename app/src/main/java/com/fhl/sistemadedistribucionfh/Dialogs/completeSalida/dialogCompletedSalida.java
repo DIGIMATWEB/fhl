@@ -140,6 +140,7 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
             } else {
                 secuence = 0;
                 presenter.requestDetailTicketsSendtriplus(true, iteratedidTicket, currentManifest, null, dataTickets.get(iteratedidTicket).getFolioTicket());
+                //presenter.endrointefren();
             }
         }else {
             presenter.hideDialog();
