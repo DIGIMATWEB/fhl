@@ -25,6 +25,7 @@ import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Paquete;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
+import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
 import java.util.ArrayList;
@@ -145,12 +146,16 @@ public void onCreate(@Nullable Bundle savedInstanceState) {
                                         // Toast.makeText(getContext(), "ir a sellostodos fueron escaneados", Toast.LENGTH_SHORT).show();
                                         if (typeScanner != null) {
                                                 if (typeScanner.equals("Lotes")) {
-                                                        Toast.makeText(getContext(), "  closeDialog(); pendiente", Toast.LENGTH_SHORT).show();
+                                                       // Toast.makeText(getContext(), "  closeDialog(); pendiente1", Toast.LENGTH_SHORT).show();
+                                                        BarcodeScannerActivity2 barcodeScannerActivity1 = (BarcodeScannerActivity2) getActivity();
+                                                        barcodeScannerActivity1.returnResult("1234");
                                                 }
                                                 // closeDialog();
                                         } else {
                                                 if (typeScanner.equals("Lotes")) {//todo esto esta ok
-                                                        Toast.makeText(getContext(), "  closeDialog(); pendiente", Toast.LENGTH_SHORT).show();
+                                                        //Toast.makeText(getContext(), "  closeDialog(); pendiente2", Toast.LENGTH_SHORT).show();
+                                                        BarcodeScannerActivity2 barcodeScannerActivity1 = (BarcodeScannerActivity2) getActivity();
+                                                        barcodeScannerActivity1.returnResult("1234");
                                                 }
                                         }
 
@@ -253,6 +258,8 @@ public void onCreate(@Nullable Bundle savedInstanceState) {
                 Log.e("ticketsArray2", "textcount: " + countok);
                 textChekcs.setText(countok + "/" + model.size());
         }
+
+
 
 //        public void updatescanedDataEmpaque(List<Paquete> paquetes) {
 //        }

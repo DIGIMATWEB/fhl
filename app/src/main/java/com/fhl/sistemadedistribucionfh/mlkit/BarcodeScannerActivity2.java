@@ -69,6 +69,7 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
     public String typeScanner="";
     private List<dataTicketsDetailsendtrip> data;
     private String currentManifest;
+    private validadorEmpaques bottonSheetv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,7 +112,7 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
         fbundle.putString("typeScanner", "Lotes");
         fbundle.putSerializable("tickets",(Serializable) data);
 
-        validadorEmpaques bottonSheetv = new validadorEmpaques();
+        bottonSheetv = new validadorEmpaques();
         bottonSheetv.setArguments(fbundle);
         bottonSheetv.show(getSupportFragmentManager(), "validadorEmpaques");
     }
@@ -323,7 +324,7 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
             getRuntimePermissions();
         }
     }
-    private void returnResult(String result) {
+    public void returnResult(String result) {
         Intent intent = new Intent();
         intent.putExtra("result_key", result);
         setResult(this.RESULT_OK, intent);
@@ -340,8 +341,9 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
             public void run() {
                 restartCameraProcess();
                 if(code.equals("700")){
-                    returnResult("1234");
-                    onBackPressed();
+                    bottonSheetv.sendToast("700");
+                  //  returnResult("1234");
+                    // onBackPressed();
                 }
             }
         }, 1500);
