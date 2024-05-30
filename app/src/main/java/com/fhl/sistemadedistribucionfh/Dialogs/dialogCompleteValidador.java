@@ -115,13 +115,17 @@ public void closeDialog() {
 //                String json=gson.toJson(habilidades);
                 operadorL.clear();
                 mhabiltiesDriver.clear();
-                List<String> habilidadesList = extractNombreValues(habilidades);
+                if(habilidades!=null) {
+                        List<String> habilidadesList = extractNombreValues(habilidades);
 
-                // Print the list of "Nombre" values
-                for (String habilidad : habilidadesList) {
-                        Log.e("habilidades", "Operador json " + habilidad);
-                        operadorL.add(habilidad);
-                        mhabiltiesDriver.add(new habiltiesDriver(habilidad,false));
+                        // Print the list of "Nombre" values
+                        for (String habilidad : habilidadesList) {
+                                Log.e("habilidades", "Operador json " + habilidad);
+                                operadorL.add(habilidad);
+                                mhabiltiesDriver.add(new habiltiesDriver(habilidad, false));
+                        }
+                }else {
+                        bottomStatusManifestHabilidades.setVisibility(View.GONE);
                 }
         }
         private List<String> extractNombreValues(String habilidadesJson) {
@@ -145,13 +149,17 @@ public void closeDialog() {
                 Log.e("habilidades","Vehiculo "+habilidadVehiculos);
                 vehicleL.clear();
                 mhabiltiesVehicle.clear();
-                List<String> habilidadesList = extractNombreValues2(habilidadVehiculos);
+                if(habilidadVehiculos!=null) {
+                        List<String> habilidadesList = extractNombreValues2(habilidadVehiculos);
 
-                // Print the list of "Nombre" values
-                for (String habilidad : habilidadesList) {
-                        Log.e("habilidades", "Operador json " + habilidad);
-                        vehicleL.add(habilidad);
-                        mhabiltiesVehicle.add(new habiltiesVehicle(habilidad,false));
+                        // Print the list of "Nombre" values
+                        for (String habilidad : habilidadesList) {
+                                Log.e("habilidades", "Operador json " + habilidad);
+                                vehicleL.add(habilidad);
+                                mhabiltiesVehicle.add(new habiltiesVehicle(habilidad, false));
+                        }
+                }else{
+                        bottomStatusManifestHabilidadesVehiculo.setVisibility(View.GONE);
                 }
         }
         private List<String> extractNombreValues2(String habilidadesJson) {

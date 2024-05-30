@@ -587,6 +587,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     }
     private void sendResultToFragment(String result) {
         this.showSendEvidenceAfterLotes=true;
+        //presenter.saveLotes();
         // Aquí puedes manejar el resultado y actualizar tu UI en el DialogFragment
     }
     //endregion

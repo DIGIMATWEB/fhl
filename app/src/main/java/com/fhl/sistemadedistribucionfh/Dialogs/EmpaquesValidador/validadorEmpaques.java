@@ -146,14 +146,14 @@ public void onCreate(@Nullable Bundle savedInstanceState) {
                                         // Toast.makeText(getContext(), "ir a sellostodos fueron escaneados", Toast.LENGTH_SHORT).show();
                                         if (typeScanner != null) {
                                                 if (typeScanner.equals("Lotes")) {
-                                                       // Toast.makeText(getContext(), "  closeDialog(); pendiente1", Toast.LENGTH_SHORT).show();
+                                                        Log.e("qrs","pendiente1");
                                                         BarcodeScannerActivity2 barcodeScannerActivity1 = (BarcodeScannerActivity2) getActivity();
                                                         barcodeScannerActivity1.returnResult("1234");
                                                 }
                                                 // closeDialog();
                                         } else {
                                                 if (typeScanner.equals("Lotes")) {//todo esto esta ok
-                                                        //Toast.makeText(getContext(), "  closeDialog(); pendiente2", Toast.LENGTH_SHORT).show();
+                                                        Log.e("qrs","pendiente2");
                                                         BarcodeScannerActivity2 barcodeScannerActivity1 = (BarcodeScannerActivity2) getActivity();
                                                         barcodeScannerActivity1.returnResult("1234");
                                                 }
