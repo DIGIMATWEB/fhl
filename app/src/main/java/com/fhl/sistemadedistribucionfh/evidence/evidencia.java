@@ -546,30 +546,33 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 startActivityForResult(intent, REQUEST_CODE);
                 break;
             case R.id.sendEvidence://la primera vez la firma lo manda con esto
-
-                if (folioTicket != null) {
-                    Log.e("sendEvidence", "folio " + folioTicket);
-                    isArrayofTickets = false;
-                    presenter.sendEvidence(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, folioTicket, fvideos);
-                    Log.e("sendEvidence", "signatureBase64: " + signatureBase64 + "\n" +
-                            "inputTextSignature: " + inputTextSignature + "\n" +
-                            "carrusel:" + currusel + "\n" +
-                            "ffiles: " + ffiles + "\n" +
-                            "stars: " + stars + "\n" +
-                            "secuenceRequest: " + secuenceRequest);
-                } else {
-                    if (data != null) {
-                        Log.e("sendEvidence", " data " + data.size());
-                        if (data.size() > 1) {
-                            isArrayofTickets = true;
-                            sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, data.get(iterateidTickets).getFolioTicket(), fvideos);
-                        } else {
-                            isArrayofTickets = false;
-                            sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, data.get(0).getFolioTicket(), fvideos);
-                        }
+                if(showSendEvidenceAfterLotes) {
+                    if (folioTicket != null) {
+                        Log.e("sendEvidence", "folio " + folioTicket);
+                        isArrayofTickets = false;
+                        presenter.sendEvidence(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, folioTicket, fvideos);
+                        Log.e("sendEvidence", "signatureBase64: " + signatureBase64 + "\n" +
+                                "inputTextSignature: " + inputTextSignature + "\n" +
+                                "carrusel:" + currusel + "\n" +
+                                "ffiles: " + ffiles + "\n" +
+                                "stars: " + stars + "\n" +
+                                "secuenceRequest: " + secuenceRequest);
                     } else {
-                        Toast.makeText(this, "No hay tickets al cual mandar evidencia", Toast.LENGTH_SHORT).show();
+                        if (data != null) {
+                            Log.e("sendEvidence", " data " + data.size());
+                            if (data.size() > 1) {
+                                isArrayofTickets = true;
+                                sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, data.get(iterateidTickets).getFolioTicket(), fvideos);
+                            } else {
+                                isArrayofTickets = false;
+                                sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, data.get(0).getFolioTicket(), fvideos);
+                            }
+                        } else {
+                            Toast.makeText(this, "No hay tickets al cual mandar evidencia", Toast.LENGTH_SHORT).show();
+                        }
                     }
+                }else{
+                    Toast.makeText(this, "Necesitas verificar los lotes", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
