@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.Dialogs.Loader.view.loaderFH;
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.Check;
@@ -36,6 +37,7 @@ import com.fhl.sistemadedistribucionfh.evidence.checklist.view.checklistEvidence
 import com.fhl.sistemadedistribucionfh.evidence.documents.documents;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaLlegada;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaSalida;
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Paquete;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
 import com.fhl.sistemadedistribucionfh.evidence.model.objectEvidence;
 import com.fhl.sistemadedistribucionfh.evidence.photos.carrusel;
@@ -579,13 +581,23 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             // Recibe los datos desde Activity2
-            String result = data.getStringExtra("result_key");
+            List<ticketsScanned> result = (List<ticketsScanned>) data.getSerializableExtra("result_key");
             Log.e("qrs","onactivityResult "+result);
             // Haz algo con el resultado, por ejemplo, pasarlo al fragmento
             sendResultToFragment(result);
         }
     }
-    private void sendResultToFragment(String result) {
+    private void sendResultToFragment(List<ticketsScanned> result) {
+        if(result!=null){
+            List<Paquete> lotes=new ArrayList<>();
+            lotes.clear(); ;
+            result.get(0).getFolio();//string
+            result.get(0).getSendtripPlus().getPaquetes().size();//numero de paquetes
+            for(Paquete packages:result.get(0).getSendtripPlus().getPaquetes()){
+               // lotes.add(packages);//referencia
+                Log.e("qrs","El lote"+packages.getNombre()+" fue escaneado:"+packages.getFlag());
+            }
+        }
         this.showSendEvidenceAfterLotes=true;
         //presenter.saveLotes();
         // Aquí puedes manejar el resultado y actualizar tu UI en el DialogFragment

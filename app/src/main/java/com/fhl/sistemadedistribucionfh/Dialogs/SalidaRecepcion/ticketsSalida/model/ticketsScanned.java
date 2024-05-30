@@ -2,7 +2,9 @@ package com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.mo
 
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.SendtripPlus;
 
-public class ticketsScanned {
+import java.io.Serializable;
+
+public class ticketsScanned implements Serializable {
     private String folio;
     private Boolean flag;
     private SendtripPlus sendtripPlus;

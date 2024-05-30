@@ -157,13 +157,13 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                         }
 
                     } else {
-                        if(typeScanner.equals("Lotes")){//todo esto esta ok
-                            Toast.makeText(getContext(), "  closeDialog(); pendiente", Toast.LENGTH_SHORT).show();
-                        }else {
+//                        if(typeScanner.equals("Lotes")){//todo esto esta ok
+//                            Toast.makeText(getContext(), "  closeDialog(); pendiente", Toast.LENGTH_SHORT).show();
+//                        }else {
                             Log.e("dialogSalida", "ticketssalida null pending review recolection");
                             BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
                             barcodeScannerActivity1.goTicketsSummary();
-                        }
+                       // }
                     }
 
                 } else {

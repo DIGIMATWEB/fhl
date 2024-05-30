@@ -141,27 +141,18 @@ public void onCreate(@Nullable Bundle savedInstanceState) {
         public void onClick(View view) {
                 switch (view.getId()) {
                         case R.id.imageButton:
-                                //closeDialog();
+                                //closeDialog();// BarcodeScannerActivity2 barcodeScannerActivity1 = (BarcodeScannerActivity2) getActivity();
+                                //                                                        barcodeScannerActivity1.returnResult("1234");
                                 if (countok == model.size()) {//todo hasta igualar los empaques model.size()
-                                        // Toast.makeText(getContext(), "ir a sellostodos fueron escaneados", Toast.LENGTH_SHORT).show();
-                                        if (typeScanner != null) {
-                                                if (typeScanner.equals("Lotes")) {
-                                                        Log.e("qrs","pendiente1");
-                                                        BarcodeScannerActivity2 barcodeScannerActivity1 = (BarcodeScannerActivity2) getActivity();
-                                                        barcodeScannerActivity1.returnResult("1234");
-                                                }
-                                                // closeDialog();
-                                        } else {
-                                                if (typeScanner.equals("Lotes")) {//todo esto esta ok
-                                                        Log.e("qrs","pendiente2");
-                                                        BarcodeScannerActivity2 barcodeScannerActivity1 = (BarcodeScannerActivity2) getActivity();
-                                                        barcodeScannerActivity1.returnResult("1234");
-                                                }
-                                        }
+                                        Toast.makeText(getContext(), "Escaneaste todos los paquetes", Toast.LENGTH_SHORT).show();
+                                        BarcodeScannerActivity2 barcodeScannerActivity1 = (BarcodeScannerActivity2) getActivity();
+                                        barcodeScannerActivity1.returnResult(model);
+
 
                                 } else {
-                                        Toast.makeText(getContext(), "Faltan empaques por escanear", Toast.LENGTH_SHORT).show();
-
+                                        Toast.makeText(getContext(), "No escaneaste todos los paquetes", Toast.LENGTH_SHORT).show();
+                                        BarcodeScannerActivity2 barcodeScannerActivity1 = (BarcodeScannerActivity2) getActivity();
+                                        barcodeScannerActivity1.returnResult(model);
                                 }
                                 break;
                 }

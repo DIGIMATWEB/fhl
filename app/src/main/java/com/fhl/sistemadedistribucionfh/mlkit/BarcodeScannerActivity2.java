@@ -3,21 +3,14 @@ package com.fhl.sistemadedistribucionfh.mlkit;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.InputFilter;
-import android.text.InputType;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,10 +25,11 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.fhl.sistemadedistribucionfh.Dialogs.EmpaquesValidador.validadorEmpaques;
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.databinding.ActivityBarcodeScannerBinding;
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Paquete;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
-import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.google.mlkit.common.MlKitException;
 
 import java.io.Serializable;
@@ -70,6 +64,7 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
     private List<dataTicketsDetailsendtrip> data;
     private String currentManifest;
     private validadorEmpaques bottonSheetv;
+    private  List<Paquete> lotes=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,6 +110,15 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
         bottonSheetv = new validadorEmpaques();
         bottonSheetv.setArguments(fbundle);
         bottonSheetv.show(getSupportFragmentManager(), "validadorEmpaques");
+        //Paquete
+        if(data!=null){
+            data.get(0).getFolioTicket();//string
+            data.get(0).getSendtripPlus().getPaquetes().size();//numero de paquetes
+            lotes.clear(); ;
+            for(Paquete packages:data.get(0).getSendtripPlus().getPaquetes()){
+                lotes.add(packages);//referencia
+            }
+        }
     }
 
     @Override
@@ -324,9 +328,9 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
             getRuntimePermissions();
         }
     }
-    public void returnResult(String result) {
+    public void returnResult(List<ticketsScanned> result) {
         Intent intent = new Intent();
-        intent.putExtra("result_key", result);
+        intent.putExtra("result_key",(Serializable) result);
         setResult(this.RESULT_OK, intent);
         finish();
     }
@@ -340,11 +344,16 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
             @Override
             public void run() {
                 restartCameraProcess();
-                if(code.equals("700")){
-                    bottonSheetv.sendToast("700");
-                  //  returnResult("1234");
-                    // onBackPressed();
+                for(Paquete pac:lotes){
+                    if(code.equals(pac.getNombre())){
+                        bottonSheetv.sendToast(code);
+                    }
                 }
+//                if(code.equals("700")){
+//                    bottonSheetv.sendToast("700");
+//                  //  returnResult("1234");
+//                    // onBackPressed();
+//                }
             }
         }, 1500);
     }
