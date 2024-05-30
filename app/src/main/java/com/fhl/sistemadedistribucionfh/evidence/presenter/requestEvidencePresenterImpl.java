@@ -60,9 +60,9 @@ public class requestEvidencePresenterImpl  implements requestEvidencePresenter{
         }
     }
     @Override
-    public void changeStatusManifestTicket(String currentManifest, String changeStatusTicket, String sentripPlusFlow) {
+    public void changeStatusManifestTicket(String currentManifest, String changeStatusTicket, String sentripPlusFlow, Boolean fullLotes) {
         if(view!=null){
-            interactor.changeStatusManifestTicket(currentManifest,changeStatusTicket,sentripPlusFlow);
+            interactor.changeStatusManifestTicket(currentManifest,changeStatusTicket,sentripPlusFlow,fullLotes);
         }
     }
     @Override

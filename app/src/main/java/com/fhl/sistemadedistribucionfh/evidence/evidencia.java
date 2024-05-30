@@ -22,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -47,7 +46,6 @@ import com.fhl.sistemadedistribucionfh.evidence.rateDriver.calificacion;
 import com.fhl.sistemadedistribucionfh.evidence.signature.signature;
 import com.fhl.sistemadedistribucionfh.evidence.videos.videoRecord;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
-import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.google.gson.Gson;
@@ -87,6 +85,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     private TextView textFol;
     private List<objectEvidence> evidenceList= new ArrayList<>();
     private Boolean showSendEvidenceAfterLotes;
+    private Boolean fullLotes=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -603,6 +602,10 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         }
         this.showSendEvidenceAfterLotes=true;
         //presenter.saveLotes();//todo si son salvados mandar en bundle al scanner 2
+        //TODO comprobar si todos estan en true hacer un boolean de todos es el flujo normal si no es 8 entregado con devolucion
+        if(fullLotes){//si no vienen todos hacer false la varible
+
+        }
         // Aquí puedes manejar el resultado y actualizar tu UI en el DialogFragment
     }
     //endregion
@@ -702,10 +705,10 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             Log.e("sendEvidence", "Se envia a sendtripplus");
             if (sentripPlusFlow.equals("Recoleccion")) {
                 presenter.sendSentriplus(currentManifest, dataTicketSendtrip, sentripPlusFlow);
-            } else if (sentripPlusFlow.equals("Entrega")) {
+            } else if (sentripPlusFlow.equals("Entrega")) {//TODO si es entrega pasa a 8
                 //presenter.sendSentriplus(currentManifest,dataTicketSendtrip,sentripPlusFlow);
                 secuenceRequest = secuenceRequest + 1;
-                presenter.changeStatusManifestTicket(currentManifest, changeStatusTicket, sentripPlusFlow);
+                presenter.changeStatusManifestTicket(currentManifest, changeStatusTicket, sentripPlusFlow,fullLotes);
 
             }
 
@@ -713,7 +716,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
         } else if (secuenceRequest == 7) {
             secuenceRequest = secuenceRequest + 1;
-            presenter.changeStatusManifestTicket(currentManifest, changeStatusTicket, sentripPlusFlow);
+            presenter.changeStatusManifestTicket(currentManifest, changeStatusTicket, sentripPlusFlow, fullLotes);
 
         } else if (secuenceRequest == 8) {//borra  lo relacionano y regresa
             Toast.makeText(this, "usar sendtrip plus Cambiar estatus y regresar a manifiestos", Toast.LENGTH_SHORT).show();

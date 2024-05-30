@@ -520,7 +520,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         }
     }
     @Override
-    public void changeStatusManifestTicket(String currentManifest, String changeStatusTicket, String sentripPlusFlow) {
+    public void changeStatusManifestTicket(String currentManifest, String changeStatusTicket, String sentripPlusFlow, Boolean fullLotes) {
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
         Integer statusDespacho=0;
@@ -538,7 +538,11 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
              statusTicketR = RequestBody.create(MediaType.parse("text/plain"),String.valueOf( statusTicket));
         }else if (sentripPlusFlow.equals("Entrega")){
             statusDespacho=4;
-            statusTicket=4;
+            if(fullLotes) {
+                statusTicket = 4;
+            }else{
+                statusTicket = 8;
+            }
              currentManifestR = null;
              statusDespachoR = null;
              changeStatusTicketR = RequestBody.create(MediaType.parse("text/plain"), changeStatusTicket);

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -156,9 +157,10 @@ public class BarcodeScannerActivity extends AppCompatActivity
         if (!allPermissionsGranted()) {
             getRuntimePermissions();
         }
-       // binding.inputmanual.setOnClickListener(this);
-       // binding.inputcamara.setOnClickListener(this);
-       // binding.iconchecklist.setOnClickListener(this);
+        binding.inputmanual.setOnClickListener(this);
+        binding.inputcamara.setOnClickListener(this);
+        binding.captureCode.setOnClickListener(this);
+        binding.iconchecklist.setOnClickListener(this);
         //todo se receteara de momento collectedBarcode
         //collectedBarCodes.clear();
         if(collectedBarCodes.isEmpty()) {  //todo esto es para comprobar si el arreglo viene lleno o vacio
@@ -170,8 +172,8 @@ public class BarcodeScannerActivity extends AppCompatActivity
 
         }
 
-        binding.escribircodigo.setInputType(InputType.TYPE_CLASS_NUMBER);
-        binding.escribircodigo.setFilters(new InputFilter[]{new InputFilter.LengthFilter(8)});
+       // binding.escribircodigo.setInputType(InputType.TYPE_CLASS_NUMBER);//todo se quita la restriccion de solo numeros
+       // binding.escribircodigo.setFilters(new InputFilter[]{new InputFilter.LengthFilter(8)});//todo se quita la restriccion de 8 digitos
         binding.clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -877,8 +879,34 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 }else {
                     gotoListBarcode = "ready";
                 }
-                    break;
+            break;
+            case R.id.inputcamara:
+                //Toast.makeText(this, "camara click", Toast.LENGTH_SHORT).show();
+                binding.inputkeyscode.setVisibility(View.GONE);
+                binding.inputcamara.setBackgroundResource(R.drawable.ic_scannercam);
+                binding.inputmanual.setBackgroundResource(R.drawable.ic_keys);
+                binding.headerText.setTextColor(Color.WHITE);
+                break;
 
+            case R.id.inputmanual:
+                //Toast.makeText(this, "Input manual", Toast.LENGTH_SHORT).show();
+                binding.inputkeyscode.setVisibility(View.VISIBLE);
+                binding.inputcamara.setBackgroundResource(R.drawable.icscannercamblack);
+                binding.inputmanual.setBackgroundResource(R.drawable.ic_keys_black);
+                binding.headerText.setTextColor(Color.BLACK);
+                break;
+            case R.id.captureCode:
+              //  Toast.makeText(this, "Obtener el codigo del InputText", Toast.LENGTH_SHORT).show();
+                //binding.escribircodigo.getText().toString();
+                if(!binding.escribircodigo.getText().toString().equals("")) {
+                    barcodesCollection(binding.escribircodigo.getText().toString());
+                    binding.escribircodigo.setText("");
+                }else{
+                    Toast.makeText(this, "Debes resgistrar datos", Toast.LENGTH_SHORT).show();
+                }
+
+
+                break;
         }
     }
 

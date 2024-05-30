@@ -24,5 +24,5 @@ public interface requestEvidencePresenter {
 
     void setDetailTicketsentriplus(List<dataTicketsDetailsendtrip> data);
 
-    void changeStatusManifestTicket(String currentManifest, String changeStatusTicket, String sentripPlusFlow);
+    void changeStatusManifestTicket(String currentManifest, String changeStatusTicket, String sentripPlusFlow, Boolean fullLotes);
 }
