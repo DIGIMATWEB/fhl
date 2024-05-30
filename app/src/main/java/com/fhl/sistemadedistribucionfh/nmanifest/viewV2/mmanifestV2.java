@@ -126,8 +126,8 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
 
     private void mostrarAlerta() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Alerta");
-        builder.setMessage("Debes pasar por el aprobador");
+        builder.setTitle("Validación requerida");
+        builder.setMessage("Debes pasar por el validador.");
         builder.setPositiveButton("Entendido", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
