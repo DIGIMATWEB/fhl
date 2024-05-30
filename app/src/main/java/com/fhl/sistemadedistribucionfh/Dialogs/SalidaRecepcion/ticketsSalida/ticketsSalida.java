@@ -147,15 +147,23 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                             //Toast.makeText(getContext(), "sumarydetailtickets", Toast.LENGTH_SHORT).show();
                             BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
                             barcodeScannerActivity1.detalManifestTicketsSummary(currentmanifest, codigoValidador, sellos);
-                        } else {//Salida
+                            closeDialog();
+                        } else if(typeScanner.equals("Lotes")){
+                            Toast.makeText(getContext(), "  closeDialog(); pendiente", Toast.LENGTH_SHORT).show();
+                        }else {//Salida
+                            BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                            barcodeScannerActivity1.goTicketsSummary();
+                            closeDialog();
+                        }
+
+                    } else {
+                        if(typeScanner.equals("Lotes")){//todo esto esta ok
+                            Toast.makeText(getContext(), "  closeDialog(); pendiente", Toast.LENGTH_SHORT).show();
+                        }else {
+                            Log.e("dialogSalida", "ticketssalida null pending review recolection");
                             BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
                             barcodeScannerActivity1.goTicketsSummary();
                         }
-                        closeDialog();
-                    } else {
-                        Log.e("dialogSalida", "ticketssalida null pending review recolection");
-                        BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
-                        barcodeScannerActivity1.goTicketsSummary();
                     }
 
                 } else {

@@ -2,7 +2,9 @@ package com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus;
 
 import com.google.gson.annotations.SerializedName;
 
-public class VehiculoSendtrip {
+import java.io.Serializable;
+
+public class VehiculoSendtrip implements Serializable {
     @SerializedName("Placa")
     private String placa;
     @SerializedName("Economico")

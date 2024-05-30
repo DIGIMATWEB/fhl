@@ -30,8 +30,12 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.fhl.sistemadedistribucionfh.Dialogs.EmpaquesValidador.validadorEmpaques;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.databinding.ActivityBarcodeScannerBinding;
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.google.mlkit.common.MlKitException;
 
 import java.io.Serializable;
@@ -63,6 +67,8 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
     private static final String STATE_LENS_FACING = "lens_facing";
 
     public String typeScanner="";
+    private List<dataTicketsDetailsendtrip> data;
+    private String currentManifest;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +77,12 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
         binding = ActivityBarcodeScannerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         mediaPlayer= MediaPlayer.create(getApplicationContext(), R.raw.beep);
-
+        Bundle bundle;
+        bundle = getIntent().getExtras();//detailOrderB
+        if(bundle!=null) {
+            data = (List<dataTicketsDetailsendtrip>) bundle.getSerializable("dataTcikets");
+            currentManifest = bundle.getString("currentManifest");
+        }
 
         if (savedInstanceState != null) {
             lensFacing = savedInstanceState.getInt(STATE_LENS_FACING, CameraSelector.LENS_FACING_BACK);
@@ -95,6 +106,14 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
         if (!allPermissionsGranted()) {
             getRuntimePermissions();
         }
+        Bundle fbundle = new Bundle();
+        fbundle.putString("currentmanifest", currentManifest);
+        fbundle.putString("typeScanner", "Lotes");
+        fbundle.putSerializable("tickets",(Serializable) data);
+
+        validadorEmpaques bottonSheetv = new validadorEmpaques();
+        bottonSheetv.setArguments(fbundle);
+        bottonSheetv.show(getSupportFragmentManager(), "validadorEmpaques");
     }
 
     @Override
@@ -320,7 +339,7 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
             @Override
             public void run() {
                 restartCameraProcess();
-                if(code.equals("10871872")){
+                if(code.equals("700")){
                     returnResult("1234");
                     onBackPressed();
                 }

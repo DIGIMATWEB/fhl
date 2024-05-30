@@ -536,7 +536,11 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 break;
             case R.id.checkLotes:
                 Toast.makeText(this, "Verificar lotes", Toast.LENGTH_SHORT).show();
+                Bundle bundle = new Bundle();
                 Intent intent = new Intent(this.getApplicationContext(), BarcodeScannerActivity2.class);
+                bundle.putSerializable("dataTcikets",(Serializable) dataTicketSendtrip);
+                bundle.putString("currentManifest",currentManifest);
+                intent.putExtras(bundle);
                 startActivityForResult(intent, REQUEST_CODE);
                 break;
             case R.id.sendEvidence://la primera vez la firma lo manda con esto
@@ -569,7 +573,23 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         }
 
     }
-
+//region  escaner verificar lotes
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            // Recibe los datos desde Activity2
+            String result = data.getStringExtra("result_key");
+            Log.e("qrs","onactivityResult "+result);
+            // Haz algo con el resultado, por ejemplo, pasarlo al fragmento
+            sendResultToFragment(result);
+        }
+    }
+    private void sendResultToFragment(String result) {
+        this.showSendEvidenceAfterLotes=true;
+        // Aquí puedes manejar el resultado y actualizar tu UI en el DialogFragment
+    }
+    //endregion
     private void sendEvidenceIfArrayofTickets(Integer secuenceRequest, String signatureBase64, String inputTextSignature, String currusel, String ffiles, Integer flujoId, String folioTicket, String fvideos) {
         presenter.sendEvidence(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, folioTicket, fvideos);
     }
@@ -619,21 +639,6 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            // Recibe los datos desde Activity2
-            String result = data.getStringExtra("result_key");
-            Log.e("qrs","onactivityResult "+result);
-            // Haz algo con el resultado, por ejemplo, pasarlo al fragmento
-            sendResultToFragment(result);
-        }
-    }
-    private void sendResultToFragment(String result) {
-        this.showSendEvidenceAfterLotes=true;
-        // Aquí puedes manejar el resultado y actualizar tu UI en el DialogFragment
-    }
     @Override
     public void setMessage() {
         Log.e("videoVar",""+fvideos);
