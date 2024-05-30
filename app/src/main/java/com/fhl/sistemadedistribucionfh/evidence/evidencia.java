@@ -602,7 +602,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             }
         }
         this.showSendEvidenceAfterLotes=true;
-        //presenter.saveLotes();
+        //presenter.saveLotes();//todo si son salvados mandar en bundle al scanner 2
         // Aquí puedes manejar el resultado y actualizar tu UI en el DialogFragment
     }
     //endregion
