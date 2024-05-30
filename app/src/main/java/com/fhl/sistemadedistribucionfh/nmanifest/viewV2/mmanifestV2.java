@@ -50,6 +50,7 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     private List<dataManifestV2> data;
     private ProgressDialog mprogres;
     private int dialogfilter=0;
+    private Integer positionG;
     private String folioDespachoG, vehiculoModeloG, vehiculoPlacaG, statusManifestG, cedisG;
     @SuppressLint("NewApi")
     @Override
@@ -83,7 +84,12 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
             Boolean isAtListOne=true;
             for(dataTicketsManifestV2 ticket:data){
                 if(ticket.getTipoEntregaId()==2){
-                    isAtListOne=false;
+                    Log.e("SendTicket", "Datos: " + this.data.get(positionG).getValidador().getEstatus());
+                    if (this.data.get(positionG).getValidador().getEstatus().equals("correcto")) {
+                        //isAtListOne=true;
+                    } else {
+                        isAtListOne=false;
+                    }
                     break;
                 }else {
 
@@ -142,6 +148,7 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         presenter.getTicketByManigest(folioDespacho);
         Log.e("SendTicket", "Datos: " + position + " " + folioDespacho + " " + vehiculoModelo + " " + vehiculoPlaca + " " + cedis + " " + statusManifest);
 
+        this.positionG = position;
         this.folioDespachoG = folioDespacho;
         this.vehiculoModeloG = vehiculoModelo;
         this.vehiculoPlacaG = vehiculoPlaca;
