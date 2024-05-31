@@ -11,4 +11,6 @@ public interface presenterSetValidacion {
     void setDriverHailities(String habilidades);
 
     void setDriverVehicle(String habilidadVehiculos);
+
+    void setDatosValidador(String manifest, String vehicleVin, String rfcUser, String jsonHabDriver, String jsonHabVehicles, String user);
 }

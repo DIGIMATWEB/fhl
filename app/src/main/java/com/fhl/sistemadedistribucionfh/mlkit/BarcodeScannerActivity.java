@@ -472,6 +472,8 @@ public class BarcodeScannerActivity extends AppCompatActivity
                       Bundle bundle = new Bundle();
                       bundle.putString("currentManifest", codigoValidador);
                       bundle.putInt("claveVehicleID",claveVehicleID);
+                      bundle.putString("vehicleVin", vehiclebarcodeVal);
+                      bundle.putString("RFCUser", rfcBarcodeVal);
                       dialogCompleteValidador bottonSheetv = new dialogCompleteValidador();
                       bottonSheetv.setArguments(bundle);
                       bottonSheetv.show(getSupportFragmentManager(), "dialogCompleteValidador");

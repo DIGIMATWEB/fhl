@@ -58,5 +58,11 @@ public class presenterSetValidacionImpl implements  presenterSetValidacion{
         }
     }
 
+    @Override
+    public void setDatosValidador(String manifest, String vehicleVin, String rfcUser, String jsonHabDriver, String jsonHabVehicles, String user){
+        if(view!=null){
+            interactor.setDatosValidador(manifest, vehicleVin, rfcUser, jsonHabDriver, jsonHabVehicles, user);
+        }
+    }
 
 }

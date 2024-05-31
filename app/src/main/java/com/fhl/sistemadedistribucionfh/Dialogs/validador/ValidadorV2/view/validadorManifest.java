@@ -234,9 +234,9 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
         regresosalida.setText(""+data.get(0).getTiempoEntrega());
         Log.e("validador",""+data.get(0).getVehiculo().getVin()+" "+data.get(0).getOperador().getRfc()+" ");
         vehiclebarcode=data.get(0).getVehiculo().getBarcodeVehicle();
-        rfcBarcode=data.get(0).getOperador().getRfcBarcode();
+        rfcBarcode=data.get(0).getOperador().getRfcBarcode(); // Es el StringBase 64 de la imagen QR del RFC
         vehiclebarcodeVal=data.get(0).getVehiculo().getVin();
-        rfcBarcodeVal=data.get(0).getOperador().getRfc();
+        rfcBarcodeVal=data.get(0).getOperador().getRfc(); // Esto es el String del RFC
         claveVehicleID=data.get(0).getVehiculoId();
         if(codigoValidador1.equals("1")){
             BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();

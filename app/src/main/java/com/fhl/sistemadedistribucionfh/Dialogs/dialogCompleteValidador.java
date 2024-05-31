@@ -3,6 +3,7 @@ package com.fhl.sistemadedistribucionfh.Dialogs;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,7 +28,9 @@ import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.presenter
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.presenter.presenterSetValidacionImpl;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.view.viewSetValidacion;
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,7 +43,7 @@ public class dialogCompleteValidador extends DialogFragment implements View.OnCl
 public static final String TAG = dialogCompleteValidador.class.getSimpleName();
 private ImageButton imageButton2;
 private presenterSetValidacion presentador;
-private String manifest;
+private String manifest, vehicleVin, rfcUser;
 private ConstraintLayout bottomStatusManifestHabilidades,bottomStatusManifestHabilidadesVehiculo;
 private List<String> vehicleL= new ArrayList<>();
 private List<String> operadorL= new ArrayList<>();
@@ -66,6 +69,8 @@ public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup c
         if (args != null) {
                 manifest = args.getString("currentManifest");
                 claveVehicleID= args.getInt("claveVehicleID");
+                vehicleVin = args.getString("vehicleVin");
+                rfcUser = args.getString("RFCUser");
         }
         initDialog(view);
 
@@ -313,6 +318,21 @@ public void closeDialog() {
                                 Toast.makeText(getContext(), "Validar  habilidades", Toast.LENGTH_SHORT).show();
                         }
 
+                        // Datos para enviar al Endpoint
+                        Gson gson= new Gson();
+                        String jsonHabVehicles=gson.toJson(mhabiltiesVehicle);
+                        String jsonHabDriver = gson.toJson(mhabiltiesDriver);
+
+                        SharedPreferences preferences = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                        String token = preferences.getString(GeneralConstants.TOKEN, null);
+                        String user = preferences.getString(GeneralConstants.OPERADOR_NAME, null);
+
+                        Log.e("SendTicket:", "Habilidades conductor:" + jsonHabDriver);
+                        Log.e("SendTicket:" , "Habilidades Vehiculo" + jsonHabVehicles);
+                        Log.e("SendTicket: ", "Datos" + manifest + " " + vehicleVin + " " + rfcUser + " " + jsonHabDriver + " " + jsonHabVehicles + " " + user);
+
+                        // Presenter con los datos
+                        presentador.setDatosValidador(manifest, vehicleVin, rfcUser, jsonHabDriver, jsonHabVehicles, user);
                       presentador.setValidacionMenifest(manifest);
                 break;
                 case R.id.bottomStatusManifestHabilidadesVehiculo:

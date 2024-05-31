@@ -19,6 +19,7 @@ public class RetrofitEndPoints {
     // 
     public static final String LOGIN = "Usuarios/Usuarios/Login";
     public static final String MENUSFH = "Catalogos/Modulos/GetListByUsuarioAplicacion/";
+    public static final String SET_DATOS_VALIDADOR = "SetDatosValidador";
     //
     //ENDPOINTS PEP
     public static final String MANIFEST_PEP = "GetManifiestoByOperador/";
