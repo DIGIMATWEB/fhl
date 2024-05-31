@@ -903,6 +903,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 if(!binding.escribircodigo.getText().toString().equals("")) {
                     barcodesCollection(binding.escribircodigo.getText().toString());
                     binding.escribircodigo.setText("");
+                    binding.inputkeyscode.setVisibility(View.GONE);
                 }else{
                     Toast.makeText(this, "Debes resgistrar datos", Toast.LENGTH_SHORT).show();
                 }
