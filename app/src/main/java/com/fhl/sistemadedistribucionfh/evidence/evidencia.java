@@ -136,6 +136,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 }
             } else {
                 flowDetail = 2;//todo esto es si viene de recoleccion
+
             }
         }
         initView();
@@ -433,6 +434,11 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         checkLotes = findViewById(R.id.checkLotes);
         checkLotes.setOnClickListener(this);
         sendEvidence.setVisibility(View.GONE);
+        if(sentripPlusFlow.equals("Recoleccion")){
+            this.showSendEvidenceAfterLotes=true;
+            this.fullLotes=true;
+            checkLotes.setVisibility(View.GONE);
+        }
         progress = new loaderFH();
         //icons
         presenter = new requestEvidencePresenterImpl(this, getBaseContext());
