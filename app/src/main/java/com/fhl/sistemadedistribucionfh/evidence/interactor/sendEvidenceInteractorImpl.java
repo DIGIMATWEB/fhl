@@ -403,6 +403,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         Gson gson = new Gson();
         String jsonString = gson.toJson(request);
         Log.e("sendtripplus","sendtriplus: "+ jsonString);
+        //presenter.showDialog();
         call.enqueue(new Callback<ResponseSendTripPlus>() {
             @Override
             public void onResponse(Call<ResponseSendTripPlus> call, Response<ResponseSendTripPlus> response) {
