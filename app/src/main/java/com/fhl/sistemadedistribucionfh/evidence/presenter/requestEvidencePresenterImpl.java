@@ -65,6 +65,14 @@ public class requestEvidencePresenterImpl  implements requestEvidencePresenter{
             interactor.changeStatusManifestTicket(currentManifest,changeStatusTicket,sentripPlusFlow,fullLotes);
         }
     }
+
+    @Override
+    public void saveLotes(String currentManifest, String folioTicket, String jsonLotes) {
+        if(view!=null){
+            interactor.saveLotes(currentManifest,folioTicket,jsonLotes);
+        }
+    }
+
     @Override
     public void setDetailTicketsentriplus(List<dataTicketsDetailsendtrip> data) {
         if(view!=null){

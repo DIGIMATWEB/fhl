@@ -610,7 +610,13 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         }
         this.showSendEvidenceAfterLotes=true;
         Log.e("qrs","todos los lotes fueron escaneados? "+fullLotes);
-        //presenter.saveLotes();//todo si son salvados mandar en bundle al scanner 2
+        Gson gson=new Gson();
+        String jsonLotes= gson.toJson(fresult);
+        if(folioTicket!=null) {
+            presenter.saveLotes(currentManifest, folioTicket,jsonLotes);//todo si son salvados mandar en bundle al scanner 2
+        }else{
+            presenter.saveLotes(currentManifest, data.get(0).getFolioTicket(), jsonLotes);
+        }
         //TODO comprobar si todos estan en true hacer un boolean de todos es el flujo normal si no es 8 entregado con devolucion
         //si no vienen todos hacer false la varible fullLotes
         // Aquí puedes manejar el resultado y actualizar tu UI en el DialogFragment

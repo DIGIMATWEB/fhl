@@ -5,6 +5,7 @@ import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitEndPoints;
 import com.fhl.sistemadedistribucionfh.evidence.documents.model.ApiResponse;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.TicketsDetailSentriplus;
 import com.fhl.sistemadedistribucionfh.evidence.model.changeStatusmanifestticket.responseStatusManifestOrTicket;
+import com.fhl.sistemadedistribucionfh.evidence.model.responseSaveLotesConfirmation;
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.requestRate;
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.responseRate;
 
@@ -70,4 +71,15 @@ public interface serviceEvidence {
             @Part("CausaCambioId") RequestBody causaCambio,
             @Part("Usuario") RequestBody usuarioCambio
     );
-}
+    @Multipart
+    @POST(RetrofitEndPoints.SET_CONFIMACION_LOTES)
+        Call<responseSaveLotesConfirmation> setConfirmacionLotes(
+                @Header("Authorization") String authorization,
+                @Part("folioDespacho") RequestBody folioDespacho,
+                @Part("folioTicket") RequestBody folioTicket,
+                @Part("lotes") RequestBody lotes,
+                @Part("usr") RequestBody usr
+                );
+    }
+
+

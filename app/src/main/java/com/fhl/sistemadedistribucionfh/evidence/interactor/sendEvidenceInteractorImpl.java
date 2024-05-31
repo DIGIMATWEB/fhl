@@ -16,6 +16,7 @@ import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.TicketsDetailS
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
 import com.fhl.sistemadedistribucionfh.evidence.model.changeStatusmanifestticket.dataStatusManifestTicket;
 import com.fhl.sistemadedistribucionfh.evidence.model.changeStatusmanifestticket.responseStatusManifestOrTicket;
+import com.fhl.sistemadedistribucionfh.evidence.model.responseSaveLotesConfirmation;
 import com.fhl.sistemadedistribucionfh.evidence.presenter.requestEvidencePresenter;
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.requestRate;
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.model.responseRate;
@@ -576,6 +577,8 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
 
     }
 
+
+
     private void validateChangeStatus(Response<responseStatusManifestOrTicket> response, Context context) {
         if (RetrofitValidations.checkSuccessCode(response.code())) {
             responseStatuscheck(response,context);
@@ -614,5 +617,31 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
                     Log.e("changeStatus","resp null");
                 }
 
+    }
+    @Override
+    public void saveLotes(String currentManifest, String folioTicket, String jsonLotes) {
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String token = preferences.getString(GeneralConstants.TOKEN, null);
+        String usuario = preferences.getString(GeneralConstants.OPERADOR_NAME, null);
+        RequestBody mManifest = RequestBody.create(MediaType.parse("text/plain"), currentManifest);
+        RequestBody mfolioTicket = RequestBody.create(MediaType.parse("text/plain"), folioTicket);
+        RequestBody mjsonLotes = RequestBody.create(MediaType.parse("text/plain"), jsonLotes);
+        RequestBody musuario = RequestBody.create(MediaType.parse("text/plain"), usuario);
+        Call<responseSaveLotesConfirmation> call= service.setConfirmacionLotes(token,mManifest,mfolioTicket,mjsonLotes,musuario);
+        call.enqueue(new Callback<responseSaveLotesConfirmation>() {
+            @Override
+            public void onResponse(Call<responseSaveLotesConfirmation> call, Response<responseSaveLotesConfirmation> response) {
+                        if(response.isSuccessful()){
+                            Log.e("saveLotes","200"+response.body().getMessage());
+                        }else{
+                            Log.e("saveLotes","error"+response.body().getMessage());
+                        }
+            }
+
+            @Override
+            public void onFailure(Call<responseSaveLotesConfirmation> call, Throwable t) {
+                Log.e("saveLotes",""+t.getMessage());
+            }
+        });
     }
 }

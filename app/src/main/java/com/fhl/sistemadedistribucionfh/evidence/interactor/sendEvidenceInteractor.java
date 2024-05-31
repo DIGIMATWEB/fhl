@@ -16,4 +16,6 @@ public interface sendEvidenceInteractor {
     void requestDetailTicketsSendtriplus(boolean isArray, Integer iterateidTickets, String currentManifest, String folioTicket, String ticket);
 
     void changeStatusManifestTicket(String currentManifest, String changeStatusTicket, String sentripPlusFlow, Boolean fullLotes);
+
+    void saveLotes(String currentManifest, String folioTicket, String jsonLotes);
 }
