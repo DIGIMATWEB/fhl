@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.Loader.view.loaderFH;
 import com.fhl.sistemadedistribucionfh.Dialogs.ManifestStatus.manifestStatus;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
@@ -45,13 +47,16 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     private FragmentManager manager;
     private FragmentTransaction transaction;
     private presentermanifestV2 presenter;
-    private ImageView finder,finderfilter;
+    private ImageView finder, finderfilter;
     private SearchView searchViewv2;
     private List<dataManifestV2> data;
     private ProgressDialog mprogres;
-    private int dialogfilter=0;
+    private int dialogfilter = 0;
     private Integer positionG;
     private String folioDespachoG, vehiculoModeloG, vehiculoPlacaG, statusManifestG, cedisG;
+    private Handler handler = new Handler();
+    private Runnable runnable;
+    private loaderFH progress;
     @SuppressLint("NewApi")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -61,15 +66,27 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     }
 
     private void initView(View view) {
+        progress = new loaderFH();
         rv = view.findViewById(R.id.rvmanifest);
         finder = view.findViewById(R.id.finder);
-        finderfilter= view.findViewById(R.id.finderfilter);
+        finderfilter = view.findViewById(R.id.finderfilter);
         finderfilter.setOnClickListener(this);
         finder.setOnClickListener(this);
         mprogres = new ProgressDialog(getActivity());
         searchViewv2 = view.findViewById(R.id.searchViewManifest);
         presenter = new manifestImplV2(this, getContext());
         presenter.getmanifestV2();
+
+        // Initialize the Runnable
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                presenter.getmanifestV2(); // Call the method
+                handler.postDelayed(this, 30000); // Re-run every 30 seconds
+            }
+        };
+
+        handler.postDelayed(runnable, 30000); // Start the handler
     }
 
     private void setAdapter(List<dataManifestV2> data) {
@@ -78,30 +95,31 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(adapter);
     }
+
     @Override
     public void checkTickets(List<dataTicketsManifestV2> data) {
-        if(data!=null){
-            Boolean isAtListOne=true;
-            for(dataTicketsManifestV2 ticket:data){
-                if(ticket.getTipoEntregaId()==2){
+        if (data != null) {
+            Boolean isAtListOne = true;
+            for (dataTicketsManifestV2 ticket : data) {
+                if (ticket.getTipoEntregaId() == 2) {
                     Log.e("SendTicket", "Datos: " + this.data.get(positionG).getValidador().getEstatus());
                     if (this.data.get(positionG).getValidador().getEstatus().equals("correcto")) {
                         //isAtListOne=true;
                     } else {
-                        isAtListOne=false;
+                        isAtListOne = false;
                     }
                     break;
-                }else {
+                } else {
 
                 }
 
             }
-            if(!isAtListOne){
+            if (!isAtListOne) {
                 showToast();
-            }else{
+            } else {
                 gotoTicketsDetail();
             }
-        }else {
+        } else {
             Toast.makeText(getContext(), "No hay ningun ticket", Toast.LENGTH_SHORT).show();
 
         }
@@ -109,10 +127,10 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
 
     private void gotoTicketsDetail() {
         Bundle bundle = new Bundle();
-        bundle.putString("folioDespachoId",folioDespachoG);
+        bundle.putString("folioDespachoId", folioDespachoG);
         bundle.putString("vehiculoModeloId", vehiculoModeloG);
         bundle.putString("vehiculoPlacaId", vehiculoPlacaG);
-        bundle.putString("statusManifest",statusManifestG);
+        bundle.putString("statusManifest", statusManifestG);
         bundle.putString("cedisId", cedisG);
 
         manager = getActivity().getSupportFragmentManager();
@@ -155,28 +173,15 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         this.cedisG = cedis;
         this.statusManifestG = statusManifest;
 
-//        Bundle bundle = new Bundle();
-//        bundle.putString("folioDespachoId",folioDespacho);
-//        bundle.putString("vehiculoModeloId", vehiculoModelo);
-//        bundle.putString("vehiculoPlacaId", vehiculoPlaca);
-//        bundle.putString("statusManifest",statusManifest);
-//        bundle.putString("cedisId", cedis);
-//
-//        manager = getActivity().getSupportFragmentManager();
-//        transaction = manager.beginTransaction();
-//        manifestDetailV2 manifestdetail = new manifestDetailV2();
-//        manifestdetail.setArguments(bundle);
-//        transaction.replace(R.id.fragments, manifestdetail, manifestDetailV2.TAG)
-//                .addToBackStack(null) // Agregar la transacción a la pila de retroceso
-//                .commit();
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.finderfilter:
-                if(dialogfilter==0) {
+                if (dialogfilter == 0) {
                     new manifestStatus().show(getActivity().getSupportFragmentManager(), "manifestStatus");
-                    dialogfilter=1;
+                    dialogfilter = 1;
                 }
                 break;
             case R.id.finder:
@@ -216,37 +221,40 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     private List<dataManifestV2> filter(List<dataManifestV2> data, String text) {
         List<dataManifestV2> mfilterList = new ArrayList<>();
         text = text.toLowerCase();
-        if (data!=null) {
-            for(dataManifestV2 manifestV2:data){
+        if (data != null) {
+            for (dataManifestV2 manifestV2 : data) {
                 //TODO cambiar al valor corecto
-                String manifestname = String.valueOf( manifestV2.getFolioDespacho());
-                if(manifestname.contains(text)) {
+                String manifestname = String.valueOf(manifestV2.getFolioDespacho());
+                if (manifestname.contains(text)) {
                     mfilterList.add(manifestV2);
                 }
             }
         }
         return mfilterList;
     }
+
     public void skipDialog() {
-        dialogfilter=0;
+        dialogfilter = 0;
     }
+
     public void setFilterDialog(String fcheckedItem) {
-        dialogfilter=0;
-        Log.e("filterbystatus",""+fcheckedItem);
-        if(!fcheckedItem.equals("Todo")) {
+        dialogfilter = 0;
+        Log.e("filterbystatus", "" + fcheckedItem);
+        if (!fcheckedItem.equals("Todo")) {
             List<dataManifestV2> filterList = filterbystatus(data, fcheckedItem);
             Log.e("filterbystatus", "" + filterList.size());
             adapter.setFilterV2(filterList);
-        }else{
+        } else {
             adapter.setFilterV2(data);
         }
     }
+
     private List<dataManifestV2> filterbystatus(List<dataManifestV2> data, String text) {
         List<dataManifestV2> mfilterList = new ArrayList<>();
-        if (data!=null) {
-            for(dataManifestV2 manifestV2:data){
+        if (data != null) {
+            for (dataManifestV2 manifestV2 : data) {
                 //TODO cambiar al valor corecto
-                if(manifestV2.getEstatus().getNombre().equals(text)) {
+                if (manifestV2.getEstatus().getNombre().equals(text)) {
                     mfilterList.add(manifestV2);
                 }
             }
@@ -266,31 +274,42 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         SharedPreferences preferences = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         preferences.edit().clear().commit();
         Intent intent = new Intent(getContext(), login.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);//
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);//
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
     @Override
     public void hideProgress() {
-        //mprogres.hide();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (progress != null && this != null)
+                    progress.dismiss();
+            }
+        }, 300);
     }
 
     @Override
     public void showProgress() {
-//        mprogres.setMessage("Cargando manifiestos");
-//        mprogres.setCancelable(false);
-//        mprogres.show();
+        if (progress != null && !progress.isVisible()) {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("HAS_TITLE", false);
+            bundle.putString("title","Cargando detalles");
+            progress.setArguments(bundle);
+            progress.show(getParentFragmentManager(), loaderFH.TAG);
+        }
     }
-
-
 
     private void deleteCache(Context context) {
         try {
             File dir = context.getCacheDir();
             deleteDir(dir);
-        } catch (Exception e) { e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
     public static boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();
@@ -301,13 +320,16 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
                 }
             }
             return dir.delete();
-        } else if(dir!= null && dir.isFile()) {
+        } else if (dir != null && dir.isFile()) {
             return dir.delete();
         } else {
             return false;
         }
     }
 
-
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacks(runnable); // Stop the handler
+    }
 }
