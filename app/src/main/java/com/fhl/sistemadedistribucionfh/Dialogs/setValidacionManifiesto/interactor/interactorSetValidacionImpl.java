@@ -9,7 +9,9 @@ import com.fhl.sistemadedistribucionfh.Dialogs.habilities.model.driver.responseD
 import com.fhl.sistemadedistribucionfh.Dialogs.habilities.model.vehicle.responseVehicle;
 import com.fhl.sistemadedistribucionfh.Dialogs.habilities.util.serviceHabilities;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.Validadorset;
+import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.requestSetDatosValidador;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.requestSetValidacion;
+import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.responseSetDatosValidador;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.responseSetValidacion;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.presenter.presenterSetValidacion;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.util.serviceSetValidacionManifest;
@@ -18,6 +20,8 @@ import com.fhl.sistemadedistribucionfh.Retrofit.RetrifitClientSGD;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientFHManifest;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -202,5 +206,68 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
                 } else {
                     Log.e("habilidades","respuesta nula");
                 }
+    }
+    @Override
+    public void setDatosValidador(String manifest, String vehicleVin, String rfcUser, String jsonHabDriver, String jsonHabVehicles, String user) {
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String token = preferences.getString(GeneralConstants.TOKEN, null);
+        //String user = preferences.getString(GeneralConstants.OPERADOR_ID, null);
+
+        if(token!=null){
+            requestDatosValidador(token, manifest, vehicleVin, rfcUser, jsonHabDriver, jsonHabVehicles, user);
+        }
+    }
+
+    private void requestDatosValidador(String token, String manifest, String vehicleVin, String rfcUser, String jsonHabDriver, String jsonHabVehicles, String user) {
+        //Validadorset newset=new Validadorset("","Correcto");
+        // RequestBody
+        RequestBody FolioDespacho = null;
+        RequestBody VehicleVIM = null;
+        RequestBody RFC = null;
+        RequestBody HabilidadesOperador = null;
+        RequestBody HabilidadesVehiculo = null;
+        RequestBody User = null;
+
+        // RequestBody con variables
+        FolioDespacho = RequestBody.create(MediaType.parse("text/plain"), manifest);
+        VehicleVIM = RequestBody.create(MediaType.parse("text/plain"), vehicleVin);
+        RFC = RequestBody.create(MediaType.parse("text/plain"), rfcUser);
+        HabilidadesOperador = RequestBody.create(MediaType.parse("text/plain"), jsonHabDriver);
+        HabilidadesVehiculo = RequestBody.create(MediaType.parse("text/plain"), jsonHabVehicles);
+        User = RequestBody.create(MediaType.parse("text/plain"), user);
+
+        //requestSetDatosValidador request = new requestSetDatosValidador(manifest,vehicleVin, rfcUser, jsonHabDriver, jsonHabVehicles, user);
+        Call<responseSetDatosValidador> call= service.setDatosValidador(token,FolioDespacho, VehicleVIM, RFC, HabilidadesOperador, HabilidadesVehiculo, User);
+        call.enqueue(new Callback<responseSetDatosValidador>() {
+            @Override
+            public void onResponse(Call<responseSetDatosValidador> call, Response<responseSetDatosValidador> response) {
+                Log.e("SendTicket: ", "Response: " + response);
+                validateResponseValidador(response, context);
+            }
+
+            @Override
+            public void onFailure(Call<responseSetDatosValidador> call, Throwable t) {
+                //presenter.setresponseValidacionMenifest("401");
+                Log.e("SendTicket: ", "Response: " + t.getMessage() + t.getLocalizedMessage());
+            }
+        });
+    }
+
+    private void validateResponseValidador(Response<responseSetDatosValidador> response, Context context) {
+        responseSetDatosValidador responseSetDatosValidador = response.body();
+
+        if(responseSetDatosValidador!=null) {
+            Integer responseCode = responseSetDatosValidador.getStatus();
+
+            if(responseCode == GeneralConstants.RESPONSE_CODE_OK_FH) {
+                String message = responseSetDatosValidador.getMessage();
+
+                Log.e("SendTicket: ", "Response: " + message);
+            } else {
+                Log.e("SendTicket: ", "Response: " + response.message());
+            }
+        } else {
+            Log.e("SendTicket: ", "Response: ");
+        }
     }
 }
