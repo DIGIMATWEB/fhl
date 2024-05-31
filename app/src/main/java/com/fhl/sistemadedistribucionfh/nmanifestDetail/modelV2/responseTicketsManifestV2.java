@@ -38,26 +38,6 @@ public class responseTicketsManifestV2 {
     @Expose
     private String sTiempos;
 
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public responseTicketsManifestV2() {
-    }
-
-    /**
-     * 
-     * @param timeMeasure
-     * @param data
-     * @param pageIndex
-     * @param sTiempos
-     * @param function
-     * @param pageSize
-     * @param totalRows
-     * @param message
-     * @param parameters
-     * @param status
-     */
     public responseTicketsManifestV2(TimeMeasure timeMeasure, Integer totalRows, Object pageIndex, Object pageSize, Integer status, String message, List<dataTicketsManifestV2> data, String function, Object parameters, String sTiempos) {
         super();
         this.timeMeasure = timeMeasure;

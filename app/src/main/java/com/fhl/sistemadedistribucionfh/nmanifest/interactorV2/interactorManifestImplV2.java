@@ -139,7 +139,7 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
         Log.e("TOKEN",""+token);
 
         //requestTicketsManifestV2 request = new requestTicketsManifestV2(ticket);
-        Call<responseTicketsManifestV2> call = service.getTicketsV2(idmanifest, false, token);
+        Call<responseTicketsManifestV2> call = service.getTicketsV2(token,idmanifest ,null);
         Gson gson =new Gson();
         String json = gson.toJson(call.request());
         Log.e("getticketsdetail",""+json);
@@ -153,6 +153,9 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
             @Override
             public void onFailure(Call<responseTicketsManifestV2> call, Throwable t) {
                 Toast.makeText(context, "bad request"+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("getticketsdetail","onFailure "+t.getMessage());
+                Log.e("getticketsdetail","onFailure "+t.getCause());
+                Log.e("getticketsdetail","onFailure "+t.toString());
                 presenter.hideProgress();
                 //presenter.setDatahardcode();
             }
@@ -166,6 +169,7 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
                 getTickets(response, context);
             } else {
                 Toast.makeText(context, "fail respose" + response.message(), Toast.LENGTH_SHORT).show();
+                Log.e("getticketsdetail","validateResponset "+response.message());
                 presenter.hideProgress();
             }
         }

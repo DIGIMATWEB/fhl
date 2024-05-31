@@ -36,21 +36,21 @@ public class Item implements Serializable {
     private Double peso;
     @SerializedName("ProductoId")
     @Expose
-    private Integer productoId;
+    private String productoId;
     @SerializedName("UnidadMedidaId")
     @Expose
-    private Integer unidadMedidaId;
+    private String unidadMedidaId;
     @SerializedName("ClavePeligrosoId")
     @Expose
     private Integer clavePeligrosoId;
     @SerializedName("UNId")
     @Expose
-    private Integer uNId;
+    private String uNId;
     @SerializedName("EmbalajeId")
     @Expose
-    private Integer embalajeId;
+    private String embalajeId;
 
-    public Item(Integer id, String descripcion, Integer piezas, Integer altura, Integer largo, Integer ancho, Integer valor, Double peso, Integer productoId, Integer unidadMedidaId, Integer clavePeligrosoId, Integer uNId, Integer embalajeId) {
+    public Item(Integer id, String descripcion, Integer piezas, Integer altura, Integer largo, Integer ancho, Integer valor, Double peso, String productoId, String unidadMedidaId, Integer clavePeligrosoId, String uNId, String embalajeId) {
         super();
         this.id = id;
         this.descripcion = descripcion;
@@ -131,19 +131,19 @@ public class Item implements Serializable {
         this.peso = peso;
     }
 
-    public Integer getProductoId() {
+    public String getProductoId() {
         return productoId;
     }
 
-    public void setProductoId(Integer productoId) {
+    public void setProductoId(String productoId) {
         this.productoId = productoId;
     }
 
-    public Integer getUnidadMedidaId() {
+    public String getUnidadMedidaId() {
         return unidadMedidaId;
     }
 
-    public void setUnidadMedidaId(Integer unidadMedidaId) {
+    public void setUnidadMedidaId(String unidadMedidaId) {
         this.unidadMedidaId = unidadMedidaId;
     }
 
@@ -155,19 +155,19 @@ public class Item implements Serializable {
         this.clavePeligrosoId = clavePeligrosoId;
     }
 
-    public Integer getUNId() {
+    public String getUNId() {
         return uNId;
     }
 
-    public void setUNId(Integer uNId) {
+    public void setUNId(String uNId) {
         this.uNId = uNId;
     }
 
-    public Integer getEmbalajeId() {
+    public String getEmbalajeId() {
         return embalajeId;
     }
 
-    public void setEmbalajeId(Integer embalajeId) {
+    public void setEmbalajeId(String embalajeId) {
         this.embalajeId = embalajeId;
     }
 

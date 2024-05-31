@@ -23,10 +23,9 @@ public interface manifestUtil {
     );
     @GET(RetrofitEndPoints.TICKETS_PEP)
     Call<responseTicketsManifestV2> getTicketsV2(
-             /*@Header("Authorization") String authorizationHeader,
-             @Query("folioDespacho") String folioDespacho*/
+            @Header("Authorization") String authorizationHeader,
             @Query("folioDespacho") String folioDespacho,
-            @Query("gastosOperativos") Boolean gastosoperativos,
-            @Header("Authorization") String authorizationHeader
+            @Query("folioTicket") String ticket
+
     );
 }
