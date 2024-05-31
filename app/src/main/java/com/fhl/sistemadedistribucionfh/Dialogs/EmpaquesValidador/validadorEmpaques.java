@@ -47,6 +47,7 @@ private Integer countok = 0;
 private Integer countokEmpaques = 0;
 private String typeScanner, currentmanifest;
 private TextView recoleccion, textEmpaques;
+private List<ticketsScanned> fresult;
 
 @Override
 public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,16 +68,21 @@ public void onCreate(@Nullable Bundle savedInstanceState) {
                         sellos = (List<Sello>) args.getSerializable("sellos");
                         typeScanner = args.getString("typeScanner");
                         currentmanifest = args.getString("currentmanifest");
+                        fresult=(List<ticketsScanned>)args.getSerializable("lotes");
                         Log.e("typeScanner", "" + typeScanner);
                 }
                 initDialog(view);
                 if (codigoValidador != null) {
-                        model.clear();
-                        Log.e("ticketsArray2", "adapter size" + codigoValidador.size());
-                        for (int i = 0; i < codigoValidador.size(); i++) {
-                                model.add(new ticketsScanned(codigoValidador.get(i).getFolioTicket(), false, codigoValidador.get(i).getSendtripPlus()));
-                                Log.e("ticketsArray2", "model size: " + model.get(i).getFolio() + "  " + model.get(i).getFlag());
+                        if(fresult!=null){
+                                model=fresult;
+                        }else {
+                                model.clear();
+                                Log.e("ticketsArray2", "adapter size" + codigoValidador.size());
+                                for (int i = 0; i < codigoValidador.size(); i++) {
+                                        model.add(new ticketsScanned(codigoValidador.get(i).getFolioTicket(), false, codigoValidador.get(i).getSendtripPlus()));
+                                        Log.e("ticketsArray2", "model size: " + model.get(i).getFolio() + "  " + model.get(i).getFlag());
 
+                                }
                         }
                         textChekcs.setText("0/" + model.size());
                         fillAdapter(model, getContext());

@@ -86,6 +86,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     private List<objectEvidence> evidenceList= new ArrayList<>();
     private Boolean showSendEvidenceAfterLotes;
     private Boolean fullLotes=true;
+    private List<ticketsScanned> fresult;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -541,6 +542,9 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 Intent intent = new Intent(this.getApplicationContext(), BarcodeScannerActivity2.class);
                 bundle.putSerializable("dataTcikets",(Serializable) dataTicketSendtrip);
                 bundle.putString("currentManifest",currentManifest);
+                if(fresult!=null){//todo una vez escanadis aqui viene la info de lotes
+                    bundle.putSerializable("lotes",(Serializable) fresult);
+                }
                 intent.putExtras(bundle);
                 startActivityForResult(intent, REQUEST_CODE);
                 break;
@@ -591,6 +595,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     }
     private void sendResultToFragment(List<ticketsScanned> result) {
         if(result!=null){
+            this.fresult=result;
             List<Paquete> lotes=new ArrayList<>();
             lotes.clear(); ;
             result.get(0).getFolio();//string
@@ -598,14 +603,16 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             for(Paquete packages:result.get(0).getSendtripPlus().getPaquetes()){
                // lotes.add(packages);//referencia
                 Log.e("qrs","El lote"+packages.getNombre()+" fue escaneado:"+packages.getFlag());
+                if (!packages.getFlag()) {
+                    fullLotes = false;
+                }
             }
         }
         this.showSendEvidenceAfterLotes=true;
+        Log.e("qrs","todos los lotes fueron escaneados? "+fullLotes);
         //presenter.saveLotes();//todo si son salvados mandar en bundle al scanner 2
         //TODO comprobar si todos estan en true hacer un boolean de todos es el flujo normal si no es 8 entregado con devolucion
-        if(fullLotes){//si no vienen todos hacer false la varible
-
-        }
+        //si no vienen todos hacer false la varible fullLotes
         // Aquí puedes manejar el resultado y actualizar tu UI en el DialogFragment
     }
     //endregion

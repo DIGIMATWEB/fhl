@@ -65,6 +65,7 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
     private String currentManifest;
     private validadorEmpaques bottonSheetv;
     private  List<Paquete> lotes=new ArrayList<>();
+    private List<ticketsScanned> fresult;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +79,7 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
         if(bundle!=null) {
             data = (List<dataTicketsDetailsendtrip>) bundle.getSerializable("dataTcikets");
             currentManifest = bundle.getString("currentManifest");
+            fresult=(List<ticketsScanned>)bundle.getSerializable("lotes");
         }
 
         if (savedInstanceState != null) {
@@ -106,6 +108,9 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
         fbundle.putString("currentmanifest", currentManifest);
         fbundle.putString("typeScanner", "Lotes");
         fbundle.putSerializable("tickets",(Serializable) data);
+        if(fresult!=null){
+            fbundle.putSerializable("lotes",(Serializable) fresult);
+        }
 
         bottonSheetv = new validadorEmpaques();
         bottonSheetv.setArguments(fbundle);
