@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -78,6 +79,11 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
                 holder.statusTicket.setTextColor(ContextCompat.getColor(context, R.color.orangenoentregado));
             }else if(statusId==6){
                 holder.statusTicket.setText("Transferido");
+            }else if(statusId==8){
+            holder.statusTicket.setText("Con devolucion");
+                holder.freametouch.setVisibility(View.GONE);
+                holder.masText.setVisibility(View.GONE);
+                holder.siguiente.setVisibility(View.GONE);
             }else{
                 holder.statusTicket.setText("");
             }
@@ -104,11 +110,14 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout cardOrder;
-        TextView ticketFolio,statusTicket;
+        TextView ticketFolio,statusTicket,masText;
+        ImageView siguiente;
         Switch switchSelector;
         FrameLayout freametouch;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            masText=itemView.findViewById(R.id.masText);
+            siguiente=itemView.findViewById(R.id. siguiente);
             freametouch=itemView.findViewById(R.id.freametouch);
             cardOrder=itemView.findViewById(R.id.constrainCard);
             ticketFolio = itemView.findViewById(R.id.ticketFolio);

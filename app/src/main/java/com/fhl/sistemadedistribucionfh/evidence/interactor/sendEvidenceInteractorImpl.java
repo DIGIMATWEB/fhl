@@ -525,6 +525,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
     public void changeStatusManifestTicket(String currentManifest, String changeStatusTicket, String sentripPlusFlow, Boolean fullLotes) {
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
+
         Integer statusDespacho=0;
         Integer statusTicket = 0;
         RequestBody currentManifestR =null ;
@@ -544,7 +545,9 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
                 statusTicket = 4;
             }else{
                 statusTicket = 8;
+
             }
+            Log.e("changeStatus","manifest: "+currentManifest+" changeStatusT"+changeStatusTicket+" sendtriplusFlow: "+sentripPlusFlow+" boolLotes "+fullLotes+ " status: "+statusTicket);
              currentManifestR = null;
              statusDespachoR = null;
              changeStatusTicketR = RequestBody.create(MediaType.parse("text/plain"), changeStatusTicket);
