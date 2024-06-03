@@ -17,11 +17,14 @@ public class Cliente implements Serializable {
     @SerializedName("Id")
     @Expose
     private Integer id;
-    public Cliente(String razonSocial, String rfc, Integer id) {
+    @SerializedName("AxaptaId")
+    private String AxaptaId;
+    public Cliente(String razonSocial, String rfc, Integer id, String AxaptaId) {
         super();
         this.razonSocial = razonSocial;
         this.rfc = rfc;
         this.id = id;
+        this.AxaptaId=  AxaptaId;
     }
 
     public String getRazonSocial() {
@@ -48,4 +51,11 @@ public class Cliente implements Serializable {
         this.id = id;
     }
 
+    public String getAxaptaId() {
+        return AxaptaId;
+    }
+
+    public void setAxaptaId(String axaptaId) {
+        AxaptaId = axaptaId;
+    }
 }
