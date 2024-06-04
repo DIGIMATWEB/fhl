@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,12 +24,11 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
-
-import com.fhl.sistemadedistribucionfh.Dialogs.EmpaquesValidador.validadorEmpaques;
+import com.fhl.sistemadedistribucionfh.Dialogs.Planeacion.validadorPlaneacion;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ErrorSalida.errorDialog;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
 import com.fhl.sistemadedistribucionfh.R;
-import com.fhl.sistemadedistribucionfh.databinding.ActivityBarcodeScannerBinding;
+import com.fhl.sistemadedistribucionfh.databinding.ActivityBarcodeRecepcionBinding;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Paquete;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
 import com.google.mlkit.common.MlKitException;
@@ -37,57 +37,48 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BarcodeScannerActivity2 extends AppCompatActivity
+public class BarcodeScannerActivity3 extends AppCompatActivity
         implements ActivityCompat.OnRequestPermissionsResultCallback, ExchangeScannedData, View.OnClickListener {
-
-    private static final String TAG = "BarcodeScannerActivity2";
+    private static final String TAG = "BarcodeScannerActivity3";
     private static final int PERMISSION_REQUESTS = 1;
 
-    private ActivityBarcodeScannerBinding binding;
-    private MediaPlayer mediaPlayer;
+    private @NonNull ActivityBarcodeRecepcionBinding binding;//needed
+    private MediaPlayer mediaPlayer; //needed
     @Nullable
-    private ProcessCameraProvider cameraProvider;
+    private ProcessCameraProvider cameraProvider;//needed
     @Nullable
-    private Preview previewUseCase;
+    private Preview previewUseCase;//needed
     @Nullable
-    private ImageAnalysis analysisUseCase;
+    private ImageAnalysis analysisUseCase;//needed
     @Nullable
-    private VisionImageProcessor imageProcessor;
-    private boolean needUpdateGraphicOverlayImageSourceInfo;
+    private VisionImageProcessor imageProcessor;//needed
+    private boolean needUpdateGraphicOverlayImageSourceInfo;//needed
 
-    private int lensFacing = CameraSelector.LENS_FACING_BACK;
-    private CameraSelector cameraSelector;
+    private int lensFacing = CameraSelector.LENS_FACING_BACK;//needed
+    private CameraSelector cameraSelector;//needed
 
-    private static final String STATE_SELECTED_MODEL = "selected_model";
-    private static final String STATE_LENS_FACING = "lens_facing";
+    private static final String STATE_SELECTED_MODEL = "selected_model";//needed
+    private static final String STATE_LENS_FACING = "lens_facing";//needed
 
-    public String typeScanner = "";
-    private List<dataTicketsDetailsendtrip> data;
-    private String currentManifest;
-    private validadorEmpaques bottonSheetv;
-    private List<Paquete> lotes = new ArrayList<>();
-    private List<ticketsScanned> fresult;
-
+   // public String typeScanner="";
+    private List<dataTicketsDetailsendtrip> data;//no needed
+    private String currentManifest;//no needed
+    private validadorPlaneacion bottonSheetv;//no needed
+    private  List<Paquete> lotes=new ArrayList<>();//no needed
+    private List<ticketsScanned> fresult;//no needed
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mediaPlayer = new MediaPlayer();
-
-        binding = ActivityBarcodeScannerBinding.inflate(getLayoutInflater());
+        mediaPlayer=new MediaPlayer();
+        binding = ActivityBarcodeRecepcionBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.beep);
-        Bundle bundle;
-        bundle = getIntent().getExtras();//detailOrderB
-        if (bundle != null) {
-            data = (List<dataTicketsDetailsendtrip>) bundle.getSerializable("dataTcikets");
-            currentManifest = bundle.getString("currentManifest");
-            fresult = (List<ticketsScanned>) bundle.getSerializable("lotes");
-        }
+        mediaPlayer= MediaPlayer.create(getApplicationContext(), R.raw.beep);
 
         if (savedInstanceState != null) {
             lensFacing = savedInstanceState.getInt(STATE_LENS_FACING, CameraSelector.LENS_FACING_BACK);
         }
         cameraSelector = new CameraSelector.Builder().requireLensFacing(lensFacing).build();
+
 
 
         new ViewModelProvider(this, (ViewModelProvider.Factory) ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()))
@@ -105,35 +96,20 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
         if (!allPermissionsGranted()) {
             getRuntimePermissions();
         }
-        Bundle fbundle = new Bundle();
-        fbundle.putString("currentmanifest", currentManifest);
-        fbundle.putString("typeScanner", "Lotes");
-        fbundle.putSerializable("tickets", (Serializable) data);
-        if (fresult != null) {
-            fbundle.putSerializable("lotes", (Serializable) fresult);
-        }
+        binding.inputmanual.setOnClickListener(this);
+        binding.inputcamara.setOnClickListener(this);
+        binding.captureCode.setOnClickListener(this);
+       // binding.iconchecklist.setOnClickListener(this);
+        bottonSheetv = new validadorPlaneacion();
+        bottonSheetv.show(getSupportFragmentManager(), "validadorPlaneacion");
 
-        bottonSheetv = new validadorEmpaques();
-        bottonSheetv.setArguments(fbundle);
-        bottonSheetv.show(getSupportFragmentManager(), "validadorEmpaques");
-        //Paquete
-        if (data != null) {
-            data.get(0).getFolioTicket();//string
-            data.get(0).getSendtripPlus().getPaquetes().size();//numero de paquetes
-            lotes.clear();
-            ;
-            for (Paquete packages : data.get(0).getSendtripPlus().getPaquetes()) {
-                lotes.add(packages);//referencia
-            }
-        }
     }
-
+//region simple config
     @Override
     protected void onSaveInstanceState(@NonNull Bundle bundle) {
         super.onSaveInstanceState(bundle);
         bundle.putInt(STATE_LENS_FACING, lensFacing);
     }
-
     private void stopCameraProcess() {
         if (cameraProvider != null) {
             if (previewUseCase != null) {
@@ -188,7 +164,7 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
 
         previewUseCase = new Preview.Builder().build();
         previewUseCase.setSurfaceProvider(binding.previewView.getSurfaceProvider());
-        cameraProvider.bindToLifecycle(/* lifecycleOwner= */ BarcodeScannerActivity2.this, cameraSelector, previewUseCase);
+        cameraProvider.bindToLifecycle(/* lifecycleOwner= */ BarcodeScannerActivity3.this, cameraSelector, previewUseCase);
     }
 
     private void bindAnalysisUseCase() {
@@ -206,8 +182,6 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
             Log.i(TAG, "Using Barcode Detector Processor");
             imageProcessor = new BarcodeScannerProcessor(this, this);
         } catch (Exception e) {
-            //Log.e(TAG, "Can not create image processor.", e);
-            // Toast.makeText(getApplicationContext(),"Can not create image processor: " + e.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -234,7 +208,7 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
                     }
                     try {
                         imageProcessor.processImageProxy(imageProxy, binding.graphicOverlay);
-                    } catch (MlKitException e) {
+                    } catch (   MlKitException e) {
                         //      Log.e(TAG, "Failed to process image. Error: " + e.getLocalizedMessage());
                         Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
 
@@ -259,7 +233,6 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
             return new String[0];
         }
     }
-
     private boolean allPermissionsGranted() {
         for (String permission : getRequiredPermissions()) {
             if (!isPermissionGranted(this, permission)) {
@@ -276,13 +249,11 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
                 allNeededPermissions.add(permission);
             }
         }
-
         if (!allNeededPermissions.isEmpty()) {
             ActivityCompat.requestPermissions(
                     this, allNeededPermissions.toArray(new String[0]), PERMISSION_REQUESTS);
         }
     }
-
     @Override
     public void onRequestPermissionsResult(
             int requestCode, String[] permissions, int[] grantResults) {
@@ -302,7 +273,7 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
         Log.i(TAG, "Permission NOT granted: " + permission);
         return false;
     }
-
+//endregion
     @Override
     public void sendScannedCode(String code) {
         Handler handler = new Handler(Looper.getMainLooper());
@@ -314,7 +285,7 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
                 if (code != null && !code.isEmpty()) {
                     barcodesCollection(code);
                     binding.resultContainer.setVisibility(View.VISIBLE);
-                    Log.e("codescann", "" + code);
+                    Log.e("codescann",""+code);
                 }
             }
         });
@@ -323,45 +294,33 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
     public void restartCameraProcess() {
         if (allPermissionsGranted()) {
             bindAllCameraUseCases();
-            if (typeScanner.equals("Salida")) {
-
-
-            } else if (typeScanner.equals("Validador")) {
-
-            } else {
-
-            }
 
         } else {
             getRuntimePermissions();
         }
     }
-
     public void returnResult(List<ticketsScanned> result) {
         Intent intent = new Intent();
-        intent.putExtra("result_key", (Serializable) result);
+        intent.putExtra("result_key",(Serializable) result);
         setResult(this.RESULT_OK, intent);
         finish();
     }
 
-    private void barcodesCollection(String code) {
-        Log.e("qrs", code);
+    private void barcodesCollection(String code)
+    {
+        Log.e("qrs",code);
         mediaPlayer.start();
         stopCameraProcess();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 restartCameraProcess();
-                for (Paquete pac : lotes) {
-                    if (code.equals(pac.getNombre())) {
+                for(Paquete pac:lotes){
+                    if(code.equals(pac.getNombre())){
                         bottonSheetv.sendToast(code);
                     }
                 }
-//                if(code.equals("700")){
-//                    bottonSheetv.sendToast("700");
-//                  //  returnResult("1234");
-//                    // onBackPressed();
-//                }
+
             }
         }, 1500);
     }
@@ -371,21 +330,38 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
         super.onBackPressed();
 
     }
-
+    public void errorTicket() {
+        stopCameraProcess();
+        errorDialog errorD = new errorDialog();
+        errorD.show(getSupportFragmentManager(),"errorDialog");
+    }
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iconchecklist:
-
+            case R.id.inputcamara:
+                binding.inputkeyscode.setVisibility(View.GONE);
+                binding.inputcamara.setBackgroundResource(R.drawable.ic_scannercam);
+                binding.inputmanual.setBackgroundResource(R.drawable.ic_keys);
+                binding.headerText.setTextColor(Color.WHITE);
                 break;
 
+            case R.id.inputmanual:
+                //Toast.makeText(this, "Input manual", Toast.LENGTH_SHORT).show();
+                binding.inputkeyscode.setVisibility(View.VISIBLE);
+                binding.inputcamara.setBackgroundResource(R.drawable.icscannercamblack);
+                binding.inputmanual.setBackgroundResource(R.drawable.ic_keys_black);
+                binding.headerText.setTextColor(Color.BLACK);
+                break;
+            case R.id.captureCode:
+                if(!binding.escribircodigo.getText().toString().equals("")) {
+                    barcodesCollection(binding.escribircodigo.getText().toString());
+                    binding.escribircodigo.setText("");
+                    binding.inputkeyscode.setVisibility(View.GONE);
+                }else{
+                    Toast.makeText(this, "Debes resgistrar datos", Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
-    }
-
-    public void errorTicket() {
-        stopCameraProcess();
-        errorDialog errorD = new errorDialog();
-        errorD.show(getSupportFragmentManager(), "errorDialog");
     }
 }

@@ -113,6 +113,13 @@ public class adapterMenus extends RecyclerView.Adapter<adapterMenus.ViewHolder>{
                 //holder.menuName.setText(data.get(position).getMenuName());
                 holder.menuName.setText(dataV2.get(position).getTitulo());
                 break;
+            case "Recepción":
+                drawable=context.getDrawable(R.drawable.ic_menu_visor_icon);
+                holder.imageMenu.setImageDrawable(drawable);
+                Log.e("custodio","r");
+                //holder.menuName.setText(data.get(position).getMenuName());
+                holder.menuName.setText(dataV2.get(position).getTitulo());
+                break;
         }
         holder.parentConstrain.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,7 +166,10 @@ public class adapterMenus extends RecyclerView.Adapter<adapterMenus.ViewHolder>{
                         mview.closeDialog();
                         mview.invokeFragment("Visor");
                         break;
-
+                    case "Recepción":
+                        mview.closeDialog();
+                        mview.invokeFragment("Recepción");
+                        break;
                 }
             }
         });

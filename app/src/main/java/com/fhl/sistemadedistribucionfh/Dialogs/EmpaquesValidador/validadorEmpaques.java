@@ -212,7 +212,7 @@ public void onCreate(@Nullable Bundle savedInstanceState) {
                         }
                         if (!codeFound) {
                                 Log.e("ticketsArray2", "codigo no pertenece a la lista");
-                                BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                                BarcodeScannerActivity2 barcodeScannerActivity1 = (BarcodeScannerActivity2) getActivity();
                                 barcodeScannerActivity1.errorTicket();
                         }
                         if (adapter != null) {

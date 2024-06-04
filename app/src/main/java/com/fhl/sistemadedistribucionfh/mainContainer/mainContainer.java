@@ -29,6 +29,7 @@ import com.fhl.sistemadedistribucionfh.mainContainerV2.presenterV2.presentermain
 import com.fhl.sistemadedistribucionfh.mainContainerV2.presenterV2.presentermainContainerV2;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity3;
 import com.fhl.sistemadedistribucionfh.nmanifest.view.mmanifest;
 import com.fhl.sistemadedistribucionfh.nmanifest.viewV2.mmanifestV2;
 import com.fhl.sistemadedistribucionfh.resguardo.view.resguardo;
@@ -121,6 +122,10 @@ public class mainContainer extends AppCompatActivity  implements view {
             case "Custodio":
                 mScanner("Custodio");
                 break;
+            case "Recepción":
+                scannerRecepcion();
+                //Toast.makeText(this, "En desarrollo", Toast.LENGTH_SHORT).show();
+                break;
         }
     }
     private void initPresenter() {
@@ -150,6 +155,10 @@ public class mainContainer extends AppCompatActivity  implements view {
         bundle.putString("scannerType", scannerType);
         Intent intent = new Intent(this, BarcodeScannerActivity.class);
         intent.putExtras(bundle);
+        startActivity(intent);
+    }
+    private void scannerRecepcion(){
+        Intent intent = new Intent(this, BarcodeScannerActivity3.class);
         startActivity(intent);
     }
     private  void Locator(){

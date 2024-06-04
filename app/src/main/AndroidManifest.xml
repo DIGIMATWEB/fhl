@@ -82,6 +82,9 @@
             android:name="com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity2"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity3"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.fhl.sistemadedistribucionfh.allvalidations.allvalidations"
             android:screenOrientation="portrait" />
         <activity
