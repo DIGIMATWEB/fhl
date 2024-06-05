@@ -89,7 +89,7 @@ public class interactorPlaneacionImpl implements  interactorPlaneacion{
 
             @Override
             public void onFailure(Call<responseGetPlaneacion> call, Throwable t) {
-                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e("responseStatus",""+t.getMessage());
             }
         });
