@@ -27,7 +27,6 @@ import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Paquete;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.SendtripPlus;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
-import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity2;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity3;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -62,6 +61,7 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
     private List<ticketsScanned> model = new ArrayList<>();
     private SendtripPlus sendtripPlusLocal;
     private Boolean afterScan=false;
+    private Integer statusPlaneacion=0;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +88,7 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
 
         initDialog(view);
 
-        fillAdapter(ticketsLocal, getContext());
+        fillAdapter(ticketsLocal, getContext(),statusPlaneacion);
 
         //setFonts();
         return view;
@@ -116,8 +116,8 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
         presenter= new presenterPlaneacionImpl(this,getContext());
     }
 
-    private void fillAdapter(List<ticketsScanned> data, Context context) {
-        adapter = new adapterPlaneacionEmpaques(this, data, context);
+    private void fillAdapter(List<ticketsScanned> data, Context context, Integer statusPlaneacion) {
+        adapter = new adapterPlaneacionEmpaques(this, data, context,statusPlaneacion);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvReasons.setLayoutManager(linearLayoutManager);
         rvReasons.setAdapter(adapter);
@@ -147,12 +147,19 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
                 //                                                        barcodeScannerActivity1.returnResult("1234");
                 if(countok!=0) {
                     if (countok == ticketsLocal.size()) {//todo hasta igualar los empaques model.size()
-                        Toast.makeText(getContext(), "Escaneaste todos los paquetes", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), "Escaneaste todos los paquetes", Toast.LENGTH_SHORT).show();
                         BarcodeScannerActivity3 barcodeScannerActivity1 = (BarcodeScannerActivity3) getActivity();
-                        barcodeScannerActivity1.returnResult("Escaneaste todos los paquetes");
-                        presenter.setStatusTicket(ticketsLocal.get(0).getFolio(),2);
+                        //barcodeScannerActivity1.returnResult("Escaneaste todos los paquetes");
+                        if(statusPlaneacion!=2) {
+                            presenter.setStatusTicket(ticketsLocal.get(0).getFolio(), 2);
+                            barcodeScannerActivity1.returnResult("Escaneaste todos los paquetes");
+                        }else{
+                            barcodeScannerActivity1.returnResult("Este ticket ya habia sido escaneado");
+                        }
                         //TODO se reinicia el ciclo
+                        countok=0;
                         afterScan=false;
+                        statusPlaneacion=0;
                         //oton confirmar
                         textChekcs.setText("Escanea un ticket");
                         ticketsLocal.clear();
@@ -284,8 +291,8 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
     }
 
     @Override
-    public void setValidadorResponse(String answer) {
-
+    public void setValidadorResponse(String answer, Integer value) {
+        this.statusPlaneacion=value;
         try {
             // Parse the original JSON array
             JSONArray originalArray = new JSONArray(answer);
@@ -311,8 +318,14 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
             if(lotes!=null) {
                 this.lotes=lotes;
                 ticketsLocal.get(0).getSendtripPlus().setPaquetes(lotes);
-                textChekcs.setText(0 + "/" + ticketsLocal.size());
-                fillAdapter(ticketsLocal, getContext());
+
+                if(statusPlaneacion==2){
+                    countok=ticketsLocal.size();
+                    textChekcs.setText(ticketsLocal.size() + "/" + ticketsLocal.size());
+                }else{
+                    textChekcs.setText(0 + "/" + ticketsLocal.size());
+                }
+                fillAdapter(ticketsLocal, getContext(), statusPlaneacion);
             }
             // Log the list to verify
             for (Paquete paquete : lotes) {

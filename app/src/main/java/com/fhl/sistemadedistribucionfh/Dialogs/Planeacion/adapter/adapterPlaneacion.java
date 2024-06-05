@@ -27,12 +27,13 @@ public class adapterPlaneacion extends RecyclerView.Adapter<adapterPlaneacion.Vi
     private List<Paquete> paquetes;
     private validadorPlaneacion mview;
     private String folioTicket;
-
-    public adapterPlaneacion(validadorPlaneacion mview, List<Paquete> paquetes, Context context, String folio) {
+    private Integer statusPlaneacion=0;
+    public adapterPlaneacion(validadorPlaneacion mview, List<Paquete> paquetes, Context context, String folio, Integer statusPlaneacion) {
         this.context = context;
         this.paquetes=paquetes;
         this.mview=mview;
         this.folioTicket=folio;
+        this.statusPlaneacion=statusPlaneacion;
     }
 
     @NonNull
@@ -46,6 +47,9 @@ public class adapterPlaneacion extends RecyclerView.Adapter<adapterPlaneacion.Vi
     public void onBindViewHolder(@NonNull adapterPlaneacion.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.razonDescSalida.setText(""+paquetes.get(position).getNombre());
         if(paquetes.get(position).getFlag()!=null) {
+            if(statusPlaneacion==2){
+                paquetes.get(position).setFlag(true);
+            }
             if (paquetes.get(position).getFlag() == true) {
                 holder.checkEmpaque.setChecked(true);
                 int tintColor = ContextCompat.getColor(context, R.color.yellow);

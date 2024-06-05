@@ -2,6 +2,7 @@ package com.fhl.sistemadedistribucionfh.Dialogs.Planeacion.interactor;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.fhl.sistemadedistribucionfh.Dialogs.Planeacion.model.responseGetPlaneacion;
@@ -40,7 +41,7 @@ public class interactorPlaneacionImpl implements  interactorPlaneacion{
                 if(response.code()==200) {
                     if (response.body().getStatus() == 200) {
                         if(response.body().getData()!=null){
-                            presenter.setTicketValue(response.body().getData().get(0).getEmpaque());
+                            presenter.setTicketValue(response.body().getData().get(0).getEmpaque(),response.body().getData().get(0).getTipoSolicitudId());
                         }else{
                             presenter.failResponse();
                         }
@@ -74,18 +75,22 @@ public class interactorPlaneacionImpl implements  interactorPlaneacion{
 //                        }else{
 //
 //                        }
-                        Toast.makeText(context, ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.e("responseStatus",""+response.body().getMessage());
                     }else{
-                        Toast.makeText(context, ""+response.message()+":"+response.code(), Toast.LENGTH_SHORT).show();
+                        Log.e("responseStatus",""+response.body().getMessage());
+                       // Toast.makeText(context, ""+response.message()+":"+response.code(), Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(context, ""+response.message()+":"+response.code(), Toast.LENGTH_SHORT).show();
+                    Log.e("responseStatus",""+response.body().getMessage());
+                    //Toast.makeText(context, ""+response.message()+":"+response.code(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<responseGetPlaneacion> call, Throwable t) {
                 Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("responseStatus",""+t.getMessage());
             }
         });
     }

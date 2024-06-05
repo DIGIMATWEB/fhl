@@ -28,12 +28,14 @@ public class adapterPlaneacionEmpaques  extends RecyclerView.Adapter<adapterPlan
     private Context context;
     private List<ticketsScanned> data;
     private validadorPlaneacion mview;
+    private Integer statusPlaneacion;
 
 
-    public adapterPlaneacionEmpaques(validadorPlaneacion mview, List<ticketsScanned> data, Context context) {
+    public adapterPlaneacionEmpaques(validadorPlaneacion mview, List<ticketsScanned> data, Context context, Integer statusPlaneacion) {
         this.context = context;
         this.data=data;
         this.mview=mview;
+        this.statusPlaneacion=statusPlaneacion;
     }
 
     @NonNull
@@ -48,8 +50,11 @@ public class adapterPlaneacionEmpaques  extends RecyclerView.Adapter<adapterPlan
         holder.razonDesc.setText(data.get(position).getFolio());
 
         if( data.get(position).getSendtripPlus().getPaquetes()!=null) {
-            holder.setupRecyclerViewPaquetes(mview, data.get(position).getSendtripPlus().getPaquetes(), data.get(position).getFolio());
+            holder.setupRecyclerViewPaquetes(mview, data.get(position).getSendtripPlus().getPaquetes(), data.get(position).getFolio(),statusPlaneacion);
         }else{
+            data.get(position).setFlag(true);
+        }
+        if(statusPlaneacion==2){
             data.get(position).setFlag(true);
         }
         if(data.get(position).getFlag()==true){
@@ -92,16 +97,16 @@ public class adapterPlaneacionEmpaques  extends RecyclerView.Adapter<adapterPlan
 
         }
 
-        private void fillEmpaqueAdapter(validadorPlaneacion mview, List<Paquete> paquetes, String folio) {
-            empaqueAdapter = new adapterPlaneacion(mview,paquetes,context,folio);
+        private void fillEmpaqueAdapter(validadorPlaneacion mview, List<Paquete> paquetes, String folio, Integer statusPlaneacion) {
+            empaqueAdapter = new adapterPlaneacion(mview,paquetes,context,folio,statusPlaneacion);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
             recyclerViewPaquetes.setLayoutManager(linearLayoutManager);
             recyclerViewPaquetes.setAdapter(empaqueAdapter);
         }
 
-        public void setupRecyclerViewPaquetes(validadorPlaneacion mview, List<Paquete> paquetes, String folio) {
+        public void setupRecyclerViewPaquetes(validadorPlaneacion mview, List<Paquete> paquetes, String folio, Integer statusPlaneacion) {
             // You can further customize the setup if needed
-            fillEmpaqueAdapter(mview,paquetes,folio);
+            fillEmpaqueAdapter(mview,paquetes,folio,statusPlaneacion);
             empaqueAdapter.notifyDataSetChanged();
         }
     }

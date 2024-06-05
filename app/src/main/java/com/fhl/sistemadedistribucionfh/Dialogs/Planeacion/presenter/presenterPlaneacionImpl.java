@@ -30,9 +30,9 @@ public class presenterPlaneacionImpl implements presenterPlaneacion{
         }
     }
     @Override
-    public void setTicketValue(String answer) {
+    public void setTicketValue(String answer,Integer value) {
         if(view!=null){
-            view.setValidadorResponse(answer);
+            view.setValidadorResponse(answer,value);
         }
     }
 
