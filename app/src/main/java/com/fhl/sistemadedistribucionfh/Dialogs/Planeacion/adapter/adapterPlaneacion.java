@@ -16,9 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.fhl.sistemadedistribucionfh.Dialogs.EmpaquesValidador.adapter.adapterEmpaque2;
-import com.fhl.sistemadedistribucionfh.Dialogs.EmpaquesValidador.validadorEmpaques;
-import com.fhl.sistemadedistribucionfh.Dialogs.Planeacion.validadorPlaneacion;
+import com.fhl.sistemadedistribucionfh.Dialogs.Planeacion.view.validadorPlaneacion;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Paquete;
 

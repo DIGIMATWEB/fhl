@@ -101,7 +101,7 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="Continuar"
+        android:text="Confirmar"
         android:textColor="@color/white"
         android:textSize="@dimen/h4"
         android:textStyle="bold"

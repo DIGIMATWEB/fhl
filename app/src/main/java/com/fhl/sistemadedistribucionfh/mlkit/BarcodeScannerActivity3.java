@@ -24,7 +24,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
-import com.fhl.sistemadedistribucionfh.Dialogs.Planeacion.validadorPlaneacion;
+import com.fhl.sistemadedistribucionfh.Dialogs.Planeacion.view.validadorPlaneacion;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ErrorSalida.errorDialog;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
 import com.fhl.sistemadedistribucionfh.R;
@@ -96,6 +96,8 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
         if (!allPermissionsGranted()) {
             getRuntimePermissions();
         }
+        binding.inputmanual.setVisibility(View.GONE);
+        binding.inputcamara.setVisibility(View.GONE);
         binding.inputmanual.setOnClickListener(this);
         binding.inputcamara.setOnClickListener(this);
         binding.captureCode.setOnClickListener(this);
@@ -299,11 +301,8 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
             getRuntimePermissions();
         }
     }
-    public void returnResult(List<ticketsScanned> result) {
-        Intent intent = new Intent();
-        intent.putExtra("result_key",(Serializable) result);
-        setResult(this.RESULT_OK, intent);
-        finish();
+    public void returnResult(String result) {
+        Toast.makeText(this, ""+result, Toast.LENGTH_SHORT).show();
     }
 
     private void barcodesCollection(String code)
@@ -311,16 +310,11 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
         Log.e("qrs",code);
         mediaPlayer.start();
         stopCameraProcess();
+        bottonSheetv.sendToast(code);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                restartCameraProcess();
-                for(Paquete pac:lotes){
-                    if(code.equals(pac.getNombre())){
-                        bottonSheetv.sendToast(code);
-                    }
-                }
-
+            restartCameraProcess();
             }
         }, 1500);
     }

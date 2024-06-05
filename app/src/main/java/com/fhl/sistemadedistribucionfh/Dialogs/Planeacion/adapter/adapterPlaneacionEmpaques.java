@@ -17,10 +17,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.fhl.sistemadedistribucionfh.Dialogs.EmpaquesValidador.adapter.adapterEmpaque2;
-import com.fhl.sistemadedistribucionfh.Dialogs.EmpaquesValidador.adapter.adapterValidadorEmpaques;
-import com.fhl.sistemadedistribucionfh.Dialogs.EmpaquesValidador.validadorEmpaques;
-import com.fhl.sistemadedistribucionfh.Dialogs.Planeacion.validadorPlaneacion;
+import com.fhl.sistemadedistribucionfh.Dialogs.Planeacion.view.validadorPlaneacion;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Paquete;
@@ -61,6 +58,7 @@ public class adapterPlaneacionEmpaques  extends RecyclerView.Adapter<adapterPlan
             ColorFilter colorFilter = new PorterDuffColorFilter(tintColor, PorterDuff.Mode.SRC_IN);
             holder.icticket.setBackground(ContextCompat.getDrawable(context, R.drawable.ticket_green));
             mview.updatescanedData(data);
+            mview.setVisibleConfirm();
 
         }else {
             holder.check.setChecked(false);
@@ -74,6 +72,7 @@ public class adapterPlaneacionEmpaques  extends RecyclerView.Adapter<adapterPlan
 
     public void updateData(List<ticketsScanned> model) {
         this.data=model;
+
         notifyDataSetChanged();
     }
 

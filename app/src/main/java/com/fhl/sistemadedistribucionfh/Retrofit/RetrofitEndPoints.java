@@ -52,6 +52,8 @@ public class RetrofitEndPoints {
     public static final String HABILITIES_DRIVERLIST ="Colaboradores/Colaborador/GetId/{id}";
     public static final String HABILITIES_DRIVER = "Colaboradores/HabilidadesColaborador/";
     public static final String SET_CONFIMACION_LOTES = "SetConfimacionLotes";
+    public static final String GET_PLANEACION = "GetTicketsPlaneacion";
+    public static final String SET_PLANEACION = "SetTicketStatusPlaneacion";
     //endregion
 
 //todo FIN DE PROYECTO ENTREGA 2
