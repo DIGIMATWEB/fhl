@@ -446,7 +446,8 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
                   presenter.nextRequest();
                 }
             }else{
-                presenter.nextRequest();
+                //presenter.nextRequest();
+                Toast.makeText(context, ""+message, Toast.LENGTH_SHORT).show();
                 Log.e("sendtripplus","no  105");
             }
         }else{
