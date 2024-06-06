@@ -57,10 +57,10 @@ public class Trip {
     private String recipientEmail;
     @SerializedName("recipient_latitude")
     @Expose
-    private Integer recipientLatitude;
+    private Double recipientLatitude;
     @SerializedName("recipient_longitude")
     @Expose
-    private Integer recipientLongitude;
+    private Double recipientLongitude;
     @SerializedName("recipient_name")
     @Expose
     private String recipientName;
@@ -110,7 +110,7 @@ public class Trip {
     @Expose
     private String vehiclePlate;
 
-    public Trip(String comments, Integer orderFolio, String orderDriver, String orderTimestampD, String orderTimestampIntervalE, String orderTimestampIntervalS, String orderTimestampO, Integer orderUploadingTime, Integer packageCounts, List<Package> packages, String paymentType, String provider, String recipientCity, String recipientCompanyname, String recipientCountry, String recipientEmail, Integer recipientLatitude, Integer recipientLongitude, String recipientName, String recipientPhone, String recipientPostalcode, String recipientStreet, String route, String serviceType, String shipperCity, String shipperCompanyname, String shipperCountry, String shipperEmail, String shipperName, String shipperPhone, String shipperPostalcode, String shipperStreet, String vehicleName, String vehiclePlate) {
+    public Trip(String comments, Integer orderFolio, String orderDriver, String orderTimestampD, String orderTimestampIntervalE, String orderTimestampIntervalS, String orderTimestampO, Integer orderUploadingTime, Integer packageCounts, List<Package> packages, String paymentType, String provider, String recipientCity, String recipientCompanyname, String recipientCountry, String recipientEmail, Double recipientLatitude, Double recipientLongitude, String recipientName, String recipientPhone, String recipientPostalcode, String recipientStreet, String route, String serviceType, String shipperCity, String shipperCompanyname, String shipperCountry, String shipperEmail, String shipperName, String shipperPhone, String shipperPostalcode, String shipperStreet, String vehicleName, String vehiclePlate) {
         super();
         this.comments = comments;
         this.orderFolio = orderFolio;
@@ -276,19 +276,19 @@ public class Trip {
         this.recipientEmail = recipientEmail;
     }
 
-    public Integer getRecipientLatitude() {
+    public Double getRecipientLatitude() {
         return recipientLatitude;
     }
 
-    public void setRecipientLatitude(Integer recipientLatitude) {
+    public void setRecipientLatitude(Double recipientLatitude) {
         this.recipientLatitude = recipientLatitude;
     }
 
-    public Integer getRecipientLongitude() {
+    public Double getRecipientLongitude() {
         return recipientLongitude;
     }
 
-    public void setRecipientLongitude(Integer recipientLongitude) {
+    public void setRecipientLongitude(Double recipientLongitude) {
         this.recipientLongitude = recipientLongitude;
     }
 

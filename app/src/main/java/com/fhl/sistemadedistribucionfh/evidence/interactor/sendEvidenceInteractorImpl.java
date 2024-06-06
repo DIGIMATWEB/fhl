@@ -372,7 +372,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         Trip mtrip= new Trip("",0,"","",""
                 ,"","",0,0,
                 new ArrayList<>(),"","","","","","",
-                0,0,"",
+                0.0,0.0,"",
                 "","","","",sentripPlusFlow,"","","",
                 "","","","","","","");
         mtrip.setComments(currentManifest);
@@ -398,6 +398,21 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         mtrip.setShipperPostalcode(String.valueOf(data.getSendtripPlus().getRemitente().getCodigoPostal()));//mtrip.setShipperPostalcode("00000");
         mtrip.setVehicleName(data.getVehiculo().getEconomico());//mtrip.setVehicleName("NLA-003YF2");//todo economico
         mtrip.setVehiclePlate(data.getVehiculo().getPlaca());//mtrip.setVehiclePlate("NLA-003YF2");//todo placa
+        //region TODO nuevos campos si sentriplus no tiene la geocerca  ESTO DEE SER EN LA RECOLECCION Y EN LA SALIDA NUNCA EN LA ENTREGA
+        mtrip.setRecipientCity(data.getSendtripPlus().getDestinatario().getEstado());
+        mtrip.setRecipientCountry(data.getSendtripPlus().getDestinatario().getPais());
+        if(data.getSendtripPlus().getDestinatario().getCoordenadas()!=null){
+            String[] parts = data.getSendtripPlus().getDestinatario().getCoordenadas().split(",");
+
+            // Trim whitespace and convert to double
+            double latitude = Double.parseDouble(parts[0].trim());
+            double longitude = Double.parseDouble(parts[1].trim());
+            mtrip.setRecipientLatitude(latitude);
+            mtrip.setRecipientLongitude(longitude);
+        }
+        mtrip.setRecipientPostalcode(String.valueOf(data.getSendtripPlus().getDestinatario().getCodigoPostal()));
+        mtrip.setRecipientStreet(data.getSendtripPlus().getDestinatario().getCalle()+" "+data.getSendtripPlus().getDestinatario().getColonia()+" "+ data.getSendtripPlus().getDestinatario().getLocalidad()+" "+data.getSendtripPlus().getDestinatario().getMunicipio());//pendiente ver si agregar
+        //endregion
         SendTripPlus request= new SendTripPlus(token_Avocado,mtrip);
         Call<ResponseSendTripPlus> call= service2.setSendtriplus(request);
         Gson gson = new Gson();
