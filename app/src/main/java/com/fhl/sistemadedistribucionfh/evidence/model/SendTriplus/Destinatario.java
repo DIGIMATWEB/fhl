@@ -74,7 +74,12 @@ public class Destinatario  implements Serializable {
     }
 
     public String getCompania() {
-        return compania;
+        if(compania!=null){
+            return compania;
+        }else {
+            return "";
+        }
+
     }
 
     public void setCompania(String compania) {

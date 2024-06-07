@@ -392,7 +392,9 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         }
         mtrip.setOrderUploadingTime(roundedMinutes);//mtrip.setOrderUploadingTime(0);//todo revisar este campo
         mtrip.setPackageCounts(data.getSendtripPlus().getCantidadPaquetes());//mtrip.setPackageCounts(0);
-        mtrip.setRecipientCompanyname(data.getCliente().getRazonSocial()+"-"+data.getCliente().getAxaptaId()+"-"+data.getSendtripPlus().getDestinatario().getCompania());//mtrip.setRecipientCompanyname("NEWGEODESTINO");//todo revisar
+        mtrip.setRecipientCompanyname(data.getCliente().getRazonSocial()+
+                "-"+data.getCliente().getAxaptaId()+
+                "-"+data.getSendtripPlus().getDestinatario().getCompania());//mtrip.setRecipientCompanyname("NEWGEODESTINO");//todo revisar
         mtrip.setRecipientPostalcode(String.valueOf(data.getSendtripPlus().getDestinatario().getCodigoPostal()));//mtrip.setRecipientPostalcode("00000");//todo validar
         mtrip.setShipperCompanyname(data.getSendtripPlus().getRemitente().getCompania());//mtrip.setShipperCompanyname("NEWGEOORIGEN");//todo revisar alan
         mtrip.setShipperPostalcode(String.valueOf(data.getSendtripPlus().getRemitente().getCodigoPostal()));//mtrip.setShipperPostalcode("00000");
@@ -402,16 +404,27 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         mtrip.setRecipientCity(data.getSendtripPlus().getDestinatario().getEstado());
         mtrip.setRecipientCountry(data.getSendtripPlus().getDestinatario().getPais());
         if(data.getSendtripPlus().getDestinatario().getCoordenadas()!=null){
-            String[] parts = data.getSendtripPlus().getDestinatario().getCoordenadas().split(",");
+            if(!data.getSendtripPlus().getDestinatario().getCoordenadas().isEmpty()) {
+                double latitude = 0.0;
+                double longitude = 0.0;
+                String[] parts = data.getSendtripPlus().getDestinatario().getCoordenadas().split(",");
+                if (parts.length == 2 && !parts[0].trim().isEmpty() && !parts[1].trim().isEmpty()) {
+                     latitude = Double.parseDouble(parts[0].trim());
+                     longitude = Double.parseDouble(parts[1].trim());
+                }
+                // Trim whitespace and convert to double
 
-            // Trim whitespace and convert to double
-            double latitude = Double.parseDouble(parts[0].trim());
-            double longitude = Double.parseDouble(parts[1].trim());
-            mtrip.setRecipientLatitude(latitude);
-            mtrip.setRecipientLongitude(longitude);
+                mtrip.setRecipientLatitude(latitude);
+                mtrip.setRecipientLongitude(longitude);
+            }else{
+                mtrip.setRecipientLatitude(0.0);
+                mtrip.setRecipientLongitude(0.0);
+            }
         }
         mtrip.setRecipientPostalcode(String.valueOf(data.getSendtripPlus().getDestinatario().getCodigoPostal()));
         mtrip.setRecipientStreet(data.getSendtripPlus().getDestinatario().getCalle()+" "+data.getSendtripPlus().getDestinatario().getColonia()+" "+ data.getSendtripPlus().getDestinatario().getLocalidad()+" "+data.getSendtripPlus().getDestinatario().getMunicipio());//pendiente ver si agregar
+        mtrip.setShipperPostalcode(String.valueOf(data.getSendtripPlus().getRemitente().getCodigoPostal()));
+        mtrip.setShipperStreet(data.getSendtripPlus().getRemitente().getCalle()+" "+data.getSendtripPlus().getRemitente().getColonia()+" "+ data.getSendtripPlus().getRemitente().getLocalidad()+" "+data.getSendtripPlus().getRemitente().getMunicipio());
         //endregion
         SendTripPlus request= new SendTripPlus(token_Avocado,mtrip);
         Call<ResponseSendTripPlus> call= service2.setSendtriplus(request);
