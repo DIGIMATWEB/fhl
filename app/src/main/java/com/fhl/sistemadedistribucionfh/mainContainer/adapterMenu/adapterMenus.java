@@ -58,7 +58,7 @@ public class adapterMenus extends RecyclerView.Adapter<adapterMenus.ViewHolder>{
                 //holder.menuName.setText(data.get(position).getMenuName());
                 holder.menuName.setText(dataV2.get(position).getTitulo());
                 break;
-            case "Salida":
+            case "Carga":
                 drawable=context.getDrawable(R.drawable.ic_menu_salida_icon);
                 holder.imageMenu.setImageDrawable(drawable);
                 //holder.menuName.setText(data.get(position).getMenuName());
@@ -134,9 +134,9 @@ public class adapterMenus extends RecyclerView.Adapter<adapterMenus.ViewHolder>{
                         mview.closeDialog();
                         mview.invokeFragment("Manifiestos");
                         break;
-                    case "Salida":
+                    case "Carga":
                         mview.closeDialog();
-                        mview.invokeFragment("Salida");
+                        mview.invokeFragment("Carga");
                         break;
                     case "Validador":
                         mview.closeDialog();

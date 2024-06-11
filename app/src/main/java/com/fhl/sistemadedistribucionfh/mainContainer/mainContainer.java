@@ -88,7 +88,7 @@ public class mainContainer extends AppCompatActivity  implements view {
             case "Ubicación de GPS":
                 Locator();
                 break;
-            case "Salida":
+            case "Carga":
                 SharedPreferences preferences =getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor=preferences.edit();
                 editor.putString(GeneralConstants.STATUS_SALIDA,String.valueOf(1));
