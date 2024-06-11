@@ -129,7 +129,8 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
 
         secuence = secuence + 1;
         if (secuence == 1 ) {
-            initSendFolios();
+           // initSendFolios();//se camio ya no se ejecuta
+            presenter.nextRequest();
         } else if (secuence == 2) {
             changestatus();
         } else if (secuence == 3) {
@@ -137,7 +138,7 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
             if (iteratedidTicket > (dataTickets.size() - 1)) {
                 presenter.hideDialog();
                 closeDialog();
-            } else {
+            } else {//si son varios tickets se solicita la informacion del siguiente ticket para continuar con la secuencia
                 secuence = 0;
                 presenter.requestDetailTicketsSendtriplus(true, iteratedidTicket, currentManifest, null, dataTickets.get(iteratedidTicket).getFolioTicket());
                 //presenter.endrointefren();

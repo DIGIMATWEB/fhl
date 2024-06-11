@@ -228,6 +228,7 @@ public class interactorSalidaImpl implements interactorSalida{
                 //presenter.nextRequest();
                 Toast.makeText(context, ""+message, Toast.LENGTH_SHORT).show();
                 Log.e("salidaSentrip","no  105");
+                presenter.nextRequest();
             }
         }else{
             presenter.nextRequest();
