@@ -51,13 +51,10 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
-        hassignature=1;
-        editor.putString(GeneralConstants.SIGNATURE_B64_DIR, "");
-        editor.putString(GeneralConstants.SIGNATURE_B64, "");
-        editor.putString(GeneralConstants.INPUT_TEXT_SIGTURE, "");
 
-        hasReview=1;
-        editor.putString(GeneralConstants.RATE_STARS, "");
+        hassignature=0;
+        hasReview=0;
+       // editor.putString(GeneralConstants.RATE_STARS, "");
 
         hasphotos=0;
         hasvideos=0;
@@ -66,8 +63,13 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
 
         if(flowDetail==1){//TODO viene de recoleccion o salida
             if(data.get(0).getEvidenciaSalida()!=null){
-                for(EvidenciaSalida evidence:data.get(0).getEvidenciaSalida()){
-                    if(evidence.getTipoEvidencia()==2){
+                for(EvidenciaSalida evidence:data.get(0).getEvidenciaSalida()) {
+                    if(evidence.getTipoEvidencia()==1){
+                        hassignature=1;
+                        editor.putString(GeneralConstants.SIGNATURE_B64_DIR, "");
+                        editor.putString(GeneralConstants.SIGNATURE_B64, "");
+                        editor.putString(GeneralConstants.INPUT_TEXT_SIGTURE, "");
+                     }else if(evidence.getTipoEvidencia()==2){
                         hasphotos=1;
                         editor.putString(GeneralConstants.IMAGE_DIRECTORY, "");
                     }else if(evidence.getTipoEvidencia()==3){
@@ -77,6 +79,9 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
                     else if(evidence.getTipoEvidencia()==4){//todo descomentar una vez mergeado a master
                         hasvideos=1;
                         editor.putString(GeneralConstants.VIDEO_DIRECTORY, "");
+                    }else if(evidence.getTipoEvidencia()==5){
+                        hasReview=1;
+                        editor.putString(GeneralConstants.RATE_STARS, "");
                     }
                 }
             }else {
@@ -91,7 +96,12 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
         }else{//TODO viene de entrega de ticket
             if(data.get(0).getEvidenciaLlegada()!=null){
                 for(EvidenciaLlegada evidence:data.get(0).getEvidenciaLlegada()){
-                    if(evidence.getTipoEvidencia()==2){
+                    if(evidence.getTipoEvidencia()==1){
+                        hassignature=1;
+                        editor.putString(GeneralConstants.SIGNATURE_B64_DIR, "");
+                        editor.putString(GeneralConstants.SIGNATURE_B64, "");
+                        editor.putString(GeneralConstants.INPUT_TEXT_SIGTURE, "");
+                    }else if(evidence.getTipoEvidencia()==2){
                         hasphotos=1;
                         editor.putString(GeneralConstants.IMAGE_DIRECTORY, "");
                     }else if(evidence.getTipoEvidencia()==3){
@@ -101,6 +111,9 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
                     else if(evidence.getTipoEvidencia()==4){// todo descomentar una vez mergeado a master
                         hasvideos=1;
                         editor.putString(GeneralConstants.VIDEO_DIRECTORY, "");
+                    }else if(evidence.getTipoEvidencia()==5){
+                        hasReview=1;
+                        editor.putString(GeneralConstants.RATE_STARS, "");
                     }
                 }
             }

@@ -340,18 +340,24 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 adapter.checklist(false);
             }
         }
-        validateAll();
+        validateAll();//solo valida los items que hayan sido registrados
     }
     private void validateAll(){
-        if(evidenceList!=null&&!evidenceList.isEmpty()) {
-          Gson gson= new Gson();
-          String json= gson.toJson(evidenceList);
-            if (allEvidenceTaken(evidenceList)) {
-                sendEvidence.setVisibility(View.VISIBLE);
-                Log.e("empaque", "" + json);
-            } else {
-                sendEvidence.setVisibility(View.GONE);
-                Log.e("empaque", "" + json);
+        if(evidenceList!=null) {
+            if(!evidenceList.isEmpty()) {
+                Gson gson = new Gson();
+                String json = gson.toJson(evidenceList);
+                if (allEvidenceTaken(evidenceList)) {
+                    sendEvidence.setVisibility(View.VISIBLE);
+                    Log.e("empaque", "" + json);
+                } else {
+                    sendEvidence.setVisibility(View.GONE);
+                    Log.e("empaque", "" + json);
+                }
+            }else{
+                Toast.makeText(this, "No tienes evidencias", Toast.LENGTH_SHORT).show();
+                secuenceRequest=6;
+                presenter.nextRequest();
             }
         }else{
             sendEvidence.setVisibility(View.GONE);
@@ -721,6 +727,15 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             //Toast.makeText(this, "mandar estrellas", Toast.LENGTH_SHORT).show();
         } else if (secuenceRequest == 6) {
             secuenceRequest = secuenceRequest + 1;
+            if (folioTicket != null) {//todo esto se agrega en caso de que no traiga evidencias inicia desde aqui
+                changeStatusTicket = folioTicket;
+            } else {
+                if (data != null) {
+                    changeStatusTicket = data.get(iterateidTickets).getFolioTicket();
+                } else {
+                    Toast.makeText(this, "No hay tickets al cual mandar evidencia", Toast.LENGTH_SHORT).show();
+                }
+            }
             Log.e("sendEvidence", "Se envia a sendtripplus");
             if (sentripPlusFlow.equals("Recoleccion")) {
                 presenter.sendSentriplus(currentManifest, dataTicketSendtrip, sentripPlusFlow);
