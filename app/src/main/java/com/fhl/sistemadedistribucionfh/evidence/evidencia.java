@@ -445,7 +445,6 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             this.fullLotes=true;
             checkLotes.setVisibility(View.GONE);
         }
-
         //icons
         presenter = new requestEvidencePresenterImpl(this, getBaseContext());
         presenter.tokenAvocado();

@@ -13,7 +13,7 @@ public interface interactorSetValidacion {
 
     void requestTicketsByManifest(String manifest);
 
-    void sendSentriplus(String currentManifest, List<dataTicketsDetailsendtrip> dataTicketSendtrip, String sentripPlusFlow);
+    void sendSentriplus(String currentManifest, List<dataTicketsDetailsendtrip> dataTicketSendtrip, String sentripPlusFlow,Integer iteration);
 
     void tokenAvocado();
 }

@@ -150,7 +150,7 @@ public class interactorSalidaImpl implements interactorSalida{
         mtrip.setShipperPostalcode(String.valueOf(data.getSendtripPlus().getRemitente().getCodigoPostal()));//mtrip.setShipperPostalcode("00000");
         mtrip.setVehicleName(data.getVehiculo().getEconomico());//mtrip.setVehicleName("NLA-003YF2");//todo economico
         mtrip.setVehiclePlate(data.getVehiculo().getPlaca());//mtrip.setVehiclePlate("NLA-003YF2");//todo placa
-        //region TODO nuevos campos si sentriplus no tiene la geocerca  ESTO DEE SER EN LA RECOLECCION Y EN LA SALIDA NUNCA EN LA ENTREGA
+        //region TODO nuevos campos si sentriplusCheckTickets no tiene la geocerca  ESTO DEE SER EN LA RECOLECCION Y EN LA SALIDA NUNCA EN LA ENTREGA
         mtrip.setRecipientCity(data.getSendtripPlus().getDestinatario().getEstado());
         mtrip.setRecipientCountry(data.getSendtripPlus().getDestinatario().getPais());
         if(data.getSendtripPlus().getDestinatario().getCoordenadas()!=null){

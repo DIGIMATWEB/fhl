@@ -50,6 +50,7 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
     private Retrofit retrofit;
     private serviceHabilities service2;
     private serviceSendtripPlus service3;
+    private Integer iteration;
 
     public interactorSetValidacionImpl(presenterSetValidacion presenter, Context context) {
         this.presenter=presenter;
@@ -400,14 +401,15 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
         }
     }
     @Override
-    public void sendSentriplus(String currentManifest, List<dataTicketsDetailsendtrip> dataTicketSendtrip, String sentripPlusFlow) {
+    public void sendSentriplus(String currentManifest, List<dataTicketsDetailsendtrip> dataTicketSendtrip, String sentripPlusFlow,Integer iteration) {
+        this.iteration=iteration;
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token_Avocado = preferences.getString(GeneralConstants.TOKEN_AVOCADO, null);
         String operadorId = preferences.getString(GeneralConstants.OPERADOR_NAME, null);
         if(token_Avocado!=null){
 
             requestSendtriplus(token_Avocado,
-                    dataTicketSendtrip.get(0),
+                    dataTicketSendtrip.get(iteration),
                     operadorId,
                     currentManifest,
                     sentripPlusFlow);
@@ -447,7 +449,7 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
         mtrip.setShipperPostalcode(String.valueOf(data.getSendtripPlus().getRemitente().getCodigoPostal()));//mtrip.setShipperPostalcode("00000");
         mtrip.setVehicleName(data.getVehiculo().getEconomico());//mtrip.setVehicleName("NLA-003YF2");//todo economico
         mtrip.setVehiclePlate(data.getVehiculo().getPlaca());//mtrip.setVehiclePlate("NLA-003YF2");//todo placa
-        //region TODO nuevos campos si sentriplus no tiene la geocerca  ESTO DEE SER EN LA RECOLECCION Y EN LA SALIDA NUNCA EN LA ENTREGA
+        //region TODO nuevos campos si sentriplusCheckTickets no tiene la geocerca  ESTO DEE SER EN LA RECOLECCION Y EN LA SALIDA NUNCA EN LA ENTREGA
         mtrip.setRecipientCity(data.getSendtripPlus().getDestinatario().getEstado());
         mtrip.setRecipientCountry(data.getSendtripPlus().getDestinatario().getPais());
         if(data.getSendtripPlus().getDestinatario().getCoordenadas()!=null){
@@ -490,7 +492,7 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
             public void onFailure(Call<ResponseSendTripPlus> call, Throwable t) {
                 Log.e("sendtripplus","onFailure");
                 Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
-                presenter.gomanifest();
+                presenter.gomanifest(iteration);
             }
         });
     }
@@ -501,7 +503,7 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
         } else {
             Log.e("sendtripplus","RetrofitValidations fail");
             Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show();
-            presenter.gomanifest();
+            presenter.gomanifest(iteration);
         }
     }
 
@@ -518,18 +520,18 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
                 if(data!=null) {
                     //   Toast.makeText(context, "Folio sendTrip: "+data.getOrderFolio(), Toast.LENGTH_SHORT).show();
                     Log.e("sendtripplus","Folio sendTrip: "+data.getOrderFolio());
-                    presenter.gomanifest();
+                    presenter.gomanifest(iteration);
                 }else{
-                    presenter.gomanifest();
+                    presenter.gomanifest(iteration);
                 }
             }else{
                 //presenter.nextRequest();
                 Toast.makeText(context, ""+message, Toast.LENGTH_SHORT).show();
                 Log.e("sendtripplus","no  105");
-                presenter.gomanifest();
+                presenter.gomanifest(iteration);
             }
         }else{
-            presenter.gomanifest();
+            presenter.gomanifest(iteration);
             Log.e("sendtripplus","resp null");
         }
     }

@@ -13,5 +13,5 @@ public interface viewSetValidacion {
 
     void setDetailTickets(List<dataTicketsDetailsendtrip> data);
 
-    void gomanifest();
+    void gomanifest(Integer iteration);
 }

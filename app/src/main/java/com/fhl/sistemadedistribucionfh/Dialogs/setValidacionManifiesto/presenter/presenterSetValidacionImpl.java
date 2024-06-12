@@ -83,9 +83,9 @@ public class presenterSetValidacionImpl implements  presenterSetValidacion{
     }
 
     @Override
-    public void sendSentriplus(String currentManifest, List<dataTicketsDetailsendtrip> dataTicketSendtrip, String sentripPlusFlow) {
+    public void sendSentriplus(String currentManifest, List<dataTicketsDetailsendtrip> dataTicketSendtrip, String sentripPlusFlow,Integer iteration) {
         if(view!=null){
-            interactor.sendSentriplus(currentManifest,dataTicketSendtrip,sentripPlusFlow);
+            interactor.sendSentriplus(currentManifest,dataTicketSendtrip,sentripPlusFlow,iteration);
         }
     }
     @Override
@@ -95,9 +95,9 @@ public class presenterSetValidacionImpl implements  presenterSetValidacion{
         }
     }
     @Override
-    public void gomanifest() {
+    public void gomanifest(Integer iteration) {
         if(view!=null){
-            view.gomanifest();
+            view.gomanifest(iteration);
         }
     }
 

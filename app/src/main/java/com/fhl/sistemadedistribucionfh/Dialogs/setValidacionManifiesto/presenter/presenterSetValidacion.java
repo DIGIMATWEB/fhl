@@ -21,9 +21,9 @@ public interface presenterSetValidacion {
     void requestTicketsByManifest(String manifest);
 
     void setDetailTickets(List<dataTicketsDetailsendtrip> data);
-    void sendSentriplus(String currentManifest, List<dataTicketsDetailsendtrip> dataTicketSendtrip, String sentripPlusFlow);
+    void sendSentriplus(String currentManifest, List<dataTicketsDetailsendtrip> dataTicketSendtrip, String sentripPlusFlow,Integer iteration);
 
-    void gomanifest();
+    void gomanifest(Integer iteration);
 
     void tokenAvocado();
 }

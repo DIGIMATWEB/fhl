@@ -19,11 +19,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.fhl.sistemadedistribucionfh.Dialogs.habilities.model.driver.habiltiesDriver;
 import com.fhl.sistemadedistribucionfh.Dialogs.habilities.model.vehicle.habiltiesVehicle;
+import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.sentriplusCheckTickets;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.presenter.presenterSetValidacion;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.presenter.presenterSetValidacionImpl;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.view.viewSetValidacion;
@@ -57,6 +57,7 @@ private Integer  claveVehicleID;
 private List<dataTicketsDetailsendtrip> ticketsEntegra=new ArrayList<>();
 private List<dataTicketsDetailsendtrip> ticketsRecoleccion=new ArrayList<>();
 private List<dataTicketsDetailsendtrip> ticketsAll;
+private List<sentriplusCheckTickets> listCompare=new ArrayList<>();
 @Override
 public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,8 +111,10 @@ public void closeDialog() {
                 ticketsAll=data;
                 ticketsEntegra.clear();
                 ticketsRecoleccion.clear();
+                listCompare.clear();
                 Boolean allValid = true;
                 for(dataTicketsDetailsendtrip ticket: data){
+                        listCompare.add(new sentriplusCheckTickets(ticket.getFolioTicket(),false));
                         if(ticket.getTipoEntregaId()==2){
                                 ticketsEntegra.add(ticket);
                                 Log.e("ticketValidacion",ticket.getFolioTicket()+ " ticket tipo recoleccion "+ticket.getEstatus().getNombre());
@@ -133,22 +136,37 @@ public void closeDialog() {
         }
 
         @Override
-        public void gomanifest() {
+        public void gomanifest(Integer iteration) {
+               listCompare.set(iteration,new sentriplusCheckTickets(ticketsAll.get(iteration).getFolioTicket(),true));
+                if(ticketsAll.size()>1){//si hay mas tickets
+                        iteration=iteration+1; //suma uno al iterador
+                        if(iteration<ticketsAll.size()-1) {//si el iterador es menor al numero de tickets
+                                presentador.sendSentriplus(manifest, ticketsAll, "Entrega", iteration);// vuelve a mandar el sendtrip con el iterador +1
+                        }else {//si el iterador es rebasado vuelve al manifiesto
+                                goBegin();
+                        }
+                }
+        }
+        public void goBegin(){
                 Intent intent = new Intent(getContext(), mainContainer.class);
                 startActivity(intent);
                 // Close the dialog if needed
                 closeDialog();
                 Log.e("Validador", "ir a manifiestos");
         }
-        public void goBegin(){
-
-        }
 
         @Override
         public void statusValidacion(String code) {
                 if(code.equals("105")){
-
-                     presentador.sendSentriplus(manifest, ticketsAll, "Entrega");
+                        if(ticketsAll!=null) {
+                                if(!ticketsAll.isEmpty()) {
+                                        presentador.sendSentriplus(manifest, ticketsAll, "Entrega", 0);
+                                }else {
+                                        Toast.makeText(getContext(), "El manifiesto no cuenta con sellos", Toast.LENGTH_SHORT).show();
+                                }
+                        }else {
+                                Toast.makeText(getContext(), "El manifiesto no cuenta con sellos", Toast.LENGTH_SHORT).show();
+                        }
                 }else{
                         Toast.makeText(getContext(), ""+code, Toast.LENGTH_SHORT).show();
                 }
