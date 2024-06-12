@@ -9,20 +9,30 @@ import com.fhl.sistemadedistribucionfh.Dialogs.habilities.model.driver.responseD
 import com.fhl.sistemadedistribucionfh.Dialogs.habilities.model.vehicle.responseVehicle;
 import com.fhl.sistemadedistribucionfh.Dialogs.habilities.util.serviceHabilities;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.Validadorset;
-import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.requestSetDatosValidador;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.requestSetValidacion;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.responseSetDatosValidador;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.responseSetValidacion;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.presenter.presenterSetValidacion;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.util.serviceSetValidacionManifest;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
+import com.fhl.sistemadedistribucionfh.Retrofit.RetrifitClientAvocado;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrifitClientSGD;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientFHManifest;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.TicketsDetailSentriplus;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
+import com.fhl.sistemadedistribucionfh.sendTripPlus.model.avocado.dataAvocado;
+import com.fhl.sistemadedistribucionfh.sendTripPlus.model.avocado.requestLoginAvocado;
+import com.fhl.sistemadedistribucionfh.sendTripPlus.model.avocado.responseLoginAvocado;
+import com.fhl.sistemadedistribucionfh.sendTripPlus.model.request.SendTripPlus;
+import com.fhl.sistemadedistribucionfh.sendTripPlus.model.request.Trip;
+import com.fhl.sistemadedistribucionfh.sendTripPlus.model.response.Data;
+import com.fhl.sistemadedistribucionfh.sendTripPlus.model.response.ResponseSendTripPlus;
+import com.fhl.sistemadedistribucionfh.sendTripPlus.util.serviceSendtripPlus;
 import com.google.gson.Gson;
 
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -36,9 +46,10 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
     private presenterSetValidacion presenter;
     private Context context;
     private serviceSetValidacionManifest service;
-    private Retrofit retrofitClient;
+    private Retrofit retrofitClient,retrofitClientV2;
     private Retrofit retrofit;
     private serviceHabilities service2;
+    private serviceSendtripPlus service3;
 
     public interactorSetValidacionImpl(presenterSetValidacion presenter, Context context) {
         this.presenter=presenter;
@@ -48,6 +59,9 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
 
         retrofit= RetrifitClientSGD.getRetrofitInstance();
         service2= retrofit.create(serviceHabilities.class);
+
+        retrofitClientV2= RetrifitClientAvocado.getRetrofitInstance();
+        service3 = retrofitClientV2.create(serviceSendtripPlus.class);
     }
 
     @Override
@@ -73,7 +87,7 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
 
            @Override
            public void onFailure(Call<responseSetValidacion> call, Throwable t) {
-               presenter.setresponseValidacionMenifest("401");
+               presenter.setresponseValidacionMenifest("401",t.getMessage().toString());
 
            }
        });
@@ -88,7 +102,7 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
                 Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();
                 if(response.code()==401){
                     // presenter.returnTologin();
-                    presenter.setresponseValidacionMenifest("401");
+                    presenter.setresponseValidacionMenifest("401", response.message());
                 }
             }
         }
@@ -101,14 +115,14 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
                     int responseCode = resp.getStatus();
                     if(resp.getStatus() == GeneralConstants.RESPONSE_CODE_OK_FH) {
 
-                        presenter.setresponseValidacionMenifest("105");
+                        presenter.setresponseValidacionMenifest("105", resp.getMessage());
 
                     } else {
-                        presenter.setresponseValidacionMenifest("107");
+                        presenter.setresponseValidacionMenifest("107", resp.getMessage());
                     }
                 } else {
 
-                    presenter.setresponseValidacionMenifest("401");
+                    presenter.setresponseValidacionMenifest("401", response.message().toString());
                 }
     }
     @Override
@@ -295,6 +309,7 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
         }
     }
 
+
     private void validateDetailTicket(Response<TicketsDetailSentriplus> response, Context context) {
         if (RetrofitValidations.checkSuccessCode(response.code())) {
             responseSendtripTicket(response,context);
@@ -331,5 +346,191 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
             Log.e("responseSendtripTicket","resp null");
         }
     }
+    @Override
+    public void tokenAvocado() {
+        requestLoginAvocado request= new requestLoginAvocado("efren","efrenw");
+        Call<responseLoginAvocado> call= service3.loginAvocado(request);
+        call.enqueue(new Callback<responseLoginAvocado>() {
+            @Override
+            public void onResponse(Call<responseLoginAvocado> call, Response<responseLoginAvocado> response) {
+                validateOriginresponse(response,context);
 
+            }
+
+            @Override
+            public void onFailure(Call<responseLoginAvocado> call, Throwable t) {
+                Toast.makeText(context, "token request Fail"+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
+    private void validateOriginresponse(Response<responseLoginAvocado> response, Context context) {
+        if (RetrofitValidations.checkSuccessCode(response.code())) {
+            responseOirgin(response,context);
+        } else {
+            // Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void responseOirgin(Response<responseLoginAvocado> response, Context context) {
+        responseLoginAvocado responseOrigin=response.body();
+        if(responseOrigin!=null)
+        {
+            int responseCode=responseOrigin.getResponseCode();
+            String message=responseOrigin.getMessage();
+            dataAvocado data= responseOrigin.getData();
+            if(responseCode==100)
+            {
+
+                if(data!=null) {
+                    SharedPreferences preferencias = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferencias.edit();
+                    editor.putString(GeneralConstants.TOKEN_AVOCADO, String.valueOf( data.getToken()));
+                    // editor.putString(GeneralConstants.CVE_EMPLOYE,String.valueOf(data.getCve_employee()));
+                    editor.commit();
+                    Log.e("token"," token avocado: "+data.getToken());
+
+
+                }
+            }else{
+            }
+        }else{
+        }
+    }
+    @Override
+    public void sendSentriplus(String currentManifest, List<dataTicketsDetailsendtrip> dataTicketSendtrip, String sentripPlusFlow) {
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String token_Avocado = preferences.getString(GeneralConstants.TOKEN_AVOCADO, null);
+        String operadorId = preferences.getString(GeneralConstants.OPERADOR_NAME, null);
+        if(token_Avocado!=null){
+
+            requestSendtriplus(token_Avocado,
+                    dataTicketSendtrip.get(0),
+                    operadorId,
+                    currentManifest,
+                    sentripPlusFlow);
+            Log.e("sendtripplus","requestSendtriplus");
+        }
+    }
+
+    private void requestSendtriplus(String token_Avocado, dataTicketsDetailsendtrip data, String operadorId, String currentManifest, String sentripPlusFlow) {
+        Trip mtrip= new Trip("",0,"","",""
+                ,"","",0,0,
+                new ArrayList<>(),"","","","","","",
+                0.0,0.0,"",
+                "","","","",sentripPlusFlow,"","","",
+                "","","","","","","");
+        mtrip.setComments(currentManifest);
+        mtrip.setOrderFolio(Integer.valueOf(data.getFolioTicket()));//mtrip.setOrderFolio(0);
+        mtrip.setOrderDriver(operadorId);//mtrip.setOrderDriver("WALMART");
+        mtrip.setOrderTimestampD(data.getSendtripPlus().getFechaPromesaEntrega());//mtrip.setOrderTimestampD("2024-04-02T17:41:44.152Z");
+        mtrip.setOrderTimestampIntervalE(data.getSendtripPlus().getFechaVentanaFin());//mtrip.setOrderTimestampIntervalE("2024-04-02T17:41:44.152Z");
+        mtrip.setOrderTimestampIntervalS(data.getSendtripPlus().getFechaVentanaInicio());//mtrip.setOrderTimestampIntervalS("2024-04-02T17:41:44.152Z");
+        mtrip.setOrderTimestampO(data.getSendtripPlus().getFechaPromesaCarga());//mtrip.setOrderTimestampO("2024-04-02T17:41:44.152Z");
+        int roundedMinutes=0;
+        if(data.getSendtripPlus().getTiempoCarga()!=null) {
+            LocalTime time = LocalTime.parse(data.getSendtripPlus().getTiempoCarga());
+            long totalMinutes = time.getHour() * 60 + time.getMinute() + time.getSecond() / 60;
+            roundedMinutes= (int) Math.round(totalMinutes);
+        }else{
+
+        }
+        mtrip.setOrderUploadingTime(roundedMinutes);//mtrip.setOrderUploadingTime(0);//todo revisar este campo
+        mtrip.setPackageCounts(data.getSendtripPlus().getCantidadPaquetes());//mtrip.setPackageCounts(0);
+        mtrip.setRecipientCompanyname(data.getCliente().getRazonSocial()+
+                "-"+data.getCliente().getAxaptaId()+
+                "-"+data.getSendtripPlus().getDestinatario().getCompania());//mtrip.setRecipientCompanyname("NEWGEODESTINO");//todo revisar
+        mtrip.setRecipientPostalcode(String.valueOf(data.getSendtripPlus().getDestinatario().getCodigoPostal()));//mtrip.setRecipientPostalcode("00000");//todo validar
+        mtrip.setShipperCompanyname(data.getSendtripPlus().getRemitente().getCompania());//mtrip.setShipperCompanyname("NEWGEOORIGEN");//todo revisar alan
+        mtrip.setShipperPostalcode(String.valueOf(data.getSendtripPlus().getRemitente().getCodigoPostal()));//mtrip.setShipperPostalcode("00000");
+        mtrip.setVehicleName(data.getVehiculo().getEconomico());//mtrip.setVehicleName("NLA-003YF2");//todo economico
+        mtrip.setVehiclePlate(data.getVehiculo().getPlaca());//mtrip.setVehiclePlate("NLA-003YF2");//todo placa
+        //region TODO nuevos campos si sentriplus no tiene la geocerca  ESTO DEE SER EN LA RECOLECCION Y EN LA SALIDA NUNCA EN LA ENTREGA
+        mtrip.setRecipientCity(data.getSendtripPlus().getDestinatario().getEstado());
+        mtrip.setRecipientCountry(data.getSendtripPlus().getDestinatario().getPais());
+        if(data.getSendtripPlus().getDestinatario().getCoordenadas()!=null){
+            if(!data.getSendtripPlus().getDestinatario().getCoordenadas().isEmpty()) {
+                double latitude = 0.0;
+                double longitude = 0.0;
+                String[] parts = data.getSendtripPlus().getDestinatario().getCoordenadas().split(",");
+                if (parts.length == 2 && !parts[0].trim().isEmpty() && !parts[1].trim().isEmpty()) {
+                    latitude = Double.parseDouble(parts[0].trim());
+                    longitude = Double.parseDouble(parts[1].trim());
+                }
+                // Trim whitespace and convert to double
+
+                mtrip.setRecipientLatitude(latitude);
+                mtrip.setRecipientLongitude(longitude);
+            }else{
+                mtrip.setRecipientLatitude(0.0);
+                mtrip.setRecipientLongitude(0.0);
+            }
+        }
+        mtrip.setRecipientPostalcode(String.valueOf(data.getSendtripPlus().getDestinatario().getCodigoPostal()));
+        mtrip.setRecipientStreet(data.getSendtripPlus().getDestinatario().getCalle()+" "+data.getSendtripPlus().getDestinatario().getColonia()+" "+ data.getSendtripPlus().getDestinatario().getLocalidad()+" "+data.getSendtripPlus().getDestinatario().getMunicipio());//pendiente ver si agregar
+        mtrip.setShipperPostalcode(String.valueOf(data.getSendtripPlus().getRemitente().getCodigoPostal()));
+        mtrip.setShipperStreet(data.getSendtripPlus().getRemitente().getCalle()+" "+data.getSendtripPlus().getRemitente().getColonia()+" "+ data.getSendtripPlus().getRemitente().getLocalidad()+" "+data.getSendtripPlus().getRemitente().getMunicipio());
+        //endregion
+        SendTripPlus request= new SendTripPlus(token_Avocado,mtrip);
+        Call<ResponseSendTripPlus> call= service3.setSendtriplus(request);
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(request);
+        Log.e("sendtripplus","sendtriplus: "+ jsonString);
+        //presenter.showDialog();
+        call.enqueue(new Callback<ResponseSendTripPlus>() {
+            @Override
+            public void onResponse(Call<ResponseSendTripPlus> call, Response<ResponseSendTripPlus> response) {
+                validateSendtriplus(response,context);
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseSendTripPlus> call, Throwable t) {
+                Log.e("sendtripplus","onFailure");
+                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                presenter.gomanifest();
+            }
+        });
+    }
+
+    private void validateSendtriplus(Response<ResponseSendTripPlus> response, Context context) {
+        if (RetrofitValidations.checkSuccessCode(response.code())) {
+            responseSendtrip(response,context);
+        } else {
+            Log.e("sendtripplus","RetrofitValidations fail");
+            Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show();
+            presenter.gomanifest();
+        }
+    }
+
+    private void responseSendtrip(Response<ResponseSendTripPlus> response, Context context) {
+        ResponseSendTripPlus resp=response.body();
+        if(resp!=null)
+        {
+            int responseCode=resp.getResponseCode();
+            String message=resp.getMessage();
+            Data data= resp.getData();
+            if(responseCode==105)
+            {
+                Log.e("sendtripplus","105");
+                if(data!=null) {
+                    //   Toast.makeText(context, "Folio sendTrip: "+data.getOrderFolio(), Toast.LENGTH_SHORT).show();
+                    Log.e("sendtripplus","Folio sendTrip: "+data.getOrderFolio());
+                    presenter.gomanifest();
+                }else{
+                    presenter.gomanifest();
+                }
+            }else{
+                //presenter.nextRequest();
+                Toast.makeText(context, ""+message, Toast.LENGTH_SHORT).show();
+                Log.e("sendtripplus","no  105");
+                presenter.gomanifest();
+            }
+        }else{
+            presenter.gomanifest();
+            Log.e("sendtripplus","resp null");
+        }
+    }
 }

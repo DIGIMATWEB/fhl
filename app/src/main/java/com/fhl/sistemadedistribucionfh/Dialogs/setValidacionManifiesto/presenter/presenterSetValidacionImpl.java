@@ -55,7 +55,7 @@ public class presenterSetValidacionImpl implements  presenterSetValidacion{
     }
 
     @Override
-    public void setresponseValidacionMenifest(String code) {
+    public void setresponseValidacionMenifest(String code, String toString) {
         if(view!=null){
             view.statusValidacion(code);
         }
@@ -79,6 +79,25 @@ public class presenterSetValidacionImpl implements  presenterSetValidacion{
     public void setDetailTickets(List<dataTicketsDetailsendtrip> data) {
         if(view!=null){
             view.setDetailTickets(data);
+        }
+    }
+
+    @Override
+    public void sendSentriplus(String currentManifest, List<dataTicketsDetailsendtrip> dataTicketSendtrip, String sentripPlusFlow) {
+        if(view!=null){
+            interactor.sendSentriplus(currentManifest,dataTicketSendtrip,sentripPlusFlow);
+        }
+    }
+    @Override
+    public void tokenAvocado() {
+        if(view!=null){
+            interactor.tokenAvocado();
+        }
+    }
+    @Override
+    public void gomanifest() {
+        if(view!=null){
+            view.gomanifest();
         }
     }
 

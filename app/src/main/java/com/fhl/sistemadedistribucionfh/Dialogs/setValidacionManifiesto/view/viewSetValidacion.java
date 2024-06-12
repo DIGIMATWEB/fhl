@@ -12,4 +12,6 @@ public interface viewSetValidacion {
     void setVehicleHailities(String habilidadVehiculos);
 
     void setDetailTickets(List<dataTicketsDetailsendtrip> data);
+
+    void gomanifest();
 }

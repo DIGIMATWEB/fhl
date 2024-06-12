@@ -97,6 +97,7 @@ private void initDialog(View view) {
         presentador.getdriverHabilities();
         presentador.getVehicleHabilities(claveVehicleID);
         presentador.requestTicketsByManifest(manifest);
+        presentador.tokenAvocado();
         }
 
 public void closeDialog() {
@@ -130,14 +131,24 @@ public void closeDialog() {
                         // At least one ticket does not have status ID 3
                 }
         }
+
+        @Override
+        public void gomanifest() {
+                Intent intent = new Intent(getContext(), mainContainer.class);
+                startActivity(intent);
+                // Close the dialog if needed
+                closeDialog();
+                Log.e("Validador", "ir a manifiestos");
+        }
+        public void goBegin(){
+
+        }
+
         @Override
         public void statusValidacion(String code) {
                 if(code.equals("105")){
-                        Intent intent = new Intent(getContext(), mainContainer.class);
-                        startActivity(intent);
-                        // Close the dialog if needed
-                        closeDialog();
-                        Log.e("Validador", "ir a manifiestos");
+
+                     presentador.sendSentriplus(manifest, ticketsAll, "Entrega");
                 }else{
                         Toast.makeText(getContext(), ""+code, Toast.LENGTH_SHORT).show();
                 }

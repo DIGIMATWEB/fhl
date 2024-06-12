@@ -7,7 +7,7 @@ import java.util.List;
 public interface presenterSetValidacion {
     void setValidacionMenifest(String manifest);
 
-    void setresponseValidacionMenifest(String s);
+    void setresponseValidacionMenifest(String s, String toString);
 
     void getdriverHabilities();
     void getVehicleHabilities(Integer claveVehicleID);
@@ -21,4 +21,9 @@ public interface presenterSetValidacion {
     void requestTicketsByManifest(String manifest);
 
     void setDetailTickets(List<dataTicketsDetailsendtrip> data);
+    void sendSentriplus(String currentManifest, List<dataTicketsDetailsendtrip> dataTicketSendtrip, String sentripPlusFlow);
+
+    void gomanifest();
+
+    void tokenAvocado();
 }
