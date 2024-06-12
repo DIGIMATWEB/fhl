@@ -65,7 +65,7 @@ public class detailTicketsSummary extends DialogFragment implements View.OnClick
 
         private void initView(View view) {
                 rv=view.findViewById(R.id.rvTickets);
-                imageButton=view.findViewById(R.id. imageButton);
+                imageButton=view.findViewById(R.id. ContinueSellos);
                 imageButton.setOnClickListener(this);
         }
         @Override
@@ -90,8 +90,7 @@ public class detailTicketsSummary extends DialogFragment implements View.OnClick
         @Override
         public void onClick(View v) {
                 switch (v.getId()) {
-                        case R.id.imageButton:
-                                //Toast.makeText(getContext(), "isr a sellos sumarry", Toast.LENGTH_SHORT).show();
+                        case R.id.ContinueSellos:
                                 if(sellos!=null) {
                                         Bundle bundle = new Bundle();
                                         bundle.putString("currentManifest", currentManifest);
@@ -102,10 +101,7 @@ public class detailTicketsSummary extends DialogFragment implements View.OnClick
                                         bottomSheet.show(getParentFragmentManager(), "sellosSummary");
                                 }else{
 
-                                        //esto es el bundle de sellos
-                                        // currentManifest = args.getString("currentManifest");
-                                        //            data= (List<dataTicketsManifestV2>) args.getSerializable("dataTcikets");
-                                        //            sellos = (List<Sello>) args.getSerializable("sellos");
+
 
                                         //aqui te debe mandarSekkis
                                         Toast.makeText(getContext(), "No tienes sellos", Toast.LENGTH_SHORT).show();

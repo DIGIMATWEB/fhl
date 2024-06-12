@@ -38,6 +38,7 @@ public class validadorInteractorV2Impl implements validadorInteractorV2{
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
         Log.e("TOKEN",""+token);
+        Log.e("Validador"," M: "+currentManifest +"   "+idEmpleado);
        Call<responseValidadorV2> call = service.getManifestV2Detail(token,  idEmpleado,currentManifest);
        call.enqueue(new Callback<responseValidadorV2>() {
            @Override

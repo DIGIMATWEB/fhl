@@ -363,7 +363,11 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         String token_Avocado = preferences.getString(GeneralConstants.TOKEN_AVOCADO, null);
         String operadorId = preferences.getString(GeneralConstants.OPERADOR_NAME, null);
         if(token_Avocado!=null){
-            requestSendtriplus(token_Avocado,dataTicketSendtrip.get(0),operadorId,currentManifest,sentripPlusFlow);
+            requestSendtriplus(token_Avocado,
+                    dataTicketSendtrip.get(0),
+                    operadorId,
+                    currentManifest,
+                    sentripPlusFlow);
             Log.e("sendtripplus","requestSendtriplus");
         }
     }
@@ -469,7 +473,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
             {
                 Log.e("sendtripplus","105");
                 if(data!=null) {
-                 Toast.makeText(context, "Folio sendTrip: "+data.getOrderFolio(), Toast.LENGTH_SHORT).show();
+              //   Toast.makeText(context, "Folio sendTrip: "+data.getOrderFolio(), Toast.LENGTH_SHORT).show();
                     Log.e("sendtripplus","Folio sendTrip: "+data.getOrderFolio());
                   presenter.nextRequest();
                 }

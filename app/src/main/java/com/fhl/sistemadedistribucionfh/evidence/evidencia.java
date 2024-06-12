@@ -139,6 +139,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
             }
         }
+        progress = new loaderFH();
         initView();
         setInitConditions();
         sendEvidence.setVisibility(View.GONE);
@@ -356,8 +357,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 }
             }else{
                 Toast.makeText(this, "No tienes evidencias", Toast.LENGTH_SHORT).show();
-                secuenceRequest=6;
-                presenter.nextRequest();
+
             }
         }else{
             sendEvidence.setVisibility(View.GONE);
@@ -445,7 +445,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             this.fullLotes=true;
             checkLotes.setVisibility(View.GONE);
         }
-        progress = new loaderFH();
+
         //icons
         presenter = new requestEvidencePresenterImpl(this, getBaseContext());
         presenter.tokenAvocado();
@@ -490,6 +490,17 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         Log.e("detailticket", " flowdetail " + flowDetail);
         fillEvidenceRequired(flowDetail, dataTicketSendtrip);//2para test
         textFol.setText("Folio: " + dataTicketSendtrip.get(0).getFolioTicket());
+        if(evidenceList!=null) {
+            if (!evidenceList.isEmpty()) {
+
+            } else{
+                Toast.makeText(this, "No tienes evidencias", Toast.LENGTH_SHORT).show();
+                secuenceRequest=6;
+                presenter.nextRequest();
+            }
+        }else{
+            sendEvidence.setVisibility(View.GONE);
+        }
     }
 
     private void fillEvidenceRequired(Integer flowDetail, List<dataTicketsDetailsendtrip> dataTicketSendtrip) {
@@ -753,7 +764,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             presenter.changeStatusManifestTicket(currentManifest, changeStatusTicket, sentripPlusFlow, fullLotes);
 
         } else if (secuenceRequest == 8) {//borra  lo relacionano y regresa
-            Toast.makeText(this, "usar sendtrip plus Cambiar estatus y regresar a manifiestos", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(this, "usar sendtrip plus Cambiar estatus y regresar a manifiestos", Toast.LENGTH_SHORT).show();
 
             if (!isArrayofTickets) {// si es solo uno manda el manifiesto
                 presenter.hideDialog();
@@ -826,9 +837,11 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             @Override
             public void run() {
                 if (progress != null && this != null)
-                    progress.dismiss();
+                    if(progress.isAdded()) {
+                        progress.dismiss();
+                    }
             }
-        }, 300);
+        }, 20000);
     }
 
     public void gosignature() {

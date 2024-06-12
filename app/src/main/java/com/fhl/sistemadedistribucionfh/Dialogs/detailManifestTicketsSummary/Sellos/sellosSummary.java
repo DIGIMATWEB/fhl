@@ -84,13 +84,13 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.imageButton:
-                //Toast.makeText(getContext(), "ir a evidences", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "Modificar flujo de sellos", Toast.LENGTH_SHORT).show();
                 getActivity().finish();
                 Intent intent = new Intent(getActivity(), evidencia.class);
                 Bundle bundle = new Bundle();
                 bundle.putInt("flujoId", 1);
-                bundle.putString("currentManifest",currentManifest);
                 bundle.putString("sentripPlusFlow","Recoleccion");
+                bundle.putString("currentManifest",currentManifest);
                 bundle.putString("folioTicket", null);
                 bundle.putSerializable("dataTcikets",(Serializable) data);
                 intent.putExtras(bundle);

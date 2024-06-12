@@ -36,7 +36,9 @@ public class adapterSellosManifestDetail extends RecyclerView.Adapter<adapterSel
 
     @Override
     public void onBindViewHolder(@NonNull adapterSellosManifestDetail.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-       // holder.razonDesc.setText(data.get(position).getFolioTicket());
+        if(data.get(position).getNumeroSello()!=null) {
+            holder.razonDesc.setText("" + data.get(position).getNumeroSello());
+        }
 //        if(data.get(position).getFlag()==true){
 //            holder.check.setChecked(true);
 //            int tintColor = ContextCompat.getColor(context, R.color.yellow);
