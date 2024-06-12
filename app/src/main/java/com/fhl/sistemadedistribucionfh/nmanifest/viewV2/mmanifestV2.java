@@ -98,6 +98,8 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
             }
             if(!isAtListOne){
                 showToast();
+                this.data.get(positionG).setRecolecionEntrega(true);
+                adapter.updateManifest(this.data);
             }else{
                 gotoTicketsDetail();
             }

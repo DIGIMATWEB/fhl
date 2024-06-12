@@ -10,8 +10,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.InputFilter;
-import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -31,6 +29,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ErrorSalida.errorCarga;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ErrorSalida.errorDialog;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.escanearCodigosSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.sellosSalida.sellosSalida;
@@ -555,6 +554,14 @@ public class BarcodeScannerActivity extends AppCompatActivity
 
 
     }
+    public void errorCarga(String value) {
+        stopCameraProcess();
+        errorCarga errorD = new errorCarga();
+        Bundle args = new Bundle();
+        args.putString("error_value", value);
+        errorD.setArguments(args);
+        errorD.show(getSupportFragmentManager(), "errorCarga");
+    }
     public void detalManifestTicketsSummary(String mcurrentmanifest, List<dataTicketsManifestV2> codigoValidador, List<Sello> sellos){
         stopCameraProcess();
         Bundle bundle = new Bundle();
@@ -798,7 +805,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     validadorManifest validador=new validadorManifest();
                     validador.setArguments(bundle);
                     validador.show(getSupportFragmentManager(),"validadorManifest");
-                }else if(currentStatus==2){
+                }else if(currentStatus==2){//cortina
                     Log.e("validador","last status "+currentStatus+"  "+code +"  "+vehiclebarcodeVal);
                     if(vehiclebarcodeVal.equals(code)) {
                         image = vehiclebarcode;
@@ -815,7 +822,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                         errorD.show(getSupportFragmentManager(),"errorDialog");
                     }
 
-                }else if(currentStatus==3)
+                }else if(currentStatus==3)//rfc
                 {
                     Log.e("validador","last status "+currentStatus+"  "+code+"  "+rfcBarcodeVal);
                     if(rfcBarcodeVal.equals(code)) {

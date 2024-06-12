@@ -5,6 +5,7 @@ import android.content.Context;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.interactor.validadorInteractorV2Impl;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.model.dataValidadorV2;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.view.validadorViewV2;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
 import java.util.List;
 
@@ -25,6 +26,19 @@ public class presenterValidadorImplements implements presenterValidadorDetail{
             interactor.requestManifestDetail(idEmpleado,currentManifest);
         }
     }
+    @Override
+    public void getTicketByManifest(String currentManifest) {
+        if(view!=null){
+            interactor.getTicketByManifest(currentManifest);
+        }
+    }
+
+    @Override
+    public void setDetailTickets(List<dataTicketsManifestV2> data) {
+        if(view!=null){
+            view.setDetailTickets(data);
+        }
+    }
 
     @Override
     public void setManifestVehicleandDriver(List<dataValidadorV2> data) {
@@ -39,4 +53,6 @@ public class presenterValidadorImplements implements presenterValidadorDetail{
             view.errorCode();
         }
     }
+
+
 }

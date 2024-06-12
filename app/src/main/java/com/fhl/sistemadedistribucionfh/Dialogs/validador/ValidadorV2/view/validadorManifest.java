@@ -1,5 +1,6 @@
 package com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.view;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -24,7 +25,6 @@ import androidx.fragment.app.DialogFragment;
 
 import com.bumptech.glide.Glide;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2data;
-import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter.salidaViewPresenter;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.model.dataValidadorV2;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.presenter.presenterValidadorDetail;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.presenter.presenterValidadorImplements;
@@ -32,9 +32,11 @@ import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.login.model.modelProfile.profileResponse;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
+import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class validadorManifest extends DialogFragment implements View.OnClickListener ,validadorViewV2{
@@ -56,6 +58,9 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
     private String vehiclebarcode,rfcBarcode;
     private String vehiclebarcodeVal,rfcBarcodeVal;
     private Integer claveVehicleID;
+    private  List<dataValidadorV2> mdata=new ArrayList<>();
+    private List<dataTicketsManifestV2> tdata;
+    private Boolean ticketsEntregaExist=false;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +75,7 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
         setCancelable(true);
         Bundle args = getArguments();
         if (args != null) {
+            mdata.clear();
             codigoValidador= args.getString("qrCode");
             codigoValidador1= args.getString("statusValidador");
             cortinaDestino= args.getString("cortinaDestino");
@@ -124,7 +130,8 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
                 profileResponse profileData = gson.fromJson(token2, profileResponse.class);
                 int idEmpleado = profileData.getUsuarioId();
                 Log.e("validador","validator: "+idEmpleado+" manifest: "+currentManifest);
-               presenter.requestManifestDetail( idEmpleado,currentManifest);
+                presenter.requestManifestDetail( idEmpleado,currentManifest);
+                presenter.getTicketByManifest(currentManifest);
                 break;
             case "2":/** aqui pedimos los manifiestos y las cortinas*/
                 //aqui visible el vehiculo
@@ -142,7 +149,7 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
                 constrainCard.setVisibility(View.GONE);
                 textView29.setText("escanear codigo de la identificacion");
                 break;
-            case "3":
+            case "3":/***aqui se pide rfc*/
                 Log.e("barcodereader","barcode rfc     "+ codigoValidador);
                 constrainCard.setVisibility(View.GONE);
                 cortina.setVisibility(View.VISIBLE);
@@ -223,8 +230,45 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
 
 
     }
+
+    @Override
+    public void setDetailTickets(List<dataTicketsManifestV2> data) {//solicita todos los tickets del manifiesto
+        this.tdata=data;
+        if(data!=null){
+            Boolean isAtListOne=true;
+            for(dataTicketsManifestV2 ticket:data){
+                if(ticket.getTipoEntregaId()==2){
+                    //Log.e("SendTicket", "Datos: " + this.data.get(0).getValidador().getEstatus());
+                    if (ticket.getEstatus().equals("correcto")) {
+                        //isAtListOne=true;
+                    } else {
+                        isAtListOne=false;
+                    }
+                    break;
+                }else {
+
+                }
+
+            }
+            if(!isAtListOne){//si al menos har un ticket en entrega ()
+               // showToast();
+                if(mdata!=null) {
+
+                    ticketsEntregaExist=true;
+                }
+                //adapter.updateManifest(this.data);
+            }else{
+                //gotoTicketsDetail();
+                ticketsEntregaExist=false;
+            }
+        }else {
+            Toast.makeText(getContext(), "No hay ningun ticket", Toast.LENGTH_SHORT).show();
+
+        }
+    }
     @Override
     public void setManifestVehicleandDriver(List<dataValidadorV2> data) {
+        this.mdata=data;
         fulllayout.setVisibility(View.VISIBLE);
         numberManifestsalida.setText(""+data.get(0).getFolioDespacho());
         cedissalida.setText(""+data.get(0).getOrigen());
@@ -238,10 +282,44 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
         vehiclebarcodeVal=data.get(0).getVehiculo().getVin();
         rfcBarcodeVal=data.get(0).getOperador().getRfc(); // Esto es el String del RFC
         claveVehicleID=data.get(0).getVehiculoId();
-        if(codigoValidador1.equals("1")){
-            BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
-            barcodeScannerActivity.setVehicleandDriverBarcodes(vehiclebarcode,rfcBarcode,vehiclebarcodeVal,rfcBarcodeVal,claveVehicleID);
-        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (codigoValidador1.equals("1")) {
+                    BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
+                    if (data.get(0).getEstatus().getId() == 2) { // si el estatus es confirmado verde y no en progreso
+                        if (tdata != null) {
+                            if (ticketsEntregaExist) {
+                                barcodeScannerActivity.errorCarga("No se ha realizado la carga");
+                                dismiss();
+                            } else {
+                                barcodeScannerActivity.errorCarga("No hay tickets de entrega para el manifiesto");
+                                dismiss();
+                            }
+                        } else {
+                            barcodeScannerActivity.errorCarga("No se ha realizado la carga..");
+                            dismiss();
+                        }
+                    } else {
+                        if (data.get(0).getValidador().getEstatus().equals("correcto")) {
+                            barcodeScannerActivity.errorCarga("El manifiesto ya fue validado");
+                            dismiss();
+                        } else { // si es en progreso
+                            if (tdata != null) {
+                                if (ticketsEntregaExist) {
+                                    barcodeScannerActivity.setVehicleandDriverBarcodes(vehiclebarcode, rfcBarcode, vehiclebarcodeVal, rfcBarcodeVal, claveVehicleID);
+                                } else {
+                                    barcodeScannerActivity.errorCarga("No hay tickets de entrega para el manifiesto");
+                                    dismiss();
+                                }
+                            } else {
+                                barcodeScannerActivity.setVehicleandDriverBarcodes(vehiclebarcode, rfcBarcode, vehiclebarcodeVal, rfcBarcodeVal, claveVehicleID);
+                            }
+                        }
+                    }
+                }
+            }
+        }, 1000); // 2000 milliseconds = 2 seconds
         //barcodes data.get(0).getOperador().getRfcBarcode()+data.get(0).getVehiculo().getBarcodeVehicle()
 //        BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
 //        barcodeScannerActivity1.setVehicleandDriver(data.get(0).getVehiculo().getEconomico(),data.get(0).getOperador().getId());

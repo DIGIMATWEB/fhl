@@ -48,8 +48,22 @@ public class manifestAdapterV2 extends RecyclerView.Adapter<manifestAdapterV2.Vi
         holder.vehiclePlaca.setText(data.get(position).getVehiculo().getPlaca());
         holder.vehicleManifiesto.setText(data.get(position).getFolioDespacho());
         holder.vehicleCedis.setText(data.get(position).getOrigen());
-        holder.validationTextInProgress.setText(data.get(position).getValidador().getEstatus());
+
         holder.statusManifest.setText(data.get(position).getEstatus().getNombre());
+        if (data.get(position).getRecolecionEntrega()!=null){
+             if (data.get(position).getRecolecionEntrega() == false) {
+                holder.validationTextInProgress.setVisibility(View.GONE);
+                holder.validationText.setVisibility(View.GONE);
+            } else {
+                holder.validationTextInProgress.setVisibility(View.VISIBLE);
+                holder.validationText.setVisibility(View.VISIBLE);
+                holder.validationTextInProgress.setText(data.get(position).getValidador().getEstatus());
+            }
+        }else{
+            data.get(position).setRecolecionEntrega(false);
+            holder.validationTextInProgress.setVisibility(View.GONE);
+            holder.validationText.setVisibility(View.GONE);
+        }
         if (data.get(position).getEstatus().getNombre().equals("Confirmado")) {
             holder.statusManifest.setTextColor(ContextCompat.getColor(context, R.color.green));
         } else if (data.get(position).getEstatus().getNombre().equals("En proceso")) {
@@ -94,10 +108,15 @@ public class manifestAdapterV2 extends RecyclerView.Adapter<manifestAdapterV2.Vi
         this.data.addAll(filterList);
         notifyDataSetChanged();
     }
+    public void updateManifest(List<dataManifestV2> updated) {
+        this.data = new ArrayList<>();
+        this.data.addAll(updated);
+        notifyDataSetChanged();
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout cardOrder;
-        TextView numberManifest, vehicleName, vehiclePlaca, vehicleManifiesto, vehicleCedis,validationTextInProgress,statusManifest;
+        TextView numberManifest, vehicleName, vehiclePlaca, vehicleManifiesto, vehicleCedis,validationTextInProgress,statusManifest,validationText;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -107,6 +126,7 @@ public class manifestAdapterV2 extends RecyclerView.Adapter<manifestAdapterV2.Vi
             vehicleManifiesto = itemView.findViewById(R.id.numberManifest);
             vehicleCedis = itemView.findViewById(R.id.textView39);
             validationTextInProgress = itemView.findViewById(R.id.validationTextInProgress);
+            validationText = itemView.findViewById(R.id.validationText);
             statusManifest= itemView.findViewById(R.id.statusManifest);
         }
     }

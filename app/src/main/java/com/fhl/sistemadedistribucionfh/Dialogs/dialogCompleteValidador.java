@@ -54,6 +54,9 @@ private Boolean allmVehicles=false;
 private Boolean allmDrivers=false;
 private ImageView imageViewHC ,imageokHC,imageHV,imageokHV;
 private Integer  claveVehicleID;
+private List<dataTicketsDetailsendtrip> ticketsEntegra=new ArrayList<>();
+private List<dataTicketsDetailsendtrip> ticketsRecoleccion=new ArrayList<>();
+private List<dataTicketsDetailsendtrip> ticketsAll;
 @Override
 public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +106,29 @@ public void closeDialog() {
         @Override
         public void setDetailTickets(List<dataTicketsDetailsendtrip> data) {
                 //TODO AQUI DEBES VER SI LOS TICKETS SE ENCUENTRAN EN TipoEntregaId": 2
+                ticketsAll=data;
+                ticketsEntegra.clear();
+                ticketsRecoleccion.clear();
+                Boolean allValid = true;
+                for(dataTicketsDetailsendtrip ticket: data){
+                        if(ticket.getTipoEntregaId()==2){
+                                ticketsEntegra.add(ticket);
+                                Log.e("ticketValidacion",ticket.getFolioTicket()+ " ticket tipo recoleccion "+ticket.getEstatus().getNombre());
+                              if(ticket.getEstatus().getId()!=3){
+                                      allValid=false;
+                                       break;
+                              }
+                        }else{
+                                ticketsRecoleccion.add(ticket);
+                                Log.e("ticketValidacion",ticket.getFolioTicket()+ " ticket tipo recoleccion");
+                        }
+                }
+                if (allValid) {
+                        Log.e("ticketValidacion", "Vehiculo cargado");
+                } else {
+                        Log.e("ticketValidacion", "Vehiculo no ha sido cargado");
+                        // At least one ticket does not have status ID 3
+                }
         }
         @Override
         public void statusValidacion(String code) {

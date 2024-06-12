@@ -52,7 +52,9 @@ public class dataManifestV2 {
     @Expose
     private String fechaLlegada;
 
-    public dataManifestV2(String origen, String destino, Integer operadorId, Operador operador, Integer estatusId, Estatus estatus, String fechaCreacion, String ocupacionEfectiva, String tiempoEntrega, Integer vehiculoId, Vehiculo vehiculo, String folioDespacho, Validador validador, Integer id, String fechaLlegada) {
+    private Boolean isRecolecionEntrega=false;
+
+    public dataManifestV2(String origen, String destino, Integer operadorId, Operador operador, Integer estatusId, Estatus estatus, String fechaCreacion, String ocupacionEfectiva, String tiempoEntrega, Integer vehiculoId, Vehiculo vehiculo, String folioDespacho, Validador validador, Integer id, String fechaLlegada,Boolean isRecolecionEntrega) {
         super();
         this.origen = origen;
         this.destino = destino;
@@ -69,6 +71,7 @@ public class dataManifestV2 {
         this.validador = validador;
         this.id = id;
         this.fechaLlegada = fechaLlegada;
+        this.isRecolecionEntrega=isRecolecionEntrega;
     }
 
     public String getOrigen() {
@@ -189,5 +192,13 @@ public class dataManifestV2 {
 
     public void setFechaLlegada(String fechaLlegada) {
         this.fechaLlegada = fechaLlegada;
+    }
+
+    public Boolean getRecolecionEntrega() {
+        return isRecolecionEntrega;
+    }
+
+    public void setRecolecionEntrega(Boolean recolecionEntrega) {
+        isRecolecionEntrega = recolecionEntrega;
     }
 }
