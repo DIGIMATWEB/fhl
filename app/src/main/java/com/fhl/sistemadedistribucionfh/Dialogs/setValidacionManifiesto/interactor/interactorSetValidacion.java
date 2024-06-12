@@ -6,4 +6,6 @@ public interface interactorSetValidacion {
     void getVehicle(Integer claveVehicleID);
 
     void setDatosValidador(String manifest, String vehicleVin, String rfcUser, String jsonHabDriver, String jsonHabVehicles, String user);
+
+    void requestTicketsByManifest(String manifest);
 }

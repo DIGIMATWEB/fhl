@@ -19,6 +19,11 @@ import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrifitClientSGD;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitClientFHManifest;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitValidations;
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.TicketsDetailSentriplus;
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
+import com.google.gson.Gson;
+
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -218,6 +223,7 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
         }
     }
 
+
     private void requestDatosValidador(String token, String manifest, String vehicleVin, String rfcUser, String jsonHabDriver, String jsonHabVehicles, String user) {
         //Validadorset newset=new Validadorset("","Correcto");
         // RequestBody
@@ -270,4 +276,60 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
             Log.e("SendTicket: ", "Response: ");
         }
     }
+    @Override
+    public void requestTicketsByManifest(String manifest) {
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String token = preferences.getString(GeneralConstants.TOKEN, null);
+        if(token!=null){
+            Call<TicketsDetailSentriplus> call= service.getTicket(token,manifest,null);
+            call.enqueue(new Callback<TicketsDetailSentriplus>() {
+                @Override
+                public void onResponse(Call<TicketsDetailSentriplus> call, Response<TicketsDetailSentriplus> response) {
+                    validateDetailTicket(response,context);
+                }
+                @Override
+                public void onFailure(Call<TicketsDetailSentriplus> call, Throwable t) {
+                    Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private void validateDetailTicket(Response<TicketsDetailSentriplus> response, Context context) {
+        if (RetrofitValidations.checkSuccessCode(response.code())) {
+            responseSendtripTicket(response,context);
+        } else {
+            Log.e("responseSendtripTicket","RetrofitValidations fail");
+            Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void responseSendtripTicket(Response<TicketsDetailSentriplus> response, Context context) {//todo metodo para obetener el detalle de ticket
+        TicketsDetailSentriplus resp=response.body();
+        if(resp!=null)
+        {
+            int responseCode=resp.getStatus();
+            String message=resp.getMessage();
+            List<dataTicketsDetailsendtrip> data= resp.getData();
+            if(responseCode==200)
+            {
+                Log.e("responseSendtripTicket","105");
+                if(data!=null) {
+                    Gson gson=new Gson();
+                    String json= gson.toJson(data);
+                    Log.e("empaque","json: "+json);
+                    //Toast.makeText(context, "Folio sendTripDetail: "+data.get(0).getFolioTicket(), Toast.LENGTH_SHORT).show();
+                    Log.e("responseSendtripTicket","Folio sendTrip: "+data.get(0).getFolioTicket());
+                    presenter.setDetailTickets(data);
+
+                }
+            }else{
+
+                Log.e("responseSendtripTicket","no  105");
+            }
+        }else{
+            Log.e("responseSendtripTicket","resp null");
+        }
+    }
+
 }

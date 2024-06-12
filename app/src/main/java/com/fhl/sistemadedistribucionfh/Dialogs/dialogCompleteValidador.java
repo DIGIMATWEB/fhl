@@ -29,6 +29,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.presenter
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.view.viewSetValidacion;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
 import com.google.gson.Gson;
 
@@ -92,13 +93,17 @@ private void initDialog(View view) {
         presentador= new presenterSetValidacionImpl(this,getContext());
         presentador.getdriverHabilities();
         presentador.getVehicleHabilities(claveVehicleID);
+        presentador.requestTicketsByManifest(manifest);
         }
 
 public void closeDialog() {
         this.dismiss();
 
         }
-
+        @Override
+        public void setDetailTickets(List<dataTicketsDetailsendtrip> data) {
+               
+        }
         @Override
         public void statusValidacion(String code) {
                 if(code.equals("105")){
@@ -167,6 +172,9 @@ public void closeDialog() {
                         bottomStatusManifestHabilidadesVehiculo.setVisibility(View.GONE);
                 }
         }
+
+
+
         private List<String> extractNombreValues2(String habilidadesJson) {
                 List<String> nombreValues = new ArrayList<>();
 
