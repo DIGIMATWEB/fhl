@@ -102,7 +102,7 @@ public void closeDialog() {
         }
         @Override
         public void setDetailTickets(List<dataTicketsDetailsendtrip> data) {
-               
+                //TODO AQUI DEBES VER SI LOS TICKETS SE ENCUENTRAN EN TipoEntregaId": 2
         }
         @Override
         public void statusValidacion(String code) {
