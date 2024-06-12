@@ -129,7 +129,7 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
 
         secuence = secuence + 1;
         if (secuence == 1 ) {
-           // initSendFolios();//se camio ya no se ejecuta
+           // initSendFolios();//se cambio ya no se ejecuta
             presenter.nextRequest();
         } else if (secuence == 2) {
             changestatus();

@@ -171,7 +171,7 @@
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_marginStart="10dp"
-            android:text="Escanea el código del vehículo"
+            android:text="Escanea el código del vehículo(VIN)"
             android:textSize="@dimen/h55"
             app:layout_constraintStart_toEndOf="@+id/imageView11"
             app:layout_constraintTop_toBottomOf="@+id/textView41">
@@ -182,7 +182,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout12"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="30dp"
@@ -204,6 +204,7 @@
         </ImageView>
 
         <ImageView
+            android:id="@+id/imageView26"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginEnd="15dp"
@@ -228,12 +229,15 @@
         </TextView>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_marginStart="10dp"
-            android:text="Escanea el código de la identificacion"
-            android:textSize="@dimen/h55"
-            app:layout_constraintStart_toEndOf="@+id/imageView12"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="5dp"
+            android:text="Escanea el código de la identificacion (RFC)"
+            android:textSize="@dimen/h6"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageView26"
+            app:layout_constraintStart_toStartOf="@+id/textView42"
             app:layout_constraintTop_toBottomOf="@+id/textView42">
 
         </TextView>

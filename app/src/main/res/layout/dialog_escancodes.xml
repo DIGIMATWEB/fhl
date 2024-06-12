@@ -289,7 +289,7 @@
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_marginStart="10dp"
-            android:text="Escanea el código de los sellos"
+            android:text="Ingresar los sellos"
             android:textSize="@dimen/h55"
             app:layout_constraintStart_toEndOf="@+id/imageView13"
             app:layout_constraintTop_toBottomOf="@+id/textView43">
