@@ -91,7 +91,7 @@ public class detailTicketsSummary extends DialogFragment implements View.OnClick
         public void onClick(View v) {
                 switch (v.getId()) {
                         case R.id.ContinueSellos:
-                                if(sellos!=null) {
+                       //         if(sellos!=null) {
                                         Bundle bundle = new Bundle();
                                         bundle.putString("currentManifest", currentManifest);
                                         bundle.putSerializable("dataTcikets", (Serializable) data);
@@ -99,24 +99,26 @@ public class detailTicketsSummary extends DialogFragment implements View.OnClick
                                         sellosSummary bottomSheet = new sellosSummary();
                                         bottomSheet.setArguments(bundle);
                                         bottomSheet.show(getParentFragmentManager(), "sellosSummary");
-                                }else{
+//                                }else{
+//
+//
+//
+//                                        //aqui te debe mandarSekkis
+//                                        Toast.makeText(getContext(), "No tienes sellos", Toast.LENGTH_SHORT).show();
+//                                        getActivity().finish();
+//                                        Intent intent = new Intent(getActivity(), evidencia.class);
+//                                        Bundle bundle = new Bundle();
+//                                        bundle.putInt("flujoId", 1);
+//                                        bundle.putString("sentripPlusFlow","Recoleccion");
+//                                        bundle.putString("currentManifest",currentManifest);
+//                                        bundle.putString("folioTicket", null);
+//                                        bundle.putSerializable("dataTcikets",(Serializable) data);
+//                                        intent.putExtras(bundle);
+//                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                        startActivity(intent);
+//                                }
 
 
-
-                                        //aqui te debe mandarSekkis
-                                        Toast.makeText(getContext(), "No tienes sellos", Toast.LENGTH_SHORT).show();
-                                        getActivity().finish();
-                                        Intent intent = new Intent(getActivity(), evidencia.class);
-                                        Bundle bundle = new Bundle();
-                                        bundle.putInt("flujoId", 1);
-                                        bundle.putString("sentripPlusFlow","Recoleccion");
-                                        bundle.putString("currentManifest",currentManifest);
-                                        bundle.putString("folioTicket", null);
-                                        bundle.putSerializable("dataTcikets",(Serializable) data);
-                                        intent.putExtras(bundle);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(intent);
-                                }
                                 break;
                 }
         }

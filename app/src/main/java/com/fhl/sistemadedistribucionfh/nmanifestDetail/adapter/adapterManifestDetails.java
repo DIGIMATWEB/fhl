@@ -52,22 +52,29 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
             }else if(statusId==2){
                 holder.statusTicket.setText("Asignado");
                 holder.statusTicket.setTextColor(ContextCompat.getColor(context, R.color.yellowdark));
-                holder.switchSelector.setVisibility(View.VISIBLE);
-                holder.switchSelector.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if(isChecked){
-                            if(!selectedItems.contains(data.get(position).getFolioTicket())) {
-                                selectedItems.add(data.get(position).getFolioTicket());
-                            }//else do nothing
-                        }else{
-                            if(selectedItems.contains(data.get(position).getFolioTicket())) {
-                                selectedItems.remove(data.get(position).getFolioTicket());
+
+                if(data.get(position).getTipoEntregaId()==2) {
+                    holder.textView99.setText("E");
+                    holder.switchSelector.setVisibility(View.VISIBLE);
+                    holder.switchSelector.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if (isChecked) {
+                                if (!selectedItems.contains(data.get(position).getFolioTicket())) {
+                                    selectedItems.add(data.get(position).getFolioTicket());
+                                }//else do nothing
+                            } else {
+                                if (selectedItems.contains(data.get(position).getFolioTicket())) {
+                                    selectedItems.remove(data.get(position).getFolioTicket());
+                                }
                             }
+                            mview.checkFoliosSelected(selectedItems);
                         }
-                        mview.checkFoliosSelected(selectedItems);
-                    }
-                });
+                    });
+                }else{
+                    holder.switchSelector.setVisibility(View.GONE);
+                    holder.textView99.setText("R");
+                }
             }else if(statusId==3){
                 holder.statusTicket.setText("En ruta");
                 holder.statusTicket.setTextColor(ContextCompat.getColor(context, R.color.purpleenruta));
@@ -110,7 +117,7 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout cardOrder;
-        TextView ticketFolio,statusTicket,masText;
+        TextView ticketFolio,statusTicket,masText,textView99;
         ImageView siguiente;
         Switch switchSelector;
         FrameLayout freametouch;
@@ -123,6 +130,7 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
             ticketFolio = itemView.findViewById(R.id.ticketFolio);
             statusTicket= itemView.findViewById(R.id.statusTicket);
             switchSelector = itemView.findViewById(R.id.switchSelector);
+            textView99 =itemView.findViewById(R.id.textView99);
         }
     }
 }
