@@ -1,6 +1,7 @@
 package com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Sellos;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,8 +26,10 @@ import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Sell
 import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Sellos.view.sellosSummaryView;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
+import com.fhl.sistemadedistribucionfh.evidence.evidencia;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -134,7 +137,7 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
                                 }
                                 adapter.updateData(sellos);
                                 if (control) {
-                                    Toast.makeText(getContext(), "guardar en endpoint valentin", Toast.LENGTH_SHORT).show();
+                                 //   Toast.makeText(getContext(), "guardar en endpoint valentin", Toast.LENGTH_SHORT).show();
                                     presenter.setSello(manifestId,sellos);
                                 }
                             }
@@ -163,18 +166,18 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
 
 
     public void goEvidence() {
-        Toast.makeText(getContext(), "ir a evidencias", Toast.LENGTH_SHORT).show();
-        //                getActivity().finish();
-//                Intent intent = new Intent(getActivity(), evidencia.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putInt("flujoId", 1);
-//                bundle.putString("sentripPlusFlow","Recoleccion");
-//                bundle.putString("currentManifest",currentManifest);
-//                bundle.putString("folioTicket", null);
-//                bundle.putSerializable("dataTcikets",(Serializable) data);
-//                intent.putExtras(bundle);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(intent);
+      //  Toast.makeText(getContext(), "ir a evidencias", Toast.LENGTH_SHORT).show();
+                getActivity().finish();
+                Intent intent = new Intent(getActivity(), evidencia.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("flujoId", 1);
+                bundle.putString("sentripPlusFlow","Recoleccion");
+                bundle.putString("currentManifest",currentManifest);
+                bundle.putString("folioTicket", null);
+                bundle.putSerializable("dataTcikets",(Serializable) data);
+                intent.putExtras(bundle);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
     }
 
     public void updateSellos(List<Sello> data) {
