@@ -1,8 +1,8 @@
 package com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Sellos;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,21 +18,19 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Sellos.Adapter.SwipeToDeleteCallback;
 import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Sellos.Adapter.adapterSellosManifestDetail;
-import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Tickets.Adapter.adapterTicketsManifestDetail;
-import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Tickets.detailTicketsSummary;
-import com.fhl.sistemadedistribucionfh.MainActivity;
+import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Sellos.presenter.presenterSello;
+import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Sellos.presenter.presenterSelloImpl;
+import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Sellos.view.sellosSummaryView;
 import com.fhl.sistemadedistribucionfh.R;
-import com.fhl.sistemadedistribucionfh.Salida.Model.v2.dataSalida;
 import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
-import com.fhl.sistemadedistribucionfh.evidence.evidencia;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class sellosSummary extends DialogFragment implements View.OnClickListener {
+public class sellosSummary extends DialogFragment implements View.OnClickListener , sellosSummaryView {
     public static final String TAG = sellosSummary.class.getSimpleName();
     private adapterSellosManifestDetail adapter;
     private String currentManifest;
@@ -42,6 +40,8 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
     private List<Sello> sellos;
     private CardView sellosAdd;
     private Boolean control = false;
+    private presenterSello presenter;
+    private Integer manifestId=0;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,21 +57,21 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
         getDialog().getWindow().setBackgroundDrawableResource(R.color.customTransparent2);
         setCancelable(true);
         Bundle args = getArguments();
-        initView(view);
+
         if (args != null) {
             currentManifest = args.getString("currentManifest");
             data = (List<dataTicketsManifestV2>) args.getSerializable("dataTcikets");
             sellos = (List<Sello>) args.getSerializable("sellos");
             if (sellos != null) {
-                fillTicketsRV();
+
             }
         }
+        initView(view);
         if (sellos != null) {
-
+            fillTicketsRV(sellos);
         } else {
             Toast.makeText(getContext(), "No tienes sellos", Toast.LENGTH_SHORT).show();
         }
-
         //setFonts();
         return view;
     }
@@ -82,21 +82,37 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
         imageButton.setOnClickListener(this);
         sellosAdd = view.findViewById(R.id.sellosAdd);
         sellosAdd.setOnClickListener(this);
-
+        presenter= new presenterSelloImpl(this,getContext());
+        presenter.requestManifestdetail(currentManifest);
+        presenter.reqSellos(currentManifest);
     }
-
-    private void fillTicketsRV() {
-        if (sellos == null) {
-            sellos = new ArrayList<>();
+    @Override
+    public void seteginsellos(List<Sello> sellos) {
+        if (sellos != null) {
+            this.sellos = sellos;
+            Log.e("QR", "nSellos: " + sellos.size()); // Debug log
+            fillTicketsRV(sellos);
+        } else {
+            Log.e("QR", "sellos is null");
         }
-        adapter = new adapterSellosManifestDetail(this, sellos, getContext());
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        rv.setLayoutManager(linearLayoutManager);
-        rv.setAdapter(adapter);
-        // Attach the ItemTouchHelper to the RecyclerView
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter));
-        itemTouchHelper.attachToRecyclerView(rv);
     }
+    private void fillTicketsRV(List<Sello> sellos) {
+        if (adapter == null) {
+            adapter = new adapterSellosManifestDetail(this, sellos, getContext());
+            rv.setLayoutManager(new LinearLayoutManager(getContext()));
+            rv.setAdapter(adapter);
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter));
+            itemTouchHelper.attachToRecyclerView(rv);
+        } else {
+            adapter.updateData(sellos);
+        }
+    }
+    @Override
+    public void saveManifestId(Integer id) {
+        this.manifestId=id;
+    }
+
+
 
     private void showDialog(String value) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -119,6 +135,7 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
                                 adapter.updateData(sellos);
                                 if (control) {
                                     Toast.makeText(getContext(), "guardar en endpoint valentin", Toast.LENGTH_SHORT).show();
+                                    presenter.setSello(manifestId,sellos);
                                 }
                             }
                         } else {
@@ -138,6 +155,12 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+    @Override
+    public void setMessageSello() {
+        goEvidence();
+    }
+
+
 
     public void goEvidence() {
         Toast.makeText(getContext(), "ir a evidencias", Toast.LENGTH_SHORT).show();
@@ -169,7 +192,7 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
                 if (sellos != null) {
                     adapter.updateSellos(new Sello("", "", Integer.valueOf(currentManifest), 0));
                 } else {
-                    fillTicketsRV();
+                    fillTicketsRV(sellos);
                     adapter.updateSellos(new Sello("", "", Integer.valueOf(currentManifest), 0));
                 }
                 break;
@@ -198,5 +221,6 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
                 break;
         }
     }
+
 
 }

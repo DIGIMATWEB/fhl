@@ -54,6 +54,8 @@ public class RetrofitEndPoints {
     public static final String SET_CONFIMACION_LOTES = "SetConfimacionLotes";
     public static final String GET_PLANEACION = "GetTicketsPlaneacion";
     public static final String SET_PLANEACION = "SetTicketStatusPlaneacion";
+    public static final String SET_SELLO = "Despachos/Sello/InsertaSello";
+
     //endregion
 
 //todo FIN DE PROYECTO ENTREGA 2

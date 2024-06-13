@@ -1,4 +1,4 @@
-package com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Sellos;
+package com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Sellos.Adapter;
 
 import android.graphics.Canvas;
 
