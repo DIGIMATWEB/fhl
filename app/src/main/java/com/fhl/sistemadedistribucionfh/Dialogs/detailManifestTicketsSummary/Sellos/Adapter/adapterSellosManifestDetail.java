@@ -12,19 +12,27 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Sellos.sellosSummary;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Salida.Model.v2.dataSalida;
 import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class adapterSellosManifestDetail extends RecyclerView.Adapter<adapterSellosManifestDetail.ViewHolder> {
     private Context context;
     private List<Sello> data;
+    private sellosSummary mview;
 
-    public adapterSellosManifestDetail(List<Sello> sellos, Context context) {
+    public adapterSellosManifestDetail(sellosSummary mview,List<Sello> sellos, Context context) {
         this.context = context;
-        this.data=sellos;
+        this.mview=mview;
+        if (data != null) {
+            this.data = sellos;
+        } else {
+            this.data = new ArrayList<>();
+        }
     }
 
     @NonNull
@@ -39,16 +47,7 @@ public class adapterSellosManifestDetail extends RecyclerView.Adapter<adapterSel
         if(data.get(position).getNumeroSello()!=null) {
             holder.razonDesc.setText("" + data.get(position).getNumeroSello());
         }
-//        if(data.get(position).getFlag()==true){
-//            holder.check.setChecked(true);
-//            int tintColor = ContextCompat.getColor(context, R.color.yellow);
-//            ColorFilter colorFilter = new PorterDuffColorFilter(tintColor, PorterDuff.Mode.SRC_IN);
-//            holder.icticket.setColorFilter(colorFilter);
-//            mview.updatescanedData(data);
-//
-//        }else {
-//            holder.check.setChecked(false);
-//        }
+
     }
 
     @Override
@@ -56,10 +55,14 @@ public class adapterSellosManifestDetail extends RecyclerView.Adapter<adapterSel
         return data.size();
     }
 
-//    public void updateData(List<ticketsScanned> model) {
-//        this.data=model;
-//        notifyDataSetChanged();
-//    }
+    public void updateSellos(Sello mdata){
+        if (mdata != null) {
+            this.data.add(mdata);
+            mview.updateSellos(data);
+            notifyDataSetChanged();
+
+        }
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView razonDesc;

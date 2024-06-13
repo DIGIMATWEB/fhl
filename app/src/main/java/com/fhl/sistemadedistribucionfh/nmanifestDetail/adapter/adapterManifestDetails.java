@@ -46,6 +46,11 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
         holder.ticketFolio.setText(data.get(position).getFolioTicket());//data.get(position).getFolioTicket());
         Integer statusId= data.get(position).getEstatusId();
         if(data.get(position).getEstatusId() != null) {
+            if(data.get(position).getTipoEntregaId()==2) {
+                holder.textView99.setText("E");
+            }else {
+                holder.textView99.setText("R");
+            }
             if(statusId==1){
                 holder.statusTicket.setText("En cola");
                 holder.statusTicket.setTextColor(ContextCompat.getColor(context, R.color.grey));
@@ -54,7 +59,8 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
                 holder.statusTicket.setTextColor(ContextCompat.getColor(context, R.color.yellowdark));
 
                 if(data.get(position).getTipoEntregaId()==2) {
-                    holder.textView99.setText("E");
+                    holder.switchSelector.setVisibility(View.GONE);
+                }else{
                     holder.switchSelector.setVisibility(View.VISIBLE);
                     holder.switchSelector.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
@@ -71,9 +77,6 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
                             mview.checkFoliosSelected(selectedItems);
                         }
                     });
-                }else{
-                    holder.switchSelector.setVisibility(View.GONE);
-                    holder.textView99.setText("R");
                 }
             }else if(statusId==3){
                 holder.statusTicket.setText("En ruta");
