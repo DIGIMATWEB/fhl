@@ -27,7 +27,7 @@ public class adapterSellosManifestDetail extends RecyclerView.Adapter<adapterSel
     private Context context;
     private List<Sello> data;
     private sellosSummary mview;
-
+    private ViewHolder viewHolder;
     public adapterSellosManifestDetail(sellosSummary mview,List<Sello> sellos, Context context) {
         this.context = context;
         this.mview=mview;
@@ -47,6 +47,7 @@ public class adapterSellosManifestDetail extends RecyclerView.Adapter<adapterSel
 
     @Override
     public void onBindViewHolder(@NonNull adapterSellosManifestDetail.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        viewHolder=holder;
         if(data.get(position).getNumeroSello()!=null) {
             if(!data.get(position).getNumeroSello().equals("")) {
                 holder.razonDesc.setVisibility(View.VISIBLE);
@@ -62,16 +63,19 @@ public class adapterSellosManifestDetail extends RecyclerView.Adapter<adapterSel
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    // Perform the action you need
                     String inputText = holder.editrazonDescSalida.getText().toString();
-                    // Update the data item with the input text
-                    data.get(position).setNumeroSello(inputText);
-                    // Notify the adapter of the data change
-                    notifyItemChanged(position);
-                    // Hide the EditText and show the TextView
-                    holder.razonDesc.setVisibility(View.VISIBLE);
-                    holder.razonDesc.setText(inputText);
-                    holder.editrazonDescSalida.setVisibility(View.GONE);
+                    if (!inputText.isEmpty()) {
+                        data.get(position).setNumeroSello(inputText);
+                        notifyItemChanged(position);
+                        holder.razonDesc.setVisibility(View.VISIBLE);
+                        holder.razonDesc.setText(inputText);
+                        holder.editrazonDescSalida.setVisibility(View.GONE);
+                       // mview.control(true);
+                    } else {
+                        // Set a default value if the input is empty
+                        holder.editrazonDescSalida.setError("Porfavor introduce un valor");
+                        mview.control(false);
+                    }
                     return true;
                 }
                 return false;
@@ -79,7 +83,36 @@ public class adapterSellosManifestDetail extends RecyclerView.Adapter<adapterSel
         });
 
     }
+    public boolean validateFields() {
+        for (int i = 0; i < getItemCount(); i++) {
+                ViewHolder viewHolder = this.viewHolder;
+                if (viewHolder.editrazonDescSalida.getVisibility() == View.VISIBLE) {
+                    String text = viewHolder.editrazonDescSalida.getText().toString();
+                    String text2 =viewHolder.razonDesc.getText().toString();
+                    if (text.isEmpty()) {
+                        viewHolder.editrazonDescSalida.setError("Porfavor introduce un valor.");
+                        mview.control(false);
+                        return false;
+                    }else {
+                        viewHolder.razonDesc.setText(text);
+                      //  text2 =viewHolder.razonDesc.getText().toString();
+                       // data.get(i).setNumeroSello(text2);
+                        if(text2.isEmpty()){
+                            viewHolder.editrazonDescSalida.setError("Porfavor guarda el valor .");
+                            mview.control(false);
+                            return false;
+                        }else{
 
+                        }
+
+                    }
+
+                }
+
+        }
+        mview.control(true);
+        return true;
+    }
     @Override
     public int getItemCount() {
         return data.size();
@@ -92,6 +125,17 @@ public class adapterSellosManifestDetail extends RecyclerView.Adapter<adapterSel
             notifyDataSetChanged();
 
         }
+    }
+    public void removeItem(int position) {
+        data.remove(position);
+        mview.updateSellos(data);
+        notifyItemRemoved(position);
+    }
+
+    public void updateData(List<Sello> sellos) {
+        this.data= new ArrayList<>();
+        this.data.addAll(sellos);
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
