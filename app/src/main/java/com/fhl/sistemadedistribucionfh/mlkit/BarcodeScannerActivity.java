@@ -583,9 +583,9 @@ public class BarcodeScannerActivity extends AppCompatActivity
             Log.e("dialogSalida","existen sellos");
         }else{
             Log.e("dialogSalida","no existen sellos");
-           // statusrecepcion="5";
-           // Toast.makeText(this, "No tienes sellos", Toast.LENGTH_SHORT).show();
-           // dismissSellos();
+            statusrecepcion="5";
+            Toast.makeText(this, "No tienes sellos", Toast.LENGTH_SHORT).show();
+            dismissSellos();
         }
         bundle.putString("statusRecepcion", statusrecepcion);
         // bundle.putString("cortinaDestino", cortinaDestination);
