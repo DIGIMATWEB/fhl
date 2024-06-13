@@ -2,10 +2,13 @@ package com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Sel
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,8 +48,35 @@ public class adapterSellosManifestDetail extends RecyclerView.Adapter<adapterSel
     @Override
     public void onBindViewHolder(@NonNull adapterSellosManifestDetail.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         if(data.get(position).getNumeroSello()!=null) {
-            holder.razonDesc.setText("" + data.get(position).getNumeroSello());
+            if(!data.get(position).getNumeroSello().equals("")) {
+                holder.razonDesc.setVisibility(View.VISIBLE);
+                holder.razonDesc.setText("" + data.get(position).getNumeroSello());
+                holder.editrazonDescSalida.setVisibility(View.GONE);
+            }else{
+                holder.razonDesc.setVisibility(View.GONE);
+                holder.editrazonDescSalida.setVisibility(View.VISIBLE);
+                holder.editrazonDescSalida.setText("");
+            }
         }
+        holder.editrazonDescSalida.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    // Perform the action you need
+                    String inputText = holder.editrazonDescSalida.getText().toString();
+                    // Update the data item with the input text
+                    data.get(position).setNumeroSello(inputText);
+                    // Notify the adapter of the data change
+                    notifyItemChanged(position);
+                    // Hide the EditText and show the TextView
+                    holder.razonDesc.setVisibility(View.VISIBLE);
+                    holder.razonDesc.setText(inputText);
+                    holder.editrazonDescSalida.setVisibility(View.GONE);
+                    return true;
+                }
+                return false;
+            }
+        });
 
     }
 
@@ -68,11 +98,13 @@ public class adapterSellosManifestDetail extends RecyclerView.Adapter<adapterSel
         private TextView razonDesc;
         private CheckBox check;
         private ImageView icticket;
+        private EditText editrazonDescSalida;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             razonDesc=itemView.findViewById(R.id.razonDescSalida);
             check=itemView.findViewById(R.id.checkSalida );
             icticket=itemView.findViewById(R.id.icticket);
+            editrazonDescSalida=itemView.findViewById(R.id.editrazonDescSalida);
         }
     }
 }
