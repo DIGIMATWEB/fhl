@@ -21,16 +21,16 @@ public class Item implements Serializable {
     private Integer piezas;
     @SerializedName("Altura")
     @Expose
-    private Integer altura;
+    private Double altura;
     @SerializedName("Largo")
     @Expose
-    private Integer largo;
+    private Double largo;
     @SerializedName("Ancho")
     @Expose
-    private Integer ancho;
+    private Double ancho;
     @SerializedName("Valor")
     @Expose
-    private Integer valor;
+    private Double valor;
     @SerializedName("Peso")
     @Expose
     private Double peso;
@@ -50,7 +50,7 @@ public class Item implements Serializable {
     @Expose
     private String embalajeId;
 
-    public Item(Integer id, String descripcion, Integer piezas, Integer altura, Integer largo, Integer ancho, Integer valor, Double peso, String productoId, String unidadMedidaId, String clavePeligrosoId, String uNId, String embalajeId) {
+    public Item(Integer id, String descripcion, Integer piezas, Double altura, Double largo, Double ancho, Double valor, Double peso, String productoId, String unidadMedidaId, String clavePeligrosoId, String uNId, String embalajeId) {
         super();
         this.id = id;
      this.descripcion = descripcion;
@@ -89,32 +89,32 @@ public class Item implements Serializable {
     public void setPiezas(Integer piezas) {
         this.piezas = piezas;
     }
-    public Integer getAltura() {
+    public Double getAltura() {
         return altura;
     }
 
-    public void setAltura(Integer altura) {
+    public void setAltura(Double altura) {
         this.altura = altura;
     }
-    public Integer getLargo() {
+    public Double getLargo() {
         return largo;
     }
 
-    public void setLargo(Integer largo) {
+    public void setLargo(Double largo) {
         this.largo = largo;
     }
-    public Integer getAncho() {
+    public Double getAncho() {
         return ancho;
     }
 
-    public void setAncho(Integer ancho) {
+    public void setAncho(Double ancho) {
         this.ancho = ancho;
     }
-    public Integer getValor() {
+    public Double getValor() {
         return valor;
     }
 
-    public void setValor(Integer valor) {
+    public void setValor(Double valor) {
         this.valor = valor;
     }
     public Double getPeso() {

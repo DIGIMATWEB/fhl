@@ -309,6 +309,7 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
 
             // Log the final JSON string
             Gson gson = new Gson();
+
             List<Paquete> lotes = gson.fromJson(result.getJSONArray("Paquetes").toString(), new TypeToken<List<Paquete>>() {}.getType());
             if(lotes!=null) {
                 this.lotes=lotes;

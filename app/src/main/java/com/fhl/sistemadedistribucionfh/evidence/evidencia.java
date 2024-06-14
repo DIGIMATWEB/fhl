@@ -722,7 +722,10 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         } else if (secuenceRequest == 5) {//envia la encuesta  falta el comentario
             secuenceRequest = secuenceRequest + 1;
             Log.e("sendEvidence", "sendEvidence: " + secuenceRequest + " sendRate: " + stars);
-            int rating = (int) Math.round(Double.parseDouble(stars));
+            int rating = 0;
+            if(!stars.isEmpty()) {
+                 rating = (int) Math.round(Double.parseDouble(stars));
+            }
             if (folioTicket != null) {
                 presenter.sendRate(rating, folioTicket);
                 changeStatusTicket = folioTicket;
