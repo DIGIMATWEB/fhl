@@ -81,13 +81,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/fewwhite"
-        android:visibility="visible">
+        android:visibility="gone">
 
+        <ImageView
+            android:id="@+id/imageView27"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/ic_scannercam"
+            android:backgroundTint="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Escaner"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/imageView27"
+            app:layout_constraintTop_toBottomOf="@+id/imageView27" />
         <TextView
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="150dp"
             android:text="Ingresa el codigo"
             android:textColor="@color/black"
             android:textSize="16sp"

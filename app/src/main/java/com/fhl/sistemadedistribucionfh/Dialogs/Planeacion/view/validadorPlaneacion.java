@@ -70,7 +70,7 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
     private Integer statusPlaneacion=0;
     private ConstraintLayout constraintLayout5,constraintLayout6,inputkeyscode;
     private EditText escribircodigo;
-    private ImageView inputcamara,inputmanual;
+    private ImageView inputcamara,inputmanual,imageView27;
     private Button captureCode;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -116,6 +116,8 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
         constraintLayout6 = view.findViewById(R.id.constraintLayout6);
         constraintLayout5.setOnClickListener(this);
         constraintLayout6.setOnClickListener(this);
+        imageView27= view.findViewById(R.id. imageView27);
+        imageView27.setOnClickListener(this);
         captureCode = view.findViewById(R.id. captureCode);
         captureCode.setOnClickListener(this);
         escribircodigo = view.findViewById(R.id.escribircodigo);
@@ -348,14 +350,19 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.constraintLayout5://camera
+            case R.id.imageView27:
+                inputkeyscode.setVisibility(View.GONE);
+                inputcamara.setBackgroundResource(R.drawable.icscannercamblack);
+                inputmanual.setBackgroundResource(R.drawable.ic_keys_black);
+                break;
+            case R.id.constraintLayout6://camera
                 inputkeyscode.setVisibility(View.GONE);
                 inputcamara.setBackgroundResource(R.drawable.icscannercamblack);
                 inputmanual.setBackgroundResource(R.drawable.ic_keys_black);
                 //binding.headerText.setTextColor(Color.WHITE);
                 break;
 
-            case R.id.constraintLayout6://manual
+            case R.id.constraintLayout5://manual
                 //Toast.makeText(this, "Input manual", Toast.LENGTH_SHORT).show();
                 inputkeyscode.setVisibility(View.VISIBLE);
                 inputcamara.setBackgroundResource(R.drawable.icscannercamblack);
@@ -370,6 +377,7 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
                     inputkeyscode.setVisibility(View.GONE);
                 }else{
                     Toast.makeText(getContext(), "Debes resgistrar datos", Toast.LENGTH_SHORT).show();
+                    inputkeyscode.setVisibility(View.GONE);
                 }
                 break;
             case R.id.imageButton:
