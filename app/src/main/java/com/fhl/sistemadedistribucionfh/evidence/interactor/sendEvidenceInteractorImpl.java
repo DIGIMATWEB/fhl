@@ -56,6 +56,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
     private Integer flujo;
     private String ticket;
     private String fvideo;
+    private Boolean sendDone=false;
     public sendEvidenceInteractorImpl(requestEvidencePresenter presenter,Context context){
         this.presenter=presenter;
         this.context=context;
@@ -89,7 +90,14 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
         this.ticket=folioTicket;
 
         if(ftoken!=null) {
-
+            Log.e("evidenciaDinamica","firma: "+signatureBase64);
+            if(signatureBase64==null||signatureBase64.isEmpty()){
+                if(!sendDone){
+                    secuenceRequest=2;
+                    sendDone=true;
+                    presenter.showDialog();
+                }
+            }
             //  Toast.makeText(context, "mandarEvidencias", Toast.LENGTH_SHORT).show();
             if (secuenceRequest == 1) {
                 presenter.showDialog();

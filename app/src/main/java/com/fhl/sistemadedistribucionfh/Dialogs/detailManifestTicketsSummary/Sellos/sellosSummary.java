@@ -96,6 +96,7 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
         if (sellos != null) {
             this.sellos = sellos;
             Log.e("QR", "nSellos: " + sellos.size()); // Debug log
+            this.control=true;
             fillTicketsRV(sellos);
         } else {
             Log.e("QR", "sellos is null");

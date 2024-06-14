@@ -2,10 +2,13 @@ package com.fhl.sistemadedistribucionfh.Dialogs.Loader.view;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,6 +43,15 @@ public class loaderFH extends DialogFragment {
         } else {
             txvTripsTitleLoader.setVisibility(View.GONE);
         }
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (getDialog() != null && getDialog().isShowing()) {
+                  //  Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
+                    dismiss();
+                }
+            }
+        }, 18000); // 20 seconds
 
         return view;
     }

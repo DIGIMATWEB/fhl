@@ -247,7 +247,8 @@
 
                 <TextView
                     android:id="@+id/estado"
-                    android:layout_width="wrap_content"
+                    android:layout_width="160dp"
+                    android:textAlignment="textStart"
                     android:layout_height="wrap_content"
                     android:text="--- --- --- ---"
                     android:textSize="@dimen/h5"
@@ -270,9 +271,10 @@
 
                 <TextView
                     android:id="@+id/destino"
-                    android:layout_width="wrap_content"
+                    android:layout_width="160dp"
                     android:layout_height="wrap_content"
                     android:text="Cancún"
+                    android:textAlignment="textEnd"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@+id/textView14"
