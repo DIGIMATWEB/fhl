@@ -1,12 +1,17 @@
 package com.fhl.sistemadedistribucionfh.Dialogs.Planeacion.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -62,6 +68,10 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
     private SendtripPlus sendtripPlusLocal;
     private Boolean afterScan=false;
     private Integer statusPlaneacion=0;
+    private ConstraintLayout constraintLayout5,constraintLayout6,inputkeyscode;
+    private EditText escribircodigo;
+    private ImageView inputcamara,inputmanual;
+    private Button captureCode;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,19 +86,19 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
         getDialog().getWindow().setFlags(
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
-        getDialog().getWindow().setFlags(
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+
         getDialog().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         getDialog().getWindow().setBackgroundDrawableResource(R.color.alfa);
         setCancelable(true);
+
         view.setFocusableInTouchMode(true);
         view.requestFocus();
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        // This line is necessary to show the keyboard
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
         initDialog(view);
-
-        fillAdapter(ticketsLocal, getContext(),statusPlaneacion);
+        fillAdapter(ticketsLocal, getContext(), statusPlaneacion);
 
         //setFonts();
         return view;
@@ -102,7 +112,16 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
 
     private void initDialog(View view) {
         ticketsLocal=new ArrayList<>();
-
+        constraintLayout5 = view.findViewById(R.id.constraintLayout5);
+        constraintLayout6 = view.findViewById(R.id.constraintLayout6);
+        constraintLayout5.setOnClickListener(this);
+        constraintLayout6.setOnClickListener(this);
+        captureCode = view.findViewById(R.id. captureCode);
+        captureCode.setOnClickListener(this);
+        escribircodigo = view.findViewById(R.id.escribircodigo);
+        inputkeyscode= view.findViewById(R.id. inputkeyscode);
+        inputcamara= view.findViewById(R.id.inputcamara);
+        inputmanual= view.findViewById(R.id.inputmanual);
         recoleccion = view.findViewById(R.id.textView66);
         textEmpaques = view.findViewById(R.id.textEmpaques);
         rvReasons = view.findViewById(R.id.rvTicketsSalidaL);
@@ -111,6 +130,29 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
         imageButton.setOnClickListener(this);
         textChekcs = view.findViewById(R.id.textChekcs);
         recoleccion.setText("Tickets");
+        escribircodigo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Do nothing before the text changes
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Respond to text changes if needed
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Validate the input or perform actions after the text has changed
+                if (!s.toString().isEmpty()) {
+                    // Perform actions when there is text in the EditText
+                    // For example, enable a button or change the UI
+                } else {
+                    // Perform actions when the EditText is empty
+                    // For example, disable a button or change the UI
+                }
+            }
+        });
        // imageButton.setVisibility(View.GONE);
         textChekcs.setText("Escanea un ticket");
         presenter= new presenterPlaneacionImpl(this,getContext());
@@ -139,56 +181,7 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
 
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.imageButton:
-                //closeDialog();// BarcodeScannerActivity2 barcodeScannerActivity1 = (BarcodeScannerActivity2) getActivity();
-                //                                                        barcodeScannerActivity1.returnResult("1234");
-                if(countok!=0) {
-                    if (countok == ticketsLocal.size()) {//todo hasta igualar los empaques model.size()
-                        //Toast.makeText(getContext(), "Escaneaste todos los paquetes", Toast.LENGTH_SHORT).show();
-                        BarcodeScannerActivity3 barcodeScannerActivity1 = (BarcodeScannerActivity3) getActivity();
-                        //barcodeScannerActivity1.returnResult("Escaneaste todos los paquetes");
-                        if(statusPlaneacion!=2) {
-                            presenter.setStatusTicket(ticketsLocal.get(0).getFolio(), 2);
-                            barcodeScannerActivity1.returnResult("Escaneaste todos los paquetes");
-                        }else{
-                            barcodeScannerActivity1.returnResult("Este ticket ya habia sido escaneado");
-                        }
-                        //TODO se reinicia el ciclo
-                        countok=0;
-                        afterScan=false;
-                        statusPlaneacion=0;
-                        //oton confirmar
-                        textChekcs.setText("Escanea un ticket");
-                        ticketsLocal.clear();
-                        adapter.updateData(ticketsLocal);
-                        adapter.notifyDataSetChanged();
 
-                    } else {
-                        if(ticketsLocal.isEmpty()){
-                            //Toast.makeText(getContext(), "No hay ningun ticket por escanear", Toast.LENGTH_SHORT).show();
-                            BarcodeScannerActivity3 barcodeScannerActivity1 = (BarcodeScannerActivity3) getActivity();
-                            barcodeScannerActivity1.returnResult("No hay ningun ticket por escanear");
-                        }else{
-                           // Toast.makeText(getContext(), "No haz escaneado todos los lotes", Toast.LENGTH_SHORT).show();
-                            BarcodeScannerActivity3 barcodeScannerActivity1 = (BarcodeScannerActivity3) getActivity();
-                            barcodeScannerActivity1.returnResult("No escaneaste todos los paquetes");
-                        }
-
-                    }
-                }else{
-                    if(ticketsLocal.isEmpty()){
-                        Toast.makeText(getContext(), "No hay ningun ticket por escanear", Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(getContext(), "No haz escaneado todos los lotes", Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-                break;
-        }
-    }
 
     public void sendToast(String code) {//para cada codigo recibido
         if(!afterScan){
@@ -351,5 +344,79 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
 
     public void setVisibleConfirm() {
         imageButton.setVisibility(View.VISIBLE);
+    }
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.constraintLayout5://camera
+                inputkeyscode.setVisibility(View.GONE);
+                inputcamara.setBackgroundResource(R.drawable.icscannercamblack);
+                inputmanual.setBackgroundResource(R.drawable.ic_keys_black);
+                //binding.headerText.setTextColor(Color.WHITE);
+                break;
+
+            case R.id.constraintLayout6://manual
+                //Toast.makeText(this, "Input manual", Toast.LENGTH_SHORT).show();
+                inputkeyscode.setVisibility(View.VISIBLE);
+                inputcamara.setBackgroundResource(R.drawable.icscannercamblack);
+                inputmanual.setBackgroundResource(R.drawable.ic_keys_black);
+                // binding.headerText.setTextColor(Color.BLACK);
+                break;
+            case R.id.captureCode:
+                if(!escribircodigo.getText().toString().equals("")) {
+                    BarcodeScannerActivity3 barcodeScannerActivity1 = (BarcodeScannerActivity3) getActivity();
+                    barcodeScannerActivity1.sendScannedCode(escribircodigo.getText().toString());
+                    escribircodigo.setText("");
+                    inputkeyscode.setVisibility(View.GONE);
+                }else{
+                    Toast.makeText(getContext(), "Debes resgistrar datos", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.imageButton:
+                //closeDialog();// BarcodeScannerActivity2 barcodeScannerActivity1 = (BarcodeScannerActivity2) getActivity();
+                //                                                        barcodeScannerActivity1.returnResult("1234");
+                if(countok!=0) {
+                    if (countok == ticketsLocal.size()) {//todo hasta igualar los empaques model.size()
+                        //Toast.makeText(getContext(), "Escaneaste todos los paquetes", Toast.LENGTH_SHORT).show();
+                        BarcodeScannerActivity3 barcodeScannerActivity1 = (BarcodeScannerActivity3) getActivity();
+                        //barcodeScannerActivity1.returnResult("Escaneaste todos los paquetes");
+                        if(statusPlaneacion!=2) {
+                            presenter.setStatusTicket(ticketsLocal.get(0).getFolio(), 2);
+                            barcodeScannerActivity1.returnResult("Escaneaste todos los paquetes");
+                        }else{
+                            barcodeScannerActivity1.returnResult("Este ticket ya habia sido escaneado");
+                        }
+                        //TODO se reinicia el ciclo
+                        countok=0;
+                        afterScan=false;
+                        statusPlaneacion=0;
+                        //oton confirmar
+                        textChekcs.setText("Escanea un ticket");
+                        ticketsLocal.clear();
+                        adapter.updateData(ticketsLocal);
+                        adapter.notifyDataSetChanged();
+
+                    } else {
+                        if(ticketsLocal.isEmpty()){
+                            //Toast.makeText(getContext(), "No hay ningun ticket por escanear", Toast.LENGTH_SHORT).show();
+                            BarcodeScannerActivity3 barcodeScannerActivity1 = (BarcodeScannerActivity3) getActivity();
+                            barcodeScannerActivity1.returnResult("No hay ningun ticket por escanear");
+                        }else{
+                            // Toast.makeText(getContext(), "No haz escaneado todos los lotes", Toast.LENGTH_SHORT).show();
+                            BarcodeScannerActivity3 barcodeScannerActivity1 = (BarcodeScannerActivity3) getActivity();
+                            barcodeScannerActivity1.returnResult("No escaneaste todos los paquetes");
+                        }
+
+                    }
+                }else{
+                    if(ticketsLocal.isEmpty()){
+                        Toast.makeText(getContext(), "No hay ningun ticket por escanear", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(getContext(), "No haz escaneado todos los lotes", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+                break;
+        }
     }
 }
