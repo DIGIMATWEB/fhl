@@ -96,6 +96,7 @@ public class detailTicketsSummary extends DialogFragment implements View.OnClick
                                         bundle.putString("currentManifest", currentManifest);
                                         bundle.putSerializable("dataTcikets", (Serializable) data);
                                         bundle.putSerializable("sellos", (Serializable) sellos);
+                                        bundle.putString("flowSellos", "1");
                                         sellosSummary bottomSheet = new sellosSummary();
                                         bottomSheet.setArguments(bundle);
                                         bottomSheet.show(getParentFragmentManager(), "sellosSummary");

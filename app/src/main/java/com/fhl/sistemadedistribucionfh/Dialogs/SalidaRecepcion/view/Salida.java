@@ -252,6 +252,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
         }else {
             BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
             barcodeScannerActivity1.setSellosNull();
+
         }
     }
 

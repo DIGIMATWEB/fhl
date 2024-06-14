@@ -35,6 +35,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.escanearCodigosSa
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.sellosSalida.sellosSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.ticketsSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.view.Salida;
+import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Sellos.sellosSummary;
 import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Tickets.detailTicketsSummary;
 import com.fhl.sistemadedistribucionfh.Dialogs.dialogCompleteValidador;
 import com.fhl.sistemadedistribucionfh.Dialogs.completeSalida.dialogCompletedSalida;
@@ -584,8 +585,10 @@ public class BarcodeScannerActivity extends AppCompatActivity
         }else{
             Log.e("dialogSalida","no existen sellos");
             statusrecepcion="5";
-            Toast.makeText(this, "No tienes sellos", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "No tienes sellos", Toast.LENGTH_SHORT).show();
             dismissSellos();
+
+
         }
         bundle.putString("statusRecepcion", statusrecepcion);
         // bundle.putString("cortinaDestino", cortinaDestination);
@@ -594,6 +597,15 @@ public class BarcodeScannerActivity extends AppCompatActivity
         Salida bottonSheetv = new Salida();
         bottonSheetv.setArguments(bundle);
         bottonSheetv.show(getSupportFragmentManager(), "Salida");
+
+        Bundle bundle1 = new Bundle();
+        bundle1.putString("currentManifest", currentmanifest);
+        bundle1.putSerializable("dataTcikets", (Serializable) dataTickets);
+        bundle1.putSerializable("sellos", (Serializable) dataSellos);
+        bundle1.putString("flowSellos", "2");
+        sellosSummary bottomSheet = new sellosSummary();
+        bottomSheet.setArguments(bundle1);
+        bottomSheet.show(getSupportFragmentManager(), "sellosSummary");
 
     }
     public void goSellosSummary() {

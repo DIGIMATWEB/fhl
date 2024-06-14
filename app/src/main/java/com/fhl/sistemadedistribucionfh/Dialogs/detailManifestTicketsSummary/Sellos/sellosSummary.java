@@ -45,6 +45,7 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
     private Boolean control = false;
     private presenterSello presenter;
     private Integer manifestId=0;
+    private Integer flow=0;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +66,7 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
             currentManifest = args.getString("currentManifest");
             data = (List<dataTicketsManifestV2>) args.getSerializable("dataTcikets");
             sellos = (List<Sello>) args.getSerializable("sellos");
+            flow= Integer.valueOf( args.getString("flowSellos"));
             if (sellos != null) {
 
             }
@@ -167,17 +169,21 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
 
     public void goEvidence() {
       //  Toast.makeText(getContext(), "ir a evidencias", Toast.LENGTH_SHORT).show();
-                getActivity().finish();
-                Intent intent = new Intent(getActivity(), evidencia.class);
-                Bundle bundle = new Bundle();
-                bundle.putInt("flujoId", 1);
-                bundle.putString("sentripPlusFlow","Recoleccion");
-                bundle.putString("currentManifest",currentManifest);
-                bundle.putString("folioTicket", null);
-                bundle.putSerializable("dataTcikets",(Serializable) data);
-                intent.putExtras(bundle);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+        if(flow==1) {
+            getActivity().finish();
+            Intent intent = new Intent(getActivity(), evidencia.class);
+            Bundle bundle = new Bundle();
+            bundle.putInt("flujoId", 1);
+            bundle.putString("sentripPlusFlow", "Recoleccion");
+            bundle.putString("currentManifest", currentManifest);
+            bundle.putString("folioTicket", null);
+            bundle.putSerializable("dataTcikets", (Serializable) data);
+            intent.putExtras(bundle);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }else{
+            dismiss();
+        }
     }
 
     public void updateSellos(List<Sello> data) {
