@@ -356,7 +356,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                     Log.e("empaque", "" + json);
                 }
             }else{
-                Toast.makeText(this, "No tienes evidencias", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "No tienes evidencias", Toast.LENGTH_SHORT).show();
 
             }
         }else{

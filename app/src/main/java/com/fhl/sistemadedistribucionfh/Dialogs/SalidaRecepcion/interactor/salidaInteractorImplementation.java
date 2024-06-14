@@ -132,6 +132,7 @@ public class salidaInteractorImplementation  implements salidainteractor {
             public void onFailure(Call<responseCortina> call, Throwable t) {
                 Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
                 presenter.hideProgress();
+                Toast.makeText(context, "No tienes cortinas en este manifiesto", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -145,6 +146,8 @@ public class salidaInteractorImplementation  implements salidainteractor {
                 if(response.code()==401){
                     // presenter.returnTologin();
                     presenter.hideProgress();
+                   Toast.makeText(context, "No tienes cortinas en este manifiesto", Toast.LENGTH_SHORT).show();
+
                 }
             }
         }
@@ -164,9 +167,11 @@ public class salidaInteractorImplementation  implements salidainteractor {
                 if(data!=null) {
                     presenter.setCortina(data);
                     presenter.hideProgress();
+                    //Toast.makeText(context, "No tienes cortinas en este manifiesto", Toast.LENGTH_SHORT).show();
                 } else {
                     presenter.goTickets();
-                    Toast.makeText(context, "Sin tickets asignados.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "No tienes cortinas en este manifiesto", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(context, "Sin tickets asignados.", Toast.LENGTH_SHORT).show();
                     presenter.hideProgress();
                 }
             } else {
