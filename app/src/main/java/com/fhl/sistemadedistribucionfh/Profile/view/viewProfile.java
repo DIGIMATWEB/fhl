@@ -24,6 +24,7 @@ public class viewProfile extends Fragment implements View.OnClickListener {
     private ConstraintLayout logout;
     private Bundle mainbundle;
     private TextView nombre,correoElectronico,telefono;
+    private TextView versionName;
     @SuppressLint("NewApi")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,7 +38,7 @@ public class viewProfile extends Fragment implements View.OnClickListener {
     private void initView(View view) {
         logout=view.findViewById(R.id.logout);
         logout.setOnClickListener(this);
-
+        versionName=view.findViewById(R.id.versionName);
         nombre=view.findViewById(R.id.textView34);
         correoElectronico=view.findViewById(R.id.email);
         telefono=view.findViewById(R.id.telefono);

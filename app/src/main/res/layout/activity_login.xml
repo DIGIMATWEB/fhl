@@ -246,8 +246,17 @@
     </ImageButton>
 
     <TextView
+        android:id="@+id/versionName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="@+id/loginenter"
+        app:layout_constraintStart_toStartOf="@+id/loginenter"
+        app:layout_constraintTop_toBottomOf="@+id/loginenter" />
+
+    <TextView
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="0dp"
         android:text="Iniciar sesión"
         android:maxLines="1"
         android:gravity="center"

@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import androidx.core.content.ContextCompat;
 
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
+import com.fhl.sistemadedistribucionfh.VersionUtil;
 import com.fhl.sistemadedistribucionfh.login.model.modelProfile.profileResponse;
 import com.fhl.sistemadedistribucionfh.login.presenter.loginpresenter;
 import com.fhl.sistemadedistribucionfh.login.presenter.loginpresenterImplementation;
@@ -34,6 +36,7 @@ public class login extends AppCompatActivity implements View.OnClickListener,log
     private CheckBox checkBox;
     private Boolean checkBoxState = false;
     private ImageView showHidePasswordButton;
+    private TextView versionName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,10 +56,10 @@ public class login extends AppCompatActivity implements View.OnClickListener,log
         checkBox = findViewById(R.id.checkBox);
         checkBox.setOnClickListener(this);
         showHidePasswordButton = findViewById(R.id.showHidePasswordButton);
-
+        versionName=findViewById(R.id.versionName);
         checkBoxState = false;
         presenter=new loginpresenterImplementation(this,getApplicationContext());
-
+        versionName.setText(VersionUtil.getVersionName(this));
     }
 
     //Este metodo es para el boton de mostrar contraseña

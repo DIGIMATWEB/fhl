@@ -66,6 +66,7 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
     private validadorPlaneacion bottonSheetv;//no needed
     private  List<Paquete> lotes=new ArrayList<>();//no needed
     private List<ticketsScanned> fresult;//no needed
+    private  errorDialog errorD;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -326,8 +327,10 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
     }
     public void errorTicket() {
         stopCameraProcess();
-        errorDialog errorD = new errorDialog();
-        errorD.show(getSupportFragmentManager(),"errorDialog");
+        if(errorD==null) {
+            errorD = new errorDialog();
+            errorD.show(getSupportFragmentManager(), "errorDialog");
+        }
     }
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
