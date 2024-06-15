@@ -66,17 +66,11 @@ public class mainContainer extends AppCompatActivity  implements view {
     public void onBackPressed() {
         Log.d(TAG, "onBackPressed called");
         super.onBackPressed();
-        if (menu != null) {
-            menu.closeDialog();
-            Log.e(TAG, "Dialog closed");
+        if (manager.getBackStackEntryCount() > 0){
+            manager.popBackStackImmediate();
         }
-        if (cover.getVisibility() == View.VISIBLE) {
-            cover.setVisibility(View.GONE);
-            Log.e(TAG, "Cover hidden");
-        }
-        // Ensure tab is visible if needed
-        if (framTab != null) {
-            framTab.setVisibility(View.VISIBLE);
+        else {
+            super.onBackPressed();
         }
     }
     public void chooseFragment(String menu){
