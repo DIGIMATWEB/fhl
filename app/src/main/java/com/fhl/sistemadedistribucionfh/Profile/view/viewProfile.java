@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
+import com.fhl.sistemadedistribucionfh.VersionUtil;
 import com.fhl.sistemadedistribucionfh.login.model.modelProfile.profileResponse;
 import com.fhl.sistemadedistribucionfh.login.view.login;
 import com.google.gson.Gson;
@@ -42,7 +43,7 @@ public class viewProfile extends Fragment implements View.OnClickListener {
         nombre=view.findViewById(R.id.textView34);
         correoElectronico=view.findViewById(R.id.email);
         telefono=view.findViewById(R.id.telefono);
-
+        versionName.setText(VersionUtil.getVersionName(getContext()));
         setValues();
     }
 

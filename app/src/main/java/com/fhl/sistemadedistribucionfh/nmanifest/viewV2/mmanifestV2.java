@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.Loader.view.loaderFH;
 import com.fhl.sistemadedistribucionfh.Dialogs.ManifestStatus.manifestStatus;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
@@ -52,6 +54,10 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     private int dialogfilter=0;
     private Integer positionG;
     private String folioDespachoG, vehiculoModeloG, vehiculoPlacaG, statusManifestG, cedisG;
+    private Handler handler = new Handler();
+    private Runnable runnable;
+    private loaderFH progress;
+
     @SuppressLint("NewApi")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -61,6 +67,7 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     }
 
     private void initView(View view) {
+        progress = new loaderFH();
         rv = view.findViewById(R.id.rvmanifest);
         finder = view.findViewById(R.id.finder);
         finderfilter= view.findViewById(R.id.finderfilter);
@@ -70,6 +77,17 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         searchViewv2 = view.findViewById(R.id.searchViewManifest);
         presenter = new manifestImplV2(this, getContext());
         presenter.getmanifestV2();
+        // Initialize the Runnable
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                presenter.getmanifestV2(); // Call the method
+                handler.postDelayed(this, 20000); // Re-run every 30 seconds
+            }
+        };
+
+        handler.postDelayed(runnable, 20000); // Start the handler
+
     }
 
     private void setAdapter(List<dataManifestV2> data) {
@@ -276,6 +294,14 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     @Override
     public void hideProgress() {
         //mprogres.hide();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (progress != null && this != null)
+                    progress.dismiss();
+            }
+        }, 300);
+
     }
 
     @Override
@@ -283,10 +309,20 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
 //        mprogres.setMessage("Cargando manifiestos");
 //        mprogres.setCancelable(false);
 //        mprogres.show();
+        if (progress != null && !progress.isVisible()) {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("HAS_TITLE", false);
+            bundle.putString("title","Cargando detalles");
+            progress.setArguments(bundle);
+            progress.show(getParentFragmentManager(), loaderFH.TAG);
+        }
+
     }
-
-
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacks(runnable); // Stop the handler
+    }
     private void deleteCache(Context context) {
         try {
             File dir = context.getCacheDir();
