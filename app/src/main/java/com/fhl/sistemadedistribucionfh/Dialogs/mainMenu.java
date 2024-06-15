@@ -1,5 +1,6 @@
 package com.fhl.sistemadedistribucionfh.Dialogs;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -64,6 +65,19 @@ public class mainMenu extends DialogFragment implements View.OnClickListener {
         }
 
     }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        mactivity.hideCover();
+
+        //f (getActivity() instanceof BarcodeScannerActivity3) {
+        //            BarcodeScannerActivity3 barcodeScannerActivity = (BarcodeScannerActivity3) getActivity();
+        //            barcodeScannerActivity.restartCameraProcess();
+        //            barcodeScannerActivity.resetError();
+        //        }
+    }
+
     public void invokeFragment(String menu){
         mactivity.chooseFragment(menu);
     }
