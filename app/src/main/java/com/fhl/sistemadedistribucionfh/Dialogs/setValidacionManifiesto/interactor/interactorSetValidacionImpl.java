@@ -349,7 +349,7 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
     }
     @Override
     public void tokenAvocado() {
-        requestLoginAvocado request= new requestLoginAvocado("fhl_api_sendtrip_sgd","0LAsCUmZ");//"efren","efrenw");
+        requestLoginAvocado request= new requestLoginAvocado("efren","efrenw");//"fhl_api_sendtrip_sgd","0LAsCUmZ");//
         Call<responseLoginAvocado> call= service3.loginAvocado(request);
         call.enqueue(new Callback<responseLoginAvocado>() {
             @Override
