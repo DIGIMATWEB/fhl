@@ -26,6 +26,7 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import com.fhl.sistemadedistribucionfh.Dialogs.Planeacion.view.validadorPlaneacion;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ErrorSalida.errorDialog;
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ErrorSalida.errorRecepcion;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.databinding.ActivityBarcodeRecepcionBinding;
@@ -66,7 +67,7 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
     private validadorPlaneacion bottonSheetv;//no needed
     private  List<Paquete> lotes=new ArrayList<>();//no needed
     private List<ticketsScanned> fresult;//no needed
-    private  errorDialog errorD;
+    private errorRecepcion errorD;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -325,10 +326,16 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
         super.onBackPressed();
 
     }
+    public void resetError(){
+        errorD=null;
+    }
     public void errorTicket() {
         stopCameraProcess();
         if(errorD==null) {
-            errorD = new errorDialog();
+            errorD = new errorRecepcion();
+            Bundle args = new Bundle();
+            args.putString("error_value", "Este codigo ya fue escaneado o no corresponde a la secuencia");
+            errorD.setArguments(args);
             errorD.show(getSupportFragmentManager(), "errorDialog");
         }
     }

@@ -81,12 +81,13 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         runnable = new Runnable() {
             @Override
             public void run() {
+                Log.e("dialogUpdate","progress");
                 presenter.getmanifestV2(); // Call the method
-                handler.postDelayed(this, 20000); // Re-run every 30 seconds
+                handler.postDelayed(this, 30000); // Re-run every 30 seconds
             }
         };
 
-        handler.postDelayed(runnable, 20000); // Start the handler
+        handler.postDelayed(runnable, 30000); // Start the handler
 
     }
 
@@ -298,7 +299,9 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
             @Override
             public void run() {
                 if (progress != null && this != null)
-                    progress.dismiss();
+                    if(progress.isAdded()) {
+                        progress.dismiss();
+                    }
             }
         }, 300);
 
@@ -309,12 +312,16 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
 //        mprogres.setMessage("Cargando manifiestos");
 //        mprogres.setCancelable(false);
 //        mprogres.show();
-        if (progress != null && !progress.isVisible()) {
-            Bundle bundle = new Bundle();
-            bundle.putBoolean("HAS_TITLE", false);
-            bundle.putString("title","Cargando detalles");
-            progress.setArguments(bundle);
-            progress.show(getParentFragmentManager(), loaderFH.TAG);
+        if (progress != null && this!=null) {
+            if(!progress.isVisible()) {
+
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("HAS_TITLE", false);
+                    bundle.putString("title", "Cargando detalles");
+                    progress.setArguments(bundle);
+                    progress.show(getParentFragmentManager(), loaderFH.TAG);
+
+            }
         }
 
     }

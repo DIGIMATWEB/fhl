@@ -15,8 +15,8 @@
         app:srcCompat="@color/grayalfa" />-->
     <ImageView
         android:id="@+id/menuButon"
-        android:layout_width="24dp"
-        android:layout_height="17dp"
+        android:layout_width="32dp"
+        android:layout_height="22dp"
         android:layout_marginStart="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
