@@ -259,7 +259,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
     private void fillmanifest(List<responseManifestSalidaV2data> data) {
         numberManifestsalida.setText(""+data.get(0).getFolioDespacho());
         cedissalida.setText(""+data.get(0).getOrigen());
-        vehiculosalida.setText(""+data.get(0).getVehiculoId());
+        vehiculosalida.setText(""+data.get(0).getVehiculo());
         datesalida.setText(""+data.get(0).getFechaCreacion());
         placasalida.setText(""+data.get(0).getVehiculo().getPlaca());
         regresosalida.setText(""+data.get(0).getTiempoEntrega());
