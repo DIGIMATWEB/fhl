@@ -253,12 +253,12 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
                     @Override
                     public void onClick(View v) {
                         if (flowDetail == 2) { // TODO viene de recoleccion salida
-                            if (data.get(0).getEvidenciaSalida() != null) {
+                            if (data.get(0).getEvidenciaLlegada() != null) {
                                 // Handle photo evidence logic
                                 mview.goCarrusel(null,data.get(0).getEvidenciaLlegada());
                             }
                         } else { // TODO viene de entrega de ticket
-                            if (data.get(0).getEvidenciaLlegada() != null) {
+                            if (data.get(0).getEvidenciaSalida() != null) {
                                 // Handle photo evidence logic
 
                                 mview.goCarrusel(data.get(0).getEvidenciaSalida(),null);

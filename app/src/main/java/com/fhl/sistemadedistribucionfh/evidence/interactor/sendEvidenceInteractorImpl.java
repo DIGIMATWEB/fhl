@@ -313,7 +313,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
     }
     @Override
     public void tokenAvocado() {
-        requestLoginAvocado request= new requestLoginAvocado("fhl_api_sendtrip_sgd","0LAsCUmZ");//"efren","efrenw");
+        requestLoginAvocado request= new requestLoginAvocado("efren","efrenw");
         Call<responseLoginAvocado> call= service2.loginAvocado(request);
         call.enqueue(new Callback<responseLoginAvocado>() {
             @Override
