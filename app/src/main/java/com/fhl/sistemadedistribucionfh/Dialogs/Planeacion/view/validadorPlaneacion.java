@@ -1,6 +1,7 @@
 package com.fhl.sistemadedistribucionfh.Dialogs.Planeacion.view;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -108,6 +109,13 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimationBottonSheet;
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        BarcodeScannerActivity3 barcodeScannerActivity1 = (BarcodeScannerActivity3) getActivity();
+        barcodeScannerActivity1.onBackPressed();
     }
 
     private void initDialog(View view) {
