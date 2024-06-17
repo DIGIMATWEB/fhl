@@ -76,7 +76,7 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
         if (sellos != null) {
             fillTicketsRV(sellos);
         } else {
-            Toast.makeText(getContext(), "No tienes sellos", Toast.LENGTH_SHORT).show();
+           //no es correcto debido a que  espera la finalizacion del endpoint Toast.makeText(getContext(), "No tienes sellos", Toast.LENGTH_SHORT).show();
         }
         //setFonts();
         return view;
@@ -246,6 +246,8 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
                                 } else {
                                     if (adapter.validateFields()){
                                         showDialog("Guardar los siguientes sellos");
+                                    }else{
+
                                     }
                                 }
                             } else {
@@ -254,6 +256,9 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
                         } else {
                             Toast.makeText(getContext(), "Guarda el valor para continuar", Toast.LENGTH_SHORT).show();
                         }
+                    }else {
+                        control=true;
+                        showDialog("Continuar");
                     }
                 }else {
                     showDialog("Quieres continuar sin sellos");
