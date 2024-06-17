@@ -143,7 +143,7 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         manifestDetailV2 manifestdetail = new manifestDetailV2();
         manifestdetail.setArguments(bundle);
         transaction.replace(R.id.fragments, manifestdetail, manifestDetailV2.TAG)
-                .addToBackStack(null) // Agregar la transacción a la pila de retroceso
+                .addToBackStack(mmanifestV2.TAG) // Agregar la transacción a la pila de retroceso
                 .commit();
     }
 

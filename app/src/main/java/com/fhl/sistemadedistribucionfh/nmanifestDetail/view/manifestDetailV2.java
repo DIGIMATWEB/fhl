@@ -76,6 +76,8 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
     }
 
     private void initView(View view) {
+        manager = getActivity().getSupportFragmentManager();
+        transaction = manager.beginTransaction();
         selectedItems.clear();
         rvlistTickets = view.findViewById(R.id.rvlistTickets);
         searchViewManifestdetail = view.findViewById(R.id.searchViewManifestdetail);
@@ -222,8 +224,7 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
 
     public void gotoTickets(int position, String folioTicket, Integer statusTicket) {
         //folioDespachoId
-        manager = getActivity().getSupportFragmentManager();
-        transaction = manager.beginTransaction();
+
         tickets ticketsf = new tickets();
         Bundle args = new Bundle();
         args.putString("folioDespachoId", folioDespachoId);
@@ -356,10 +357,12 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
                     if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
                         if (manager != null && manager.getBackStackEntryCount() > 0) {
                             // Hay fragmentos en la pila, realiza popBackStack
+                            Log.e("mD","manager");
                             manager.popBackStack();
                         } else {
                             // No hay fragmentos en la pila, deja que la actividad maneje el evento de retroceso
                             requireActivity().onBackPressed();
+                            Log.e("mD","backpressed");
                         }
                         return true;
                     }
