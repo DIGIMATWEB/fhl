@@ -130,6 +130,7 @@ public class adapterSellosManifestDetail extends RecyclerView.Adapter<adapterSel
     public void removeItem(int position) {
         data.remove(position);
         mview.updateSellos(data);
+        mview.letCreateMore(true);
         notifyItemRemoved(position);
     }
 

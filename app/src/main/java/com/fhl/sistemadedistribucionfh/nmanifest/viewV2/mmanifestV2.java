@@ -58,6 +58,8 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     private Runnable runnable;
     private loaderFH progress;
     private boolean isDialogVisible = false;
+    private Boolean isFiltered=false;
+    private String texFilter="";
     @SuppressLint("NewApi")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -215,6 +217,8 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
 
                         @Override
                         public boolean onQueryTextChange(String newText) {
+                            isFiltered=true;
+                            texFilter=newText;
                             List<dataManifestV2> filterList = filter(data, newText);
                             adapter.setFilterV2(filterList);
                             return true;
@@ -228,6 +232,7 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
                         }
                     });
                 } else {
+                    isFiltered=false;
                     searchViewv2.setVisibility(View.GONE);
                 }
                 break;
@@ -278,7 +283,14 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     @Override
     public void setAllmanifestV2(List<dataManifestV2> data) {
         this.data = data;
-        setAdapter(data);
+        if(isFiltered){
+            List<dataManifestV2> filterList = filter(data, texFilter);
+            adapter.setFilterV2(filterList);
+        }else {
+
+            setAdapter(this.data);
+        }
+
     }
 
     @Override

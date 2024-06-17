@@ -196,7 +196,17 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
         this.control=control;
     }
     public void letCreateMore(Boolean createMore) {
-        createMore=true;
+        boolean check=true;
+        for(Sello s:sellos){
+            if(s.getNumeroSello()==null||s.getNumeroSello().isEmpty()){
+                check=false;
+            }
+        }
+        if(check) {
+            this.createMore = createMore;
+        }else {
+            Toast.makeText(getContext(), "Debes guardar el sello antes de crear otro", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -212,7 +222,17 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
                     }
                     createMore=false;
                 }else{
-                    Toast.makeText(getContext(), "Guarda el sello para poder agregar otro", Toast.LENGTH_SHORT).show();
+                    if(sellos.size()!=0) {
+                        Toast.makeText(getContext(), "Guarda el sello para poder agregar otro", Toast.LENGTH_SHORT).show();
+                    }else{
+                        createMore=true;
+                        if (sellos != null) {
+                            adapter.updateSellos(new Sello("", "", Integer.valueOf(currentManifest), 0));
+                        } else {
+                            fillTicketsRV(sellos);
+                            adapter.updateSellos(new Sello("", "", Integer.valueOf(currentManifest), 0));
+                        }
+                    }
                 }
                 break;
             case R.id.imageButton:

@@ -413,11 +413,11 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     Log.e("dialogSalida","currentStatus 5");
                     binding.barcodeRawValue.setText("escanea los sellos");
                     if (getSupportFragmentManager().findFragmentByTag("sellosSalida") == null) {
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("sellos", (Serializable) dataSellos);
-                        botonsheetsellos = new sellosSalida();
-                        botonsheetsellos.setArguments(bundle);
-                        botonsheetsellos.show(getSupportFragmentManager(), "sellosSalida");
+//                        Bundle bundle = new Bundle();
+//                        bundle.putSerializable("sellos", (Serializable) dataSellos);
+//                        botonsheetsellos = new sellosSalida();
+//                        botonsheetsellos.setArguments(bundle);
+//                        botonsheetsellos.show(getSupportFragmentManager(), "sellosSalida");
                     }
                 }
             }else if(typeScanner.equals("Validador")){
@@ -459,11 +459,11 @@ public class BarcodeScannerActivity extends AppCompatActivity
             } else if (currentStatus == 5) {
                 binding.barcodeRawValue.setText("escanea los sellos");
                 if (getSupportFragmentManager().findFragmentByTag("sellosSalida") == null) {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("sellos", (Serializable) dataSellos);
-                    botonsheetsellos = new sellosSalida();
-                    botonsheetsellos.setArguments(bundle);
-                    botonsheetsellos.show(getSupportFragmentManager(), "sellosSalida");
+//                    Bundle bundle = new Bundle();
+//                    bundle.putSerializable("sellos", (Serializable) dataSellos);
+//                    botonsheetsellos = new sellosSalida();
+//                    botonsheetsellos.setArguments(bundle);
+//                    botonsheetsellos.show(getSupportFragmentManager(), "sellosSalida");
                 }
             }
          }else if(typeScanner.equals("Validador")){
@@ -503,6 +503,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
     }
     public void resumeValidador(){
         Log.e("dialogSalida","resumeValidador");
+        dismissSellos();
         dialogCompletedSalida bottonSheetv=new dialogCompletedSalida();
         bottonSheetv.show(getSupportFragmentManager(),"dialogCompletedSalidaImp");
     }
@@ -517,6 +518,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
         if(botonsheetsellos!=null) {
             botonsheetsellos.closeDialog();
         }
+
     }
 
     public void resetShared(){
@@ -582,6 +584,9 @@ public class BarcodeScannerActivity extends AppCompatActivity
         String statusrecepcion="3";
         if(dataSellos!=null){
             Log.e("dialogSalida","existen sellos");
+            statusrecepcion="5";
+            //Toast.makeText(this, "No tienes sellos", Toast.LENGTH_SHORT).show();
+            dismissSellos();
         }else{
             Log.e("dialogSalida","no existen sellos");
             statusrecepcion="5";
@@ -763,11 +768,11 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 }else if(status.equals("5")) {
                     //botonsheetsellos
                     if(getSupportFragmentManager().findFragmentByTag("sellosSalida")==null){
-                        Bundle bundle= new Bundle();
-                        bundle.putSerializable("sellos",(Serializable) dataSellos);
-                        botonsheetsellos = new sellosSalida();
-                        botonsheetsellos.setArguments(bundle);
-                        botonsheetsellos.show(getSupportFragmentManager(),"sellosSalida");
+//                        Bundle bundle= new Bundle();
+//                        bundle.putSerializable("sellos",(Serializable) dataSellos);
+//                        botonsheetsellos = new sellosSalida();
+//                        botonsheetsellos.setArguments(bundle);
+//                        botonsheetsellos.show(getSupportFragmentManager(),"sellosSalida");
                     } else {
                         botonsheetsellos.sendToast(code);
                         Log.e("ticketsArray", "se envia el codigo al adapter "+code  );
