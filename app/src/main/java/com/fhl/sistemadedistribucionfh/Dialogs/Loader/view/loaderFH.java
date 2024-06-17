@@ -43,19 +43,18 @@ public class loaderFH extends DialogFragment {
         } else {
             txvTripsTitleLoader.setVisibility(View.GONE);
         }
+
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (getDialog() != null && getDialog().isShowing()) {
-                  //  Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
                     dismiss();
                 }
             }
-        }, 18000); // 20 seconds
+        }, 18000); // 18 seconds
 
         return view;
     }
-
     private void hasTitle() {
         Bundle bundle = getArguments();
         if (bundle != null) {

@@ -57,7 +57,7 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     private Handler handler = new Handler();
     private Runnable runnable;
     private loaderFH progress;
-
+    private boolean isDialogVisible = false;
     @SuppressLint("NewApi")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -294,41 +294,34 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
 
     @Override
     public void hideProgress() {
-        //mprogres.hide();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (progress != null && this != null)
-                    if(progress.isAdded()) {
-                        progress.dismiss();
-                    }
+        if (isDialogVisible && isAdded() && !isDetached() && !isRemoving() && !isStateSaved()) {
+            if (progress != null && progress.isAdded()) {
+                progress.dismiss();
+                isDialogVisible = false; // Reset flag when dialog is dismissed
             }
-        }, 300);
-
+        }
     }
 
     @Override
     public void showProgress() {
-//        mprogres.setMessage("Cargando manifiestos");
-//        mprogres.setCancelable(false);
-//        mprogres.show();
-        if (progress != null && this!=null) {
-            if(!progress.isVisible()) {
-
+        if (!isDialogVisible && isAdded() && !isDetached() && !isRemoving() && !isStateSaved()) {
+            if (progress != null && this!=null) {
+                if(!progress.isVisible()) {
+                    isDialogVisible = true; // Set flag to true when showing dialog
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("HAS_TITLE", false);
                     bundle.putString("title", "Cargando detalles");
                     progress.setArguments(bundle);
                     progress.show(getParentFragmentManager(), loaderFH.TAG);
-
+                }
             }
         }
-
     }
     @Override
     public void onDestroy() {
         super.onDestroy();
         handler.removeCallbacks(runnable); // Stop the handler
+        isDialogVisible = false; // Reset the flag in onDestroy
     }
     private void deleteCache(Context context) {
         try {
