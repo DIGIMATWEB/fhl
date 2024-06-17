@@ -70,11 +70,12 @@ public class adapterSellosManifestDetail extends RecyclerView.Adapter<adapterSel
                         holder.razonDesc.setVisibility(View.VISIBLE);
                         holder.razonDesc.setText(inputText);
                         holder.editrazonDescSalida.setVisibility(View.GONE);
-                       // mview.control(true);
+                        mview.letCreateMore(true);
                     } else {
                         // Set a default value if the input is empty
                         holder.editrazonDescSalida.setError("Porfavor introduce un valor");
                         mview.control(false);
+                        mview.letCreateMore(false);
                     }
                     return true;
                 }

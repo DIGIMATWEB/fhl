@@ -46,6 +46,7 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
     private presenterSello presenter;
     private Integer manifestId=0;
     private Integer flow=0;
+    private Boolean createMore=true;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -194,16 +195,24 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
     public void control(Boolean control) {
         this.control=control;
     }
+    public void letCreateMore(Boolean createMore) {
+        createMore=true;
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sellosAdd:
-                if (sellos != null) {
-                    adapter.updateSellos(new Sello("", "", Integer.valueOf(currentManifest), 0));
-                } else {
-                    fillTicketsRV(sellos);
-                    adapter.updateSellos(new Sello("", "", Integer.valueOf(currentManifest), 0));
+                if(createMore) {
+                    if (sellos != null) {
+                        adapter.updateSellos(new Sello("", "", Integer.valueOf(currentManifest), 0));
+                    } else {
+                        fillTicketsRV(sellos);
+                        adapter.updateSellos(new Sello("", "", Integer.valueOf(currentManifest), 0));
+                    }
+                    createMore=false;
+                }else{
+                    Toast.makeText(getContext(), "Guarda el sello para poder agregar otro", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.imageButton:
@@ -215,7 +224,9 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
                                 if (sellos.isEmpty()) {
                                     showDialog("Quieres continuar sin sellos");
                                 } else {
-                                    if (adapter.validateFields()){ showDialog("Guardar los siguientes sellos");}
+                                    if (adapter.validateFields()){
+                                        showDialog("Guardar los siguientes sellos");
+                                    }
                                 }
                             } else {
                                 showDialog("Quieres continuar sin sellos");
@@ -231,6 +242,7 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
                 break;
         }
     }
+
 
 
 }
