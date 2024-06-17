@@ -678,7 +678,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 Salida bottonSheetv=new Salida();
                 bottonSheetv.setArguments(bundle);
                 bottonSheetv.show(getSupportFragmentManager(),"Salida");
-                Toast.makeText(this, "verificar estatus de la salida y escaneo", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "verificar estatus de la salida y escaneo", Toast.LENGTH_SHORT).show();
 
             }
         }else

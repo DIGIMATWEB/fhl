@@ -262,7 +262,7 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
                 ticketsEntregaExist=false;
             }
         }else {
-            Toast.makeText(getContext(), "No hay ningun ticket", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(getContext(), "No hay ningun ticket", Toast.LENGTH_SHORT).show();
 
         }
     }
@@ -272,7 +272,7 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
         fulllayout.setVisibility(View.VISIBLE);
         numberManifestsalida.setText(""+data.get(0).getFolioDespacho());
         cedissalida.setText(""+data.get(0).getOrigen());
-        vehiculosalida.setText(""+data.get(0).getVehiculo());
+        vehiculosalida.setText(""+data.get(0).getVehiculo().getEconomico());
         datesalida.setText(""+data.get(0).getFechaCreacion());
         placasalida.setText(""+data.get(0).getVehiculo().getPlaca());
         regresosalida.setText(""+data.get(0).getTiempoEntrega());

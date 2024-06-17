@@ -104,7 +104,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
         placasalida=view.findViewById(R.id.placasalida);
         regresosalida=view.findViewById(R.id.regresosalida);
         //endregion
-        Toast.makeText(getContext(), "qrCode: "+codigoValidador+" status de recepcion: "+codigoValidador1, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getContext(), "qrCode: "+codigoValidador+" status de recepcion: "+codigoValidador1, Toast.LENGTH_SHORT).show();
         presenter= new salidaViewPresenterImplements(this,getContext());
     }
     private void setUpDialog(String codigoValidador1) {
@@ -259,7 +259,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
     private void fillmanifest(List<responseManifestSalidaV2data> data) {
         numberManifestsalida.setText(""+data.get(0).getFolioDespacho());
         cedissalida.setText(""+data.get(0).getOrigen());
-        vehiculosalida.setText(""+data.get(0).getVehiculo());
+        vehiculosalida.setText(""+data.get(0).getVehiculo().getEconomico());
         datesalida.setText(""+data.get(0).getFechaCreacion());
         placasalida.setText(""+data.get(0).getVehiculo().getPlaca());
         regresosalida.setText(""+data.get(0).getTiempoEntrega());
