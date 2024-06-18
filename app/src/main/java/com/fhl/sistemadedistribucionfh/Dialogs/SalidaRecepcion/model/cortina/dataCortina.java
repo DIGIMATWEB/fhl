@@ -51,7 +51,7 @@ public class dataCortina {
         if(destino!=null){
         return destino;
         }else{
-            return "";
+            return "Destino no valido refistrado en la cortina";
         }
     }
 

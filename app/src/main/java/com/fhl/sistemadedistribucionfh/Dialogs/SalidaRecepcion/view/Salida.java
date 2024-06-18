@@ -71,7 +71,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
             mQR= args.getString("mQR");
             currentManifest = args.getString("currentManifest");
         }
-        Log.e("datadecortina",""+cortinaDestino+"  "+ codigoValidador1);
+        Log.e("motorola",""+cortinaDestino+"  "+ codigoValidador1);
         initDialog(view);
         setUpDialog(codigoValidador1);
         //setFonts();
@@ -108,12 +108,15 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
         presenter= new salidaViewPresenterImplements(this,getContext());
     }
     private void setUpDialog(String codigoValidador1) {
+        Log.e("motorola","setUpDialog:  "+codigoValidador1);
         switch (codigoValidador1) {
+
             case "1":/** aqui pedimos los manifiestos y las cortinas*/
                 textView23.setText("siguiente paso");
                 textView29.setText("escanear codigo de la cortina");
                 cortina.setVisibility(View.GONE);
                 presenter.requestManifest(codigoValidador);
+                Log.e("motorola","manifest "+codigoValidador);
                 break;
             case "2":/** aqui pedimos los manifiestos y las cortinas*/
                 constrainCard.setVisibility(View.GONE);
@@ -130,6 +133,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                 textView23.setText("siguiente paso");
                 textView29.setText("escanea el codigo de los tickets");
                 presenter.requestTickets(currentManifest);
+                Log.e("motorola","ticketsM:  "+currentManifest);
                 break;
             case "3":
                 constrainCard.setVisibility(View.GONE);
@@ -182,9 +186,11 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
         // For example, you can restart the camera process in BarcodeScannerActivity
         if (getActivity() instanceof BarcodeScannerActivity) {
             if(isCanceled==false) {
+                Log.e("motorola","isCanceledf:  "+isCanceled);
                 BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
                 barcodeScannerActivity.restartCameraProcess();
             }else {
+                Log.e("motorola","isCanceledt:  "+isCanceled);
                 BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
                 barcodeScannerActivity.restartCameraProcesswithNoChanges();
             }
@@ -213,6 +219,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
         Log.e("datademanifiesto",""+data);
         fillmanifest(data);
         presenter.requestCortinas(codigoValidador);
+        Log.e("motorola","cortinasM:  "+codigoValidador);
     }
 
     @Override
@@ -223,7 +230,10 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
         Log.e("salidaSentrip",""+data.getAnden().getQrCodigo());
         Log.e("salidaSentrip",""+data.getAnden().getCodigoAnden());
         Log.e("salidaSentrip",""+codigoValidador);
-        barcodeScannerActivity1.setCortina(data.getDestino(),data.getAnden().getQrCodigo(),data.getAnden().getCodigoAnden(),codigoValidador);
+        barcodeScannerActivity1.setCortina(data.getDestino(),
+                data.getAnden().getQrCodigo(),
+                data.getAnden().getCodigoAnden(),
+                codigoValidador);
 
     }
 
@@ -301,6 +311,11 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                     barcodeScannerActivity1.dismissTickets();
                     barcodeScannerActivity1.dismissSellos();
                     barcodeScannerActivity1.godialogCheck();
+                }else if(codigoValidador1.equals("1")){
+                    SharedPreferences preferences = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString(GeneralConstants.STATUS_SALIDA, "2");
+                    editor.commit();
                 }
                 closeDialog();
                 break;

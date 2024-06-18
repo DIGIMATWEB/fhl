@@ -90,6 +90,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
     private String vehiclebarcodeVal,rfcBarcodeVal;
     private Integer claveVehicleID;
     private String codigoValidador="";
+    private Boolean isMotorola=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -361,8 +362,19 @@ public class BarcodeScannerActivity extends AppCompatActivity
     public void onRequestPermissionsResult(
             int requestCode, String[] permissions, int[] grantResults) {
         Log.i(TAG, "Permission granted!");
+        Log.i("motorola", "Permission "+requestCode+"  "+permissions+"  "+grantResults);
         if (allPermissionsGranted()) {
             bindAllCameraUseCases();
+            Log.i("motorola", "Permission granted!");
+
+        }else {
+            if(requestCode==1){
+                if(isMotorola) {
+                    checkIfMotorola();
+                    isMotorola=false;
+                }
+            }
+            Log.i("motorola", "not all Permission granted!");
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -435,10 +447,60 @@ public class BarcodeScannerActivity extends AppCompatActivity
             getRuntimePermissions();
         }
     }
+    public void checkIfMotorola(){
+        if(typeScanner.equals("Salida")) {
+            Log.e("motorola","checkIfMotorola restartCameraProcess cS:  "+currentStatus);
+            if (currentStatus != 5) {
+                SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString(GeneralConstants.STATUS_SALIDA, String.valueOf(currentStatus));
+                editor.commit();
+            }
+            if (currentStatus == 3) {
+                binding.barcodeRawValue.setText("escanea los tickets");
+                if (getSupportFragmentManager().findFragmentByTag("ticketsSalida") == null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("tickets", (Serializable) dataTickets);
+                    botonsheettickets = new ticketsSalida();
+                    botonsheettickets.setArguments(bundle);
+                    botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");
+                }
+
+            } else if (currentStatus == 5) {
+                binding.barcodeRawValue.setText("escanea los sellos");
+                if (getSupportFragmentManager().findFragmentByTag("sellosSalida") == null) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putSerializable("sellos", (Serializable) dataSellos);
+//                    botonsheetsellos = new sellosSalida();
+//                    botonsheetsellos.setArguments(bundle);
+//                    botonsheetsellos.show(getSupportFragmentManager(), "sellosSalida");
+                }
+            }else {
+                Log.e("motorola"," restartCameraProcess cS: F "+currentStatus);
+            }
+        }else if(typeScanner.equals("Validador")){
+            Log.e("validador","ir a validador "+currentStatus);
+            if(currentStatus<4) {
+                currentStatus = currentStatus + 1;
+                if (currentStatus == 4) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("currentManifest", codigoValidador);
+                    bundle.putInt("claveVehicleID",claveVehicleID);
+                    bundle.putString("vehicleVin", vehiclebarcodeVal);
+                    bundle.putString("RFCUser", rfcBarcodeVal);
+                    dialogCompleteValidador bottonSheetv = new dialogCompleteValidador();
+                    bottonSheetv.setArguments(bundle);
+                    bottonSheetv.show(getSupportFragmentManager(), "dialogCompleteValidador");
+                    stopCameraProcess();
+                }
+            }              //aqui solo se debe visivilizar el escaner ya que no hay ventanas emergentes
+        }
+    }
     public void restartCameraProcess() {
         if (allPermissionsGranted()) {
             bindAllCameraUseCases();
           if(typeScanner.equals("Salida")) {
+           Log.e("motorola"," restartCameraProcess cS:  "+currentStatus);
             if (currentStatus != 3 && currentStatus != 5) {
                 currentStatus = currentStatus + 1;
                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
@@ -484,9 +546,15 @@ public class BarcodeScannerActivity extends AppCompatActivity
               }              //aqui solo se debe visivilizar el escaner ya que no hay ventanas emergentes
           }else{
             Log.e("Recolectar","ver donde cae");
+              Log.e("motorola"," restartCameraProcess cS:  else");
           }
 
         } else {
+            if (currentStatus != 3 && currentStatus != 5) {
+                currentStatus = currentStatus + 1;}
+            Log.e("motorola"," restartCameraProcess cS:  getRuntimePermissions "+currentStatus+"  "+allPermissionsGranted());
+            isMotorola=true;
+
             getRuntimePermissions();
         }
     }
@@ -667,7 +735,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
 
                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                 String status = preferences.getString(GeneralConstants.STATUS_SALIDA, null);
-                Log.e("typeScanner","collected status: "+status);
+                Log.e("motorola","m1 a collected status: "+status);
                 if(status.equals("0")){
                     status="1";
                 }
@@ -701,7 +769,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 String status = preferences.getString(GeneralConstants.STATUS_SALIDA, null);
                 if(status == null){
 
-                    Log.e("typeScanner","null status: 1");
+                    Log.e("motorola","m1 null status: 1");
                     SharedPreferences.Editor editor=preferences.edit();
                     editor.putString(GeneralConstants.STATUS_SALIDA,"1");
                     editor.commit();
@@ -715,7 +783,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     stopCameraProcess();
                 }else if(status.equals("1")){//esto muestra el sumary ed manifiestos
                     binding.barcodeRawValue.setText(code);
-                    Log.e("typeScanner","1 status: 1");
+                    Log.e("motorola","m1 1 status: 1");
                     Bundle bundle = new Bundle();
                     bundle.putString("qrCode", code);
                     bundle.putString("statusRecepcion", status);
