@@ -82,7 +82,7 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
                                 +" "+data.get(0).getSendtripPlus().getDestinatario().getMunicipio()
                                 +" "+data.get(0).getSendtripPlus().getDestinatario().getCalle());
             //holder.salida.setText(""+data.get(position).getFechaSalidaEstimada());
-            holder.regreso.setText(""+data.get(0).getSendtripPlus().getFechaVentanaFin());
+            holder.regreso.setText("-- -- --");
             holder.locationDesc.setText(""+data.get(0).getSendtripPlus().getDestinatario().getEstado());//+data.get(position).getEmpaque().get(0).getDestinatarios().get(0).getCiudad());
             holder.latlongGeo.setText(""+data.get(0).getSendtripPlus().getDestinatario().getCoordenadas()); //+ data.get(position).getDestinatarios().getCoordenadas());
             holder.lalongReport.setText("" + data.get(0).getSendtripPlus().getFechaPromesaEntrega());
