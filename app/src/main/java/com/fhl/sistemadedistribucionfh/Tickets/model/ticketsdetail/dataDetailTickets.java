@@ -3,6 +3,8 @@ package com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail;
 
 import java.io.Serializable;
 import java.util.List;
+
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.SendtripPlus;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -56,7 +58,7 @@ public class dataDetailTickets implements Serializable {
     @SerializedName("FechaPromesaEntrega")
     @Expose
     private String fechaPromesaEntrega;
-    @SerializedName("FechaPromesaRetorno")
+    @SerializedName("fechaPromesaRetorno")
     @Expose
     private String fechaPromesaRetorno;
     @SerializedName("TiempoCarga")
@@ -116,8 +118,11 @@ public class dataDetailTickets implements Serializable {
     @SerializedName("DestinatariosClienteId")
     @Expose
     private Integer destinatariosClienteId;
+    @SerializedName("SendtripPlus")
+    @Expose
+    private SendtripPlus sendtripPlus;
 
-    public dataDetailTickets(Integer ticketId, String folioTicket, String origen, Integer clienteId, Cliente cliente, Integer destinatariosId,  String referencia, Integer tipoSolicitudId, Integer tipoEntregaId, String comentarios, Integer estatusId, String secuencia, String fechaPromesaLlegadaOrigen, String fechaPromesaCarga, String fechaPromesaEntrega, String fechaPromesaRetorno, String tiempoCarga, String tiempoParadaDestino, String fechaVentanaInicio, String fechaVentanaFin, String fechaRestriccionCirculacionInicio, String fechaRestriccionCirculacionFin, Integer rutaId, Rutas rutas, Integer tipoVehiculoId, TipoVehiculo tipoVehiculo, List<DocumentosVehiculo> documentosVehiculo, List<HabilidadesOperadoro> habilidadesOperadoro, List<DocumentosOperador> documentosOperador, List<HabilidadesAuxiliar> habilidadesAuxiliar, List<DocumentosAuxiliar> documentosAuxiliar, List<EvidenciaSalida> evidenciaSalida, List<EvidenciaLlegada> evidenciaLlegada, List<Check> checkList, Integer destinatariosClienteId) {
+    public dataDetailTickets(Integer ticketId, String folioTicket, String origen, Integer clienteId, Cliente cliente, Integer destinatariosId,  String referencia, Integer tipoSolicitudId, Integer tipoEntregaId, String comentarios, Integer estatusId, String secuencia, String fechaPromesaLlegadaOrigen, String fechaPromesaCarga, String fechaPromesaEntrega, String fechaPromesaRetorno, String tiempoCarga, String tiempoParadaDestino, String fechaVentanaInicio, String fechaVentanaFin, String fechaRestriccionCirculacionInicio, String fechaRestriccionCirculacionFin, Integer rutaId, Rutas rutas, Integer tipoVehiculoId, TipoVehiculo tipoVehiculo, List<DocumentosVehiculo> documentosVehiculo, List<HabilidadesOperadoro> habilidadesOperadoro, List<DocumentosOperador> documentosOperador, List<HabilidadesAuxiliar> habilidadesAuxiliar, List<DocumentosAuxiliar> documentosAuxiliar, List<EvidenciaSalida> evidenciaSalida, List<EvidenciaLlegada> evidenciaLlegada, List<Check> checkList, Integer destinatariosClienteId,SendtripPlus sendtripPlus) {
         super();
         this.ticketId = ticketId;
         this.folioTicket = folioTicket;
@@ -155,6 +160,7 @@ public class dataDetailTickets implements Serializable {
         this.evidenciaLlegada = evidenciaLlegada;
         this.checkList = checkList;
         this.destinatariosClienteId = destinatariosClienteId;
+        this.sendtripPlus = sendtripPlus;
     }
 
     public Integer getTicketId() {
@@ -445,4 +451,11 @@ public class dataDetailTickets implements Serializable {
         this.destinatariosClienteId = destinatariosClienteId;
     }
 
+    public SendtripPlus getSendtripPlus() {
+        return sendtripPlus;
+    }
+
+    public void setSendtripPlus(SendtripPlus sendtripPlus) {
+        this.sendtripPlus = sendtripPlus;
+    }
 }

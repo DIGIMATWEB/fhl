@@ -35,7 +35,8 @@ public class ticketsInteractirImpl implements ticketsInteractor{
         String token = preferences.getString(GeneralConstants.TOKEN, null);
         if(token!=null){
             requestDetailTicket(token,folioDespachoId,folioTicket);
-            Log.e("requestDetailTicket",""+folioDespachoId+" " +folioTicket);
+            Log.e("frequestDetailTicket",""+folioDespachoId+" " +folioTicket);
+            Log.e("frequestDetailTicket",""+token);
         }
 
     }

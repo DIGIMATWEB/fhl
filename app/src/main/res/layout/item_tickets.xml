@@ -359,7 +359,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="--- --- --"
-                    android:textSize="@dimen/h6"
+                    android:textSize="@dimen/h9"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toStartOf="@+id/guidelinetickets01v"
                     app:layout_constraintStart_toStartOf="@+id/guidelinetickets01v"
                     app:layout_constraintTop_toBottomOf="@+id/locationDesc">
@@ -377,6 +378,7 @@
 
                 </ImageView>
                 <ImageView
+                    android:id="@+id/destinoMinimapa"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="@+id/guidelinetickets00v"
@@ -457,7 +459,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="93dp" />
+                    app:layout_constraintGuide_begin="70dp" />
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guidelinetickets02v"
                     android:layout_width="wrap_content"

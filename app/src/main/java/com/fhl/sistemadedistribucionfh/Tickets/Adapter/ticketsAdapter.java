@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.dataDetailTickets;
 import com.fhl.sistemadedistribucionfh.Tickets.view.tickets;
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Item;
 
 import java.util.List;
 
@@ -42,8 +44,21 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
         if(data!=null && data.size()!=0) {
             holder.ticketNum.setText("" + data.get(position).getFolioTicket());
             holder.cliente.setText("" + data.get(position).getCliente().getRazonSocial());
-            holder.contacto.setText("");// + data.get(position).getDestinatarios().getContacto().getNombre());
-            holder.Productos.setText(data.get(position).getCliente().getRazonSocial());
+            holder.contacto.setText(""+data.get(0).getSendtripPlus().getRemitente().getNombre());// + data.get(position).getDestinatarios().getContacto().getNombre());
+            if(data.get(0).getSendtripPlus().getPaquetes()!=null){
+                String productos="";
+                if(data.get(0).getSendtripPlus().getPaquetes().get(0).getItems()!=null){
+                    for(Item p:data.get(0).getSendtripPlus().getPaquetes().get(0).getItems()){
+                        if(data.get(0).getSendtripPlus().getPaquetes().get(0).getItems().size()==1){
+                            productos = productos + p.getDescripcion();
+                        }else {
+                            productos = productos + " " + p.getDescripcion() + " ,";
+                        }
+                    }
+                    holder.Productos.setText(productos);
+                }
+            }
+
 
             //Comprobamos la data
             if (data.size() > position && data.get(position).getCheckList() != null && !data.get(position).getCheckList().isEmpty()) {
@@ -63,16 +78,21 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
             holder.origen.setText("" + data.get(position).getOrigen());
             holder.estado.setText("" + data.get(position).getOrigen());
             //holder.salida.setText(""+data.get(position).getFechaSalidaEstimada());
-            holder.regreso.setText(data.get(position).getFechaPromesaRetorno());
-            holder.locationDesc.setText("");//+data.get(position).getEmpaque().get(0).getDestinatarios().get(0).getCiudad());
-            holder.latlongGeo.setText(""); //+ data.get(position).getDestinatarios().getCoordenadas());
-            holder.lalongReport.setText("" + data.get(position).getFechaPromesaEntrega());
+            holder.regreso.setText(""+data.get(0).getSendtripPlus().getFechaVentanaFin());
+            holder.locationDesc.setText(""+data.get(0).getSendtripPlus().getDestinatario().getEstado());//+data.get(position).getEmpaque().get(0).getDestinatarios().get(0).getCiudad());
+            holder.latlongGeo.setText(""+data.get(0).getSendtripPlus().getDestinatario().getCoordenadas()); //+ data.get(position).getDestinatarios().getCoordenadas());
+            holder.lalongReport.setText("" + data.get(0).getSendtripPlus().getFechaPromesaEntrega());
         }
-
+        holder.destinoMinimapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mView.goToMaps(data.get(0).getSendtripPlus().getDestinatario().getCoordenadas());
+            }
+        });
         holder.cardOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, ""+position, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context, ""+position, Toast.LENGTH_SHORT).show();
                 //mView.gotoTickets(position);
             }
         });
@@ -85,11 +105,12 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout cardOrder;
+        ImageView destinoMinimapa;
         TextView ticketNum,cliente,contacto,Productos,textAdjuntos,checklist,statusCierre,origen,estado,salida,regreso,locationDesc,latlongGeo,lalongReport;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             cardOrder=itemView.findViewById(R.id.constrainCard);
-
+            destinoMinimapa=itemView.findViewById(R.id.destinoMinimapa);
             ticketNum=itemView.findViewById(R.id.ticketNum);
             cliente=itemView.findViewById(R.id.clienteName);
             contacto=itemView.findViewById(R.id.contacto);
