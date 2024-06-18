@@ -120,7 +120,14 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
             if(!isAtListOne){
                 showToast();
                 this.data.get(positionG).setRecolecionEntrega(true);
-                adapter.updateManifest(this.data);
+                if(isFiltered){
+                    List<dataManifestV2> filterList = filter(this.data, texFilter);
+                    adapter.setFilterV2(filterList);
+                }else {
+
+                    adapter.updateManifest(this.data);// setAdapter(this.data);
+                }
+
             }else{
                 gotoTicketsDetail();
             }
