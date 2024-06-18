@@ -69,14 +69,15 @@
 
                 <TextView
                     android:id="@+id/clienteName"
-                    android:layout_width="180dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="--- --- ---"
                     android:textAlignment="textEnd"
-                    android:gravity="center"
-                    android:textSize="@dimen/h6"
+                    android:textSize="@dimen/h9"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@+id/textView11"
+                    app:layout_constraintStart_toStartOf="@+id/guidelinetickets00v"
                     app:layout_constraintTop_toBottomOf="@+id/textView11"
                     tools:ignore="RtlCompat">
 
@@ -238,6 +239,7 @@
                     android:id="@+id/textView32"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:text="Origen"
                     android:textSize="@dimen/h6"
                     app:layout_constraintBottom_toTopOf="@+id/guidelinetickets04"
@@ -263,6 +265,7 @@
                     android:id="@+id/textView14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:text="Destino"
                     android:textSize="@dimen/h6"
                     app:layout_constraintBottom_toTopOf="@+id/guidelinetickets04"
@@ -274,12 +277,13 @@
                     android:id="@+id/destino"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:text="Cancún"
                     android:textAlignment="textEnd"
                     android:textSize="@dimen/h9"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@+id/textView14"
-                    app:layout_constraintStart_toStartOf="@+id/guidelinetickets03v"
+                    app:layout_constraintStart_toStartOf="@+id/guidelinetickets00v"
                     app:layout_constraintTop_toBottomOf="@+id/textView14">
 
                 </TextView>

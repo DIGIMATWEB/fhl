@@ -11,6 +11,8 @@
     <dimen name="h7">12dp</dimen>
     <dimen name="h8">11dp</dimen>
     <dimen name="h9">10dp</dimen>
+    <dimen name="h10">9dp</dimen>
+    <dimen name="h11">8dp</dimen>
 
     <dimen name="L1">30dp</dimen>
     <dimen name="L2">22dp</dimen>

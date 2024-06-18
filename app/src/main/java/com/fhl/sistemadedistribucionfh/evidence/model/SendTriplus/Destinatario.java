@@ -47,8 +47,9 @@ public class Destinatario  implements Serializable {
     @SerializedName("Id")
     @Expose
     private Integer id;
-
-    public Destinatario(String nombre, String compania, String telefono, String email, String calle, String colonia, String localidad, String municipio, String estado, String pais, Integer codigoPostal, String coordenadas, Integer id) {
+    @SerializedName("NombreSucursal")
+    private String NombreSucursal;
+    public Destinatario(String nombre, String compania, String telefono, String email, String calle, String colonia, String localidad, String municipio, String estado, String pais, Integer codigoPostal, String coordenadas, Integer id,String NombreSucursal) {
         super();
         this.nombre = nombre;
         this.compania = compania;
@@ -63,6 +64,7 @@ public class Destinatario  implements Serializable {
         this.codigoPostal = codigoPostal;
         this.coordenadas = coordenadas;
         this.id = id;
+        this.NombreSucursal=NombreSucursal;
     }
 
     public String getNombre() {
@@ -174,4 +176,16 @@ public class Destinatario  implements Serializable {
         this.id = id;
     }
 
+    public String getNombreSucursal() {
+        if(  NombreSucursal!=null){
+            return NombreSucursal;
+        }else{
+            return "";
+        }
+
+    }
+
+    public void setNombreSucursal(String nombreSucursal) {
+        NombreSucursal = nombreSucursal;
+    }
 }

@@ -44,7 +44,7 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
         if(data!=null && data.size()!=0) {
             holder.ticketNum.setText("" + data.get(position).getFolioTicket());
             holder.cliente.setText("" + data.get(position).getCliente().getRazonSocial());
-            holder.contacto.setText(""+data.get(0).getSendtripPlus().getRemitente().getNombre());// + data.get(position).getDestinatarios().getContacto().getNombre());
+            holder.contacto.setText(""+data.get(0).getSendtripPlus().getRemitente().getNombre());
             if(data.get(0).getSendtripPlus().getPaquetes()!=null){
                 String productos="";
                 if(data.get(0).getSendtripPlus().getPaquetes().get(0).getItems()!=null){
@@ -75,12 +75,10 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
                 holder.textAdjuntos.setText("Cantidad: " + data.get(position).getDocumentosAuxiliar().size());//todo catalogar todos los adjuntos
             }
 
-            holder.origen.setText("" + data.get(0).getSendtripPlus().getRemitente().getEstado()
-                                    +" "+data.get(0).getSendtripPlus().getRemitente().getMunicipio()
-                                     +" "+data.get(0).getSendtripPlus().getRemitente().getCalle());
-            holder.estado.setText(" " + "" + data.get(0).getSendtripPlus().getDestinatario().getEstado()
-                                +" "+data.get(0).getSendtripPlus().getDestinatario().getMunicipio()
-                                +" "+data.get(0).getSendtripPlus().getDestinatario().getCalle());
+            holder.origen.setText("" + data.get(0).getSendtripPlus().getRemitente().getNombre());
+            holder.estado.setText(" " +data.get(0).getSendtripPlus().getDestinatario().getNombreSucursal());//"" + data.get(0).getSendtripPlus().getDestinatario().getEstado()
+                               // +" "+data.get(0).getSendtripPlus().getDestinatario().getMunicipio()
+                              //  +" "+data.get(0).getSendtripPlus().getDestinatario().getCalle());
             //holder.salida.setText(""+data.get(position).getFechaSalidaEstimada());
             holder.regreso.setText("-- -- --");
             holder.locationDesc.setText(""+data.get(0).getSendtripPlus().getDestinatario().getEstado());//+data.get(position).getEmpaque().get(0).getDestinatarios().get(0).getCiudad());

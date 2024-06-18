@@ -42,8 +42,10 @@ public class Remitente implements Serializable {
     @SerializedName("Id")
     @Expose
     private Integer id;
+    @SerializedName("NombreSucursal")
+    private String NombreSucursal;
 
-    public Remitente(String nombre, String compania, String calle, String colonia, String localidad, String municipio, String estado, String pais, Integer codigoPostal, String coordenadas, Integer id) {
+    public Remitente(String nombre, String compania, String calle, String colonia, String localidad, String municipio, String estado, String pais, Integer codigoPostal, String coordenadas, Integer id,String NombreSucursal) {
         super();
         this.nombre = nombre;
         this.compania = compania;
@@ -56,6 +58,7 @@ public class Remitente implements Serializable {
         this.codigoPostal = codigoPostal;
         this.coordenadas = coordenadas;
         this.id = id;
+        this.NombreSucursal=NombreSucursal;
     }
 
     public String getNombre() {
@@ -146,4 +149,16 @@ public class Remitente implements Serializable {
         this.id = id;
     }
 
+    public String getNombreSucursal() {
+        if( NombreSucursal!=null){
+            return NombreSucursal;
+        }else {
+            return " ";
+        }
+
+    }
+
+    public void setNombreSucursal(String nombreSucursal) {
+        NombreSucursal = nombreSucursal;
+    }
 }
