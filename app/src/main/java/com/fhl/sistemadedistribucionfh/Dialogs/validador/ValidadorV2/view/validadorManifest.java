@@ -157,6 +157,7 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
                     byte[] decodedBytes = Base64.decode(codigoValidador, Base64.DEFAULT);
                     Glide.with(getContext())
                             .load(decodedBytes)
+                            .error(R.drawable.okwarning)
                             .into(qrsalida);
                 } catch (Exception e) {
                     e.printStackTrace();
