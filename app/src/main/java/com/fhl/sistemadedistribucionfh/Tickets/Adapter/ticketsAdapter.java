@@ -75,8 +75,12 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
                 holder.textAdjuntos.setText("Cantidad: " + data.get(position).getDocumentosAuxiliar().size());//todo catalogar todos los adjuntos
             }
 
-            holder.origen.setText("" + data.get(0).getSendtripPlus().getDestinatario().getEstado());
-            holder.estado.setText("" + data.get(0).getSendtripPlus().getDestinatario().getMunicipio());
+            holder.origen.setText("" + data.get(0).getSendtripPlus().getRemitente().getEstado()
+                                    +" "+data.get(0).getSendtripPlus().getRemitente().getMunicipio()
+                                     +" "+data.get(0).getSendtripPlus().getRemitente().getCalle());
+            holder.estado.setText(" " + "" + data.get(0).getSendtripPlus().getDestinatario().getEstado()
+                                +" "+data.get(0).getSendtripPlus().getDestinatario().getMunicipio()
+                                +" "+data.get(0).getSendtripPlus().getDestinatario().getCalle());
             //holder.salida.setText(""+data.get(position).getFechaSalidaEstimada());
             holder.regreso.setText(""+data.get(0).getSendtripPlus().getFechaVentanaFin());
             holder.locationDesc.setText(""+data.get(0).getSendtripPlus().getDestinatario().getEstado());//+data.get(position).getEmpaque().get(0).getDestinatarios().get(0).getCiudad());

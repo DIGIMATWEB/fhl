@@ -238,7 +238,7 @@
                     android:id="@+id/textView32"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Estado"
+                    android:text="Origen"
                     android:textSize="@dimen/h6"
                     app:layout_constraintBottom_toTopOf="@+id/guidelinetickets04"
                     app:layout_constraintStart_toStartOf="@+id/textView9">
@@ -247,12 +247,13 @@
 
                 <TextView
                     android:id="@+id/estado"
-                    android:layout_width="160dp"
-                    android:textAlignment="textStart"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="--- --- --- ---"
-                    android:textSize="@dimen/h5"
+                    android:textAlignment="textStart"
+                    android:textSize="@dimen/h9"
                     android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelinetickets00v"
                     app:layout_constraintStart_toStartOf="@+id/textView32"
                     app:layout_constraintTop_toBottomOf="@+id/textView32">
 
@@ -271,13 +272,14 @@
 
                 <TextView
                     android:id="@+id/destino"
-                    android:layout_width="160dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Cancún"
                     android:textAlignment="textEnd"
-                    android:textSize="@dimen/h5"
+                    android:textSize="@dimen/h9"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@+id/textView14"
+                    app:layout_constraintStart_toStartOf="@+id/guidelinetickets03v"
                     app:layout_constraintTop_toBottomOf="@+id/textView14">
 
                 </TextView>
