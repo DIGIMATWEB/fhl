@@ -29,4 +29,6 @@ public class GeneralConstants {
     // Checklist array
     public static final String PREFS_NAME = "my_prefs";
     public static final String KEY_CHECK_LIST = "check_list";
+    public static final String RFC_CURRENT_VALIDADOR = "No rfc";
+    public static final String VIN_CURRENT_VALIDADOR = "Vin_vehicle";
 }

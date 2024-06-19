@@ -37,7 +37,7 @@ public class Vehiculo {
     @Expose
     private Integer id;
 
-    @SerializedName("CodigoBarras ")
+    @SerializedName("CodigoBarras")
     private String barcodeVehicle;
 
     public Vehiculo(String placa, String economico, String vin, Integer anio, Integer tanqueCombustible, Integer marcaId, Marca marca, Integer modeloId, Modelo modelo, Integer id,String barcodeVehicle) {

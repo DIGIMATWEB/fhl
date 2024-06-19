@@ -55,7 +55,7 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
     private List<responseManifestSalidaV2data> data;
     private TextView numberManifestsalida,cedissalida,vehiculosalida,datesalida,placasalida,regresosalida;
     private Boolean isCanceled =true;
-    private String vehiclebarcode,rfcBarcode;
+    private String vehiclebarcode,rfcBarcode="";
     private String vehiclebarcodeVal,rfcBarcodeVal;
     private Integer claveVehicleID;
     private  List<dataValidadorV2> mdata=new ArrayList<>();
@@ -137,11 +137,14 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
                 //aqui visible el vehiculo
                 constrainCard.setVisibility(View.GONE);
                 cortina.setVisibility(View.VISIBLE);
-                Log.e("barcodereader","barcode vehicle "+ codigoValidador);
+                SharedPreferences preferences1 = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                String vehicle = preferences1.getString(GeneralConstants.VIN_CURRENT_VALIDADOR, null);
+                Log.e("barcodereader","barcode vehicle "+ vehicle);
                 try {
-                    byte[] decodedBytes = Base64.decode(codigoValidador, Base64.DEFAULT);
+                    byte[] decodedBytes = Base64.decode(vehicle, Base64.DEFAULT);
                     Glide.with(getContext())
                             .load(decodedBytes)
+                            .error(R.drawable.okwarning)
                             .into(qrsalida);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -150,11 +153,14 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
                 textView29.setText("escanear codigo de la identificacion");
                 break;
             case "3":/***aqui se pide rfc*/
-                Log.e("barcodereader","barcode rfc     "+ codigoValidador);
+
                 constrainCard.setVisibility(View.GONE);
                 cortina.setVisibility(View.VISIBLE);
+                SharedPreferences preferences2 = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                String rfc = preferences2.getString(GeneralConstants.RFC_CURRENT_VALIDADOR, null);
+                Log.e("barcodereader","barcode rfc     "+ rfc);
                 try {
-                    byte[] decodedBytes = Base64.decode(codigoValidador, Base64.DEFAULT);
+                    byte[] decodedBytes = Base64.decode(rfc, Base64.DEFAULT);
                     Glide.with(getContext())
                             .load(decodedBytes)
                             .error(R.drawable.okwarning)
@@ -267,6 +273,14 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
 
         }
     }
+    private void setCurrentFlow(String rfcBarcode, String barcodeVehicle) {
+        SharedPreferences preferencias = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferencias.edit();
+        editor.putString(GeneralConstants.RFC_CURRENT_VALIDADOR, rfcBarcode);
+        editor.putString(GeneralConstants.VIN_CURRENT_VALIDADOR, barcodeVehicle);
+        // editor.putString(GeneralConstants.CVE_EMPLOYE,String.valueOf(data.getCve_employee()));
+        editor.commit();
+    }
     @Override
     public void setManifestVehicleandDriver(List<dataValidadorV2> data) {
         this.mdata=data;
@@ -283,6 +297,9 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
         vehiclebarcodeVal=data.get(0).getVehiculo().getVin();
         rfcBarcodeVal=data.get(0).getOperador().getRfc(); // Esto es el String del RFC
         claveVehicleID=data.get(0).getVehiculoId();
+        if(codigoValidador1.equals("1")){
+            setCurrentFlow(data.get(0).getOperador().getRfcBarcode(),data.get(0).getVehiculo().getBarcodeVehicle());
+        }
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -308,7 +325,11 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
                         } else { // si es en progreso
                             if (tdata != null) {
                                 if (ticketsEntregaExist) {
-                                    barcodeScannerActivity.setVehicleandDriverBarcodes(vehiclebarcode, rfcBarcode, vehiclebarcodeVal, rfcBarcodeVal, claveVehicleID);
+                                    barcodeScannerActivity.setVehicleandDriverBarcodes(vehiclebarcode,
+                                            rfcBarcode,
+                                            vehiclebarcodeVal,
+                                            rfcBarcodeVal,
+                                            claveVehicleID);
                                 } else {
                                     barcodeScannerActivity.errorCarga("No hay tickets de entrega para el manifiesto");
                                     dismiss();
@@ -326,6 +347,9 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
 //        barcodeScannerActivity1.setVehicleandDriver(data.get(0).getVehiculo().getEconomico(),data.get(0).getOperador().getId());
 
     }
+
+
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
