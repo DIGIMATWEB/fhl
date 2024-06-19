@@ -1,7 +1,9 @@
 package com.fhl.sistemadedistribucionfh.mainContainer;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.fhl.sistemadedistribucionfh.Profile.view.viewProfile;
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.checkList.view.checkList;
 import com.fhl.sistemadedistribucionfh.locator.view.locator;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
@@ -77,10 +80,14 @@ public class menu extends Fragment implements View.OnClickListener{
                 transaction.replace(R.id.fragments, loc, locator.TAG).commit();
                 break;
             case R.id.Mordenes:
-              //  Bundle bundle = new Bundle();
-               // bundle.putString("scannerType2", "Validador");// Toast.makeText(getContext(), "ir a Validador", Toast.LENGTH_SHORT).show();
+                SharedPreferences preferences =getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor=preferences.edit();
+                editor.putString(GeneralConstants.STATUS_SALIDA,String.valueOf(1));
+                editor.commit();
+                Bundle bundle = new Bundle();
+                bundle.putString("scannerType", "Validador");
                 Intent intent = new Intent(getActivity(), BarcodeScannerActivity.class);
-              //  intent.putExtras(bundle);
+                intent.putExtras(bundle);
                 startActivity(intent);
 
                 break;

@@ -374,7 +374,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     isMotorola=false;
                 }
             }
-            Log.i("motorola", "not all Permission granted!");
+            Log.i("motorola", "not all Permission granted!" +currentStatus);
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -551,7 +551,12 @@ public class BarcodeScannerActivity extends AppCompatActivity
 
         } else {
             if (currentStatus != 3 && currentStatus != 5) {
-                currentStatus = currentStatus + 1;}
+                if(typeScanner.equals("Validador")){
+
+                }else {
+                    currentStatus = currentStatus + 1;
+                }
+            }
             Log.e("motorola"," restartCameraProcess cS:  getRuntimePermissions "+currentStatus+"  "+allPermissionsGranted());
             isMotorola=true;
 
@@ -890,7 +895,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     validadorManifest validador=new validadorManifest();
                     validador.setArguments(bundle);
                     validador.show(getSupportFragmentManager(),"validadorManifest");
-                }else if(currentStatus==2){//cortina
+                }else if(currentStatus==2){//vin
                     Log.e("validador","last status "+currentStatus+"  "+code +"  "+vehiclebarcodeVal);
                     if(vehiclebarcodeVal.equals(code)) {
                         image = vehiclebarcode;
