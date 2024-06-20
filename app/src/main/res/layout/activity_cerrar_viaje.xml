@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="Número de Ticket"
+                android:text="Número de Manifiesto"
                 android:textSize="13dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -61,15 +61,15 @@
             </TextView>
 
             <TextView
-                android:id="@+id/ticketFolio"
+                android:id="@+id/ticketManifest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0131192000-B"
+                android:text="-- -- --"
                 android:textSize="14dp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/textView9"
                 app:layout_constraintStart_toStartOf="@+id/textView9"
-                app:layout_constraintTop_toBottomOf="@+id/textView9">
-            </TextView>
+                app:layout_constraintTop_toBottomOf="@+id/textView9"></TextView>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
@@ -109,7 +109,7 @@
                 android:id="@+id/textView101"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0131192000-B"
+                android:text="-- -- --"
                 android:textSize="@dimen/h5"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -122,7 +122,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="Número de Ticket"
+                android:text="Documentacion general"
                 android:textSize="@dimen/h6"
                 app:layout_constraintBottom_toTopOf="@+id/guidelinetickets00"
                 app:layout_constraintStart_toStartOf="parent">
@@ -133,7 +133,7 @@
                 android:id="@+id/textView10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0131192000-B"
+                android:text="-- -- --"
                 android:textSize="@dimen/h5"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/textView91"
@@ -155,12 +155,15 @@
 
             <TextView
                 android:id="@+id/textView27"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Juan martínez"
-                android:textSize="@dimen/h5"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:text="-- -- --"
+                android:textAlignment="textEnd"
+                android:textSize="@dimen/h10"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/textView12"
                 app:layout_constraintEnd_toEndOf="@+id/textView11"
+                app:layout_constraintStart_toStartOf="@+id/guidelinetickets03h"
                 app:layout_constraintTop_toBottomOf="@+id/textView11">
 
             </TextView>
@@ -169,7 +172,7 @@
                 android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Documento general"
+                android:text="Adjuntos"
                 android:textSize="@dimen/h6"
                 app:layout_constraintBottom_toTopOf="@+id/guidelinetickets01"
                 app:layout_constraintStart_toStartOf="@+id/textView91">
@@ -180,7 +183,7 @@
                 android:id="@+id/textView24"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Documentos"
+                android:text="-- -- --"
                 android:textSize="@dimen/h5"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/textView8"
@@ -192,7 +195,7 @@
                 android:id="@+id/textView12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Contacto"
+                android:text="Productos"
                 android:textSize="@dimen/h6"
                 app:layout_constraintBottom_toTopOf="@+id/guidelinetickets01"
                 app:layout_constraintEnd_toEndOf="@+id/textView11">
@@ -201,12 +204,16 @@
 
             <TextView
                 android:id="@+id/textView26"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nombre de contacto"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="10dp"
+                android:text="-- -- --"
+                android:textAlignment="textEnd"
                 android:textSize="@dimen/h5"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/textView12"
+                app:layout_constraintStart_toStartOf="@+id/guidelinetickets03h"
                 app:layout_constraintTop_toBottomOf="@+id/textView12">
 
             </TextView>
@@ -226,7 +233,7 @@
                 android:id="@+id/textView13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CheckList Requeridos"
+                android:text=""
                 android:textSize="@dimen/h6"
                 app:layout_constraintBottom_toTopOf="@+id/guidelinetickets02"
                 app:layout_constraintEnd_toEndOf="@+id/textView11">
@@ -237,7 +244,7 @@
                 android:id="@+id/textDe"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="De: Julian Banderas"
+                android:text=""
                 android:textSize="12dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/textView13"
@@ -260,7 +267,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent=".55" />
+                app:layout_constraintGuide_percent=".68" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelinetickets02"
@@ -269,7 +276,12 @@
                 android:orientation="horizontal"
                 app:layout_constraintGuide_percent=".8" />
 
-
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelinetickets03h"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".52" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

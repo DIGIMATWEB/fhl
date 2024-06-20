@@ -35,7 +35,10 @@ import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Cancelar.adapter.adapterNoCompletado;
 import com.fhl.sistemadedistribucionfh.Cancelar.presenter.cancelPresenter;
 import com.fhl.sistemadedistribucionfh.Cancelar.presenter.cancelPresenterImpl;
+import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.ResoponseTicketsDetail;
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Item;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
+import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -67,11 +70,12 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
     private Button buttonSave;
     private  String closeDialog;
     private Integer idReason;
-    private TextView textView9111;
+    private TextView textView9111,ticketManifest,textView101,textView27,textView26;
     private ArrayList<File> tempImageFiles = new ArrayList<>();
     private List<String> directories=new ArrayList<>();
     private cancelPresenter presenter;
-    private String folioTicket,currentManifest;
+    private String folioTicket,currentManifest,detailTicket;
+    private ResoponseTicketsDetail jsonObje;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,10 +88,29 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
             // Retrieve the integer value using the key "key_integer"
             folioTicket= bundle.getString("folioTicket");
             currentManifest= bundle.getString("currentManifest");
+            detailTicket= bundle.getString("jsonTicket");
             // Now intValue contains the value passed from the previous activity
             // You can use this value as needed
             // For example, you can log it or display it in a TextView
             Log.d("EvidenciaActivity", "Retrieved integer value: " + folioTicket);
+            if (detailTicket != null) {//todo esto es si es cerrar viaje no entrqagado y llenar detalles
+                Gson gson = new Gson();
+                String jsonstring = gson.toJson(detailTicket);
+                jsonstring = jsonstring.replace("\\", "");
+                //    Type listType = new TypeToken<List<dataDetailTickets>>(){}.getType();
+                 jsonObje = gson.fromJson(detailTicket, ResoponseTicketsDetail.class);
+
+                Log.e("EvidenciaActivity", "json   " + jsonstring);// esto es para uno
+                if (jsonObje.getData().get(0).getEvidenciaLlegada() != null) {//esto en caso de no haber evidencias de llegada
+                    Log.e("EvidenciaActivity", "" + jsonObje.getData().get(0).getEvidenciaLlegada().size());
+                }
+                if (jsonObje.getData().get(0).getEvidenciaSalida() != null) {//esto en caso de no haber evidencias de salida
+                    Log.e("EvidenciaActivity", "" + jsonObje.getData().get(0).getEvidenciaSalida().size());
+                }
+                if (jsonObje.getData().get(0).getCheckList() != null) {//esto en caso de no haber checklist
+                    Log.e("EvidenciaActivity", "" + jsonObje.getData().get(0).getCheckList().size());
+                }
+            }
         }
         initView();
         imageCollections.clear();
@@ -110,6 +133,29 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
         camera=findViewById(R.id.camera);
         camera.setOnClickListener(this);
         buttonSave=findViewById(R.id.buttonSave);
+        ticketManifest= findViewById(R.id.ticketManifest);
+        ticketManifest.setText(currentManifest);
+        textView26 =findViewById(R.id.textView26);
+        textView27 = findViewById(R.id.textView27);
+        if(jsonObje.getData()!=null&&jsonObje.getData().get(0)!=null&&jsonObje.getData().get(0).getSendtripPlus()!=null) {
+            if(jsonObje.getData().get(0).getSendtripPlus()!=null&&jsonObje.getData().get(0).getSendtripPlus().getPaquetes()!=null&&jsonObje.getData().get(0).getSendtripPlus().getPaquetes().get(0).getItems()!=null) {
+               String itemsDesc="";
+               List<Item> fitem =jsonObje.getData().get(0).getSendtripPlus().getPaquetes().get(0).getItems();
+               for(Item i:fitem){
+                   if(fitem.size()==1) {
+                       itemsDesc = i.getDescripcion();
+                   }else{
+                       itemsDesc = i.getDescripcion() + ", ";
+                   }
+               }
+                textView26.setText(itemsDesc);
+            }
+            if(jsonObje.getData().get(0).getSendtripPlus().getDestinatario()!=null) {
+                textView27.setText(jsonObje.getData().get(0).getSendtripPlus().getDestinatario().getNombreSucursal());
+            }
+        }
+        textView101 = findViewById(R.id.textView101);
+        textView101.setText(folioTicket);
         buttonSave.setOnClickListener(this);
         textView9111 = findViewById(R.id.textView9111);
         presenter= new cancelPresenterImpl(this,getBaseContext());
