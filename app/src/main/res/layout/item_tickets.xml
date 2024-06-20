@@ -140,19 +140,51 @@
 
                 </TextView>
 
-                <TextView
-                    android:id="@+id/Productos"
-                    android:layout_width="140dp"
-                    android:layout_height="38dp"
-                    android:text="--- --- ---"
-                    android:textSize="@dimen/h5"
-                    android:autoSizeTextType="uniform"
-                    android:textStyle="bold"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     app:layout_constraintBottom_toTopOf="@+id/textView28"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelinetickets00v"
                     app:layout_constraintStart_toStartOf="@+id/textView25"
-                    app:layout_constraintTop_toBottomOf="@+id/textView25">
+                    app:layout_constraintTop_toBottomOf="@+id/textView25" >
 
-                </TextView>
+                    <ScrollView
+                        android:id="@+id/scrollView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:scrollbars="vertical"
+                        android:fillViewport="true" >
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/Productos"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="8dp"
+
+                                android:text="--- --- ---"
+                                android:textSize="@dimen/h8"
+                                android:textStyle="bold" />
+                            <TextView
+                                android:id="@+id/Productosf"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="8dp"
+                                android:scrollbars="vertical"
+                                android:text="                                                                                                    ."
+                                android:textSize="@dimen/h8"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </ScrollView>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
                 <TextView
                     android:id="@+id/textView28"
@@ -276,12 +308,13 @@
                 <TextView
                     android:id="@+id/destino"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:text="Cancún"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="6dp"
+                    android:text="--- --- ---"
                     android:textAlignment="textEnd"
-                    android:textSize="@dimen/h9"
+                    android:textSize="@dimen/h10"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/textView20"
                     app:layout_constraintEnd_toEndOf="@+id/textView14"
                     app:layout_constraintStart_toStartOf="@+id/guidelinetickets00v"
                     app:layout_constraintTop_toBottomOf="@+id/textView14">
@@ -303,7 +336,7 @@
                     android:id="@+id/salida_time"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:text="Lun.| 14/06/22 | 11:30"
+                    android:text="--- --- ---"
                     android:textAlignment="textStart"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
@@ -328,7 +361,7 @@
                     android:id="@+id/regreso_time"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:text="Lun.| 14/06/22 | 11:30"
+                    android:text="--- --- ---"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
                     android:textAlignment="textEnd"
@@ -446,7 +479,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".54"/>
+                    app:layout_constraintGuide_percent=".55"/>
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guidelinetickets0a"
                     android:layout_width="wrap_content"

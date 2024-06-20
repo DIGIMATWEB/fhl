@@ -53,7 +53,7 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     private ProgressDialog mprogres;
     private int dialogfilter=0;
     private Integer positionG;
-    private String folioDespachoG, vehiculoModeloG, vehiculoPlacaG, statusManifestG, cedisG;
+    private String folioDespachoG, vehiculoModeloG, vehiculoPlacaG, statusManifestG, cedisG,fechaSalida;
     private Handler handler = new Handler();
     private Runnable runnable;
     private loaderFH progress;
@@ -144,6 +144,7 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         bundle.putString("vehiculoPlacaId", vehiculoPlacaG);
         bundle.putString("statusManifest",statusManifestG);
         bundle.putString("cedisId", cedisG);
+        bundle.putString("fechaSalida",fechaSalida);
 
         manager = getActivity().getSupportFragmentManager();
         transaction = manager.beginTransaction();
@@ -174,10 +175,10 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         dialog.show();
     }
 
-    public void gotoTickets(int position, String folioDespacho, String vehiculoModelo, String vehiculoPlaca, String cedis, String statusManifest) {
+    public void gotoTickets(int position, String folioDespacho, String vehiculoModelo, String vehiculoPlaca, String cedis, String statusManifest, String fechaSalida) {
         presenter.getTicketByManigest(folioDespacho);
         Log.e("SendTicket", "Datos: " + position + " " + folioDespacho + " " + vehiculoModelo + " " + vehiculoPlaca + " " + cedis + " " + statusManifest);
-
+        this.fechaSalida=fechaSalida;
         this.positionG = position;
         this.folioDespachoG = folioDespacho;
         this.vehiculoModeloG = vehiculoModelo;

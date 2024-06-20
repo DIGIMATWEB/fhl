@@ -2,15 +2,19 @@ package com.fhl.sistemadedistribucionfh.Tickets.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.R;
@@ -55,6 +59,7 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
                             productos = productos + " " + p.getDescripcion() + " ,";
                         }
                     }
+                    Log.e("productosTicket",""+productos);
                     holder.Productos.setText(productos);
                 }
             }
@@ -108,6 +113,7 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout cardOrder;
         ImageView destinoMinimapa;
+        ScrollView scrollView2 ;
         TextView ticketNum,cliente,contacto,Productos,textAdjuntos,checklist,statusCierre,origen,estado,salida,regreso,locationDesc,latlongGeo,lalongReport;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -117,6 +123,8 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
             cliente=itemView.findViewById(R.id.clienteName);
             contacto=itemView.findViewById(R.id.contacto);
             Productos=itemView.findViewById(R.id.Productos);
+            Productos.setMovementMethod(new ScrollingMovementMethod());
+            scrollView2=itemView.findViewById(R.id. scrollView2);
             checklist=itemView.findViewById(R.id.textDe);
             textAdjuntos=itemView.findViewById(R.id.textAdjuntos);
             origen=itemView.findViewById(R.id.estado);
@@ -126,6 +134,12 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
             locationDesc=itemView.findViewById(R.id.locationDesc);
             latlongGeo=itemView.findViewById(R.id.latlong);
             lalongReport=itemView.findViewById(R.id.lalongReport);
+            scrollView2.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                    // Scroll event handling
+                }
+            });
         }
     }
 }

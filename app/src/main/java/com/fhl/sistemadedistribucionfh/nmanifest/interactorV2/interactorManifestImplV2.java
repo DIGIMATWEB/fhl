@@ -56,7 +56,7 @@ public class interactorManifestImplV2 implements interactorManifestV2 {
 //            idEmpleadoString = ""; // or any other default value you want to assign
 //        }
 
-
+        Log.e("empleado",""+user);
         //IdEmpleado correcto
         //TODO Cambiar por el token correcto
         presenter.showProgress();

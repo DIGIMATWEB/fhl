@@ -150,7 +150,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:text="N4312192000-B"
+                    android:text="--- --- ---"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -175,7 +175,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:text="Lun.| 14/06/22 | 11:30"
+                    android:text="--- --- ---"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -201,7 +201,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
                     android:layout_marginEnd="10dp"
-                    android:text="Lun.| 14/06/22 | 11:30"
+                    android:text="--- --- ---"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -286,7 +286,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
 
-                    app:layout_constraintGuide_percent=".6">
+                    app:layout_constraintGuide_percent=".62">
                 </androidx.constraintlayout.widget.Guideline>
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guidelinemanifest3"

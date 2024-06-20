@@ -46,11 +46,11 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
     private FragmentTransaction transaction;
     private SearchView searchViewManifestdetail;
     private ImageView searchicodetail;
-    private String folioDespachoId, vehiculoModeloId, vehiculoPlacaId, cedisId,statusManifest;
+    private String folioDespachoId, vehiculoModeloId, vehiculoPlacaId, cedisId,statusManifest,fechaSalida;
     private List<dataTicketsManifestV2> data;
     private List<Sello> dataSellos;
     private presenterTicketsmanifestV2 presenter;
-    private TextView vehicleManifiesto, vehicleName, vehiclePlaca, vehicleCedis,status,recolectartxt;
+    private TextView vehicleManifiesto, vehicleName, vehiclePlaca, vehicleCedis,status,recolectartxt,textView75;
     private ImageButton recoletar;
     private loaderFH progress;
     private List<String> selectedItems=new ArrayList<>();
@@ -66,6 +66,7 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
             vehiculoModeloId = bundle.getString("vehiculoModeloId");
             vehiculoPlacaId = bundle.getString("vehiculoPlacaId");
             cedisId = bundle.getString("cedisId");
+            fechaSalida= bundle.getString("fechaSalida");
             statusManifest= bundle.getString("statusManifest");
             Log.e("midManifest","" + folioDespachoId);
 
@@ -85,6 +86,8 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         searchicodetail.setOnClickListener(this);
         recoletar=view.findViewById(R.id.recoletar);
         recoletar.setOnClickListener(this);
+        textView75=view.findViewById(R.id. textView75);
+        textView75.setText(fechaSalida);
         recolectartxt=view.findViewById(R.id.recolectartxt);
         vehicleManifiesto = view.findViewById(R.id.numeroManifiesto2);
         vehicleName = view.findViewById(R.id.vehicle_namev2);
