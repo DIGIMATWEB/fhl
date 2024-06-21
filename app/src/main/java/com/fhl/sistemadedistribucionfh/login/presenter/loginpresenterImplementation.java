@@ -31,6 +31,19 @@ public class loginpresenterImplementation  implements loginpresenter{
             interactor.requestProfileValues(token);
         }
     }
+    @Override
+    public void requestProfileRole(String token, String idEmpleadoString) {
+        if(view!=null) {
+            interactor.requestProfileRole(token, idEmpleadoString);
+        }
+    }
+
+    @Override
+    public void setRole() {
+        if(view!=null) {
+            view.setRole();
+        }
+    }
 
     @Override
     public void saveUserValues(profileResponse body) {
@@ -45,6 +58,8 @@ public class loginpresenterImplementation  implements loginpresenter{
             view.continueWithoutSave(checkBoxState);
         }
     }
+
+
 
     @Override
     public void succesLogin() {

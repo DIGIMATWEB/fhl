@@ -147,17 +147,21 @@ public class login extends AppCompatActivity implements View.OnClickListener,log
             editor.putString(GeneralConstants.OPERADOR_ID, idEmpleadoString);
             editor.putString(GeneralConstants.OPERADOR_NAME, profileData.getNombreUsuario());
             editor.commit();
-
+            presenter.requestProfileRole(token,idEmpleadoString);
         } else {
             Toast.makeText(this, "No se guardaron datos del usuario", Toast.LENGTH_SHORT).show();
         }
 
+
+
+    }
+    @Override
+    public void setRole() {
         Intent intent = new Intent(this, mainContainer.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);//
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
-
     @Override
     public void continueWithoutSave(Boolean checkBoxState) {
         SharedPreferences preferencias = getApplicationContext().getSharedPreferences(String.valueOf(GeneralConstants.CHECK_BOX_STATE), Context.MODE_PRIVATE);
@@ -166,4 +170,6 @@ public class login extends AppCompatActivity implements View.OnClickListener,log
         //editor.putString(GeneralConstants.STATUS_SALIDA,"1");
         editor.commit();
     }
+
+
 }

@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.fhl.sistemadedistribucionfh.Dialogs.mainMenu;
 import com.fhl.sistemadedistribucionfh.Profile.view.viewProfile;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Visor.view.visorViewImpl;
@@ -58,7 +57,7 @@ public class mainContainer extends AppCompatActivity  implements view {
         initPresenter();
         //manifiestos();
         manifiestosV2();
-        showFragmentNavigationButtons();
+        showFragmentNavigationButtonsV2();
         showTab();
     }
 
@@ -176,6 +175,12 @@ public class mainContainer extends AppCompatActivity  implements view {
         transaction = manager.beginTransaction();
         menu menu = new menu();
         transaction.replace(R.id.menu, menu, menu.TAG).commit();
+    }
+    private void showFragmentNavigationButtonsV2() {
+        manager = getSupportFragmentManager();
+        transaction = manager.beginTransaction();
+        menuV2 menu = new menuV2();
+        transaction.replace(R.id.menu, menu, menuV2.TAG).commit();
     }
     private void profile(){
         manager = getSupportFragmentManager();

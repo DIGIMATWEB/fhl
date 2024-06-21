@@ -13,4 +13,8 @@ public interface loginpresenter {
 
     void saveUserValues(profileResponse body);
     void continueWithoutSave(Boolean checkBoxState);
+
+    void requestProfileRole(String token, String idEmpleadoString);
+
+    void setRole();
 }

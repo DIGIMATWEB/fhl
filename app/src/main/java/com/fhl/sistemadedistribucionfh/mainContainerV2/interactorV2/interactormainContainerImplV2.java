@@ -151,7 +151,36 @@ public class interactormainContainerImplV2 implements interactormainContainerV2 
                     //Log.d("Parsed Objects", "Menu Items List: " + menuItemsList.get(0).getTitulo());
 
                     // Continuar con el procesamiento de la respuesta
-                    presenter.setMenusV2(menuItemsList);
+                    SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                    String role = preferences.getString(GeneralConstants.USER_ROLE, null);
+                    List<dataMenuItemsV2> filterByRoleMenuItemsList = new ArrayList<>();
+                    filterByRoleMenuItemsList.clear();
+                    for(dataMenuItemsV2 menu:menuItemsList){
+                        if(role!=null) {
+                            if (role.equals("1")) {
+                                // 1 (operador) -> Perfil(51), carga(280), Manifiesto(279)
+                                if(menu.getId()==51||menu.getId()==279||menu.getId()==280){
+                                    filterByRoleMenuItemsList.add(menu);
+                                }
+                            } else if (role.equals("7")) {
+                                //7 (Seguridad) ->Perfil(51), Validador(281)
+                                if(menu.getId()==51||menu.getId()==281){
+                                    filterByRoleMenuItemsList.add(menu);
+                                }
+                            } else {
+
+                            }
+                        }else {
+                            filterByRoleMenuItemsList.add(menu);
+                        }
+                    }
+                    Gson gsonM=new Gson();
+                    String jsonMenu=gsonM.toJson(filterByRoleMenuItemsList);
+                    SharedPreferences preferencias = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferencias.edit();
+                    editor.putString(GeneralConstants.MENU_USER_SET, jsonMenu);
+                    editor.commit();
+                    presenter.setMenusV2(filterByRoleMenuItemsList);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     // Manejar el error de análisis JSON

@@ -31,4 +31,6 @@ public class GeneralConstants {
     public static final String KEY_CHECK_LIST = "check_list";
     public static final String RFC_CURRENT_VALIDADOR = "No rfc";
     public static final String VIN_CURRENT_VALIDADOR = "Vin_vehicle";
+    public static final String USER_ROLE = "ROLE_FOR_USER";
+    public static final String MENU_USER_SET = "I_SET_MENU";
 }

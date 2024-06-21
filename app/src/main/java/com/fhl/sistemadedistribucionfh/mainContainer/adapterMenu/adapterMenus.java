@@ -14,9 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.fhl.sistemadedistribucionfh.Dialogs.mainMenu;
+import com.fhl.sistemadedistribucionfh.mainContainer.mainMenu;
 import com.fhl.sistemadedistribucionfh.R;
-import com.fhl.sistemadedistribucionfh.mainContainer.model.dataMenuItems;
 import com.fhl.sistemadedistribucionfh.mainContainerV2.modelV2.dataMenuItemsV2;
 
 import java.util.List;

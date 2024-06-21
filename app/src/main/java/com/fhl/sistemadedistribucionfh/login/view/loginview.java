@@ -10,4 +10,5 @@ public interface loginview {
 
     void saveUserValues(profileResponse body);
     void continueWithoutSave(Boolean checkBoxState);
+    void setRole();
 }
