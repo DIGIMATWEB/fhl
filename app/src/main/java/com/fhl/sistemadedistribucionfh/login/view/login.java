@@ -49,6 +49,12 @@ public class login extends AppCompatActivity implements View.OnClickListener,log
         initView();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
     private void initView() {
         progress = new loaderFH();
         login=findViewById(R.id.loginenter);

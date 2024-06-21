@@ -139,6 +139,7 @@
                     android:layout_marginEnd="10dp"
                     android:text="Cedis"
                     android:textSize="@dimen/h6"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@+id/textView15"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/textView15">
@@ -153,6 +154,7 @@
                     android:text="--- --- ---"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/guidelinemanifest0">
 
@@ -165,7 +167,7 @@
                     android:layout_marginEnd="10dp"
                     android:text="Salida"
                     android:textSize="@dimen/h6"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinemanifest1"
+                    app:layout_constraintBottom_toTopOf="@+id/guidelinemanifest0"
                     app:layout_constraintEnd_toEndOf="parent">
 
                 </TextView>
@@ -179,7 +181,7 @@
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/guidelinemanifest1">
+                    app:layout_constraintTop_toBottomOf="@+id/textView71">
 
                 </TextView>
 
@@ -190,6 +192,7 @@
                     android:layout_marginEnd="10dp"
                     android:text="Regreso"
                     android:textSize="@dimen/h6"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/guidelinemanifest2"
                     app:layout_constraintEnd_toEndOf="parent">
 
@@ -204,6 +207,7 @@
                     android:text="--- --- ---"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/guidelinemanifest2">
                 </TextView>

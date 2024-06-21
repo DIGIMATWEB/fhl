@@ -94,10 +94,16 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     }
 
     private void setAdapter(List<dataManifestV2> data) {
-        adapter = new manifestAdapterV2(this, data, data.size(), getContext());
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        rv.setLayoutManager(layoutManager);
-        rv.setAdapter(adapter);
+        if(adapter==null) {
+            adapter = new manifestAdapterV2(this, data, data.size(), getContext());
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            rv.setLayoutManager(layoutManager);
+            rv.setAdapter(adapter);
+        }else{
+            if(data!=null) {
+                adapter.updateManifest(data);
+            }
+        }
     }
     @Override
     public void checkTickets(List<dataTicketsManifestV2> data) {

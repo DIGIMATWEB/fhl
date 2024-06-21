@@ -128,7 +128,7 @@ public class HelpPermissionsViewImpl extends AppCompatActivity implements View.O
             SharedPreferences.Editor editor = preference.edit();
             editor.putString(GeneralConstants.PERMISSION_ACCESS, permisos);
             editor.commit();
-            Toast.makeText(this, "Todos los permisos.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Permisos aceptados.", Toast.LENGTH_SHORT).show();
         }
     }
 

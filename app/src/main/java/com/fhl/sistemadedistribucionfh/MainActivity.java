@@ -2,6 +2,7 @@ package com.fhl.sistemadedistribucionfh;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.WindowDecorActionBar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -18,7 +20,8 @@ import com.fhl.sistemadedistribucionfh.login.view.login;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
 
 public class MainActivity extends AppCompatActivity {
-
+    private ConstraintLayout constrainReference;
+    private int width;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +29,28 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+        constrainReference=findViewById(R.id.mainViewConstrain);
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String savedWith = preferences.getString(GeneralConstants.WITH_USER, null);
+        if(savedWith==null) {
+            constrainReference.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    // Now the width should be initialized
+                    width = constrainReference.getWidth();
+                    Log.e("rvLayout", "W: " + width);
 
+                    // After obtaining width, you can proceed with setting up the RecyclerView
+
+                    SharedPreferences preferencias = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferencias.edit();
+                    editor.putString(GeneralConstants.WITH_USER, String.valueOf(width));
+                    editor.commit();
+                    // Remove the listener to avoid redundant calls
+                    constrainReference.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+            });
+        }
         continueSplash();
     }
     private void continueSplash()

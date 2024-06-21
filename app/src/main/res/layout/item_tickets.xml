@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="660dp"
+        android:layout_height="400dp"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -89,6 +89,7 @@
                     android:layout_height="wrap_content"
                     android:text="Documento general"
                     android:textSize="@dimen/h6"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/guidelinetickets01"
                     app:layout_constraintStart_toStartOf="@+id/textView9">
 
@@ -101,6 +102,7 @@
                     android:text="--- --- ---"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="@+id/textView8"
                     app:layout_constraintTop_toBottomOf="@+id/textView8">
 
@@ -135,7 +137,7 @@
                     android:layout_height="wrap_content"
                     android:text="Producto"
                     android:textSize="@dimen/h6"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets02"
+                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets01"
                     app:layout_constraintStart_toStartOf="@+id/textView9">
 
                 </TextView>
@@ -143,34 +145,38 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    app:layout_constraintBottom_toTopOf="@+id/textView28"
+                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets02"
                     app:layout_constraintEnd_toStartOf="@+id/guidelinetickets00v"
                     app:layout_constraintStart_toStartOf="@+id/textView25"
-                    app:layout_constraintTop_toBottomOf="@+id/textView25" >
+                    app:layout_constraintTop_toBottomOf="@+id/textView25">
 
                     <ScrollView
                         android:id="@+id/scrollView2"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:fillViewport="true"
+                        android:scrollbars="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:scrollbars="vertical"
-                        android:fillViewport="true" >
+                        app:layout_constraintTop_toTopOf="parent">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
+
                             <TextView
                                 android:id="@+id/Productos"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:padding="8dp"
 
                                 android:text="--- --- ---"
                                 android:textSize="@dimen/h8"
                                 android:textStyle="bold" />
+
                             <TextView
                                 android:id="@+id/Productosf"
                                 android:layout_width="match_parent"
@@ -182,7 +188,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                     </ScrollView>
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
@@ -192,6 +198,7 @@
                     android:layout_height="wrap_content"
                     android:text="Adjuntos"
                     android:textSize="@dimen/h6"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/guidelinetickets03"
                     app:layout_constraintStart_toStartOf="@+id/textView9">
 
@@ -204,6 +211,7 @@
                     android:text="--- --- ---"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="@+id/textView28"
                     app:layout_constraintTop_toBottomOf="@+id/textView28">
 
@@ -214,6 +222,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginStart="10dp"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@+id/textAdjuntos"
                     app:layout_constraintStart_toEndOf="@+id/textAdjuntos"
                     app:layout_constraintTop_toTopOf="@+id/textAdjuntos"
@@ -227,6 +236,7 @@
                     android:layout_height="wrap_content"
                     android:text="CheckList Requeridos"
                     android:textSize="@dimen/h6"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/guidelinetickets02"
                     app:layout_constraintEnd_toEndOf="@+id/textView11">
 
@@ -239,6 +249,7 @@
                     android:text="--- --- ---"
                     android:textSize="12dp"
                     android:textStyle="bold"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="@+id/textView13"
                     app:layout_constraintTop_toBottomOf="@+id/textView13">
 
@@ -250,6 +261,7 @@
                     android:layout_height="wrap_content"
                     android:text="Cierre"
                     android:textSize="@dimen/h6"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/guidelinetickets03"
                     app:layout_constraintEnd_toEndOf="@+id/textView11">
 
@@ -262,6 +274,7 @@
                     android:text="--- --- ---"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="@+id/textView30"
                     app:layout_constraintTop_toBottomOf="@+id/textView30">
 
@@ -271,10 +284,9 @@
                     android:id="@+id/textView32"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
                     android:text="Origen"
                     android:textSize="@dimen/h6"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets04"
+                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets03"
                     app:layout_constraintStart_toStartOf="@+id/textView9">
 
                 </TextView>
@@ -282,11 +294,12 @@
                 <TextView
                     android:id="@+id/estado"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:text="--- --- --- ---"
                     android:textAlignment="textStart"
                     android:textSize="@dimen/h9"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets04"
                     app:layout_constraintEnd_toStartOf="@+id/guidelinetickets00v"
                     app:layout_constraintStart_toStartOf="@+id/textView32"
                     app:layout_constraintTop_toBottomOf="@+id/textView32">
@@ -297,10 +310,9 @@
                     android:id="@+id/textView14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
                     android:text="Destino"
                     android:textSize="@dimen/h6"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets04"
+                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets03"
                     app:layout_constraintEnd_toEndOf="@+id/textView11">
 
                 </TextView>
@@ -314,10 +326,10 @@
                     android:textAlignment="textEnd"
                     android:textSize="@dimen/h10"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/textView20"
+                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets04"
                     app:layout_constraintEnd_toEndOf="@+id/textView14"
                     app:layout_constraintStart_toStartOf="@+id/guidelinetickets00v"
-                    app:layout_constraintTop_toBottomOf="@+id/textView14">
+                    app:layout_constraintTop_toTopOf="@+id/guidelinetickets03">
 
                 </TextView>
 
@@ -410,6 +422,7 @@
                     android:id="@+id/imageView4"
                     android:layout_width="28dp"
                     android:layout_height="24dp"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toStartOf="@+id/guidelinetickets01v"
                     app:layout_constraintStart_toStartOf="@+id/guidelinetickets01v"
                     app:layout_constraintTop_toBottomOf="@+id/latlong"
@@ -453,19 +466,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".18"/>
+                    app:layout_constraintGuide_percent=".20"/>
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guidelinetickets02"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".27"/>
+                    app:layout_constraintGuide_percent=".29"/>
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guidelinetickets03"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".36"/>
+                    app:layout_constraintGuide_percent=".37"/>
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guidelinetickets04"
                     android:layout_width="wrap_content"
