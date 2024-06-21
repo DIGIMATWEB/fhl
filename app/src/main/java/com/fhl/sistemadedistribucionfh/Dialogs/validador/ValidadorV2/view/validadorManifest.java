@@ -36,8 +36,12 @@ import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManife
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.gson.Gson;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class validadorManifest extends DialogFragment implements View.OnClickListener ,validadorViewV2{
     //todo nota esto debe verificarse
@@ -288,7 +292,11 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
         numberManifestsalida.setText(""+data.get(0).getFolioDespacho());
         cedissalida.setText(""+data.get(0).getOrigen());
         vehiculosalida.setText(""+data.get(0).getVehiculo().getEconomico());
-        datesalida.setText(""+data.get(0).getFechaCreacion());
+        String fechaSalida = "";
+        if(data.get(0).getFechaCreacion()!=null){
+            fechaSalida="" +convertDate(data.get(0).getFechaCreacion());
+        }
+        datesalida.setText(""+fechaSalida);
         placasalida.setText(""+data.get(0).getVehiculo().getPlaca());
         regresosalida.setText(""+data.get(0).getTiempoEntrega());
         Log.e("validador",""+data.get(0).getVehiculo().getVin()+" "+data.get(0).getOperador().getRfc()+" ");
@@ -348,7 +356,27 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
 
     }
 
+    public static String convertDate(String inputDate) {
+        // Step 1: Parse the input date string
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS", Locale.ENGLISH);
+        Date date = null;
+        try {
+            date = inputFormat.parse(inputDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
 
+        // Step 2: Format the date to the desired output format
+        SimpleDateFormat outputFormat = new SimpleDateFormat("EEE | dd/MM/yy | HH:mm", new Locale("es", "ES"));
+        String formattedDate = outputFormat.format(date);
+
+        // Step 3: Capitalize the first letter of the formatted date string
+        if (formattedDate != null && !formattedDate.isEmpty()) {
+            formattedDate = formattedDate.substring(0, 1).toUpperCase() + formattedDate.substring(1);
+        }
+        return formattedDate;
+    }
 
     @Override
     public void onClick(View view) {

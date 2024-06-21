@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fulllayout"
@@ -160,6 +161,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:text="Cedis"
+                android:visibility="gone"
                 android:textSize="@dimen/h8"
                 app:layout_constraintBottom_toBottomOf="@+id/textView15"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -175,6 +177,7 @@
                 android:text=""
                 android:textSize="@dimen/h8"
                 android:textStyle="bold"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView33">
 
@@ -187,8 +190,8 @@
                 android:layout_marginEnd="10dp"
                 android:text="Salida"
                 android:textSize="@dimen/h8"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/guidelinemanifest1">
+                app:layout_constraintBottom_toTopOf="@+id/guidelinemanifest0"
+                app:layout_constraintEnd_toEndOf="parent">
 
             </TextView>
 
@@ -212,6 +215,7 @@
                 android:layout_marginEnd="10dp"
                 android:text="Regreso"
                 android:textSize="@dimen/h8"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/guidelinemanifest3"
                 app:layout_constraintEnd_toEndOf="parent">
 
@@ -225,6 +229,7 @@
                 android:text=""
                 android:textSize="@dimen/h8"
                 android:textStyle="bold"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/guidelinemanifest3"/>
 
