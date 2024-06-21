@@ -51,7 +51,7 @@ public class interactormainContainerImplV2 implements interactormainContainerV2 
         }
     }
 
-    private void requestMenusV2(String token) {
+    private void requestMenusV2(String token) {//todo revisar idEmpleado
         Gson gson = new Gson();
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token2 = preferences.getString(GeneralConstants.USER_VALUES, null);

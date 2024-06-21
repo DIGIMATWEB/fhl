@@ -55,8 +55,7 @@ public class mainContainer extends AppCompatActivity  implements view {
         cover.setVisibility(View.GONE);
         framTab=findViewById(R.id.tabbar);
         initPresenter();
-        //manifiestos();
-        manifiestosV2();
+        profile();
         showFragmentNavigationButtonsV2();
         showTab();
     }
@@ -186,7 +185,9 @@ public class mainContainer extends AppCompatActivity  implements view {
         manager = getSupportFragmentManager();
         transaction = manager.beginTransaction();
         viewProfile profile= new viewProfile();
-        transaction.replace(R.id.fragments, profile, viewProfile.TAG).commit();
+        transaction.replace(R.id.fragments, profile, viewProfile.TAG)
+                .addToBackStack(null) // Agregar la transacción a la pila de retroceso
+                .commit();;
     }
     private void checkList(){
         manager = getSupportFragmentManager();
