@@ -17,4 +17,8 @@ public interface loginpresenter {
     void requestProfileRole(String token, String idEmpleadoString);
 
     void setRole();
+
+    void hideDialog();
+
+    void showDialog();
 }

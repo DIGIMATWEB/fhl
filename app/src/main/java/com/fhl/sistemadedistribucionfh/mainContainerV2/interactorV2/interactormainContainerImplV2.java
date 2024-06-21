@@ -66,6 +66,7 @@ public class interactormainContainerImplV2 implements interactormainContainerV2 
 
         //Peticion Correcta
         Call<responseMenuItemsV2> call = service.getMenusV2(idEmpleado, 7, token3);
+        //Toast.makeText(context, ""+idEmpleado, Toast.LENGTH_SHORT).show();
 
         //Peticion con el Operador Hardcode
         //Call<responseMenuItemsV2> call = service.getMenusV2(6, 7, token3);
@@ -167,11 +168,25 @@ public class interactormainContainerImplV2 implements interactormainContainerV2 
                                 if(menu.getId()==51||menu.getId()==281){
                                     filterByRoleMenuItemsList.add(menu);
                                 }
-                            } else {
+                            }else if (role.equals("8")) {
+                                //D 3 - JOSE SANTIAGO BAEZ ANAYA - TipoPerfilesId: 8 (administrador) -> Perfil, carga, manifiesto (se muestra cuando el usuario no tiene manifiestos asignados)
+                                if(menu.getId()==51||menu.getId()==279||menu.getId()==280){
+                                    filterByRoleMenuItemsList.add(menu);
+                                }
+                            }else if (role.equals("6")) {
+                                //D 3 - JOSE SANTIAGO BAEZ ANAYA - TipoPerfilesId: 8 (administrador) -> Perfil, carga, manifiesto (se muestra cuando el usuario no tiene manifiestos asignados)
+                                    filterByRoleMenuItemsList.add(menu);
 
+                            }else {
+                                //7 (Seguridad) ->Perfil(51), Validador(281)
+                                if(menu.getId()==51){
+                                    filterByRoleMenuItemsList.add(menu);
+                                }
                             }
+                            //filterByRoleMenuItemsList.add(menu);
                         }else {
-                            filterByRoleMenuItemsList.add(menu);
+                            filterByRoleMenuItemsList.add(new dataMenuItemsV2(null,null,7,null,1,"Perfil","Person","home",51,null));
+                            break;
                         }
                     }
                     Gson gsonM=new Gson();

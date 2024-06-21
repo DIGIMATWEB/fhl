@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.Loader.view.loaderFH;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.VersionUtil;
@@ -37,6 +39,7 @@ public class login extends AppCompatActivity implements View.OnClickListener,log
     private Boolean checkBoxState = false;
     private ImageView showHidePasswordButton;
     private TextView versionName;
+    private loaderFH progress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +50,7 @@ public class login extends AppCompatActivity implements View.OnClickListener,log
     }
 
     private void initView() {
+        progress = new loaderFH();
         login=findViewById(R.id.loginenter);
         login.setOnClickListener(this);
         user=findViewById(R.id.user);
@@ -162,6 +166,29 @@ public class login extends AppCompatActivity implements View.OnClickListener,log
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
+
+    @Override
+    public void showDialog() {
+        if (progress != null && !progress.isVisible()) {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("HAS_TITLE", false);
+            bundle.putString("title","Cargando detalles");
+            progress.setArguments(bundle);
+            progress.show(getSupportFragmentManager(), loaderFH.TAG);
+        }
+    }
+
+    @Override
+    public void hideDialog() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (progress != null && this != null)
+                    progress.dismiss();
+            }
+        }, 300);
+    }
+
     @Override
     public void continueWithoutSave(Boolean checkBoxState) {
         SharedPreferences preferencias = getApplicationContext().getSharedPreferences(String.valueOf(GeneralConstants.CHECK_BOX_STATE), Context.MODE_PRIVATE);

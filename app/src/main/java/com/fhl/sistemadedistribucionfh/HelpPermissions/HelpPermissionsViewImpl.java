@@ -71,7 +71,8 @@ public class HelpPermissionsViewImpl extends AppCompatActivity implements View.O
             if(token!=null) {
                 tokenExist();
             }else{
-                goToLoginContainer();
+
+                goToContainer();
             }
 
         } else {
@@ -120,7 +121,7 @@ public class HelpPermissionsViewImpl extends AppCompatActivity implements View.O
             // Permission has already been granted
             // Access the location data
             // ...
-            goToLoginContainer();
+            goToContainer();
 
             String permisos = "true";
             SharedPreferences preference = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
@@ -176,7 +177,7 @@ public class HelpPermissionsViewImpl extends AppCompatActivity implements View.O
             // Permission has already been granted
             // Access the location data
             // ...
-            goToLoginContainer();
+            goToContainer();
 
             String permisos = "true";
             SharedPreferences preference = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
@@ -187,9 +188,18 @@ public class HelpPermissionsViewImpl extends AppCompatActivity implements View.O
         }
     }
 
-    private void goToLoginContainer() {
-        Intent intent = new Intent(HelpPermissionsViewImpl.this, login.class);
-        startActivity(intent);
-        finish();
+    private void goToContainer() {
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String token = preferences.getString(GeneralConstants.TOKEN, null);
+        if(token!=null) {
+            Intent intent = new Intent(this, mainContainer.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);//
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }else{
+            Intent intent = new Intent(HelpPermissionsViewImpl.this, login.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }

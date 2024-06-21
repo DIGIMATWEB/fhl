@@ -71,21 +71,26 @@ public class loginInteractorImplementation implements loginInteractor{
     private void getToken(String user, String password) {
         requestLogin request= new requestLogin(user,password);
         Call<responseLogin> call=service.getLogin(request);
+        presenter.showDialog();
         call.enqueue(new Callback<responseLogin>() {
             @Override
             public void onResponse(Call<responseLogin> call, Response<responseLogin> response) {
                 if(response.code()==200){
                     presenter.continueWithoutSave(checkboxState);
                     presenter.saveToken(response.body().getToken());
-                    Log.e("token",""+response.body().getToken());
+                    Log.e("GETtoken",""+response.body().getToken());
                     presenter.succesLogin();
+                    presenter.hideDialog();
                 }else{
+                    Log.e("GETtoken",""+response.code());
                     presenter.FailureLogin(response.message());
+                    presenter.hideDialog();
                 }
             }
 
             @Override
             public void onFailure(Call<responseLogin> call, Throwable t) {
+                Log.e("GETtoken",""+t.getMessage());
                 presenter.FailureLogin(t.getMessage());
             }
         });

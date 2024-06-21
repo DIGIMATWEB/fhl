@@ -32,7 +32,11 @@ import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity3;
 import com.fhl.sistemadedistribucionfh.nmanifest.view.mmanifest;
 import com.fhl.sistemadedistribucionfh.nmanifest.viewV2.mmanifestV2;
 import com.fhl.sistemadedistribucionfh.resguardo.view.resguardo;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public class mainContainer extends AppCompatActivity  implements view {
@@ -58,6 +62,15 @@ public class mainContainer extends AppCompatActivity  implements view {
         profile();
         showFragmentNavigationButtonsV2();
         showTab();
+        SharedPreferences preferences = getApplication().getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String menu = preferences.getString(GeneralConstants.MENU_USER_SET, null);
+        if (menu != null){
+            Gson gson = new Gson();
+            Type type = new TypeToken<ArrayList<dataMenuItemsV2>>() {
+            }.getType();
+            List<dataMenuItemsV2> menuList = gson.fromJson(menu, type);
+            this.dataV2 = menuList;
+        }
     }
 
     @Override
@@ -252,7 +265,12 @@ public class mainContainer extends AppCompatActivity  implements view {
     @Override
     public void setMenusV2(List<dataMenuItemsV2> data) {
         Log.e("menuv2", "" + data);
-        this.dataV2 = data;
+        if (dataV2 != null){
+
+        }else{
+            this.dataV2 = data;
+        }
+
     }
 
     public void showtab() {

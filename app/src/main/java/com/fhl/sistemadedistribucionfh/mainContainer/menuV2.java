@@ -41,6 +41,7 @@ public class menuV2 extends Fragment {
     private ConstraintLayout constrainReference;
     private int width;
     private Integer threadRunning ;
+    List<dataMenuItemsV2> menuListBottom=new ArrayList<>();
     @SuppressLint("NewApi")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -103,7 +104,13 @@ public class menuV2 extends Fragment {
             Type type = new TypeToken<ArrayList<dataMenuItemsV2>>() {
             }.getType();
             List<dataMenuItemsV2> menuList = gson.fromJson(role, type);
-            setMenu(menuList);
+            for(int i=0;i<menuList.size();i++){
+                if(i<4) {
+                    menuListBottom.add(menuList.get(i));
+                }
+            }
+
+            setMenu(menuListBottom);
         }
     }
     private void setMenu(List<dataMenuItemsV2> dataV2) {
@@ -120,7 +127,9 @@ public class menuV2 extends Fragment {
                  }
              }
         }else{
-             aproxVal = (4 + 1) * 2;
+            if(dataV2.size()==4) {
+                aproxVal = (4 + 3) * 2;
+            }
         }
         if (width ==0) {
             SharedPreferences preferences = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);

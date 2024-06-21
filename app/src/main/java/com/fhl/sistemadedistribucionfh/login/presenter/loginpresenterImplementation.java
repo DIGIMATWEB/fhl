@@ -46,6 +46,20 @@ public class loginpresenterImplementation  implements loginpresenter{
     }
 
     @Override
+    public void hideDialog() {
+        if(view!=null) {
+            view.hideDialog();
+        }
+    }
+
+    @Override
+    public void showDialog() {
+        if(view!=null) {
+            view.showDialog();
+        }
+    }
+
+    @Override
     public void saveUserValues(profileResponse body) {
         if(view!=null){
             view.saveUserValues(body);
