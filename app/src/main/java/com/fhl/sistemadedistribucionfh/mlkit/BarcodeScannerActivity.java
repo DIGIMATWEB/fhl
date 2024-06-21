@@ -158,10 +158,16 @@ public class BarcodeScannerActivity extends AppCompatActivity
         if (!allPermissionsGranted()) {
             getRuntimePermissions();
         }
-        binding.inputmanual.setOnClickListener(this);
-        binding.inputcamara.setOnClickListener(this);
-        binding.captureCode.setOnClickListener(this);
-        binding.iconchecklist.setOnClickListener(this);
+
+//        binding.inputmanual.setOnClickListener(this);
+//        binding.inputcamara.setOnClickListener(this);
+//        binding.captureCode.setOnClickListener(this);
+//        binding.iconchecklist.setOnClickListener(this);
+        binding.inputmanual.setVisibility(View.GONE);
+        binding.inputcamara.setVisibility(View.GONE);
+        binding.captureCode.setVisibility(View.GONE);
+        binding.iconchecklist.setVisibility(View.GONE);
+
         //todo se receteara de momento collectedBarcode
         //collectedBarCodes.clear();
         if(collectedBarCodes.isEmpty()) {  //todo esto es para comprobar si el arreglo viene lleno o vacio

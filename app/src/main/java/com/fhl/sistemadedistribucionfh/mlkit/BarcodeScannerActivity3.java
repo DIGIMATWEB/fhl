@@ -100,9 +100,12 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
         }
         binding.inputmanual.setVisibility(View.GONE);
         binding.inputcamara.setVisibility(View.GONE);
-        binding.inputmanual.setOnClickListener(this);
-        binding.inputcamara.setOnClickListener(this);
-        binding.captureCode.setOnClickListener(this);
+//        binding.inputmanual.setOnClickListener(this);
+//        binding.inputcamara.setOnClickListener(this);
+//        binding.captureCode.setOnClickListener(this);
+        binding.constraintLayout5.setVisibility(View.GONE);
+        binding.constraintLayout6.setVisibility(View.GONE);
+        binding.constraintLayout8.setVisibility(View.GONE);
        // binding.iconchecklist.setOnClickListener(this);
         bottonSheetv = new validadorPlaneacion();
         bottonSheetv.show(getSupportFragmentManager(), "validadorPlaneacion");
