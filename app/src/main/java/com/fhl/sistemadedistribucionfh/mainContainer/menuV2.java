@@ -17,19 +17,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.fhl.sistemadedistribucionfh.Profile.view.viewProfile;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
-import com.fhl.sistemadedistribucionfh.checkList.view.checkList;
-import com.fhl.sistemadedistribucionfh.locator.view.locator;
 import com.fhl.sistemadedistribucionfh.mainContainer.adapterMenu.adapterBottomMenu;
 import com.fhl.sistemadedistribucionfh.mainContainerV2.modelV2.dataMenuItemsV2;
-import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
-import com.fhl.sistemadedistribucionfh.nmanifest.viewV2.mmanifestV2;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
