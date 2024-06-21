@@ -33,4 +33,5 @@ public class GeneralConstants {
     public static final String VIN_CURRENT_VALIDADOR = "Vin_vehicle";
     public static final String USER_ROLE = "ROLE_FOR_USER";
     public static final String MENU_USER_SET = "I_SET_MENU";
+    public static final String WITH_USER = "WITH_SAVED";
 }

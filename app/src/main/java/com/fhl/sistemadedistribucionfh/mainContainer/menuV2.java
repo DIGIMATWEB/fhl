@@ -47,6 +47,7 @@ public class menuV2 extends Fragment {
     private mainContainer mactivity;
     private ConstraintLayout constrainReference;
     private int width;
+    private Integer threadRunning ;
     @SuppressLint("NewApi")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,6 +63,7 @@ public class menuV2 extends Fragment {
         constrainReference=view.findViewById(R.id. constrainReference);
         width = constrainReference.getLayoutParams().width;
         rv=view.findViewById(R.id.rvHM);
+        threadRunning=0;
         constrainReference.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -70,21 +72,47 @@ public class menuV2 extends Fragment {
                 Log.e("rvLayout", "W: " + width);
 
                 // After obtaining width, you can proceed with setting up the RecyclerView
-                SharedPreferences preferences = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
-                String role = preferences.getString(GeneralConstants.MENU_USER_SET, null);
-                if (role != null) {
-                    Gson gson = new Gson();
-                    Type type = new TypeToken<ArrayList<dataMenuItemsV2>>() {}.getType();
-                    List<dataMenuItemsV2> menuList = gson.fromJson(role, type);
-                    setMenu(menuList);
-                }
 
+                SharedPreferences preferencias = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferencias.edit();
+                editor.putString(GeneralConstants.WITH_USER, String.valueOf(width));
+                editor.commit();
                 // Remove the listener to avoid redundant calls
                 constrainReference.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while ( threadRunning!=1) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            checkAndSetMenu();
+                        }
+                    });
+                    try {
+                        Thread.sleep(5000); // Adjust interval as needed (5000 milliseconds = 5 seconds)
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
     }
+    private void checkAndSetMenu() {
+        SharedPreferences preferences = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String role = preferences.getString(GeneralConstants.MENU_USER_SET, null);
+        if (role != null) {
+            threadRunning = 1;
 
+            Gson gson = new Gson();
+            Type type = new TypeToken<ArrayList<dataMenuItemsV2>>() {
+            }.getType();
+            List<dataMenuItemsV2> menuList = gson.fromJson(role, type);
+            setMenu(menuList);
+        }
+    }
     private void setMenu(List<dataMenuItemsV2> dataV2) {
         Log.e("rvLayout","W: "+width);
         adapter = new adapterBottomMenu(this, dataV2, getContext());
@@ -100,6 +128,13 @@ public class menuV2 extends Fragment {
              }
         }else{
              aproxVal = (4 + 1) * 2;
+        }
+        if (width ==0) {
+            SharedPreferences preferences = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+            String sWith = preferences.getString(GeneralConstants.WITH_USER, null);
+            if(sWith!=null){
+                width=Integer.valueOf(sWith);
+            }
         }
         int value=Math.round(width/(aproxVal));
         Log.e("rvLayout","Wf: "+(value));
