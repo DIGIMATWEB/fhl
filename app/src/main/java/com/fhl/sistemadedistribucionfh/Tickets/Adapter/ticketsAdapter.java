@@ -22,7 +22,11 @@ import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.dataDetailTic
 import com.fhl.sistemadedistribucionfh.Tickets.view.tickets;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Item;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHolder>{
     private Context context;
@@ -88,7 +92,11 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
             holder.regreso.setText("-- -- --");
             holder.locationDesc.setText(""+data.get(0).getSendtripPlus().getDestinatario().getEstado());//+data.get(position).getEmpaque().get(0).getDestinatarios().get(0).getCiudad());
             holder.latlongGeo.setText(""+data.get(0).getSendtripPlus().getDestinatario().getCoordenadas()); //+ data.get(position).getDestinatarios().getCoordenadas());
-            holder.lalongReport.setText("" + data.get(0).getSendtripPlus().getFechaPromesaEntrega());
+           String entrega="";
+            if(data.get(0).getSendtripPlus().getFechaPromesaEntrega()!=null){
+                entrega=convertDate(data.get(0).getSendtripPlus().getFechaPromesaEntrega());
+            }
+            holder.lalongReport.setText(entrega);
         }
         holder.destinoMinimapa.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +112,27 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
             }
         });
     }
+    public static String convertDate(String inputDate) {
+        // Step 1: Parse the input date string
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS", Locale.ENGLISH);
+        Date date = null;
+        try {
+            date = inputFormat.parse(inputDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
 
+        // Step 2: Format the date to the desired output format
+        SimpleDateFormat outputFormat = new SimpleDateFormat("EEE | dd/MM/yy | HH:mm", new Locale("es", "ES"));
+        String formattedDate = outputFormat.format(date);
+
+        // Step 3: Capitalize the first letter of the formatted date string
+        if (formattedDate != null && !formattedDate.isEmpty()) {
+            formattedDate = formattedDate.substring(0, 1).toUpperCase() + formattedDate.substring(1);
+        }
+        return formattedDate;
+    }
     @Override
     public int getItemCount() {
         return 1;

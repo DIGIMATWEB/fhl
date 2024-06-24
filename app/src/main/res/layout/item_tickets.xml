@@ -171,8 +171,6 @@
                                 android:id="@+id/Productos"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:padding="8dp"
-
                                 android:text="--- --- ---"
                                 android:textSize="@dimen/h8"
                                 android:textStyle="bold" />
