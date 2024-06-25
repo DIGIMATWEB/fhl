@@ -64,7 +64,7 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
     private static final int REQUEST_CAMERA_PERMISSION = 200;
     private static final int REQUEST_IMAGE_CAPTURE = 201;
     private String currentImagePath;
-    private ImageView imageView;
+    private ImageView imageView,backCanceled;
     private List<String> imageCollections=new ArrayList<>();
     private List<String> meraseList=new ArrayList<>();
     private Button buttonSave;
@@ -132,6 +132,8 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
         dialogReasonsC.setOnClickListener(this);
         camera=findViewById(R.id.camera);
         camera.setOnClickListener(this);
+        backCanceled =findViewById(R.id.backCanceled);
+        backCanceled.setOnClickListener(this);
         buttonSave=findViewById(R.id.buttonSave);
         ticketManifest= findViewById(R.id.ticketManifest);
         ticketManifest.setText(currentManifest);
@@ -468,6 +470,9 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
                     Toast.makeText(this, "Falta seleccionar un motivo ", Toast.LENGTH_SHORT).show();
                 }
                 //gotomanifestV2();
+                break;
+            case R.id.backCanceled:
+                onBackPressed();
                 break;
         }
     }
