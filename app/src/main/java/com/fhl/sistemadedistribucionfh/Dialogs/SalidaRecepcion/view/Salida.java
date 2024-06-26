@@ -55,6 +55,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
     private List<responseManifestSalidaV2data> data;
     private TextView numberManifestsalida,cedissalida,vehiculosalida,datesalida,placasalida,regresosalida;
     private Boolean isCanceled =true;
+    private Boolean loadCortina=false;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -244,7 +245,9 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                 data.getAnden().getQrCodigo(),
                 data.getAnden().getCodigoAnden(),
                 codigoValidador);
-
+        if(data!=null){
+            loadCortina=true;
+        }
     }
 
     @Override
@@ -333,7 +336,8 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                // Toast.makeText(getContext(), "reset ", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.gonext:
-                isCanceled=false;
+                isCanceled=false;//indicador si es que fue cancelado el flujo del escanner
+                Log.e("salidaftest",""+codigoValidador1);
                 if(codigoValidador1.equals("3")){
                     SharedPreferences preferences = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
@@ -341,18 +345,27 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                     editor.commit();
                     BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
                     barcodeScannerActivity1.dismissTickets();
+                    closeDialog();
                 }else if(codigoValidador1.equals("5")) {
                     BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
                     barcodeScannerActivity1.dismissTickets();
                     barcodeScannerActivity1.dismissSellos();
                     barcodeScannerActivity1.godialogCheck();
+                    closeDialog();
                 }else if(codigoValidador1.equals("1")){
                     SharedPreferences preferences = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString(GeneralConstants.STATUS_SALIDA, "2");
                     editor.commit();
+                    if(loadCortina){
+                        closeDialog();
+                    }else {
+                        Toast.makeText(getContext(), "Se estan cargando datos espera un momento", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
-                closeDialog();
+
+
                 break;
         }
 
