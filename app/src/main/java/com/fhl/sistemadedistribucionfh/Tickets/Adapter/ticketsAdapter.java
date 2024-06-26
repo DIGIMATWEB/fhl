@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.dataDetailTickets;
 import com.fhl.sistemadedistribucionfh.Tickets.view.tickets;
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Destinatario;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Item;
 
 import java.text.ParseException;
@@ -85,10 +86,16 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
             }
 
             holder.origen.setText("" + data.get(0).getSendtripPlus().getRemitente().getNombre());
-            holder.estado.setText(" " +data.get(0).getSendtripPlus().getDestinatario().getNombreSucursal());//"" + data.get(0).getSendtripPlus().getDestinatario().getEstado()
-                               // +" "+data.get(0).getSendtripPlus().getDestinatario().getMunicipio()
-                              //  +" "+data.get(0).getSendtripPlus().getDestinatario().getCalle());
-            //holder.salida.setText(""+data.get(position).getFechaSalidaEstimada());
+            if(data.get(0).getSendtripPlus().getDestinatario()!=null) {
+                holder.estado.setText(" " + data.get(0).getSendtripPlus().getDestinatario().getNombreSucursal());//"" + data.get(0).getSendtripPlus().getDestinatario().getEstado()
+                // +" "+data.get(0).getSendtripPlus().getDestinatario().getMunicipio()
+                //  +" "+data.get(0).getSendtripPlus().getDestinatario().getCalle());
+                //holder.salida.setText(""+data.get(position).getFechaSalidaEstimada());
+            }else{
+                Destinatario dest=new Destinatario("Sin destinatario","","","","","","","","","",0,"",0,"");
+                data.get(0).getSendtripPlus().setDestinatario(dest);
+                holder.estado.setText(" " + data.get(0).getSendtripPlus().getDestinatario().getNombreSucursal());
+            }
             holder.regreso.setText("-- -- --");
             holder.locationDesc.setText(""+data.get(0).getSendtripPlus().getDestinatario().getEstado());//+data.get(position).getEmpaque().get(0).getDestinatarios().get(0).getCiudad());
             holder.latlongGeo.setText(""+data.get(0).getSendtripPlus().getDestinatario().getCoordenadas()); //+ data.get(position).getDestinatarios().getCoordenadas());

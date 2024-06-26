@@ -6,4 +6,8 @@ public interface cancelView {
     void okChangeStatus();
 
     void nextRequest();
+
+    void showDialog();
+
+    void hideDialog();
 }

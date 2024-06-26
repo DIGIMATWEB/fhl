@@ -14,4 +14,7 @@ public interface cancelPresenter {
     void SetTicketNoEntregado(String currentManifest, String folioTicket, Integer idReason, String name);
 
     void nextRequest();
+    void showDialog();
+
+    void hideDialog();
 }

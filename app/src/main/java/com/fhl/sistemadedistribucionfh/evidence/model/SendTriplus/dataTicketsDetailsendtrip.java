@@ -11,85 +11,83 @@ import com.google.gson.annotations.SerializedName;
 public class dataTicketsDetailsendtrip implements Serializable {
 
     @SerializedName("DocumentosVehiculo")
-    @Expose
+   
     private List<DocumentosVehiculo> documentosVehiculo;
     @SerializedName("HabilidadesOperador")
-    @Expose
+   
     private List<HabilidadesOperador> habilidadesOperador;
     @SerializedName("DocumentosOperador")
-    @Expose
+   
     private List<DocumentosOperador> documentosOperador;
     @SerializedName("HabilidadesAuxiliar")
-    @Expose
+   
     private List<HabilidadesAuxiliar> habilidadesAuxiliar;
     @SerializedName("DocumentosAuxiliar")
-    @Expose
+   
     private List<DocumentosAuxiliar> documentosAuxiliar;
     @SerializedName("EvidenciaSalida")
-    @Expose
+   
     private List<EvidenciaSalida> evidenciaSalida;
     @SerializedName("EvidenciaLlegada")
-    @Expose
+   
     private List<EvidenciaLlegada> evidenciaLlegada;
     @SerializedName("CheckList")
-    @Expose
+   
     private List<Check> checkList;
     @SerializedName("Cliente")
-    @Expose
     private Cliente cliente;
     @SerializedName("TipoVehiculo")
-    @Expose
     private TipoVehiculo tipoVehiculo;
     @SerializedName("TipoEntrega")
-    @Expose
+   
     private TipoEntrega tipoEntrega;
     @SerializedName("Estatus")
-    @Expose
+   
     private Estatus estatus;
     @SerializedName("SendtripPlus")
-    @Expose
+   
     private SendtripPlus sendtripPlus;
     @SerializedName("FolioTicket")
-    @Expose
+   
     private String folioTicket;
     @SerializedName("Origen")
-    @Expose
+   
     private String origen;
     @SerializedName("ClienteId")
-    @Expose
+   
     private Integer clienteId;
     @SerializedName("Referencia")
-    @Expose
+   
     private String referencia;
     @SerializedName("TipoSolicitudId")
-    @Expose
+   
     private Integer tipoSolicitudId;
     @SerializedName("TipoEntregaId")
-    @Expose
+   
     private Integer tipoEntregaId;
     @SerializedName("EstatusId")
-    @Expose
+   
     private Integer estatusId;
     @SerializedName("Comentarios")
-    @Expose
+   
     private String comentarios;
     @SerializedName("Secuencia")
-    @Expose
+   
     private String secuencia;
     @SerializedName("TiempoParadaDestino")
-    @Expose
+   
     private String tiempoParadaDestino;
     @SerializedName("TipoVehiculoId")
-    @Expose
+   
     private Integer tipoVehiculoId;
     @SerializedName("Id")
-    @Expose
+   
     private Integer id;
     @SerializedName("VehiculoId")
-    @Expose
+   
     private Integer vehiculoId;
     @SerializedName("Vehiculo")
-    @Expose
+   
     private VehiculoSendtrip vehiculo;
     public dataTicketsDetailsendtrip(List<DocumentosVehiculo> documentosVehiculo, List<HabilidadesOperador> habilidadesOperador,
                                      List<DocumentosOperador> documentosOperador, List<HabilidadesAuxiliar> habilidadesAuxiliar,

@@ -11,7 +11,7 @@ public interface interactorSetValidacion {
 
     void setDatosValidador(String manifest, String vehicleVin, String rfcUser, String jsonHabDriver, String jsonHabVehicles, String user);
 
-    void requestTicketsByManifest(String manifest);
+    void requestTicketsByManifest(String manifest, String folioTicket);
 
     void sendSentriplus(String currentManifest, List<dataTicketsDetailsendtrip> dataTicketSendtrip, String sentripPlusFlow,Integer iteration);
 

@@ -147,6 +147,12 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
             case "5":
                 constrainCard.setVisibility(View.GONE);
                 textView23.setVisibility(View.GONE);
+                cortina.setVisibility(View.VISIBLE);
+                Log.e("fcarga","salida ");
+                Glide.with(getContext())
+                        .load(qrsalida)
+                        .error(R.drawable.okwarning)
+                        .into(qrsalida);
                 textView29.setText("Resumen");
                 break;
         }

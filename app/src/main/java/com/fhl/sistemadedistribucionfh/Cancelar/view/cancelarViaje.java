@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
@@ -29,6 +30,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.Loader.view.loaderFH;
 import com.fhl.sistemadedistribucionfh.Dialogs.Reasons.view.dialogReasons;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
@@ -76,6 +78,7 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
     private cancelPresenter presenter;
     private String folioTicket,currentManifest,detailTicket;
     private ResoponseTicketsDetail jsonObje;
+    private loaderFH progress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +128,7 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
     }
 
     private void initView() {
+        progress = new loaderFH();
         rv=findViewById(R.id.carrusel);
         trashicon=findViewById(R.id.trashicon);
         trashicon.setOnClickListener(this);
@@ -422,6 +426,30 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
        presenter.changemStatusManifestTicket(currentManifest,folioTicket);
     }
 
+    @Override
+    public void showDialog() {
+        if (progress != null && !progress.isVisible()) {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("HAS_TITLE", false);
+            bundle.putString("title", "Cargando detalles");
+            progress.setArguments(bundle);
+            progress.show(this.getSupportFragmentManager(), loaderFH.TAG);
+        }
+    }
+
+    @Override
+    public void hideDialog() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (progress != null && this != null)
+                    if(progress.isAdded()) {
+                        progress.dismiss();
+                    }
+            }
+        }, 20000);
+    }
+
     private void goToManifest() {
         directories.clear();
         cleanFolder();
@@ -465,6 +493,7 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
                  //  Toast.makeText(this, "guardar evidencias, pendiente mostrar progressbar y endpoint de jose "+closeDialog , Toast.LENGTH_SHORT).show();
                    Log.e("","carrusel1"+directories);
                    presenter.sendEvidence(directories,folioTicket);
+                   presenter.showDialog();
 
                 }else {
                     Toast.makeText(this, "Falta seleccionar un motivo ", Toast.LENGTH_SHORT).show();

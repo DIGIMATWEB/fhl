@@ -9,13 +9,13 @@ import java.io.Serializable;
 public class Cliente implements Serializable {
 
     @SerializedName("RazonSocial")
-    @Expose
+   
     private String razonSocial;
     @SerializedName("Rfc")
-    @Expose
+   
     private String rfc;
     @SerializedName("Id")
-    @Expose
+   
     private Integer id;
     @SerializedName("AxaptaId")
     private String AxaptaId;
@@ -28,7 +28,11 @@ public class Cliente implements Serializable {
     }
 
     public String getRazonSocial() {
-        return razonSocial;
+        if(razonSocial!=null) {
+            return razonSocial;
+        }else{
+            return "";
+        }
     }
 
     public void setRazonSocial(String razonSocial) {

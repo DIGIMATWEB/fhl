@@ -29,23 +29,6 @@ public class TicketsDetailSentriplus {
     @Expose
     private String sTiempos;
 
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public TicketsDetailSentriplus() {
-    }
-
-    /**
-     * 
-     * @param timeMeasure
-     * @param data
-     * @param sTiempos
-     * @param function
-     * @param totalRows
-     * @param message
-     * @param status
-     */
     public TicketsDetailSentriplus(TimeMeasure timeMeasure, Integer totalRows, Integer status, String message, List<dataTicketsDetailsendtrip> data, String function, String sTiempos) {
         super();
         this.timeMeasure = timeMeasure;

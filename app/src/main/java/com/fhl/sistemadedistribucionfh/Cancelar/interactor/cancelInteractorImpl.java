@@ -165,13 +165,17 @@ public class cancelInteractorImpl implements cancelInteractor{
                                 }else {
                                     Toast.makeText(context, ""+item.getMessage(), Toast.LENGTH_SHORT).show();
                                     Log.e("sendEvidence", "" + item.getMessage());
+
                                 }
                             }
                         }
                         presenter.okSendEvidence();
+
                     }
+                    presenter.hideDialog();
                 } else {
                     Toast.makeText(context, "File upload failed", Toast.LENGTH_SHORT).show();
+                    presenter.hideDialog();
                 }
             }
 
@@ -179,7 +183,7 @@ public class cancelInteractorImpl implements cancelInteractor{
             public void onFailure(Call<ApiResponse> call, Throwable t) {
                 Log.e("sendEvidence",""+t.getMessage());
                 Toast.makeText(context, "File upload failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-
+                presenter.hideDialog();
             }
         });
     }

@@ -18,7 +18,7 @@ public interface presenterSetValidacion {
 
     void setDatosValidador(String manifest, String vehicleVin, String rfcUser, String jsonHabDriver, String jsonHabVehicles, String user);
 
-    void requestTicketsByManifest(String manifest);
+    void requestTicketsByManifest(String manifest, String folioTicket);
 
     void setDetailTickets(List<dataTicketsDetailsendtrip> data);
     void sendSentriplus(String currentManifest, List<dataTicketsDetailsendtrip> dataTicketSendtrip, String sentripPlusFlow,Integer iteration);

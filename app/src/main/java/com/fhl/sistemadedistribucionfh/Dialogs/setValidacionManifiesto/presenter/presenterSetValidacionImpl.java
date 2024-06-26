@@ -69,9 +69,9 @@ public class presenterSetValidacionImpl implements  presenterSetValidacion{
     }
 
     @Override
-    public void requestTicketsByManifest(String manifest) {
+    public void requestTicketsByManifest(String manifest, String folioTicket) {
         if(view!=null){
-            interactor.requestTicketsByManifest(manifest);
+            interactor.requestTicketsByManifest(manifest,folioTicket);
         }
     }
 

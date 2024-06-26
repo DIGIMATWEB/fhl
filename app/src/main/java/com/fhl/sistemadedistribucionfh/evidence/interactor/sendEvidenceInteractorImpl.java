@@ -454,7 +454,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
             @Override
             public void onFailure(Call<ResponseSendTripPlus> call, Throwable t) {
                 Log.e("sendtripplus","onFailure");
-                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, ""+t.getMessage()+" sentriplus", Toast.LENGTH_SHORT).show();
                 presenter.nextRequest();
             }
         });
@@ -487,7 +487,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
                 }
             }else{
                 //presenter.nextRequest();
-                Toast.makeText(context, ""+message, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, ""+message+" en sentrip plus", Toast.LENGTH_SHORT).show();
                 Log.e("sendtripplus","no  105");
                 presenter.nextRequest();
             }

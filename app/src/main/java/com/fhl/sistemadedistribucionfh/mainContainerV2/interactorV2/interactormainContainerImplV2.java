@@ -169,16 +169,16 @@ public class interactormainContainerImplV2 implements interactormainContainerV2 
                                     filterByRoleMenuItemsList.add(menu);
                                 }
                             }else if (role.equals("8")) {
-                                //D 3 - JOSE SANTIAGO BAEZ ANAYA - TipoPerfilesId: 8 (administrador) -> Perfil, carga, manifiesto (se muestra cuando el usuario no tiene manifiestos asignados)
+                                //DTipoPerfilesId: 8 (administrador) -> Perfil, carga, manifiesto (se muestra cuando el usuario no tiene manifiestos asignados)
                                 if(menu.getId()==51||menu.getId()==279||menu.getId()==280){
                                     filterByRoleMenuItemsList.add(menu);
                                 }
                             }else if (role.equals("6")) {
-                                //D 3 - JOSE SANTIAGO BAEZ ANAYA - TipoPerfilesId: 8 (administrador) -> Perfil, carga, manifiesto (se muestra cuando el usuario no tiene manifiestos asignados)
+                                //7 (SUPERadministrador) ->TODOS
                                     filterByRoleMenuItemsList.add(menu);
 
                             }else {
-                                //7 (Seguridad) ->Perfil(51), Validador(281)
+                                //Sin asignar SOLO VE PERFIL
                                 if(menu.getId()==51){
                                     filterByRoleMenuItemsList.add(menu);
                                 }

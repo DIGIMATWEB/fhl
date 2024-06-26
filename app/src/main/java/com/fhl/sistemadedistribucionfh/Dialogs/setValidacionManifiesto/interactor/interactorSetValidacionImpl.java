@@ -292,11 +292,11 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
         }
     }
     @Override
-    public void requestTicketsByManifest(String manifest) {
+    public void requestTicketsByManifest(String manifest, String folioTicket) {
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
         if(token!=null){
-            Call<TicketsDetailSentriplus> call= service.getTicket(token,manifest,null);
+            Call<TicketsDetailSentriplus> call= service.getTicket(token,manifest,folioTicket);
             call.enqueue(new Callback<TicketsDetailSentriplus>() {
                 @Override
                 public void onResponse(Call<TicketsDetailSentriplus> call, Response<TicketsDetailSentriplus> response) {

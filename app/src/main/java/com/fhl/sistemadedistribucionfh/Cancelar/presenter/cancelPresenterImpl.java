@@ -45,6 +45,20 @@ public class cancelPresenterImpl  implements cancelPresenter{
     }
 
     @Override
+    public void showDialog() {
+        if(view!=null){
+            view.showDialog();
+        }
+    }
+
+    @Override
+    public void hideDialog() {
+        if(view!=null){
+            view.hideDialog();
+        }
+    }
+
+    @Override
     public void okChangeStatus() {
         if(view!=null){
             view.okChangeStatus();

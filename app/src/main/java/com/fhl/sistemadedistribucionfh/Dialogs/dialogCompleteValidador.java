@@ -58,6 +58,7 @@ private List<dataTicketsDetailsendtrip> ticketsEntegra=new ArrayList<>();
 private List<dataTicketsDetailsendtrip> ticketsRecoleccion=new ArrayList<>();
 private List<dataTicketsDetailsendtrip> ticketsAll;
 private List<sentriplusCheckTickets> listCompare=new ArrayList<>();
+private Boolean ticketsAllFirst=false;
 @Override
 public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +98,8 @@ private void initDialog(View view) {
         presentador= new presenterSetValidacionImpl(this,getContext());
         presentador.getdriverHabilities();
         presentador.getVehicleHabilities(claveVehicleID);
-        presentador.requestTicketsByManifest(manifest);
+        presentador.requestTicketsByManifest(manifest,null);//todo verificar para todos los tickets
+        ticketsAllFirst=false;
         presentador.tokenAvocado();
         }
 
@@ -107,45 +109,57 @@ public void closeDialog() {
         }
         @Override
         public void setDetailTickets(List<dataTicketsDetailsendtrip> data) {
-                //TODO AQUI DEBES VER SI LOS TICKETS SE ENCUENTRAN EN TipoEntregaId": 2
-                ticketsAll=data;
-                ticketsEntegra.clear();
-                ticketsRecoleccion.clear();
-                listCompare.clear();
-                Boolean allValid = true;
-                for(dataTicketsDetailsendtrip ticket: data){
-                        listCompare.add(new sentriplusCheckTickets(ticket.getFolioTicket(),false));
-                        if(ticket.getTipoEntregaId()==2){
-                                ticketsEntegra.add(ticket);
-                                Log.e("ticketValidacion",ticket.getFolioTicket()+ " ticket tipo recoleccion "+ticket.getEstatus().getNombre());
-                              if(ticket.getEstatus().getId()!=3){
-                                      allValid=false;
-                                       break;
-                              }
-                        }else{
-                                ticketsRecoleccion.add(ticket);
-                                Log.e("ticketValidacion",ticket.getFolioTicket()+ " ticket tipo recoleccion");
+                //TODO AQUI DEBES VER SI LOS TICKETS SE ENCUENTRAN EN TipoEntregaId": 2   //nose puede enviar un ticket sin el detalle
+                if(!ticketsAllFirst) {
+                        ticketsAll = data;
+                        ticketsEntegra.clear();
+                        ticketsRecoleccion.clear();
+                        listCompare.clear();
+                        Boolean allValid = true;
+                        Gson gson = new Gson();
+                        String json = gson.toJson(data);
+                        Log.e("sensendtrip", "" + json);
+                        for (dataTicketsDetailsendtrip ticket : data) {
+                                listCompare.add(new sentriplusCheckTickets(ticket.getFolioTicket(), false));
+                                if (ticket.getTipoEntregaId() == 2) {
+                                        ticketsEntegra.add(ticket);
+                                        Log.e("ticketValidacion", ticket.getFolioTicket() + " ticket tipo recoleccion " + ticket.getEstatus().getNombre());
+                                        if (ticket.getEstatus().getId() != 3) {
+                                                allValid = false;
+                                                break;
+                                        }
+                                } else {
+                                        ticketsRecoleccion.add(ticket);
+                                        Log.e("ticketValidacion", ticket.getFolioTicket() + " ticket tipo recoleccion");
+                                }
                         }
-                }
-                if (allValid) {
-                        Log.e("ticketValidacion", "Vehiculo cargado");
-                } else {
-                        Log.e("ticketValidacion", "Vehiculo no ha sido cargado");
-                        // At least one ticket does not have status ID 3
+                        if (ticketsEntegra != null) {
+                                presentador.requestTicketsByManifest(manifest, ticketsEntegra.get(0).getFolioTicket());//todo se vuelve a solicitar la informacion del ticket pero solo de entrega
+                                ticketsAllFirst = true;
+                        }
+                        if (allValid) {
+                                Log.e("ticketValidacion", "Vehiculo cargado");
+                        } else {
+                                Log.e("ticketValidacion", "Vehiculo no ha sido cargado");
+                                // At least one ticket does not have status ID 3
+                        }
+                }else {
+                        this.ticketsEntegra=data;
                 }
         }
 
         @Override
         public void gomanifest(Integer iteration) {
-               listCompare.set(iteration,new sentriplusCheckTickets(ticketsAll.get(iteration).getFolioTicket(),true));
-                if(ticketsAll.size()>1){//si hay mas tickets
-                        iteration=iteration+1; //suma uno al iterador
-                        if(iteration<ticketsAll.size()-1) {//si el iterador es menor al numero de tickets
-                                presentador.sendSentriplus(manifest, ticketsAll, "Entrega", iteration);// vuelve a mandar el sendtrip con el iterador +1
-                        }else {//si el iterador es rebasado vuelve al manifiesto
-                                goBegin();
-                        }
-                }
+                goBegin();
+//               listCompare.set(iteration,new sentriplusCheckTickets(ticketsAll.get(iteration).getFolioTicket(),true));
+//                if(ticketsAll.size()>1){//si hay mas tickets
+//                        iteration=iteration+1; //suma uno al iterador
+//                        if(iteration<ticketsAll.size()-1) {//si el iterador es menor al numero de tickets
+//                                presentador.sendSentriplus(manifest, ticketsEntegra, "Entrega", iteration);// vuelve a mandar el sendtrip con el iterador +1
+//                        }else {//si el iterador es rebasado vuelve al manifiesto
+//                                goBegin();
+//                        }
+//                }
         }
         public void goBegin(){
                 Intent intent = new Intent(getContext(), mainContainer.class);
@@ -158,17 +172,19 @@ public void closeDialog() {
         @Override
         public void statusValidacion(String code) {
                 if(code.equals("105")){
-                        if(ticketsAll!=null) {
-                                if(!ticketsAll.isEmpty()) {
-                                        presentador.sendSentriplus(manifest, ticketsAll, "Entrega", 0);
-                                }else {
-                                        Toast.makeText(getContext(), "El manifiesto no cuenta con sellos", Toast.LENGTH_SHORT).show();
-                                }
-                        }else {
-                                Toast.makeText(getContext(), "El manifiesto no cuenta con sellos", Toast.LENGTH_SHORT).show();
-                        }
+                        goBegin();
+//                        if(ticketsAll!=null) {
+//                                if(!ticketsAll.isEmpty()) {
+//                                        presentador.sendSentriplus(manifest, ticketsEntegra, "Entrega", 0);
+//                                }else {
+//                                        Toast.makeText(getContext(), "El manifiesto no cuenta con sellos", Toast.LENGTH_SHORT).show();
+//                                }
+//                        }else {
+//                                Toast.makeText(getContext(), "El manifiesto no cuenta con sellos", Toast.LENGTH_SHORT).show();
+//                        }
                 }else{
                         Toast.makeText(getContext(), ""+code, Toast.LENGTH_SHORT).show();
+                        goBegin();
                 }
 
         }
