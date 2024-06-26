@@ -9,6 +9,8 @@ import com.fhl.sistemadedistribucionfh.Dialogs.habilities.model.driver.responseD
 import com.fhl.sistemadedistribucionfh.Dialogs.habilities.model.vehicle.responseVehicle;
 import com.fhl.sistemadedistribucionfh.Dialogs.habilities.util.serviceHabilities;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.Validadorset;
+import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.habilitiesManifest.dataHabilitiesManifest;
+import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.habilitiesManifest.responseHilitiesManifest;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.requestSetValidacion;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.responseSetDatosValidador;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.responseSetValidacion;
@@ -536,6 +538,52 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
     }
     @Override
     public void getManifestHabilities(String manifest) {
+        SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        String token = preferences.getString(GeneralConstants.TOKEN, null);
+        String operador = preferences.getString(GeneralConstants.OPERADOR_ID, null);
+        Call<responseHilitiesManifest> call=service.getManifestV2Detail(token,Integer.valueOf(operador),manifest);
+        call.enqueue(new Callback<responseHilitiesManifest>() {
+            @Override
+            public void onResponse(Call<responseHilitiesManifest> call, Response<responseHilitiesManifest> response) {
+                validateHabilitiesManifest(response,context);
+            }
 
+            @Override
+            public void onFailure(Call<responseHilitiesManifest> call, Throwable t) {
+            presenter.setHabilitiesManifest(null);
+            }
+        });
+    }
+    private void validateHabilitiesManifest(Response<responseHilitiesManifest> response, Context context) {
+        if (response!=null) {
+            if(RetrofitValidations.checkSuccessCode(response.code())) {
+                setvalidateHabilitiesManifest(response, context);
+            } else {
+                Log.e("habilidades",""+response.code());
+            }
+        }
+    }
+
+    private void setvalidateHabilitiesManifest(Response<responseHilitiesManifest> response, Context context) {
+        responseHilitiesManifest resp=response.body();
+                if(resp!=null)
+                {
+                    int responseCode=resp.getStatus();
+                    String message=resp.getMessage();
+                    List<dataHabilitiesManifest> data= resp.getData();
+                    if(responseCode==200){
+                        Log.e("responseSendtripTicket","105");
+                        if(data!=null) {
+                            presenter.setHabilitiesManifest(data.get(0).getValidacionApp());
+                        }else{
+                           presenter.setHabilitiesManifest(null);
+                          }
+                    }else{
+
+                        presenter.setHabilitiesManifest(null);
+                    }
+                }else{
+                   presenter.setHabilitiesManifest(null);
+                }
     }
 }

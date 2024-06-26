@@ -2,35 +2,36 @@ package com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.ha
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ValidacionApp {
     @SerializedName("HabilidadesVehiculos")
-    
+
     private List<HabilidadesVehiculo> habilidadesVehiculos;
     @SerializedName("DocumentosVencimientosVehiculos")
-    
+
     private List<DocumentosVencimientosVehiculo> documentosVencimientosVehiculos;
     @SerializedName("HabilidadesOperadores")
-    
+
     private List<HabilidadesOperadore> habilidadesOperadores;
     @SerializedName("DocumentosOperadoresVencimientos")
-    
+
     private List<DocumentosOperadoresVencimiento> documentosOperadoresVencimientos;
     @SerializedName("HabilidadesAuxiliares")
-    
+
     private List<HabilidadesAuxiliare> habilidadesAuxiliares;
     @SerializedName("DocumentosAuxiliaresVencimientos")
-    
+
     private List<DocumentosAuxiliaresVencimiento> documentosAuxiliaresVencimientos;
     @SerializedName("EvidenciasCargas")
-    
+
     private List<EvidenciasCarga> evidenciasCargas;
     @SerializedName("EvidenciasLlegadas")
-    
+
     private List<EvidenciasLlegada> evidenciasLlegadas;
     @SerializedName("ChecklistRequeridos")
-    
+
     private List<ChecklistRequerido> checklistRequeridos;
 
     public ValidacionApp(List<HabilidadesVehiculo> habilidadesVehiculos, List<DocumentosVencimientosVehiculo> documentosVencimientosVehiculos, List<HabilidadesOperadore> habilidadesOperadores, List<DocumentosOperadoresVencimiento> documentosOperadoresVencimientos, List<HabilidadesAuxiliare> habilidadesAuxiliares, List<DocumentosAuxiliaresVencimiento> documentosAuxiliaresVencimientos, List<EvidenciasCarga> evidenciasCargas, List<EvidenciasLlegada> evidenciasLlegadas, List<ChecklistRequerido> checklistRequeridos) {
@@ -47,6 +48,9 @@ public class ValidacionApp {
     }
 
     public List<HabilidadesVehiculo> getHabilidadesVehiculos() {
+        if (habilidadesVehiculos == null) {
+            habilidadesVehiculos = new ArrayList<>();
+        }
         return habilidadesVehiculos;
     }
 
@@ -55,6 +59,9 @@ public class ValidacionApp {
     }
 
     public List<DocumentosVencimientosVehiculo> getDocumentosVencimientosVehiculos() {
+        if (documentosVencimientosVehiculos == null) {
+            documentosVencimientosVehiculos = new ArrayList<>();
+        }
         return documentosVencimientosVehiculos;
     }
 
@@ -63,6 +70,9 @@ public class ValidacionApp {
     }
 
     public List<HabilidadesOperadore> getHabilidadesOperadores() {
+        if (habilidadesOperadores == null) {
+            habilidadesOperadores = new ArrayList<>();
+        }
         return habilidadesOperadores;
     }
 
@@ -71,6 +81,9 @@ public class ValidacionApp {
     }
 
     public List<DocumentosOperadoresVencimiento> getDocumentosOperadoresVencimientos() {
+        if (documentosOperadoresVencimientos == null) {
+            documentosOperadoresVencimientos = new ArrayList<>();
+        }
         return documentosOperadoresVencimientos;
     }
 
@@ -79,6 +92,9 @@ public class ValidacionApp {
     }
 
     public List<HabilidadesAuxiliare> getHabilidadesAuxiliares() {
+        if (habilidadesAuxiliares == null) {
+            habilidadesAuxiliares = new ArrayList<>();
+        }
         return habilidadesAuxiliares;
     }
 
@@ -87,6 +103,9 @@ public class ValidacionApp {
     }
 
     public List<DocumentosAuxiliaresVencimiento> getDocumentosAuxiliaresVencimientos() {
+        if (documentosAuxiliaresVencimientos == null) {
+            documentosAuxiliaresVencimientos = new ArrayList<>();
+        }
         return documentosAuxiliaresVencimientos;
     }
 
@@ -95,6 +114,9 @@ public class ValidacionApp {
     }
 
     public List<EvidenciasCarga> getEvidenciasCargas() {
+        if (evidenciasCargas == null) {
+            evidenciasCargas = new ArrayList<>();
+        }
         return evidenciasCargas;
     }
 
@@ -103,6 +125,9 @@ public class ValidacionApp {
     }
 
     public List<EvidenciasLlegada> getEvidenciasLlegadas() {
+        if (evidenciasLlegadas == null) {
+            evidenciasLlegadas = new ArrayList<>();
+        }
         return evidenciasLlegadas;
     }
 
@@ -111,6 +136,9 @@ public class ValidacionApp {
     }
 
     public List<ChecklistRequerido> getChecklistRequeridos() {
+        if (checklistRequeridos == null) {
+            checklistRequeridos = new ArrayList<>();
+        }
         return checklistRequeridos;
     }
 

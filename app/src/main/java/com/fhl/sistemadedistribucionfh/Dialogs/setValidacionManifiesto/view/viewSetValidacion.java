@@ -1,5 +1,6 @@
 package com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.view;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.habilitiesManifest.ValidacionApp;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface viewSetValidacion {
     void setDetailTickets(List<dataTicketsDetailsendtrip> data);
 
     void gomanifest(Integer iteration);
+
+    void setHabilitiesManifest(ValidacionApp validacionApp);
 }

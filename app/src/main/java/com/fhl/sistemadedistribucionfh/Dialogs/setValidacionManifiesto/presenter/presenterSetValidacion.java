@@ -1,5 +1,6 @@
 package com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.presenter;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.habilitiesManifest.ValidacionApp;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
 
 import java.util.List;
@@ -28,4 +29,6 @@ public interface presenterSetValidacion {
     void tokenAvocado();
 
     void getManifestHabilities(String manifest);
+
+    void setHabilitiesManifest(ValidacionApp validacionApp);
 }

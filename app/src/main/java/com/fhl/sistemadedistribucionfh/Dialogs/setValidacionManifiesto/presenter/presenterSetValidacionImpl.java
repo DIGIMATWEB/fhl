@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.interactor.interactorSetValidacion;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.interactor.interactorSetValidacionImpl;
+import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.habilitiesManifest.ValidacionApp;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.view.viewSetValidacion;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
 
@@ -99,6 +100,13 @@ public class presenterSetValidacionImpl implements  presenterSetValidacion{
     public void getManifestHabilities(String manifest) {
         if(view!=null){
             interactor.getManifestHabilities(manifest);
+        }
+    }
+
+    @Override
+    public void setHabilitiesManifest(ValidacionApp validacionApp) {
+        if(view!=null){
+            view.setHabilitiesManifest(validacionApp);
         }
     }
 

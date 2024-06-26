@@ -23,6 +23,9 @@ import androidx.fragment.app.DialogFragment;
 
 import com.fhl.sistemadedistribucionfh.Dialogs.habilities.model.driver.habiltiesDriver;
 import com.fhl.sistemadedistribucionfh.Dialogs.habilities.model.vehicle.habiltiesVehicle;
+import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.habilitiesManifest.HabilidadesOperadore;
+import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.habilitiesManifest.HabilidadesVehiculo;
+import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.habilitiesManifest.ValidacionApp;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.sentriplusCheckTickets;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.presenter.presenterSetValidacion;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.presenter.presenterSetValidacionImpl;
@@ -96,12 +99,14 @@ private void initDialog(View view) {
         imageHV =view.findViewById(R.id.imageHV);
         imageokHV=view.findViewById(R.id.imageokHV);
         presentador= new presenterSetValidacionImpl(this,getContext());
-        presentador.getdriverHabilities();
-        presentador.getVehicleHabilities(claveVehicleID);
+      //  presentador.getdriverHabilities();
+      //  presentador.getVehicleHabilities(claveVehicleID);
         presentador.getManifestHabilities(manifest);
         presentador.requestTicketsByManifest(manifest,null);//todo verificar para todos los tickets
         ticketsAllFirst=false;
         presentador.tokenAvocado();
+        bottomStatusManifestHabilidadesVehiculo.setVisibility(View.GONE);
+        bottomStatusManifestHabilidades.setVisibility(View.GONE);
         }
 
 public void closeDialog() {
@@ -162,6 +167,42 @@ public void closeDialog() {
 //                        }
 //                }
         }
+
+        @Override
+        public void setHabilitiesManifest(ValidacionApp validacionApp) {
+                if(validacionApp!=null){
+                        Gson gson=new Gson();
+                        String json=gson.toJson(validacionApp);
+                        Log.e("validacionFinal",json);
+                        if(validacionApp.getHabilidadesVehiculos()!=null){
+                                List<HabilidadesVehiculo> habilidadesV=validacionApp.getHabilidadesVehiculos();
+                                if(!habilidadesV.isEmpty()) {
+                                        for (HabilidadesVehiculo habilidad : habilidadesV) {
+                                                Log.e("habilidades", "Operador json " + habilidad);
+                                                vehicleL.add(habilidad.getValor());
+                                                mhabiltiesVehicle.add(new habiltiesVehicle(habilidad.getValor(), false));
+                                        }
+                                        bottomStatusManifestHabilidadesVehiculo.setVisibility(View.VISIBLE);
+                                }else {
+                                        bottomStatusManifestHabilidadesVehiculo.setVisibility(View.GONE);
+                                }
+                        }
+                        if(validacionApp.getHabilidadesOperadores()!=null){
+                                List<HabilidadesOperadore> habilidadesO=validacionApp.getHabilidadesOperadores();
+                                if(!habilidadesO.isEmpty()) {
+                                        for (HabilidadesOperadore habilidad : habilidadesO) {
+                                                Log.e("habilidades", "Operador json " + habilidad);
+                                                operadorL.add(habilidad.getValor());
+                                                mhabiltiesDriver.add(new habiltiesDriver(habilidad.getValor(), false));
+                                        }
+                                        bottomStatusManifestHabilidades.setVisibility(View.VISIBLE);
+                                }else {
+                                        bottomStatusManifestHabilidades.setVisibility(View.GONE);
+                                }
+                        }
+                }
+        }
+
         public void goBegin(){
                 Intent intent = new Intent(getContext(), mainContainer.class);
                 startActivity(intent);
@@ -265,7 +306,7 @@ public void closeDialog() {
         }
         private void showDialogWithCheckbox(Context context, List<String> items, boolean vehicleDriver) {//todo vehicle true driver false
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Check Dialog");
+                builder.setTitle("Habilidades");
 
                 // Create a layout for the checkboxes
                 LinearLayout layout = new LinearLayout(context);
