@@ -33,7 +33,11 @@ import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Salida extends DialogFragment implements View.OnClickListener, salidaView {
     //todo nota esto debe verificarse
@@ -276,11 +280,36 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
         numberManifestsalida.setText(""+data.get(0).getFolioDespacho());
         cedissalida.setText(""+data.get(0).getOrigen());
         vehiculosalida.setText(""+data.get(0).getVehiculo().getEconomico());
-        datesalida.setText(""+data.get(0).getFechaCreacion());
+        if(data.get(0).getFechaCreacion()!=null){
+            convertDate(data.get(0).getFechaCreacion());
+            datesalida.setText(""+convertDate(data.get(0).getFechaCreacion()));
+        }else{
+            datesalida.setText("");
+        }
         placasalida.setText(""+data.get(0).getVehiculo().getPlaca());
         regresosalida.setText(""+data.get(0).getTiempoEntrega());
     }
+    public static String convertDate(String inputDate) {
+        // Step 1: Parse the input date string
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.ENGLISH);
+        Date date = null;
+        try {
+            date = inputFormat.parse(inputDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
 
+        // Step 2: Format the date to the desired output format
+        SimpleDateFormat outputFormat = new SimpleDateFormat("EEE | dd/MM/yy | HH:mm", new Locale("es", "ES"));
+        String formattedDate = outputFormat.format(date);
+
+        // Step 3: Capitalize the first letter of the formatted date string
+        if (formattedDate != null && !formattedDate.isEmpty()) {
+            formattedDate = formattedDate.substring(0, 1).toUpperCase() + formattedDate.substring(1);
+        }
+        return formattedDate;
+    }
     public void closeDialog() {
         this.dismiss();
 
