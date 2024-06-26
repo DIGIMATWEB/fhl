@@ -65,6 +65,7 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
     private  List<dataValidadorV2> mdata=new ArrayList<>();
     private List<dataTicketsManifestV2> tdata;
     private Boolean ticketsEntregaExist=false;
+    private Boolean loadVin=false;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -288,6 +289,7 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
     @Override
     public void setManifestVehicleandDriver(List<dataValidadorV2> data) {
         this.mdata=data;
+
         fulllayout.setVisibility(View.VISIBLE);
         numberManifestsalida.setText(""+data.get(0).getFolioDespacho());
         cedissalida.setText(""+data.get(0).getOrigen());
@@ -345,11 +347,15 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
                             } else {
                                 barcodeScannerActivity.setVehicleandDriverBarcodes(vehiclebarcode, rfcBarcode, vehiclebarcodeVal, rfcBarcodeVal, claveVehicleID);
                             }
+
                         }
                     }
                 }
+                if(mdata!=null){
+                    loadVin=true;
+                }
             }
-        }, 1000); // 2000 milliseconds = 2 seconds
+        }, 500); // 2000 milliseconds = 2 seconds
         //barcodes data.get(0).getOperador().getRfcBarcode()+data.get(0).getVehiculo().getBarcodeVehicle()
 //        BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
 //        barcodeScannerActivity1.setVehicleandDriver(data.get(0).getVehiculo().getEconomico(),data.get(0).getOperador().getId());
@@ -393,18 +399,27 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
                 break;
             case R.id.gonext:
                 isCanceled=false;
-                Log.e("validador","gonext "+codigoValidador1);
+                Log.e("validadorftest","gonext "+codigoValidador1);
                 BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
                 if(codigoValidador1.equals(1)){
 
-                    barcodeScannerActivity.goVehicle();
+                    if(loadVin){
+                        barcodeScannerActivity.goVehicle();
+                        dismiss();
+                    }else {
+                        Toast.makeText(getContext(), "Se estan cargando datos espera un momento", Toast.LENGTH_SHORT).show();
+                    }
                 }else if(codigoValidador1.equals(2)){
                     barcodeScannerActivity.goResumenValidador();
+                    dismiss();
                 }else  if(codigoValidador1.equals(3)){
                     barcodeScannerActivity.resumeValidador();
+                    dismiss();
+                }else{
+                    dismiss();
                 }
 
-                dismiss();
+
                 break;
         }
 

@@ -653,8 +653,6 @@ public class BarcodeScannerActivity extends AppCompatActivity
         detailTicketsSummary bottonSheetv = new detailTicketsSummary();
         bottonSheetv.setArguments(bundle);
         bottonSheetv.show(getSupportFragmentManager(), "detailTicketsSummary");
-
-
     }
     public void goTicketsSummary(){
         stopCameraProcess();
@@ -671,8 +669,6 @@ public class BarcodeScannerActivity extends AppCompatActivity
             statusrecepcion="5";
             //Toast.makeText(this, "No tienes sellos", Toast.LENGTH_SHORT).show();
             dismissSellos();
-
-
         }
         bundle.putString("statusRecepcion", statusrecepcion);
         // bundle.putString("cortinaDestino", cortinaDestination);
@@ -741,9 +737,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
         Log.e("qrs",code);
         if(collectedBarCodes.contains(code))
         {
-
             if(typeScanner.equals("Salida")){//para salida recepccion4 si esta en la lista preguntar por el estatus del escaneo
-
                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                 String status = preferences.getString(GeneralConstants.STATUS_SALIDA, null);
                 Log.e("motorola","m1 a collected status: "+status);
@@ -758,11 +752,9 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 bottonSheetv.setArguments(bundle);
                 bottonSheetv.show(getSupportFragmentManager(),"Salida");
                 //Toast.makeText(this, "verificar estatus de la salida y escaneo", Toast.LENGTH_SHORT).show();
-
             }
         }else
         {
-
             Log.e("typeScanner","codigos escaneados: "+collectedBarCodes);
             if(!typeScanner.equals("Validador")) {
             }

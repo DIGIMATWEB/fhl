@@ -1,9 +1,11 @@
 package com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.util;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.habilitiesManifest.responseHabilitiesManifest;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.requestSetDatosValidador;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.requestSetValidacion;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.responseSetDatosValidador;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.responseSetValidacion;
+import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.model.responseValidadorV2;
 import com.fhl.sistemadedistribucionfh.Retrofit.RetrofitEndPoints;
 import com.fhl.sistemadedistribucionfh.checkList.model.v2.responseSendChecklist;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.TicketsDetailSentriplus;
@@ -38,5 +40,11 @@ public interface serviceSetValidacionManifest {
             @Header("Authorization") String authorizationHeader,
             @Query("folioDespacho") String folioDespacho,
             @Query("folioTicket") String folioTicket
+    );
+    @GET(RetrofitEndPoints.MANIFEST_PEP)
+    Call<responseHabilitiesManifest> getManifestV2Detail(
+            @Header("Authorization") String authorizationHeader,
+            @Query("operadorId") Integer operadorId,
+            @Query("folioDespacho") String folioDespacho
     );
 }

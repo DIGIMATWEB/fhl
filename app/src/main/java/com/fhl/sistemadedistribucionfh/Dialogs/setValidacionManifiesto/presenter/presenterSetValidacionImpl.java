@@ -94,6 +94,14 @@ public class presenterSetValidacionImpl implements  presenterSetValidacion{
             interactor.tokenAvocado();
         }
     }
+
+    @Override
+    public void getManifestHabilities(String manifest) {
+        if(view!=null){
+            interactor.getManifestHabilities(manifest);
+        }
+    }
+
     @Override
     public void gomanifest(Integer iteration) {
         if(view!=null){

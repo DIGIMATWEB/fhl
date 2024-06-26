@@ -98,6 +98,7 @@ private void initDialog(View view) {
         presentador= new presenterSetValidacionImpl(this,getContext());
         presentador.getdriverHabilities();
         presentador.getVehicleHabilities(claveVehicleID);
+        presentador.getManifestHabilities(manifest);
         presentador.requestTicketsByManifest(manifest,null);//todo verificar para todos los tickets
         ticketsAllFirst=false;
         presentador.tokenAvocado();

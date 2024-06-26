@@ -328,6 +328,7 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
             String message=resp.getMessage();
             List<dataTicketsDetailsendtrip> data= resp.getData();
             if(responseCode==200)
+
             {
                 Log.e("responseSendtripTicket","105");
                 if(data!=null) {
@@ -364,8 +365,6 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
             }
         });
     }
-
-
 
     private void validateOriginresponse(Response<responseLoginAvocado> response, Context context) {
         if (RetrofitValidations.checkSuccessCode(response.code())) {
@@ -534,5 +533,9 @@ public class interactorSetValidacionImpl implements interactorSetValidacion{
             presenter.gomanifest(iteration);
             Log.e("sendtripplus","resp null");
         }
+    }
+    @Override
+    public void getManifestHabilities(String manifest) {
+
     }
 }

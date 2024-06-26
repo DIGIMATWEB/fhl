@@ -26,4 +26,6 @@ public interface presenterSetValidacion {
     void gomanifest(Integer iteration);
 
     void tokenAvocado();
+
+    void getManifestHabilities(String manifest);
 }

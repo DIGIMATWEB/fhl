@@ -363,6 +363,8 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                         Toast.makeText(getContext(), "Se estan cargando datos espera un momento", Toast.LENGTH_SHORT).show();
                     }
 
+                }else{
+                    closeDialog();
                 }
 
 

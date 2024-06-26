@@ -16,4 +16,6 @@ public interface interactorSetValidacion {
     void sendSentriplus(String currentManifest, List<dataTicketsDetailsendtrip> dataTicketSendtrip, String sentripPlusFlow,Integer iteration);
 
     void tokenAvocado();
+
+    void getManifestHabilities(String manifest);
 }
