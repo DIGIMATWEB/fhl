@@ -13,6 +13,7 @@ import com.fhl.sistemadedistribucionfh.locator.model.requestVehicleLocation;
 import com.fhl.sistemadedistribucionfh.locator.model.responseVehicleLocation;
 import com.fhl.sistemadedistribucionfh.locator.presenter.presenterVehicles;
 import com.fhl.sistemadedistribucionfh.locator.util.serviceLocationVehicle;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,10 @@ public class interactorVehiclesImpl implements interactorVehicles{
         List<Integer> vehicles=new ArrayList<>();
         vehicles.clear();
         requestVehicleLocation request = new requestVehicleLocation(vehicles);
+        Gson gson=new Gson();
+        String json=gson.toJson(request);
+        Log.e("Locator","json: "+json);
+        Log.e("Locator","token: "+token);
         Call<responseVehicleLocation> call= service.getVehicles(token,request);
         call.enqueue(new Callback<responseVehicleLocation>() {
             @Override
