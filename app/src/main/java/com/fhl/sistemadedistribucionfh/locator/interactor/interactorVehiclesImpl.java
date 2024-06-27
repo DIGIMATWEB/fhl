@@ -14,7 +14,9 @@ import com.fhl.sistemadedistribucionfh.locator.model.responseVehicleLocation;
 import com.fhl.sistemadedistribucionfh.locator.presenter.presenterVehicles;
 import com.fhl.sistemadedistribucionfh.locator.util.serviceLocationVehicle;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,15 +41,24 @@ public class interactorVehiclesImpl implements interactorVehicles{
     public void requestLocation() {
         SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         String token = preferences.getString(GeneralConstants.TOKEN, null);
+        String listaVehiculos = preferences.getString(GeneralConstants.LISTA_VEHICULOS_LOCATOR, null);
         if(token!=null){
-            requestMyVehicles(token);
+            List<Integer> vehicles =new ArrayList<>();
+            vehicles.clear();
+            if(listaVehiculos!=null){
+                Gson gson = new Gson();
+                // Convert JSON string to List<Integer>
+                Type listType = new TypeToken<ArrayList<Integer>>(){}.getType();
+                 vehicles = gson.fromJson(listaVehiculos, listType);
+            }
+            requestMyVehicles(token,vehicles);
         }
     }
 
-    private void requestMyVehicles(String token) {
+    private void requestMyVehicles(String token, List<Integer> mvehicles) {
         List<Integer> vehicles=new ArrayList<>();
         vehicles.clear();
-        requestVehicleLocation request = new requestVehicleLocation(vehicles);
+        requestVehicleLocation request = new requestVehicleLocation(mvehicles);
         Gson gson=new Gson();
         String json=gson.toJson(request);
         Log.e("Locator","json: "+json);

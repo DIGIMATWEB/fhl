@@ -38,6 +38,7 @@ import com.fhl.sistemadedistribucionfh.nmanifest.presenterV2.presentermanifestV2
 import com.fhl.sistemadedistribucionfh.login.view.login;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.view.manifestDetailV2;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -346,7 +347,27 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         }else {
             setAdapter(this.data);
         }
+        setVehicleList(this.data);
     }
+
+    private void setVehicleList(List<dataManifestV2> data) {
+        if(data!=null){
+            List<Integer> listV=new ArrayList<>();
+            listV.clear();
+            for(dataManifestV2 datos: data){
+                if(!listV.contains(datos.getVehiculoId())) {
+                    listV.add(datos.getVehiculoId());
+                }
+            }
+            Gson gson = new Gson();
+            String json = gson.toJson(listV);
+            SharedPreferences preferencias = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferencias.edit();
+            editor.putString(GeneralConstants.LISTA_VEHICULOS_LOCATOR,json);
+            editor.commit();
+        }
+    }
+
     @Override
     public void returnTologin() {
         deleteCache(getContext());
