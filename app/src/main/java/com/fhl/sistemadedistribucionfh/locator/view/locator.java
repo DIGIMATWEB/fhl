@@ -12,6 +12,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +22,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.fhl.sistemadedistribucionfh.Profile.view.viewProfile;
 import com.fhl.sistemadedistribucionfh.locator.model.dataVehicleLocation;
 import com.fhl.sistemadedistribucionfh.locator.presenter.presenterVehicles;
 import com.fhl.sistemadedistribucionfh.locator.presenter.presenterVehiclesImpl;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
+import com.fhl.sistemadedistribucionfh.nmanifest.viewV2.mmanifestV2;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -52,6 +57,8 @@ public class locator  extends Fragment implements OnMapReadyCallback , LocationL
         private TextView smartphone;
         private List<dataVehicleLocation> mdata;
         private presenterVehicles presenter;
+        private FragmentManager manager;
+        private FragmentTransaction transaction;
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -91,6 +98,8 @@ public class locator  extends Fragment implements OnMapReadyCallback , LocationL
         }
 
         private void initView(View view) {
+                manager = getActivity().getSupportFragmentManager();
+                transaction = manager.beginTransaction();
                 mapView=view.findViewById(R.id.map);
                 smartphone=view.findViewById(R.id.modelSmarthphone);
                 smartphone.setText(model);
@@ -145,7 +154,30 @@ public class locator  extends Fragment implements OnMapReadyCallback , LocationL
         public void onResume() {
                 super.onResume();
                 mapView.onResume();
+                if (getView() != null) {
+                        getView().setFocusableInTouchMode(true);
+                        getView().requestFocus();
+                        getView().setOnKeyListener(new View.OnKeyListener() {
+                                @Override
+                                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                                        if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+                                                if (manager != null && manager.getBackStackEntryCount() > 0) {
+                                                        // Hay fragmentos en la pila, realiza popBackStack
+                                                        Log.e("fragments","detail"+manager.getBackStackEntryCount());
+                                                        manager.popBackStack(viewProfile.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                                                } else {
+                                                        // No hay fragmentos en la pila, deja que la actividad maneje el evento de retroceso
+                                                        requireActivity().onBackPressed();
+                                                        Log.e("fragments","detail 0");
+                                                }
+                                                return true;
+                                        }
+                                        return false;
+                                }
+                        });
+                }
         }
+
 
         @Override
         public void onLocationChanged(@NonNull Location location) {

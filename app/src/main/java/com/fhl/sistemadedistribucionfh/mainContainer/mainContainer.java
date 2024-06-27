@@ -180,6 +180,7 @@ public class mainContainer extends AppCompatActivity  implements view {
         transaction = manager.beginTransaction();
         locator loc = new locator();
         transaction.replace(R.id.fragments, loc, locator.TAG).commit();
+        transaction.addToBackStack(viewProfile.TAG);
         framTab.setVisibility(View.GONE);
 
     }
