@@ -435,9 +435,7 @@ public void closeDialog() {
                 //closeDialog();
                         if(allmDrivers&&allmVehicles){
                                 Toast.makeText(getContext(), "Continuar", Toast.LENGTH_SHORT).show();
-                        }else {
-                                Toast.makeText(getContext(), "Validar  habilidades", Toast.LENGTH_SHORT).show();
-                        }
+
 
                         // Datos para enviar al Endpoint
                         Gson gson= new Gson();
@@ -454,7 +452,10 @@ public void closeDialog() {
 
                         // Presenter con los datos
                         presentador.setDatosValidador(manifest, vehicleVin, rfcUser, jsonHabDriver, jsonHabVehicles, user);
-                      presentador.setValidacionMenifest(manifest);
+                        presentador.setValidacionMenifest(manifest);
+                        }else {
+                                Toast.makeText(getContext(), "Validar  habilidades", Toast.LENGTH_SHORT).show();
+                        }
                 break;
                 case R.id.bottomStatusManifestHabilidadesVehiculo:
                         //Toast.makeText(getContext(), "aqui va un dialog del vehiculo", Toast.LENGTH_SHORT).show();
