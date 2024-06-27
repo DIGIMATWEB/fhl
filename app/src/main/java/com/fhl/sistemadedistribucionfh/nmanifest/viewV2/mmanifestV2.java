@@ -171,7 +171,7 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         isDialogVisible = false;
         rv.setAdapter(null);
         adapter = null;
-        rv = null;
+       // rv = null;
     }
 
     @Override
