@@ -7,7 +7,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout10"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="30dp"
@@ -22,7 +22,6 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
-            android:background="@drawable/ic_scan_document"
             android:backgroundTint="#878787"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -57,14 +56,27 @@
 
         <TextView
             android:id="@+id/stepdescription"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_marginStart="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:text="Escanea el código del manifiesto"
             android:textSize="@dimen/h55"
-            app:layout_constraintStart_toEndOf="@+id/imageItem"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline1z"
+            app:layout_constraintStart_toStartOf="@+id/step"
             app:layout_constraintTop_toBottomOf="@+id/step">
 
         </TextView>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline12g"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.14" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline1z"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.84" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
