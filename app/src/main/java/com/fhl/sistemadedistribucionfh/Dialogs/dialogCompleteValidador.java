@@ -231,79 +231,79 @@ public void closeDialog() {
 
         }
 
-        @Override
-        public void setDriverHailities(String habilidades) {
-                Log.e("habilidades","Operador "+habilidades);
-//                Gson gson=new Gson();
-//                String json=gson.toJson(habilidades);
-                operadorL.clear();
-                mhabiltiesDriver.clear();
-                if(habilidades!=null) {
-                        List<String> habilidadesList = extractNombreValues(habilidades);
-
-                        // Print the list of "Nombre" values
-                        for (String habilidad : habilidadesList) {
-                                Log.e("habilidades", "Operador json " + habilidad);
-                                operadorL.add(habilidad);
-                                mhabiltiesDriver.add(new habiltiesDriver(habilidad, false));
-                        }
-                }else {
-                        bottomStatusManifestHabilidades.setVisibility(View.GONE);
-                }
-        }
-        private List<String> extractNombreValues(String habilidadesJson) {
-                List<String> nombreValues = new ArrayList<>();
-
-                try {
-                        JSONArray jsonArray = new JSONArray(habilidadesJson);
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                String nombre = jsonObject.getString("Nombre");
-                                nombreValues.add(nombre);
-                        }
-                } catch (JSONException e) {
-                        e.printStackTrace();
-                }
-
-                return nombreValues;
-        }
-        @Override
-        public void setVehicleHailities(String habilidadVehiculos) {
-                Log.e("habilidades","Vehiculo "+habilidadVehiculos);
-                vehicleL.clear();
-                mhabiltiesVehicle.clear();
-                if(habilidadVehiculos!=null) {
-                        List<String> habilidadesList = extractNombreValues2(habilidadVehiculos);
-
-                        // Print the list of "Nombre" values
-                        for (String habilidad : habilidadesList) {
-                                Log.e("habilidades", "Operador json " + habilidad);
-                                vehicleL.add(habilidad);
-                                mhabiltiesVehicle.add(new habiltiesVehicle(habilidad, false));
-                        }
-                }else{
-                        bottomStatusManifestHabilidadesVehiculo.setVisibility(View.GONE);
-                }
-        }
-
-
-
-        private List<String> extractNombreValues2(String habilidadesJson) {
-                List<String> nombreValues = new ArrayList<>();
-
-                try {
-                        JSONArray jsonArray = new JSONArray(habilidadesJson);
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                String nombre = jsonObject.getString("nombre");
-                                nombreValues.add(nombre);
-                        }
-                } catch (JSONException e) {
-                        e.printStackTrace();
-                }
-
-                return nombreValues;
-        }
+//        @Override
+//        public void setDriverHailities(String habilidades) {
+//                Log.e("habilidades","Operador "+habilidades);
+////                Gson gson=new Gson();
+////                String json=gson.toJson(habilidades);
+//                operadorL.clear();
+//                mhabiltiesDriver.clear();
+//                if(habilidades!=null) {
+//                        List<String> habilidadesList = extractNombreValues(habilidades);
+//
+//                        // Print the list of "Nombre" values
+//                        for (String habilidad : habilidadesList) {
+//                                Log.e("habilidades", "Operador json " + habilidad);
+//                                operadorL.add(habilidad);
+//                                mhabiltiesDriver.add(new habiltiesDriver(habilidad, false));
+//                        }
+//                }else {
+//                        bottomStatusManifestHabilidades.setVisibility(View.GONE);
+//                }
+//        }
+//        private List<String> extractNombreValues(String habilidadesJson) {
+//                List<String> nombreValues = new ArrayList<>();
+//
+//                try {
+//                        JSONArray jsonArray = new JSONArray(habilidadesJson);
+//                        for (int i = 0; i < jsonArray.length(); i++) {
+//                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+//                                String nombre = jsonObject.getString("Nombre");
+//                                nombreValues.add(nombre);
+//                        }
+//                } catch (JSONException e) {
+//                        e.printStackTrace();
+//                }
+//
+//                return nombreValues;
+//        }
+//        @Override
+//        public void setVehicleHailities(String habilidadVehiculos) {
+//                Log.e("habilidades","Vehiculo "+habilidadVehiculos);
+//                vehicleL.clear();
+//                mhabiltiesVehicle.clear();
+//                if(habilidadVehiculos!=null) {
+//                        List<String> habilidadesList = extractNombreValues2(habilidadVehiculos);
+//
+//                        // Print the list of "Nombre" values
+//                        for (String habilidad : habilidadesList) {
+//                                Log.e("habilidades", "Operador json " + habilidad);
+//                                vehicleL.add(habilidad);
+//                                mhabiltiesVehicle.add(new habiltiesVehicle(habilidad, false));
+//                        }
+//                }else{
+//                        bottomStatusManifestHabilidadesVehiculo.setVisibility(View.GONE);
+//                }
+//        }
+//
+//
+//
+//        private List<String> extractNombreValues2(String habilidadesJson) {
+//                List<String> nombreValues = new ArrayList<>();
+//
+//                try {
+//                        JSONArray jsonArray = new JSONArray(habilidadesJson);
+//                        for (int i = 0; i < jsonArray.length(); i++) {
+//                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+//                                String nombre = jsonObject.getString("nombre");
+//                                nombreValues.add(nombre);
+//                        }
+//                } catch (JSONException e) {
+//                        e.printStackTrace();
+//                }
+//
+//                return nombreValues;
+//        }
         private void showDialogWithCheckbox(Context context, List<String> items, boolean vehicleDriver) {//todo vehicle true driver false
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("Habilidades");

@@ -78,10 +78,17 @@ public class mainContainer extends AppCompatActivity  implements view {
         Log.d(TAG, "onBackPressed called");
         super.onBackPressed();
         if (manager.getBackStackEntryCount() > 0){
-            Log.d("fragments", "fCount "+manager.getBackStackEntryCount());
-            manager.popBackStackImmediate();
+            Log.d("fragments", "fCount if "+manager.getBackStackEntryCount());
+          if (manager.getBackStackEntryCount() == 1) {
+              Log.d("fragments", "fCount else if"+manager.getBackStackEntryCount());
+              manager.popBackStackImmediate();
+              profile();
+          }else{
+              manager.popBackStackImmediate();
+          }
         }
         else {
+            Log.d("fragments", "fCount else "+manager.getBackStackEntryCount());
             super.onBackPressed();
         }
     }

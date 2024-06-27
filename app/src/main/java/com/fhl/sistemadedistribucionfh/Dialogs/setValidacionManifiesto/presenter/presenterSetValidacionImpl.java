@@ -43,14 +43,14 @@ public class presenterSetValidacionImpl implements  presenterSetValidacion{
     @Override
     public void setDriverHailities(String habilidades) {
         if(view!=null){
-            view.setDriverHailities(habilidades);
+            //view.setDriverHailities(habilidades);
         }
     }
 
     @Override
     public void setDriverVehicle(String habilidadVehiculos) {
         if(view!=null){
-            view.setVehicleHailities(habilidadVehiculos);
+           // view.setVehicleHailities(habilidadVehiculos);
         }
 
     }

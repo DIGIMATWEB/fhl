@@ -8,9 +8,9 @@ import java.util.List;
 public interface viewSetValidacion {
     void statusValidacion(String code);
 
-    void setDriverHailities(String habilidades);
-
-    void setVehicleHailities(String habilidadVehiculos);
+//    void setDriverHailities(String habilidades);
+//
+//    void setVehicleHailities(String habilidadVehiculos);
 
     void setDetailTickets(List<dataTicketsDetailsendtrip> data);
 
