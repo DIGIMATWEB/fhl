@@ -119,9 +119,7 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         }else{
             recolectartxt.setText("Recolectar (0)");
         }
-        //setAdapter(data);
     }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -155,7 +153,6 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
                 }else{
                     searchViewManifestdetail.setVisibility(View.GONE);
                 }
-
                 break;
             case R.id.recoletar:
                // Toast.makeText(getContext(), "recolectar", Toast.LENGTH_SHORT).show();
@@ -206,11 +203,6 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
                 }else{
                     Toast.makeText(getContext(), "No tienes tickets para recolectar", Toast.LENGTH_SHORT).show();
                 }
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("tickets", (Serializable) data);
-//                ticketsSalida tickets = new ticketsSalida();
-//                tickets.setArguments(bundle);
-//                tickets.show(getParentFragmentManager(), "ticketsSalida");
 
                 }
                 break;
@@ -222,12 +214,9 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         rvlistTickets.setLayoutManager(layoutManager);
         rvlistTickets.setAdapter(adapter);
         presenter.getSellos(folioDespachoId);
-
     }
-
     public void gotoTickets(int position, String folioTicket, Integer statusTicket) {
         //folioDespachoId
-
         tickets ticketsf = new tickets();
         Bundle args = new Bundle();
         args.putString("folioDespachoId", folioDespachoId);
@@ -299,16 +288,13 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
             }else {
                 recoletar.setVisibility(View.GONE);
             }
-
         }
     }
-
     @Override
     public void setSellos(List<Sello> response) {
         this.dataSellos=response;
         Log.e("sellosdetailmanifest",""+dataSellos.size());
     }
-
     @Override
     public void showDialog() {
         Bundle bundle = new Bundle();
@@ -317,7 +303,6 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         progress.setArguments(bundle);
         progress.show(getActivity().getSupportFragmentManager(), loaderFH.TAG);
     }
-
     @Override
     public void hideDialog() {
         new Handler().postDelayed(new Runnable() {
@@ -328,7 +313,6 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
             }
         }, 300);
     }
-
     private void menutransition() {
         manager = getActivity().getSupportFragmentManager();
         transaction = manager.beginTransaction();
@@ -360,12 +344,12 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
                     if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
                         if (manager != null && manager.getBackStackEntryCount() > 0) {
                             // Hay fragmentos en la pila, realiza popBackStack
-                            Log.e("mD","manager");
-                            manager.popBackStack();
+                            Log.e("fragments","detail"+manager.getBackStackEntryCount());
+                            manager.popBackStack(mmanifestV2.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                         } else {
                             // No hay fragmentos en la pila, deja que la actividad maneje el evento de retroceso
                             requireActivity().onBackPressed();
-                            Log.e("mD","backpressed");
+                            Log.e("fragments","detail 0");
                         }
                         return true;
                     }

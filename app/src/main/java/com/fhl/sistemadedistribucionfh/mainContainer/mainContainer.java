@@ -78,6 +78,7 @@ public class mainContainer extends AppCompatActivity  implements view {
         Log.d(TAG, "onBackPressed called");
         super.onBackPressed();
         if (manager.getBackStackEntryCount() > 0){
+            Log.d("fragments", "fCount "+manager.getBackStackEntryCount());
             manager.popBackStackImmediate();
         }
         else {

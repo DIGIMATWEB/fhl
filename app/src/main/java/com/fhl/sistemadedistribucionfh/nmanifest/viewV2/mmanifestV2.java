@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -67,7 +70,25 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         initView(view);
         return view;
     }
-
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Log.d(TAG, "onViewCreated: Fragment view created");
+        // Reinitialize the RecyclerView and adapter
+        if (adapter == null) {
+            // Initialize adapter and set it
+            if (data != null) {
+                setAdapter(data);
+            } else {
+                presenter.getmanifestV2(); // Fetch data if not already fetched
+            }
+        } else {
+            // Adapter already initialized, update with existing data
+            if (data != null) {
+                adapter.updateManifest(data);
+            }
+        }
+    }
     private void initView(View view) {
         progress = new loaderFH();
         rv = view.findViewById(R.id.rvmanifest);
@@ -139,10 +160,50 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
             }
         }else {
             Toast.makeText(getContext(), "No hay ningun ticket", Toast.LENGTH_SHORT).show();
-
         }
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        rv.setAdapter(null);
+        adapter = null;
+        rv = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (data != null) {
+            Log.e("fragment","dataonAttach "+data.size());
+            setAdapter(data); // Ensure rv and adapter are properly initialized
+        } else {
+            Log.e("fragment","dataonAttach datanull ");
+            presenter.getmanifestV2(); // Fetch data if not already fetched
+        }
+        if (getView() != null) {
+            getView().setFocusableInTouchMode(true);
+            getView().requestFocus();
+            getView().setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+                        if (manager != null && manager.getBackStackEntryCount() > 0) {
+
+                            manager.popBackStack();
+                            Log.e("fragments", "manifest"+manager.getBackStackEntryCount());
+
+                        } else {
+                            Log.e("fragments", "manifest manager 0" );
+                            requireActivity().onBackPressed();
+                        }
+                        return true;
+                    }
+                    return false;
+                }
+            });
+        }
+    }
     private void gotoTicketsDetail() {
         Bundle bundle = new Bundle();
         bundle.putString("folioDespachoId",folioDespachoG);
@@ -162,11 +223,8 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     }
 
     private void showToast() {//todo camiar por un dialogo y crear un endpoint para los datos de salida
-        //Toast.makeText(getContext(), "Validación requerida", Toast.LENGTH_SHORT).show();
-        // Dialog
         mostrarAlerta();
     }
-
     private void mostrarAlerta() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Validación requerida");
@@ -191,21 +249,6 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         this.vehiculoPlacaG = vehiculoPlaca;
         this.cedisG = cedis;
         this.statusManifestG = statusManifest;
-
-//        Bundle bundle = new Bundle();
-//        bundle.putString("folioDespachoId",folioDespacho);
-//        bundle.putString("vehiculoModeloId", vehiculoModelo);
-//        bundle.putString("vehiculoPlacaId", vehiculoPlaca);
-//        bundle.putString("statusManifest",statusManifest);
-//        bundle.putString("cedisId", cedis);
-//
-//        manager = getActivity().getSupportFragmentManager();
-//        transaction = manager.beginTransaction();
-//        manifestDetailV2 manifestdetail = new manifestDetailV2();
-//        manifestdetail.setArguments(bundle);
-//        transaction.replace(R.id.fragments, manifestdetail, manifestDetailV2.TAG)
-//                .addToBackStack(null) // Agregar la transacción a la pila de retroceso
-//                .commit();
     }
     @Override
     public void onClick(View view) {
@@ -252,7 +295,6 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
                 break;
         }
     }
-
     private List<dataManifestV2> filter(List<dataManifestV2> data, String text) {
         List<dataManifestV2> mfilterList = new ArrayList<>();
         text = text.toLowerCase();
@@ -293,7 +335,6 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         }
         return mfilterList;
     }
-
     @Override
     public void setAllmanifestV2(List<dataManifestV2> data) {
         this.data = data;
@@ -301,12 +342,9 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
             List<dataManifestV2> filterList = filter(data, texFilter);
             adapter.setFilterV2(filterList);
         }else {
-
             setAdapter(this.data);
         }
-
     }
-
     @Override
     public void returnTologin() {
         deleteCache(getContext());
@@ -317,7 +355,6 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
-
     @Override
     public void hideProgress() {
         if (isDialogVisible && isAdded() && !isDetached() && !isRemoving() && !isStateSaved()) {
@@ -327,7 +364,6 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
             }
         }
     }
-
     @Override
     public void showProgress() {
         if (!isDialogVisible && isAdded() && !isDetached() && !isRemoving() && !isStateSaved()) {
@@ -371,7 +407,4 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
             return false;
         }
     }
-
-
-
 }
