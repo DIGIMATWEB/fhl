@@ -11,7 +11,7 @@ android {
         minSdk 26
         targetSdk 33
         versionCode 18
-        versionName "1.18.9"
+        versionName "1.18.10"
 //        multiDexEnabled truemultiDexEnabled true//todo  COMENTAR en caso DE NO USARSE ::esta linea sirve si quieres crear una apk con mas de 65,536 metodos decompilados url: https://stackoverflow.com/questions/45217330/my-android-app-has-crashed-if-i-using-apk-from-app-build-outputs
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
