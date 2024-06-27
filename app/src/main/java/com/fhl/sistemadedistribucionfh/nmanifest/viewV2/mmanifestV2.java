@@ -166,6 +166,8 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        handler.removeCallbacks(runnable); // Stop the handler
+        isDialogVisible = false;
         rv.setAdapter(null);
         adapter = null;
         rv = null;
