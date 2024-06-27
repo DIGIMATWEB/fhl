@@ -22,6 +22,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -351,20 +352,29 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     }
 
     private void setVehicleList(List<dataManifestV2> data) {
-        if(data!=null){
-            List<Integer> listV=new ArrayList<>();
-            listV.clear();
-            for(dataManifestV2 datos: data){
-                if(!listV.contains(datos.getVehiculoId())) {
+        if (data != null) {
+            List<Integer> listV = new ArrayList<>();
+            for (dataManifestV2 datos : data) {
+                if (!listV.contains(datos.getVehiculoId())) {
                     listV.add(datos.getVehiculoId());
                 }
             }
             Gson gson = new Gson();
             String json = gson.toJson(listV);
-            SharedPreferences preferencias = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = preferencias.edit();
-            editor.putString(GeneralConstants.LISTA_VEHICULOS_LOCATOR,json);
-            editor.commit();
+
+            FragmentActivity activity = getActivity();
+            if (activity != null) {
+                SharedPreferences preferencias = activity.getApplicationContext().getSharedPreferences(
+                        GeneralConstants.CREDENTIALS_PREFERENCES,
+                        Context.MODE_PRIVATE
+                );
+                SharedPreferences.Editor editor = preferencias.edit();
+                editor.putString(GeneralConstants.LISTA_VEHICULOS_LOCATOR, json);
+                editor.apply();
+            } else {
+                // Handle the null activity case here (e.g., log an error, throw an exception)
+                Log.e("setVehicleList", "Activity is null");
+            }
         }
     }
 
