@@ -12,8 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.escanearCodigosSalida;
+import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.adapterValidadorList;
 import com.fhl.sistemadedistribucionfh.R;
 
 public class escanearValidador extends DialogFragment implements View.OnClickListener {
@@ -22,6 +25,8 @@ public class escanearValidador extends DialogFragment implements View.OnClickLis
     private TextView titleheader;
     private ImageView imagebackground;
     private ConstraintLayout continuarbutton;
+    private RecyclerView rv;
+    private adapterValidadorList adapter;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,15 +40,24 @@ public class escanearValidador extends DialogFragment implements View.OnClickLis
         //getDialog().getWindow().setBackgroundDrawableResource(R.color.customTransparent);
         setCancelable(true);
         initDialog(view);
+        fillAdapter();
         //setFonts();
         return view;
     }
 
+
     private void initDialog(View view) {
         continuarbutton=view.findViewById(R.id.continuarbutton);
         continuarbutton.setOnClickListener(this);
+        rv=view.findViewById(R.id. rvInstructionsValidador);
     }
 
+    private void fillAdapter() {
+            adapter = new adapterValidadorList( getContext());
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                rv.setLayoutManager(linearLayoutManager);
+                rv.setAdapter(adapter);
+    }
     public void closeDialog() {
         this.dismiss();
 
