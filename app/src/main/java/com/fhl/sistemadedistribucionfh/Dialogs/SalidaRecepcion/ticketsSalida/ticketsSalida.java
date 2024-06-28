@@ -1,6 +1,7 @@
 package com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,12 +20,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.Adapter.adapterTicketsSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
+import com.fhl.sistemadedistribucionfh.evidenciasCarga.view.evidenciasCarga;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Paquete;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
+import com.google.gson.Gson;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +48,8 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
     private Integer countokEmpaques = 0;
     private String typeScanner, currentmanifest;
     private TextView recoleccion, textEmpaques;
+
+    private Boolean sendEvidence=false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,7 +71,12 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
             typeScanner = args.getString("typeScanner");
             currentmanifest = args.getString("currentmanifest");
             Log.e("typeScanner", "" + typeScanner);
+            Gson gson=new Gson();
+            String json = gson.toJson(codigoValidador);
+            Log.e("dataticketsSizeE",""+currentmanifest);
+            Log.e("dataticketsSizeE",json);
         }
+
         initDialog(view);
         if (codigoValidador != null) {
             model.clear();
@@ -135,44 +146,6 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
 
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.imageButton:
-                //closeDialog();
-                if (countok == model.size()) {//todo hasta igualar los empaques model.size()
-                    // Toast.makeText(getContext(), "ir a sellostodos fueron escaneados", Toast.LENGTH_SHORT).show();
-                    if (typeScanner != null) {
-                        if (typeScanner.equals("Recolectar")) {
-                            //Toast.makeText(getContext(), "sumarydetailtickets", Toast.LENGTH_SHORT).show();
-                            BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
-                            barcodeScannerActivity1.detalManifestTicketsSummary(currentmanifest, codigoValidador, sellos);
-                            closeDialog();
-                        } else if(typeScanner.equals("Lotes")){
-                            Toast.makeText(getContext(), "  closeDialog(); pendiente", Toast.LENGTH_SHORT).show();
-                        }else {//Salida
-                            BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
-                            barcodeScannerActivity1.goTicketsSummary();
-                            closeDialog();
-                        }
-
-                    } else {
-//                        if(typeScanner.equals("Lotes")){//todo esto esta ok
-//                            Toast.makeText(getContext(), "  closeDialog(); pendiente", Toast.LENGTH_SHORT).show();
-//                        }else {
-                            Log.e("dialogSalida", "ticketssalida null pending review recolection");
-                            BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
-                            barcodeScannerActivity1.goTicketsSummary();
-                       // }
-                    }
-
-                } else {
-                    Toast.makeText(getContext(), "Faltan empaques por escanear", Toast.LENGTH_SHORT).show();
-
-                }
-                break;
-        }
-    }
 
     public void sendToast(String code) {//para cada codigo recibido
         if (model != null) {   //si existe ingotmacions
@@ -269,5 +242,57 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
     public void updatescanedDataEmpaque(List<Paquete> paquetes) {
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.imageButton:
+                //closeDialog();
+                if (countok == model.size()) {//todo hasta igualar los empaques model.size()
+                    if(sendEvidence) {
+                        // Toast.makeText(getContext(), "ir a sellostodos fueron escaneados", Toast.LENGTH_SHORT).show();
+                        if (typeScanner != null) {
+                            if (typeScanner.equals("Recolectar")) {
+                                //Toast.makeText(getContext(), "sumarydetailtickets", Toast.LENGTH_SHORT).show();
+                                BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                                barcodeScannerActivity1.detalManifestTicketsSummary(currentmanifest, codigoValidador, sellos);
+                                closeDialog();
+                            } else if (typeScanner.equals("Lotes")) {
+                                Toast.makeText(getContext(), "  closeDialog(); pendiente", Toast.LENGTH_SHORT).show();
+                            } else {//Salida
+                                BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                                barcodeScannerActivity1.goTicketsSummary();
+                                closeDialog();
+                            }
 
+                        } else {
+//                        if(typeScanner.equals("Lotes")){//todo esto esta ok
+//                            Toast.makeText(getContext(), "  closeDialog(); pendiente", Toast.LENGTH_SHORT).show();
+//                        }else {
+                            Log.e("dialogSalida", "ticketssalida null pending review recolection");
+                            BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                            barcodeScannerActivity1.goTicketsSummary();
+                            // }
+                        }
+                    }else {
+                        Toast.makeText(getContext(), "Falta enviar las evidencias", Toast.LENGTH_SHORT).show();
+                        // getActivity().finish();
+                        Intent intent = new Intent(getActivity(), evidenciasCarga.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("flujoId", 1);
+                        bundle.putString("sentripPlusFlow", "Recoleccion");
+                        bundle.putString("currentManifest", currentmanifest);
+                        bundle.putString("folioTicket", null);
+                        bundle.putSerializable("dataTcikets", (Serializable) codigoValidador);
+                        intent.putExtras(bundle);
+                        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+
+                } else {
+                    Toast.makeText(getContext(), "Faltan empaques por escanear", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
+        }
+    }
 }

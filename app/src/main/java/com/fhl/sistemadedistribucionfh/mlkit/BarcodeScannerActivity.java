@@ -45,6 +45,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.validador.escanearValidador;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
+import com.google.gson.Gson;
 import com.google.mlkit.common.MlKitException;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.databinding.ActivityBarcodeScannerBinding;
@@ -519,6 +520,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 if (getSupportFragmentManager().findFragmentByTag("ticketsSalida") == null) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("tickets", (Serializable) dataTickets);
+                    bundle.putString("currentmanifest", currentmanifest);
                     botonsheettickets = new ticketsSalida();
                     botonsheettickets.setArguments(bundle);
                     botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");
@@ -701,8 +703,14 @@ public class BarcodeScannerActivity extends AppCompatActivity
         bottonSheetv.show(getSupportFragmentManager(), "Salida");
 
     }
+    public void setCurrentManifestSellos(String currentManifest){
+        this.currentmanifest=currentManifest;
+    }
     public void setTicketsArray(List<dataTicketsManifestV2> data) {
         this.dataTickets=data;
+        Gson gson =new Gson();
+        String json =gson.toJson(dataTickets);
+        Log.e("dataticketsSizeE","scanner tickets :"+json);
 
     }
     public void setSellosNull() {
@@ -819,6 +827,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     if (getSupportFragmentManager().findFragmentByTag("ticketsSalida") == null) {//si el estatus es tres se crea el bottomsheet siempre y cuando no exista
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("tickets", (Serializable) dataTickets);
+                        bundle.putString("currentmanifest", currentmanifest);
                         botonsheettickets = new ticketsSalida();
                         botonsheettickets.setArguments(bundle);
                         botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");//de existir el botomsheet

@@ -106,6 +106,12 @@
             android:screenOrientation="portrait" >
 
         </activity>
+        <activity android:name=".evidenciasCarga.view.evidenciasCarga"
+            android:exported="true"
+            android:screenOrientation="portrait" >
+
+        </activity>
+
         <activity android:name=".evidence.photos.carrusel"
             android:exported="true"
             android:screenOrientation="portrait" />

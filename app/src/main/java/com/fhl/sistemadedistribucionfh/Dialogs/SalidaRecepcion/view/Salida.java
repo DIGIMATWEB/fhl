@@ -56,6 +56,8 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
     private TextView numberManifestsalida,cedissalida,vehiculosalida,datesalida,placasalida,regresosalida;
     private Boolean isCanceled =true;
     private Boolean loadCortina=false;
+    private List<dataTicketsManifestV2> dataTickets;
+    private dataCortina dataC;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,6 +147,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                 cortina.setVisibility(View.VISIBLE);
                 textView23.setText("siguiente paso");
                 textView29.setText("escanea el codigo de los sellos");
+                presenter.getsellos(currentManifest);
                 break;
             case "4":
 
@@ -236,6 +239,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
     @Override
     public void setdataCortina(dataCortina data) {
        // Log.e("datadecortina",""+data.getFolioDespacho());
+        this.dataC=data;
         BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
         Log.e("salidaSentrip","destino cortina "+data.getDestino());
         Log.e("salidaSentrip",""+data.getAnden().getQrCodigo());
@@ -260,10 +264,11 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
 
     @Override
     public void setTickets(List<dataTicketsManifestV2> data) {
+        this.dataTickets=data;
         Log.e("ticketsArray","tickets: "+data.size()+" testfirst:" + data.get(0).getFolioTicket());
         BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
         barcodeScannerActivity1.setTicketsArray(data);
-        presenter.getsellos(currentManifest);
+
     }
 
     @Override
@@ -358,12 +363,23 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                     editor.putString(GeneralConstants.STATUS_SALIDA, "2");
                     editor.commit();
                     if(loadCortina){
+                        BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                        barcodeScannerActivity1.setCortina(dataC.getDestino(),
+                                dataC.getAnden().getQrCodigo(),
+                                dataC.getAnden().getCodigoAnden(),
+                                codigoValidador);
                         closeDialog();
                     }else {
                         Toast.makeText(getContext(), "Se estan cargando datos espera un momento", Toast.LENGTH_SHORT).show();
                     }
 
                 }else{
+                    if(dataTickets!=null){
+                        BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                        barcodeScannerActivity1.setTicketsArray(dataTickets);
+                        Log.e("dataticketsSizeE","manifiesto en sellos "+currentManifest);
+                        barcodeScannerActivity1.setCurrentManifestSellos(currentManifest);
+                    }
                     closeDialog();
                 }
 

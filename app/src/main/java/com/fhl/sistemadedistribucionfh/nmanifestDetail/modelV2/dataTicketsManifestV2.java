@@ -2,11 +2,13 @@
 package com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2;
 
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Estatus;
+import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaSalida;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.SendtripPlus;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class dataTicketsManifestV2 implements Serializable {
 
@@ -130,48 +132,9 @@ public class dataTicketsManifestV2 implements Serializable {
     @SerializedName("SendtripPlus")
     @Expose
     private SendtripPlus sendtripPlus;
+    @SerializedName("EvidenciaSalida")
 
-    /**
-     * 
-     * @param seguro
-     * @param fechaPromesaRetorno
-     * @param rutaId
-     * @param tipoFolio
-     * @param fechaVentanaFin
-     * @param custodiaArmada
-     * @param folioTicket
-     * @param origen
-     * @param estatusId
-     * @param tipoSolicitudId
-     * @param fechaRestriccionCirculacionInicio
-     * @param destinatariosClienteId
-     * @param tiempoCarga
-     * @param fechaRestriccionCirculacionFin
-     * @param fechaPromesaLlegadaOrigen
-     * @param maniobras
-     * @param fechaVentanaInicio
-     * @param comentarios
-     * @param destinatariosId
-     * @param solicitaServicio
-     * @param custodia
-     * @param fechaSolicitud
-     * @param secuencia
-     * @param fechaPromesaCarga
-     * @param tipoEntregaId
-     * @param folioTicketWMS
-     * @param sumaAsegurada
-     * @param tipoVehiculoId
-     * @param clienteId
-     * @param tiempoParadaDestino
-     * @param fechaPromesaEntrega
-     * @param despachoId
-     * @param cantidad
-     * @param tipoCustodiaId
-     * @param servicioCobro
-     * @param ticketId
-     * @param referencia
-     * @param requiereEvidenciaSeguroSocial
-     */
+    private List<EvidenciaSalida> evidenciaSalida;
     public dataTicketsManifestV2(Integer despachoId, Integer ticketId, String folioTicket, String folioTicketWMS,
                                  String tipoFolio, String origen, Integer clienteId, Integer destinatariosId, String referencia,
                                  String solicitaServicio, String fechaSolicitud, Integer tipoSolicitudId, Integer tipoEntregaId,
@@ -180,7 +143,7 @@ public class dataTicketsManifestV2 implements Serializable {
                                  String tiempoParadaDestino, String fechaVentanaInicio, String fechaVentanaFin, String fechaRestriccionCirculacionInicio,
                                  String fechaRestriccionCirculacionFin, Integer cantidad, Integer sumaAsegurada, Integer rutaId, Integer tipoVehiculoId,
                                  Integer maniobras, String custodia, String custodiaArmada, Integer tipoCustodiaId, String requiereEvidenciaSeguroSocial,
-                                 Boolean seguro, Boolean servicioCobro, Integer destinatariosClienteId,Estatus estatus,SendtripPlus sendtripPlus) {
+                                 Boolean seguro, Boolean servicioCobro, Integer destinatariosClienteId,Estatus estatus,SendtripPlus sendtripPlus,List<EvidenciaSalida> evidenciaSalida) {
         super();
         this.despachoId = despachoId;
         this.ticketId = ticketId;
@@ -222,6 +185,7 @@ public class dataTicketsManifestV2 implements Serializable {
         this.destinatariosClienteId = destinatariosClienteId;
         this.estatus=estatus;
         this.sendtripPlus=sendtripPlus;
+        this.evidenciaSalida=evidenciaSalida;
     }
 
     public Integer getDespachoId() {
@@ -542,5 +506,13 @@ public class dataTicketsManifestV2 implements Serializable {
 
     public void setSendtripPlus(SendtripPlus sendtripPlus) {
         this.sendtripPlus = sendtripPlus;
+    }
+
+    public List<EvidenciaSalida> getEvidenciaSalida() {
+        return evidenciaSalida;
+    }
+
+    public void setEvidenciaSalida(List<EvidenciaSalida> evidenciaSalida) {
+        this.evidenciaSalida = evidenciaSalida;
     }
 }
