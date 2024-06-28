@@ -95,22 +95,25 @@ public class menuV2 extends Fragment {
         }).start();
     }
     private void checkAndSetMenu() {
-        SharedPreferences preferences = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
-        String role = preferences.getString(GeneralConstants.MENU_USER_SET, null);
-        if (role != null) {
-            threadRunning = 1;
-
-            Gson gson = new Gson();
-            Type type = new TypeToken<ArrayList<dataMenuItemsV2>>() {
-            }.getType();
-            List<dataMenuItemsV2> menuList = gson.fromJson(role, type);
-            for(int i=0;i<menuList.size();i++){
-                if(i<4) {
-                    menuListBottom.add(menuList.get(i));
+        if (getContext() != null) {
+            SharedPreferences preferences = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+            String role = preferences.getString(GeneralConstants.MENU_USER_SET, null);
+            if (role != null) {
+                threadRunning = 1;
+                Gson gson = new Gson();
+                Type type = new TypeToken<ArrayList<dataMenuItemsV2>>() {
+                }.getType();
+                List<dataMenuItemsV2> menuList = gson.fromJson(role, type);
+                for(int i=0;i<menuList.size();i++){
+                    if(i<4) {
+                        menuListBottom.add(menuList.get(i));
+                    }
                 }
+                setMenu(menuListBottom);
             }
-
-            setMenu(menuListBottom);
+        } else {
+            // Handle the case where context is null
+            Log.e("Fragment", "Context is null");
         }
     }
     private void setMenu(List<dataMenuItemsV2> dataV2) {

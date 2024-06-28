@@ -739,40 +739,13 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
             } else {
                 if (data != null) {
                     presenter.sendRate(rating, data.get(iterateidTickets).getFolioTicket());
-                    changeStatusTicket = data.get(iterateidTickets).getFolioTicket();
+                   // changeStatusTicket = data.get(iterateidTickets).getFolioTicket();//todo en evidencia a la carga no se envia evidencia
                 } else {
-                    Toast.makeText(this, "No hay tickets al cual mandar evidencia", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(this, "No hay tickets al cual mandar evidencia", Toast.LENGTH_SHORT).show();
                 }
             }
             //Toast.makeText(this, "mandar estrellas", Toast.LENGTH_SHORT).show();
-        } else if (secuenceRequest == 6) {
-            secuenceRequest = secuenceRequest + 1;
-            if (folioTicket != null) {//todo esto se agrega en caso de que no traiga evidencias inicia desde aqui
-                changeStatusTicket = folioTicket;
-            } else {
-                if (data != null) {
-                    changeStatusTicket = data.get(iterateidTickets).getFolioTicket();
-                } else {
-                    Toast.makeText(this, "No hay tickets al cual mandar evidencia", Toast.LENGTH_SHORT).show();
-                }
-            }
-            Log.e("sendEvidence", "Se envia a sendtripplus");
-            if (sentripPlusFlow.equals("Recoleccion")) {
-                presenter.sendSentriplus(currentManifest, dataTicketSendtrip, sentripPlusFlow);
-            } else if (sentripPlusFlow.equals("Entrega")) {//TODO si es entrega pasa a 8
-                //presenter.sendSentriplus(currentManifest,dataTicketSendtrip,sentripPlusFlow);
-                secuenceRequest = secuenceRequest + 1;
-                presenter.changeStatusManifestTicket(currentManifest, changeStatusTicket, sentripPlusFlow,fullLotes);
-
-            }
-
-            /// presenterchange statusmanifest ESTO YA LO HACEE JOSE
-
-        } else if (secuenceRequest == 7) {
-            secuenceRequest = secuenceRequest + 1;
-            presenter.changeStatusManifestTicket(currentManifest, changeStatusTicket, sentripPlusFlow, fullLotes);
-
-        } else if (secuenceRequest == 8) {//borra  lo relacionano y regresa
+        } else if (secuenceRequest == 6) {//borra  lo relacionano y regresa
             // Toast.makeText(this, "usar sendtrip plus Cambiar estatus y regresar a manifiestos", Toast.LENGTH_SHORT).show();
 
             if (!isArrayofTickets) {// si es solo uno manda el manifiesto
@@ -805,8 +778,36 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
                     presenter.requestDetailTicketsSendtriplus(true, iterateidTickets, currentManifest, data.get(iterateidTickets).getFolioTicket(), null);// revisar si esto se ejecuta correctamente ya que pide el detalle del ticket siguiente para el sendtriplus
                 }
             }
+        }
+//        }else if (secuenceRequest == 7) {
+//            secuenceRequest = secuenceRequest + 1;
+//            if (folioTicket != null) {//todo esto se agrega en caso de que no traiga evidencias inicia desde aqui
+//                changeStatusTicket = folioTicket;
+//            } else {
+//                if (data != null) {
+//                    changeStatusTicket = data.get(iterateidTickets).getFolioTicket();
+//                } else {
+//                    Toast.makeText(this, "No hay tickets al cual mandar evidencia", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//            Log.e("sendEvidence", "Se envia a sendtripplus");
+//            if (sentripPlusFlow.equals("Recoleccion")) {
+//                presenter.sendSentriplus(currentManifest, dataTicketSendtrip, sentripPlusFlow);
+//            } else if (sentripPlusFlow.equals("Entrega")) {//TODO si es entrega pasa a 8
+//                //presenter.sendSentriplus(currentManifest,dataTicketSendtrip,sentripPlusFlow);
+//                secuenceRequest = secuenceRequest + 1;
+//                presenter.changeStatusManifestTicket(currentManifest, changeStatusTicket, sentripPlusFlow,fullLotes);
+//
+//            }
+//
+//            /// presenterchange statusmanifest ESTO YA LO HACEE JOSE
+//
+//        } else if (secuenceRequest == 8) {
+//            secuenceRequest = secuenceRequest + 1;
+//            presenter.changeStatusManifestTicket(currentManifest, changeStatusTicket, sentripPlusFlow, fullLotes);
 
-        } else {
+//        }
+        else {
             Toast.makeText(this, "Todos los archivos se han enviado correctamente", Toast.LENGTH_SHORT).show();
             // regresar a manifiestos y limpiar toda la carpeta de archivos
             presenter.hideDialog();

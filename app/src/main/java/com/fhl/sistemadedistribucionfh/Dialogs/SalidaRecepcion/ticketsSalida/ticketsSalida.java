@@ -86,8 +86,15 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                 Log.e("ticketsArray2", "model size: " + model.get(i).getFolio() + "  " + model.get(i).getFlag());
 
             }
+            Gson gson=new Gson();
+            String json=gson.toJson(model);
+            Log.e("ticketsArray2", "model: " + json);
             textChekcs.setText("0/" + model.size());
-            fillAdapter(model, getContext());
+            if(model.size()>1) {//si el numero de tickets es mayor a uno
+                fillAdapter(model, getContext(),true);// necesitan agruparse los tickets por cliente destino
+            }else{
+                fillAdapter(model, getContext(),false);//si no no se necesitan agrupar
+            }
         }
         //setFonts();
         return view;
@@ -114,8 +121,8 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         //presenter.requestMReasons();
     }
 
-    private void fillAdapter(List<ticketsScanned> data, Context context) {
-        adapter = new adapterTicketsSalida(this, data, context);
+    private void fillAdapter(List<ticketsScanned> data, Context context, Boolean needGroupThem) {
+        adapter = new adapterTicketsSalida(this, data, context,needGroupThem);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvReasons.setLayoutManager(linearLayoutManager);
         rvReasons.setAdapter(adapter);
@@ -241,7 +248,25 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
 
     public void updatescanedDataEmpaque(List<Paquete> paquetes) {
     }
-
+    public void goEvidenceOneItem(ticketsScanned ticketsScanned) {//esto es solo cuando hay un ticket
+        List<dataTicketsManifestV2> codigoValidadorV2 =new ArrayList<>();
+        codigoValidadorV2.clear();
+        for (dataTicketsManifestV2 tickets: codigoValidador){
+            if(ticketsScanned.getFolio()==tickets.getFolioTicket()){
+                codigoValidadorV2.add(tickets);
+            }
+        }
+        Intent intent = new Intent(getActivity(), evidenciasCarga.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("flujoId", 1);
+        bundle.putString("sentripPlusFlow", "Recoleccion");
+        bundle.putString("currentManifest", currentmanifest);
+        bundle.putString("folioTicket", null);
+        bundle.putSerializable("dataTcikets", (Serializable) codigoValidadorV2);
+        intent.putExtras(bundle);
+        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -276,16 +301,16 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                     }else {
                         Toast.makeText(getContext(), "Falta enviar las evidencias", Toast.LENGTH_SHORT).show();
                         // getActivity().finish();
-                        Intent intent = new Intent(getActivity(), evidenciasCarga.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("flujoId", 1);
-                        bundle.putString("sentripPlusFlow", "Recoleccion");
-                        bundle.putString("currentManifest", currentmanifest);
-                        bundle.putString("folioTicket", null);
-                        bundle.putSerializable("dataTcikets", (Serializable) codigoValidador);
-                        intent.putExtras(bundle);
-                        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
+//                        Intent intent = new Intent(getActivity(), evidenciasCarga.class);//todo revisar ya que esto es por todos
+//                        Bundle bundle = new Bundle();
+//                        bundle.putInt("flujoId", 1);
+//                        bundle.putString("sentripPlusFlow", "Recoleccion");
+//                        bundle.putString("currentManifest", currentmanifest);
+//                        bundle.putString("folioTicket", null);
+//                        bundle.putSerializable("dataTcikets", (Serializable) codigoValidador);
+//                        intent.putExtras(bundle);
+//                        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        startActivity(intent);
                     }
 
                 } else {
@@ -295,4 +320,6 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                 break;
         }
     }
+
+
 }

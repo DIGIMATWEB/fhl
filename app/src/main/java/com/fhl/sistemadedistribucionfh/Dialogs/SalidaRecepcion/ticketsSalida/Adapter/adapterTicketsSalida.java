@@ -28,12 +28,14 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
     private Context context;
     private List<ticketsScanned> data;
     private ticketsSalida mview;
+    private Boolean needGroupThem;
 
 
-    public adapterTicketsSalida(ticketsSalida mview, List<ticketsScanned> data, Context context) {
+    public adapterTicketsSalida(ticketsSalida mview, List<ticketsScanned> data, Context context, Boolean needGroupThem) {
         this.context = context;
         this.data=data;
         this.mview=mview;
+        this.needGroupThem=needGroupThem;
     }
 
     @NonNull
@@ -46,7 +48,16 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
     @Override
     public void onBindViewHolder(@NonNull adapterTicketsSalida.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.razonDesc.setText(data.get(position).getFolio());
-
+        if(!needGroupThem){//esto es por que solo h ay un ticket
+            holder.evidence.setVisibility(View.VISIBLE);
+            holder.siguiente.setVisibility(View.VISIBLE);
+            holder.evidence.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mview.goEvidenceOneItem(data.get(position));
+                }
+            });
+        }
         if( data.get(position).getSendtripPlus().getPaquetes()!=null) {
             holder.setupRecyclerViewPaquetes(mview, data.get(position).getSendtripPlus().getPaquetes(), data.get(position).getFolio());
         }else{
@@ -75,9 +86,9 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView razonDesc;
+        private TextView razonDesc,evidence;
         private CheckBox check;
-        private ImageView icticket;
+        private ImageView icticket,siguiente;
         private RecyclerView recyclerViewPaquetes;
         private adapterEmpaque empaqueAdapter;
         public ViewHolder(@NonNull View itemView) {
@@ -86,8 +97,8 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
             check=itemView.findViewById(R.id.checkSalida );
             icticket=itemView.findViewById(R.id.icticket);
             recyclerViewPaquetes = itemView.findViewById(R.id.recyclerViewPaquetes);
-
-
+            evidence=itemView.findViewById(R.id.evidence);
+            siguiente =itemView.findViewById(R.id.siguiente);
         }
 
         private void fillEmpaqueAdapter(ticketsSalida mview, List<Paquete> paquetes, String folio) {
