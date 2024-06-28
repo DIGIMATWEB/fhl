@@ -185,6 +185,7 @@ public void closeDialog() {
                                         bottomStatusManifestHabilidadesVehiculo.setVisibility(View.VISIBLE);
                                 }else {
                                         bottomStatusManifestHabilidadesVehiculo.setVisibility(View.GONE);
+                                        allmVehicles=true;
                                 }
                         }
                         if(validacionApp.getHabilidadesOperadores()!=null){
@@ -198,6 +199,7 @@ public void closeDialog() {
                                         bottomStatusManifestHabilidades.setVisibility(View.VISIBLE);
                                 }else {
                                         bottomStatusManifestHabilidades.setVisibility(View.GONE);
+                                        allmDrivers=true;
                                 }
                         }
                 }
@@ -384,49 +386,55 @@ public void closeDialog() {
         private void checkStatus(){
                 if (mhabiltiesVehicle != null)
                 {
-                        boolean allVehicleSelected = true;
-                        for (habiltiesVehicle vehicle : mhabiltiesVehicle) {
-                                if (!vehicle.getSelected()) {
-                                        allVehicleSelected = false;
-                                        break;
-                                }
-                        }
-                        // Use allVehicleSelected and allDriverSelected as needed
-                        if (allVehicleSelected) {
-                                Log.e("habilidades", " todas las habilidades en vehiculos estan seleccionadas");
+                        if(mhabiltiesVehicle.isEmpty()){
                                 allmVehicles=true;
-                                imageHV.setBackgroundResource(R.drawable.ic_inventary_icon);
-                                imageokHV.setBackgroundResource(R.drawable.ic_checkokqr);
-                        } else {
-                                Log.e("habilidades", " NO todas las habilidades en vehiculos estan seleccionadas");
-                                allmVehicles=false;
-                                imageHV.setBackgroundResource(R.drawable.ic_inventary_icongrey);
-                                imageokHV.setBackgroundResource(R.drawable.ic_checkokqrgrey);
+                        }else {
+                                boolean allVehicleSelected = true;
+                                for (habiltiesVehicle vehicle : mhabiltiesVehicle) {
+                                        if (!vehicle.getSelected()) {
+                                                allVehicleSelected = false;
+                                                break;
+                                        }
+                                }
+                                // Use allVehicleSelected and allDriverSelected as needed
+                                if (allVehicleSelected) {
+                                        Log.e("habilidades", " todas las habilidades en vehiculos estan seleccionadas");
+                                        allmVehicles = true;
+                                        imageHV.setBackgroundResource(R.drawable.ic_inventary_icon);
+                                        imageokHV.setBackgroundResource(R.drawable.ic_checkokqr);
+                                } else {
+                                        Log.e("habilidades", " NO todas las habilidades en vehiculos estan seleccionadas");
+                                        allmVehicles = false;
+                                        imageHV.setBackgroundResource(R.drawable.ic_inventary_icongrey);
+                                        imageokHV.setBackgroundResource(R.drawable.ic_checkokqrgrey);
+                                }
                         }
                 }
                 if(mhabiltiesDriver!=null) {
-                        boolean allDriverSelected = true;
-                        for (habiltiesDriver driver : mhabiltiesDriver) {
-                                if (!driver.getSelected()) {
-                                        allDriverSelected = false;
-                                        break;
+                        if(mhabiltiesDriver.isEmpty()) {
+                                allmVehicles=true;
+                        }else{
+                                boolean allDriverSelected = true;
+                                for (habiltiesDriver driver : mhabiltiesDriver) {
+                                        if (!driver.getSelected()) {
+                                                allDriverSelected = false;
+                                                break;
+                                        }
                                 }
-                        }
-                        if (allDriverSelected) {
-                                Log.e("habilidades", " todas las habilidades en operadores estan seleccionadas");
-                                allmDrivers=true;
-                                imageViewHC.setBackgroundResource(R.drawable.ic_inventary_icon);
-                                imageokHC.setBackgroundResource(R.drawable.ic_checkokqr);
-                        } else {
-                                Log.e("habilidades", " NO todas las habilidades en operadores estan seleccionadas");
-                                allmDrivers=false;
-                                imageViewHC.setBackgroundResource(R.drawable.ic_inventary_icongrey);
-                                imageokHC.setBackgroundResource(R.drawable.ic_checkokqrgrey);
+                                if (allDriverSelected) {
+                                        Log.e("habilidades", " todas las habilidades en operadores estan seleccionadas");
+                                        allmDrivers = true;
+                                        imageViewHC.setBackgroundResource(R.drawable.ic_inventary_icon);
+                                        imageokHC.setBackgroundResource(R.drawable.ic_checkokqr);
+                                } else {
+                                        Log.e("habilidades", " NO todas las habilidades en operadores estan seleccionadas");
+                                        allmDrivers = false;
+                                        imageViewHC.setBackgroundResource(R.drawable.ic_inventary_icongrey);
+                                        imageokHC.setBackgroundResource(R.drawable.ic_checkokqrgrey);
+                                }
                         }
                 }
         }
-
-
 
         @Override
         public void onClick(View view) {
