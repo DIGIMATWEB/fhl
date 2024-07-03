@@ -110,7 +110,9 @@ public class dialogCompletedSalida extends DialogFragment implements View.OnClic
             @Override
             public void run() {
                 if (progress != null && this != null)
-                    progress.dismiss();
+                    if(progress.isAdded()) {
+                        progress.dismiss();
+                    }
             }
         }, 300);
     }

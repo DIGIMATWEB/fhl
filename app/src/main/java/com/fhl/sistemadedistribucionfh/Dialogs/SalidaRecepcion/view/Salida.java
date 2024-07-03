@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
 import com.bumptech.glide.Glide;
+import com.fhl.sistemadedistribucionfh.Dialogs.Loader.view.loaderFH;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.cortina.dataCortina;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2data;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter.salidaViewPresenter;
@@ -56,6 +58,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
     private TextView numberManifestsalida,cedissalida,vehiculosalida,datesalida,placasalida,regresosalida;
     private Boolean isCanceled =true;
     private Boolean loadCortina=false;
+    private loaderFH progress;
     private List<dataTicketsManifestV2> dataTickets;
     private dataCortina dataC;
     @Override
@@ -86,6 +89,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
     }
     private void initDialog(View view) {
         // presenter= new dialogReasonsPresenterImpl(this,getContext());
+        progress = new loaderFH();
         constrainCard =view.findViewById(R.id.constrainCard);
         cortina=view.findViewById(R.id. cortina);
         imageButton=view.findViewById(R.id.imageButton);
@@ -219,12 +223,26 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
 
     @Override
     public void hideProgress() {
-
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (progress != null && this != null)
+                    if(progress.isAdded()) {
+                        progress.dismiss();
+                    }
+            }
+        }, 300);
     }
 
     @Override
     public void showProgress() {
-
+        if (progress != null && !progress.isVisible()) {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("HAS_TITLE", false);
+            bundle.putString("title","Cargando detalles");
+            progress.setArguments(bundle);
+            progress.show(getParentFragmentManager(), loaderFH.TAG);
+        }
     }
 
     @Override
@@ -233,6 +251,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
         Log.e("datademanifiesto",""+data);
         fillmanifest(data);
         presenter.requestCortinas(codigoValidador);
+        presenter.showProgress();
         Log.e("motorola","cortinasM:  "+codigoValidador);
     }
 
@@ -251,6 +270,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                 codigoValidador);
         if(data!=null){
             loadCortina=true;
+            presenter.hideProgress();
         }
     }
 
@@ -370,7 +390,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                                 codigoValidador);
                         closeDialog();
                     }else {
-                        Toast.makeText(getContext(), "Se estan cargando datos espera un momento", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(getContext(), "Se estan cargando datos espera un momento", Toast.LENGTH_SHORT).show();
                     }
 
                 }else{

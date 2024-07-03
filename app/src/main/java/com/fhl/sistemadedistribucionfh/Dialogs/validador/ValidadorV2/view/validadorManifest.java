@@ -24,6 +24,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
 import com.bumptech.glide.Glide;
+import com.fhl.sistemadedistribucionfh.Dialogs.Loader.view.loaderFH;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2data;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.model.dataValidadorV2;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.presenter.presenterValidadorDetail;
@@ -66,6 +67,7 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
     private List<dataTicketsManifestV2> tdata;
     private Boolean ticketsEntregaExist=false;
     private Boolean loadVin=false;
+    private loaderFH progress;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +96,7 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
         return view;
     }
     private void initDialog(View view) {
+        progress = new loaderFH();
         presenter= new presenterValidadorImplements(this,getContext());
         constrainCard =view.findViewById(R.id.constrainCard);
         cortina=view.findViewById(R.id. cortina);
@@ -137,6 +140,7 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
                 Log.e("validador","validator: "+idEmpleado+" manifest: "+currentManifest);
                 presenter.requestManifestDetail( idEmpleado,currentManifest);
                 presenter.getTicketByManifest(currentManifest);
+                presenter.showProgress();
                 break;
             case "2":/** aqui pedimos los manifiestos y las cortinas*/
                 //aqui visible el vehiculo
@@ -242,7 +246,29 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
 
 
     }
+    @Override
+    public void hideProgress() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (progress != null && this != null)
+                    if(progress.isAdded()) {
+                        progress.dismiss();
+                    }
+            }
+        }, 300);
+    }
 
+    @Override
+    public void showProgress() {
+        if (progress != null && !progress.isVisible()) {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("HAS_TITLE", false);
+            bundle.putString("title","Cargando detalles");
+            progress.setArguments(bundle);
+            progress.show(getParentFragmentManager(), loaderFH.TAG);
+        }
+    }
     @Override
     public void setDetailTickets(List<dataTicketsManifestV2> data) {//solicita todos los tickets del manifiesto
         this.tdata=data;
@@ -353,6 +379,7 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
                 }
                 if(mdata!=null){
                     loadVin=true;
+                    presenter.hideProgress();
                 }
             }
         }, 500); // 2000 milliseconds = 2 seconds
@@ -407,7 +434,7 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
                         barcodeScannerActivity.goVehicle();
                         dismiss();
                     }else {
-                        Toast.makeText(getContext(), "Se estan cargando datos espera un momento", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), "Se estan cargando datos espera un momento", Toast.LENGTH_SHORT).show();
                     }
                 }else if(codigoValidador1.equals(2)){
                     barcodeScannerActivity.goResumenValidador();

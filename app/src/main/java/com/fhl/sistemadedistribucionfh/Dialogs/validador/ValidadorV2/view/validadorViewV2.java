@@ -11,4 +11,7 @@ public interface validadorViewV2 {
     void errorCode();
 
     void setDetailTickets(List<dataTicketsManifestV2> data);
+    void hideProgress();
+
+    void showProgress();
 }

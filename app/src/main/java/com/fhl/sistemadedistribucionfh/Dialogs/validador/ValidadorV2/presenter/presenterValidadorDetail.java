@@ -15,4 +15,7 @@ public interface presenterValidadorDetail {
     void getTicketByManifest(String currentManifest);
 
     void setDetailTickets(List<dataTicketsManifestV2> data);
+    void hideProgress();
+
+    void showProgress();
 }
