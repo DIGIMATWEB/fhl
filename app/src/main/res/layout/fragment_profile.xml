@@ -23,7 +23,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/defaultphoto">
+        app:srcCompat="@drawable/profilepic">
 
     </ImageView>
 
@@ -34,6 +34,7 @@
         android:background="@drawable/ic_menu_camera"
         android:backgroundTint="@color/fewwhite"
         android:layout_marginStart="85dp"
+        android:visibility="gone"
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/menuButon"
         app:layout_constraintStart_toStartOf="@+id/menuButon" />
@@ -101,8 +102,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:text="Estatus"
             android:textSize="@dimen/h5"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView36"
             app:textAllCaps="false" />
@@ -114,7 +117,8 @@
             android:layout_marginEnd="5dp"
             android:gravity="center"
             android:text="jhonathan@gpsphoenix.com"
-            android:textSize="@dimen/h5"
+            android:textSize="@dimen/h6"
+            app:layout_constraintBottom_toBottomOf="@+id/textView35"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView35"
             app:textAllCaps="false" />
@@ -136,9 +140,10 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="15dp"
             android:text="Activo"
-            android:textSize="@dimen/h4"
-
             android:textColor="@color/green"
+
+            android:textSize="@dimen/h6"
+            app:layout_constraintBottom_toBottomOf="@+id/textView37"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView36"
             app:textAllCaps="false" />
