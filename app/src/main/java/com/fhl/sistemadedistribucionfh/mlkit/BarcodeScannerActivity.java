@@ -804,7 +804,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     stopCameraProcess();
                 }else if(status.equals("2")){//esto muestra el sumary de cortinas
                     if(mcodigoAnden!=null) {
-                        if (mcodigoAnden.equals(code)) {
+                //        if (mcodigoAnden.equals(code)) {//todo guardar el dato antes
                             Log.e("typeScanner", "1 status: " + status);
                             Bundle bundle = new Bundle();
                             bundle.putString("qrCode", code);
@@ -816,11 +816,26 @@ public class BarcodeScannerActivity extends AppCompatActivity
                             bottonSheetv.setArguments(bundle);
                             bottonSheetv.show(getSupportFragmentManager(), "Salida");
                             stopCameraProcess();
-                        } else {
-                            errorDialog errorD = new errorDialog();
-                        }
+//                        } else {
+//                            errorCarga errorD = (errorCarga) getSupportFragmentManager().findFragmentByTag("errorDialog");
+//                            if (errorD == null) {
+//                                errorD = new errorCarga();
+//                                Bundle args = new Bundle();
+//                                args.putString("error_value", "La cortina no corresponde con el codigo");
+//                                errorD.setArguments(args);
+//                                Log.e("typeScanner", "errorDialog: 1");
+//                                errorD.show(getSupportFragmentManager(), "errorDialog");
+//                            } else if (!errorD.isAdded()) {
+//                                Log.e("typeScanner", "errorDialog: 1");
+//                                errorD.show(getSupportFragmentManager(), "errorDialog");
+//                            }
+//                        }
                     }else{
-                        errorDialog errorD = new errorDialog();
+                        errorCarga errorD = new errorCarga();
+                        Bundle args = new Bundle();
+                        args.putString("error_value", "Cortina nula");
+                        errorD.setArguments(args);
+                        errorD.show(getSupportFragmentManager(), "errorCarga");
                     }
                 }else if(status.equals("3")){//esto muestra el bottomsheet de tickets
 
