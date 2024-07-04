@@ -13,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -57,6 +60,19 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
                     mview.goEvidenceOneItem(data.get(position));
                 }
             });
+        }else{
+            ConstraintLayout constraintLayout = (ConstraintLayout) holder.itemView;
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(constraintLayout);
+
+            // Adjust the left and right constraints of holder.cardview
+
+            constraintSet.connect(holder.cardView.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 2); // 16dp margin
+            constraintSet.connect(holder.cardView.getId(), ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 2); // 16dp margin
+            int topMargin = (position == 0) ? 50 : 0; // 32dp for the first item, 0dp otherwise
+            constraintSet.connect(holder.cardView.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, topMargin);
+
+            constraintSet.applyTo(constraintLayout);
         }
         if( data.get(position).getSendtripPlus().getPaquetes()!=null) {
             holder.setupRecyclerViewPaquetes(mview, data.get(position).getSendtripPlus().getPaquetes(), data.get(position).getFolio());
@@ -91,6 +107,7 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
         private ImageView icticket,siguiente;
         private RecyclerView recyclerViewPaquetes;
         private adapterEmpaque empaqueAdapter;
+        private CardView cardView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             razonDesc=itemView.findViewById(R.id.razonDescSalida);
@@ -99,6 +116,7 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
             recyclerViewPaquetes = itemView.findViewById(R.id.recyclerViewPaquetes);
             evidence=itemView.findViewById(R.id.evidence);
             siguiente =itemView.findViewById(R.id.siguiente);
+            cardView=itemView.findViewById(R.id.cardView);
         }
 
         private void fillEmpaqueAdapter(ticketsSalida mview, List<Paquete> paquetes, String folio) {

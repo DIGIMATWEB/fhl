@@ -63,19 +63,20 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvTicketsEmpaques"
+        android:id="@+id/rvTicketsGroups"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
         android:visibility="gone"
-        android:layout_marginStart="200dp"
-        android:layout_marginBottom="80dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/imageButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view2" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvTicketsSalidaL"
+        android:id="@+id/rvTicketsSalidaC"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="80dp"

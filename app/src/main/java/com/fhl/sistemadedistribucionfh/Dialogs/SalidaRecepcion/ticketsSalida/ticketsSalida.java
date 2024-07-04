@@ -18,6 +18,8 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.gruposTickets;
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.Adapter.adapterGroups;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.Adapter.adapterTicketsSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
 import com.fhl.sistemadedistribucionfh.evidenciasCarga.view.evidenciasCarga;
@@ -30,12 +32,15 @@ import com.google.gson.Gson;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ticketsSalida extends DialogFragment implements View.OnClickListener {
     public static final String TAG = ticketsSalida.class.getSimpleName();
-    private RecyclerView rvReasons, rv;
+    private RecyclerView rvTickets, rvTicketsG;
     private adapterTicketsSalida adapter;
+    private adapterGroups adapterG;
     //   private adapterTicketsSalidaEmpaques adapter2;
 //    private dialogReasonsPresenter presenter;
     private ImageView closeReasons;
@@ -50,6 +55,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
     private TextView recoleccion, textEmpaques;
 
     private Boolean sendEvidence=false;
+    private List<gruposTickets> groupsTickets;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,19 +87,62 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         if (codigoValidador != null) {
             model.clear();
             Log.e("ticketsArray2", "adapter size" + codigoValidador.size());
+            Map<String, List<ticketsScanned>> ticketGroups = new HashMap<>();
             for (int i = 0; i < codigoValidador.size(); i++) {
-                model.add(new ticketsScanned(codigoValidador.get(i).getFolioTicket(), false, codigoValidador.get(i).getSendtripPlus()));
-                Log.e("ticketsArray2", "model size: " + model.get(i).getFolio() + "  " + model.get(i).getFlag());
+                ticketsScanned ticket = new ticketsScanned(
+                        codigoValidador.get(i).getFolioTicket(),
+                        false,
+                        codigoValidador.get(i).getSendtripPlus()
+                );
+                model.add(ticket);
+
+
+                String remitente = codigoValidador.get(i).getSendtripPlus() != null &&
+                        codigoValidador.get(i).getSendtripPlus().getRemitente() != null &&
+                        codigoValidador.get(i).getSendtripPlus().getRemitente().getNombre() != null ?
+                        codigoValidador.get(i).getSendtripPlus().getRemitente().getNombre() : "Unknown";
+
+                String destinatario = codigoValidador.get(i).getSendtripPlus() != null &&
+                        codigoValidador.get(i).getSendtripPlus().getDestinatario() != null &&
+                        codigoValidador.get(i).getSendtripPlus().getDestinatario().getNombre() != null ?
+                        codigoValidador.get(i).getSendtripPlus().getDestinatario().getNombre() : "Unknown";
+
+                String groupKey = remitente.equals(destinatario) ? remitente : remitente + "-" + destinatario;
+
+                if (!ticketGroups.containsKey(groupKey)) {
+                    ticketGroups.put(groupKey, new ArrayList<>());
+                }
+                ticketGroups.get(groupKey).add(ticket);
+
+                Log.e("dataticketsSizeE", "model size: " + model.get(i).getFolio() + "  " + model.get(i).getFlag());
 
             }
             Gson gson=new Gson();
             String json=gson.toJson(model);
-            Log.e("ticketsArray2", "model: " + json);
+            Log.e("dataticketsSizeE", "model: " + json);
             textChekcs.setText("0/" + model.size());
+
+            groupsTickets = new ArrayList<>();
+            for (Map.Entry<String, List<ticketsScanned>> entry : ticketGroups.entrySet()) {
+                groupsTickets.add(new gruposTickets(entry.getValue()));
+            }
+
             if(model.size()>1) {//si el numero de tickets es mayor a uno
-                fillAdapter(model, getContext(),true);// necesitan agruparse los tickets por cliente destino
-            }else{
-                fillAdapter(model, getContext(),false);//si no no se necesitan agrupar
+                //si hay mas de un grupo si no mostrar curso normal
+                //si hay mas de un grupo
+                fillAdapter(model, getContext(),true);
+                Gson gsonG=new Gson();
+                String jsonG=gsonG.toJson(groupsTickets);
+                Log.e("dataticketsSizeE", "grupos: " + groupsTickets.size());
+                Log.e("dataticketsSizeE", "grupos: " + jsonG);
+                //fillAdapter(model, getContext(),true);// necesitan agruparse los tickets por cliente destino
+                rvTickets.setVisibility(View.GONE);
+                rvTicketsG.setVisibility(View.VISIBLE);
+                fillAdapterG(groupsTickets);
+                Toast.makeText(getContext(), "mostrar grupos por cliente", Toast.LENGTH_SHORT).show();
+            }else{/**si solo es un ticket llenar el adaptador normal*/
+               fillAdapter(model, getContext(),false);//si no no se necesitan agrupar
+
             }
         }
         //setFonts();
@@ -109,8 +158,8 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
     private void initDialog(View view) {
         recoleccion = view.findViewById(R.id.textView66);
         textEmpaques = view.findViewById(R.id.textEmpaques);
-        rvReasons = view.findViewById(R.id.rvTicketsSalidaL);
-        rv = view.findViewById(R.id.rvTicketsEmpaques);
+        rvTickets = view.findViewById(R.id.rvTicketsSalidaC);
+        rvTicketsG = view.findViewById(R.id.rvTicketsGroups);
         imageButton = view.findViewById(R.id.imageButton);
         imageButton.setOnClickListener(this);
         textChekcs = view.findViewById(R.id.textChekcs);
@@ -124,9 +173,16 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
     private void fillAdapter(List<ticketsScanned> data, Context context, Boolean needGroupThem) {
         adapter = new adapterTicketsSalida(this, data, context,needGroupThem);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        rvReasons.setLayoutManager(linearLayoutManager);
-        rvReasons.setAdapter(adapter);
+        rvTickets.setLayoutManager(linearLayoutManager);
+        rvTickets.setAdapter(adapter);
         //fillAdapter2(data,context);
+    }
+    private void fillAdapterG(List<gruposTickets> groupsTickets){
+        adapterG= new adapterGroups(this,groupsTickets,getContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        rvTicketsG.setLayoutManager(linearLayoutManager);
+        rvTicketsG.setAdapter(adapterG);
+
     }
 
     public void nullempaquesCheckticket(String folioTicket) {
@@ -136,17 +192,8 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                 break;
             }
         }
-      //  adapter.updateData(model);
-        // adapter.notifyDataSetChanged();
     }
 
-//    private void fillAdapter2(List<ticketsScanned> data, Context context) {
-//
-//        adapter2 = new adapterTicketsSalidaEmpaques(this,data,context);
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-//        rv.setLayoutManager(linearLayoutManager);
-//        rv.setAdapter(adapter2);
-//    }
 
     public void closeDialog() {
         this.dismiss();
