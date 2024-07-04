@@ -353,7 +353,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         bundle.putString("sentripPlusFlow", "Recoleccion");
         bundle.putString("currentManifest", currentmanifest);
         bundle.putString("folioTicket", null);
-        bundle.putSerializable("dataTcikets", (Serializable) ticketsScanned);
+        bundle.putSerializable("dataTcikets", (Serializable) codigoValidadorV2);
         intent.putExtras(bundle);
         //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
