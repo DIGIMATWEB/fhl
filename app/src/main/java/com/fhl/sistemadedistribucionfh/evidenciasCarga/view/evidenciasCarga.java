@@ -470,7 +470,11 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
                 if (data.size() > 1) {// si solo es un folio
                     //  isArrayofTickets=true;
                     presenter.requestDetailTicketsSendtriplus(
-                            true, iterateidTickets, currentManifest, data.get(iterateidTickets).getFolioTicket(), null);//
+                            true,
+                            iterateidTickets,
+                            currentManifest,
+                            data.get(iterateidTickets).getFolioTicket(),
+                            null);//
                     changeStatusTicket = data.get(iterateidTickets).getFolioTicket();
                 } else {// si es un folio
                     //    isArrayofTickets=false;

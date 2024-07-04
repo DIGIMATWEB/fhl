@@ -336,6 +336,28 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
+    public void goEvidenceGroups(List<ticketsScanned> ticketsScanned){
+        List<dataTicketsManifestV2> codigoValidadorV2 =new ArrayList<>();
+        codigoValidadorV2.clear();
+        for (dataTicketsManifestV2 tickets: codigoValidador){
+            for (ticketsScanned tS:ticketsScanned) {
+                if (tS.getFolio() == tickets.getFolioTicket()) {
+                    codigoValidadorV2.add(tickets);
+                }
+            }
+        }
+
+        Intent intent = new Intent(getActivity(), evidenciasCarga.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("flujoId", 1);
+        bundle.putString("sentripPlusFlow", "Recoleccion");
+        bundle.putString("currentManifest", currentmanifest);
+        bundle.putString("folioTicket", null);
+        bundle.putSerializable("dataTcikets", (Serializable) ticketsScanned);
+        intent.putExtras(bundle);
+        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
