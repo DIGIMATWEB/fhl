@@ -56,6 +56,8 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
 
     private Boolean sendEvidence=false;
     private List<gruposTickets> groupsTickets;
+    private Boolean consolidado=true;
+    private  Integer countByGropup=0;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -126,11 +128,10 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
             for (Map.Entry<String, List<ticketsScanned>> entry : ticketGroups.entrySet()) {
                 groupsTickets.add(new gruposTickets(entry.getValue()));
             }
-
-            if(model.size()>1) {//si el numero de tickets es mayor a uno
+            if(consolidado) {//si el numero de tickets es mayor a uno
                 //si hay mas de un grupo si no mostrar curso normal
                 //si hay mas de un grupo
-                fillAdapter(model, getContext(),true);
+                //fillAdapter(model, getContext(),true);
                 Gson gsonG=new Gson();
                 String jsonG=gsonG.toJson(groupsTickets);
                 Log.e("dataticketsSizeE", "grupos: " + groupsTickets.size());
@@ -138,23 +139,20 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                 //fillAdapter(model, getContext(),true);// necesitan agruparse los tickets por cliente destino
                 rvTickets.setVisibility(View.GONE);
                 rvTicketsG.setVisibility(View.VISIBLE);
-                fillAdapterG(groupsTickets);
+                fillAdapterG(groupsTickets,consolidado);
                 Toast.makeText(getContext(), "mostrar grupos por cliente", Toast.LENGTH_SHORT).show();
             }else{/**si solo es un ticket llenar el adaptador normal*/
-               fillAdapter(model, getContext(),false);//si no no se necesitan agrupar
-
+               fillAdapter(model, getContext(),consolidado);//si no no se necesitan agrupar
             }
         }
         //setFonts();
         return view;
     }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimationBottonSheet;
     }
-
     private void initDialog(View view) {
         recoleccion = view.findViewById(R.id.textView66);
         textEmpaques = view.findViewById(R.id.textEmpaques);
@@ -165,8 +163,6 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         textChekcs = view.findViewById(R.id.textChekcs);
         recoleccion.setText("Lotes escaneados");
         //presenter= new dialogReasonsPresenterImpl(this,getContext());
-
-
         //presenter.requestMReasons();
     }
 
@@ -177,8 +173,8 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         rvTickets.setAdapter(adapter);
         //fillAdapter2(data,context);
     }
-    private void fillAdapterG(List<gruposTickets> groupsTickets){
-        adapterG= new adapterGroups(this,groupsTickets,getContext());
+    private void fillAdapterG(List<gruposTickets> groupsTickets, Boolean needGroupThem){
+        adapterG= new adapterGroups(this,groupsTickets,getContext(),needGroupThem);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvTicketsG.setLayoutManager(linearLayoutManager);
         rvTicketsG.setAdapter(adapterG);
@@ -202,97 +198,123 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
 
 
     public void sendToast(String code) {//para cada codigo recibido
-        if (model != null) {   //si existe ingotmacions
-            // Log.e("ticketsArray2", "comprueva el modelo " + model.size() + " comprueba el codigo " + code);
-            boolean codeFound = false;
+        if(!consolidado) {
+            if (model != null) {   //si existe ingotmacions
+                Log.e("dataticketsSizeE", "comprueva el modelo " + model.size() + " comprueba el codigo " + code);
+                boolean codeFound = false;
 
-            for (ticketsScanned ticket : model) {             //se usca por ticket
-                if (ticket.getFolio() != null && ticket.getFolio().equals(code)) {   //si existe folio y es igual alcodigo
-                    codeFound = true;                                                //el codigo existe en la lista
-                    if (!ticket.getFlag()) {                                         //se no esta togglea el ticket
-                        // ticket.setFlag(true);                                        //se setea en true
-                        Log.e("empaque", "codigo escaneado correctamente pero se cambio solo para empaques ATENCION");
+                for (ticketsScanned ticket : model) {             //se usca por ticket
+                    if (ticket.getFolio() != null && ticket.getFolio().equals(code)) {   //si existe folio y es igual alcodigo
+                        codeFound = true;                                                //el codigo existe en la lista
+                        if (!ticket.getFlag()) {                                         //se no esta togglea el ticket
+                            // ticket.setFlag(true);                                        //se setea en true
+                            Log.e("empaque", "codigo escaneado correctamente pero se cambio solo para empaques ATENCION");
+                        } else {
+                            Log.e("ticketsArray2", "codigo ya escaneado");     //si no se tice que ya se escanneo
+                        }
+                        Log.e("ticketsArray2", "" + ticket.getFolio());
+                        break;
                     } else {
-                        Log.e("ticketsArray2", "codigo ya escaneado");     //si no se tice que ya se escanneo
-                    }
-                    Log.e("ticketsArray2", "" + ticket.getFolio());
-                    break;
-                } else {
-                    if (ticket.getSendtripPlus().getPaquetes() != null) {
-                        for (int i = 0; i < ticket.getSendtripPlus().getPaquetes().size(); i++) {  // se busca por paquete
-                            if (code.equals(ticket.getSendtripPlus().getPaquetes().get(i).getNombre())) {
-                                codeFound = true;
-                                if (!ticket.getSendtripPlus().getPaquetes().get(i).getFlag()) {
-                                    ticket.getSendtripPlus().getPaquetes().get(i).setFlag(true);
-                                    Log.e("empaque", "código escaneado correctamente");
-                                } else {
-                                    Log.e("empaque", "código ya fue escaneado");
+                        if (ticket.getSendtripPlus().getPaquetes() != null) {
+                            for (int i = 0; i < ticket.getSendtripPlus().getPaquetes().size(); i++) {  // se busca por paquete
+                                if (code.equals(ticket.getSendtripPlus().getPaquetes().get(i).getNombre())) {
+                                    codeFound = true;
+                                    if (!ticket.getSendtripPlus().getPaquetes().get(i).getFlag()) {
+                                        ticket.getSendtripPlus().getPaquetes().get(i).setFlag(true);
+                                        Log.e("empaque", "código escaneado correctamente");
+                                    } else {
+                                        Log.e("empaque", "código ya fue escaneado");
+                                    }
+                                    Log.e("empaque", "" + ticket.getSendtripPlus().getPaquetes().get(i).getNombre());
+                                    break;
                                 }
-                                Log.e("empaque", "" + ticket.getSendtripPlus().getPaquetes().get(i).getNombre());
+                            }
+                        }
+                        // Check if all paquetes flags are true
+                        boolean allPaquetesFlagged = true;
+                        for (int i = 0; i < ticket.getSendtripPlus().getPaquetes().size(); i++) {
+                            if (!ticket.getSendtripPlus().getPaquetes().get(i).getFlag()) {
+                                allPaquetesFlagged = false;
                                 break;
                             }
                         }
-                    }
-                    // Check if all paquetes flags are true
-                    boolean allPaquetesFlagged = true;
-                    for (int i = 0; i < ticket.getSendtripPlus().getPaquetes().size(); i++) {
-                        if (!ticket.getSendtripPlus().getPaquetes().get(i).getFlag()) {
-                            allPaquetesFlagged = false;
-                            break;
+                        if (allPaquetesFlagged) {
+                            ticket.setFlag(true);
+                            codeFound = true;
                         }
                     }
-                    if (allPaquetesFlagged) {
-                        ticket.setFlag(true);
-                        codeFound = true;
-                    }
                 }
+                if (!codeFound) {
+                    Log.e("ticketsArray2", "codigo no pertenece a la lista");
+                    BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                    barcodeScannerActivity1.errorTicket();
+                }
+                if (adapter != null) {// esto actualiza todos los ticket que hay en model
+                    Log.e("dataticketsSizeE", "adapterSolo");
+                    adapter.updateData(model);
+                    adapter.notifyDataSetChanged();
+                }
+
             }
-            if (!codeFound) {
-                Log.e("ticketsArray2", "codigo no pertenece a la lista");
-                BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
-                barcodeScannerActivity1.errorTicket();
-            }
-            if (adapter != null) {
-                adapter.updateData(model);
-                adapter.notifyDataSetChanged();
-            }
+        }else{
+                if (adapterG != null) { // esto solo actualiza los tickets que estan en model si es que vienen en el grupo
+                    Log.e("dataticketsSizeE", "adapterGrupos");
+                    adapterG.updateData(model,code);
+                    adapterG.notifyDataSetChanged();
+                }
 
         }
     }
 
     public void updatescanedData(List<ticketsScanned> data) {
-        List<Paquete> lotes = new ArrayList<>();
-        lotes.clear();
-        for (ticketsScanned b : data) {
-            if (b.getFlag()) {
-                if (countok == model.size()) {
+        if(!consolidado) {
+            List<Paquete> lotes = new ArrayList<>();
+            lotes.clear();
+            for (ticketsScanned b : data) {
+                if (b.getFlag()) {
+                    if (countok == model.size()) {
 
-                } else {
-                    int checketCount = 0;
-                    for (int i = 0; i < data.size(); i++) {
-                        if (data.get(i).getFlag() == true) {
-                            checketCount++;
+                    } else {
+                        int checketCount = 0;
+                        for (int i = 0; i < data.size(); i++) {
+                            if (data.get(i).getFlag() == true) {
+                                checketCount++;
+                            }
+                        }
+                        countok = checketCount;
+                    }
+                }
+                //textEmpaques
+                if (b.getSendtripPlus().getPaquetes() != null) {
+                    b.getSendtripPlus().getPaquetes().size();
+                    if (b.getSendtripPlus().getPaquetes() != null) {
+                        for (int i = 0; i < b.getSendtripPlus().getPaquetes().size(); i++) {
+                            lotes.add(b.getSendtripPlus().getPaquetes().get(i));
+                            Log.e("Lotes", "ticket: " + b.getFolio() + " contiene " + b.getSendtripPlus().getPaquetes().size() + " empaques" + " empaque " + b.getSendtripPlus().getPaquetes().get(i).getNombre());
                         }
                     }
-                    countok = checketCount;
                 }
-            }
-            //textEmpaques
-            if(b.getSendtripPlus().getPaquetes()!=null) {
-                b.getSendtripPlus().getPaquetes().size();
-                if (b.getSendtripPlus().getPaquetes() != null) {
-                    for (int i = 0; i < b.getSendtripPlus().getPaquetes().size(); i++) {
-                        lotes.add(b.getSendtripPlus().getPaquetes().get(i));
-                        Log.e("Lotes", "ticket: " + b.getFolio() + " contiene " + b.getSendtripPlus().getPaquetes().size() + " empaques" + " empaque " + b.getSendtripPlus().getPaquetes().get(i).getNombre());
-                    }
-                }
-            }
 
+            }
+            Log.e("ticketsArray2", "textcount: " + countok);
+            textChekcs.setText(countok + "/" + model.size());
         }
-        Log.e("ticketsArray2", "textcount: " + countok);
-        textChekcs.setText(countok + "/" + model.size());
     }
-
+    public void updatescanedDataGroups( List<gruposTickets> groupsTickets){
+        List<Boolean> numTrue=new ArrayList<>();
+        numTrue.clear();
+        for (gruposTickets gt : groupsTickets) {
+            for (ticketsScanned ts : gt.getTickets()) {
+                if (ts.getFlag() == true) {
+                    numTrue.add(ts.getFlag());
+                    // Exit the inner loop once a flagged ticket is found in the current group
+                }
+            }
+        }
+        countByGropup=numTrue.size();
+        countok=countByGropup;
+        textChekcs.setText(countByGropup + "/" + model.size());
+    }
     public void updatescanedDataEmpaque(List<Paquete> paquetes) {
     }
     public void goEvidenceOneItem(ticketsScanned ticketsScanned) {//esto es solo cuando hay un ticket
@@ -319,6 +341,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         switch (view.getId()) {
             case R.id.imageButton:
                 //closeDialog();
+
                 if (countok == model.size()) {//todo hasta igualar los empaques model.size()
                     if(sendEvidence) {
                         // Toast.makeText(getContext(), "ir a sellostodos fueron escaneados", Toast.LENGTH_SHORT).show();
