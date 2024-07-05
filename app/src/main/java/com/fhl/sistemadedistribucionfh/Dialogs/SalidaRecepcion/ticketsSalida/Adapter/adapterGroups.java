@@ -2,6 +2,7 @@ package com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.Ad
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.gruposTicke
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.ticketsSalida;
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Paquete;
 import com.google.gson.Gson;
 
@@ -53,6 +55,8 @@ public class adapterGroups extends RecyclerView.Adapter<adapterGroups.ViewHolder
                 }
             });
         }else{
+            holder.evidence.setVisibility(View.GONE);
+            holder.siguiente.setVisibility(View.GONE);
             Toast.makeText(context, "Evidencas ya capturadas", Toast.LENGTH_SHORT).show();
         }
     }
@@ -96,7 +100,17 @@ public class adapterGroups extends RecyclerView.Adapter<adapterGroups.ViewHolder
     }
 
     public void updateFlag(Integer position) {
+
+        Integer fpos;
+        if(position==null){
+            SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+            String sp = preferences.getString(GeneralConstants.POSITIONGROUP, null);
+            fpos=Integer.valueOf(sp);
+            position=fpos;
+        }
+        Log.e("listenerT", "updateFlag " + position);
         this.groupsTickets.get(position).setCheckEvidence(true);
+        mview.updatescanedDataGroups(groupsTickets);
         notifyDataSetChanged();
     }
 

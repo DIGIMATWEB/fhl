@@ -737,7 +737,10 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
                             if(iterateidTickets==data.size()){//esto es po si pulsa mucho enviar evidencias
                                 if(positionGroup!=null) {
                                     if (bS != null) {
-                                        bS.sendMessage(positionGroup);
+                                        bS.sendMessageEvidence(positionGroup);
+                                        SharedPreferences preferencias = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = preferencias.edit();
+                                        editor.putString(GeneralConstants.POSITIONGROUP, String.valueOf( positionGroup));
                                     }
                                 }
                                 removeShared();
@@ -789,7 +792,12 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
                     presenter.hideDialog();
                     if(positionGroup!=null) {
                         if (bS != null) {
-                            bS.sendMessage(positionGroup);
+                            bS.sendMessageEvidence(positionGroup);
+                            SharedPreferences preferencias = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferencias.edit();
+                            editor.putString(GeneralConstants.POSITIONGROUP, String.valueOf( positionGroup));
+                            // editor.putString(GeneralConstants.CVE_EMPLOYE,String.valueOf(data.getCve_employee()));
+                            editor.commit();
                         }
                     }
                     removeShared();
