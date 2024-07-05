@@ -456,7 +456,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                public void run() {
                    adapterG.updateFlag(valAfterEvidence);
                }
-           }, 3000);
+           }, 1000);
         }
     }
 

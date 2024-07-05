@@ -22,8 +22,11 @@ import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Paquete;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class adapterGroups extends RecyclerView.Adapter<adapterGroups.ViewHolder> {
@@ -57,7 +60,7 @@ public class adapterGroups extends RecyclerView.Adapter<adapterGroups.ViewHolder
         }else{
             holder.evidence.setVisibility(View.GONE);
             holder.siguiente.setVisibility(View.GONE);
-            Toast.makeText(context, "Evidencas ya capturadas", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "Evidencas ya capturadas", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -102,14 +105,28 @@ public class adapterGroups extends RecyclerView.Adapter<adapterGroups.ViewHolder
     public void updateFlag(Integer position) {
 
         Integer fpos;
+        List<String> psitionsG=new ArrayList<>();
+        psitionsG.clear();
         if(position==null){
             SharedPreferences preferences = context.getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
             String sp = preferences.getString(GeneralConstants.POSITIONGROUP, null);
-            fpos=Integer.valueOf(sp);
-            position=fpos;
+
+            if(sp!=null){
+
+                Gson gson = new Gson();
+
+                // Use TypeToken to handle potential type erasure during deserialization
+                Type listType = new TypeToken<List<String>>() {}.getType();
+                psitionsG = gson.fromJson(sp, listType);
+                for(String mpos: psitionsG){
+                    Log.e("listenerT", "psitionsG " + mpos);
+                    this.groupsTickets.get(Integer.valueOf(mpos)).setCheckEvidence(true);
+                }
+            }
+           // fpos=Integer.valueOf(sp);
+           // position=fpos;
         }
-        Log.e("listenerT", "updateFlag " + position);
-        this.groupsTickets.get(position).setCheckEvidence(true);
+        //Log.e("listenerT", "updateFlag " + position);
         mview.updatescanedDataGroups(groupsTickets);
         notifyDataSetChanged();
     }

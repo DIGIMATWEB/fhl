@@ -51,10 +51,13 @@ import com.fhl.sistemadedistribucionfh.evidence.videos.videoRecord;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class evidenciasCarga extends AppCompatActivity implements View.OnClickListener, evidenceView {
@@ -91,6 +94,7 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
     private Boolean fullLotes=true;
     private List<ticketsScanned> fresult;
     private onBackSalida bS;
+    private List<String> psitionsG=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,6 +122,15 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
             // Now intValue contains the value passed from the previous activity
             // You can use this value as needed
             // For example, you can log it or display it in a TextView
+            SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+            String sp = preferences.getString(GeneralConstants.POSITIONGROUP, null);
+            if(sp!=null){
+                Gson gson = new Gson();
+
+                // Use TypeToken to handle potential type erasure during deserialization
+                Type listType = new TypeToken<List<String>>() {}.getType();
+                psitionsG = gson.fromJson(sp, listType);
+            }
             Log.d("dataticketsSizeE", "Retrieved integer value: " + flujoId);
             if (data != null) {
                 Log.e("dataticketsSizeE", "folio " + folioTicket + " data " + data.size());
@@ -518,6 +531,9 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
 
             } else{
                 Toast.makeText(this, "No tienes evidencias", Toast.LENGTH_SHORT).show();
+                if(data.size()>1){
+                    isArrayofTickets=true;
+                }
                 secuenceRequest=6;
                 presenter.nextRequest();
             }
@@ -738,9 +754,15 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
                                 if(positionGroup!=null) {
                                     if (bS != null) {
                                         bS.sendMessageEvidence(positionGroup);
+                                        if(!psitionsG.contains(String.valueOf(positionGroup))){
+                                            psitionsG.add(String.valueOf(positionGroup));
+                                        }
+                                        Gson gson=new Gson();
+                                        String json= gson.toJson(psitionsG);
                                         SharedPreferences preferencias = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                                         SharedPreferences.Editor editor = preferencias.edit();
-                                        editor.putString(GeneralConstants.POSITIONGROUP, String.valueOf( positionGroup));
+                                        editor.putString(GeneralConstants.POSITIONGROUP, String.valueOf( json));
+                                        editor.commit();
                                     }
                                 }
                                 removeShared();
@@ -793,9 +815,14 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
                     if(positionGroup!=null) {
                         if (bS != null) {
                             bS.sendMessageEvidence(positionGroup);
+                            if(!psitionsG.contains(String.valueOf(positionGroup))){
+                                psitionsG.add(String.valueOf(positionGroup));
+                            }
+                            Gson gson=new Gson();
+                            String json= gson.toJson(psitionsG);
                             SharedPreferences preferencias = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = preferencias.edit();
-                            editor.putString(GeneralConstants.POSITIONGROUP, String.valueOf( positionGroup));
+                            editor.putString(GeneralConstants.POSITIONGROUP, String.valueOf( json));
                             // editor.putString(GeneralConstants.CVE_EMPLOYE,String.valueOf(data.getCve_employee()));
                             editor.commit();
                         }
@@ -848,7 +875,8 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
 
 //        }
         else {
-            Toast.makeText(this, "Todos los archivos se han enviado correctamente", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Todos los archivos se han enviado correctamente", Toast.LENGTH_SHORT).show();
+            Log.e("finish","");
             // regresar a manifiestos y limpiar toda la carpeta de archivos
             presenter.hideDialog();
         }
