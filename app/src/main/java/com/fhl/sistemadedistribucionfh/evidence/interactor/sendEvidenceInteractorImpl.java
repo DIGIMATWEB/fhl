@@ -101,7 +101,11 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
             //  Toast.makeText(context, "mandarEvidencias", Toast.LENGTH_SHORT).show();
             if (secuenceRequest == 1) {
                 presenter.showDialog();
-                uploadFile(signatureBase64, 1, inputTextSignature,token);
+                if (inputTextSignature!=null&&!inputTextSignature.equals("")) {
+                    uploadFile(signatureBase64, 1, inputTextSignature, token);
+                }else {
+                    presenter.nextRequest();
+                }
                 //  Log.e("sendEvidence"," send signature : "+signatureBase64);
             } else if (secuenceRequest == 2) {
                 uploadFiles(currusel, 2, "test",token);
@@ -192,7 +196,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
                 Toast.makeText(context, "File upload failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 Gson gson = new Gson();
                 String jsonString = gson.toJson(call.request().body());
-                Log.e("sendEvidence",""+t.getMessage()+"request  "+jsonString);
+                Log.e("sendEvidence","failure "+"request  "+jsonString+" message"+t.getMessage());
                // presenter.nextRequest();
                 presenter.hideDialog();
             }

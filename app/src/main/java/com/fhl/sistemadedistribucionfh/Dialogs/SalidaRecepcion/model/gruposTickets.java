@@ -6,9 +6,11 @@ import java.util.List;
 
 public class gruposTickets {
     private List<ticketsScanned> tickets;
+    private Boolean checkEvidence =false;
 
-    public gruposTickets(List<ticketsScanned> tickets){
+    public gruposTickets(List<ticketsScanned> tickets,Boolean checkEvidence){
         this.tickets=tickets;
+        this.checkEvidence=checkEvidence;
     }
 
     public List<ticketsScanned> getTickets() {
@@ -17,5 +19,13 @@ public class gruposTickets {
 
     public void setTickets(List<ticketsScanned> tickets) {
         this.tickets = tickets;
+    }
+
+    public Boolean getCheckEvidence() {
+        return checkEvidence;
+    }
+
+    public void setCheckEvidence(Boolean checkEvidence) {
+        this.checkEvidence = checkEvidence;
     }
 }

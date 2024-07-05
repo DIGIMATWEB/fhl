@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -79,16 +80,20 @@ public class menuV2 extends Fragment {
             @Override
             public void run() {
                 while ( threadRunning!=1) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            checkAndSetMenu();
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                checkAndSetMenu();
+                            }
+                        });
+                        try {
+                            Thread.sleep(5000); // Adjust interval as needed (5000 milliseconds = 5 seconds)
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
-                    });
-                    try {
-                        Thread.sleep(5000); // Adjust interval as needed (5000 milliseconds = 5 seconds)
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                  }else{
+                       // Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

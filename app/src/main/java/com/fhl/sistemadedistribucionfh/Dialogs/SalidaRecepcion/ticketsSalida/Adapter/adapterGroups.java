@@ -6,7 +6,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,12 +45,16 @@ public class adapterGroups extends RecyclerView.Adapter<adapterGroups.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull adapterGroups.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.setupRVtickets(mview,groupsTickets.get(position).getTickets());
-        holder.evidence.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mview.goEvidenceGroups(groupsTickets.get(position).getTickets());
-            }
-        });
+        if(!groupsTickets.get(position).getCheckEvidence()) {
+            holder.evidence.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mview.goEvidenceGroups(groupsTickets.get(position).getTickets(), position);
+                }
+            });
+        }else{
+            Toast.makeText(context, "Evidencas ya capturadas", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -89,15 +95,22 @@ public class adapterGroups extends RecyclerView.Adapter<adapterGroups.ViewHolder
         notifyDataSetChanged();
     }
 
+    public void updateFlag(Integer position) {
+        this.groupsTickets.get(position).setCheckEvidence(true);
+        notifyDataSetChanged();
+    }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         RecyclerView groupsTickets;
         adapterTicketsSalida adapter;
-        private TextView evidence;
+        TextView evidence;
+        ImageView siguiente;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             groupsTickets= itemView.findViewById(R.id.groupsTickets);
             evidence=itemView.findViewById(R.id.textG);
+            siguiente=itemView.findViewById(R.id. siguiente);
         }
 
         public void setupRVtickets(ticketsSalida mview, List<ticketsScanned> tickets){

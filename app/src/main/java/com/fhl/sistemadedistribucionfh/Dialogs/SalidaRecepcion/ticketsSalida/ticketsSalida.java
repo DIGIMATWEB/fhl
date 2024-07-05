@@ -3,6 +3,8 @@ package com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ticketsSalida extends DialogFragment implements View.OnClickListener {
+public class ticketsSalida extends DialogFragment implements View.OnClickListener,onBackSalida{
     public static final String TAG = ticketsSalida.class.getSimpleName();
     private RecyclerView rvTickets, rvTicketsG;
     private adapterTicketsSalida adapter;
@@ -58,6 +60,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
     private List<gruposTickets> groupsTickets;
     private Boolean consolidado=true;
     private  Integer countByGropup=0;
+    private Integer valAfterEvidence;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,6 +76,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         getDialog().getWindow().setBackgroundDrawableResource(R.color.alfa);
         setCancelable(true);
         Bundle args = getArguments();
+
         if (args != null) {
             codigoValidador = (List<dataTicketsManifestV2>) args.getSerializable("tickets");
             sellos = (List<Sello>) args.getSerializable("sellos");
@@ -126,7 +130,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
 
             groupsTickets = new ArrayList<>();
             for (Map.Entry<String, List<ticketsScanned>> entry : ticketGroups.entrySet()) {
-                groupsTickets.add(new gruposTickets(entry.getValue()));
+                groupsTickets.add(new gruposTickets(entry.getValue(),false));
             }
             if(consolidado) {//si el numero de tickets es mayor a uno
                 //si hay mas de un grupo si no mostrar curso normal
@@ -140,7 +144,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                 rvTickets.setVisibility(View.GONE);
                 rvTicketsG.setVisibility(View.VISIBLE);
                 fillAdapterG(groupsTickets,consolidado);
-                Toast.makeText(getContext(), "mostrar grupos por cliente", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "mostrar grupos por cliente", Toast.LENGTH_SHORT).show();
             }else{/**si solo es un ticket llenar el adaptador normal*/
                fillAdapter(model, getContext(),consolidado);//si no no se necesitan agrupar
             }
@@ -148,6 +152,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         //setFonts();
         return view;
     }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -336,7 +341,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
-    public void goEvidenceGroups(List<ticketsScanned> ticketsScanned){
+    public void goEvidenceGroups(List<ticketsScanned> ticketsScanned, int position){
         List<dataTicketsManifestV2> codigoValidadorV2 =new ArrayList<>();
         codigoValidadorV2.clear();
         for (dataTicketsManifestV2 tickets: codigoValidador){
@@ -346,6 +351,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                 }
             }
         }
+        Log.e("dataticketsSizeE",""+codigoValidadorV2.size());
 
         Intent intent = new Intent(getActivity(), evidenciasCarga.class);
         Bundle bundle = new Bundle();
@@ -353,6 +359,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         bundle.putString("sentripPlusFlow", "Recoleccion");
         bundle.putString("currentManifest", currentmanifest);
         bundle.putString("folioTicket", null);
+        bundle.putInt("positionGroup",position);
         bundle.putSerializable("dataTcikets", (Serializable) codigoValidadorV2);
         intent.putExtras(bundle);
         //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -413,5 +420,24 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         }
     }
 
+
+    @Override
+    public void sendMessage(final Integer position) {
+        this.valAfterEvidence=position;
+        Log.e("listenerT", "valAfterEvidence " + position);
+        if (adapterG != null) {
+            adapterG.updateFlag(valAfterEvidence);
+        }else{
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    fillAdapterG(groupsTickets,consolidado);
+                    adapterG.updateFlag(valAfterEvidence);
+                }
+            }, 4000);
+
+        }
+
+    }
 
 }

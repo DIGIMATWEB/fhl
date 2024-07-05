@@ -27,6 +27,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.Dialogs.Loader.view.loaderFH;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.onBackSalida;
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.ticketsSalida;
 import com.fhl.sistemadedistribucionfh.evidenciasCarga.adapterEvidenceCarga;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
@@ -71,6 +73,7 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
 
     private Integer secuenceRequest = 1;
     private Integer flujoId = 0;
+    private Integer positionGroup;
     private String folioTicket, changeStatusTicket;
     private List<dataTicketsManifestV2> data;
     private Integer iterateidTickets = 0;
@@ -87,13 +90,17 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
     private Boolean showSendEvidenceAfterLotes;
     private Boolean fullLotes=true;
     private List<ticketsScanned> fresult;
+    private onBackSalida bS;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showSendEvidenceAfterLotes=false;
         setContentView(R.layout.activity_evidence);
         Intent intent = getIntent();
-
+        //region onback para saber si entrego las evidencias
+        ticketsSalida fragment = new ticketsSalida();
+        bS = fragment;
+        //endregion
         // Retrieve the Bundle from the Intent
         Bundle bundle = intent.getExtras();
 
@@ -101,6 +108,7 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
         if (bundle != null) {
             // Retrieve the integer value using the key "key_integer"
             flujoId = bundle.getInt("flujoId");
+            positionGroup= bundle.getInt("positionGroup");
             currentManifest = bundle.getString("currentManifest");
             sentripPlusFlow = bundle.getString("sentripPlusFlow");
             folioTicket = bundle.getString("folioTicket");
@@ -469,6 +477,9 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
                 Log.e("dataticketsSizeE", "son varios folios");
                 if (data.size() > 1) {// si solo es un folio
                     //  isArrayofTickets=true;
+                    Gson gson= new Gson();
+                    String json=gson.toJson(data.get(iterateidTickets));
+                    Log.e("listenerT",""+json);
                     presenter.requestDetailTicketsSendtriplus(
                             true,
                             iterateidTickets,
@@ -498,7 +509,7 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
         dataTicketSendtrip.get(0).getFolioTicket();
         Gson gson = new Gson();
         String json = gson.toJson(dataTicketSendtrip);
-        Log.e("detailticket", " json ticket:" + json);
+        Log.e("listenerT", " json ticket:" + json);
         Log.e("detailticket", " flowdetail " + flowDetail);
         fillEvidenceRequired(flowDetail, dataTicketSendtrip);//2para test
         textFol.setText("Folio: " + dataTicketSendtrip.get(0).getFolioTicket());
@@ -527,6 +538,7 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.imageView25:
+
                 onBackPressed();
                 break;
 
@@ -722,7 +734,18 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
                         presenter.sendEvidence(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, folioTicket, fvideos);
                     } else {
                         if (data != null) {
-                            sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, data.get(iterateidTickets).getFolioTicket(), fvideos);
+                            if(iterateidTickets==data.size()){//esto es po si pulsa mucho enviar evidencias
+                                if(positionGroup!=null) {
+                                    if (bS != null) {
+                                        bS.sendMessage(positionGroup);
+                                    }
+                                }
+                                removeShared();
+                                cleanFolder();
+                                gotomanifestV2();
+                            }else {
+                                sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, data.get(iterateidTickets).getFolioTicket(), fvideos);
+                            }
                         } else {
                             Toast.makeText(getApplicationContext(), "No hay tickets al cual mandar evidencia", Toast.LENGTH_SHORT).show();
                         }
@@ -751,7 +774,7 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
             //Toast.makeText(this, "mandar estrellas", Toast.LENGTH_SHORT).show();
         } else if (secuenceRequest == 6) {//borra  lo relacionano y regresa
             // Toast.makeText(this, "usar sendtrip plus Cambiar estatus y regresar a manifiestos", Toast.LENGTH_SHORT).show();
-
+            Log.e("listenerT","isArrayofTickets: "+isArrayofTickets);
             if (!isArrayofTickets) {// si es solo uno manda el manifiesto
                 presenter.hideDialog();
                 removeShared();
@@ -764,6 +787,11 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
                 Log.e("sendEvidence", " tickets " + iterateidTickets + " data: " + data.size());
                 if (iterateidTickets > (data.size() - 1)) {// si es el ultimo ticket va a manifiestos
                     presenter.hideDialog();
+                    if(positionGroup!=null) {
+                        if (bS != null) {
+                            bS.sendMessage(positionGroup);
+                        }
+                    }
                     removeShared();
                     cleanFolder();
                     gotomanifestV2();
@@ -844,6 +872,9 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
         cleanFolder();
         super.onBackPressed();
     }
+
+
+
 
     @Override
     public void hideDialog() {
@@ -929,6 +960,7 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
         checklist.putExtras(bundle);
         startActivity(checklist);
     }
+
 
 
 }
