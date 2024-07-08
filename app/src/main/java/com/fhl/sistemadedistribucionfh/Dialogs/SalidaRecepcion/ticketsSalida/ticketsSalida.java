@@ -2,6 +2,7 @@ package com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -24,6 +25,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.gruposTicke
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.Adapter.adapterGroups;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.Adapter.adapterTicketsSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
+import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.evidenciasCarga.view.evidenciasCarga;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
@@ -68,6 +70,10 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_DeviceDefault_Light_NoActionBar);
         Log.e("listenerT", "onCreate ");
+        SharedPreferences preferences = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.remove(GeneralConstants.POSITIONGROUP);
+        editor.apply();
 
     }
     @Nullable
@@ -82,7 +88,6 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         Log.e("listenerT", "onViewCreated ");
         getDialog().getWindow().setBackgroundDrawableResource(R.color.alfa);
         setCancelable(true);
-
         // Initialize views
         recoleccion = view.findViewById(R.id.textView66);
         textEmpaques = view.findViewById(R.id.textEmpaques);
@@ -499,7 +504,30 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                             // }
                         }
                     }else {
-                        Toast.makeText(getContext(), "Falta enviar las evidencias", Toast.LENGTH_SHORT).show();
+                        if (consolidado) {
+                           // Toast.makeText(getContext(), "Falta enviar las evidencias", Toast.LENGTH_SHORT).show();
+                            Log.e("dataticketsSizeE","Falta enviar las evidencias");
+                            List<Boolean> numTrue = new ArrayList<>();
+                            numTrue.clear();
+                            for (gruposTickets gt : groupsTickets) {
+                                for (ticketsScanned ts : gt.getTickets()) {
+                                    if (ts.getFlag() == true) {
+                                        numTrue.add(ts.getFlag());
+                                        // Exit the inner loop once a flagged ticket is found in the current group
+                                    }
+                                }
+                            }
+                            countByGropup = numTrue.size();
+                            countok = countByGropup;
+                            textChekcs.setText(countByGropup + "/" + model.size());
+                            if(countok == model.size()){
+                                //definir si aqui se elimina
+                                BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                                barcodeScannerActivity1.goTicketsSummary();
+                                closeDialog();
+                            }
+                        }
+
                         // getActivity().finish();
 //                        Intent intent = new Intent(getActivity(), evidenciasCarga.class);//todo revisar ya que esto es por todos
 //                        Bundle bundle = new Bundle();

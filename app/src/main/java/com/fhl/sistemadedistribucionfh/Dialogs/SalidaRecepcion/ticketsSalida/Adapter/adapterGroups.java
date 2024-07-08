@@ -60,6 +60,7 @@ public class adapterGroups extends RecyclerView.Adapter<adapterGroups.ViewHolder
         }else{
             holder.evidence.setVisibility(View.GONE);
             holder.siguiente.setVisibility(View.GONE);
+            mview.updatescanedDataGroups(groupsTickets);
             //Toast.makeText(context, "Evidencas ya capturadas", Toast.LENGTH_SHORT).show();
         }
     }
