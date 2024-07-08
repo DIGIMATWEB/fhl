@@ -260,7 +260,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
 
                     }else{
                         Log.e("sendEvidence", "apiresponse null");
-                        presenter.hideDialog();
+                       // presenter.hideDialog();//
                     }
                 } else {
                     Log.e("sendEvidence", "File upload failed "+response.body());
@@ -272,7 +272,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
                 Toast.makeText(context, "File upload failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.e("sendEvidence",""+t.getMessage());
+                Log.e("sendEvidence","onFailure "+t.getMessage());
                 presenter.hideDialog();
             }
         });

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +59,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
 
     private Boolean sendEvidence=false;
     private List<gruposTickets> groupsTickets;
-    private Boolean consolidado=true;
+    private Boolean consolidado=false;
     private  Integer countByGropup=0;
     private Integer valAfterEvidence;
     private Boolean waitOnBack=false;
@@ -335,7 +334,25 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         countok=countByGropup;
         textChekcs.setText(countByGropup + "/" + model.size());
     }
-    public void updatescanedDataEmpaque(List<Paquete> paquetes) {
+    public void updatescanedDataEmpaque(List<Paquete> paquetes, String folioTicket) {
+        for (gruposTickets gt : groupsTickets) {
+            for (ticketsScanned ts : gt.getTickets()) {
+                boolean allPackages = true;
+
+                for (Paquete paq : ts.getSendtripPlus().getPaquetes()) {
+                    if (!paq.getFlag()) {
+                        allPackages = false;
+                        break; // No need to continue checking if one package is false
+                    }
+                }
+
+                if (allPackages) {
+                    ts.setFlag(true); // Set the flag to true if all packages are true
+                } else {
+                    ts.setFlag(false); // Optionally, set the flag to false if not all packages are true
+                }
+            }
+        }
     }
     public void goEvidenceOneItem(ticketsScanned ticketsScanned) {//esto es solo cuando hay un ticket
         List<dataTicketsManifestV2> codigoValidadorV2 =new ArrayList<>();
@@ -505,27 +522,32 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                         }
                     }else {
                         if (consolidado) {
-                           // Toast.makeText(getContext(), "Falta enviar las evidencias", Toast.LENGTH_SHORT).show();
-                            Log.e("dataticketsSizeE","Falta enviar las evidencias");
-                            List<Boolean> numTrue = new ArrayList<>();
-                            numTrue.clear();
+
+//                            Log.e("dataticketsSizeE","Falta enviar las evidencias");
+                            boolean allPackages = true;
                             for (gruposTickets gt : groupsTickets) {
-                                for (ticketsScanned ts : gt.getTickets()) {
-                                    if (ts.getFlag() == true) {
-                                        numTrue.add(ts.getFlag());
-                                        // Exit the inner loop once a flagged ticket is found in the current group
-                                    }
+                                if(!gt.getCheckEvidence()){
+                                    allPackages=false;
+                                    break;
                                 }
                             }
-                            countByGropup = numTrue.size();
-                            countok = countByGropup;
-                            textChekcs.setText(countByGropup + "/" + model.size());
-                            if(countok == model.size()){
-                                //definir si aqui se elimina
-                                BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
-                                barcodeScannerActivity1.goTicketsSummary();
-                                closeDialog();
+                            if (allPackages) {
+                               // Toast.makeText(getContext(), "LISTO TODOS PERFECT", Toast.LENGTH_SHORT).show();
+                                if(countok == model.size()){
+                                    //definir si aqui se elimina
+                                    BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                                    barcodeScannerActivity1.goTicketsSummary();
+                                    closeDialog();
+                                }
+                            } else {
+                                Toast.makeText(getContext(), "Falta enviar las evidencias", Toast.LENGTH_SHORT).show();
                             }
+//                            countByGropup = numTrue.size();
+//                            countok = countByGropup;
+//                            textChekcs.setText(countByGropup + "/" + model.size());
+
+                        }else{
+                            Toast.makeText(getContext(), "No consolidado", Toast.LENGTH_SHORT).show();
                         }
 
                         // getActivity().finish();

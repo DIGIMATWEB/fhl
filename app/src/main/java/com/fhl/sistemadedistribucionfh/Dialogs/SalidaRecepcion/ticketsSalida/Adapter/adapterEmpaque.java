@@ -52,7 +52,7 @@ public class adapterEmpaque extends RecyclerView.Adapter<adapterEmpaque.ViewHold
                 int tintColor = ContextCompat.getColor(context, R.color.yellow);
                 ColorFilter colorFilter = new PorterDuffColorFilter(tintColor, PorterDuff.Mode.SRC_IN);
                 //holder.razonDescSalida.setTextColor(R.color.green2);
-                mview.updatescanedDataEmpaque(paquetes);//esta linea sirve para notificar al contador
+                mview.updatescanedDataEmpaque(paquetes,folioTicket);//esta linea sirve para notificar al contador
 
             } else {
                 holder.checkEmpaque.setChecked(false);
