@@ -499,8 +499,10 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
             } else{
                 Toast.makeText(this, "No tienes evidencias", Toast.LENGTH_SHORT).show();
-                if(data.size()>1){
-                    isArrayofTickets=true;
+                if(data!=null) {
+                    if (data.size() > 1) {
+                        isArrayofTickets = true;
+                    }
                 }
                 secuenceRequest=6;
                 presenter.nextRequest();
