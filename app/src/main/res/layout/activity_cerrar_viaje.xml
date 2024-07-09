@@ -148,11 +148,11 @@
                 android:id="@+id/textView11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
+                android:layout_marginStart="15dp"
                 android:text="Cliente"
                 android:textSize="@dimen/h6"
                 app:layout_constraintBottom_toTopOf="@+id/guidelinetickets00"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintStart_toStartOf="parent">
 
             </TextView>
 
@@ -160,13 +160,14 @@
                 android:id="@+id/textView27"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginStart="15dp"
                 android:text="-- -- --"
                 android:textAlignment="textEnd"
                 android:textSize="@dimen/h10"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/guidelinetickets01"
-                app:layout_constraintEnd_toEndOf="@+id/textView11"
-                app:layout_constraintStart_toStartOf="@+id/guidelinetickets03h"
+                app:layout_constraintEnd_toStartOf="@+id/guidelinetickets03h"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView11">
 
             </TextView>
@@ -202,6 +203,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:text="Productos"
+                android:visibility="gone"
                 android:textSize="@dimen/h6"
                 app:layout_constraintBottom_toTopOf="@+id/guidelinetickets00"
                 app:layout_constraintStart_toStartOf="parent">
@@ -215,6 +217,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="10dp"
                 android:text="-- -- --"
+                android:visibility="gone"
                 android:textAlignment="textStart"
                 android:textSize="@dimen/h5"
                 android:textStyle="bold"
