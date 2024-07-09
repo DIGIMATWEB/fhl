@@ -491,18 +491,18 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
     public void validateSendtrip() {
         if (folioTicket != null) {/** si es un solo folio**/
             // isArrayofTickets=false;
-            Log.e("folioTSendtrip", "es un solo folio");
+            Log.e("validateSendtrip", "es un solo folio");
             presenter.requestDetailTicketsSendtriplus(false, iterateidTickets, currentManifest, null, folioTicket);
             changeStatusTicket = folioTicket;
 
         } else {
             if (data != null) {// si es un arreglo de folios
-                Log.e("dataticketsSizeE", "son varios folios");
+                Log.e("validateSendtrip", "son varios folios");
                 if (data.size() > 1) {// si solo es un folio
                     //  isArrayofTickets=true;
                     Gson gson= new Gson();
                     String json=gson.toJson(data.get(iterateidTickets));
-                    Log.e("listenerT",""+json);
+                    Log.e("validateSendtrip",""+json);
                     presenter.requestDetailTicketsSendtriplus(
                             true,
                             iterateidTickets,
@@ -512,10 +512,10 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
                     changeStatusTicket = data.get(iterateidTickets).getFolioTicket();
                 } else {// si es un folio
                     //    isArrayofTickets=false;
-                    Log.e("dataticketsSizeE", "si es un folio");
-                    Log.e("dataticketsSizeE", "t: "+iterateidTickets);
-                    Log.e("dataticketsSizeE", "m: "+currentManifest);
-                    Log.e("dataticketsSizeE", "ft: "+data.get(0).getFolioTicket());
+                    Log.e("validateSendtrip", "si es un folio");
+                    Log.e("validateSendtrip", "t: "+iterateidTickets);
+                    Log.e("validateSendtrip", "m: "+currentManifest);
+                    Log.e("validateSendtrip", "ft: "+data.get(0).getFolioTicket());
                     folioTicket=data.get(0).getFolioTicket();
                     presenter.requestDetailTicketsSendtriplus(
                             true, iterateidTickets, currentManifest, data.get(0).getFolioTicket(), null);//
@@ -533,13 +533,23 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
         dataTicketSendtrip.get(0).getFolioTicket();
         Gson gson = new Gson();
         String json = gson.toJson(dataTicketSendtrip);
-        Log.e("listenerT", " json ticket:" + json);
-        Log.e("detailticket", " flowdetail " + flowDetail);
+        Log.e("setDetailTicketsentriplus", " json ticket:" + json);
+        Log.e("setDetailTicketsentriplus", " flowdetail " + flowDetail);
         fillEvidenceRequired(flowDetail, dataTicketSendtrip);//2para test
         textFol.setText("Folio: " + dataTicketSendtrip.get(0).getFolioTicket());
         if(evidenceList!=null) {
-            if (!evidenceList.isEmpty()) {
-
+            if (!evidenceList.isEmpty()) {//la pila de evidencias contiene evidencias listadas por tomar
+                Log.e("setDetailTicketsentriplus", " !videnceList.isEmpty()");
+                Log.e("setDetailTicketsentriplus", " pG: " + positionGroup);
+                Log.e("setDetailTicketsentriplus", " iterateidTickets: " + iterateidTickets);
+                if(positionGroup!=null){
+                    if(iterateidTickets>0) {
+                        checkShared();
+                        isArrayofTickets=true;
+                        presenter.nextRequest();
+                        presenter.showDialog();
+                    }
+                }
             } else{
                 Toast.makeText(this, "No tienes evidencias", Toast.LENGTH_SHORT).show();
                 if(data.size()>1){
@@ -550,6 +560,7 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
             }
         }else{
             sendEvidence.setVisibility(View.GONE);
+            Log.e("setDetailTicketsentriplus", " sendEvidence GONE");
         }
     }
 
@@ -867,8 +878,10 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
 
                     //todo
                     presenter.hideDialog();
-                    removeShared();
-                    cleanFolder();
+                    if(positionGroup==null) {
+                        removeShared();
+                        cleanFolder();
+                    }
                     presenter.requestDetailTicketsSendtriplus(true, iterateidTickets, currentManifest, data.get(iterateidTickets).getFolioTicket(), null);// revisar si esto se ejecuta correctamente ya que pide el detalle del ticket siguiente para el sendtriplus
                 }
             }

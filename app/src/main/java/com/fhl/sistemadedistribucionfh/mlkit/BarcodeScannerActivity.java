@@ -417,6 +417,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
         if (allPermissionsGranted()) {
             bindAllCameraUseCases();
             if(typeScanner.equals("Salida")) {
+                Log.e("currentStatus"," restartCameraProcess cSNC:  "+currentStatus);
                 if (currentStatus == 3) {
                     Log.e("dialogSalida","currentStatus 3");
                     binding.barcodeRawValue.setText("escanea los tickets");
@@ -428,6 +429,16 @@ public class BarcodeScannerActivity extends AppCompatActivity
                         botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");
                     }
 
+                }else if (currentStatus == 4) {
+                    Log.e("dialogSalida","currentStatus 5");
+                    binding.barcodeRawValue.setText("escanea los sellos");
+                    if (getSupportFragmentManager().findFragmentByTag("sellosSalida") == null) {
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("sellos", (Serializable) dataSellos);
+                        botonsheetsellos = new sellosSalida();
+                        botonsheetsellos.setArguments(bundle);
+                        botonsheetsellos.show(getSupportFragmentManager(), "sellosSalida");
+                    }
                 } else if (currentStatus == 5) {
                     Log.e("dialogSalida","currentStatus 5");
                     binding.barcodeRawValue.setText("escanea los sellos");
@@ -456,7 +467,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
     }
     public void checkIfMotorola(){
         if(typeScanner.equals("Salida")) {
-            Log.e("motorola","checkIfMotorola restartCameraProcess cS:  "+currentStatus);
+            Log.e("currentStatus","checkIfMotorola restartCameraProcess cS:  "+currentStatus);
             if (currentStatus != 5) {
                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
@@ -473,6 +484,15 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");
                 }
 
+            }else if (currentStatus == 4) {
+                binding.barcodeRawValue.setText("escanea los sellos");
+                if (getSupportFragmentManager().findFragmentByTag("sellosSalida") == null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("sellos", (Serializable) dataSellos);
+                    botonsheetsellos = new sellosSalida();
+                    botonsheetsellos.setArguments(bundle);
+                    botonsheetsellos.show(getSupportFragmentManager(), "sellosSalida");
+                }
             } else if (currentStatus == 5) {
                 binding.barcodeRawValue.setText("escanea los sellos");
                 if (getSupportFragmentManager().findFragmentByTag("sellosSalida") == null) {
@@ -507,14 +527,15 @@ public class BarcodeScannerActivity extends AppCompatActivity
         if (allPermissionsGranted()) {
             bindAllCameraUseCases();
           if(typeScanner.equals("Salida")) {
-           Log.e("motorola"," restartCameraProcess cS:  "+currentStatus);
-            if (currentStatus != 3 && currentStatus != 5) {
+           Log.e("currentStatus"," restartCameraProcess cS:  "+currentStatus);
+            if (currentStatus != 3 && currentStatus != 5 && currentStatus != 4) {
                 currentStatus = currentStatus + 1;
                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString(GeneralConstants.STATUS_SALIDA, String.valueOf(currentStatus));
                 editor.commit();
             }
+
             if (currentStatus == 3) {
                 binding.barcodeRawValue.setText("escanea los tickets");
                 if (getSupportFragmentManager().findFragmentByTag("ticketsSalida") == null) {
@@ -526,7 +547,16 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");
                 }
 
-            } else if (currentStatus == 5) {
+            }else if (currentStatus == 4) {
+                binding.barcodeRawValue.setText("escanea los sellos");
+                if (getSupportFragmentManager().findFragmentByTag("sellosSalida") == null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("sellos", (Serializable) dataSellos);
+                    botonsheetsellos = new sellosSalida();
+                    botonsheetsellos.setArguments(bundle);
+                    botonsheetsellos.show(getSupportFragmentManager(), "sellosSalida");
+                }
+            }else if (currentStatus == 5) {
                 binding.barcodeRawValue.setText("escanea los sellos");
                 if (getSupportFragmentManager().findFragmentByTag("sellosSalida") == null) {
 //                    Bundle bundle = new Bundle();
@@ -592,7 +622,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
         if(botonsheettickets!=null) {
             botonsheettickets.closeDialog();
             currentStatus = 4;
-            Log.e("salida", "ir a sellos");
+            Log.e("currentStatus", "ir a sellos");
         }
     }
     public void dismissSellos(){
@@ -662,32 +692,36 @@ public class BarcodeScannerActivity extends AppCompatActivity
         //bundle.putString("qrCode", code);
         String statusrecepcion="3";
         if(dataSellos!=null){
-            Log.e("dialogSalida","existen sellos");
-            statusrecepcion="5";
+            Log.e("currentStatus","existen sellos");
+           statusrecepcion="4";
             //Toast.makeText(this, "No tienes sellos", Toast.LENGTH_SHORT).show();
-            dismissSellos();
+         //   dismissSellos();
         }else{
-            Log.e("dialogSalida","no existen sellos");
-            statusrecepcion="5";
+            Log.e("currentStatus","no existen sellos");
+            statusrecepcion="4";
             //Toast.makeText(this, "No tienes sellos", Toast.LENGTH_SHORT).show();
-            dismissSellos();
+          //|  dismissSellos();
         }
-        bundle.putString("statusRecepcion", statusrecepcion);
+//        botonsheetsellos = new sellosSalida();
+//        // botonsheetsellos.setArguments(bundle);
+//        botonsheetsellos.show(getSupportFragmentManager(), "sellosSalida");
+
         // bundle.putString("cortinaDestino", cortinaDestination);
         //bundle.putString("mQR", mQR);
+        bundle.putString("statusRecepcion", statusrecepcion);
         bundle.putString("currentManifest", currentmanifest);
         Salida bottonSheetv = new Salida();
         bottonSheetv.setArguments(bundle);
         bottonSheetv.show(getSupportFragmentManager(), "Salida");
-
-        Bundle bundle1 = new Bundle();
-        bundle1.putString("currentManifest", currentmanifest);
-        bundle1.putSerializable("dataTcikets", (Serializable) dataTickets);
-        bundle1.putSerializable("sellos", (Serializable) dataSellos);
-        bundle1.putString("flowSellos", "2");
-        sellosSummary bottomSheet = new sellosSummary();
-        bottomSheet.setArguments(bundle1);
-        bottomSheet.show(getSupportFragmentManager(), "sellosSummary");
+//
+//        Bundle bundle1 = new Bundle();
+//        bundle1.putString("currentManifest", currentmanifest);
+//        bundle1.putSerializable("dataTcikets", (Serializable) dataTickets);
+//        bundle1.putSerializable("sellos", (Serializable) dataSellos);
+//        bundle1.putString("flowSellos", "2");
+//        sellosSummary bottomSheet = new sellosSummary();
+//        bottomSheet.setArguments(bundle1);
+//        bottomSheet.show(getSupportFragmentManager(), "sellosSummary");
 
     }
     public void goSellosSummary() {
@@ -859,7 +893,23 @@ public class BarcodeScannerActivity extends AppCompatActivity
                         }
                     }, 1500);
                 }else if(status.equals("4")) {
-
+                    if(getSupportFragmentManager().findFragmentByTag("sellosSalida")==null){
+                        Bundle bundle= new Bundle();
+                        bundle.putSerializable("sellos",(Serializable) dataSellos);
+                        botonsheetsellos = new sellosSalida();
+                        botonsheetsellos.setArguments(bundle);
+                        botonsheetsellos.show(getSupportFragmentManager(),"sellosSalida");
+                    } else {
+                        botonsheetsellos.sendToast(code);
+                        Log.e("ticketsArray", "se envia el codigo al adapter "+code  );
+                    }
+                    stopCameraProcess();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            restartCameraProcess();
+                        }
+                    }, 1500);
                 }else if(status.equals("5")) {
                     //botonsheetsellos
                     if(getSupportFragmentManager().findFragmentByTag("sellosSalida")==null){

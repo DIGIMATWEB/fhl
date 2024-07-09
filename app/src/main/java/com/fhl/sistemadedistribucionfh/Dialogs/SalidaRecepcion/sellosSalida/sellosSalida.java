@@ -60,7 +60,7 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
         initDialog(view);
         if(codigoValidador!=null) {
             model.clear();
-            Log.e("ticketsArray2", "adapter size" + codigoValidador.size());
+            Log.e("bottomSellos", "adapter size" + codigoValidador.size());
             for(int i=0; i< codigoValidador.size();i++){
                 model.add(new sellosScanned(codigoValidador.get(i).getNumeroSello(),false));
                 Log.e("ticketsArray2", "model size: " + model.get(i).getFolio()+"  "+model.get(i).getFlag());
@@ -69,7 +69,8 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
             fillAdapter(model,getContext());
         }//setFonts();
         else {
-            dismiss();
+            Log.e("bottomSellos", "codigoValidador null" );
+           // dismiss();
         }
         return view;
     }
