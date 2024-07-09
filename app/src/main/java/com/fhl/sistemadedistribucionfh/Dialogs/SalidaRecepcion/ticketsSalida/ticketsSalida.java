@@ -60,6 +60,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
     private Boolean sendEvidence=false;
     private List<gruposTickets> groupsTickets;
     private Boolean consolidado=false;
+    private String singleLasteTicketEvidence;
     private  Integer countByGropup=0;
     private Integer valAfterEvidence;
     private Boolean waitOnBack=false;
@@ -118,7 +119,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                 ticketsScanned ticket = new ticketsScanned(
                         codigoValidador.get(i).getFolioTicket(),
                         false,
-                        codigoValidador.get(i).getSendtripPlus()
+                        codigoValidador.get(i).getSendtripPlus(),false
                 );
                 model.add(ticket);
 
@@ -355,6 +356,9 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         }
     }
     public void goEvidenceOneItem(ticketsScanned ticketsScanned) {//esto es solo cuando hay un ticket
+        if(!consolidado){
+            this.singleLasteTicketEvidence=ticketsScanned.getFolio();
+        }
         List<dataTicketsManifestV2> codigoValidadorV2 =new ArrayList<>();
         codigoValidadorV2.clear();
         for (dataTicketsManifestV2 tickets: codigoValidador){
@@ -362,6 +366,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                 codigoValidadorV2.add(tickets);
             }
         }
+        waitOnBack=true;
         Intent intent = new Intent(getActivity(), evidenciasCarga.class);
         Bundle bundle = new Bundle();
         bundle.putInt("flujoId", 1);
@@ -436,7 +441,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                     ticketsScanned ticket = new ticketsScanned(
                             data.getFolioTicket(),
                             false,
-                            data.getSendtripPlus()
+                            data.getSendtripPlus(),false
                     );
                     model.add(ticket);
 
@@ -470,13 +475,20 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                     rvTicketsG.setVisibility(View.VISIBLE);
                     fillAdapterG(groupsTickets, consolidado);
                 } else {
+                    for (ticketsScanned ticket:model){
+                        if(singleLasteTicketEvidence.equals(ticket.getFolio())){
+                            ticket.setHasTekenevidence(true);
+                        }
+                    }
                     fillAdapter(model, getContext(), consolidado);
                 }
             }
            new Handler().postDelayed(new Runnable() {
                @Override
                public void run() {
-                   adapterG.updateFlag(valAfterEvidence);
+                   if(consolidado) {
+                       adapterG.updateFlag(valAfterEvidence);
+                   }
                }
            }, 1000);
         }

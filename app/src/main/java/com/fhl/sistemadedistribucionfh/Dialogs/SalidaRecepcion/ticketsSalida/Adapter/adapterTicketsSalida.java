@@ -54,6 +54,11 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
         if(!needGroupThem){//esto es por que solo h ay un ticket
             holder.evidence.setVisibility(View.VISIBLE);
             holder.siguiente.setVisibility(View.VISIBLE);
+            if(data.get(position).getHasTekenevidence()){
+                holder.evidence.setVisibility(View.GONE);
+            }else{
+                holder.evidence.setVisibility(View.VISIBLE);
+            }
             holder.evidence.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

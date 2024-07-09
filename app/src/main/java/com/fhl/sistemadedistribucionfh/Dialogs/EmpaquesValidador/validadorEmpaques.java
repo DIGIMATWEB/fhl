@@ -79,7 +79,7 @@ public void onCreate(@Nullable Bundle savedInstanceState) {
                                 model.clear();
                                 Log.e("ticketsArray2", "adapter size" + codigoValidador.size());
                                 for (int i = 0; i < codigoValidador.size(); i++) {
-                                        model.add(new ticketsScanned(codigoValidador.get(i).getFolioTicket(), false, codigoValidador.get(i).getSendtripPlus()));
+                                        model.add(new ticketsScanned(codigoValidador.get(i).getFolioTicket(), false, codigoValidador.get(i).getSendtripPlus(),false));
                                         Log.e("ticketsArray2", "model size: " + model.get(i).getFolio() + "  " + model.get(i).getFlag());
 
                                 }
