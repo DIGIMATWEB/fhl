@@ -32,8 +32,10 @@ import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Paquete;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +61,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
 
     private Boolean sendEvidence=false;
     private List<gruposTickets> groupsTickets;
-    private Boolean consolidado=false;
+    private Boolean consolidado=true;
     private String singleLasteTicketEvidence;
     private  Integer countByGropup=0;
     private Integer valAfterEvidence;
@@ -73,6 +75,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         SharedPreferences preferences = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove(GeneralConstants.POSITIONGROUP);
+        editor.remove(GeneralConstants.TIKETS_NO_CONSOLIDADO_EVIDENCE);
         editor.apply();
 
     }
@@ -475,22 +478,51 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                     rvTicketsG.setVisibility(View.VISIBLE);
                     fillAdapterG(groupsTickets, consolidado);
                 } else {
-                    for (ticketsScanned ticket:model){
-                        if(singleLasteTicketEvidence.equals(ticket.getFolio())){
-                            ticket.setHasTekenevidence(true);
+                    SharedPreferences preferences = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                    String sp = preferences.getString(GeneralConstants.TIKETS_NO_CONSOLIDADO_EVIDENCE, null);
+                    List<String> ticketsconEvidencia = new ArrayList<>();
+                    if (sp != null) {
+
+                        Gson gson = new Gson();
+
+                        // Use TypeToken to handle potential type erasure during deserialization
+                        Type listType = new TypeToken<List<String>>() {
+                        }.getType();
+                        ticketsconEvidencia = gson.fromJson(sp, listType);
+                        for (ticketsScanned ticket : model) {
+                            if (ticketsconEvidencia != null && !ticketsconEvidencia.isEmpty()) {
+                                for (String fol : ticketsconEvidencia) {
+                                    if (fol.equals(ticket.getFolio())) {
+                                        ticket.setHasTekenevidence(true);
+                                    }
+                                }
+                            }
+                            Boolean allPackages=true;
+
+                            for (Paquete pack:ticket.getSendtripPlus().getPaquetes()){
+                                if (!pack.getFlag()){
+                                    allPackages=false;
+                                    break;
+                                }
+                            }
+                            if(allPackages){
+                                ticket.setFlag(true);
+                            }
                         }
+                        fillAdapter(model, getContext(), consolidado);
                     }
-                    fillAdapter(model, getContext(), consolidado);
                 }
             }
-           new Handler().postDelayed(new Runnable() {
-               @Override
-               public void run() {
-                   if(consolidado) {
+           if(consolidado) {
+               new Handler().postDelayed(new Runnable() {
+                   @Override
+                   public void run() {
+
                        adapterG.updateFlag(valAfterEvidence);
+
                    }
-               }
-           }, 1000);
+               }, 1000);
+           }
         }
     }
 
@@ -534,7 +566,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                         }
                     }else {
                         if (consolidado) {
-
+                            Log.e("consolidado","consolidado");
 //                            Log.e("dataticketsSizeE","Falta enviar las evidencias");
                             boolean allPackages = true;
                             for (gruposTickets gt : groupsTickets) {
@@ -559,7 +591,26 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
 //                            textChekcs.setText(countByGropup + "/" + model.size());
 
                         }else{
-                            Toast.makeText(getContext(), "No consolidado", Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(getContext(), "No consolidado", Toast.LENGTH_SHORT).show();
+                            Log.e("consolidado","No consolidado");
+                            boolean allPackagesEvidence = true;
+                            for(ticketsScanned t:model){
+                                if(!t.getHasTekenevidence()){
+                                    allPackagesEvidence=false;
+                                    break;
+                                }
+                            }
+                            if (allPackagesEvidence) {
+                                // Toast.makeText(getContext(), "LISTO TODOS PERFECT", Toast.LENGTH_SHORT).show();
+                                if(countok == model.size()){
+                                    //definir si aqui se elimina
+                                    BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                                    barcodeScannerActivity1.goTicketsSummary();
+                                    closeDialog();
+                                }
+                            } else {
+                                Toast.makeText(getContext(), "Falta enviar evidencias", Toast.LENGTH_SHORT).show();
+                            }
                         }
 
                         // getActivity().finish();

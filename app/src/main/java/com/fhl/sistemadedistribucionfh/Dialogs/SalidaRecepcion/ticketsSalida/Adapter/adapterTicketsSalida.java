@@ -52,12 +52,14 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
     public void onBindViewHolder(@NonNull adapterTicketsSalida.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.razonDesc.setText(data.get(position).getFolio());
         if(!needGroupThem){//esto es por que solo h ay un ticket
-            holder.evidence.setVisibility(View.VISIBLE);
-            holder.siguiente.setVisibility(View.VISIBLE);
+//            holder.evidence.setVisibility(View.VISIBLE);
+//            holder.siguiente.setVisibility(View.VISIBLE);
             if(data.get(position).getHasTekenevidence()){
                 holder.evidence.setVisibility(View.GONE);
+                holder.siguiente.setVisibility(View.GONE);
             }else{
                 holder.evidence.setVisibility(View.VISIBLE);
+                holder.siguiente.setVisibility(View.VISIBLE);
             }
             holder.evidence.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -95,6 +95,7 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
     private List<ticketsScanned> fresult;
     private onBackSalida bS;
     private List<String> psitionsG=new ArrayList<>();
+    private List<String> singleT=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,12 +125,21 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
             // For example, you can log it or display it in a TextView
             SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
             String sp = preferences.getString(GeneralConstants.POSITIONGROUP, null);
+            String sT = preferences.getString(GeneralConstants.TIKETS_NO_CONSOLIDADO_EVIDENCE, null);
             if(sp!=null){
                 Gson gson = new Gson();
 
                 // Use TypeToken to handle potential type erasure during deserialization
                 Type listType = new TypeToken<List<String>>() {}.getType();
                 psitionsG = gson.fromJson(sp, listType);
+            }
+            if(sT!=null)
+            {
+                Gson gson = new Gson();
+
+                // Use TypeToken to handle potential type erasure during deserialization
+                Type listType = new TypeToken<List<String>>() {}.getType();
+                singleT = gson.fromJson(sT, listType);
             }
             Log.d("dataticketsSizeE", "Retrieved integer value: " + flujoId);
             if (data != null) {
@@ -506,6 +516,7 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
                     Log.e("dataticketsSizeE", "t: "+iterateidTickets);
                     Log.e("dataticketsSizeE", "m: "+currentManifest);
                     Log.e("dataticketsSizeE", "ft: "+data.get(0).getFolioTicket());
+                    folioTicket=data.get(0).getFolioTicket();
                     presenter.requestDetailTicketsSendtriplus(
                             true, iterateidTickets, currentManifest, data.get(0).getFolioTicket(), null);//
                     changeStatusTicket = data.get(0).getFolioTicket();
@@ -801,6 +812,22 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
             // Toast.makeText(this, "usar sendtrip plus Cambiar estatus y regresar a manifiestos", Toast.LENGTH_SHORT).show();
             Log.e("listenerT","isArrayofTickets: "+isArrayofTickets);
             if (!isArrayofTickets) {// si es solo uno manda el manifiesto
+                Log.e("singleT","folioTicket: "+folioTicket);
+                Log.e("singleT","folioTicket: "+singleT);
+                if(!singleT.contains(String.valueOf(folioTicket))){
+                    singleT.add(String.valueOf(folioTicket));
+                }else {
+                    if(singleT.isEmpty()){
+                        singleT.add(String.valueOf(folioTicket));
+                    }
+                }
+                Gson gson=new Gson();
+                String json= gson.toJson(singleT);
+                SharedPreferences preferencias = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferencias.edit();
+                editor.putString(GeneralConstants.TIKETS_NO_CONSOLIDADO_EVIDENCE, String.valueOf( json));
+                editor.commit();
+
                 presenter.hideDialog();
                 removeShared();
                 cleanFolder();

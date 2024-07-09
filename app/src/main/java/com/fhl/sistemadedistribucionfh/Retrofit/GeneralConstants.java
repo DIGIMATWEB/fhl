@@ -36,4 +36,5 @@ public class GeneralConstants {
     public static final String WITH_USER = "WITH_SAVED";
     public static final String LISTA_VEHICULOS_LOCATOR = "LOCATOR_VEHICLE_LIST";
     public static final String POSITIONGROUP = "CONSOLIDADO_POSITION";
+    public static final String TIKETS_NO_CONSOLIDADO_EVIDENCE = "EVIDENCE_CONSOLIDADO_POSITION";
 }
