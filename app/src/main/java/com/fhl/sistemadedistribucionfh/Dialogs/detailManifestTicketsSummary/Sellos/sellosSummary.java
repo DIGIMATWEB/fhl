@@ -88,7 +88,7 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
         imageButton.setOnClickListener(this);
         sellosAdd = view.findViewById(R.id.sellosAdd);
         sellosAdd.setOnClickListener(this);
-        presenter= new presenterSelloImpl(this,getContext());
+       // presenter= new presenterSelloImpl(this,getContext());
         presenter.requestManifestdetail(currentManifest);
         presenter.reqSellos(currentManifest);
     }

@@ -35,7 +35,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.escanearCodigosSa
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.sellosSalida.sellosSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.ticketsSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.view.Salida;
-import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Sellos.sellosSummary;
+
 import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Tickets.detailTicketsSummary;
 import com.fhl.sistemadedistribucionfh.Dialogs.dialogCompleteValidador;
 import com.fhl.sistemadedistribucionfh.Dialogs.completeSalida.dialogCompletedSalida;
@@ -489,6 +489,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 if (getSupportFragmentManager().findFragmentByTag("sellosSalida") == null) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("sellos", (Serializable) dataSellos);
+                    bundle.putString("flowSellos","2");
                     botonsheetsellos = new sellosSalida();
                     botonsheetsellos.setArguments(bundle);
                     botonsheetsellos.show(getSupportFragmentManager(), "sellosSalida");
@@ -552,6 +553,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 if (getSupportFragmentManager().findFragmentByTag("sellosSalida") == null) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("sellos", (Serializable) dataSellos);
+                    bundle.putString("flowSellos","2");
                     botonsheetsellos = new sellosSalida();
                     botonsheetsellos.setArguments(bundle);
                     botonsheetsellos.show(getSupportFragmentManager(), "sellosSalida");
@@ -628,6 +630,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
     public void dismissSellos(){
         if(botonsheetsellos!=null) {
             botonsheetsellos.closeDialog();
+            currentStatus = 5;
         }
 
     }
@@ -726,6 +729,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
     }
     public void goSellosSummary() {
         stopCameraProcess();
+        botonsheetsellos.dismiss();
         Bundle bundle = new Bundle();
         //bundle.putString("qrCode", code);
         bundle.putString("statusRecepcion", "5");

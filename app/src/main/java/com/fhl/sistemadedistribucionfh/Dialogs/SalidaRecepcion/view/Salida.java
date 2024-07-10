@@ -158,6 +158,10 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                 cortina.setVisibility(View.VISIBLE);
                 textView23.setText("siguiente paso ");
                 textView29.setText("escanea el codigo de los sellos");
+                Glide.with(getContext())
+                        .load(qrsalida)
+                        .error(R.drawable.okwarning)
+                        .into(qrsalida);
                 presenter.getsellos(currentManifest);
                 break;
             case "5":

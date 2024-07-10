@@ -1,6 +1,7 @@
 package com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.sellosSalida;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,33 +14,44 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.sellosSalida.adapter.adapterSellosSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.sellosSalida.model.sellosScanned;
-import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.Adapter.adapterTicketsSalida;
-import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
-import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.ticketsSalida;
+import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Sellos.presenter.presenterSello;
+import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Sellos.presenter.presenterSelloImpl;
+import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Sellos.view.sellosSummaryView;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
+import com.fhl.sistemadedistribucionfh.evidence.evidencia;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class sellosSalida extends DialogFragment implements View.OnClickListener {
+public class sellosSalida extends DialogFragment implements View.OnClickListener, sellosSummaryView {
     public static final String TAG = sellosSalida.class.getSimpleName();
     private RecyclerView rvReasons;
     private adapterSellosSalida adapter;
     private ImageView closeReasons;
     private List<sellosScanned> model=new ArrayList<>();
-    private  List<Sello> codigoValidador;
+    private  List<Sello> sellos;
     private ImageButton imageButton;
     private TextView textChekcs;
     private Integer countok=0;
+    private String currentManifest;
+    private List<dataTicketsManifestV2> data;
+    private Integer flow=0;
+    private presenterSello presenter;
+    private Boolean control = false;
+    private Integer manifestId=0;
+    private CardView sellosAdd;
+    private Boolean createMore=true;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,21 +67,25 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
         setCancelable(true);
         Bundle args = getArguments();
         if (args != null) {
-            codigoValidador= (List<Sello>) args.getSerializable("sellos");
+            currentManifest = args.getString("currentManifest");
+            data = (List<dataTicketsManifestV2>) args.getSerializable("dataTcikets");
+            sellos= (List<Sello>) args.getSerializable("sellos");
+            flow= Integer.valueOf( args.getString("flowSellos"));
         }
         initDialog(view);
-        if(codigoValidador!=null) {
+        if(sellos!=null) {
             model.clear();
-            Log.e("bottomSellos", "adapter size" + codigoValidador.size());
-            for(int i=0; i< codigoValidador.size();i++){
-                model.add(new sellosScanned(codigoValidador.get(i).getNumeroSello(),false));
+            Log.e("bottomSellos", "adapter size" + sellos.size());
+            for(int i=0; i< sellos.size();i++){
+                model.add(new sellosScanned(sellos.get(i).getNumeroSello(),false));
                 Log.e("ticketsArray2", "model size: " + model.get(i).getFolio()+"  "+model.get(i).getFlag());
             }
             textChekcs.setText("0/"+model.size());
             fillAdapter(model,getContext());
         }//setFonts();
         else {
-            Log.e("bottomSellos", "codigoValidador null" );
+            sellos=new ArrayList<>();
+            Log.e("bottomSellos", "sellos null" );
            // dismiss();
         }
         return view;
@@ -80,15 +96,18 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
         getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimationBottonSheet;
     }
     private void initDialog(View view) {
-        rvReasons=view.findViewById(R.id.rvTickets);
+        rvReasons=view.findViewById(R.id.rvSellos);
         imageButton = view.findViewById(R.id.imageButton);
         imageButton.setOnClickListener(this);
         textChekcs=view.findViewById(R.id.textChekcs);
-
-        //presenter= new dialogReasonsPresenterImpl(this,getContext());
-
-
-        //presenter.requestMReasons();
+        if(sellos==null){
+            textChekcs.setVisibility(View.GONE); 
+        }
+        sellosAdd = view.findViewById(R.id.sellosAdd);
+        sellosAdd.setOnClickListener(this);
+        presenter= new presenterSelloImpl(this,getContext());
+        presenter.requestManifestdetail(currentManifest);
+        presenter.reqSellos(currentManifest);
     }
 
     private void fillAdapter(List<sellosScanned> data, Context context) {
@@ -100,12 +119,49 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
 
     public void closeDialog() {
         this.dismiss();
-
     }
-
+    public void updateSellos(Sello data) {
+        sellos.add(new Sello(data.getQrCodigo(), data.getNumeroSello(), Integer.valueOf(currentManifest), data.getId()));
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.sellosAdd:
+                if(createMore) {
+                    if (sellos != null&&!sellos.isEmpty()) {
+                       // adapter.updateSellos(new Sello("", "", Integer.valueOf(currentManifest), 0));
+                    } else {
+                        model.clear();
+                        Log.e("bottomSellos", "adapter size" + sellos.size());
+                        for(int i=0; i< sellos.size();i++){
+                            model.add(new sellosScanned(sellos.get(i).getNumeroSello(),false));
+                            Log.e("ticketsArray2", "model size: " + model.get(i).getFolio()+"  "+model.get(i).getFlag());
+                        }
+                        fillAdapter(model,getContext());
+                     //   adapter.updateSellos(new Sello("", "", Integer.valueOf(currentManifest), 0));
+                    }
+                    createMore=false;
+                }else{
+                    if(sellos.size()!=0) {
+                        Toast.makeText(getContext(), "Guarda el sello para poder agregar otro", Toast.LENGTH_SHORT).show();
+                    }else{
+                        createMore=true;
+                        if (sellos != null) {
+                          //  adapter.updateSellos(new Sello("", "", Integer.valueOf(currentManifest), 0));
+                        } else {
+                            model.clear();
+                            Log.e("bottomSellos", "adapter size" + sellos.size());
+                            for(int i=0; i< sellos.size();i++){
+                                model.add(new sellosScanned(sellos.get(i).getNumeroSello(),false));
+                                Log.e("ticketsArray2", "model size: " + model.get(i).getFolio()+"  "+model.get(i).getFlag());
+                            }
+                            fillAdapter(model,getContext());
+                          //  adapter.updateSellos(new Sello("", "", Integer.valueOf(currentManifest), 0));
+                            adapter.updateData(model);
+                        }
+                    }
+                }
+                break;
             case R.id.imageButton:
                 //closeDialog();
                 if(countok==model.size()) {
@@ -115,7 +171,7 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
                     closeDialog();
 
                 }else{
-                    Toast.makeText(getContext(), "faltan tickets por escanear", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "faltan sellos por escanear", Toast.LENGTH_SHORT).show();
 
                 }
                 break;
@@ -165,5 +221,50 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
         }
         Log.e("ticketsArray2","textcount: "+countok);
         textChekcs.setText(countok+"/"+model.size());
+    }
+
+    @Override
+    public void setMessageSello() {
+        goEvidence();
+    }
+    public void goEvidence() {
+        //  Toast.makeText(getContext(), "ir a evidencias", Toast.LENGTH_SHORT).show();
+        if(flow==1) {
+            getActivity().finish();
+            Intent intent = new Intent(getActivity(), evidencia.class);
+            Bundle bundle = new Bundle();
+            bundle.putInt("flujoId", 1);
+            bundle.putString("sentripPlusFlow", "Recoleccion");
+            bundle.putString("currentManifest", currentManifest);
+            bundle.putString("folioTicket", null);
+            bundle.putSerializable("dataTcikets", (Serializable) data);
+            intent.putExtras(bundle);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }else{
+            dismiss();
+        }
+    }
+    @Override
+    public void saveManifestId(Integer id) {
+        this.manifestId=id;
+    }
+
+    @Override
+    public void seteginsellos(List<Sello> sellos) {
+        if (sellos != null) {
+            this.sellos = sellos;
+            Log.e("QR", "nSellos: " + sellos.size()); // Debug log
+            this.control=true;
+            model.clear();
+            Log.e("bottomSellos", "adapter size" + sellos.size());
+            for(int i=0; i< sellos.size();i++){
+                model.add(new sellosScanned(sellos.get(i).getNumeroSello(),false));
+                Log.e("ticketsArray2", "model size: " + model.get(i).getFolio()+"  "+model.get(i).getFlag());
+            }
+            fillAdapter(model,getContext());
+        } else {
+            Log.e("QR", "sellos is null");
+        }
     }
 }

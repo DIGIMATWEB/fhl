@@ -544,7 +544,7 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
                 Log.e("setDetailTicketsentriplus", " iterateidTickets: " + iterateidTickets);
                 if(positionGroup!=null){
                     if(iterateidTickets>0) {
-                        checkShared();
+                        //checkShared();
                         isArrayofTickets=true;
                         presenter.nextRequest();
                         presenter.showDialog();
