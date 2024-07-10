@@ -558,6 +558,10 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     botonsheetsellos.setArguments(bundle);
                     botonsheetsellos.show(getSupportFragmentManager(), "sellosSalida");
                 }
+                SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString(GeneralConstants.STATUS_SALIDA, String.valueOf(currentStatus));
+                editor.commit();
             }else if (currentStatus == 5) {
                 binding.barcodeRawValue.setText("escanea los sellos");
                 if (getSupportFragmentManager().findFragmentByTag("sellosSalida") == null) {
