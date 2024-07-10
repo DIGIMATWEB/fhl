@@ -382,6 +382,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                 }else if(codigoValidador1.equals("4")) {
                     BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
                     barcodeScannerActivity1.dismissTickets();
+                    barcodeScannerActivity1.setCurrentManifestSellos(currentManifest);
                     //barcodeScannerActivity1.dismissSellos();
                     //barcodeScannerActivity1.godialogCheck();
                     closeDialog();

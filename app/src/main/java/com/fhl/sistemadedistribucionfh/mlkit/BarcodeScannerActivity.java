@@ -434,7 +434,9 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     binding.barcodeRawValue.setText("escanea los sellos");
                     if (getSupportFragmentManager().findFragmentByTag("sellosSalida") == null) {
                         Bundle bundle = new Bundle();
+                        bundle.putString("currentManifest", currentmanifest);
                         bundle.putSerializable("sellos", (Serializable) dataSellos);
+                        bundle.putString("flowSellos","2");
                         botonsheetsellos = new sellosSalida();
                         botonsheetsellos.setArguments(bundle);
                         botonsheetsellos.show(getSupportFragmentManager(), "sellosSalida");
@@ -552,6 +554,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 binding.barcodeRawValue.setText("escanea los sellos");
                 if (getSupportFragmentManager().findFragmentByTag("sellosSalida") == null) {
                     Bundle bundle = new Bundle();
+                    bundle.putString("currentManifest", currentmanifest);
                     bundle.putSerializable("sellos", (Serializable) dataSellos);
                     bundle.putString("flowSellos","2");
                     botonsheetsellos = new sellosSalida();
@@ -903,6 +906,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 }else if(status.equals("4")) {
                     if(getSupportFragmentManager().findFragmentByTag("sellosSalida")==null){
                         Bundle bundle= new Bundle();
+                        bundle.putString("currentManifest", currentmanifest);
                         bundle.putSerializable("sellos",(Serializable) dataSellos);
                         botonsheetsellos = new sellosSalida();
                         botonsheetsellos.setArguments(bundle);

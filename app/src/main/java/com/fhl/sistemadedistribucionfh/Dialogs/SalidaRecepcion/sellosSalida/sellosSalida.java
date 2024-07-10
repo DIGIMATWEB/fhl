@@ -71,6 +71,7 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
             data = (List<dataTicketsManifestV2>) args.getSerializable("dataTcikets");
             sellos= (List<Sello>) args.getSerializable("sellos");
             flow= Integer.valueOf( args.getString("flowSellos"));
+            Log.e("bottomSellos", "currentManifest "+currentManifest );
         }
         initDialog(view);
         if(sellos!=null) {
@@ -122,6 +123,7 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
     }
     public void updateSellos(Sello data) {
         sellos.add(new Sello(data.getQrCodigo(), data.getNumeroSello(), Integer.valueOf(currentManifest), data.getId()));
+        presenter.setSello(manifestId,sellos);
     }
     @Override
     public void onClick(View view) {
@@ -198,8 +200,10 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
             }
             if (!codeFound) {
                 Log.e("ticketsArray2", "codigo no pertenece a la lista");
-                BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
-                barcodeScannerActivity1.errorTicket();
+//                BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+//                barcodeScannerActivity1.errorTicket();
+                adapter.updateSellos(new Sello("", "", Integer.valueOf(currentManifest), 0));
+
             }
             if (adapter != null) {
                 adapter.updateData(model);
