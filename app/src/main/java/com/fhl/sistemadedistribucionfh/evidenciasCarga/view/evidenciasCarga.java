@@ -851,7 +851,22 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
                 SharedPreferences.Editor editor = preferencias.edit();
                 editor.putString(GeneralConstants.TIKETS_NO_CONSOLIDADO_EVIDENCE, String.valueOf( json));
                 editor.commit();
-
+                if(positionGroup!=null) {
+                    if (bS != null) {
+                        bS.sendMessageEvidence(positionGroup);
+                        if(!psitionsG.contains(String.valueOf(positionGroup))){
+                            psitionsG.add(String.valueOf(positionGroup));
+                        }
+                        Gson gson1=new Gson();
+                        String json1= gson1.toJson
+                                (psitionsG);
+                        SharedPreferences preferencias1 = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor1 = preferencias1.edit();
+                        editor1.putString(GeneralConstants.POSITIONGROUP, String.valueOf( json1));
+                        // editor.putString(GeneralConstants.CVE_EMPLOYE,String.valueOf(data.getCve_employee()));
+                        editor1.commit();
+                    }
+                }
                 presenter.hideDialog();
                 removeShared();
                 cleanFolder();
