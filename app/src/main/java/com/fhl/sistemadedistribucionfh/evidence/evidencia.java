@@ -853,7 +853,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                         progress.dismiss();
                     }
             }
-        }, 20000);
+        }, 2000);
     }
 
     public void gosignature() {

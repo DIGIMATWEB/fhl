@@ -62,6 +62,7 @@ public class sellosInteractorImpl implements sellosInteractor{
     private void requestDataSalida(String token,String code) {
         Call<ResponseSellos> call=service2.getSalidaV2(token,code);
         Log.e("QR","code qr "+code);
+        presenter.showDialog();
         call.enqueue(new Callback<ResponseSellos>() {
             @Override
             public void onResponse(Call<ResponseSellos> call, Response<ResponseSellos> response) {
@@ -94,8 +95,10 @@ public class sellosInteractorImpl implements sellosInteractor{
 
                 if(resp.getData()!=null) {
                     presenter.setSellos(resp.getData().getSellos());
+                    presenter.hideDialog();
                 } else {
-                    //Toast.makeText(context, "Sin tickets asignados2.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Sin sellos asignados", Toast.LENGTH_SHORT).show();
+                    presenter.hideDialog();
                 }
             } else {
                 Toast.makeText(context, "" + response.message(), Toast.LENGTH_SHORT).show();

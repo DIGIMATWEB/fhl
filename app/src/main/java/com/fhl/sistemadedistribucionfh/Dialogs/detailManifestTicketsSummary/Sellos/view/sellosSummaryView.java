@@ -10,4 +10,6 @@ public interface sellosSummaryView {
     void saveManifestId(Integer id);
 
     void seteginsellos(List<Sello> sellos);
+    void showDialog();
+    void hideDialog();
 }

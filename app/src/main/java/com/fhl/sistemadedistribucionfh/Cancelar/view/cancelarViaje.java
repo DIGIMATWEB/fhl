@@ -447,7 +447,7 @@ public class cancelarViaje extends AppCompatActivity implements View.OnClickList
                         progress.dismiss();
                     }
             }
-        }, 20000);
+        }, 2000);
     }
 
     private void goToManifest() {

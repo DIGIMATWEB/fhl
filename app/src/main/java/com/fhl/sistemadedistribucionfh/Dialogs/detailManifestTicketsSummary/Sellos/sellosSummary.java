@@ -103,6 +103,17 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
             Log.e("QR", "sellos is null");
         }
     }
+
+    @Override
+    public void showDialog() {
+
+    }
+
+    @Override
+    public void hideDialog() {
+
+    }
+
     private void fillTicketsRV(List<Sello> sellos) {
         if (adapter == null) {
             adapter = new adapterSellosManifestDetail(this, sellos, getContext());

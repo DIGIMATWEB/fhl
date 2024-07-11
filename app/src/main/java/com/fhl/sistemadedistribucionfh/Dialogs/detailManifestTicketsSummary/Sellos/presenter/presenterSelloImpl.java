@@ -62,4 +62,18 @@ public class presenterSelloImpl implements presenterSello{
             view.seteginsellos(sellos);
         }
     }
+
+    @Override
+    public void showDialog() {
+        if(view!=null){
+            view.showDialog();
+        }
+    }
+
+    @Override
+    public void hideDialog() {
+        if(view!=null){
+            view.hideDialog();
+        }
+    }
 }

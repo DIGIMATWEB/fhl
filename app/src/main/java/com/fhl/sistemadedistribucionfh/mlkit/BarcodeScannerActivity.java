@@ -736,7 +736,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
     }
     public void goSellosSummary() {
         stopCameraProcess();
-        botonsheetsellos.dismiss();
+       // botonsheetsellos.dismiss();
         Bundle bundle = new Bundle();
         //bundle.putString("qrCode", code);
         bundle.putString("statusRecepcion", "5");

@@ -484,6 +484,7 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
         //icons
         presenter = new requestEvidencePresenterImpl(this, getBaseContext());
         presenter.tokenAvocado();
+       // presenter.showDialog();
 
     }
 
@@ -804,15 +805,27 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
             secuenceRequest = secuenceRequest + 1;
             Log.e("sendEvidence", "sendEvidence: " + secuenceRequest + " sendRate: " + stars);
             int rating = 0;
-            if(!stars.isEmpty()) {
-                rating = (int) Math.round(Double.parseDouble(stars));
-            }
-            if (folioTicket != null) {
-                presenter.sendRate(rating, folioTicket);
-                changeStatusTicket = folioTicket;
+            if(stars!=null&&!stars.isEmpty()) {
+                    rating = (int) Math.round(Double.parseDouble(stars));
+
             } else {
+                rating=-1;
+            }
+
+            if (folioTicket != null) {//si es un solo ticket
+                if(rating==-1) {
+                   presenter.nextRequest();
+                }else{
+                    presenter.sendRate(rating, folioTicket);
+                }
+                changeStatusTicket = folioTicket;
+            } else {                        //si son varios tickets no se cambia el estatus hasta el ultimo ticket
                 if (data != null) {
-                    presenter.sendRate(rating, data.get(iterateidTickets).getFolioTicket());
+                    if(rating==-1) {
+                        presenter.nextRequest();
+                    }else {
+                        presenter.sendRate(rating, data.get(iterateidTickets).getFolioTicket());
+                    }
                    // changeStatusTicket = data.get(iterateidTickets).getFolioTicket();//todo en evidencia a la carga no se envia evidencia
                 } else {
                    // Toast.makeText(this, "No hay tickets al cual mandar evidencia", Toast.LENGTH_SHORT).show();
@@ -962,7 +975,7 @@ public class evidenciasCarga extends AppCompatActivity implements View.OnClickLi
                         progress.dismiss();
                     }
             }
-        }, 20000);
+        }, 2000);
     }
 
     public void gosignature() {

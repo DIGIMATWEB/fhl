@@ -249,7 +249,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
             bundle.putBoolean("HAS_TITLE", false);
             bundle.putString("title","Cargando detalles");
             progress.setArguments(bundle);
-            progress.show(getParentFragmentManager(), loaderFH.TAG);
+            progress.show(getChildFragmentManager(), loaderFH.TAG);
         }
     }
 
@@ -306,8 +306,8 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
             BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
             barcodeScannerActivity1.setSellosArray(response);
         }else {
-            BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
-            barcodeScannerActivity1.setSellosNull();
+//            BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+//            barcodeScannerActivity1.setSellosNull();
 
         }
     }

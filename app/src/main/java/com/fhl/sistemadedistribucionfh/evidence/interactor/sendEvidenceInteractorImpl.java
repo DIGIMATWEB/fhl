@@ -110,7 +110,11 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
             } else if (secuenceRequest == 2) {
                 uploadFiles(currusel, 2, "test",token);
             } else if (secuenceRequest == 3) {
-                uploadFiles(ffiles, 3, "test", token);
+                if(ffiles!=null&&!ffiles.isEmpty()) {
+                    uploadFiles(ffiles, 3, "test", token);
+                }else {
+                    presenter.nextRequest();
+                }
             }else if (secuenceRequest == 4) {
                 if(fvideo!=null) {
                     uploadFiles(fvideo, 4, "test", token);
@@ -361,6 +365,7 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
                     editor.commit();
                     Log.e("token"," token avocado: "+data.getToken());
                     presenter.validateSendtrip();
+                  //  presenter.hideDialog();
 
                 }
             }else{

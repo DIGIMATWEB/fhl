@@ -78,6 +78,14 @@ public class adapterSellosSalida extends RecyclerView.Adapter<adapterSellosSalid
 
         }
     }
+
+    public void removeItem(int position) {
+        data.remove(position);
+        mview.updateSellosR(data);
+        mview.letCreateMore(true);
+        notifyItemRemoved(position);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView razonDesc;
         private CheckBox check;

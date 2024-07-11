@@ -14,5 +14,7 @@ public interface presenterSello {
     void saveManifestId(Integer id);
 
     void setSellos(List<Sello> sellos);
+    void showDialog();
+    void hideDialog();
 
 }
