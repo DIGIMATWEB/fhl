@@ -43,9 +43,17 @@ public class Remitente implements Serializable {
     @Expose
     private Integer id;
     @SerializedName("NombreSucursal")
+    @Expose
     private String NombreSucursal;
+    @SerializedName("NumeroExterior")
+    @Expose
+    private String numeroExterior;
+    @SerializedName("NumeroInterior")
+    @Expose
+    private String numeroInterior;
 
-    public Remitente(String nombre, String compania, String calle, String colonia, String localidad, String municipio, String estado, String pais, Integer codigoPostal, String coordenadas, Integer id,String NombreSucursal) {
+    public Remitente(String nombre, String compania, String calle, String colonia, String localidad, String municipio, String estado, String pais, Integer codigoPostal, String coordenadas, Integer id,
+                     String NombreSucursal, String numeroExterior, String numeroInterior) {
         super();
         this.nombre = nombre;
         this.compania = compania;
@@ -59,6 +67,8 @@ public class Remitente implements Serializable {
         this.coordenadas = coordenadas;
         this.id = id;
         this.NombreSucursal=NombreSucursal;
+        this.numeroExterior = numeroExterior;
+        this.numeroInterior= numeroInterior;
     }
 
     public String getNombre() {
@@ -160,5 +170,21 @@ public class Remitente implements Serializable {
 
     public void setNombreSucursal(String nombreSucursal) {
         NombreSucursal = nombreSucursal;
+    }
+
+    public String getNumeroExterior() {
+        return numeroExterior;
+    }
+
+    public void setNumeroExterior(String numeroExterior) {
+        this.numeroExterior = numeroExterior;
+    }
+
+    public String getNumeroInterior() {
+        return numeroInterior;
+    }
+
+    public void setNumeroInterior(String numeroInterior) {
+        this.numeroInterior = numeroInterior;
     }
 }

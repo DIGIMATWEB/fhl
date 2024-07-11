@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="420dp"
+        android:layout_height="match_parent"
         android:visibility="visible"
+
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -15,17 +19,19 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="10dp"
             app:cardCornerRadius="12dp"
             app:cardElevation="6dp"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constrainCard"
                 android:layout_width="match_parent"
@@ -38,21 +44,24 @@
                     android:layout_marginStart="16dp"
                     android:text="Número de Ticket"
                     android:textSize="@dimen/h6"
+
                     app:layout_constraintBottom_toTopOf="@+id/guidelinetickets00"
                     app:layout_constraintStart_toStartOf="parent">
-
                 </TextView>
 
                 <TextView
                     android:id="@+id/ticketNum"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
                     android:text="--- --- ---"
+                    android:textAlignment="textStart"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
+
+                    app:layout_constraintEnd_toStartOf="@+id/guidelinetickets03v"
                     app:layout_constraintStart_toStartOf="@+id/textView9"
                     app:layout_constraintTop_toTopOf="@+id/guidelinetickets00">
-
                 </TextView>
 
                 <TextView
@@ -60,469 +69,354 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
-                    android:text="Cliente"
+                    android:text="Remitente"
                     android:textSize="@dimen/h6"
+
                     app:layout_constraintBottom_toTopOf="@+id/guidelinetickets00"
                     app:layout_constraintEnd_toEndOf="parent">
-
                 </TextView>
 
                 <TextView
                     android:id="@+id/clienteName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:gravity="center"
                     android:text="--- --- ---"
                     android:textAlignment="textEnd"
-                    android:textSize="@dimen/h9"
+                    android:textSize="@dimen/h5"
+
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@+id/textView11"
-                    app:layout_constraintStart_toStartOf="@+id/guidelinetickets00v"
+                    app:layout_constraintStart_toStartOf="@+id/guidelinetickets03v"
                     app:layout_constraintTop_toBottomOf="@+id/textView11"
                     tools:ignore="RtlCompat">
-
-                </TextView>
-
-                <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Documento general"
-                    android:textSize="@dimen/h6"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets01"
-                    app:layout_constraintStart_toStartOf="@+id/textView9">
-
-                </TextView>
-
-                <TextView
-                    android:id="@+id/Documentacion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="--- --- ---"
-                    android:textSize="@dimen/h5"
-                    android:textStyle="bold"
-                    android:visibility="gone"
-                    app:layout_constraintStart_toStartOf="@+id/textView8"
-                    app:layout_constraintTop_toBottomOf="@+id/textView8">
-
                 </TextView>
 
                 <TextView
                     android:id="@+id/textView12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Contacto"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="Destinatario"
                     android:textSize="@dimen/h6"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets01"
-                    app:layout_constraintEnd_toEndOf="@+id/textView11">
 
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/clienteName">
                 </TextView>
 
                 <TextView
-                    android:id="@+id/contacto"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/destinatarioText"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:text="--- --- ---"
+                    android:textAlignment="textEnd"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/textView12"
-                    app:layout_constraintTop_toBottomOf="@+id/textView12">
 
+                    app:layout_constraintEnd_toEndOf="@+id/textView12"
+                    app:layout_constraintStart_toStartOf="@+id/guidelinetickets03v"
+                    app:layout_constraintTop_toBottomOf="@+id/textView12">
                 </TextView>
 
                 <TextView
                     android:id="@+id/textView25"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Producto"
-                    android:textSize="@dimen/h6"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets01"
-                    app:layout_constraintStart_toStartOf="@+id/textView9">
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="6dp"
+                    android:text="Custodia"
 
+                    android:textSize="@dimen/h6"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ticketNum">
                 </TextView>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <TextView
+                    android:id="@+id/custodioTicketText"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets02"
-                    app:layout_constraintEnd_toStartOf="@+id/guidelinetickets00v"
-                    app:layout_constraintStart_toStartOf="@+id/textView25"
-                    app:layout_constraintTop_toBottomOf="@+id/textView25">
-
-                    <ScrollView
-                        android:id="@+id/scrollView2"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:fillViewport="true"
-                        android:scrollbars="vertical"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/Productos"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:text="--- --- ---"
-                                android:textSize="@dimen/h8"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/Productosf"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="8dp"
-                                android:scrollbars="vertical"
-                                android:text="                                                                                                    ."
-                                android:textSize="@dimen/h8"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-                    </ScrollView>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-                <TextView
-                    android:id="@+id/textView28"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Adjuntos"
-                    android:textSize="@dimen/h6"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets03"
-                    app:layout_constraintStart_toStartOf="@+id/textView9">
-
-                </TextView>
-
-                <TextView
-                    android:id="@+id/textAdjuntos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="--- --- ---"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="5dp"
+                    android:text="Estado"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
-                    android:visibility="gone"
-                    app:layout_constraintStart_toStartOf="@+id/textView28"
-                    app:layout_constraintTop_toBottomOf="@+id/textView28">
 
-                </TextView>
-
-                <ImageView
-                    android:id="@+id/imageView6"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="10dp"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="@+id/textAdjuntos"
-                    app:layout_constraintStart_toEndOf="@+id/textAdjuntos"
-                    app:layout_constraintTop_toTopOf="@+id/textAdjuntos"
-                    app:srcCompat="@drawable/ic_clipo">
-
-                </ImageView>
+                    app:layout_constraintEnd_toStartOf="@+id/guidelinetickets03v"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView25" />
 
                 <TextView
-                    android:id="@+id/textView13"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/warningStatusTicket"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="CheckList Requeridos"
-                    android:textSize="@dimen/h6"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets02"
-                    app:layout_constraintEnd_toEndOf="@+id/textView11">
-
-                </TextView>
-
-                <TextView
-                    android:id="@+id/textDe"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="--- --- ---"
-                    android:textSize="12dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="5dp"
+                    android:text="Es peligroso"
+                    android:textAlignment="textStart"
+                    android:textSize="13dp"
                     android:textStyle="bold"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="@+id/textView13"
-                    app:layout_constraintTop_toBottomOf="@+id/textView13">
 
-                </TextView>
-
-                <TextView
-                    android:id="@+id/textView30"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cierre"
-                    android:textSize="@dimen/h6"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets03"
-                    app:layout_constraintEnd_toEndOf="@+id/textView11">
-
-                </TextView>
-
-                <TextView
-                    android:id="@+id/statusCierre"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="--- --- ---"
-                    android:textSize="@dimen/h5"
-                    android:textStyle="bold"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="@+id/textView30"
-                    app:layout_constraintTop_toBottomOf="@+id/textView30">
-
-                </TextView>
+                    app:layout_constraintEnd_toStartOf="@+id/guidelinetickets03v"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/custodioTicketText" />
 
                 <TextView
                     android:id="@+id/textView32"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Origen"
-                    android:textSize="@dimen/h6"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets03"
-                    app:layout_constraintStart_toStartOf="@+id/textView9">
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="12dp"
+                    android:text="Estado"
 
+                    android:textSize="@dimen/h6"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/warningStatusTicket">
                 </TextView>
 
                 <TextView
                     android:id="@+id/estado"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
                     android:text="--- --- --- ---"
                     android:textAlignment="textStart"
-                    android:textSize="@dimen/h9"
+                    android:textSize="@dimen/h5"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets04"
-                    app:layout_constraintEnd_toStartOf="@+id/guidelinetickets00v"
+
+                    app:layout_constraintEnd_toStartOf="@+id/guidelinetickets03v"
                     app:layout_constraintStart_toStartOf="@+id/textView32"
                     app:layout_constraintTop_toBottomOf="@+id/textView32">
-
                 </TextView>
 
                 <TextView
-                    android:id="@+id/textView14"
+                    android:id="@+id/remitenteTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Destino"
-                    android:textSize="@dimen/h6"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets03"
-                    app:layout_constraintEnd_toEndOf="@+id/textView11">
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="12dp"
+                    android:text="Remitente"
 
-                </TextView>
+                    android:textSize="@dimen/h6"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/estado" />
 
                 <TextView
-                    android:id="@+id/destino"
+                    android:id="@+id/remitenteDireccionTxt"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="6dp"
-                    android:text="--- --- ---"
-                    android:textAlignment="textEnd"
-                    android:textSize="@dimen/h10"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="5dp"
+                    android:text="Direccion"
+                    android:textSize="@dimen/h5"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets04"
-                    app:layout_constraintEnd_toEndOf="@+id/textView14"
-                    app:layout_constraintStart_toStartOf="@+id/guidelinetickets00v"
-                    app:layout_constraintTop_toTopOf="@+id/guidelinetickets03">
 
-                </TextView>
+                    app:layout_constraintEnd_toStartOf="@+id/guidelinetickets03v"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/remitenteTitle" />
 
                 <TextView
                     android:id="@+id/textView18"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Salida"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="6dp"
+                    android:text="Llegada"
                     android:textSize="@dimen/h6"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets0"
-                    app:layout_constraintStart_toStartOf="@+id/textView32">
-
-                </TextView>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/remitenteDireccionTxt" />
 
                 <TextView
-                    android:id="@+id/salida_time"
-                    android:layout_width="120dp"
+                    android:id="@+id/horaLlegadaRemitente"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="--- --- ---"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="5dp"
+                    android:text="26 Jun 13:49 hrs"
                     android:textAlignment="textStart"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@+id/textView18"
-                    app:layout_constraintTop_toTopOf="@+id/guidelinetickets0"
-                    tools:ignore="RtlCompat">
-
-                </TextView>
+                    app:layout_constraintEnd_toStartOf="@+id/guidelinetickets03v"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
                 <TextView
-                    android:id="@+id/textView20"
+                    android:id="@+id/destinatarioSTTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Regreso"
+                    android:layout_marginEnd="16dp"
+                    android:text="Destinatario"
                     android:textSize="@dimen/h6"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets0"
-                    app:layout_constraintEnd_toEndOf="@+id/textView14">
 
-                </TextView>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/remitenteTitle" />
 
                 <TextView
-                    android:id="@+id/regreso_time"
-                    android:layout_width="120dp"
+                    android:id="@+id/destinatarioSTTxt"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="--- --- ---"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="Direccion Destinatario"
                     android:textSize="@dimen/h5"
                     android:textStyle="bold"
                     android:textAlignment="textEnd"
-                    android:gravity="center"
-                    app:layout_constraintEnd_toEndOf="@+id/textView20"
-                    app:layout_constraintTop_toTopOf="@+id/guidelinetickets0"
-                    tools:ignore="RtlCompat">
 
-                </TextView>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guidelinetickets03v"
+                    app:layout_constraintTop_toBottomOf="@+id/destinatarioSTTitle" />
 
                 <TextView
+                    android:id="@+id/textView30"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Georeferencia"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="Llegada"
                     android:textSize="@dimen/h6"
-                    app:layout_constraintBottom_toTopOf="@+id/guidelinetickets0a"
-                    app:layout_constraintStart_toStartOf="@+id/guidelinetickets00v">
-
-                </TextView>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/destinatarioSTTxt" />
 
                 <TextView
-                    android:id="@+id/locationDesc"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/horaLlegadaDestinatario"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="--- --- --- ---"
-                    android:textSize="@dimen/h6"
-                    app:layout_constraintEnd_toStartOf="@+id/guidelinetickets01v"
-                    app:layout_constraintStart_toStartOf="@+id/guidelinetickets01v"
-                    app:layout_constraintTop_toTopOf="@+id/guidelinetickets0a">
-                </TextView>
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="26 Jun 15:40 hrs"
+                    android:textAlignment="textEnd"
 
-                <TextView
-                    android:id="@+id/latlong"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="--- --- --"
-                    android:textSize="@dimen/h9"
+                    android:textSize="@dimen/h5"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/guidelinetickets01v"
-                    app:layout_constraintStart_toStartOf="@+id/guidelinetickets01v"
-                    app:layout_constraintTop_toBottomOf="@+id/locationDesc">
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guidelinetickets03v"
+                    app:layout_constraintTop_toBottomOf="@+id/textView30" />
 
+                <TextView
+                    android:id="@+id/georeferenciaTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="5dp"
+                    android:text="Georeferencia"
+                    android:textAlignment="textStart"
+                    android:textSize="@dimen/h6"
+
+                    app:layout_constraintEnd_toStartOf="@+id/guidelinetickets03v"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/horaLlegadaRemitente">
                 </TextView>
 
-                <ImageView
-                    android:id="@+id/imageView4"
-                    android:layout_width="28dp"
-                    android:layout_height="24dp"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toStartOf="@+id/guidelinetickets01v"
-                    app:layout_constraintStart_toStartOf="@+id/guidelinetickets01v"
-                    app:layout_constraintTop_toBottomOf="@+id/latlong"
-                    app:srcCompat="@drawable/ic_icon">
-
-                </ImageView>
                 <ImageView
                     android:id="@+id/destinoMinimapa"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="@+id/guidelinetickets00v"
-                    app:layout_constraintTop_toTopOf="@+id/guidelinetickets0a"
-                    app:srcCompat="@drawable/map_test">
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
 
+                    android:layout_marginEnd="5dp"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelinetickets03v"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/georeferenciaTitle"
+                    app:srcCompat="@drawable/map_test">
                 </ImageView>
 
                 <TextView
-                    android:id="@+id/lalongReport"
+                    android:id="@+id/maniobrasTicketTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="--- --- --- ---"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="12dp"
+                    android:text="Maniobras/Auxiliares"
                     android:textSize="@dimen/h6"
-                    app:layout_constraintEnd_toStartOf="@+id/guidelinetickets01v"
-                    app:layout_constraintStart_toStartOf="@+id/guidelinetickets01v"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView4">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/destinoMinimapa" />
 
-                </TextView>
-                <!---->
+                <TextView
+                    android:id="@+id/maniobrasList"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="5dp"
+                    android:text="Asignados"
+                    android:textAlignment="textStart"
+                    android:textSize="@dimen/h5"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelinetickets03v"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/maniobrasTicketTitle" />
 
+                <TextView
+                    android:id="@+id/textView28"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="Habilidades"
+                    android:textSize="@dimen/h6"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/maniobrasTicketTitle" />
 
+                <TextView
+                    android:id="@+id/habilidadesList"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="Habilidades lista"
+                    android:textAlignment="textEnd"
+                    android:textSize="@dimen/h5"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guidelinetickets03v"
+                    app:layout_constraintTop_toBottomOf="@+id/textView28" />
 
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="Georeferencia"
+                    android:textAlignment="textEnd"
+                    android:textSize="@dimen/h6"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guidelinetickets03v"
+                    app:layout_constraintTop_toBottomOf="@+id/horaLlegadaDestinatario" />
+
+                <ImageView
+                    android:id="@+id/destinoMinimapaDestino"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guidelinetickets03v"
+                    app:layout_constraintTop_toBottomOf="@+id/textView14"
+                    app:srcCompat="@drawable/map_test">
+                </ImageView>
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guidelinetickets00"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".09"/>
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guidelinetickets01"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".20"/>
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guidelinetickets02"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".29"/>
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guidelinetickets03"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".37"/>
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guidelinetickets04"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".45"/>
+                    app:layout_constraintGuide_percent=".04" />
 
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guidelinetickets0"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".55"/>
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guidelinetickets0a"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".67"/>
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guidelinetickets00v"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".45"/>
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guidelinetickets01v"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_begin="70dp" />
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guidelinetickets02v"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".75"/>
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guidelinetickets03v"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".50"/>
+                    app:layout_constraintGuide_percent=".50" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

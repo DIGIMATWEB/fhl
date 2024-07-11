@@ -46,11 +46,14 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
         holder.ticketFolio.setText(data.get(position).getFolioTicket());//data.get(position).getFolioTicket());
         Integer statusId= data.get(position).getEstatusId();
         if(data.get(position).getEstatusId() != null) {
+            // Tipo entrega
             if(data.get(position).getTipoEntregaId()==2) {
                 holder.textView99.setText("E");
             }else {
                 holder.textView99.setText("R");
             }
+
+            // Estatus
             if(statusId==1){
                 holder.statusTicket.setText("En cola");
                 holder.statusTicket.setTextColor(ContextCompat.getColor(context, R.color.grey));
@@ -101,11 +104,62 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
         } else {
             holder.statusTicket.setText(""); // or any other default value you prefer
         }
+
+        // Custodia
+        Integer custodiaId = 0;
+        String custodiosString = "";
+        if(data.get(position).getTipoCustodiaId() != null) {
+            if(data.get(position).getTipoCustodiaId().equals(0)){
+                holder.custodioStatus.setText("-- --");
+            } else {
+                custodiaId = data.get(position).getTipoCustodiaId();
+
+                // Dependiendo el resultado
+                switch (custodiaId){
+                    case 1:
+                        holder.custodioStatus.setText("Armada");
+                        custodiosString = "Armada";
+                        break;
+                    case 2:
+                        holder.custodioStatus.setText("Sencilla");
+                        custodiosString = "Sencilla";
+                        break;
+                    case 3:
+                        holder.custodioStatus.setText("Sin custodia");
+                        custodiosString = "Sin custodia";
+                        break;
+                    case 4:
+                        holder.custodioStatus.setText("Hasta caseta");
+                        custodiosString = "Hasta caseta";
+                        break;
+                    case 5:
+                        holder.custodioStatus.setText("ArmadaInsertar");
+                        custodiosString = "ArmadaInsertar";
+                        break;
+                    case 0:
+                        holder.custodioStatus.setText("-- --");
+                        custodiosString = "-- --";
+                        break;
+                }
+            }
+        } else {
+            holder.custodioStatus.setText("-- --");
+        }
+
+        // Aviso de Peligro
+        if(data.get(position).getPeligroso() == null || data.get(position).getPeligroso().isEmpty()) {
+            holder.warningStatus.setVisibility(View.GONE);
+        } else {
+            holder.warningStatus.setVisibility(View.VISIBLE);
+        }
+
+        // Touch
+        String finalCustodiosString = custodiosString;
         holder.freametouch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                // Toast.makeText(context, ""+position, Toast.LENGTH_SHORT).show();
-                mview.gotoTickets(position,data.get(position).getFolioTicket(),data.get(position).getEstatusId());
+                mview.gotoTickets(position,data.get(position).getFolioTicket(),data.get(position).getEstatusId(), finalCustodiosString);
             }
         });
     }
@@ -120,7 +174,7 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout cardOrder;
-        TextView ticketFolio,statusTicket,masText,textView99;
+        TextView ticketFolio,statusTicket,masText,textView99, custodioStatus, warningStatus;
         ImageView siguiente;
         Switch switchSelector;
         FrameLayout freametouch;
@@ -134,6 +188,8 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
             statusTicket= itemView.findViewById(R.id.statusTicket);
             switchSelector = itemView.findViewById(R.id.switchSelector);
             textView99 =itemView.findViewById(R.id.textView99);
+            custodioStatus = itemView.findViewById(R.id.textCustodiaSencillaCount);
+            warningStatus = itemView.findViewById(R.id.warningStatus);
         }
     }
 }

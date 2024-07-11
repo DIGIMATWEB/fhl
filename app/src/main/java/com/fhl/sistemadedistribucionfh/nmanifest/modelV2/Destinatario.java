@@ -1,25 +1,21 @@
-
-package com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus;
+package com.fhl.sistemadedistribucionfh.nmanifest.modelV2;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
-public class Destinatario  implements Serializable {
-
+public class Destinatario {
+    @SerializedName("Id")
+    @Expose
+    private Integer id;
     @SerializedName("Nombre")
     @Expose
     private String nombre;
     @SerializedName("Compania")
     @Expose
     private String compania;
-    @SerializedName("Telefono")
+    @SerializedName("NombreSucursal")
     @Expose
-    private String telefono;
-    @SerializedName("Email")
-    @Expose
-    private String email;
+    private String nombreSucursal;
     @SerializedName("Calle")
     @Expose
     private String calle;
@@ -44,26 +40,13 @@ public class Destinatario  implements Serializable {
     @SerializedName("Coordenadas")
     @Expose
     private String coordenadas;
-    @SerializedName("Id")
-    @Expose
-    private Integer id;
-    @SerializedName("NombreSucursal")
-    @Expose
-    private String NombreSucursal;
-    @SerializedName("NumeroExterior")
-    @Expose
-    private String numeroExterior;
-    @SerializedName("NumeroInterior")
-    @Expose
-    private String numeroInterior;
 
-    public Destinatario(String nombre, String compania, String telefono, String email, String calle, String colonia, String localidad, String municipio, String estado, String pais, Integer codigoPostal,
-                        String coordenadas, Integer id,String NombreSucursal, String numeroExterior, String numeroInterior) {
+    public Destinatario(Integer id, String nombre, String compania, String nombreSucursal, String calle, String colonia, String localidad, String municipio, String estado, String pais, Integer codigoPostal, String coordenadas) {
         super();
+        this.id = id;
         this.nombre = nombre;
         this.compania = compania;
-        this.telefono = telefono;
-        this.email = email;
+        this.nombreSucursal = nombreSucursal;
         this.calle = calle;
         this.colonia = colonia;
         this.localidad = localidad;
@@ -72,10 +55,14 @@ public class Destinatario  implements Serializable {
         this.pais = pais;
         this.codigoPostal = codigoPostal;
         this.coordenadas = coordenadas;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
         this.id = id;
-        this.NombreSucursal=NombreSucursal;
-        this.numeroExterior = numeroExterior;
-        this.numeroInterior = numeroInterior;
     }
 
     public String getNombre() {
@@ -87,32 +74,19 @@ public class Destinatario  implements Serializable {
     }
 
     public String getCompania() {
-        if(compania!=null){
-            return compania;
-        }else {
-            return "";
-        }
-
+        return compania;
     }
 
     public void setCompania(String compania) {
         this.compania = compania;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getNombreSucursal() {
+        return nombreSucursal;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setNombreSucursal(String nombreSucursal) {
+        this.nombreSucursal = nombreSucursal;
     }
 
     public String getCalle() {
@@ -177,42 +151,5 @@ public class Destinatario  implements Serializable {
 
     public void setCoordenadas(String coordenadas) {
         this.coordenadas = coordenadas;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNombreSucursal() {
-        if(  NombreSucursal!=null){
-            return NombreSucursal;
-        }else{
-            return "";
-        }
-
-    }
-
-    public void setNombreSucursal(String nombreSucursal) {
-        NombreSucursal = nombreSucursal;
-    }
-
-    public String getNumeroExterior() {
-        return numeroExterior;
-    }
-
-    public void setNumeroExterior(String numeroExterior) {
-        this.numeroExterior = numeroExterior;
-    }
-
-    public String getNumeroInterior() {
-        return numeroInterior;
-    }
-
-    public void setNumeroInterior(String numeroInterior) {
-        this.numeroInterior = numeroInterior;
     }
 }

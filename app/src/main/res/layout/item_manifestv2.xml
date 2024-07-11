@@ -212,6 +212,37 @@
                     app:layout_constraintTop_toBottomOf="@+id/guidelinemanifest2">
                 </TextView>
 
+                <TextView
+                    android:id="@+id/textViewDF"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:text="Destino final"
+                    android:textSize="@dimen/h6"
+                    app:layout_constraintBottom_toTopOf="@+id/guidelinemanifest1"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/textViewCiudad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ciudad"
+                    android:textSize="@dimen/h5"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/guidelinemanifest1" />
+
+                <TextView
+                    android:id="@+id/textViewEstado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Estado"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintBottom_toTopOf="@+id/guidelinemanifest2"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardViewTickets"
@@ -229,7 +260,7 @@
                             android:id="@+id/ticketsTitleText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Tickets"
+                            android:text="Ver más"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"

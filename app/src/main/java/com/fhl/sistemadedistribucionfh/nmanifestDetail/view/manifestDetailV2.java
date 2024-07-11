@@ -46,11 +46,11 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
     private FragmentTransaction transaction;
     private SearchView searchViewManifestdetail;
     private ImageView searchicodetail;
-    private String folioDespachoId, vehiculoModeloId, vehiculoPlacaId, cedisId,statusManifest,fechaSalida;
+    private String folioDespachoId, vehiculoModeloId, vehiculoPlacaId, cedisId,statusManifest,fechaSalida, ciudad, estado, operador, datoManiobra, validacionApp;
     private List<dataTicketsManifestV2> data;
     private List<Sello> dataSellos;
     private presenterTicketsmanifestV2 presenter;
-    private TextView vehicleManifiesto, vehicleName, vehiclePlaca, vehicleCedis,status,recolectartxt,textView75;
+    private TextView vehicleManifiesto, vehicleName, vehiclePlaca, vehicleCedis,status,recolectartxt,textView75, textViewCiudadDetails, textViewEstadoDetails, operadorText, datoManiobraText;
     private ImageButton recoletar;
     private loaderFH progress;
     private List<String> selectedItems=new ArrayList<>();
@@ -68,6 +68,11 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
             cedisId = bundle.getString("cedisId");
             fechaSalida= bundle.getString("fechaSalida");
             statusManifest= bundle.getString("statusManifest");
+            ciudad = bundle.getString("ciudad");
+            estado = bundle.getString("estado");
+            operador = bundle.getString("operador");
+            datoManiobra = bundle.getString("datoManiobra");
+            validacionApp = bundle.getString("validacionApp");
             Log.e("midManifest","" + folioDespachoId);
 
 
@@ -108,6 +113,17 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         vehicleName.setText(vehiculoModeloId);
         vehiclePlaca.setText(vehiculoPlacaId);
         vehicleCedis.setText(cedisId);
+
+        // Nuevo
+        textViewCiudadDetails = view.findViewById(R.id.textViewCiudadDetails);
+        textViewEstadoDetails = view.findViewById(R.id.textViewEstadoDetails);
+        operadorText = view.findViewById(R.id.operador_text);
+        datoManiobraText = view.findViewById(R.id.maniobras_text);
+        textViewCiudadDetails.setText(ciudad);
+        textViewEstadoDetails.setText(estado);
+        operadorText.setText(operador);
+        datoManiobraText.setText(datoManiobra);
+
         progress = new loaderFH();
         presenter= new presenterTicketsManifestImplV2(this,getContext());
         presenter.getTickets(folioDespachoId);
@@ -215,7 +231,7 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         rvlistTickets.setAdapter(adapter);
         presenter.getSellos(folioDespachoId);
     }
-    public void gotoTickets(int position, String folioTicket, Integer statusTicket) {
+    public void gotoTickets(int position, String folioTicket, Integer statusTicket, String custodiosStatus) {
         //folioDespachoId
         tickets ticketsf = new tickets();
         Bundle args = new Bundle();
@@ -223,6 +239,8 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         args.putString("folioTicket", folioTicket);
         args.putString("statusManifest",statusManifest);
         args.putInt("statusTicket",statusTicket);
+        args.putString("custodiosStatus", custodiosStatus);
+        args.putString("validacionApp", validacionApp);
         ticketsf.setArguments(args);
         transaction.replace(R.id.fragments, ticketsf, tickets.TAG)
                 .addToBackStack(null) // Agregar la transacción a la pila de retroceso

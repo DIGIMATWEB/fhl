@@ -37,7 +37,7 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
     private FragmentTransaction transaction;
     private Button cerrarviaje, cancelar;
     private presenterTicketsDetail presenter;
-    private String folioDespachoId,folioTicket,statusManifest="";
+    private String folioDespachoId,folioTicket,statusManifest="", custodiosStatus, validacionApp;
     private TextView txtManifiesto;
     private Integer statusTicket=0;
     private String detailTicket="";
@@ -52,6 +52,8 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
             folioTicket = args.getString("folioTicket");
             statusManifest = args.getString("statusManifest");
             statusTicket= args.getInt("statusTicket");
+            custodiosStatus = args.getString("custodiosStatus");
+            validacionApp = args.getString("validacionApp");
             // Now you have the values and can use them as needed
             // Example: Log.d(TAG, "folioDespachoId: " + folioDespachoId + ", folioTicket: " + folioTicket);
         }
@@ -103,7 +105,7 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
 
 
     private void setAdapter(List<dataDetailTickets> data) {
-        adapter = new ticketsAdapter(this,data, data.size(), getContext());
+        adapter = new ticketsAdapter(this,data, data.size(), getContext(), custodiosStatus, validacionApp);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvTickets.setLayoutManager(layoutManager);
         rvTickets.setAdapter(adapter);

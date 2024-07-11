@@ -4,6 +4,8 @@ package com.fhl.sistemadedistribucionfh.nmanifest.modelV2;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class dataManifestV2 {
 
     @SerializedName("Origen")
@@ -51,10 +53,21 @@ public class dataManifestV2 {
     @SerializedName("FechaLlegada")
     @Expose
     private String fechaLlegada;
+    @SerializedName("TicketMasLejano")
+    @Expose
+    private TicketMasLejano ticketMasLejano;
+    @SerializedName("ManiobraCustodia")
+    @Expose
+    private List<ManiobraCustodia> maniobraCustodia;
+    @SerializedName("ValidacionApp")
+    @Expose
+    private String validacionApp;
 
     private Boolean isRecolecionEntrega=false;
 
-    public dataManifestV2(String origen, String destino, Integer operadorId, Operador operador, Integer estatusId, Estatus estatus, String fechaCreacion, String ocupacionEfectiva, String tiempoEntrega, Integer vehiculoId, Vehiculo vehiculo, String folioDespacho, Validador validador, Integer id, String fechaLlegada,Boolean isRecolecionEntrega) {
+    public dataManifestV2(String origen, String destino, Integer operadorId, Operador operador, Integer estatusId, Estatus estatus, String fechaCreacion, String ocupacionEfectiva, String tiempoEntrega,
+                          Integer vehiculoId, Vehiculo vehiculo, String folioDespacho, Validador validador, Integer id, String fechaLlegada,Boolean isRecolecionEntrega, TicketMasLejano ticketMasLejano,
+                          List<ManiobraCustodia> maniobraCustodia, String validacionApp) {
         super();
         this.origen = origen;
         this.destino = destino;
@@ -72,6 +85,9 @@ public class dataManifestV2 {
         this.id = id;
         this.fechaLlegada = fechaLlegada;
         this.isRecolecionEntrega=isRecolecionEntrega;
+        this.ticketMasLejano = ticketMasLejano;
+        this.maniobraCustodia = maniobraCustodia;
+        this.validacionApp = validacionApp;
     }
 
     public String getOrigen() {
@@ -200,5 +216,29 @@ public class dataManifestV2 {
 
     public void setRecolecionEntrega(Boolean recolecionEntrega) {
         isRecolecionEntrega = recolecionEntrega;
+    }
+
+    public TicketMasLejano getTicketMasLejano() {
+        return ticketMasLejano;
+    }
+
+    public void setTicketMasLejano(TicketMasLejano ticketMasLejano) {
+        this.ticketMasLejano = ticketMasLejano;
+    }
+
+    public List<ManiobraCustodia> getManiobraCustodia() {
+        return maniobraCustodia;
+    }
+
+    public void setManiobraCustodia(List<ManiobraCustodia> maniobraCustodia) {
+        this.maniobraCustodia = maniobraCustodia;
+    }
+
+    public String getValidacionApp() {
+        return validacionApp;
+    }
+
+    public void setValidacionApp(String validacionApp) {
+        this.validacionApp = validacionApp;
     }
 }

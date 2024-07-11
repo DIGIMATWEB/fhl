@@ -58,7 +58,7 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
     private ProgressDialog mprogres;
     private int dialogfilter=0;
     private Integer positionG;
-    private String folioDespachoG, vehiculoModeloG, vehiculoPlacaG, statusManifestG, cedisG,fechaSalida;
+    private String folioDespachoG, vehiculoModeloG, vehiculoPlacaG, statusManifestG, cedisG,fechaSalida, ciudad, estado, operador, datoManiobra, validacionApp;
     private Handler handler = new Handler();
     private Runnable runnable;
     private loaderFH progress;
@@ -216,6 +216,11 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         bundle.putString("statusManifest",statusManifestG);
         bundle.putString("cedisId", cedisG);
         bundle.putString("fechaSalida",fechaSalida);
+        bundle.putString("ciudad", ciudad);
+        bundle.putString("estado", estado);
+        bundle.putString("operador", operador);
+        bundle.putString("datoManiobra", datoManiobra);
+        bundle.putString("validacionApp", validacionApp);
 
         manager = getActivity().getSupportFragmentManager();
         transaction = manager.beginTransaction();
@@ -243,7 +248,8 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         dialog.show();
     }
 
-    public void gotoTickets(int position, String folioDespacho, String vehiculoModelo, String vehiculoPlaca, String cedis, String statusManifest, String fechaSalida) {
+    public void gotoTickets(int position, String folioDespacho, String vehiculoModelo, String vehiculoPlaca, String cedis, String statusManifest, String fechaSalida, String ciudad, String estado,
+                            String operador, String datoManiobra, String validacionApp) {
         presenter.getTicketByManigest(folioDespacho);
         Log.e("SendTicket", "Datos: " + position + " " + folioDespacho + " " + vehiculoModelo + " " + vehiculoPlaca + " " + cedis + " " + statusManifest);
         this.fechaSalida=fechaSalida;
@@ -253,6 +259,11 @@ public class mmanifestV2 extends Fragment implements View.OnClickListener, viewM
         this.vehiculoPlacaG = vehiculoPlaca;
         this.cedisG = cedis;
         this.statusManifestG = statusManifest;
+        this.ciudad = ciudad;
+        this.estado = estado;
+        this.operador = operador;
+        this.datoManiobra = datoManiobra;
+        this.validacionApp = validacionApp;
     }
     @Override
     public void onClick(View view) {

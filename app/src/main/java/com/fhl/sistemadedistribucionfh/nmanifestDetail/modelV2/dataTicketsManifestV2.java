@@ -3,10 +3,12 @@ package com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2;
 
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Estatus;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.SendtripPlus;
+import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.Peligroso;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class dataTicketsManifestV2 implements Serializable {
 
@@ -126,10 +128,12 @@ public class dataTicketsManifestV2 implements Serializable {
     @SerializedName("DestinatariosClienteId")
     @Expose
     private Integer destinatariosClienteId;
-
     @SerializedName("SendtripPlus")
     @Expose
     private SendtripPlus sendtripPlus;
+    @SerializedName("Peligroso")
+    @Expose
+    private List<Peligroso> peligroso;
 
     /**
      * 
@@ -180,7 +184,7 @@ public class dataTicketsManifestV2 implements Serializable {
                                  String tiempoParadaDestino, String fechaVentanaInicio, String fechaVentanaFin, String fechaRestriccionCirculacionInicio,
                                  String fechaRestriccionCirculacionFin, Integer cantidad, Integer sumaAsegurada, Integer rutaId, Integer tipoVehiculoId,
                                  Integer maniobras, String custodia, String custodiaArmada, Integer tipoCustodiaId, String requiereEvidenciaSeguroSocial,
-                                 Boolean seguro, Boolean servicioCobro, Integer destinatariosClienteId,Estatus estatus,SendtripPlus sendtripPlus) {
+                                 Boolean seguro, Boolean servicioCobro, Integer destinatariosClienteId,Estatus estatus,SendtripPlus sendtripPlus, List<Peligroso> peligroso) {
         super();
         this.despachoId = despachoId;
         this.ticketId = ticketId;
@@ -222,6 +226,7 @@ public class dataTicketsManifestV2 implements Serializable {
         this.destinatariosClienteId = destinatariosClienteId;
         this.estatus=estatus;
         this.sendtripPlus=sendtripPlus;
+        this.peligroso = peligroso;
     }
 
     public Integer getDespachoId() {
@@ -542,5 +547,13 @@ public class dataTicketsManifestV2 implements Serializable {
 
     public void setSendtripPlus(SendtripPlus sendtripPlus) {
         this.sendtripPlus = sendtripPlus;
+    }
+
+    public List<Peligroso> getPeligroso() {
+        return peligroso;
+    }
+
+    public void setPeligroso(List<Peligroso> peligroso) {
+        this.peligroso = peligroso;
     }
 }
