@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -79,38 +80,45 @@ public class menuV2 extends Fragment {
             @Override
             public void run() {
                 while ( threadRunning!=1) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            checkAndSetMenu();
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                checkAndSetMenu();
+                            }
+                        });
+                        try {
+                            Thread.sleep(5000); // Adjust interval as needed (5000 milliseconds = 5 seconds)
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
-                    });
-                    try {
-                        Thread.sleep(5000); // Adjust interval as needed (5000 milliseconds = 5 seconds)
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                  }else{
+                       // Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         }).start();
     }
     private void checkAndSetMenu() {
-        SharedPreferences preferences = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
-        String role = preferences.getString(GeneralConstants.MENU_USER_SET, null);
-        if (role != null) {
-            threadRunning = 1;
-
-            Gson gson = new Gson();
-            Type type = new TypeToken<ArrayList<dataMenuItemsV2>>() {
-            }.getType();
-            List<dataMenuItemsV2> menuList = gson.fromJson(role, type);
-            for(int i=0;i<menuList.size();i++){
-                if(i<4) {
-                    menuListBottom.add(menuList.get(i));
+        if (getContext() != null) {
+            SharedPreferences preferences = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+            String role = preferences.getString(GeneralConstants.MENU_USER_SET, null);
+            if (role != null) {
+                threadRunning = 1;
+                Gson gson = new Gson();
+                Type type = new TypeToken<ArrayList<dataMenuItemsV2>>() {
+                }.getType();
+                List<dataMenuItemsV2> menuList = gson.fromJson(role, type);
+                for(int i=0;i<menuList.size();i++){
+                    if(i<4) {
+                        menuListBottom.add(menuList.get(i));
+                    }
                 }
+                setMenu(menuListBottom);
             }
-
-            setMenu(menuListBottom);
+        } else {
+            // Handle the case where context is null
+            Log.e("Fragment", "Context is null");
         }
     }
     private void setMenu(List<dataMenuItemsV2> dataV2) {

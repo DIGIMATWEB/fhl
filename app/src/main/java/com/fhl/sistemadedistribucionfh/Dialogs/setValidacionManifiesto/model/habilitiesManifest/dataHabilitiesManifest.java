@@ -19,4 +19,8 @@ public class dataHabilitiesManifest {
     public void setValidacionApp(ValidacionApp validacionApp) {
         this.validacionApp = validacionApp;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 022d7369abaace0e42f9d2af41b8704a78674c15

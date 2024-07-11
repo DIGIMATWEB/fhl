@@ -133,7 +133,7 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         if(selectedItems!=null) {
             recolectartxt.setText("Recolectar (" + selectedItems.size() + ")");
         }else{
-            recolectartxt.setText("Recolectar (0)");
+            recolectartxt.setText("Seleccione los tickets a recolectar");
         }
     }
     @Override

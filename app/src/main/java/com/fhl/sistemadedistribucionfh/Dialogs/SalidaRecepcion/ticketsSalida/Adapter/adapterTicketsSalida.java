@@ -13,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,12 +31,14 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
     private Context context;
     private List<ticketsScanned> data;
     private ticketsSalida mview;
+    private Boolean needGroupThem;
 
 
-    public adapterTicketsSalida(ticketsSalida mview, List<ticketsScanned> data, Context context) {
+    public adapterTicketsSalida(ticketsSalida mview, List<ticketsScanned> data, Context context, Boolean needGroupThem) {
         this.context = context;
         this.data=data;
         this.mview=mview;
+        this.needGroupThem=needGroupThem;
     }
 
     @NonNull
@@ -46,7 +51,36 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
     @Override
     public void onBindViewHolder(@NonNull adapterTicketsSalida.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.razonDesc.setText(data.get(position).getFolio());
+        if(!needGroupThem){//esto es por que solo h ay un ticket
+//            holder.evidence.setVisibility(View.VISIBLE);
+//            holder.siguiente.setVisibility(View.VISIBLE);
+            if(data.get(position).getHasTekenevidence()){
+                holder.evidence.setVisibility(View.GONE);
+                holder.siguiente.setVisibility(View.GONE);
+            }else{
+                holder.evidence.setVisibility(View.VISIBLE);
+                holder.siguiente.setVisibility(View.VISIBLE);
+            }
+            holder.evidence.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mview.goEvidenceOneItem(data.get(position));
+                }
+            });
+        }else{
+            ConstraintLayout constraintLayout = (ConstraintLayout) holder.itemView;
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(constraintLayout);
 
+            // Adjust the left and right constraints of holder.cardview
+
+            constraintSet.connect(holder.cardView.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 2); // 16dp margin
+            constraintSet.connect(holder.cardView.getId(), ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 2); // 16dp margin
+            int topMargin = (position == 0) ? 50 : 0; // 32dp for the first item, 0dp otherwise
+            constraintSet.connect(holder.cardView.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, topMargin);
+
+            constraintSet.applyTo(constraintLayout);
+        }
         if( data.get(position).getSendtripPlus().getPaquetes()!=null) {
             holder.setupRecyclerViewPaquetes(mview, data.get(position).getSendtripPlus().getPaquetes(), data.get(position).getFolio());
         }else{
@@ -75,19 +109,21 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView razonDesc;
+        private TextView razonDesc,evidence;
         private CheckBox check;
-        private ImageView icticket;
+        private ImageView icticket,siguiente;
         private RecyclerView recyclerViewPaquetes;
         private adapterEmpaque empaqueAdapter;
+        private CardView cardView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             razonDesc=itemView.findViewById(R.id.razonDescSalida);
             check=itemView.findViewById(R.id.checkSalida );
             icticket=itemView.findViewById(R.id.icticket);
             recyclerViewPaquetes = itemView.findViewById(R.id.recyclerViewPaquetes);
-
-
+            evidence=itemView.findViewById(R.id.evidence);
+            siguiente =itemView.findViewById(R.id.siguiente);
+            cardView=itemView.findViewById(R.id.cardView);
         }
 
         private void fillEmpaqueAdapter(ticketsSalida mview, List<Paquete> paquetes, String folio) {

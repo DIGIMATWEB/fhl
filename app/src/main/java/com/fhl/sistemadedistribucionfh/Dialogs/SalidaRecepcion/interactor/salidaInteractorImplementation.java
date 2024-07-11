@@ -67,7 +67,7 @@ public class salidaInteractorImplementation  implements salidainteractor {
 
             @Override
             public void onFailure(Call<responseManifestSalidaV2> call, Throwable t) {
-                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "onfailure detailManifest: "+t.getMessage(), Toast.LENGTH_SHORT).show();
                presenter.hideProgress();
             }
         });

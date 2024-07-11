@@ -190,7 +190,9 @@ public class login extends AppCompatActivity implements View.OnClickListener,log
             @Override
             public void run() {
                 if (progress != null && this != null)
-                    progress.dismiss();
+                    if(progress.isAdded()) {
+                        progress.dismiss();
+                    }
             }
         }, 300);
     }

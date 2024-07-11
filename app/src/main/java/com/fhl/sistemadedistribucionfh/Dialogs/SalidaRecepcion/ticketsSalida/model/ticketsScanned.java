@@ -7,11 +7,13 @@ import java.io.Serializable;
 public class ticketsScanned implements Serializable {
     private String folio;
     private Boolean flag;
+    private Boolean hasTekenevidence=false;
     private SendtripPlus sendtripPlus;
-    public ticketsScanned(String folio, Boolean flag, SendtripPlus sendtripPlus){
+    public ticketsScanned(String folio, Boolean flag, SendtripPlus sendtripPlus,Boolean hasTekenevidence){
         this.folio=folio;
         this.flag=flag;
         this.sendtripPlus=sendtripPlus;
+        this.hasTekenevidence=hasTekenevidence;
     }
 
     public Boolean getFlag() {
@@ -36,5 +38,13 @@ public class ticketsScanned implements Serializable {
 
     public void setSendtripPlus(SendtripPlus sendtripPlus) {
         this.sendtripPlus = sendtripPlus;
+    }
+
+    public Boolean getHasTekenevidence() {
+        return hasTekenevidence;
+    }
+
+    public void setHasTekenevidence(Boolean hasTekenevidence) {
+        this.hasTekenevidence = hasTekenevidence;
     }
 }

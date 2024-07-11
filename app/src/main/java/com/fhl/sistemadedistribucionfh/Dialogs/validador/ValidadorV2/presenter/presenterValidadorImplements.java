@@ -53,6 +53,18 @@ public class presenterValidadorImplements implements presenterValidadorDetail{
             view.errorCode();
         }
     }
+    @Override
+    public void hideProgress() {
+        if (view!=null){
+            view.hideProgress();
+        }
+    }
 
+    @Override
+    public void showProgress() {
+        if (view!=null){
+            view.showProgress();
+        }
+    }
 
 }

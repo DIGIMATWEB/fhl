@@ -1,10 +1,8 @@
-package com.fhl.sistemadedistribucionfh.evidence.adapter;
+package com.fhl.sistemadedistribucionfh.evidenciasCarga;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,25 +15,25 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fhl.sistemadedistribucionfh.evidenciasCarga.view.evidenciasCarga;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
-import com.fhl.sistemadedistribucionfh.evidence.evidencia;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaLlegada;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaSalida;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
 
 import java.util.List;
 
-public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHolder> {
+public class adapterEvidenceCarga extends RecyclerView.Adapter<adapterEvidenceCarga.ViewHolder> {
     private Context context;
     private Integer flowDetail;
     private List<dataTicketsDetailsendtrip> data;
     private Integer hassignature,hasReview,hasphotos,hasdocuments,hasvideos,haschecklist=0;
     private Boolean hasSignatureok,hasReviewok,hasPhotosok,hasFilesok,hasVideosok,haschecklistok=false;
-    private evidencia mview;
+    private evidenciasCarga mview;
 
 
-    public adapterEvidence(evidencia mview,Integer flowDetail, Context context, List<dataTicketsDetailsendtrip> data) {
+    public adapterEvidenceCarga(evidenciasCarga mview,Integer flowDetail, Context context, List<dataTicketsDetailsendtrip> data) {
         //region valuesColorsChecks
         this.hasSignatureok=false;
         this.hasReviewok=false;
@@ -54,7 +52,7 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
 
         hassignature=0;
         hasReview=0;
-       // editor.putString(GeneralConstants.RATE_STARS, "");
+        // editor.putString(GeneralConstants.RATE_STARS, "");
 
         hasphotos=0;
         hasvideos=0;
@@ -69,7 +67,7 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
                         editor.putString(GeneralConstants.SIGNATURE_B64_DIR, "");
                         editor.putString(GeneralConstants.SIGNATURE_B64, "");
                         editor.putString(GeneralConstants.INPUT_TEXT_SIGTURE, "");
-                     }else if(evidence.getTipoEvidencia()==2){
+                    }else if(evidence.getTipoEvidencia()==2){
                         hasphotos=1;
                         editor.putString(GeneralConstants.IMAGE_DIRECTORY, "");
                     }else if(evidence.getTipoEvidencia()==3){
@@ -176,13 +174,13 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
     }
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public adapterEvidenceCarga.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_evidence, parent, false);//item_carrito
-        return new ViewHolder(view);
+        return new adapterEvidenceCarga.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull adapterEvidence.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(@NonNull adapterEvidenceCarga.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         int itemCount = 0;
         if (hassignature == 1) {
 
@@ -195,7 +193,7 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
                     holder.image.setBackground(background2);
                     Log.e("color de imagen","verde firma");
                 }else{
-                  //  holder.image.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
+                    //  holder.image.setColorFilter(Color.rgb(112, 112, 112), PorterDuff.Mode.SRC_ATOP);
                     Log.e("color de imagen","gris firma");
                 }
                 holder.description.setText("Firma");
@@ -383,7 +381,7 @@ public class adapterEvidence extends RecyclerView.Adapter<adapterEvidence.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView image;
-        TextView   description;
+        TextView description;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             image=itemView.findViewById(R.id.imageMenu3video);

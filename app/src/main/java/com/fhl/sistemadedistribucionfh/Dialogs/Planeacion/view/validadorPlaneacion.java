@@ -196,7 +196,7 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
     public void sendToast(String code) {//para cada codigo recibido
         if(!afterScan){
             Log.e("mCodeScan", "" + code);
-            ticketsLocal.add(new ticketsScanned(code, false, new SendtripPlus("", "", "", "", "", 0, null, 0, null, 0, null)));
+            ticketsLocal.add(new ticketsScanned(code, false, new SendtripPlus("", "", "", "", "", 0, null, 0, null, 0, null),false));
             presenter.getTicketData(code);
             textChekcs.setVisibility(View.VISIBLE);
         }else{   //si existe ingotmacions

@@ -15,7 +15,8 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Sellos.sellosSummary;
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.sellosSalida.sellosSalida;
+
 import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Tickets.Adapter.adapterTicketsManifestDetail;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Salida.Model.v2.dataSalida;
@@ -97,7 +98,7 @@ public class detailTicketsSummary extends DialogFragment implements View.OnClick
                                         bundle.putSerializable("dataTcikets", (Serializable) data);
                                         bundle.putSerializable("sellos", (Serializable) sellos);
                                         bundle.putString("flowSellos", "1");
-                                        sellosSummary bottomSheet = new sellosSummary();
+                                        sellosSalida bottomSheet = new sellosSalida();
                                         bottomSheet.setArguments(bundle);
                                         bottomSheet.show(getParentFragmentManager(), "sellosSummary");
 //                                }else{

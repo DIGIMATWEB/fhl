@@ -88,7 +88,7 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
         imageButton.setOnClickListener(this);
         sellosAdd = view.findViewById(R.id.sellosAdd);
         sellosAdd.setOnClickListener(this);
-        presenter= new presenterSelloImpl(this,getContext());
+       // presenter= new presenterSelloImpl(this,getContext());
         presenter.requestManifestdetail(currentManifest);
         presenter.reqSellos(currentManifest);
     }
@@ -103,6 +103,17 @@ public class sellosSummary extends DialogFragment implements View.OnClickListene
             Log.e("QR", "sellos is null");
         }
     }
+
+    @Override
+    public void showDialog() {
+
+    }
+
+    @Override
+    public void hideDialog() {
+
+    }
+
     private void fillTicketsRV(List<Sello> sellos) {
         if (adapter == null) {
             adapter = new adapterSellosManifestDetail(this, sellos, getContext());

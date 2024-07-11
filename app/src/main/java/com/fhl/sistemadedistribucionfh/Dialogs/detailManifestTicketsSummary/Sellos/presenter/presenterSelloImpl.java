@@ -2,6 +2,7 @@ package com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Sel
 
 import android.content.Context;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.sellosSalida.sellosSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Sellos.interactor.sellosInteractor;
 import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Sellos.interactor.sellosInteractorImpl;
 import com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Sellos.view.sellosSummaryView;
@@ -10,11 +11,11 @@ import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 import java.util.List;
 
 public class presenterSelloImpl implements presenterSello{
-    private sellosSummaryView view;
+    private sellosSalida view;
     private Context context;
     private sellosInteractor interactor;
 
-    public presenterSelloImpl(sellosSummaryView view,Context context){
+    public presenterSelloImpl(sellosSalida view, Context context){
         this.view=view;
         this.context=context;
         interactor= new sellosInteractorImpl(this,context);
@@ -59,6 +60,20 @@ public class presenterSelloImpl implements presenterSello{
     public void setSellos(List<Sello> sellos) {
         if(view!=null){
             view.seteginsellos(sellos);
+        }
+    }
+
+    @Override
+    public void showDialog() {
+        if(view!=null){
+            view.showDialog();
+        }
+    }
+
+    @Override
+    public void hideDialog() {
+        if(view!=null){
+            view.hideDialog();
         }
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
 import com.bumptech.glide.Glide;
+import com.fhl.sistemadedistribucionfh.Dialogs.Loader.view.loaderFH;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.cortina.dataCortina;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.responseManifestSalidaV2data;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.presenter.salidaViewPresenter;
@@ -56,6 +58,9 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
     private TextView numberManifestsalida,cedissalida,vehiculosalida,datesalida,placasalida,regresosalida;
     private Boolean isCanceled =true;
     private Boolean loadCortina=false;
+    private loaderFH progress;
+    private List<dataTicketsManifestV2> dataTickets;
+    private dataCortina dataC;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +89,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
     }
     private void initDialog(View view) {
         // presenter= new dialogReasonsPresenterImpl(this,getContext());
+        progress = new loaderFH();
         constrainCard =view.findViewById(R.id.constrainCard);
         cortina=view.findViewById(R.id. cortina);
         imageButton=view.findViewById(R.id.imageButton);
@@ -145,9 +151,18 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                 cortina.setVisibility(View.VISIBLE);
                 textView23.setText("siguiente paso");
                 textView29.setText("escanea el codigo de los sellos");
+                presenter.getsellos(currentManifest);
                 break;
-            case "4":
-
+            case "4"://sellos
+                constrainCard.setVisibility(View.GONE);
+                cortina.setVisibility(View.VISIBLE);
+                textView23.setText("siguiente paso ");
+                textView29.setText("escanea el codigo de los sellos");
+                Glide.with(getContext())
+                        .load(qrsalida)
+                        .error(R.drawable.okwarning)
+                        .into(qrsalida);
+                presenter.getsellos(currentManifest);
                 break;
             case "5":
                 constrainCard.setVisibility(View.GONE);
@@ -216,12 +231,26 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
 
     @Override
     public void hideProgress() {
-
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (progress != null && this != null)
+                    if(progress.isAdded()) {
+                        progress.dismiss();
+                    }
+            }
+        }, 300);
     }
 
     @Override
     public void showProgress() {
-
+        if (progress != null && !progress.isVisible()) {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("HAS_TITLE", false);
+            bundle.putString("title","Cargando detalles");
+            progress.setArguments(bundle);
+            progress.show(getChildFragmentManager(), loaderFH.TAG);
+        }
     }
 
     @Override
@@ -230,12 +259,14 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
         Log.e("datademanifiesto",""+data);
         fillmanifest(data);
         presenter.requestCortinas(codigoValidador);
+        presenter.showProgress();
         Log.e("motorola","cortinasM:  "+codigoValidador);
     }
 
     @Override
     public void setdataCortina(dataCortina data) {
        // Log.e("datadecortina",""+data.getFolioDespacho());
+        this.dataC=data;
         BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
         Log.e("salidaSentrip","destino cortina "+data.getDestino());
         Log.e("salidaSentrip",""+data.getAnden().getQrCodigo());
@@ -247,6 +278,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                 codigoValidador);
         if(data!=null){
             loadCortina=true;
+            presenter.hideProgress();
         }
     }
 
@@ -260,10 +292,11 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
 
     @Override
     public void setTickets(List<dataTicketsManifestV2> data) {
+        this.dataTickets=data;
         Log.e("ticketsArray","tickets: "+data.size()+" testfirst:" + data.get(0).getFolioTicket());
         BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
         barcodeScannerActivity1.setTicketsArray(data);
-        presenter.getsellos(currentManifest);
+
     }
 
     @Override
@@ -273,8 +306,8 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
             BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
             barcodeScannerActivity1.setSellosArray(response);
         }else {
-            BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
-            barcodeScannerActivity1.setSellosNull();
+//            BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+//            barcodeScannerActivity1.setSellosNull();
 
         }
     }
@@ -346,6 +379,13 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                     BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
                     barcodeScannerActivity1.dismissTickets();
                     closeDialog();
+                }else if(codigoValidador1.equals("4")) {
+                    BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                    barcodeScannerActivity1.dismissTickets();
+                    barcodeScannerActivity1.setCurrentManifestSellos(currentManifest);
+                    //barcodeScannerActivity1.dismissSellos();
+                    //barcodeScannerActivity1.godialogCheck();
+                    closeDialog();
                 }else if(codigoValidador1.equals("5")) {
                     BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
                     barcodeScannerActivity1.dismissTickets();
@@ -358,12 +398,23 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                     editor.putString(GeneralConstants.STATUS_SALIDA, "2");
                     editor.commit();
                     if(loadCortina){
+                        BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                        barcodeScannerActivity1.setCortina(dataC.getDestino(),
+                                dataC.getAnden().getQrCodigo(),
+                                dataC.getAnden().getCodigoAnden(),
+                                codigoValidador);
                         closeDialog();
                     }else {
-                        Toast.makeText(getContext(), "Se estan cargando datos espera un momento", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(getContext(), "Se estan cargando datos espera un momento", Toast.LENGTH_SHORT).show();
                     }
 
                 }else{
+                    if(dataTickets!=null){
+                        BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                        barcodeScannerActivity1.setTicketsArray(dataTickets);
+                        Log.e("dataticketsSizeE","manifiesto en sellos "+currentManifest);
+                        barcodeScannerActivity1.setCurrentManifestSellos(currentManifest);
+                    }
                     closeDialog();
                 }
 

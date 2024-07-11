@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.Ada
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.ticketsSalida;
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 
 import java.util.List;
 
@@ -66,6 +68,22 @@ public class adapterSellosSalida extends RecyclerView.Adapter<adapterSellosSalid
     public void updateData(List<sellosScanned> model) {
         this.data=model;
         notifyDataSetChanged();
+    }
+    public void updateSellos(Sello mdata){
+        if (mdata != null) {
+           data.add(new sellosScanned(mdata.getNumeroSello(),false));
+
+            mview.updateSellos(mdata);
+            notifyDataSetChanged();
+
+        }
+    }
+
+    public void removeItem(int position) {
+        data.remove(position);
+        mview.updateSellosR(data);
+        mview.letCreateMore(true);
+        notifyItemRemoved(position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

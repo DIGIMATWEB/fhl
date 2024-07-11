@@ -7,6 +7,7 @@ import java.util.List;
 public class responseHilitiesManifest {
 
     @SerializedName("TotalRows")
+<<<<<<< HEAD
 
     private Integer totalRows;
     @SerializedName("Status")
@@ -17,6 +18,18 @@ public class responseHilitiesManifest {
     private String message;
     @SerializedName("Data")
 
+=======
+  
+    private Integer totalRows;
+    @SerializedName("Status")
+  
+    private Integer status;
+    @SerializedName("Message")
+  
+    private String message;
+    @SerializedName("Data")
+  
+>>>>>>> 022d7369abaace0e42f9d2af41b8704a78674c15
     private List<dataHabilitiesManifest> data;
 
     public responseHilitiesManifest(Integer totalRows, Integer status, String message, List<dataHabilitiesManifest> data) {

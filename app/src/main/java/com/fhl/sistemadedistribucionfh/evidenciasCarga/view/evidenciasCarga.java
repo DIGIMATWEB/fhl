@@ -1,4 +1,4 @@
-package com.fhl.sistemadedistribucionfh.evidence;
+package com.fhl.sistemadedistribucionfh.evidenciasCarga.view;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,13 +27,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fhl.sistemadedistribucionfh.Dialogs.Loader.view.loaderFH;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.onBackSalida;
+import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.ticketsSalida;
+import com.fhl.sistemadedistribucionfh.evidenciasCarga.adapterEvidenceCarga;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.Check;
 import com.fhl.sistemadedistribucionfh.Tickets.model.ticketsdetail.ResoponseTicketsDetail;
-import com.fhl.sistemadedistribucionfh.evidence.adapter.adapterEvidence;
 import com.fhl.sistemadedistribucionfh.evidence.checklist.view.checklistEvidence;
 import com.fhl.sistemadedistribucionfh.evidence.documents.documents;
+import com.fhl.sistemadedistribucionfh.evidence.evidenceView;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaLlegada;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaSalida;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Paquete;
@@ -45,18 +48,20 @@ import com.fhl.sistemadedistribucionfh.evidence.presenter.requestEvidencePresent
 import com.fhl.sistemadedistribucionfh.evidence.rateDriver.calificacion;
 import com.fhl.sistemadedistribucionfh.evidence.signature.signature;
 import com.fhl.sistemadedistribucionfh.evidence.videos.videoRecord;
-import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity2;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class evidencia extends AppCompatActivity implements View.OnClickListener,evidenceView {
-    public static final String TAG = evidencia.class.getSimpleName();
+public class evidenciasCarga extends AppCompatActivity implements View.OnClickListener, evidenceView {
+    public static final String TAG = evidenciasCarga.class.getSimpleName();
     private FragmentManager manager;
     private FragmentTransaction transaction;
     private static final int REQUEST_CODE = 1234;
@@ -71,6 +76,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
     private Integer secuenceRequest = 1;
     private Integer flujoId = 0;
+    private Integer positionGroup;
     private String folioTicket, changeStatusTicket;
     private List<dataTicketsManifestV2> data;
     private Integer iterateidTickets = 0;
@@ -80,20 +86,26 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     private List<dataTicketsDetailsendtrip> dataTicketSendtrip;
     private String detailTicket;
     private Integer flowDetail = 0;
-    private adapterEvidence adapter;
+    private adapterEvidenceCarga adapter;
     private RecyclerView rv;
     private TextView textFol;
     private List<objectEvidence> evidenceList= new ArrayList<>();
     private Boolean showSendEvidenceAfterLotes;
     private Boolean fullLotes=true;
     private List<ticketsScanned> fresult;
+    private onBackSalida bS;
+    private List<String> psitionsG=new ArrayList<>();
+    private List<String> singleT=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showSendEvidenceAfterLotes=false;
         setContentView(R.layout.activity_evidence);
         Intent intent = getIntent();
-
+        //region onback para saber si entrego las evidencias
+        ticketsSalida fragment = new ticketsSalida();
+        bS = fragment;
+        //endregion
         // Retrieve the Bundle from the Intent
         Bundle bundle = intent.getExtras();
 
@@ -101,6 +113,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         if (bundle != null) {
             // Retrieve the integer value using the key "key_integer"
             flujoId = bundle.getInt("flujoId");
+            positionGroup= bundle.getInt("positionGroup");
             currentManifest = bundle.getString("currentManifest");
             sentripPlusFlow = bundle.getString("sentripPlusFlow");
             folioTicket = bundle.getString("folioTicket");
@@ -110,11 +123,29 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             // Now intValue contains the value passed from the previous activity
             // You can use this value as needed
             // For example, you can log it or display it in a TextView
-            Log.d("EvidenciaActivity", "Retrieved integer value: " + flujoId);
+            SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+            String sp = preferences.getString(GeneralConstants.POSITIONGROUP, null);
+            String sT = preferences.getString(GeneralConstants.TIKETS_NO_CONSOLIDADO_EVIDENCE, null);
+            if(sp!=null){
+                Gson gson = new Gson();
+
+                // Use TypeToken to handle potential type erasure during deserialization
+                Type listType = new TypeToken<List<String>>() {}.getType();
+                psitionsG = gson.fromJson(sp, listType);
+            }
+            if(sT!=null)
+            {
+                Gson gson = new Gson();
+
+                // Use TypeToken to handle potential type erasure during deserialization
+                Type listType = new TypeToken<List<String>>() {}.getType();
+                singleT = gson.fromJson(sT, listType);
+            }
+            Log.d("dataticketsSizeE", "Retrieved integer value: " + flujoId);
             if (data != null) {
-                Log.e("EvidenciaActivity", "folio " + folioTicket + " data " + data.size());
+                Log.e("dataticketsSizeE", "folio " + folioTicket + " data " + data.size());
             } else {
-                Log.e("EvidenciaActivity", "folio " + folioTicket + " data : null");
+                Log.e("dataticketsSizeE", "folio " + folioTicket + " data : null");
             }
             if (detailTicket != null) {//todo esto es si es cerrar viaje
                 flowDetail = 1;
@@ -124,7 +155,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 //    Type listType = new TypeToken<List<dataDetailTickets>>(){}.getType();
                 ResoponseTicketsDetail jsonObje = gson.fromJson(detailTicket, ResoponseTicketsDetail.class);
 
-                Log.e("EvidenciaActivity", "json   " + jsonstring);// esto es para uno
+                Log.e("dataticketsSizeE", "json   " + jsonstring);// esto es para uno
                 if (jsonObje.getData().get(0).getEvidenciaLlegada() != null) {//esto en caso de no haber evidencias de llegada
                     Log.e("EvidenciaActivity", "" + jsonObje.getData().get(0).getEvidenciaLlegada().size());
                 }
@@ -453,6 +484,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         //icons
         presenter = new requestEvidencePresenterImpl(this, getBaseContext());
         presenter.tokenAvocado();
+       // presenter.showDialog();
 
     }
 
@@ -460,20 +492,32 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     public void validateSendtrip() {
         if (folioTicket != null) {/** si es un solo folio**/
             // isArrayofTickets=false;
-            Log.e("folioTSendtrip", "es un solo folio");
+            Log.e("validateSendtrip", "es un solo folio");
             presenter.requestDetailTicketsSendtriplus(false, iterateidTickets, currentManifest, null, folioTicket);
             changeStatusTicket = folioTicket;
 
         } else {
             if (data != null) {// si es un arreglo de folios
-                Log.e("folioTSendtrip", "son varios folios");
+                Log.e("validateSendtrip", "son varios folios");
                 if (data.size() > 1) {// si solo es un folio
                     //  isArrayofTickets=true;
+                    Gson gson= new Gson();
+                    String json=gson.toJson(data.get(iterateidTickets));
+                    Log.e("validateSendtrip",""+json);
                     presenter.requestDetailTicketsSendtriplus(
-                            true, iterateidTickets, currentManifest, data.get(iterateidTickets).getFolioTicket(), null);//
+                            true,
+                            iterateidTickets,
+                            currentManifest,
+                            data.get(iterateidTickets).getFolioTicket(),
+                            null);//
                     changeStatusTicket = data.get(iterateidTickets).getFolioTicket();
-                } else {// si son varios folios
+                } else {// si es un folio
                     //    isArrayofTickets=false;
+                    Log.e("validateSendtrip", "si es un folio");
+                    Log.e("validateSendtrip", "t: "+iterateidTickets);
+                    Log.e("validateSendtrip", "m: "+currentManifest);
+                    Log.e("validateSendtrip", "ft: "+data.get(0).getFolioTicket());
+                    folioTicket=data.get(0).getFolioTicket();
                     presenter.requestDetailTicketsSendtriplus(
                             true, iterateidTickets, currentManifest, data.get(0).getFolioTicket(), null);//
                     changeStatusTicket = data.get(0).getFolioTicket();
@@ -490,30 +534,39 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         dataTicketSendtrip.get(0).getFolioTicket();
         Gson gson = new Gson();
         String json = gson.toJson(dataTicketSendtrip);
-        Log.e("detailticket", " json ticket:" + json);
-        Log.e("detailticket", " flowdetail " + flowDetail);
+        Log.e("setDetailTicketsentriplus", " json ticket:" + json);
+        Log.e("setDetailTicketsentriplus", " flowdetail " + flowDetail);
         fillEvidenceRequired(flowDetail, dataTicketSendtrip);//2para test
         textFol.setText("Folio: " + dataTicketSendtrip.get(0).getFolioTicket());
         if(evidenceList!=null) {
-            if (!evidenceList.isEmpty()) {
-
+            if (!evidenceList.isEmpty()) {//la pila de evidencias contiene evidencias listadas por tomar
+                Log.e("setDetailTicketsentriplus", " !videnceList.isEmpty()");
+                Log.e("setDetailTicketsentriplus", " pG: " + positionGroup);
+                Log.e("setDetailTicketsentriplus", " iterateidTickets: " + iterateidTickets);
+                if(positionGroup!=null){
+                    if(iterateidTickets>0) {
+                        //checkShared();
+                        isArrayofTickets=true;
+                        presenter.nextRequest();
+                        presenter.showDialog();
+                    }
+                }
             } else{
                 Toast.makeText(this, "No tienes evidencias", Toast.LENGTH_SHORT).show();
-                if(data!=null) {
-                    if (data.size() > 1) {
-                        isArrayofTickets = true;
-                    }
+                if(data.size()>1){
+                    isArrayofTickets=true;
                 }
                 secuenceRequest=6;
                 presenter.nextRequest();
             }
         }else{
             sendEvidence.setVisibility(View.GONE);
+            Log.e("setDetailTicketsentriplus", " sendEvidence GONE");
         }
     }
 
     private void fillEvidenceRequired(Integer flowDetail, List<dataTicketsDetailsendtrip> dataTicketSendtrip) {
-        adapter = new adapterEvidence(this, flowDetail, getApplicationContext(), dataTicketSendtrip);
+        adapter = new adapterEvidenceCarga(this, flowDetail, getApplicationContext(), dataTicketSendtrip);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());//GridLayoutManager(getApplicationContext(),3);
         rv.setLayoutManager(linearLayoutManager);
         rv.setAdapter(adapter);
@@ -524,6 +577,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.imageView25:
+
                 onBackPressed();
                 break;
 
@@ -613,7 +667,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         }
 
     }
-//region  escaner verificar lotes
+    //region  escaner verificar lotes
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -633,7 +687,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             result.get(0).getFolio();//string
             result.get(0).getSendtripPlus().getPaquetes().size();//numero de paquetes
             for(Paquete packages:result.get(0).getSendtripPlus().getPaquetes()){
-               // lotes.add(packages);//referencia
+                // lotes.add(packages);//referencia
                 Log.e("qrs","El lote"+packages.getNombre()+" fue escaneado:"+packages.getFlag());
                 if (!packages.getFlag()) {
                     fullLotes = false;
@@ -697,9 +751,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
     }
 
     private void gotomanifestV2() {
-        Intent intent = new Intent(this, mainContainer.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+       onBackPressed();
 
     }
 
@@ -721,7 +773,27 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                         presenter.sendEvidence(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, folioTicket, fvideos);
                     } else {
                         if (data != null) {
-                            sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, data.get(iterateidTickets).getFolioTicket(), fvideos);
+                            if(iterateidTickets==data.size()){//esto es po si pulsa mucho enviar evidencias
+                                if(positionGroup!=null) {
+                                    if (bS != null) {
+                                        bS.sendMessageEvidence(positionGroup);
+                                        if(!psitionsG.contains(String.valueOf(positionGroup))){
+                                            psitionsG.add(String.valueOf(positionGroup));
+                                        }
+                                        Gson gson=new Gson();
+                                        String json= gson.toJson(psitionsG);
+                                        SharedPreferences preferencias = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = preferencias.edit();
+                                        editor.putString(GeneralConstants.POSITIONGROUP, String.valueOf( json));
+                                        editor.commit();
+                                    }
+                                }
+                                removeShared();
+                                cleanFolder();
+                                gotomanifestV2();
+                            }else {
+                                sendEvidenceIfArrayofTickets(secuenceRequest, signatureBase64, inputTextSignature, currusel, ffiles, flujoId, data.get(iterateidTickets).getFolioTicket(), fvideos);
+                            }
                         } else {
                             Toast.makeText(getApplicationContext(), "No hay tickets al cual mandar evidencia", Toast.LENGTH_SHORT).show();
                         }
@@ -733,52 +805,53 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
             secuenceRequest = secuenceRequest + 1;
             Log.e("sendEvidence", "sendEvidence: " + secuenceRequest + " sendRate: " + stars);
             int rating = 0;
-            if(!stars.isEmpty()) {
-                 rating = (int) Math.round(Double.parseDouble(stars));
-            }
-            if (folioTicket != null) {
-                presenter.sendRate(rating, folioTicket);
-                changeStatusTicket = folioTicket;
+            if(stars!=null&&!stars.isEmpty()) {
+                    rating = (int) Math.round(Double.parseDouble(stars));
+
             } else {
+                rating=-1;
+            }
+
+            if (folioTicket != null) {//si es un solo ticket
+                if(rating==-1) {
+                   presenter.nextRequest();
+                }else{
+                    presenter.sendRate(rating, folioTicket);
+                }
+                changeStatusTicket = folioTicket;
+            } else {                        //si son varios tickets no se cambia el estatus hasta el ultimo ticket
                 if (data != null) {
-                    presenter.sendRate(rating, data.get(iterateidTickets).getFolioTicket());
-                    changeStatusTicket = data.get(iterateidTickets).getFolioTicket();
+                    if(rating==-1) {
+                        presenter.nextRequest();
+                    }else {
+                        presenter.sendRate(rating, data.get(iterateidTickets).getFolioTicket());
+                    }
+                   // changeStatusTicket = data.get(iterateidTickets).getFolioTicket();//todo en evidencia a la carga no se envia evidencia
                 } else {
-                    Toast.makeText(this, "No hay tickets al cual mandar evidencia", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(this, "No hay tickets al cual mandar evidencia", Toast.LENGTH_SHORT).show();
                 }
             }
             //Toast.makeText(this, "mandar estrellas", Toast.LENGTH_SHORT).show();
-        } else if (secuenceRequest == 6) {
-            secuenceRequest = secuenceRequest + 1;
-            if (folioTicket != null) {//todo esto se agrega en caso de que no traiga evidencias inicia desde aqui
-                changeStatusTicket = folioTicket;
-            } else {
-                if (data != null) {
-                    changeStatusTicket = data.get(iterateidTickets).getFolioTicket();
-                } else {
-                    Toast.makeText(this, "No hay tickets al cual mandar evidencia", Toast.LENGTH_SHORT).show();
-                }
-            }
-            Log.e("sendEvidence", "Se envia a sendtripplus");
-            if (sentripPlusFlow.equals("Recoleccion")) {
-                presenter.sendSentriplus(currentManifest, dataTicketSendtrip, sentripPlusFlow);
-            } else if (sentripPlusFlow.equals("Entrega")) {//TODO si es entrega pasa a 8
-                //presenter.sendSentriplus(currentManifest,dataTicketSendtrip,sentripPlusFlow);
-                secuenceRequest = secuenceRequest + 1;
-                presenter.changeStatusManifestTicket(currentManifest, changeStatusTicket, sentripPlusFlow,fullLotes);
-
-            }
-
-            /// presenterchange statusmanifest ESTO YA LO HACEE JOSE
-
-        } else if (secuenceRequest == 7) {
-            secuenceRequest = secuenceRequest + 1;
-            presenter.changeStatusManifestTicket(currentManifest, changeStatusTicket, sentripPlusFlow, fullLotes);
-
-        } else if (secuenceRequest == 8) {//borra  lo relacionano y regresa
-           // Toast.makeText(this, "usar sendtrip plus Cambiar estatus y regresar a manifiestos", Toast.LENGTH_SHORT).show();
-
+        } else if (secuenceRequest == 6) {//borra  lo relacionano y regresa
+            // Toast.makeText(this, "usar sendtrip plus Cambiar estatus y regresar a manifiestos", Toast.LENGTH_SHORT).show();
+            Log.e("listenerT","isArrayofTickets: "+isArrayofTickets);
             if (!isArrayofTickets) {// si es solo uno manda el manifiesto
+                Log.e("singleT","folioTicket: "+folioTicket);
+                Log.e("singleT","folioTicket: "+singleT);
+                if(!singleT.contains(String.valueOf(folioTicket))){
+                    singleT.add(String.valueOf(folioTicket));
+                }else {
+                    if(singleT.isEmpty()){
+                        singleT.add(String.valueOf(folioTicket));
+                    }
+                }
+                Gson gson=new Gson();
+                String json= gson.toJson(singleT);
+                SharedPreferences preferencias = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferencias.edit();
+                editor.putString(GeneralConstants.TIKETS_NO_CONSOLIDADO_EVIDENCE, String.valueOf( json));
+                editor.commit();
+
                 presenter.hideDialog();
                 removeShared();
                 cleanFolder();
@@ -790,6 +863,21 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
                 Log.e("sendEvidence", " tickets " + iterateidTickets + " data: " + data.size());
                 if (iterateidTickets > (data.size() - 1)) {// si es el ultimo ticket va a manifiestos
                     presenter.hideDialog();
+                    if(positionGroup!=null) {
+                        if (bS != null) {
+                            bS.sendMessageEvidence(positionGroup);
+                            if(!psitionsG.contains(String.valueOf(positionGroup))){
+                                psitionsG.add(String.valueOf(positionGroup));
+                            }
+                            Gson gson=new Gson();
+                            String json= gson.toJson(psitionsG);
+                            SharedPreferences preferencias = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferencias.edit();
+                            editor.putString(GeneralConstants.POSITIONGROUP, String.valueOf( json));
+                            // editor.putString(GeneralConstants.CVE_EMPLOYE,String.valueOf(data.getCve_employee()));
+                            editor.commit();
+                        }
+                    }
                     removeShared();
                     cleanFolder();
                     gotomanifestV2();
@@ -803,14 +891,45 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
 
                     //todo
                     presenter.hideDialog();
-                    removeShared();
-                    cleanFolder();
+                    if(positionGroup==null) {
+                        removeShared();
+                        cleanFolder();
+                    }
                     presenter.requestDetailTicketsSendtriplus(true, iterateidTickets, currentManifest, data.get(iterateidTickets).getFolioTicket(), null);// revisar si esto se ejecuta correctamente ya que pide el detalle del ticket siguiente para el sendtriplus
                 }
             }
+        }
+//        }else if (secuenceRequest == 7) {
+//            secuenceRequest = secuenceRequest + 1;
+//            if (folioTicket != null) {//todo esto se agrega en caso de que no traiga evidencias inicia desde aqui
+//                changeStatusTicket = folioTicket;
+//            } else {
+//                if (data != null) {
+//                    changeStatusTicket = data.get(iterateidTickets).getFolioTicket();
+//                } else {
+//                    Toast.makeText(this, "No hay tickets al cual mandar evidencia", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//            Log.e("sendEvidence", "Se envia a sendtripplus");
+//            if (sentripPlusFlow.equals("Recoleccion")) {
+//                presenter.sendSentriplus(currentManifest, dataTicketSendtrip, sentripPlusFlow);
+//            } else if (sentripPlusFlow.equals("Entrega")) {//TODO si es entrega pasa a 8
+//                //presenter.sendSentriplus(currentManifest,dataTicketSendtrip,sentripPlusFlow);
+//                secuenceRequest = secuenceRequest + 1;
+//                presenter.changeStatusManifestTicket(currentManifest, changeStatusTicket, sentripPlusFlow,fullLotes);
+//
+//            }
+//
+//            /// presenterchange statusmanifest ESTO YA LO HACEE JOSE
+//
+//        } else if (secuenceRequest == 8) {
+//            secuenceRequest = secuenceRequest + 1;
+//            presenter.changeStatusManifestTicket(currentManifest, changeStatusTicket, sentripPlusFlow, fullLotes);
 
-        } else {
-            Toast.makeText(this, "Todos los archivos se han enviado correctamente", Toast.LENGTH_SHORT).show();
+//        }
+        else {
+            //Toast.makeText(this, "Todos los archivos se han enviado correctamente", Toast.LENGTH_SHORT).show();
+            Log.e("finish","");
             // regresar a manifiestos y limpiar toda la carpeta de archivos
             presenter.hideDialog();
         }
@@ -842,6 +961,9 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         cleanFolder();
         super.onBackPressed();
     }
+
+
+
 
     @Override
     public void hideDialog() {
@@ -927,6 +1049,7 @@ public class evidencia extends AppCompatActivity implements View.OnClickListener
         checklist.putExtras(bundle);
         startActivity(checklist);
     }
+
 
 
 }
