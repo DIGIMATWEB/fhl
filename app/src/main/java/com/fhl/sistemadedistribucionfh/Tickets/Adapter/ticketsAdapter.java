@@ -398,7 +398,7 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
         });
 
         // Para la lista de Habilidades
-        //String jsonString = "{\"HabilidadesVehiculos\":[],\"DocumentosVencimientosVehiculos\":[],\"HabilidadesOperadores\":[],\"DocumentosOperadoresVencimientos\":[],\"HabilidadesAuxiliares\":[],\"DocumentosAuxiliaresVencimientos\":[],\"EvidenciasCargas\":[{\"Llave\":6,\"Valor\":\"Fotografia de factura con firma\"}],\"EvidenciasLlegadas\":[],\"ChecklistRequeridos\":[]}";
+        // String jsonString = "{\"HabilidadesVehiculos\":[],\"DocumentosVencimientosVehiculos\":[],\"HabilidadesOperadores\":[],\"DocumentosOperadoresVencimientos\":[],\"HabilidadesAuxiliares\":[],\"DocumentosAuxiliaresVencimientos\":[],\"EvidenciasCargas\":[{\"Llave\":6,\"Valor\":\"Fotografia de factura con firma\"}],\"EvidenciasLlegadas\":[],\"ChecklistRequeridos\":[]}";
         String jsonString = validacionApp;
         String listHabilidadesVehiculo = "", listHabilidadesOperador = "", listHabilidadesAuxiliares = "";
 
