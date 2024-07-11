@@ -132,13 +132,11 @@ public class dataTicketsManifestV2 implements Serializable {
     @SerializedName("SendtripPlus")
     @Expose
     private SendtripPlus sendtripPlus;
-<<<<<<< HEAD
     @SerializedName("Peligroso")
     @Expose
     private List<Peligroso> peligroso;
-=======
     @SerializedName("EvidenciaSalida")
->>>>>>> 022d7369abaace0e42f9d2af41b8704a78674c15
+
 
     private List<EvidenciaSalida> evidenciaSalida;
     public dataTicketsManifestV2(Integer despachoId, Integer ticketId, String folioTicket, String folioTicketWMS,
@@ -149,11 +147,7 @@ public class dataTicketsManifestV2 implements Serializable {
                                  String tiempoParadaDestino, String fechaVentanaInicio, String fechaVentanaFin, String fechaRestriccionCirculacionInicio,
                                  String fechaRestriccionCirculacionFin, Integer cantidad, Integer sumaAsegurada, Integer rutaId, Integer tipoVehiculoId,
                                  Integer maniobras, String custodia, String custodiaArmada, Integer tipoCustodiaId, String requiereEvidenciaSeguroSocial,
-<<<<<<< HEAD
-                                 Boolean seguro, Boolean servicioCobro, Integer destinatariosClienteId,Estatus estatus,SendtripPlus sendtripPlus, List<Peligroso> peligroso) {
-=======
                                  Boolean seguro, Boolean servicioCobro, Integer destinatariosClienteId,Estatus estatus,SendtripPlus sendtripPlus,List<EvidenciaSalida> evidenciaSalida) {
->>>>>>> 022d7369abaace0e42f9d2af41b8704a78674c15
         super();
         this.despachoId = despachoId;
         this.ticketId = ticketId;
@@ -195,11 +189,8 @@ public class dataTicketsManifestV2 implements Serializable {
         this.destinatariosClienteId = destinatariosClienteId;
         this.estatus=estatus;
         this.sendtripPlus=sendtripPlus;
-<<<<<<< HEAD
         this.peligroso = peligroso;
-=======
         this.evidenciaSalida=evidenciaSalida;
->>>>>>> 022d7369abaace0e42f9d2af41b8704a78674c15
     }
 
     public Integer getDespachoId() {
@@ -522,20 +513,19 @@ public class dataTicketsManifestV2 implements Serializable {
         this.sendtripPlus = sendtripPlus;
     }
 
-<<<<<<< HEAD
     public List<Peligroso> getPeligroso() {
         return peligroso;
     }
 
     public void setPeligroso(List<Peligroso> peligroso) {
         this.peligroso = peligroso;
-=======
+    }
+
     public List<EvidenciaSalida> getEvidenciaSalida() {
         return evidenciaSalida;
     }
 
     public void setEvidenciaSalida(List<EvidenciaSalida> evidenciaSalida) {
         this.evidenciaSalida = evidenciaSalida;
->>>>>>> 022d7369abaace0e42f9d2af41b8704a78674c15
     }
 }
