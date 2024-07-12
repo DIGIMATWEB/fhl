@@ -213,7 +213,7 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
                         // User clicked OK button
                         if (sellos != null) {
                             if (sellos.isEmpty()) {
-                                Log.e("bottomSellosSHEET", "sellos.isEmpty()");
+                                Log.e("dataSellos", "sellos.isEmpty()");
                                 goEvidence();
                             } else {
                                 //presenter.mandarSellos
@@ -224,27 +224,25 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
                                     }
                                 }
                                 model.clear();
-                                Log.e("bottomSellosSHEET", "adapter size" + sellos.size());
+                                Log.e("dataSellos", "adapter size" + sellos.size());
                                 for(int i=0; i< sellos.size();i++){
                                     model.add(new sellosScanned(sellos.get(i).getNumeroSello(),false));
-                                    Log.e("ticketsArray2", "model size: " + model.get(i).getFolio()+"  "+model.get(i).getFlag());
+                                    Log.e("dataSellos", "model size: " + model.get(i).getFolio()+"  "+model.get(i).getFlag());
                                 }
                                 adapter.updateData(model);
-                                if (control) {
+                               // if (control) {
 
                                     //BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
                                    // barcodeScannerActivity1.goSellosSummary();
                                     //closeDialog();
                                     presenter.setSello(manifestId,sellos);
-                                }
-                                goEvidence();
+                             //   }
+                               // goEvidence();
                             }
                         } else {
                             goEvidence();
-                            Log.e("bottomSellosSHEET", "go evidence)");
+                            Log.e("dataSellos", "go evidence)");
                         }
-                        dialog.dismiss();
-                        Log.e("bottomSellosSHEET", "dismiss");
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

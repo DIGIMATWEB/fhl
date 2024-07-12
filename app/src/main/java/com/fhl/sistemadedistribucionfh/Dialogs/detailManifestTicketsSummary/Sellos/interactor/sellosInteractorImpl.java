@@ -243,7 +243,7 @@ public class sellosInteractorImpl implements sellosInteractor{
                 dataResponseSetSello data = resp.getData();
                 Gson gson = new Gson();
                 String json = gson.toJson(data);
-                Log.e("dataSellos",""+json);
+                Log.e("dataSellos","setSellosf "+json);
                 if(data!=null) {
                        // Toast.makeText(context, ""+data.getEsNuevo(), Toast.LENGTH_SHORT).show();
                         presenter.getMessageSello();
