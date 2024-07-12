@@ -25,10 +25,38 @@ public class presenterVehiclesImpl implements presenterVehicles{
             interactor.requestLocation();
         }
     }
+
+    @Override
+    public void getVehicleinmanifestV2() {
+        if(view!=null){
+            interactor.requestVehicles();
+        }
+    }
     @Override
     public void setVehicles(List<dataVehicleLocation> data) {
         if(view!=null){
             view.setVehicles(data);
+        }
+    }
+
+    @Override
+    public void showDialog() {
+        if(view!=null){
+            view.showDialog();
+        }
+    }
+
+    @Override
+    public void hideDialog() {
+        if(view!=null){
+            view.hideDialog();
+        }
+    }
+
+    @Override
+    public void setVehicleinmanifestV2(String economico) {
+        if(view!=null){
+            view.setVehicleinmanifestV2(economico);
         }
     }
 

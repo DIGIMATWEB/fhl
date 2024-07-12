@@ -11,6 +11,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.Loader.view.loaderFH;
 import com.fhl.sistemadedistribucionfh.Profile.view.viewProfile;
 import com.fhl.sistemadedistribucionfh.locator.model.dataVehicleLocation;
 import com.fhl.sistemadedistribucionfh.locator.presenter.presenterVehicles;
@@ -59,11 +61,14 @@ public class locator  extends Fragment implements OnMapReadyCallback , LocationL
         private presenterVehicles presenter;
         private FragmentManager manager;
         private FragmentTransaction transaction;
+        private loaderFH progress;
+        private TextView textView49;
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
                 View view = inflater.inflate(R.layout.fragment_maps, container, false);
                 mactivity= (mainContainer) getActivity();
+                progress = new loaderFH();
                 initView(view);
                 checkpermisionslevel();
                 mapView.onCreate(savedInstanceState);
@@ -102,9 +107,11 @@ public class locator  extends Fragment implements OnMapReadyCallback , LocationL
                 transaction = manager.beginTransaction();
                 mapView=view.findViewById(R.id.map);
                 smartphone=view.findViewById(R.id.modelSmarthphone);
-                smartphone.setText(model);
+                textView49=view.findViewById(R.id.textView49);
+                //smartphone.setText(model);
                 presenter= new presenterVehiclesImpl(this,getContext());
                 presenter.getVehicles();
+
         }
 
         @Override
@@ -187,17 +194,49 @@ public class locator  extends Fragment implements OnMapReadyCallback , LocationL
         }
         @Override
         public void setVehicles(List<dataVehicleLocation> data) {
-                this.mdata=data;
-                for(dataVehicleLocation vehicle:mdata){
-                        if(vehicle.getLatitud()!=null&&vehicle.getLongitud()!=null) {
-                                Log.e("vehicleLoc", " Name " + vehicle.getPlaca() + " lat: " + vehicle.getLatitud() + " long: " + vehicle.getLongitud());
-                                BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.locatorsvg2);
-                                Bitmap b2 = bitmapdraw.getBitmap();
-                                Bitmap smallMarker2 = Bitmap.createScaledBitmap(b2, 100, 100, false);
-                                vehicleMarker=mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).icon(BitmapDescriptorFactory.fromBitmap(smallMarker2)));
-                                vehicleMarker.setPosition(new LatLng(vehicle.getLatitud(),vehicle.getLongitud()));
-                                break;
+                if(data!=null) {
+                        this.mdata = data;
+                        for (dataVehicleLocation vehicle : mdata) {
+                                if (vehicle.getLatitud() != null && vehicle.getLongitud() != null) {
+                                        Log.e("vehicleLoc", " Name " + vehicle.getPlaca() + " lat: " + vehicle.getLatitud() + " long: " + vehicle.getLongitud());
+                                        BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.locatorsvg2);
+                                        Bitmap b2 = bitmapdraw.getBitmap();
+                                        Bitmap smallMarker2 = Bitmap.createScaledBitmap(b2, 100, 100, false);
+                                        vehicleMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).icon(BitmapDescriptorFactory.fromBitmap(smallMarker2)));
+                                        vehicleMarker.setPosition(new LatLng(vehicle.getLatitud(), vehicle.getLongitud()));
+                                        break;
+                                }
                         }
+                }  presenter.getVehicleinmanifestV2();
+        }
+
+        @Override
+        public void showDialog() {
+                if (progress != null && !progress.isVisible()) {
+                        Bundle bundle = new Bundle();
+                        bundle.putBoolean("HAS_TITLE", false);
+                        bundle.putString("title", "Cargando detalles");
+                        progress.setArguments(bundle);
+                        progress.show(getChildFragmentManager(), loaderFH.TAG);
                 }
+        }
+
+        @Override
+        public void hideDialog() {
+                new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                                if (progress != null && this != null)
+                                        if(progress.isAdded()) {
+                                                progress.dismiss();
+                                        }
+                        }
+                }, 2000);
+        }
+
+        @Override
+        public void setVehicleinmanifestV2(String economico) {
+                textView49.setText(""+economico);
+                smartphone.setText(""+mainmarker.getPosition().latitude+" , "+mainmarker.getPosition().longitude);
         }
 }

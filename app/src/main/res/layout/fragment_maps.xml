@@ -63,7 +63,7 @@
                 android:id="@+id/textView49"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sprinter"
+                android:text=""
                 android:textSize="@dimen/h1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -131,8 +131,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Huawei"
-                    android:textSize="@dimen/h1"
+                    android:text=""
+                    android:textSize="@dimen/h5"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -143,6 +143,7 @@
                     android:layout_height="wrap_content"
                     android:text="Vista reciente"
                     android:textSize="@dimen/h4"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/modelSmarthphone" />

@@ -188,7 +188,7 @@ public class mainContainer extends AppCompatActivity  implements view {
         locator loc = new locator();
         transaction.replace(R.id.fragments, loc, locator.TAG).commit();
         transaction.addToBackStack(viewProfile.TAG);
-        framTab.setVisibility(View.GONE);
+       // framTab.setVisibility(View.GONE);
 
     }
     private void showFragmentNavigationButtons() {

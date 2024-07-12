@@ -8,4 +8,10 @@ public interface presenterVehicles {
     void setVehicles(List<dataVehicleLocation> data);
 
     void getVehicles();
+    void showDialog();
+    void hideDialog();
+
+    void setVehicleinmanifestV2(String economico);
+
+    void getVehicleinmanifestV2();
 }
