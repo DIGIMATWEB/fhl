@@ -83,17 +83,22 @@ public class adapterManifestDetails extends RecyclerView.Adapter<adapterManifest
                 }
             }else if(statusId==3){
                 holder.statusTicket.setText("En ruta");
+                holder.switchSelector.setVisibility(View.GONE);
                 holder.statusTicket.setTextColor(ContextCompat.getColor(context, R.color.purpleenruta));
             }else if(statusId==4){
                 holder.statusTicket.setText("Entregado");
+                holder.switchSelector.setVisibility(View.GONE);
                 holder.statusTicket.setTextColor(ContextCompat.getColor(context, R.color.green));
             }else if(statusId==5){
                 holder.statusTicket.setText("No entregado");
+                holder.switchSelector.setVisibility(View.GONE);
                 holder.statusTicket.setTextColor(ContextCompat.getColor(context, R.color.orangenoentregado));
             }else if(statusId==6){
                 holder.statusTicket.setText("Transferido");
+                holder.switchSelector.setVisibility(View.GONE);
             }else if(statusId==8){
             holder.statusTicket.setText("Con devolucion");
+                holder.switchSelector.setVisibility(View.GONE);
                 holder.freametouch.setVisibility(View.GONE);
                 holder.masText.setVisibility(View.GONE);
                 holder.siguiente.setVisibility(View.GONE);
