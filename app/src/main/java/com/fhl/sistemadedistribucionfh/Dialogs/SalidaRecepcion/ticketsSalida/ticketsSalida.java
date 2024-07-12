@@ -112,6 +112,13 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
             String json = gson.toJson(codigoValidador);
             Log.e("dataticketsSizeE", "" + currentmanifest);
             Log.e("dataticketsSizeE", json);
+            if (typeScanner != null && typeScanner.equals("Recolectar")) {
+                consolidado = false;
+            }else {
+                if(typeScanner==null){
+
+                }
+            }
         }
 
         if (codigoValidador != null) {
@@ -165,6 +172,14 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                 rvTicketsG.setVisibility(View.VISIBLE);
                 fillAdapterG(groupsTickets, consolidado);
             } else {
+                if(typeScanner.equals("Recolectar")){
+
+                    for (ticketsScanned ticket : model) {
+                                    ticket.setHasTekenevidence(true);
+
+                    }
+
+                }
                 fillAdapter(model, getContext(), consolidado);
             }
         }

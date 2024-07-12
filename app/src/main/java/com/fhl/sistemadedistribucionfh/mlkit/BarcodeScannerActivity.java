@@ -115,6 +115,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                       List<dataTicketsManifestV2> codigoValidador= (List<dataTicketsManifestV2>) bndl.getSerializable("tickets");
                         List<Sello> sellos =(List<Sello>) bndl.getSerializable("sellos");
                        currentmanifest=bndl.getString("manifest");
+                        this.dataTickets=codigoValidador;
                       bundle.putSerializable("tickets", (Serializable) codigoValidador);
                       bundle.putSerializable("sellos", (Serializable) sellos);
                       bundle.putString("typeScanner",typeScanner);
@@ -594,6 +595,23 @@ public class BarcodeScannerActivity extends AppCompatActivity
           }else{
             Log.e("Recolectar","ver donde cae");
               Log.e("motorola"," restartCameraProcess cS:  else");
+              if (currentStatus == 4) {
+                  binding.barcodeRawValue.setText("escanea los sellos");
+                  if (getSupportFragmentManager().findFragmentByTag("sellosSalida") == null) {
+                      Bundle bundle = new Bundle();
+                      bundle.putString("typeScanner",typeScanner);
+                      bundle.putString("currentManifest", currentmanifest);
+                      bundle.putSerializable("sellos", (Serializable) dataSellos);
+                      bundle.putString("flowSellos", "1");
+                      botonsheetsellos = new sellosSalida();
+                      botonsheetsellos.setArguments(bundle);
+                      botonsheetsellos.show(getSupportFragmentManager(), "sellosSalida");
+                  }
+                  SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                  SharedPreferences.Editor editor = preferences.edit();
+                  editor.putString(GeneralConstants.STATUS_SALIDA, String.valueOf(currentStatus));
+                  editor.commit();
+              }
           }
 
         } else {
@@ -819,7 +837,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
             }
 
 
-            if(typeScanner.equals("Salida")){ //si no esta en la lista el primer bottom sheet debe ser el de manifiesto
+            if(typeScanner.equals("Salida")){ //esto es CARGA y RECOLECCION si no esta en la lista el primer bottom sheet debe ser el de manifiesto
 
                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                 String status = preferences.getString(GeneralConstants.STATUS_SALIDA, null);
@@ -906,6 +924,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 }else if(status.equals("4")) {
                     if(getSupportFragmentManager().findFragmentByTag("sellosSalida")==null){
                         Bundle bundle= new Bundle();
+                        bundle.putString("typeScanner",typeScanner);
                         bundle.putString("currentManifest", currentmanifest);
                         bundle.putSerializable("sellos",(Serializable) dataSellos);
                         botonsheetsellos = new sellosSalida();
@@ -1021,25 +1040,62 @@ public class BarcodeScannerActivity extends AppCompatActivity
 
 
 
-            }else if(typeScanner.equals("Recolectar")){
-                if (getSupportFragmentManager().findFragmentByTag("ticketsSalida") == null) {//si el estatus es tres se crea el bottomsheet siempre y cuando no exista
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("tickets", (Serializable) dataTickets);
-                    botonsheettickets = new ticketsSalida();
-                    botonsheettickets.setArguments(bundle);
-                    botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");//de existir el botomsheet
-                    Log.e("ticketsArray", "adapter tickets inicio nulo"  );
-                } else {
-                    botonsheettickets.sendToast(code);
-                    Log.e("ticketsArray", "se envia el codigo al adapter "+code  );
-                }
-                stopCameraProcess();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        restartCameraProcess();
+            }else if(typeScanner.equals("Recolectar")) {
+                if (currentStatus == 4) {
+                    if (dataTickets != null) {
+                        Log.e("EvidenciaActivity", "Recolectar currentStatus == 4 folio " + dataTickets.get(0) + " data " + dataTickets.size());
+                    } else {
+                        Log.e("EvidenciaActivity", " data : null");
                     }
-                }, 1500);
+                    if(getSupportFragmentManager().findFragmentByTag("sellosSalida")==null){
+                        Log.e("EvidenciaActivity", "se crea el adapter "  );
+                        Bundle bundle= new Bundle();
+                        bundle.putString("typeScanner",typeScanner);
+                        bundle.putString("currentManifest", currentmanifest);
+                        bundle.putSerializable("dataTcikets", (Serializable) dataTickets);
+                        bundle.putSerializable("sellos",(Serializable) dataSellos);
+                        botonsheetsellos = new sellosSalida();
+                        botonsheetsellos.setArguments(bundle);
+                        botonsheetsellos.show(getSupportFragmentManager(),"sellosSalida");
+                    } else {
+                        botonsheetsellos.sendToast(code);
+                        botonsheetsellos.setTickets(dataTickets);
+                        botonsheetsellos.setSellos(dataSellos);
+                        botonsheetsellos.currentManifst(currentmanifest);
+                        Log.e("EvidenciaActivity", "se envia el codigo al adapter "+code  );
+                    }
+                    stopCameraProcess();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            restartCameraProcess();
+                        }
+                    }, 1500);
+                }else{
+                    if (dataTickets != null) {
+                        Log.e("EvidenciaActivity", "Recolectar current sutatus "+ currentStatus  +" folio " + dataTickets.get(0) + " data " + dataTickets.size());
+                    } else {
+                        Log.e("EvidenciaActivity", " data : null");
+                    }
+                    if (getSupportFragmentManager().findFragmentByTag("ticketsSalida") == null) {//si el estatus es tres se crea el bottomsheet siempre y cuando no exista
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("tickets", (Serializable) dataTickets);
+                        botonsheettickets = new ticketsSalida();
+                        botonsheettickets.setArguments(bundle);
+                        botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");//de existir el botomsheet
+                        Log.e("ticketsArray", "adapter tickets inicio nulo");
+                    } else {
+                        botonsheettickets.sendToast(code);
+                        Log.e("ticketsArray", "se envia el codigo al adapter " + code);
+                    }
+                    stopCameraProcess();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            restartCameraProcess();
+                        }
+                    }, 1500);
+                }
             }
         }
 

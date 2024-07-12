@@ -131,7 +131,11 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
             recoletar.setVisibility(View.GONE);
         }
         if(selectedItems!=null) {
-            recolectartxt.setText("Recolectar (" + selectedItems.size() + ")");
+            if(selectedItems.isEmpty()){
+                recolectartxt.setText("Seleccione los tickets a recolectar");
+            }else {
+                recolectartxt.setText("Recolectar (" + selectedItems.size() + ")");
+            }
         }else{
             recolectartxt.setText("Seleccione los tickets a recolectar");
         }
@@ -344,7 +348,12 @@ public class manifestDetailV2 extends Fragment implements View.OnClickListener, 
         String json =gson.toJson(selectedItems);
         Log.e("selectedItems",json);
         if(selectedItems!=null) {
-            recolectartxt.setText("Recolectar (" + selectedItems.size() + ")");
+            if(selectedItems.isEmpty()){
+                recolectartxt.setText("Seleccione los tickets a recolectar");
+            }else {
+                recolectartxt.setText("Recolectar (" + selectedItems.size() + ")");
+            }
+
         }else{
             recolectartxt.setText("Recolectar (0)");
         }

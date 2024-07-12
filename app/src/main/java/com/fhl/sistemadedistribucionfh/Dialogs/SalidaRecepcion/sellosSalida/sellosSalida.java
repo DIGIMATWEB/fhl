@@ -36,6 +36,7 @@ import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 import com.fhl.sistemadedistribucionfh.evidence.evidencia;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
+import com.google.gson.Gson;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -104,6 +105,16 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
             sellos= (List<Sello>) args.getSerializable("sellos");
             flow= Integer.valueOf( args.getString("flowSellos"));
             Log.e("bottomSellos", "currentManifest "+currentManifest );
+            if (data != null) {
+                Log.e("EvidenciaActivity", "sellos folio " + data.get(0) + " data " + data.size());
+            } else {
+                Log.e("EvidenciaActivity", "sellos folio " + " data : null");
+            }
+        }
+        if(data!=null){
+            Gson gson=new Gson();
+            String json=gson.toJson(data);
+            Log.e("ticketsEredadosSellos",json);
         }
         initDialog(view);
         if(sellos!=null) {
@@ -327,6 +338,11 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
     public void goEvidence() {
         //  Toast.makeText(getContext(), "ir a evidencias", Toast.LENGTH_SHORT).show();
         if(flow==1) {
+            if (data != null) {
+                Log.e("EvidenciaActivity", "folio " + data.get(0) + " data " + data.size());
+            } else {
+                Log.e("EvidenciaActivity", " data : null");
+            }
             getActivity().finish();
             Intent intent = new Intent(getActivity(), evidencia.class);
             Bundle bundle = new Bundle();
@@ -428,4 +444,13 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
     }
 
 
+    public void currentManifst(String currentmanifest) {
+    }
+
+    public void setSellos(List<Sello> dataSellos) {
+    }
+
+    public void setTickets(List<dataTicketsManifestV2> dataTickets) {
+        this.data=dataTickets;
+    }
 }
