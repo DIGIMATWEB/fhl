@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.PointF;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
+import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.core.app.ActivityCompat;
@@ -32,6 +34,7 @@ import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.databinding.ActivityBarcodeRecepcionBinding;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Paquete;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
+import com.fhl.sistemadedistribucionfh.mlkit.Center.ScannedCode;
 import com.google.mlkit.common.MlKitException;
 
 import java.io.Serializable;
@@ -39,7 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BarcodeScannerActivity3 extends AppCompatActivity
-        implements ActivityCompat.OnRequestPermissionsResultCallback, ExchangeScannedData, View.OnClickListener {
+        implements ActivityCompat.OnRequestPermissionsResultCallback, ExchangeScannedData, View.OnClickListener,ImageAnalysis.Analyzer {
     private static final String TAG = "BarcodeScannerActivity3";
     private static final int PERMISSION_REQUESTS = 1;
 
@@ -68,6 +71,8 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
     private  List<Paquete> lotes=new ArrayList<>();//no needed
     private List<ticketsScanned> fresult;//no needed
     private errorRecepcion errorD;
+    private List<ScannedCode> scannedCodes = new ArrayList<>();
+    private long startTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -283,21 +288,109 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
 //endregion
     @Override
     public void sendScannedCode(String code) {
-        Handler handler = new Handler(Looper.getMainLooper());
+        if (scannedCodes.isEmpty()) {
+            startTime = System.currentTimeMillis();
+            new Handler().postDelayed(this::processScannedCodes, 4000);
+        }
 
-        handler.post(new Runnable() {
+        // Get the position of the code in the view (you need to implement this part)
+        PointF position = getCodePosition();//get center of screen
+
+        // Store the scanned code with its position and timestamp
+        boolean codeExists = false;
+        for (ScannedCode mcode : scannedCodes) {
+            if (mcode.code.equals(code)) {
+                codeExists = true;
+                break;
+            }
+        }
+
+        // If the code is not in the list, add it
+        if (!codeExists) {
+            scannedCodes.add(new ScannedCode(code, position, System.currentTimeMillis()));
+        }
+
+//        Handler handler = new Handler(Looper.getMainLooper());
+//        handler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (code != null && !code.isEmpty()) {
+//                    barcodesCollection(code);
+//                    binding.resultContainer.setVisibility(View.VISIBLE);
+//                    Log.e("codescann", "" + code);
+//                }
+//            }
+//        });
+//        Handler handler = new Handler(Looper.getMainLooper());
+//
+//        handler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                if (code != null && !code.isEmpty()) {
+//                    barcodesCollection(code);
+//                    binding.resultContainer.setVisibility(View.VISIBLE);
+//                    Log.e("codescann",""+code);
+//                }
+//            }
+//        });
+    }
+    private void processScannedCodes() {
+        if (scannedCodes.isEmpty()) {
+            return;
+        }
+
+        // Calculate the center of the camera view
+        int viewWidth = binding.previewView.getWidth();
+        int viewHeight = binding.previewView.getHeight();
+        PointF centerPoint = new PointF(viewWidth / 2.0f, viewHeight / 2.0f);
+
+        // Find the code closest to the center of the view
+        ScannedCode mostCenteredCode = null;
+        float minDistance = Float.MAX_VALUE;
+        for (ScannedCode scannedCode : scannedCodes) {
+
+            float distance = calculateDistance(centerPoint, scannedCode.position);
+            Log.e("centeredCode", "all " + scannedCode.code+" distance code "+scannedCode.position);
+            if (distance < minDistance) {
+                minDistance = distance;
+                mostCenteredCode = scannedCode;
+            }
+        }
+
+        if (mostCenteredCode != null) {
+            // Process the most centered code
+            Log.e("centeredCode", "Most centered code: " + mostCenteredCode.code);
+            Toast.makeText(this, ""+mostCenteredCode.code, Toast.LENGTH_SHORT).show();
+            // You can handle the most centered code here, e.g., show it in the UI or trigger further processing
+        }
+
+        // Clear the scanned codes list for future scans
+        scannedCodes.clear();
+        mediaPlayer.start();
+        stopCameraProcess();
+        //bottonSheetv.sendToast(code);
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-
-                if (code != null && !code.isEmpty()) {
-                    barcodesCollection(code);
-                    binding.resultContainer.setVisibility(View.VISIBLE);
-                    Log.e("codescann",""+code);
-                }
+                restartCameraProcess();
             }
-        });
+        }, 1500);
     }
 
+    private float calculateDistance(PointF p1, PointF p2) {
+        float dx = p1.x - p2.x;
+        float dy = p1.y - p2.y;
+        return (float) Math.sqrt(dx * dx + dy * dy);
+    }
+
+    private PointF getCodePosition() {
+        // You need to implement this method to return the position of the code in the view
+        // For demonstration purposes, let's assume the center of the view
+        int viewWidth = binding.previewView.getWidth();
+        int viewHeight = binding.previewView.getHeight();
+        return new PointF(viewWidth / 2.0f, viewHeight / 2.0f);
+    }
     public void restartCameraProcess() {
         if (allPermissionsGranted()) {
             bindAllCameraUseCases();
@@ -353,8 +446,7 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
                 binding.headerText.setTextColor(Color.WHITE);
                 break;
 
-            case R.id.inputmanual:
-                //Toast.makeText(this, "Input manual", Toast.LENGTH_SHORT).show();
+            case R.id.inputmanual: //Toast.makeText(this, "Input manual", Toast.LENGTH_SHORT).show();
                 binding.inputkeyscode.setVisibility(View.VISIBLE);
                 binding.inputcamara.setBackgroundResource(R.drawable.icscannercamblack);
                 binding.inputmanual.setBackgroundResource(R.drawable.ic_keys_black);
@@ -370,5 +462,17 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
                 }
                 break;
         }
+    }
+
+    @Override
+    public void analyze(@NonNull ImageProxy image) {
+        Log.e("centeredCode2","image"+  image.getCropRect().centerX()+"imagey"+
+        image.getCropRect().centerY());
+
+    }
+
+    @Override
+    public int getTargetCoordinateSystem() {
+        return ImageAnalysis.Analyzer.super.getTargetCoordinateSystem();
     }
 }
