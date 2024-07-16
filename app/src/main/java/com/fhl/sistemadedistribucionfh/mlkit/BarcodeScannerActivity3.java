@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BarcodeScannerActivity3 extends AppCompatActivity
-        implements ActivityCompat.OnRequestPermissionsResultCallback, ExchangeScannedData, View.OnClickListener,ImageAnalysis.Analyzer {
+        implements ActivityCompat.OnRequestPermissionsResultCallback, ExchangeScannedData, View.OnClickListener {
     private static final String TAG = "BarcodeScannerActivity3";
     private static final int PERMISSION_REQUESTS = 1;
 
@@ -464,15 +464,4 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
         }
     }
 
-    @Override
-    public void analyze(@NonNull ImageProxy image) {
-        Log.e("centeredCode2","image"+  image.getCropRect().centerX()+"imagey"+
-        image.getCropRect().centerY());
-
-    }
-
-    @Override
-    public int getTargetCoordinateSystem() {
-        return ImageAnalysis.Analyzer.super.getTargetCoordinateSystem();
-    }
 }
