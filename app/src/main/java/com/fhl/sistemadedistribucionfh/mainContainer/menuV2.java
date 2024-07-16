@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -43,6 +44,7 @@ public class menuV2 extends Fragment {
     private int width;
     private Integer threadRunning ;
     List<dataMenuItemsV2> menuListBottom=new ArrayList<>();
+    String model = Build.MODEL;
     @SuppressLint("NewApi")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -136,7 +138,13 @@ public class menuV2 extends Fragment {
              }
         }else{
             if(dataV2.size()==4) {
-                aproxVal = (4 + 3) * 2;
+                if(model.contains("moto")) {
+                    Log.e("motorolamenu", "true 4");
+                    aproxVal = (4 + 6) * 2;
+                }else {
+                    Log.e("motorolamenu", "true 4 else");
+                    aproxVal = (4 + 3) * 2;
+                }
             }
         }
         if (width ==0) {

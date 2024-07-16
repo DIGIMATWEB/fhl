@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onGlobalLayout() {
                     // Now the width should be initialized
                     width = constrainReference.getWidth();
-                    Log.e("rvLayout", "W: " + width);
+                    Log.e("motorolamenu", "Ws: " + width);
 
                     // After obtaining width, you can proceed with setting up the RecyclerView
 
