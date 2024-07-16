@@ -58,7 +58,7 @@ public class adapterValidadorList extends RecyclerView.Adapter<adapterValidadorL
                     .into(holder.imageicon);
         }else if (position==2){
             holder.step.setText("Paso 3");
-            holder.stepdescription.setText("Escanea el código de la identificacion (RFC)");
+            holder.stepdescription.setText("Escanea el código de la identificación (RFC)");
             Glide.with(context).load(R.drawable.ic_menu_validador_icon_gray)
                     .error(R.drawable.ic_menu_checklist_icon_gray)
                     .into(holder.imageItem);
@@ -74,7 +74,7 @@ public class adapterValidadorList extends RecyclerView.Adapter<adapterValidadorL
                     .into(holder.imageicon);
         }else if (position==4){
             holder.step.setText("Paso 5");
-            holder.stepdescription.setText("Verifica las habilidades del vehiculo");
+            holder.stepdescription.setText("Verifica las habilidades del vehículo");
             Glide.with(context).load(R.drawable.ic_scan_document)
                     .error(R.drawable.ic_menu_checklist_icon_gray)
                     .into(holder.imageItem);

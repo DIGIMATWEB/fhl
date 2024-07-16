@@ -112,7 +112,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="Vehiculo"
+                android:text="Vehículo"
                 android:textSize="@dimen/h8"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/guidelinemanifest1">
@@ -301,7 +301,7 @@
         android:background="@color/white"
         android:textStyle="bold"
         android:textSize="@dimen/h4"
-        android:text="Codigo escaneado correctamente"
+        android:text="Código escaneado correctamente"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -63,7 +63,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="5dp"
-                    android:text="Escanea el codigo del manifiesto"
+                    android:text="Escanea el código del manifiesto"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageViewManifest"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -113,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="5dp"
-                    android:text="Codigo de cortina"
+                    android:text="Código de cortina"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageCortina"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -163,7 +163,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="5dp"
-                    android:text="Codigo de tickets"
+                    android:text="Código de tickets"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageViewTickets"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -212,7 +212,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="5dp"
-                    android:text="Codigo de sellos"
+                    android:text="Código de sellos"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageView24"
                     app:layout_constraintTop_toTopOf="parent" />

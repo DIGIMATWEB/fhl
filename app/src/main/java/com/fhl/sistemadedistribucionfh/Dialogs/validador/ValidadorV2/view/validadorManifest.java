@@ -131,7 +131,7 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
         switch (codigoValidador1) {
             case "1":/** aqui pedimos los manifiestos y las cortinas*/
                 fulllayout.setVisibility(View.GONE);
-                textView29.setText("escanear codigo del vehiculo");
+                textView29.setText("Escanear código del vehículo");
                 Gson gson = new Gson();
                 SharedPreferences preferences = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                 String token2 = preferences.getString(GeneralConstants.USER_VALUES, null);
@@ -159,7 +159,7 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
                     e.printStackTrace();
                 }
                 constrainCard.setVisibility(View.GONE);
-                textView29.setText("escanear codigo de la identificacion");
+                textView29.setText("Escanear código de la identificación");
                 break;
             case "3":/***aqui se pide rfc*/
 

@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:text="Numero de ticket"
+                android:text="Número de ticket"
                 android:textColor="@color/customTransparent"
                 android:textSize="11sp"
                 android:textStyle="bold"

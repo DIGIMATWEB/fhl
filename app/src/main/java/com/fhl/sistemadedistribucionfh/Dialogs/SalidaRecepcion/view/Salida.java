@@ -123,8 +123,8 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
         switch (codigoValidador1) {
 
             case "1":/** aqui pedimos los manifiestos y las cortinas*/
-                textView23.setText("siguiente paso");
-                textView29.setText("escanear codigo de la cortina");
+                textView23.setText("Siguiente paso");
+                textView29.setText("Escanear código de la cortina");
                 cortina.setVisibility(View.GONE);
                 presenter.requestManifest(codigoValidador);
                 Log.e("motorola","manifest "+codigoValidador);
@@ -141,23 +141,23 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                     e.printStackTrace();
                 }
                 textsalida.setText("   "+cortinaDestino);
-                textView23.setText("siguiente paso");
-                textView29.setText("escanea el codigo de los tickets");
+                textView23.setText("Siguiente paso");
+                textView29.setText("Escanea el código de los tickets");
                 presenter.requestTickets(currentManifest);
                 Log.e("motorola","ticketsM:  "+currentManifest);
                 break;
             case "3":
                 constrainCard.setVisibility(View.GONE);
                 cortina.setVisibility(View.VISIBLE);
-                textView23.setText("siguiente paso");
-                textView29.setText("escanea el codigo de los sellos");
+                textView23.setText("Siguiente paso");
+                textView29.setText("Escanea el código de los sellos");
                 presenter.getsellos(currentManifest);
                 break;
             case "4"://sellos
                 constrainCard.setVisibility(View.GONE);
                 cortina.setVisibility(View.VISIBLE);
-                textView23.setText("siguiente paso ");
-                textView29.setText("escanea el codigo de los sellos");
+                textView23.setText("Siguiente paso ");
+                textView29.setText("Escanea el código de los sellos");
                 Glide.with(getContext())
                         .load(qrsalida)
                         .error(R.drawable.okwarning)

@@ -206,7 +206,7 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
 
     private void showDialog(String value) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Confirma la accion")
+        builder.setTitle("Confirma la acción")
                 .setMessage(value)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -433,9 +433,9 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
             case R.id.imageButton:
                 //closeDialog();
                 if(sellos.isEmpty()){
-                    showDialog("Quieres continuar sin sellos");
+                    showDialog("¿Quieres continuar sin sellos?");
                 }else {
-                    showDialog("Guardar los siguientes sellos");
+                    showDialog("¿Guardar los siguientes sellos?");
                 }
                 break;
         }

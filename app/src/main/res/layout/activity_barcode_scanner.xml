@@ -267,7 +267,7 @@
             android:layout_marginBottom="5dp"
             android:textColor="@color/white"
             android:textSize="20sp"
-            android:text="codigo" />
+            android:text="código" />
 
         <TextView android:id="@+id/barcodeRawValue"
             android:layout_width="wrap_content"
