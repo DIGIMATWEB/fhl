@@ -326,6 +326,20 @@
                 </ImageView>
 
                 <TextView
+                    android:id="@+id/coordenadasIndicatorRemitente"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:visibility="invisible"
+                    android:text="Sin coordenadas"
+                    android:textAlignment="textStart"
+                    android:textSize="@dimen/h5"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/georeferenciaTitle" />
+
+                <TextView
                     android:id="@+id/maniobrasTicketTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -401,6 +415,21 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView14"
                     app:srcCompat="@drawable/map_test">
                 </ImageView>
+
+                <TextView
+                    android:id="@+id/coordenadasIndicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:visibility="invisible"
+
+                    android:text="Sin coordenadas"
+                    android:textAlignment="textEnd"
+                    android:textSize="@dimen/h5"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guidelinetickets00"

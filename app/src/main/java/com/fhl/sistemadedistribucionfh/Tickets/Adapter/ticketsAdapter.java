@@ -355,17 +355,21 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
                     if(data.get(0).getSendtripPlus().getRemitente().getCoordenadas().isEmpty()) {
                         coordenadasRemitenteTotal = "";
                         holder.destinoMinimapa.setVisibility(View.GONE);
+                        holder.coordenadasIndicatorRemitente.setVisibility(View.VISIBLE);
                     } else {
                         coordenadasRemitenteTotal = data.get(0).getSendtripPlus().getRemitente().getCoordenadas();
                         holder.destinoMinimapa.setVisibility(View.VISIBLE);
+                        holder.coordenadasIndicatorRemitente.setVisibility(View.GONE);
                     }
                 } else {
                     coordenadasRemitenteTotal = "";
                     holder.destinoMinimapa.setVisibility(View.GONE);
+                    holder.coordenadasIndicatorRemitente.setVisibility(View.VISIBLE);
                 }
             } else {
                 coordenadasRemitenteTotal = "";
                 holder.destinoMinimapa.setVisibility(View.GONE);
+                holder.coordenadasIndicatorRemitente.setVisibility(View.VISIBLE);
             }
 
             // Coordenadas Destino
@@ -374,17 +378,21 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
                     if(data.get(0).getSendtripPlus().getDestinatario().getCoordenadas().isEmpty()) {
                         coordenadasDestinoTotal = "";
                         holder.destinoMinimapaDestino.setVisibility(View.GONE);
+                        holder.coordenadasIndicator.setVisibility(View.VISIBLE);
                     } else {
                         coordenadasDestinoTotal = data.get(0).getSendtripPlus().getDestinatario().getCoordenadas();
                         holder.destinoMinimapaDestino.setVisibility(View.VISIBLE);
+                        holder.coordenadasIndicator.setVisibility(View.GONE);
                     }
                 } else {
                     coordenadasDestinoTotal = "";
                     holder.destinoMinimapaDestino.setVisibility(View.GONE);
+                    holder.coordenadasIndicator.setVisibility(View.VISIBLE);
                 }
             } else {
                 coordenadasDestinoTotal = "";
                 holder.destinoMinimapaDestino.setVisibility(View.GONE);
+                holder.coordenadasIndicator.setVisibility(View.VISIBLE);
             }
         }
 
@@ -441,6 +449,9 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
         String habilidadesTotal = "Vehículo: " + listHabilidadesVehiculo + ", Operador: " + listHabilidadesOperador + ", Auxiliares: " + listHabilidadesAuxiliares;
         holder.habilidadesList.setText(habilidadesTotal);
 
+        // Maniobras / Auxiliares Lista
+        holder.maniobrasList.setText("-- --");
+
         //Listener de Destino
         holder.destinoMinimapaDestino.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -458,23 +469,30 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
             }
         });
     }
-    private String convertDateFormat(String originalDateString) {
-        // Define el formato original
-        SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS", Locale.getDefault());
+    private static String convertDateFormat(String originalDateString) {
+        // Define los formatos originales posibles
+        SimpleDateFormat[] originalFormats = {
+                new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS", Locale.getDefault()),
+                new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+        };
 
         // Define el formato deseado
         SimpleDateFormat desiredFormat = new SimpleDateFormat("dd MMM HH:mm 'hrs'", Locale.getDefault());
 
-        try {
-            // Parsear la fecha original
-            Date date = originalFormat.parse(originalDateString);
+        for (SimpleDateFormat originalFormat : originalFormats) {
+            try {
+                // Parsear la fecha original
+                Date date = originalFormat.parse(originalDateString);
 
-            // Formatear la fecha al formato deseado
-            return desiredFormat.format(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
+                // Formatear la fecha al formato deseado
+                return desiredFormat.format(date);
+            } catch (ParseException e) {
+                // Ignorar y probar el siguiente formato
+            }
         }
+
+        // Si ninguno de los formatos originales funcionó, retornar null
+        return "-- --";
     }
     @Override
     public int getItemCount() {
@@ -484,7 +502,8 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout cardOrder;
         ImageView destinoMinimapa, destinoMinimapaDestino;
-        TextView ticketNum,cliente,checklist,origen, destinatario, advertencia, custodioStatus, georeferenciaRemitente, georeferenciaDestino, horaLlegadaRemitente, horaLlegadaDestinatario, habilidadesList;
+        TextView ticketNum,cliente,checklist,origen, destinatario, advertencia, custodioStatus, georeferenciaRemitente, georeferenciaDestino, horaLlegadaRemitente, horaLlegadaDestinatario,
+                habilidadesList, coordenadasIndicator, coordenadasIndicatorRemitente, maniobrasList;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             cardOrder=itemView.findViewById(R.id.constrainCard);
@@ -502,6 +521,9 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
             horaLlegadaRemitente = itemView.findViewById(R.id.horaLlegadaRemitente);
             horaLlegadaDestinatario = itemView.findViewById(R.id.horaLlegadaDestinatario);
             habilidadesList = itemView.findViewById(R.id.habilidadesList);
+            coordenadasIndicator = itemView.findViewById(R.id.coordenadasIndicator);
+            coordenadasIndicatorRemitente = itemView.findViewById(R.id.coordenadasIndicatorRemitente);
+            maniobrasList = itemView.findViewById(R.id.maniobrasList);
         }
     }
 }
