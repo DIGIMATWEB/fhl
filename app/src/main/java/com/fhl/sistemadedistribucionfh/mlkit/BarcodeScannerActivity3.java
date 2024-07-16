@@ -18,16 +18,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.Camera;
+import androidx.camera.core.CameraControl;
+import androidx.camera.core.CameraInfo;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
-import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import com.fhl.sistemadedistribucionfh.Dialogs.Planeacion.view.validadorPlaneacion;
-import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ErrorSalida.errorDialog;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ErrorSalida.errorRecepcion;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
 import com.fhl.sistemadedistribucionfh.R;
@@ -36,8 +37,6 @@ import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Paquete;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.dataTicketsDetailsendtrip;
 import com.fhl.sistemadedistribucionfh.mlkit.Center.ScannedCode;
 import com.google.mlkit.common.MlKitException;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,13 +56,10 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
     @Nullable
     private VisionImageProcessor imageProcessor;//needed
     private boolean needUpdateGraphicOverlayImageSourceInfo;//needed
-
     private int lensFacing = CameraSelector.LENS_FACING_BACK;//needed
     private CameraSelector cameraSelector;//needed
-
     private static final String STATE_SELECTED_MODEL = "selected_model";//needed
     private static final String STATE_LENS_FACING = "lens_facing";//needed
-
    // public String typeScanner="";
     private List<dataTicketsDetailsendtrip> data;//no needed
     private String currentManifest;//no needed
@@ -73,6 +69,8 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
     private errorRecepcion errorD;
     private List<ScannedCode> scannedCodes = new ArrayList<>();
     private long startTime;
+    private boolean isTorchOn = false;
+    private CameraControl cameraControl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,9 +174,20 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
 
         previewUseCase = new Preview.Builder().build();
         previewUseCase.setSurfaceProvider(binding.previewView.getSurfaceProvider());
-        cameraProvider.bindToLifecycle(/* lifecycleOwner= */ BarcodeScannerActivity3.this, cameraSelector, previewUseCase);
+        try {
+            Camera camera = cameraProvider.bindToLifecycle(this, cameraSelector, previewUseCase);
+            CameraInfo cameraInfo = camera.getCameraInfo();
+            cameraControl = camera.getCameraControl();
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to bind camera use cases", e);
+        }
     }
-
+    public void toggleFlash() {
+        if (cameraControl != null) {
+            isTorchOn = !isTorchOn;
+            cameraControl.enableTorch(isTorchOn);
+        }
+    }
     private void bindAnalysisUseCase() {
         if (cameraProvider == null) {
             return;

@@ -72,7 +72,7 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
     private ConstraintLayout constraintLayout5,constraintLayout6,inputkeyscode;
     private EditText escribircodigo;
     private ImageView inputcamara,inputmanual,imageView27;
-    private Button captureCode;
+    private Button captureCode,ligth2;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,6 +120,8 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
 
     private void initDialog(View view) {
         ticketsLocal=new ArrayList<>();
+        ligth2 = view.findViewById(R.id.ligth2);
+        ligth2.setOnClickListener(this);
         constraintLayout5 = view.findViewById(R.id.constraintLayout5);
         constraintLayout6 = view.findViewById(R.id.constraintLayout6);
         constraintLayout5.setOnClickListener(this);
@@ -359,6 +361,10 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.ligth2:
+                BarcodeScannerActivity3 barcodeScannerActivity3 = (BarcodeScannerActivity3) getActivity();
+                barcodeScannerActivity3.toggleFlash();
+                break;
             case R.id.imageView27:
                 inputkeyscode.setVisibility(View.GONE);
                 inputcamara.setBackgroundResource(R.drawable.icscannercamblack);
