@@ -21,6 +21,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.Camera;
+import androidx.camera.core.CameraControl;
+import androidx.camera.core.CameraInfo;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.Preview;
@@ -92,6 +95,8 @@ public class BarcodeScannerActivity extends AppCompatActivity
     private Integer claveVehicleID;
     private String codigoValidador="";
     private Boolean isMotorola=false;
+    private boolean isTorchOn = false;
+    private CameraControl cameraControl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,7 +163,8 @@ public class BarcodeScannerActivity extends AppCompatActivity
         if (!allPermissionsGranted()) {
             getRuntimePermissions();
         }
-
+        binding.lamp2.setVisibility(View.VISIBLE);
+        binding.lamp2.setOnClickListener(this);
 //        binding.inputmanual.setOnClickListener(this);
 //        binding.inputcamara.setOnClickListener(this);
 //        binding.captureCode.setOnClickListener(this);
@@ -269,9 +275,20 @@ public class BarcodeScannerActivity extends AppCompatActivity
 
         previewUseCase = new Preview.Builder().build();
         previewUseCase.setSurfaceProvider(binding.previewView.getSurfaceProvider());
-        cameraProvider.bindToLifecycle(/* lifecycleOwner= */ BarcodeScannerActivity.this, cameraSelector, previewUseCase);
+        try {
+            Camera camera = cameraProvider.bindToLifecycle(this, cameraSelector, previewUseCase);
+            CameraInfo cameraInfo = camera.getCameraInfo();
+            cameraControl = camera.getCameraControl();
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to bind camera use cases", e);
+        }
     }
-
+    public void toggleFlash() {
+        if (cameraControl != null) {
+            isTorchOn = !isTorchOn;
+            cameraControl.enableTorch(isTorchOn);
+        }
+    }
     private void bindAnalysisUseCase() {
         if (cameraProvider == null) {
             return;
@@ -1125,6 +1142,15 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     gotoListBarcode = "ready";
                 }
             break;
+            case R.id.lamp2:
+                toggleFlash();
+                if (isTorchOn) {
+                    binding.lamp2.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.lamparaon));
+                } else {
+
+                    binding.lamp2.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.lamparaoff));
+                }
+                break;
             case R.id.inputcamara:
                 //Toast.makeText(this, "camara click", Toast.LENGTH_SHORT).show();
                 binding.inputkeyscode.setVisibility(View.GONE);

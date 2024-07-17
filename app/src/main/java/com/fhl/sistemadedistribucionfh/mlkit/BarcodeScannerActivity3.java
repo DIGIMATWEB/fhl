@@ -17,6 +17,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.Camera;
+import androidx.camera.core.CameraControl;
+import androidx.camera.core.CameraInfo;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.Preview;
@@ -68,6 +71,9 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
     private  List<Paquete> lotes=new ArrayList<>();//no needed
     private List<ticketsScanned> fresult;//no needed
     private errorRecepcion errorD;
+    private boolean isTorchOn = false;
+    private CameraControl cameraControl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,7 +177,19 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
 
         previewUseCase = new Preview.Builder().build();
         previewUseCase.setSurfaceProvider(binding.previewView.getSurfaceProvider());
-        cameraProvider.bindToLifecycle(/* lifecycleOwner= */ BarcodeScannerActivity3.this, cameraSelector, previewUseCase);
+        try {
+            Camera camera = cameraProvider.bindToLifecycle(this, cameraSelector, previewUseCase);
+            CameraInfo cameraInfo = camera.getCameraInfo();
+            cameraControl = camera.getCameraControl();
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to bind camera use cases", e);
+        }
+    }
+    public void toggleFlash() {
+        if (cameraControl != null) {
+            isTorchOn = !isTorchOn;
+            cameraControl.enableTorch(isTorchOn);
+        }
     }
 
     private void bindAnalysisUseCase() {
@@ -310,7 +328,7 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
         Toast.makeText(this, ""+result, Toast.LENGTH_SHORT).show();
     }
 
-    private void barcodesCollection(String code)
+    public void barcodesCollection(String code)
     {
         Log.e("qrs",code);
         mediaPlayer.start();

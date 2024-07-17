@@ -21,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -73,6 +74,8 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
     private EditText escribircodigo;
     private ImageView inputcamara,inputmanual,imageView27;
     private Button captureCode;
+    private ImageView lamp;
+    private boolean isFlashOn = false;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,6 +123,8 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
 
     private void initDialog(View view) {
         ticketsLocal=new ArrayList<>();
+        lamp = view.findViewById(R.id.lamp);
+        lamp.setOnClickListener(this);
         constraintLayout5 = view.findViewById(R.id.constraintLayout5);
         constraintLayout6 = view.findViewById(R.id.constraintLayout6);
         constraintLayout5.setOnClickListener(this);
@@ -359,14 +364,28 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.lamp:
+                BarcodeScannerActivity3 barcodeScannerActivity3 = (BarcodeScannerActivity3) getActivity();
+                barcodeScannerActivity3.toggleFlash();
+                if (isFlashOn) {
+                    // Turn off flash
+                    isFlashOn = false;
+                    lamp.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.lamparaoff));
+                } else {
+                    // Turn on flash
+                    isFlashOn = true;
+                    lamp.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.lamparaon));
+                }
+                break;
             case R.id.imageView27:
                 inputkeyscode.setVisibility(View.GONE);
                 inputcamara.setBackgroundResource(R.drawable.icscannercamblack);
                 inputmanual.setBackgroundResource(R.drawable.ic_keys_black);
                 break;
             case R.id.constraintLayout6://camera
-                inputkeyscode.setVisibility(View.GONE);
-                inputcamara.setBackgroundResource(R.drawable.icscannercamblack);
+                Log.e("sheet","cam");
+                inputkeyscode.setVisibility(View.GONE);//sd
+                inputcamara.setBackgroundResource(R.drawable.icscannercamblack);//
                 inputmanual.setBackgroundResource(R.drawable.ic_keys_black);
                 //binding.headerText.setTextColor(Color.WHITE);
                 break;

@@ -40,7 +40,27 @@
         app:layout_constraintTop_toTopOf="@id/preview_view"
         app:layout_constraintBottom_toBottomOf="@id/preview_view" />
 
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="30dp"
+        app:cardBackgroundColor="#E1E1E1"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/lamp2"
+            android:layout_width="15dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:background="@drawable/lamparaoff"
+            android:elevation="8dp" />
+    </androidx.cardview.widget.CardView>
     <!--sin usar-->
+
     <TextView
         android:id="@+id/mtypeScanner"
         android:layout_width="wrap_content"
