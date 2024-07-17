@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.PointF;
+import android.graphics.Rect;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -73,6 +75,8 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
     private errorRecepcion errorD;
     private boolean isTorchOn = false;
     private CameraControl cameraControl;
+    private List<ScannedCode> scannedCodes = new ArrayList<>();
+    private long startTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -301,21 +305,101 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
 //endregion
     @Override
     public void sendScannedCode(String code) {
-        Handler handler = new Handler(Looper.getMainLooper());
-
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-
-                if (code != null && !code.isEmpty()) {
-                    barcodesCollection(code);
-                    binding.resultContainer.setVisibility(View.VISIBLE);
-                    Log.e("codescann",""+code);
-                }
-            }
-        });
+//        Handler handler = new Handler(Looper.getMainLooper());
+//
+//        handler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                if (code != null && !code.isEmpty()) {
+//                    barcodesCollection(code);
+//                    binding.resultContainer.setVisibility(View.VISIBLE);
+//                    Log.e("codescann",""+code);
+//                }
+//            }
+//        });
     }
 
+    @Override
+    public void sendScannedCodewithBounding(String code, Rect boundingBox) {
+        if (scannedCodes.isEmpty()) {
+            startTime = System.currentTimeMillis();
+            new Handler().postDelayed(this::processScannedCodes, 4000);
+        }
+
+        // Convert bounding box to a center point
+        PointF position = getCenterPoint(boundingBox);
+
+        // Store the scanned code with its position and timestamp
+        boolean codeExists = false;
+        for (ScannedCode mcode : scannedCodes) {
+            if (mcode.code.equals(code)) {
+                codeExists = true;
+                break;
+            }
+        }
+
+        // If the code is not in the list, add it
+        if (!codeExists) {
+            scannedCodes.add(new ScannedCode(code, position, System.currentTimeMillis()));
+        }
+    }
+    private PointF getCenterPoint(Rect boundingBox) {
+        float centerX = boundingBox.centerX();
+        float centerY = boundingBox.centerY();
+        return new PointF(centerX, centerY);
+    }
+    private void processScannedCodes() {
+        if (scannedCodes.isEmpty()) {
+            return;
+        }
+
+        // Calculate the center of the camera view
+        int viewWidth = binding.previewView.getWidth();
+        int viewHeight = binding.previewView.getHeight();
+        PointF centerPoint = new PointF(viewWidth / 2.0f, viewHeight / 2.0f);//getCodePosition();//
+
+        // Find the code closest to the center of the view
+        ScannedCode mostCenteredCode = null;
+        float minDistance = Float.MAX_VALUE;
+        for (ScannedCode scannedCode : scannedCodes) {
+            float distance = calculateDistance(centerPoint, scannedCode.position);
+             Log.e("fcenteredCode", "all " + scannedCode.code + " distance code " + scannedCode.position);
+            Log.e("centeredCodea", "" + scannedCode.code); //+ " " + scannedCode.position.x+" "+scannedCode.position.y);
+            Log.e("centeredCodex", "" + scannedCode.position.x);
+            Log.e("centeredCodey", "" + scannedCode.position.y);
+            if (distance < minDistance) {
+                minDistance = distance;
+                mostCenteredCode = scannedCode;
+            }
+        }
+
+        if (mostCenteredCode != null) {
+            // Process the most centered code
+            Log.e("centeredCode", "Most centered code: " + mostCenteredCode.code +" "+centerPoint);
+            Toast.makeText(this, "" + mostCenteredCode.code, Toast.LENGTH_SHORT).show();
+            // You can handle the most centered code here, e.g., show it in the UI or trigger further processing
+        }
+
+        // Clear the scanned codes list for future scans
+        scannedCodes.clear();
+        mediaPlayer.start();
+        stopCameraProcess();
+        new Handler().postDelayed(this::restartCameraProcess, 1500);
+    }
+
+    private float calculateDistance(PointF p1, PointF p2) {
+        float dx = p1.x - p2.x;
+        float dy = p1.y - p2.y;
+        return (float) Math.sqrt(dx * dx + dy * dy);
+    }
+    private PointF getCodePosition() {
+        // You need to implement this method to return the position of the code in the view
+        // For demonstration purposes, let's assume the center of the view
+        int viewWidth = binding.previewView.getWidth();
+        int viewHeight = binding.previewView.getHeight();
+        return new PointF(viewWidth / 2.0f, viewHeight / 2.0f);
+    }
     public void restartCameraProcess() {
         if (allPermissionsGranted()) {
             bindAllCameraUseCases();

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -443,6 +444,12 @@ public class BarcodeScannerActivity extends AppCompatActivity
             }
         });
     }
+
+    @Override
+    public void sendScannedCodewithBounding(String rawValue, Rect boundingBox) {
+
+    }
+
     public void restartCameraProcesswithNoChanges() {
         Log.e("carga"," restartCameraProcesswithNoChanges typeScanner "+typeScanner);
         binding.barcodeRawValue.setText("");

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Rect;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -326,6 +327,11 @@ public class BarcodeScannerActivity2 extends AppCompatActivity
                 }
             }
         });
+    }
+
+    @Override
+    public void sendScannedCodewithBounding(String rawValue, Rect boundingBox) {
+
     }
 
     public void restartCameraProcess() {
