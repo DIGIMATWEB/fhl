@@ -1,5 +1,6 @@
 package com.fhl.sistemadedistribucionfh.Dialogs.detailManifestTicketsSummary.Tickets;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -42,6 +43,16 @@ public class detailTicketsSummary extends DialogFragment implements View.OnClick
                 setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_DeviceDefault_Light_NoActionBar);
 
         }
+
+        @Override
+        public void onDismiss(@NonNull DialogInterface dialog) {
+                super.onDismiss(dialog);
+                if (getActivity() instanceof BarcodeScannerActivity) {
+                        BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
+                        barcodeScannerActivity.restartCameraProcess();
+                }
+        }
+
         @Nullable
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -101,6 +112,7 @@ public class detailTicketsSummary extends DialogFragment implements View.OnClick
                                         sellosSalida bottomSheet = new sellosSalida();
                                         bottomSheet.setArguments(bundle);
                                         bottomSheet.show(getParentFragmentManager(), "sellosSummary");
+                                        dismiss();
 //                                }else{
 //
 //

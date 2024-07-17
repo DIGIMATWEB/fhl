@@ -114,6 +114,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
             Log.e("dataticketsSizeE", json);
             if (typeScanner != null && typeScanner.equals("Recolectar")) {
                 consolidado = false;
+
             }else {
                 if(typeScanner==null){
 
@@ -619,9 +620,23 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                                 // Toast.makeText(getContext(), "LISTO TODOS PERFECT", Toast.LENGTH_SHORT).show();
                                 if(countok == model.size()){
                                     //definir si aqui se elimina
-                                    BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
-                                    barcodeScannerActivity1.goTicketsSummary();
-                                    closeDialog();
+                                    Log.e("dialogSalida","goTicketsSummary"+typeScanner);
+                                    if (typeScanner != null) {
+                                        if (typeScanner.equals("Recolectar")) {
+                                            //Toast.makeText(getContext(), "sumarydetailtickets", Toast.LENGTH_SHORT).show();
+                                            BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                                            barcodeScannerActivity1.detalManifestTicketsSummary(currentmanifest, codigoValidador, sellos);
+                                            closeDialog();
+                                        } else {
+                                            BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                                            barcodeScannerActivity1.goTicketsSummary();
+                                            closeDialog();
+                                        }
+                                    }else {
+                                        BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                                        barcodeScannerActivity1.goTicketsSummary();
+                                        closeDialog();
+                                    }
                                 }
                             } else {
                                 Toast.makeText(getContext(), "Falta enviar evidencias", Toast.LENGTH_SHORT).show();

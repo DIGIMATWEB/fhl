@@ -105,7 +105,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
             if(bndl!=null){
                 typeScanner=bndl.getString("scannerType");
                 if(typeScanner!=null){
-                    Log.e("typeScanner","1 "+typeScanner);
+
                     binding.mtypeScanner.setText(typeScanner);
                     if (typeScanner.equals("Validador")) {
                         new escanearValidador().show(getSupportFragmentManager(), "escanearValidador");
@@ -130,11 +130,9 @@ public class BarcodeScannerActivity extends AppCompatActivity
 
                 }else{
                     typeScanner=bndl.getString("scannerType2");
-                    Log.e("typeScanner","2 "+typeScanner);
                 }
          }else{
                 typeScanner="Validador";
-                Log.e("","3 "+typeScanner);
                 new escanearCodigosSalida().show(getSupportFragmentManager(), "escanearCodigosSalida");
             }
 
@@ -318,7 +316,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     try {
                         imageProcessor.processImageProxy(imageProxy, binding.graphicOverlay);
                     } catch (   MlKitException e) {
-                        //      Log.e(TAG, "Failed to process image. Error: " + e.getLocalizedMessage());
+                        //      TAG, "Failed to process image. Error: " + e.getLocalizedMessage());
                         Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
 
                     }
@@ -409,18 +407,16 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     barcodesCollection(code);
                     binding.resultContainer.setVisibility(View.VISIBLE);
                     lastCode=code;
-                    Log.e("codescann",""+lastCode);
                 }
             }
         });
-    } public void restartCameraProcesswithNoChanges() {
+    }
+    public void restartCameraProcesswithNoChanges() {
         binding.barcodeRawValue.setText("");
         if (allPermissionsGranted()) {
             bindAllCameraUseCases();
             if(typeScanner.equals("Salida")) {
-                Log.e("currentStatus"," restartCameraProcess cSNC:  "+currentStatus);
                 if (currentStatus == 3) {
-                    Log.e("dialogSalida","currentStatus 3");
                     binding.barcodeRawValue.setText("escanea los tickets");
                     if (getSupportFragmentManager().findFragmentByTag("ticketsSalida") == null) {
                         Bundle bundle = new Bundle();
@@ -431,7 +427,6 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     }
 
                 }else if (currentStatus == 4) {
-                    Log.e("dialogSalida","currentStatus 5");
                     binding.barcodeRawValue.setText("escanea los sellos");
                     if (getSupportFragmentManager().findFragmentByTag("sellosSalida") == null) {
                         Bundle bundle = new Bundle();
@@ -443,7 +438,6 @@ public class BarcodeScannerActivity extends AppCompatActivity
                         botonsheetsellos.show(getSupportFragmentManager(), "sellosSalida");
                     }
                 } else if (currentStatus == 5) {
-                    Log.e("dialogSalida","currentStatus 5");
                     binding.barcodeRawValue.setText("escanea los sellos");
                     if (getSupportFragmentManager().findFragmentByTag("sellosSalida") == null) {
 //                        Bundle bundle = new Bundle();
@@ -463,14 +457,13 @@ public class BarcodeScannerActivity extends AppCompatActivity
     public void restartCameraProcessfromerror() {
         if (allPermissionsGranted()) {
             bindAllCameraUseCases();
-            Log.e("validador","last status "+currentStatus);
         }else {
             getRuntimePermissions();
         }
     }
     public void checkIfMotorola(){
+        Log.e("motorola","typeScanner "+typeScanner);
         if(typeScanner.equals("Salida")) {
-            Log.e("currentStatus","checkIfMotorola restartCameraProcess cS:  "+currentStatus);
             if (currentStatus != 5) {
                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
@@ -507,10 +500,8 @@ public class BarcodeScannerActivity extends AppCompatActivity
 //                    botonsheetsellos.show(getSupportFragmentManager(), "sellosSalida");
                 }
             }else {
-                Log.e("motorola"," restartCameraProcess cS: F "+currentStatus);
             }
         }else if(typeScanner.equals("Validador")){
-            Log.e("validador","ir a validador "+currentStatus);
             if(currentStatus<4) {
                 currentStatus = currentStatus + 1;
                 if (currentStatus == 4) {
@@ -525,13 +516,33 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     stopCameraProcess();
                 }
             }              //aqui solo se debe visivilizar el escaner ya que no hay ventanas emergentes
+        }else if(typeScanner.equals("Recolectar")){
+            Log.e("motorola","motorola currentStatus "+currentStatus);
+            if (currentStatus == 5) {
+                binding.barcodeRawValue.setText("escanea los sellos");
+                botonsheettickets.dismiss();
+                if (getSupportFragmentManager().findFragmentByTag("sellosSalida") == null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("typeScanner",typeScanner);
+                    bundle.putString("currentManifest", currentmanifest);
+                    bundle.putSerializable("sellos", (Serializable) dataSellos);
+                    bundle.putString("flowSellos", "1");
+                    botonsheetsellos = new sellosSalida();
+                    botonsheetsellos.setArguments(bundle);
+                    botonsheetsellos.show(getSupportFragmentManager(), "sellosSalida");
+                }
+                SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString(GeneralConstants.STATUS_SALIDA, String.valueOf(currentStatus));
+                editor.commit();
+            }
         }
     }
     public void restartCameraProcess() {
         if (allPermissionsGranted()) {
             bindAllCameraUseCases();
+            Log.e("motorola","typeScanner "+typeScanner);
           if(typeScanner.equals("Salida")) {
-           Log.e("currentStatus"," restartCameraProcess cS:  "+currentStatus);
             if (currentStatus != 3 && currentStatus != 5 && currentStatus != 4) {
                 currentStatus = currentStatus + 1;
                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
@@ -577,7 +588,6 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 }
             }
          }else if(typeScanner.equals("Validador")){
-              Log.e("validador","ir a validador "+currentStatus);
               if(currentStatus<4) {
                   currentStatus = currentStatus + 1;
                   if (currentStatus == 4) {
@@ -593,8 +603,6 @@ public class BarcodeScannerActivity extends AppCompatActivity
                   }
               }              //aqui solo se debe visivilizar el escaner ya que no hay ventanas emergentes
           }else{
-            Log.e("Recolectar","ver donde cae");
-              Log.e("motorola"," restartCameraProcess cS:  else");
               if (currentStatus == 4) {
                   binding.barcodeRawValue.setText("escanea los sellos");
                   if (getSupportFragmentManager().findFragmentByTag("sellosSalida") == null) {
@@ -622,14 +630,12 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     currentStatus = currentStatus + 1;
                 }
             }
-            Log.e("motorola"," restartCameraProcess cS:  getRuntimePermissions "+currentStatus+"  "+allPermissionsGranted());
             isMotorola=true;
 
             getRuntimePermissions();
         }
     }
     public void godialogCheck(){
-        Log.e("dialogSalida","godialogCheck");
         dismissSellos();
         dialogCompletedSalida bottonSheetv=new dialogCompletedSalida();
         Bundle bundle = new Bundle();
@@ -640,7 +646,6 @@ public class BarcodeScannerActivity extends AppCompatActivity
         bottonSheetv.show(getSupportFragmentManager(),"dialogCompletedSalidaImp");
     }
     public void resumeValidador(){
-        Log.e("dialogSalida","resumeValidador");
         dismissSellos();
         dialogCompletedSalida bottonSheetv=new dialogCompletedSalida();
         bottonSheetv.show(getSupportFragmentManager(),"dialogCompletedSalidaImp");
@@ -649,7 +654,6 @@ public class BarcodeScannerActivity extends AppCompatActivity
         if(botonsheettickets!=null) {
             botonsheettickets.closeDialog();
             currentStatus = 4;
-            Log.e("currentStatus", "ir a sellos");
         }
     }
     public void dismissSellos(){
@@ -706,6 +710,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
     }
     public void detalManifestTicketsSummary(String mcurrentmanifest, List<dataTicketsManifestV2> codigoValidador, List<Sello> sellos){
         stopCameraProcess();
+        Log.e("motorola","motorola tickets Sumary");
         Bundle bundle = new Bundle();
         bundle.putString("currentManifest", mcurrentmanifest);
         bundle.putSerializable("dataTcikets",(Serializable) codigoValidador);
@@ -713,6 +718,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
         detailTicketsSummary bottonSheetv = new detailTicketsSummary();
         bottonSheetv.setArguments(bundle);
         bottonSheetv.show(getSupportFragmentManager(), "detailTicketsSummary");
+        currentStatus = 4;
     }
     public void goTicketsSummary(){
         stopCameraProcess();
@@ -720,12 +726,10 @@ public class BarcodeScannerActivity extends AppCompatActivity
         //bundle.putString("qrCode", code);
         String statusrecepcion="3";
         if(dataSellos!=null){
-            Log.e("currentStatus","existen sellos");
            statusrecepcion="4";
             //Toast.makeText(this, "No tienes sellos", Toast.LENGTH_SHORT).show();
          //   dismissSellos();
         }else{
-            Log.e("currentStatus","no existen sellos");
             statusrecepcion="4";
             //Toast.makeText(this, "No tienes sellos", Toast.LENGTH_SHORT).show();
           //|  dismissSellos();
@@ -773,7 +777,6 @@ public class BarcodeScannerActivity extends AppCompatActivity
         this.dataTickets=data;
         Gson gson =new Gson();
         String json =gson.toJson(dataTickets);
-        Log.e("dataticketsSizeE","scanner tickets :"+json);
 
     }
     public void setSellosNull() {
@@ -805,13 +808,12 @@ public class BarcodeScannerActivity extends AppCompatActivity
     }
     private void barcodesCollection(String code)
     {
-        Log.e("qrs",code);
         if(collectedBarCodes.contains(code))
         {
             if(typeScanner.equals("Salida")){//para salida recepccion4 si esta en la lista preguntar por el estatus del escaneo
                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                 String status = preferences.getString(GeneralConstants.STATUS_SALIDA, null);
-                Log.e("motorola","m1 a collected status: "+status);
+
                 if(status.equals("0")){
                     status="1";
                 }
@@ -826,7 +828,6 @@ public class BarcodeScannerActivity extends AppCompatActivity
             }
         }else
         {
-            Log.e("typeScanner","codigos escaneados: "+collectedBarCodes);
             if(!typeScanner.equals("Validador")) {
             }
             mediaPlayer.start();
@@ -843,7 +844,6 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 String status = preferences.getString(GeneralConstants.STATUS_SALIDA, null);
                 if(status == null){
 
-                    Log.e("motorola","m1 null status: 1");
                     SharedPreferences.Editor editor=preferences.edit();
                     editor.putString(GeneralConstants.STATUS_SALIDA,"1");
                     editor.commit();
@@ -857,7 +857,6 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     stopCameraProcess();
                 }else if(status.equals("1")){//esto muestra el sumary ed manifiestos
                     binding.barcodeRawValue.setText(code);
-                    Log.e("motorola","m1 1 status: 1");
                     Bundle bundle = new Bundle();
                     bundle.putString("qrCode", code);
                     bundle.putString("statusRecepcion", status);
@@ -868,7 +867,6 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 }else if(status.equals("2")){//esto muestra el sumary de cortinas
                     if(mcodigoAnden!=null) {
                 //        if (mcodigoAnden.equals(code)) {//todo guardar el dato antes
-                            Log.e("typeScanner", "1 status: " + status);
                             Bundle bundle = new Bundle();
                             bundle.putString("qrCode", code);
                             bundle.putString("statusRecepcion", status);
@@ -886,10 +884,10 @@ public class BarcodeScannerActivity extends AppCompatActivity
 //                                Bundle args = new Bundle();
 //                                args.putString("error_value", "La cortina no corresponde con el codigo");
 //                                errorD.setArguments(args);
-//                                Log.e("typeScanner", "errorDialog: 1");
+//                                "typeScanner", "errorDialog: 1");
 //                                errorD.show(getSupportFragmentManager(), "errorDialog");
 //                            } else if (!errorD.isAdded()) {
-//                                Log.e("typeScanner", "errorDialog: 1");
+//                                "typeScanner", "errorDialog: 1");
 //                                errorD.show(getSupportFragmentManager(), "errorDialog");
 //                            }
 //                        }
@@ -909,10 +907,8 @@ public class BarcodeScannerActivity extends AppCompatActivity
                         botonsheettickets = new ticketsSalida();
                         botonsheettickets.setArguments(bundle);
                         botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");//de existir el botomsheet
-                        Log.e("ticketsArray", "adapter tickets inicio nulo"  );
                     } else {
                         botonsheettickets.sendToast(code);
-                        Log.e("ticketsArray", "se envia el codigo al adapter "+code  );
                     }
                     stopCameraProcess();
                     new Handler().postDelayed(new Runnable() {
@@ -932,7 +928,6 @@ public class BarcodeScannerActivity extends AppCompatActivity
                         botonsheetsellos.show(getSupportFragmentManager(),"sellosSalida");
                     } else {
                         botonsheetsellos.sendToast(code);
-                        Log.e("ticketsArray", "se envia el codigo al adapter "+code  );
                     }
                     stopCameraProcess();
                     new Handler().postDelayed(new Runnable() {
@@ -951,7 +946,6 @@ public class BarcodeScannerActivity extends AppCompatActivity
 //                        botonsheetsellos.show(getSupportFragmentManager(),"sellosSalida");
                     } else {
                         botonsheetsellos.sendToast(code);
-                        Log.e("ticketsArray", "se envia el codigo al adapter "+code  );
                     }
                     stopCameraProcess();
                     new Handler().postDelayed(new Runnable() {
@@ -962,7 +956,6 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     }, 1500);
                 }else {
                     binding.barcodeRawValue.setText("");
-                    Log.e("typeScanner","else estatus: "+status+" cortina: "+cortinaDestination);
                     Bundle bundle = new Bundle();
                     bundle.putString("qrCode", code);
                     bundle.putString("statusRecepcion", status);
@@ -974,10 +967,8 @@ public class BarcodeScannerActivity extends AppCompatActivity
 
             }else if (typeScanner.equals("Validador")) {
 
-                Log.e("Validador", "Escanned");
                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                 String status = preferences.getString(GeneralConstants.STATUS_VALIDADOR, null);
-                Log.e("validador", "escanerActivity  " + status);
 
                 if (status == null) {
                     SharedPreferences.Editor editor = preferences.edit();
@@ -990,7 +981,6 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 String image = "";
                 if(currentStatus==1){
                     this.codigoValidador=code;
-                    Log.e("validador","last status "+currentStatus+"  "+code);
                     Bundle bundle = new Bundle();
                     bundle.putString("currentManifest", code);
                     bundle.putString("qrCode", image);
@@ -999,10 +989,8 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     validador.setArguments(bundle);
                     validador.show(getSupportFragmentManager(),"validadorManifest");
                 }else if(currentStatus==2){//vin
-                    Log.e("validador","last status "+currentStatus+"  "+code +"  "+vehiclebarcodeVal);
                     if(vehiclebarcodeVal.equals(code)) {
                         image = vehiclebarcode;
-                        Log.e("validador", "escanerActivity current " + currentStatus + " estatus " + status);
                         Bundle bundle = new Bundle();
                         bundle.putString("currentManifest", code);
                         bundle.putString("qrCode", image);
@@ -1017,10 +1005,8 @@ public class BarcodeScannerActivity extends AppCompatActivity
 
                 }else if(currentStatus==3)//rfc
                 {
-                    Log.e("validador","last status "+currentStatus+"  "+code+"  "+rfcBarcodeVal);
                     if(rfcBarcodeVal.equals(code)) {
                         image = rfcBarcode;
-                        Log.e("validador", "escanerActivity current " + currentStatus + " estatus " + status);
                         Bundle bundle = new Bundle();
                         bundle.putString("currentManifest", code);
                         bundle.putString("qrCode", image);
@@ -1043,12 +1029,10 @@ public class BarcodeScannerActivity extends AppCompatActivity
             }else if(typeScanner.equals("Recolectar")) {
                 if (currentStatus == 4) {
                     if (dataTickets != null) {
-                        Log.e("EvidenciaActivity", "Recolectar currentStatus == 4 folio " + dataTickets.get(0) + " data " + dataTickets.size());
                     } else {
-                        Log.e("EvidenciaActivity", " data : null");
                     }
+                    botonsheettickets.dismiss();
                     if(getSupportFragmentManager().findFragmentByTag("sellosSalida")==null){
-                        Log.e("EvidenciaActivity", "se crea el adapter "  );
                         Bundle bundle= new Bundle();
                         bundle.putString("typeScanner",typeScanner);
                         bundle.putString("currentManifest", currentmanifest);
@@ -1062,7 +1046,33 @@ public class BarcodeScannerActivity extends AppCompatActivity
                         botonsheetsellos.setTickets(dataTickets);
                         botonsheetsellos.setSellos(dataSellos);
                         botonsheetsellos.currentManifst(currentmanifest);
-                        Log.e("EvidenciaActivity", "se envia el codigo al adapter "+code  );
+                    }
+                    stopCameraProcess();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            restartCameraProcess();
+                        }
+                    }, 1500);
+                }else if(currentStatus == 5) {
+                    if (dataTickets != null) {
+                    } else {
+                    }
+                    botonsheettickets.dismiss();
+                    if(getSupportFragmentManager().findFragmentByTag("sellosSalida")==null){
+                        Bundle bundle= new Bundle();
+                        bundle.putString("typeScanner",typeScanner);
+                        bundle.putString("currentManifest", currentmanifest);
+                        bundle.putSerializable("dataTcikets", (Serializable) dataTickets);
+                        bundle.putSerializable("sellos",(Serializable) dataSellos);
+                        botonsheetsellos = new sellosSalida();
+                        botonsheetsellos.setArguments(bundle);
+                        botonsheetsellos.show(getSupportFragmentManager(),"sellosSalida");
+                    } else {
+                        botonsheetsellos.sendToast(code);
+                        botonsheetsellos.setTickets(dataTickets);
+                        botonsheetsellos.setSellos(dataSellos);
+                        botonsheetsellos.currentManifst(currentmanifest);
                     }
                     stopCameraProcess();
                     new Handler().postDelayed(new Runnable() {
@@ -1073,9 +1083,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     }, 1500);
                 }else{
                     if (dataTickets != null) {
-                        Log.e("EvidenciaActivity", "Recolectar current sutatus "+ currentStatus  +" folio " + dataTickets.get(0) + " data " + dataTickets.size());
                     } else {
-                        Log.e("EvidenciaActivity", " data : null");
                     }
                     if (getSupportFragmentManager().findFragmentByTag("ticketsSalida") == null) {//si el estatus es tres se crea el bottomsheet siempre y cuando no exista
                         Bundle bundle = new Bundle();
@@ -1083,10 +1091,8 @@ public class BarcodeScannerActivity extends AppCompatActivity
                         botonsheettickets = new ticketsSalida();
                         botonsheettickets.setArguments(bundle);
                         botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");//de existir el botomsheet
-                        Log.e("ticketsArray", "adapter tickets inicio nulo");
                     } else {
                         botonsheettickets.sendToast(code);
-                        Log.e("ticketsArray", "se envia el codigo al adapter " + code);
                     }
                     stopCameraProcess();
                     new Handler().postDelayed(new Runnable() {
