@@ -42,6 +42,7 @@
 
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/lamp2"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="50dp"
@@ -52,7 +53,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/lamp2"
+            android:id="@+id/lamp2c"
             android:layout_width="15dp"
             android:layout_height="25dp"
             android:layout_gravity="center"

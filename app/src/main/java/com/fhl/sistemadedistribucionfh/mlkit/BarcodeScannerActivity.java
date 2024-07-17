@@ -165,6 +165,15 @@ public class BarcodeScannerActivity extends AppCompatActivity
         }
         binding.lamp2.setVisibility(View.VISIBLE);
         binding.lamp2.setOnClickListener(this);
+        if(typeScanner!=null) {
+            if (typeScanner.equals("Validador")) {
+                binding.lamp2.setVisibility(View.VISIBLE);
+            }else if(typeScanner.equals("Recolectar")){
+                binding.lamp2.setVisibility(View.GONE);
+            }else if(typeScanner.equals("Salida")){
+                binding.lamp2.setVisibility(View.VISIBLE);
+            }
+        }
 //        binding.inputmanual.setOnClickListener(this);
 //        binding.inputcamara.setOnClickListener(this);
 //        binding.captureCode.setOnClickListener(this);
@@ -287,6 +296,12 @@ public class BarcodeScannerActivity extends AppCompatActivity
         if (cameraControl != null) {
             isTorchOn = !isTorchOn;
             cameraControl.enableTorch(isTorchOn);
+            if (isTorchOn) {
+                binding.lamp2c.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.lamparaon));
+            } else {
+
+                binding.lamp2c.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.lamparaoff));
+            }
         }
     }
     private void bindAnalysisUseCase() {
@@ -429,6 +444,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
         });
     }
     public void restartCameraProcesswithNoChanges() {
+        Log.e("carga"," restartCameraProcesswithNoChanges typeScanner "+typeScanner);
         binding.barcodeRawValue.setText("");
         if (allPermissionsGranted()) {
             bindAllCameraUseCases();
@@ -479,7 +495,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
         }
     }
     public void checkIfMotorola(){
-        Log.e("motorola","typeScanner "+typeScanner);
+        Log.e("carga","checkIfMotorola typeScanner "+typeScanner);
         if(typeScanner.equals("Salida")) {
             if (currentStatus != 5) {
                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
@@ -488,6 +504,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 editor.commit();
             }
             if (currentStatus == 3) {
+                binding.lamp2.setVisibility(View.GONE);
                 binding.barcodeRawValue.setText("escanea los tickets");
                 if (getSupportFragmentManager().findFragmentByTag("ticketsSalida") == null) {
                     Bundle bundle = new Bundle();
@@ -534,7 +551,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 }
             }              //aqui solo se debe visivilizar el escaner ya que no hay ventanas emergentes
         }else if(typeScanner.equals("Recolectar")){
-            Log.e("motorola","motorola currentStatus "+currentStatus);
+            Log.e("dataSellosE","motorola currentStatus "+currentStatus);
             if (currentStatus == 5) {
                 binding.barcodeRawValue.setText("escanea los sellos");
                 botonsheettickets.dismiss();
@@ -543,6 +560,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     bundle.putString("typeScanner",typeScanner);
                     bundle.putString("currentManifest", currentmanifest);
                     bundle.putSerializable("sellos", (Serializable) dataSellos);
+                    bundle.putSerializable("dataTcikets", (Serializable) dataTickets);
                     bundle.putString("flowSellos", "1");
                     botonsheetsellos = new sellosSalida();
                     botonsheetsellos.setArguments(bundle);
@@ -558,7 +576,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
     public void restartCameraProcess() {
         if (allPermissionsGranted()) {
             bindAllCameraUseCases();
-            Log.e("motorola","typeScanner "+typeScanner);
+            Log.e("carga","restartCameraProcess typeScanner "+typeScanner);
           if(typeScanner.equals("Salida")) {
             if (currentStatus != 3 && currentStatus != 5 && currentStatus != 4) {
                 currentStatus = currentStatus + 1;
@@ -570,6 +588,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
 
             if (currentStatus == 3) {
                 binding.barcodeRawValue.setText("escanea los tickets");
+                binding.lamp2.setVisibility(View.GONE);
                 if (getSupportFragmentManager().findFragmentByTag("ticketsSalida") == null) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("tickets", (Serializable) dataTickets);
@@ -620,12 +639,14 @@ public class BarcodeScannerActivity extends AppCompatActivity
                   }
               }              //aqui solo se debe visivilizar el escaner ya que no hay ventanas emergentes
           }else{
+              Log.e("dataSellosE","restartCameraProcess currentStatus "+currentStatus);
               if (currentStatus == 4) {
                   binding.barcodeRawValue.setText("escanea los sellos");
                   if (getSupportFragmentManager().findFragmentByTag("sellosSalida") == null) {
                       Bundle bundle = new Bundle();
                       bundle.putString("typeScanner",typeScanner);
                       bundle.putString("currentManifest", currentmanifest);
+                      bundle.putSerializable("dataTcikets", (Serializable) dataTickets);
                       bundle.putSerializable("sellos", (Serializable) dataSellos);
                       bundle.putString("flowSellos", "1");
                       botonsheetsellos = new sellosSalida();
@@ -736,6 +757,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
         bottonSheetv.setArguments(bundle);
         bottonSheetv.show(getSupportFragmentManager(), "detailTicketsSummary");
         currentStatus = 4;
+        dataTickets=codigoValidador;
     }
     public void goTicketsSummary(){
         stopCameraProcess();
@@ -1044,6 +1066,8 @@ public class BarcodeScannerActivity extends AppCompatActivity
 
 
             }else if(typeScanner.equals("Recolectar")) {
+                Log.e("dataSellosE", " currentStatus Recolectar "+currentStatus);
+                binding.lamp2.setVisibility(View.GONE);
                 if (currentStatus == 4) {
                     if (dataTickets != null) {
                     } else {
@@ -1144,12 +1168,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
             break;
             case R.id.lamp2:
                 toggleFlash();
-                if (isTorchOn) {
-                    binding.lamp2.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.lamparaon));
-                } else {
 
-                    binding.lamp2.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.lamparaoff));
-                }
                 break;
             case R.id.inputcamara:
                 //Toast.makeText(this, "camara click", Toast.LENGTH_SHORT).show();

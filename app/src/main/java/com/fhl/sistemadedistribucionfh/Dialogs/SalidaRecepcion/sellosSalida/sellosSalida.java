@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -61,6 +62,8 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
     private CardView sellosAdd;
     private Boolean createMore=true;
     private loaderFH progress;
+    private ImageView lamps;
+    private boolean isFlashOn = false;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,10 +108,11 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
             sellos= (List<Sello>) args.getSerializable("sellos");
             flow= Integer.valueOf( args.getString("flowSellos"));
             Log.e("bottomSellos", "currentManifest "+currentManifest );
+            Log.e("bottomSellos", "flow "+flow );
             if (data != null) {
-                Log.e("EvidenciaActivity", "sellos folio " + data.get(0) + " data " + data.size());
+                Log.e("dataSellosE", "sellos folio " + data.get(0) + " data " + data.size());
             } else {
-                Log.e("EvidenciaActivity", "sellos folio " + " data : null");
+                Log.e("dataSellosE", "sellos folio " + " data : null");
             }
         }
         if(data!=null){
@@ -140,6 +144,8 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
         getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimationBottonSheet;
     }
     private void initDialog(View view) {
+        lamps =view.findViewById(R.id.lamps);
+        lamps.setOnClickListener(this);
         rvReasons=view.findViewById(R.id.rvSellos);
         imageButton = view.findViewById(R.id.imageButton);
         imageButton.setOnClickListener(this);
@@ -213,9 +219,10 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
                         // User clicked OK button
                         if (sellos != null) {
                             if (sellos.isEmpty()) {
-                                Log.e("dataSellos", "sellos.isEmpty()");
+                                Log.e("dataSellosE", "sellos.isEmpty()");
                                 goEvidence();
                             } else {
+                                Log.e("dataSellosE", "sellos.NotEmpty()");
                                 //presenter.mandarSellos
                                 for (int i = sellos.size() - 1; i >= 0; i--) {
                                     Sello sello = sellos.get(i);
@@ -249,6 +256,7 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
                     public void onClick(DialogInterface dialog, int id) {
                         // User cancelled the dialog
                         dialog.dismiss();
+
                     }
                 });
 
@@ -337,9 +345,9 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
         //  Toast.makeText(getContext(), "ir a evidencias", Toast.LENGTH_SHORT).show();
         if(flow==1) {
             if (data != null) {
-                Log.e("EvidenciaActivity", "folio " + data.get(0) + " data " + data.size());
+                Log.e("dataSellosE", "folio " + data.get(0) + " data " + data.size());
             } else {
-                Log.e("EvidenciaActivity", " data : null");
+                Log.e("dataSellosE", " data : null");
             }
             getActivity().finish();
             Intent intent = new Intent(getActivity(), evidencia.class);
@@ -353,6 +361,7 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }else{
+            Log.e("dataSellosE", "flow "+flow);
             BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
             if (barcodeScannerActivity1 != null) {
                 barcodeScannerActivity1.goSellosSummary();
@@ -436,6 +445,19 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
                     showDialog("¿Quieres continuar sin sellos?");
                 }else {
                     showDialog("¿Guardar los siguientes sellos?");
+                }
+                break;
+            case R.id.lamps:
+                BarcodeScannerActivity barcodeScannerActivityt = (BarcodeScannerActivity) getActivity();
+                barcodeScannerActivityt.toggleFlash();
+                if (isFlashOn) {
+                    // Turn off flash
+                    isFlashOn = false;
+                    lamps.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.lamparaoff));
+                } else {
+                    // Turn on flash
+                    isFlashOn = true;
+                    lamps.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.lamparaon));
                 }
                 break;
         }

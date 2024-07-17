@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -66,6 +67,8 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
     private  Integer countByGropup=0;
     private Integer valAfterEvidence;
     private Boolean waitOnBack=false;
+    private ImageView lampt;
+    private boolean isFlashOn = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,6 +95,8 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         getDialog().getWindow().setBackgroundDrawableResource(R.color.alfa);
         setCancelable(true);
         // Initialize views
+        lampt = view.findViewById(R.id.lampt);
+        lampt.setOnClickListener(this);
         recoleccion = view.findViewById(R.id.textView66);
         textEmpaques = view.findViewById(R.id.textEmpaques);
         rvTickets = view.findViewById(R.id.rvTicketsSalidaC);
@@ -551,6 +556,19 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.lampt:
+                BarcodeScannerActivity barcodeScannerActivityt = (BarcodeScannerActivity) getActivity();
+                barcodeScannerActivityt.toggleFlash();
+                if (isFlashOn) {
+                    // Turn off flash
+                    isFlashOn = false;
+                    lampt.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.lamparaoff));
+                } else {
+                    // Turn on flash
+                    isFlashOn = true;
+                    lampt.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.lamparaon));
+                }
+                break;
             case R.id.imageButton:
                 //closeDialog();
 
