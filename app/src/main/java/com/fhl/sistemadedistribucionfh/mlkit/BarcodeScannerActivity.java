@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -48,6 +49,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.view.valida
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.escanearValidador;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
+import com.fhl.sistemadedistribucionfh.mlkit.model.ScannedCode;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.google.gson.Gson;
 import com.google.mlkit.common.MlKitException;
@@ -98,6 +100,8 @@ public class BarcodeScannerActivity extends AppCompatActivity
     private Boolean isMotorola=false;
     private boolean isTorchOn = false;
     private CameraControl cameraControl;
+    private List<ScannedCode> scannedCodes = new ArrayList<>();
+    private long startTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -430,26 +434,97 @@ public class BarcodeScannerActivity extends AppCompatActivity
 
     @Override
     public void sendScannedCode(String code) {
-        Handler handler = new Handler(Looper.getMainLooper());
-
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-
-                if (code != null && !code.isEmpty()) {
-                    barcodesCollection(code);
-                    binding.resultContainer.setVisibility(View.VISIBLE);
-                    lastCode=code;
-                }
-            }
-        });
+//        Handler handler = new Handler(Looper.getMainLooper());
+//
+//        handler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                if (code != null && !code.isEmpty()) {
+//                    barcodesCollection(code);
+//                    binding.resultContainer.setVisibility(View.VISIBLE);
+//                    lastCode=code;
+//                }
+//            }
+//        });
     }
 
     @Override
-    public void sendScannedCodewithBounding(String rawValue, Rect boundingBox) {
+    public void sendScannedCodewithBounding(String code, Rect boundingBox) {
+        if (scannedCodes.isEmpty()) {
+            startTime = System.currentTimeMillis();
+            new Handler().postDelayed(this::processScannedCodes, 4000);
+        }
 
+        // Convert bounding box to a center point
+        PointF position = getCenterPoint(boundingBox);
+
+        // Store the scanned code with its position and timestamp
+        boolean codeExists = false;
+        for (ScannedCode mcode : scannedCodes) {
+            if (mcode.code.equals(code)) {
+                codeExists = true;
+                break;
+            }
+        }
+
+        // If the code is not in the list, add it
+        if (!codeExists) {
+            scannedCodes.add(new ScannedCode(code, position, System.currentTimeMillis()));
+        }
     }
+    private PointF getCenterPoint(Rect boundingBox) {
+        float centerX = boundingBox.centerX();
+        float centerY = boundingBox.centerY();
+        return new PointF(centerX, centerY);
+    }
+    private void processScannedCodes() {
+        if (scannedCodes.isEmpty()) {
+            return;
+        }
 
+        // Calculate the center of the camera view
+        int viewWidth = binding.graphicOverlay.getWidth()/2;
+        int viewHeight = binding.graphicOverlay.getHeight()/2;
+        PointF centerPoint = new PointF(viewWidth / 2.0f, viewHeight / 2.0f);//getCodePosition();//
+
+        // Find the code closest to the center of the view
+        ScannedCode mostCenteredCode = null;
+        float minDistance = Float.MAX_VALUE;
+        for (ScannedCode scannedCode : scannedCodes) {
+            float distance = calculateDistance(centerPoint, scannedCode.position);
+            Log.e("fcenteredCode", "all " + scannedCode.code + " distance code " + scannedCode.position);
+            Log.e("centeredCodea", "" + scannedCode.code); //+ " " + scannedCode.position.x+" "+scannedCode.position.y);
+            Log.e("centeredCodex", "" + scannedCode.position.x);
+            Log.e("centeredCodey", "" + scannedCode.position.y);
+            Log.e("centeredCodef", "distance: " + distance+" min: "+minDistance);
+            if (distance < minDistance) {
+
+                minDistance = distance;
+                mostCenteredCode = scannedCode;
+            }
+        }
+
+        if (mostCenteredCode != null) {
+            // Process the most centered code
+            Log.e("centeredCode", "Most centered code: " + mostCenteredCode.code +" "+centerPoint);
+           // Toast.makeText(this, "" + mostCenteredCode.code, Toast.LENGTH_SHORT).show();
+            // You can handle the most centered code here, e.g., show it in the UI or trigger further processing
+        }
+
+        // Clear the scanned codes list for future scans
+        scannedCodes.clear();
+        mediaPlayer.start();
+        stopCameraProcess();
+        newCollection(mostCenteredCode.code);
+        new Handler().postDelayed(this::restartCameraProcess, 1500);
+    }
+    private float calculateDistance(PointF p1, PointF p2) {//centerPoint, scannedCode.position
+        //todo definir el orden de la operacion dependiendo de la posicion del punto
+        float dx = p1.x - p2.x;
+        float dy = p1.y - p2.y;
+        return (float) Math.sqrt(dx * dx + dy * dy);
+    }
     public void restartCameraProcesswithNoChanges() {
         Log.e("carga"," restartCameraProcesswithNoChanges typeScanner "+typeScanner);
         binding.barcodeRawValue.setText("");
@@ -851,6 +926,9 @@ public class BarcodeScannerActivity extends AppCompatActivity
         this.vehiclebarcodeVal=vehiclebarcodeVal;
         this.rfcBarcodeVal=rfcBarcodeVal;
         this.claveVehicleID=claveVehicleID;
+    }
+    private void newCollection(String code) {
+        barcodesCollection(code);
     }
     private void barcodesCollection(String code)
     {
