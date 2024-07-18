@@ -365,10 +365,10 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
         for (ScannedCode scannedCode : scannedCodes) {
             float distance = calculateDistance(centerPoint, scannedCode.position);
              Log.e("fcenteredCode", "all " + scannedCode.code + " distance code " + scannedCode.position);
-            //Log.e("centeredCodea", "" + scannedCode.code); //+ " " + scannedCode.position.x+" "+scannedCode.position.y);
-            //Log.e("centeredCodex", "" + scannedCode.position.x);
-           // Log.e("centeredCodey", "" + scannedCode.position.y);
-            Log.e("centeredCodef", "distance: " + distance+" min: "+minDistance);
+             Log.e("centeredCodea", "" + scannedCode.code); //+ " " + scannedCode.position.x+" "+scannedCode.position.y);
+             Log.e("centeredCodex", "" + scannedCode.position.x);
+             Log.e("centeredCodey", "" + scannedCode.position.y);
+             Log.e("centeredCodef", "distance: " + distance+" min: "+minDistance);
             if (distance < minDistance) {
 
                 minDistance = distance;
@@ -390,7 +390,8 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
         new Handler().postDelayed(this::restartCameraProcess, 1500);
     }
 
-    private float calculateDistance(PointF p1, PointF p2) {
+    private float calculateDistance(PointF p1, PointF p2) {//centerPoint, scannedCode.position
+        //todo definir el orden de la operacion dependiendo de la posicion del punto
         float dx = p1.x - p2.x;
         float dy = p1.y - p2.y;
         return (float) Math.sqrt(dx * dx + dy * dy);
