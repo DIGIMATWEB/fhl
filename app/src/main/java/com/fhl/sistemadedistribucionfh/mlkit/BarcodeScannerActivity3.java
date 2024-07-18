@@ -355,8 +355,8 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
         }
 
         // Calculate the center of the camera view
-        int viewWidth = binding.previewView.getWidth();
-        int viewHeight = binding.previewView.getHeight();
+        int viewWidth = binding.graphicOverlay.getWidth()/2;
+        int viewHeight = binding.graphicOverlay.getHeight()/2;
         PointF centerPoint = new PointF(viewWidth / 2.0f, viewHeight / 2.0f);//getCodePosition();//
 
         // Find the code closest to the center of the view
@@ -365,10 +365,12 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
         for (ScannedCode scannedCode : scannedCodes) {
             float distance = calculateDistance(centerPoint, scannedCode.position);
              Log.e("fcenteredCode", "all " + scannedCode.code + " distance code " + scannedCode.position);
-            Log.e("centeredCodea", "" + scannedCode.code); //+ " " + scannedCode.position.x+" "+scannedCode.position.y);
-            Log.e("centeredCodex", "" + scannedCode.position.x);
-            Log.e("centeredCodey", "" + scannedCode.position.y);
+            //Log.e("centeredCodea", "" + scannedCode.code); //+ " " + scannedCode.position.x+" "+scannedCode.position.y);
+            //Log.e("centeredCodex", "" + scannedCode.position.x);
+           // Log.e("centeredCodey", "" + scannedCode.position.y);
+            Log.e("centeredCodef", "distance: " + distance+" min: "+minDistance);
             if (distance < minDistance) {
+
                 minDistance = distance;
                 mostCenteredCode = scannedCode;
             }
