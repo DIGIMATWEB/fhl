@@ -62,7 +62,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
 
     private Boolean sendEvidence=false;
     private List<gruposTickets> groupsTickets;
-    private Boolean consolidado=true;
+    private Boolean consolidado=false;
     private String singleLasteTicketEvidence;
     private  Integer countByGropup=0;
     private Integer valAfterEvidence;
