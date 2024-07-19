@@ -453,7 +453,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
     public void sendScannedCodewithBounding(String code, Rect boundingBox) {
         if (scannedCodes.isEmpty()) {
             startTime = System.currentTimeMillis();
-            new Handler().postDelayed(this::processScannedCodes, 4000);
+            new Handler().postDelayed(this::processScannedCodes, 2000);
         }
 
         // Convert bounding box to a center point

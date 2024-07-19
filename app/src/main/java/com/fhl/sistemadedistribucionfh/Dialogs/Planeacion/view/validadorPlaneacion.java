@@ -301,50 +301,57 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
     @Override
     public void setValidadorResponse(String answer, Integer value) {
         this.statusPlaneacion=value;
-        try {
-            // Parse the original JSON array
-            JSONArray originalArray = new JSONArray(answer);
+        if(answer!=null) {
+            try {
+                // Parse the original JSON array
+                Log.e("jsonVal", "" + answer);
+                JSONArray originalArray = new JSONArray(answer);
 
-            // Create a new JSON object to hold the final structure
-            JSONObject result = new JSONObject();
-            JSONArray paquetesArray = new JSONArray();
+                // Create a new JSON object to hold the final structure
+                JSONObject result = new JSONObject();
+                JSONArray paquetesArray = new JSONArray();
 
-            // Loop through the original array and build the new structure
-            for (int i = 0; i < originalArray.length(); i++) {
-                JSONObject originalObject = originalArray.getJSONObject(i);
-                originalObject.remove("Destinatarios");
-                originalObject.remove("Remitente");
-                paquetesArray.put(originalObject);
-            }
-
-            // Add the paquetes array to the result object
-            result.put("Paquetes", paquetesArray);
-
-            // Log the final JSON string
-            Gson gson = new Gson();
-
-            List<Paquete> lotes = gson.fromJson(result.getJSONArray("Paquetes").toString(), new TypeToken<List<Paquete>>() {}.getType());
-            if(lotes!=null) {
-                this.lotes=lotes;
-                ticketsLocal.get(0).getSendtripPlus().setPaquetes(lotes);
-
-                if(statusPlaneacion==2){
-                    countok=ticketsLocal.size();
-                    textChekcs.setText(ticketsLocal.size() + "/" + ticketsLocal.size());
-                }else{
-                    textChekcs.setText(0 + "/" + ticketsLocal.size());
+                // Loop through the original array and build the new structure
+                for (int i = 0; i < originalArray.length(); i++) {
+                    JSONObject originalObject = originalArray.getJSONObject(i);
+                    originalObject.remove("Destinatarios");
+                    originalObject.remove("Remitente");
+                    paquetesArray.put(originalObject);
                 }
-                fillAdapter(ticketsLocal, getContext(), statusPlaneacion);
-            }
-            // Log the list to verify
-            for (Paquete paquete : lotes) {
-                Log.e("mCodeScan", paquete.getNombre());
-            }
-            afterScan=true;
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Log.e("mCodeScan", "JSON parsing error: " + e.getMessage());
+                // Add the paquetes array to the result object
+                result.put("Paquetes", paquetesArray);
+
+                // Log the final JSON string
+                Gson gson = new Gson();
+
+                List<Paquete> lotes = gson.fromJson(result.getJSONArray("Paquetes").toString(), new TypeToken<List<Paquete>>() {
+                }.getType());
+                if (lotes != null) {
+                    this.lotes = lotes;
+                    ticketsLocal.get(0).getSendtripPlus().setPaquetes(lotes);
+
+                    if (statusPlaneacion == 2) {
+                        countok = ticketsLocal.size();
+                        textChekcs.setText(ticketsLocal.size() + "/" + ticketsLocal.size());
+                    } else {
+                        textChekcs.setText(0 + "/" + ticketsLocal.size());
+                    }
+                    fillAdapter(ticketsLocal, getContext(), statusPlaneacion);
+                }
+                // Log the list to verify
+                for (Paquete paquete : lotes) {
+                    Log.e("mCodeScan", paquete.getNombre());
+                }
+                afterScan = true;
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Log.e("mCodeScan", "JSON parsing error: " + e.getMessage());
+            }
+        }else {
+            BarcodeScannerActivity3 barcodeScannerActivity1 = (BarcodeScannerActivity3) getActivity();
+            barcodeScannerActivity1.returnResult("Ticket sin lotes");
         }
     }
 
