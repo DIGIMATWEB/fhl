@@ -275,20 +275,27 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                             }
                         }
                         // Check if all paquetes flags are true
-                        boolean allPaquetesFlagged = true;
-                        for (int i = 0; i < ticket.getSendtripPlus().getPaquetes().size(); i++) {
-                            if (!ticket.getSendtripPlus().getPaquetes().get(i).getFlag()) {
-                                allPaquetesFlagged = false;
-                                break;
+                        if(ticket.getSendtripPlus().getPaquetes()!=null) {
+                            boolean allPaquetesFlagged = true;
+                            for (int i = 0; i < ticket.getSendtripPlus().getPaquetes().size(); i++) {
+                                if (!ticket.getSendtripPlus().getPaquetes().get(i).getFlag()) {
+                                    allPaquetesFlagged = false;
+                                    break;
+                                }
                             }
+                            if (allPaquetesFlagged) {
+                                ticket.setFlag(true);
+                                codeFound = true;
+                            }
+                        }else{
+                            Toast.makeText(getContext(), "Ticket sin lotes", Toast.LENGTH_SHORT).show();
+
                         }
-                        if (allPaquetesFlagged) {
-                            ticket.setFlag(true);
-                            codeFound = true;
-                        }
+
                     }
                 }
                 if (!codeFound) {
+
                     Log.e("ticketsArray2", "codigo no pertenece a la lista");
                     BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
                     barcodeScannerActivity1.errorTicket();

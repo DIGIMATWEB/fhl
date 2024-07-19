@@ -46,11 +46,12 @@ public class detailTicketsSummary extends DialogFragment implements View.OnClick
 
         @Override
         public void onDismiss(@NonNull DialogInterface dialog) {
-                super.onDismiss(dialog);
                 if (getActivity() instanceof BarcodeScannerActivity) {
                         BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
                         barcodeScannerActivity.restartCameraProcess();
                 }
+                super.onDismiss(dialog);
+
         }
 
         @Nullable
