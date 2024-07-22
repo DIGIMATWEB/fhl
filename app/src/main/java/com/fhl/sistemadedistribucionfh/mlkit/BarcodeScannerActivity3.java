@@ -302,7 +302,19 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
 //endregion
     @Override
     public void sendScannedCode(String code) {
-
+//        Handler handler = new Handler(Looper.getMainLooper());
+//
+//        handler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                if (code != null && !code.isEmpty()) {
+//                    barcodesCollection(code);
+//                    binding.resultContainer.setVisibility(View.VISIBLE);
+//                    lastCode=code;
+//                }
+//            }
+//        });
     }
 
     @Override
@@ -373,7 +385,7 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
         mediaPlayer.start();
         stopCameraProcess();
         newCollection(mostCenteredCode.code);
-        new Handler().postDelayed(this::restartCameraProcess, 1500);
+        //new Handler().postDelayed(this::restartCameraProcess, 1500);
     }
     private float calculateDistance(PointF p1, PointF p2) {//centerPoint, scannedCode.position
         //todo definir el orden de la operacion dependiendo de la posicion del punto

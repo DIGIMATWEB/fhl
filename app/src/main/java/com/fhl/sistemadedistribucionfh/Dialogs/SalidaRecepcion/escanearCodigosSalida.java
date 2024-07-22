@@ -1,5 +1,6 @@
 package com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
 
 public class escanearCodigosSalida extends DialogFragment implements View.OnClickListener {
     public static final String TAG = escanearCodigosSalida.class.getSimpleName();
@@ -38,21 +40,24 @@ public class escanearCodigosSalida extends DialogFragment implements View.OnClic
         return view;
     }
 
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
+        barcodeScannerActivity.beginScreen();
+    }
+
     private void initDialog(View view) {
         continuarbutton=view.findViewById(R.id.continuarbutton);
         continuarbutton.setOnClickListener(this);
     }
 
-    public void closeDialog() {
-        this.dismiss();
-
-    }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.continuarbutton:
-                closeDialog();
+                dismiss();
                 break;
         }
     }

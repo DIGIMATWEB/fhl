@@ -103,6 +103,12 @@ public class BarcodeScannerActivity extends AppCompatActivity
     private CameraControl cameraControl;
     private List<ScannedCode> scannedCodes = new ArrayList<>();
     private long startTime;
+    private errorDialog errorD;
+    private  errorCarga errorD2;
+    private escanearValidador escanValidador;
+    private escanearCodigosSalida   escanearSalida;
+    private Boolean isBegin=true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,9 +125,11 @@ public class BarcodeScannerActivity extends AppCompatActivity
 
                     binding.mtypeScanner.setText(typeScanner);
                     if (typeScanner.equals("Validador")) {
-                        new escanearValidador().show(getSupportFragmentManager(), "escanearValidador");
+                        escanValidador =new escanearValidador();
+                        escanValidador.show(getSupportFragmentManager(), "escanearValidador");
                         stopCameraProcess();
                     }else if(typeScanner.equals("Recolectar")){
+                        isBegin=false;
                       Bundle bundle = new Bundle();
                       List<dataTicketsManifestV2> codigoValidador= (List<dataTicketsManifestV2>) bndl.getSerializable("tickets");
                         List<Sello> sellos =(List<Sello>) bndl.getSerializable("sellos");
@@ -135,7 +143,8 @@ public class BarcodeScannerActivity extends AppCompatActivity
                         botonsheettickets.setArguments(bundle);
                         botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");
                     }else{
-                        new escanearCodigosSalida().show(getSupportFragmentManager(), "escanearCodigosSalida");
+                        escanearSalida= new escanearCodigosSalida();
+                        escanearSalida.show(getSupportFragmentManager(), "escanearCodigosSalida");
                         stopCameraProcess();
                     }
 
@@ -238,7 +247,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
         super.onSaveInstanceState(bundle);
         bundle.putInt(STATE_LENS_FACING, lensFacing);
     }
-    private void stopCameraProcess() {
+    public void stopCameraProcess() {
         if (cameraProvider != null) {
             if (previewUseCase != null) {
                 cameraProvider.unbind(previewUseCase);
@@ -454,28 +463,36 @@ public class BarcodeScannerActivity extends AppCompatActivity
 //        });
     }
 
+    public void beginScreen() {
+        isBegin=false;
+    }
     @Override
     public void sendScannedCodewithBounding(String code, Rect boundingBox) {
-        if (scannedCodes.isEmpty()) {
-            startTime = System.currentTimeMillis();
-            new Handler().postDelayed(this::processScannedCodes, 2000);
-        }
-
-        // Convert bounding box to a center point
-        PointF position = getCenterPoint(boundingBox);
-
-        // Store the scanned code with its position and timestamp
-        boolean codeExists = false;
-        for (ScannedCode mcode : scannedCodes) {
-            if (mcode.code.equals(code)) {
-                codeExists = true;
-                break;
+        if(!isBegin) {
+            if (scannedCodes.isEmpty()) {
+                startTime = System.currentTimeMillis();
+                Log.e("beginningScanner", typeScanner);
+                new Handler().postDelayed(this::processScannedCodes, 2000);
             }
-        }
 
-        // If the code is not in the list, add it
-        if (!codeExists) {
-            scannedCodes.add(new ScannedCode(code, position, System.currentTimeMillis()));
+            // Convert bounding box to a center point
+            PointF position = getCenterPoint(boundingBox);
+
+            // Store the scanned code with its position and timestamp
+            boolean codeExists = false;
+            for (ScannedCode mcode : scannedCodes) {
+                if (mcode.code.equals(code)) {
+                    codeExists = true;
+                    break;
+                }
+            }
+
+            // If the code is not in the list, add it
+            if (!codeExists) {
+                scannedCodes.add(new ScannedCode(code, position, System.currentTimeMillis()));
+            }
+        }else {
+           // Toast.makeText(this, "Pantalla inicial", Toast.LENGTH_SHORT).show();
         }
     }
     private PointF getCenterPoint(Rect boundingBox) {
@@ -522,7 +539,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
         mediaPlayer.start();
         stopCameraProcess();
         newCollection(mostCenteredCode.code);
-        new Handler().postDelayed(this::restartCameraProcess, 1500);
+       // new Handler().postDelayed(this::restartCameraProcess, 1500);
     }
     private float calculateDistance(PointF p1, PointF p2) {//centerPoint, scannedCode.position
         //todo definir el orden de la operacion dependiendo de la posicion del punto
@@ -595,6 +612,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 binding.barcodeRawValue.setText("escanea los tickets");
                 if (getSupportFragmentManager().findFragmentByTag("ticketsSalida") == null) {
                     Bundle bundle = new Bundle();
+                    bundle.putString("typeScanner",typeScanner);
                     bundle.putSerializable("tickets", (Serializable) dataTickets);
                     botonsheettickets = new ticketsSalida();
                     botonsheettickets.setArguments(bundle);
@@ -678,6 +696,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 binding.lamp2.setVisibility(View.GONE);
                 if (getSupportFragmentManager().findFragmentByTag("ticketsSalida") == null) {
                     Bundle bundle = new Bundle();
+                    bundle.putString("typeScanner",typeScanner);
                     bundle.putSerializable("tickets", (Serializable) dataTickets);
                     bundle.putString("currentmanifest", currentmanifest);
                     botonsheettickets = new ticketsSalida();
@@ -820,18 +839,21 @@ public class BarcodeScannerActivity extends AppCompatActivity
     }
     public void errorTicket() {
         stopCameraProcess();
-        errorDialog errorD = new errorDialog();
-        errorD.show(getSupportFragmentManager(),"errorDialog");
-
+        if(errorD==null) {
+             errorD = new errorDialog();
+            errorD.show(getSupportFragmentManager(), "errorDialog");
+        }
 
     }
     public void errorCarga(String value) {
         stopCameraProcess();
-        errorCarga errorD = new errorCarga();
-        Bundle args = new Bundle();
-        args.putString("error_value", value);
-        errorD.setArguments(args);
-        errorD.show(getSupportFragmentManager(), "errorCarga");
+        if(errorD2==null) {
+            errorD2 = new errorCarga();
+            Bundle args = new Bundle();
+            args.putString("error_value", value);
+            errorD2.setArguments(args);
+            errorD2.show(getSupportFragmentManager(), "errorCarga");
+        }
     }
     public void detalManifestTicketsSummary(String mcurrentmanifest, List<dataTicketsManifestV2> codigoValidador, List<Sello> sellos){
         stopCameraProcess();
@@ -1021,11 +1043,13 @@ public class BarcodeScannerActivity extends AppCompatActivity
 //                            }
 //                        }
                     }else{
-                        errorCarga errorD = new errorCarga();
-                        Bundle args = new Bundle();
-                        args.putString("error_value", "Cortina nula");
-                        errorD.setArguments(args);
-                        errorD.show(getSupportFragmentManager(), "errorCarga");
+                        if(errorD2==null) {
+                            errorD2 = new errorCarga();
+                            Bundle args = new Bundle();
+                            args.putString("error_value", "Cortina nula");
+                            errorD.setArguments(args);
+                            errorD.show(getSupportFragmentManager(), "errorCarga");
+                        }
                     }
                 }else if(status.equals("3")){//esto muestra el bottomsheet de tickets
 
@@ -1128,8 +1152,10 @@ public class BarcodeScannerActivity extends AppCompatActivity
                         validador.setArguments(bundle);
                         validador.show(getSupportFragmentManager(), "validadorManifest");
                     }else{
-                        errorDialog errorD = new errorDialog();
-                        errorD.show(getSupportFragmentManager(),"errorDialog");
+                        if(errorD==null) {
+                            errorD = new errorDialog();
+                            errorD.show(getSupportFragmentManager(), "errorDialog");
+                        }
                     }
 
                 }else if(currentStatus==3)//rfc
@@ -1144,12 +1170,16 @@ public class BarcodeScannerActivity extends AppCompatActivity
                         validador.setArguments(bundle);
                         validador.show(getSupportFragmentManager(), "validadorManifest");
                     }else{
-                        errorDialog errorD = new errorDialog();
-                        errorD.show(getSupportFragmentManager(),"errorDialog");
+                        if(errorD==null) {
+                            errorD = new errorDialog();
+                            errorD.show(getSupportFragmentManager(), "errorDialog");
+                        }
                     }
                 }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        else {
-                    errorDialog errorD = new errorDialog();
-                    errorD.show(getSupportFragmentManager(),"errorDialog");
+                    if(errorD==null) {
+                        errorD = new errorDialog();
+                        errorD.show(getSupportFragmentManager(), "errorDialog");
+                    }
                 }
                 stopCameraProcess();
 

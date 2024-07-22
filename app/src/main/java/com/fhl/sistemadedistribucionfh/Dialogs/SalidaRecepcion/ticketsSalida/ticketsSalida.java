@@ -178,13 +178,15 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                 rvTicketsG.setVisibility(View.VISIBLE);
                 fillAdapterG(groupsTickets, consolidado);
             } else {
-                if(typeScanner.equals("Recolectar")){
+                if(typeScanner!=null) {
+                    if (typeScanner.equals("Recolectar")) {
 
-                    for (ticketsScanned ticket : model) {
-                                    ticket.setHasTekenevidence(true);
+                        for (ticketsScanned ticket : model) {
+                            ticket.setHasTekenevidence(true);
+
+                        }
 
                     }
-
                 }
                 fillAdapter(model, getContext(), consolidado);
             }

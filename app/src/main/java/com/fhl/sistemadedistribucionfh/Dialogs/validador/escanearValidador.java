@@ -1,5 +1,6 @@
 package com.fhl.sistemadedistribucionfh.Dialogs.validador;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.escanearCodigosSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.validador.ValidadorV2.adapterValidadorList;
 import com.fhl.sistemadedistribucionfh.R;
+import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
 
 public class escanearValidador extends DialogFragment implements View.OnClickListener {
     public static final String TAG = escanearValidador.class.getSimpleName();
@@ -58,16 +60,20 @@ public class escanearValidador extends DialogFragment implements View.OnClickLis
                 rv.setLayoutManager(linearLayoutManager);
                 rv.setAdapter(adapter);
     }
-    public void closeDialog() {
-        this.dismiss();
 
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
+        barcodeScannerActivity.beginScreen();
     }
+
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.continuarbutton:
-                closeDialog();
+                dismiss();
                 break;
         }
     }
