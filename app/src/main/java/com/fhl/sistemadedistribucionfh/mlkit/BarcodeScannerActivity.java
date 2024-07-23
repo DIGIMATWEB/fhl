@@ -954,7 +954,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
         this.rfcBarcodeVal=rfcBarcodeVal;
         this.claveVehicleID=claveVehicleID;
     }
-    private void newCollection(String code) {
+    public void newCollection(String code) {
         barcodesCollection(code);
     }
     private void barcodesCollection(String code)

@@ -5,10 +5,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,6 +36,7 @@ import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.Sellos.model.Sello;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Paquete;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
+import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity3;
 import com.fhl.sistemadedistribucionfh.nmanifestDetail.modelV2.dataTicketsManifestV2;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -69,7 +75,10 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
     private Boolean waitOnBack=false;
     private ImageView lampt;
     private boolean isFlashOn = false;
-
+    private ConstraintLayout constraintLayout5,constraintLayout6,inputkeyscode;
+    private ImageView inputcamara,inputmanual,imageView27;
+    private Button captureCode;
+    private EditText escribircodigo;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +106,18 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         // Initialize views
         lampt = view.findViewById(R.id.lampt);
         lampt.setOnClickListener(this);
+        constraintLayout5 = view.findViewById(R.id.constraintLayout5);
+        constraintLayout6 = view.findViewById(R.id.constraintLayout6);
+        constraintLayout5.setOnClickListener(this);
+        constraintLayout6.setOnClickListener(this);
+        imageView27= view.findViewById(R.id. imageView27);
+        imageView27.setOnClickListener(this);
+        captureCode = view.findViewById(R.id. captureCode);
+        captureCode.setOnClickListener(this);
+        escribircodigo = view.findViewById(R.id.escribircodigo);
+        inputkeyscode= view.findViewById(R.id. inputkeyscode);
+        inputcamara= view.findViewById(R.id.inputcamara);
+        inputmanual= view.findViewById(R.id.inputmanual);
         recoleccion = view.findViewById(R.id.textView66);
         textEmpaques = view.findViewById(R.id.textEmpaques);
         rvTickets = view.findViewById(R.id.rvTicketsSalidaC);
@@ -105,7 +126,29 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         textChekcs = view.findViewById(R.id.textChekcs);
         recoleccion.setText("Lotes escaneados");
         imageButton.setOnClickListener(this);
+        escribircodigo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Do nothing before the text changes
+            }
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Respond to text changes if needed
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Validate the input or perform actions after the text has changed
+                if (!s.toString().isEmpty()) {
+                    // Perform actions when there is text in the EditText
+                    // For example, enable a button or change the UI
+                } else {
+                    // Perform actions when the EditText is empty
+                    // For example, disable a button or change the UI
+                }
+            }
+        });
         Bundle args = getArguments();
         if (args != null) {
             codigoValidador = (List<dataTicketsManifestV2>) args.getSerializable("tickets");
@@ -565,6 +608,37 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.imageView27:
+                inputkeyscode.setVisibility(View.GONE);
+                inputcamara.setBackgroundResource(R.drawable.icscannercamblack);
+                inputmanual.setBackgroundResource(R.drawable.ic_keys_black);
+                break;
+            case R.id.constraintLayout6://camera
+                Log.e("sheet","cam");
+                inputkeyscode.setVisibility(View.GONE);//sd
+                inputcamara.setBackgroundResource(R.drawable.icscannercamblack);//
+                inputmanual.setBackgroundResource(R.drawable.ic_keys_black);
+                //binding.headerText.setTextColor(Color.WHITE);
+                break;
+
+            case R.id.constraintLayout5://manual
+                //Toast.makeText(this, "Input manual", Toast.LENGTH_SHORT).show();
+                inputkeyscode.setVisibility(View.VISIBLE);
+                inputcamara.setBackgroundResource(R.drawable.icscannercamblack);
+                inputmanual.setBackgroundResource(R.drawable.ic_keys_black);
+                // binding.headerText.setTextColor(Color.BLACK);
+                break;
+            case R.id.captureCode:
+                if(!escribircodigo.getText().toString().equals("")) {
+                    BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                    barcodeScannerActivity1.newCollection(escribircodigo.getText().toString());
+                    escribircodigo.setText("");
+                    inputkeyscode.setVisibility(View.GONE);
+                }else{
+                    Toast.makeText(getContext(), "Debes resgistrar datos", Toast.LENGTH_SHORT).show();
+                    inputkeyscode.setVisibility(View.GONE);
+                }
+                break;
             case R.id.lampt:
                 BarcodeScannerActivity barcodeScannerActivityt = (BarcodeScannerActivity) getActivity();
                 barcodeScannerActivityt.toggleFlash();
