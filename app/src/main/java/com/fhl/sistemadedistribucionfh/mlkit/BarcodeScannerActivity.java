@@ -614,6 +614,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                     Bundle bundle = new Bundle();
                     bundle.putString("typeScanner",typeScanner);
                     bundle.putSerializable("tickets", (Serializable) dataTickets);
+                    bundle.putString("currentmanifest", currentmanifest);
                     botonsheettickets = new ticketsSalida();
                     botonsheettickets.setArguments(bundle);
                     botonsheettickets.show(getSupportFragmentManager(), "ticketsSalida");
@@ -1021,7 +1022,7 @@ public class BarcodeScannerActivity extends AppCompatActivity
                             Bundle bundle = new Bundle();
                             bundle.putString("qrCode", code);
                             bundle.putString("statusRecepcion", status);
-                            bundle.putString("cortinaDestino", cortinaDestination);
+                            bundle.putString("cortinaDestino", code);
                             bundle.putString("mQR", mQR);
                             bundle.putString("currentManifest", currentmanifest);
                             Salida bottonSheetv = new Salida();

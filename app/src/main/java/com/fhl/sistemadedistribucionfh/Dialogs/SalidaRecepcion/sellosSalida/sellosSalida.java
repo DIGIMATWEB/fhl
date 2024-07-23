@@ -5,10 +5,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -64,6 +69,10 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
     private loaderFH progress;
     private ImageView lamps;
     private boolean isFlashOn = false;
+    private ImageView inputcamara,inputmanual,imageView27;
+    private ConstraintLayout constraintLayout5,constraintLayout6,inputkeyscode;
+    private Button captureCode;
+    private EditText escribircodigo;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,6 +155,18 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
     private void initDialog(View view) {
         lamps =view.findViewById(R.id.lamps);
         lamps.setOnClickListener(this);
+        constraintLayout5 = view.findViewById(R.id.constraintLayout5);
+        constraintLayout6 = view.findViewById(R.id.constraintLayout6);
+        constraintLayout5.setOnClickListener(this);
+        constraintLayout6.setOnClickListener(this);
+        imageView27= view.findViewById(R.id. imageView27);
+        imageView27.setOnClickListener(this);
+        captureCode = view.findViewById(R.id. captureCode);
+        captureCode.setOnClickListener(this);
+        inputkeyscode= view.findViewById(R.id. inputkeyscode);
+        inputcamara= view.findViewById(R.id.inputcamara);
+        inputmanual= view.findViewById(R.id.inputmanual);
+        escribircodigo = view.findViewById(R.id.escribircodigo);
         rvReasons=view.findViewById(R.id.rvSellos);
         imageButton = view.findViewById(R.id.imageButton);
         imageButton.setOnClickListener(this);
@@ -153,6 +174,29 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
         if(sellos==null){
             textChekcs.setVisibility(View.GONE); 
         }
+        escribircodigo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Do nothing before the text changes
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Respond to text changes if needed
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Validate the input or perform actions after the text has changed
+                if (!s.toString().isEmpty()) {
+                    // Perform actions when there is text in the EditText
+                    // For example, enable a button or change the UI
+                } else {
+                    // Perform actions when the EditText is empty
+                    // For example, disable a button or change the UI
+                }
+            }
+        });
         presenter= new presenterSelloImpl(this,getContext());
         presenter.requestManifestdetail(currentManifest);
         presenter.reqSellos(currentManifest);
@@ -439,6 +483,37 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
 //                }
 //                break;
             //endregion
+            case R.id.imageView27:
+                inputkeyscode.setVisibility(View.GONE);
+                inputcamara.setBackgroundResource(R.drawable.icscannercamblack);
+                inputmanual.setBackgroundResource(R.drawable.ic_keys_black);
+                break;
+            case R.id.constraintLayout6://camera
+                Log.e("sheet","cam");
+                inputkeyscode.setVisibility(View.GONE);//sd
+                inputcamara.setBackgroundResource(R.drawable.icscannercamblack);//
+                inputmanual.setBackgroundResource(R.drawable.ic_keys_black);
+                //binding.headerText.setTextColor(Color.WHITE);
+                break;
+
+            case R.id.constraintLayout5://manual
+                //Toast.makeText(this, "Input manual", Toast.LENGTH_SHORT).show();
+                inputkeyscode.setVisibility(View.VISIBLE);
+                inputcamara.setBackgroundResource(R.drawable.icscannercamblack);
+                inputmanual.setBackgroundResource(R.drawable.ic_keys_black);
+                // binding.headerText.setTextColor(Color.BLACK);
+                break;
+            case R.id.captureCode:
+                if(!escribircodigo.getText().toString().equals("")) {
+                    BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
+                    barcodeScannerActivity1.newCollection(escribircodigo.getText().toString());
+                    escribircodigo.setText("");
+                    inputkeyscode.setVisibility(View.GONE);
+                }else{
+                    Toast.makeText(getContext(), "Debes resgistrar datos", Toast.LENGTH_SHORT).show();
+                    inputkeyscode.setVisibility(View.GONE);
+                }
+                break;
             case R.id.imageButton:
                 //closeDialog();
                 if(sellos.isEmpty()){

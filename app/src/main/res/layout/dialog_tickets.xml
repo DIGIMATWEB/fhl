@@ -101,11 +101,12 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/imageView27"
             app:layout_constraintTop_toBottomOf="@+id/imageView27" />
+
         <TextView
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="80dp"
             android:text="Ingresa el codigo"
             android:textColor="@color/black"
             android:textSize="16sp"
