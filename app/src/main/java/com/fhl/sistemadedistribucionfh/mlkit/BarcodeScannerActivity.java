@@ -189,14 +189,14 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 binding.lamp2.setVisibility(View.VISIBLE);
             }
         }
-//        binding.inputmanual.setOnClickListener(this);
-//        binding.inputcamara.setOnClickListener(this);
-//        binding.captureCode.setOnClickListener(this);
-//        binding.iconchecklist.setOnClickListener(this);
-        binding.inputmanual.setVisibility(View.GONE);
-        binding.inputcamara.setVisibility(View.GONE);
-        binding.captureCode.setVisibility(View.GONE);
-        binding.iconchecklist.setVisibility(View.GONE);
+        binding.inputmanual.setOnClickListener(this);
+        binding.inputcamara.setOnClickListener(this);
+        binding.captureCode.setOnClickListener(this);
+        binding.iconchecklist.setOnClickListener(this);
+        //binding.inputmanual.setVisibility(View.GONE);
+        //binding.inputcamara.setVisibility(View.GONE);
+        //binding.captureCode.setVisibility(View.GONE);
+        //binding.iconchecklist.setVisibility(View.GONE);
 
         //todo se receteara de momento collectedBarcode
         //collectedBarCodes.clear();

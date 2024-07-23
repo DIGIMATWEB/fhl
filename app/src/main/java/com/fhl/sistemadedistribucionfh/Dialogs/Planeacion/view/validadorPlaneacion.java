@@ -407,7 +407,7 @@ public class validadorPlaneacion extends DialogFragment implements View.OnClickL
             case R.id.captureCode:
                 if(!escribircodigo.getText().toString().equals("")) {
                     BarcodeScannerActivity3 barcodeScannerActivity1 = (BarcodeScannerActivity3) getActivity();
-                    barcodeScannerActivity1.sendScannedCode(escribircodigo.getText().toString());
+                    barcodeScannerActivity1.newCollection(escribircodigo.getText().toString());
                     escribircodigo.setText("");
                     inputkeyscode.setVisibility(View.GONE);
                 }else{

@@ -105,15 +105,16 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
         if (!allPermissionsGranted()) {
             getRuntimePermissions();
         }
-        binding.inputmanual.setVisibility(View.GONE);
-        binding.inputcamara.setVisibility(View.GONE);
-//        binding.inputmanual.setOnClickListener(this);
-//        binding.inputcamara.setOnClickListener(this);
-//        binding.captureCode.setOnClickListener(this);
-        binding.constraintLayout5.setVisibility(View.GONE);
-        binding.constraintLayout6.setVisibility(View.GONE);
-        binding.constraintLayout8.setVisibility(View.GONE);
-       // binding.iconchecklist.setOnClickListener(this);
+//        binding.inputmanual.setVisibility(View.GONE);
+//        binding.inputcamara.setVisibility(View.GONE);
+        binding.inputmanual.setOnClickListener(this);
+        binding.inputcamara.setOnClickListener(this);
+        binding.captureCode.setOnClickListener(this);
+         binding.iconchecklist.setOnClickListener(this);
+//        binding.constraintLayout5.setVisibility(View.GONE);
+//        binding.constraintLayout6.setVisibility(View.GONE);
+//        binding.constraintLayout8.setVisibility(View.GONE);
+
         bottonSheetv = new validadorPlaneacion();
         bottonSheetv.show(getSupportFragmentManager(), "validadorPlaneacion");
 
@@ -412,7 +413,7 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
         Toast.makeText(this, ""+result, Toast.LENGTH_SHORT).show();
     }
 
-    private void newCollection(String code) {
+    public void newCollection(String code) {
         barcodesCollection(code);
         //        Handler handler = new Handler(Looper.getMainLooper());
 //
