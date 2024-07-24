@@ -25,6 +25,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.tic
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Paquete;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class adapterValidadorEmpaques extends RecyclerView.Adapter<adapterValidadorEmpaques.ViewHolder> {
@@ -52,6 +53,16 @@ public class adapterValidadorEmpaques extends RecyclerView.Adapter<adapterValida
 
         if( data.get(position).getSendtripPlus().getPaquetes()!=null) {
             holder.setupRecyclerViewPaquetes(mview, data.get(position).getSendtripPlus().getPaquetes(), data.get(position).getFolio());
+
+            List<Paquete> fPacks = new ArrayList<>();
+            fPacks = data.get(position).getSendtripPlus().getPaquetes();
+            Integer countTrue = 0;
+            for (Paquete paq : fPacks) {
+                if (paq.getFlag()) {
+                    countTrue++;
+                }
+            }
+            holder.lotesCount.setText(countTrue+"/" + data.get(position).getSendtripPlus().getPaquetes().size());
         }else{
             data.get(position).setFlag(true);
         }
@@ -78,13 +89,14 @@ public class adapterValidadorEmpaques extends RecyclerView.Adapter<adapterValida
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView razonDesc;
+        private TextView razonDesc,lotesCount;
         private CheckBox check;
         private ImageView icticket;
         private RecyclerView recyclerViewPaquetes;
         private adapterEmpaque2 empaqueAdapter;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            lotesCount=itemView.findViewById(R.id. lotesCount);
             razonDesc=itemView.findViewById(R.id.razonDescSalida);
             check=itemView.findViewById(R.id.checkSalida );
             icticket=itemView.findViewById(R.id.icticket);

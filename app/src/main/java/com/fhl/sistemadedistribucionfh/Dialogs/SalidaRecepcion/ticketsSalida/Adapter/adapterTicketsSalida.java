@@ -25,6 +25,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.tic
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Paquete;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSalida.ViewHolder> {
@@ -83,6 +84,18 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
         }
         if( data.get(position).getSendtripPlus().getPaquetes()!=null) {
             holder.setupRecyclerViewPaquetes(mview, data.get(position).getSendtripPlus().getPaquetes(), data.get(position).getFolio());
+
+                List<Paquete> fPacks = new ArrayList<>();
+                fPacks = data.get(position).getSendtripPlus().getPaquetes();
+                Integer countTrue = 0;
+                for (Paquete paq : fPacks) {
+                    if (paq.getFlag()) {
+                        countTrue++;
+                    }
+                }
+                holder.lotesCount.setText(countTrue+"/" + data.get(position).getSendtripPlus().getPaquetes().size());
+
+
         }else{
             data.get(position).setFlag(true);
         }
@@ -109,7 +122,7 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView razonDesc,evidence;
+        private TextView razonDesc,evidence,lotesCount;
         private CheckBox check;
         private ImageView icticket,siguiente;
         private RecyclerView recyclerViewPaquetes;
@@ -124,6 +137,7 @@ public class adapterTicketsSalida extends RecyclerView.Adapter<adapterTicketsSal
             evidence=itemView.findViewById(R.id.evidence);
             siguiente =itemView.findViewById(R.id.siguiente);
             cardView=itemView.findViewById(R.id.cardView);
+            lotesCount= itemView.findViewById(R.id.lotesCount);
         }
 
         private void fillEmpaqueAdapter(ticketsSalida mview, List<Paquete> paquetes, String folio) {

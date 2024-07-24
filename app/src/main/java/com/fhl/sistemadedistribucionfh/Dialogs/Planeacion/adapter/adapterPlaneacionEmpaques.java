@@ -22,6 +22,7 @@ import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.mod
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Paquete;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class adapterPlaneacionEmpaques  extends RecyclerView.Adapter<adapterPlaneacionEmpaques.ViewHolder> {
@@ -51,6 +52,15 @@ public class adapterPlaneacionEmpaques  extends RecyclerView.Adapter<adapterPlan
 
         if( data.get(position).getSendtripPlus().getPaquetes()!=null) {
             holder.setupRecyclerViewPaquetes(mview, data.get(position).getSendtripPlus().getPaquetes(), data.get(position).getFolio(),statusPlaneacion);
+            List<Paquete> fPacks = new ArrayList<>();
+            fPacks = data.get(position).getSendtripPlus().getPaquetes();
+            Integer countTrue = 0;
+            for (Paquete paq : fPacks) {
+                if (paq.getFlag()) {
+                    countTrue++;
+                }
+            }
+            holder.lotesCount.setText(countTrue+"/" + data.get(position).getSendtripPlus().getPaquetes().size());
         }else{
             data.get(position).setFlag(true);
         }
@@ -82,7 +92,7 @@ public class adapterPlaneacionEmpaques  extends RecyclerView.Adapter<adapterPlan
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView razonDesc;
+        private TextView razonDesc,lotesCount;
         private CheckBox check;
         private ImageView icticket;
         private RecyclerView recyclerViewPaquetes;
@@ -93,7 +103,7 @@ public class adapterPlaneacionEmpaques  extends RecyclerView.Adapter<adapterPlan
             check=itemView.findViewById(R.id.checkSalida );
             icticket=itemView.findViewById(R.id.icticket);
             recyclerViewPaquetes = itemView.findViewById(R.id.recyclerViewPaquetes);
-
+            lotesCount= itemView.findViewById(R.id. lotesCount);
 
         }
 
