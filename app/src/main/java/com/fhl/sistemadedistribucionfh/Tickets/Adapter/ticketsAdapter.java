@@ -394,6 +394,9 @@ public class ticketsAdapter extends RecyclerView.Adapter<ticketsAdapter.ViewHold
                 holder.destinoMinimapaDestino.setVisibility(View.GONE);
                 holder.coordenadasIndicator.setVisibility(View.VISIBLE);
             }
+            if(data.get(0).getEstatus().getNombre().equals("Entregado")){
+                   mView.hideButtons();
+            }
         }
 
         // Listener de Remitente

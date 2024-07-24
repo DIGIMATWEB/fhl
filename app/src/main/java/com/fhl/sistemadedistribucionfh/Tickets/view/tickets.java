@@ -102,7 +102,10 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
             }
         }
     }
-
+    public void hideButtons() {
+        cerrarviaje.setVisibility(View.GONE);
+        cancelar.setVisibility(View.GONE);
+    }
 
     private void setAdapter(List<dataDetailTickets> data) {
         adapter = new ticketsAdapter(this,data, data.size(), getContext(), custodiosStatus, validacionApp);
@@ -199,6 +202,8 @@ public class tickets extends Fragment implements View.OnClickListener ,ticketsVi
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/dir/?api=1&" + "destination=" + coordenadas)); //+ "&" + "destination=" + latclient + "," + longclient + "&travelmode=driving"));
         startActivity(intent);
     }
+
+
 }
 // private void showFragmentNavigationButtons() {
 //        manager = getSupportFragmentManager();
