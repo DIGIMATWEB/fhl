@@ -242,7 +242,7 @@ public class validadorManifest extends DialogFragment implements View.OnClickLis
         isCanceled=true;
         closeDialog();
         BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
-        barcodeScannerActivity.errorTicket();
+        barcodeScannerActivity.errorTicket("Manifiesto no valido");
 
 
     }

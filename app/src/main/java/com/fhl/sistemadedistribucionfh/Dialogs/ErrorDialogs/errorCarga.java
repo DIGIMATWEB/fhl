@@ -1,7 +1,9 @@
-package com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ErrorSalida;
+package com.fhl.sistemadedistribucionfh.Dialogs.ErrorDialogs;
 
 import android.content.DialogInterface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +16,13 @@ import androidx.fragment.app.DialogFragment;
 
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
-import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity3;
 
-public class errorRecepcion extends DialogFragment implements View.OnClickListener {
-    public static final String TAG = errorRecepcion.class.getSimpleName();
+public class errorCarga extends DialogFragment implements View.OnClickListener {
+    public static final String TAG = errorCarga.class.getSimpleName();
     private ImageButton imageButton;
     private TextView textView52;
     private String value;
-
+    private MediaPlayer mediaPlayer;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +37,7 @@ public class errorRecepcion extends DialogFragment implements View.OnClickListen
         setCancelable(true);
         Bundle args = getArguments();
         if (args != null) {
-            value = args.getString("error_value");
+             value = args.getString("error_value");
             // Use the value as needed
         }
         initDialog(view);
@@ -49,10 +50,20 @@ public class errorRecepcion extends DialogFragment implements View.OnClickListen
         getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimationBottonSheet;
     }
     private void initDialog(View view) {
+        mediaPlayer=new MediaPlayer();
+        mediaPlayer= MediaPlayer.create(getContext(), R.raw.bit_error);
         imageButton = view.findViewById(R.id.imageButton);
         imageButton.setOnClickListener(this);
         textView52= view.findViewById(R.id. textView52);
         textView52.setText(""+value);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mediaPlayer.start();
+            }
+        }, 1000);
+
     }
 
     public void closeDialog() {
@@ -67,10 +78,10 @@ public class errorRecepcion extends DialogFragment implements View.OnClickListen
         // You can perform any actions or checks you need
 
         // For example, you can restart the camera process in BarcodeScannerActivity
-        if (getActivity() instanceof BarcodeScannerActivity3) {
-            BarcodeScannerActivity3 barcodeScannerActivity = (BarcodeScannerActivity3) getActivity();
-            barcodeScannerActivity.restartCameraProcess();
+        if (getActivity() instanceof BarcodeScannerActivity) {
+            BarcodeScannerActivity barcodeScannerActivity = (BarcodeScannerActivity) getActivity();
             barcodeScannerActivity.resetError();
+            barcodeScannerActivity.restartCameraProcessfromerror();
         }
     }
     @Override

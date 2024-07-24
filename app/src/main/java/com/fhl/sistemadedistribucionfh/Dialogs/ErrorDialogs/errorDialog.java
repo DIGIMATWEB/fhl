@@ -1,7 +1,9 @@
-package com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ErrorSalida;
+package com.fhl.sistemadedistribucionfh.Dialogs.ErrorDialogs;
 
 import android.content.DialogInterface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +19,7 @@ import com.fhl.sistemadedistribucionfh.mlkit.BarcodeScannerActivity;
 public class errorDialog  extends DialogFragment implements View.OnClickListener {
     public static final String TAG = errorDialog.class.getSimpleName();
     private ImageButton imageButton;
-
+    private MediaPlayer mediaPlayer;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,8 +42,17 @@ public class errorDialog  extends DialogFragment implements View.OnClickListener
         getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimationBottonSheet;
     }
     private void initDialog(View view) {
+        mediaPlayer=new MediaPlayer();
+        mediaPlayer= MediaPlayer.create(getContext(), R.raw.bit_error);
         imageButton = view.findViewById(R.id.imageButton);
         imageButton.setOnClickListener(this);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mediaPlayer.start();
+            }
+        }, 1000);
     }
 
     public void closeDialog() {

@@ -28,7 +28,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import com.fhl.sistemadedistribucionfh.Dialogs.Planeacion.view.validadorPlaneacion;
-import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ErrorSalida.errorRecepcion;
+import com.fhl.sistemadedistribucionfh.Dialogs.ErrorDialogs.errorRecepcion;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
 import com.fhl.sistemadedistribucionfh.R;
 import com.fhl.sistemadedistribucionfh.databinding.ActivityBarcodeRecepcionBinding;
@@ -73,6 +73,7 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
     private boolean isTorchOn = false;
     private CameraControl cameraControl;
     private List<ScannedCode> scannedCodes = new ArrayList<>();
+    private Boolean isErrorShowed=false;
     private long startTime;
 
     @Override
@@ -320,27 +321,29 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
 
     @Override
     public void sendScannedCodewithBounding(String code, Rect boundingBox) {
-        if (scannedCodes.isEmpty()) {
-            startTime = System.currentTimeMillis();
-            new Handler().postDelayed(this::processScannedCodes, 2000);
-        }
+            if(!isErrorShowed) {
+                if (scannedCodes.isEmpty()) {
+                    startTime = System.currentTimeMillis();
+                    new Handler().postDelayed(this::processScannedCodes, 2000);
+                }
 
-        // Convert bounding box to a center point
-        PointF position = getCenterPoint(boundingBox);
+                // Convert bounding box to a center point
+                PointF position = getCenterPoint(boundingBox);
 
-        // Store the scanned code with its position and timestamp
-        boolean codeExists = false;
-        for (ScannedCode mcode : scannedCodes) {
-            if (mcode.code.equals(code)) {
-                codeExists = true;
-                break;
+                // Store the scanned code with its position and timestamp
+                boolean codeExists = false;
+                for (ScannedCode mcode : scannedCodes) {
+                    if (mcode.code.equals(code)) {
+                        codeExists = true;
+                        break;
+                    }
+                }
+
+                // If the code is not in the list, add it
+                if (!codeExists) {
+                    scannedCodes.add(new ScannedCode(code, position, System.currentTimeMillis()));
+                }
             }
-        }
-
-        // If the code is not in the list, add it
-        if (!codeExists) {
-            scannedCodes.add(new ScannedCode(code, position, System.currentTimeMillis()));
-        }
     }
     private PointF getCenterPoint(Rect boundingBox) {
         float centerX = boundingBox.centerX();
@@ -451,10 +454,12 @@ public class BarcodeScannerActivity3 extends AppCompatActivity
     }
     public void resetError(){
         errorD=null;
+        isErrorShowed=false;
     }
     public void errorTicket() {
         stopCameraProcess();
         if(errorD==null) {
+            isErrorShowed=true;
             errorD = new errorRecepcion();
             Bundle args = new Bundle();
             args.putString("error_value", "Este codigo ya fue escaneado o no corresponde a la secuencia");

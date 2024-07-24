@@ -354,7 +354,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
 
                     Log.e("ticketsArray2", "codigo no pertenece a la lista");
                     BarcodeScannerActivity barcodeScannerActivity1 = (BarcodeScannerActivity) getActivity();
-                    barcodeScannerActivity1.errorTicket();
+                    barcodeScannerActivity1.errorTicket("Este bulto no existe o no corresponde");
                 }
                 if (adapter != null) {// esto actualiza todos los ticket que hay en model
                     Log.e("dataticketsSizeE", "adapterSolo");
