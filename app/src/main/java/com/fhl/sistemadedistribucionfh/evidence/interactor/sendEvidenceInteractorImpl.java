@@ -274,10 +274,11 @@ public class sendEvidenceInteractorImpl implements sendEvidenceInteractor{
             }
 
             @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
-                Toast.makeText(context, "File upload failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.e("sendEvidence","onFailure "+t.getMessage());
-                presenter.hideDialog();
+            public void onFailure(Call<ApiResponse> call, Throwable t) {//todo review doc evidence carga
+               // Toast.makeText(context, "File upload failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("sendEvidence","onFailure uploadFiles"+t.getMessage());
+               // presenter.hideDialog();
+                presenter.nextRequest();
             }
         });
     }

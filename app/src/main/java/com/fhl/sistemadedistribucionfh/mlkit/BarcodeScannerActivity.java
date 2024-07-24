@@ -599,9 +599,9 @@ public class BarcodeScannerActivity extends AppCompatActivity
         }
     }
     public void checkIfMotorola(){
-        Log.e("carga","checkIfMotorola typeScanner "+typeScanner);
+        Log.e("motorola","checkIfMotorola typeScanner "+typeScanner + " currentStatus "+currentStatus+" currentManifest "+currentmanifest);
         if(typeScanner.equals("Salida")) {
-            if (currentStatus != 5) {
+            if (currentStatus != 5 && currentStatus != 4) {
                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString(GeneralConstants.STATUS_SALIDA, String.valueOf(currentStatus));
@@ -632,13 +632,22 @@ public class BarcodeScannerActivity extends AppCompatActivity
                 }
             } else if (currentStatus == 5) {
                 binding.barcodeRawValue.setText("escanea los sellos");
+                botonsheettickets.dismiss();
                 if (getSupportFragmentManager().findFragmentByTag("sellosSalida") == null) {
-//                    Bundle bundle = new Bundle();
-//                    bundle.putSerializable("sellos", (Serializable) dataSellos);
-//                    botonsheetsellos = new sellosSalida();
-//                    botonsheetsellos.setArguments(bundle);
-//                    botonsheetsellos.show(getSupportFragmentManager(), "sellosSalida");
+                   Bundle bundle = new Bundle();
+                    bundle.putString("typeScanner",typeScanner);
+                    bundle.putString("currentManifest", currentmanifest);
+                    bundle.putSerializable("sellos", (Serializable) dataSellos);
+                    bundle.putSerializable("dataTcikets", (Serializable) dataTickets);
+                    bundle.putString("flowSellos","2");
+                    botonsheetsellos = new sellosSalida();
+                    botonsheetsellos.setArguments(bundle);
+                    botonsheetsellos.show(getSupportFragmentManager(), "sellosSalida");
                 }
+                SharedPreferences preferences = getApplicationContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString(GeneralConstants.STATUS_SALIDA, String.valueOf(currentStatus));
+                editor.commit();
             }else {
             }
         }else if(typeScanner.equals("Validador")){
@@ -782,6 +791,8 @@ public class BarcodeScannerActivity extends AppCompatActivity
     }
     public void godialogCheck(){
         dismissSellos();
+        currentStatus = 6;
+        botonsheetsellos.dismiss();
         dialogCompletedSalida bottonSheetv=new dialogCompletedSalida();
         Bundle bundle = new Bundle();
         bundle.putString("manifest", currentmanifest);
@@ -920,7 +931,9 @@ public class BarcodeScannerActivity extends AppCompatActivity
 
     }
     public void setCurrentManifestSellos(String currentManifest){
+        if(currentManifest!=null){
         this.currentmanifest=currentManifest;
+        }
     }
     public void setTicketsArray(List<dataTicketsManifestV2> data) {
         this.dataTickets=data;
@@ -1091,6 +1104,8 @@ public class BarcodeScannerActivity extends AppCompatActivity
                         }
                     }, 1500);
                 }else if(status.equals("5")) {
+                    Log.e("motorola",""+status);
+                    botonsheettickets.dismiss();
                     //botonsheetsellos
                     if(getSupportFragmentManager().findFragmentByTag("sellosSalida")==null){
 //                        Bundle bundle= new Bundle();

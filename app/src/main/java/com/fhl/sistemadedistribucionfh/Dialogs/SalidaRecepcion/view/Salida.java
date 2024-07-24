@@ -81,7 +81,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
             mQR= args.getString("mQR");
             currentManifest = args.getString("currentManifest");
         }
-        Log.e("motorola",""+cortinaDestino+"  "+ codigoValidador1);
+        Log.e("motorola","Salida "+cortinaDestino+"  "+ codigoValidador1);
         initDialog(view);
         setUpDialog(codigoValidador1);
         //setFonts();
@@ -370,7 +370,7 @@ public class Salida extends DialogFragment implements View.OnClickListener, sali
                 break;
             case R.id.gonext:
                 isCanceled=false;//indicador si es que fue cancelado el flujo del escanner
-                Log.e("salidaftest",""+codigoValidador1);
+                Log.e("motorola","salida gonext "+codigoValidador1+" manifest "+currentManifest);
                 if(codigoValidador1.equals("3")){
                     SharedPreferences preferences = getContext().getSharedPreferences(GeneralConstants.CREDENTIALS_PREFERENCES, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();

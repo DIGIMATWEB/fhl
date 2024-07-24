@@ -132,7 +132,7 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
         initDialog(view);
         if(sellos!=null) {
             model.clear();
-            Log.e("bottomSellos", "adapter size" + sellos.size());
+            Log.e("motorola", "sellosSalida_ adapter size" + sellos.size());
             for(int i=0; i< sellos.size();i++){
                 model.add(new sellosScanned(sellos.get(i).getNumeroSello(),false));
                 Log.e("ticketsArray2", "model size: " + model.get(i).getFolio()+"  "+model.get(i).getFlag());
@@ -142,7 +142,7 @@ public class sellosSalida extends DialogFragment implements View.OnClickListener
         }//setFonts();
         else {
             sellos=new ArrayList<>();
-            Log.e("bottomSellos", "sellos null" );
+            Log.e("motorola", "sellosSalida_ sellos null" );
            // dismiss();
         }
         return view;
