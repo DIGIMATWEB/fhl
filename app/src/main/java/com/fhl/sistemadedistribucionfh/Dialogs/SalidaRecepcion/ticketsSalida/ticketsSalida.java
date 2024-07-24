@@ -26,10 +26,12 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.Loader.view.loaderFH;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.model.gruposTickets;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.Adapter.adapterGroups;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.Adapter.adapterTicketsSalida;
 import com.fhl.sistemadedistribucionfh.Dialogs.SalidaRecepcion.ticketsSalida.model.ticketsScanned;
+import com.fhl.sistemadedistribucionfh.Dialogs.test.load.loader;
 import com.fhl.sistemadedistribucionfh.Retrofit.GeneralConstants;
 import com.fhl.sistemadedistribucionfh.evidenciasCarga.view.evidenciasCarga;
 import com.fhl.sistemadedistribucionfh.R;
@@ -79,6 +81,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
     private ImageView inputcamara,inputmanual,imageView27;
     private Button captureCode;
     private EditText escribircodigo;
+    private loader progress;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +109,7 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
         // Initialize views
         lampt = view.findViewById(R.id.lampt);
         lampt.setOnClickListener(this);
+        progress = new loader();
         constraintLayout5 = view.findViewById(R.id.constraintLayout5);
         constraintLayout6 = view.findViewById(R.id.constraintLayout6);
         constraintLayout5.setOnClickListener(this);
@@ -233,6 +237,13 @@ public class ticketsSalida extends DialogFragment implements View.OnClickListene
                 }
                 fillAdapter(model, getContext(), consolidado);
             }
+        }
+        if (progress != null && !progress.isVisible()) {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("HAS_TITLE", false);
+            bundle.putString("title", "Cargando detalles");
+            progress.setArguments(bundle);
+            progress.show(getChildFragmentManager(), loaderFH.TAG);
         }
     }
 
