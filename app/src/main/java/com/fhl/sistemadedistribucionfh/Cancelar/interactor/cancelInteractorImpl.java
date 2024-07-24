@@ -72,7 +72,7 @@ public class cancelInteractorImpl implements cancelInteractor{
 
             @Override
             public void onFailure(Call<responseStatusManifestOrTicket> call, Throwable t) {
-                Log.e("changeStatus",""+t.getMessage());
+                Log.e("changeStatus","changemStatusManifestTicket changeStatus "+t.getMessage());
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
                 presenter.okChangeStatus();
             }
@@ -181,8 +181,9 @@ public class cancelInteractorImpl implements cancelInteractor{
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
-                Log.e("sendEvidence",""+t.getMessage());
-                Toast.makeText(context, "File upload failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("sendEvidence","onFailure "+t.getMessage());
+               // Toast.makeText(context, "File upload failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                presenter.okSendEvidence();
                 presenter.hideDialog();
             }
         });
