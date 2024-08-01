@@ -5,10 +5,13 @@ import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.Estatus;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.EvidenciaSalida;
 import com.fhl.sistemadedistribucionfh.evidence.model.SendTriplus.SendtripPlus;
 import com.fhl.sistemadedistribucionfh.nmanifest.modelV2.Peligroso;
+import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.List;
 
 public class dataTicketsManifestV2 implements Serializable {
@@ -134,6 +137,7 @@ public class dataTicketsManifestV2 implements Serializable {
     private SendtripPlus sendtripPlus;
     @SerializedName("Peligroso")
     @Expose
+    private Object peligrosoRaw;
     private List<Peligroso> peligroso;
     @SerializedName("EvidenciaSalida")
 
@@ -147,7 +151,7 @@ public class dataTicketsManifestV2 implements Serializable {
                                  String tiempoParadaDestino, String fechaVentanaInicio, String fechaVentanaFin, String fechaRestriccionCirculacionInicio,
                                  String fechaRestriccionCirculacionFin, Integer cantidad, Integer sumaAsegurada, Integer rutaId, Integer tipoVehiculoId,
                                  Integer maniobras, String custodia, String custodiaArmada, Integer tipoCustodiaId, String requiereEvidenciaSeguroSocial,
-                                 Boolean seguro, Boolean servicioCobro, Integer destinatariosClienteId,Estatus estatus,SendtripPlus sendtripPlus,List<EvidenciaSalida> evidenciaSalida) {
+                                 Boolean seguro, Boolean servicioCobro, Integer destinatariosClienteId,Estatus estatus,SendtripPlus sendtripPlus,Object peligroso,List<EvidenciaSalida> evidenciaSalida) {
         super();
         this.despachoId = despachoId;
         this.ticketId = ticketId;
@@ -189,7 +193,7 @@ public class dataTicketsManifestV2 implements Serializable {
         this.destinatariosClienteId = destinatariosClienteId;
         this.estatus=estatus;
         this.sendtripPlus=sendtripPlus;
-        this.peligroso = peligroso;
+        this.peligrosoRaw = peligroso;
         this.evidenciaSalida=evidenciaSalida;
     }
 
@@ -514,11 +518,35 @@ public class dataTicketsManifestV2 implements Serializable {
     }
 
     public List<Peligroso> getPeligroso() {
+        if (peligroso == null && peligrosoRaw instanceof String) {
+            Gson gson = new Gson();
+            Type listType = new TypeToken<List<Peligroso>>(){}.getType();
+            peligroso = gson.fromJson((String) peligrosoRaw, listType);
+        }
         return peligroso;
     }
 
+    // Modify the setter for peligroso
     public void setPeligroso(List<Peligroso> peligroso) {
         this.peligroso = peligroso;
+        this.peligrosoRaw = peligroso;
+    }
+
+    // Add a setter for the raw JSON string
+    public void setPeligrosoRaw(Object peligrosoRaw) {
+        this.peligrosoRaw = peligrosoRaw;
+        if (peligrosoRaw instanceof String) {
+            Gson gson = new Gson();
+            Type listType = new TypeToken<List<Peligroso>>(){}.getType();
+            this.peligroso = gson.fromJson((String) peligrosoRaw, listType);
+        } else if (peligrosoRaw instanceof List<?>) {
+            this.peligroso = (List<Peligroso>) peligrosoRaw;
+        }
+    }
+
+    // Add a getter for the raw JSON string
+    public Object getPeligrosoRaw() {
+        return peligrosoRaw;
     }
 
     public List<EvidenciaSalida> getEvidenciaSalida() {

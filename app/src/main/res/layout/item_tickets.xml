@@ -316,14 +316,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
 
+                    android:layout_marginTop="5dp"
                     android:layout_marginEnd="5dp"
                     app:layout_constraintEnd_toStartOf="@+id/guidelinetickets03v"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/georeferenciaTitle"
-                    app:srcCompat="@drawable/map_test">
-                </ImageView>
+                    app:layout_constraintTop_toBottomOf="@+id/coordenadasIndicatorRemitente"
+                    app:srcCompat="@drawable/map_test"></ImageView>
 
                 <TextView
                     android:id="@+id/coordenadasIndicatorRemitente"
@@ -344,7 +343,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="4dp"
                     android:text="Maniobras/Auxiliares"
                     android:textSize="@dimen/h6"
                     app:layout_constraintStart_toStartOf="parent"
@@ -368,11 +367,12 @@
                     android:id="@+id/textView28"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:layout_marginEnd="16dp"
                     android:text="Habilidades"
                     android:textSize="@dimen/h6"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/maniobrasTicketTitle" />
+                    app:layout_constraintTop_toBottomOf="@+id/destinoMinimapaDestino" />
 
                 <TextView
                     android:id="@+id/habilidadesList"
@@ -408,13 +408,12 @@
                     android:layout_height="wrap_content"
 
                     android:layout_marginStart="5dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginEnd="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/guidelinetickets03v"
-                    app:layout_constraintTop_toBottomOf="@+id/textView14"
-                    app:srcCompat="@drawable/map_test">
-                </ImageView>
+                    app:layout_constraintTop_toBottomOf="@+id/coordenadasIndicator"
+                    app:srcCompat="@drawable/map_test"></ImageView>
 
                 <TextView
                     android:id="@+id/coordenadasIndicator"
