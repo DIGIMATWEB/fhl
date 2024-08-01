@@ -3,8 +3,7 @@ package com.fhl.sistemadedistribucionfh.Retrofit;
 public class RetrofitEndPoints {
 
 
-    public static final String URL_FH ="https://administracionsgd.ddns.net:7389/" +
-            "";
+    public static final String URL_FH ="https://administracionsgd.ddns.net:7389/";
     public static final String URL_PRODMANFEST ="https://administracionsgd.ddns.net:6220/App/Manifiesto/";//"http://192.168.1.225:7420/App/Manifiesto/";//jose//"https://operacionsgdservice.trafficmanager.net/App/Manifiesto/";//  //http://192.168.1.227:7420/
     public static final String URL_PRODVEHICLES ="https://administracionsgd.ddns.net:6220/App/Vehiculo/";//"http://192.168.1.225:7420/App/Vehiculo/";//jose//"https://operacionsgdservice.trafficmanager.net/App/Vehiculo/";// //http://192.168.1.227:7420/
 //=======
