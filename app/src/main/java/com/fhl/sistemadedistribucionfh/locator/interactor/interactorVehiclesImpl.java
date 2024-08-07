@@ -54,12 +54,12 @@ public class interactorVehiclesImpl implements interactorVehicles{
         if(token!=null){
             List<Integer> vehicles =new ArrayList<>();
             vehicles.clear();
-            if(listaVehiculos!=null){
-                Gson gson = new Gson();
-                // Convert JSON string to List<Integer>
-                Type listType = new TypeToken<ArrayList<Integer>>(){}.getType();
-                 vehicles = gson.fromJson(listaVehiculos, listType);
-            }
+//            if(listaVehiculos!=null){
+//                Gson gson = new Gson();
+//                // Convert JSON string to List<Integer>
+//                Type listType = new TypeToken<ArrayList<Integer>>(){}.getType();
+//                 vehicles = gson.fromJson(listaVehiculos, listType);
+//            }
             requestMyVehicles(token,vehicles);
         }
     }
