@@ -35,6 +35,7 @@ import com.fhl.sistemadedistribucionfh.locator.presenter.presenterVehicles;
 import com.fhl.sistemadedistribucionfh.locator.presenter.presenterVehiclesImpl;
 import com.fhl.sistemadedistribucionfh.mainContainer.mainContainer;
 import com.fhl.sistemadedistribucionfh.nmanifest.viewV2.mmanifestV2;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -42,6 +43,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.fhl.sistemadedistribucionfh.R;
@@ -132,7 +134,7 @@ public class locator extends Fragment implements OnMapReadyCallback, LocationLis
                 LatLng sydney = new LatLng(19.4851393, -99.150008);
                 @SuppressLint("UseCompatLoadingForDrawables") BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.locatorsvg2);
                 Bitmap b = bitmapdraw.getBitmap();
-                Bitmap smallMarker = Bitmap.createScaledBitmap(b, 100, 100, false);
+                Bitmap smallMarker = Bitmap.createScaledBitmap(b, 80, 80, false);
                 Marker sydneyMarker = mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney").icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
                 markers.add(sydneyMarker);  // Add marker to list
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
@@ -140,7 +142,7 @@ public class locator extends Fragment implements OnMapReadyCallback, LocationLis
 
                 @SuppressLint("UseCompatLoadingForDrawables") BitmapDrawable bitmapdraw1 = (BitmapDrawable) getResources().getDrawable(R.drawable.locatorsvg1);
                 Bitmap b1 = bitmapdraw1.getBitmap();
-                Bitmap smallMarker1 = Bitmap.createScaledBitmap(b1, 100, 100, false);
+                Bitmap smallMarker1 = Bitmap.createScaledBitmap(b1, 80, 80, false);
 
                 mainmarker = mMap.addMarker(new MarkerOptions().position(new LatLng(19.4851393, -99.150008)).icon(BitmapDescriptorFactory.fromBitmap(smallMarker1)));
                 mainmarker.setTag("Cellphone");
@@ -257,10 +259,18 @@ public class locator extends Fragment implements OnMapReadyCallback, LocationLis
                                                 Log.e("vehicleLoc", " Name " + vehicle.getPlaca() + " lat: " + vehicle.getLatitud() + " long: " + vehicle.getLongitud());
                                                 BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.locatorsvg2);
                                                 Bitmap b2 = bitmapdraw.getBitmap();
-                                                Bitmap smallMarker2 = Bitmap.createScaledBitmap(b2, 100, 100, false);
+                                                Bitmap smallMarker2 = Bitmap.createScaledBitmap(b2, 80, 80, false);
                                                 Marker m = mMap.addMarker(new MarkerOptions().position(new LatLng(vehicle.getLatitud(), vehicle.getLongitud())).icon(BitmapDescriptorFactory.fromBitmap(smallMarker2)));
                                                 m.setTag(vehicle.getEconomico());
                                                 markers.add(m);  // Add marker to list
+                                                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                                                builder.include(m.getPosition());
+                                                builder.include(mainmarker.getPosition());
+                                                LatLngBounds bounds = builder.build();
+
+                                                int padding = 50; // offset from edges of the map in pixels
+                                                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+                                                mMap.animateCamera(cu);
                                         }
                                 }
                         }
