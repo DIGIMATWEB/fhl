@@ -211,22 +211,7 @@ public class locator extends Fragment implements OnMapReadyCallback, LocationLis
                         Gson gson = new Gson();
                         String jsonV = gson.toJson(data);
                         Log.e("vehiclesLoc", jsonV);
-                        for (dataVehicleLocation vehicle : mdata) {
-                                if(vehicle.getEconomico().equals("646")){
-                                        vehicle.setLatitud(19.4831363);
-                                        vehicle.setLongitud(-99.150004);
-                                }
-                                if (vehicle.getLatitud() != null && vehicle.getLongitud() != null) {
-                                        Log.e("vehiclesLoc", "" + vehicle.getId());
-                                        Log.e("vehicleLoc", " Name " + vehicle.getPlaca() + " lat: " + vehicle.getLatitud() + " long: " + vehicle.getLongitud());
-                                        BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.locatorsvg2);
-                                        Bitmap b2 = bitmapdraw.getBitmap();
-                                        Bitmap smallMarker2 = Bitmap.createScaledBitmap(b2, 100, 100, false);
-                                        Marker m = mMap.addMarker(new MarkerOptions().position(new LatLng(vehicle.getLatitud(), vehicle.getLongitud())).icon(BitmapDescriptorFactory.fromBitmap(smallMarker2)));
-                                        m.setTag(vehicle.getEconomico());
-                                        markers.add(m);  // Add marker to list
-                                }
-                        }
+
                 }
                 presenter.getVehicleinmanifestV2();
         }
@@ -260,6 +245,26 @@ public class locator extends Fragment implements OnMapReadyCallback, LocationLis
                 this.meconomico = economico;
                 textView49.setText("" + economico);
                 smartphone.setText("" + mainmarker.getPosition().latitude + " , " + mainmarker.getPosition().longitude);
+                if(mdata!=null) {
+                        for (dataVehicleLocation vehicle : mdata) {
+//                                if(vehicle.getEconomico().equals("646")){
+//                                        vehicle.setLatitud(19.4831363);
+//                                        vehicle.setLongitud(-99.150004);
+//                                }
+                                if(vehicle.getEconomico().equals(meconomico)) {
+                                        if (vehicle.getLatitud() != null && vehicle.getLongitud() != null) {
+                                                Log.e("vehiclesLoc", "" + vehicle.getId());
+                                                Log.e("vehicleLoc", " Name " + vehicle.getPlaca() + " lat: " + vehicle.getLatitud() + " long: " + vehicle.getLongitud());
+                                                BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.locatorsvg2);
+                                                Bitmap b2 = bitmapdraw.getBitmap();
+                                                Bitmap smallMarker2 = Bitmap.createScaledBitmap(b2, 100, 100, false);
+                                                Marker m = mMap.addMarker(new MarkerOptions().position(new LatLng(vehicle.getLatitud(), vehicle.getLongitud())).icon(BitmapDescriptorFactory.fromBitmap(smallMarker2)));
+                                                m.setTag(vehicle.getEconomico());
+                                                markers.add(m);  // Add marker to list
+                                        }
+                                }
+                        }
+                }
         }
 
         public void moveToMarkerWithTag(String tag) {
@@ -278,7 +283,7 @@ public class locator extends Fragment implements OnMapReadyCallback, LocationLis
                         case R.id.cardView2:
                                 for (dataVehicleLocation vehicle : mdata) {
                                         if(vehicle.getEconomico().equals(meconomico)) {
-                                                if (vehicle.getLatitud() != null && vehicle.getLongitud() != null) {
+                                             if (vehicle.getLatitud() != null && vehicle.getLongitud() != null) {
                                                         moveToMarkerWithTag(meconomico);
                                                         break;
                                                 }else {
