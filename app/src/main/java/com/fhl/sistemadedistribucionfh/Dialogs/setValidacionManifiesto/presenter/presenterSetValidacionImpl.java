@@ -111,6 +111,20 @@ public class presenterSetValidacionImpl implements  presenterSetValidacion{
     }
 
     @Override
+    public void showDialog() {
+        if(view!=null){
+            view.showDialog();
+        }
+    }
+
+    @Override
+    public void hideDialog() {
+        if(view!=null){
+            view.hideDialog();
+        }
+    }
+
+    @Override
     public void gomanifest(Integer iteration) {
         if(view!=null){
             view.gomanifest(iteration);

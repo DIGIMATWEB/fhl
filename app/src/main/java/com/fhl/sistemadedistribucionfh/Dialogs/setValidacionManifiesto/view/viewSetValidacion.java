@@ -17,4 +17,7 @@ public interface viewSetValidacion {
     void gomanifest(Integer iteration);
 
     void setHabilitiesManifest(ValidacionApp validacionApp);
+    void showDialog();
+
+    void hideDialog();
 }

@@ -31,4 +31,7 @@ public interface presenterSetValidacion {
     void getManifestHabilities(String manifest);
 
     void setHabilitiesManifest(ValidacionApp validacionApp);
+    void showDialog();
+
+    void hideDialog();
 }

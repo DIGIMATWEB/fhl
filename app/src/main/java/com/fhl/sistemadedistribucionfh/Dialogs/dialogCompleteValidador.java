@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
+import com.fhl.sistemadedistribucionfh.Dialogs.Loader.view.loaderFH;
 import com.fhl.sistemadedistribucionfh.Dialogs.habilities.model.driver.habiltiesDriver;
 import com.fhl.sistemadedistribucionfh.Dialogs.habilities.model.vehicle.habiltiesVehicle;
 import com.fhl.sistemadedistribucionfh.Dialogs.setValidacionManifiesto.model.habilitiesManifest.HabilidadesOperadore;
@@ -62,6 +64,7 @@ private List<dataTicketsDetailsendtrip> ticketsRecoleccion=new ArrayList<>();
 private List<dataTicketsDetailsendtrip> ticketsAll;
 private List<sentriplusCheckTickets> listCompare=new ArrayList<>();
 private Boolean ticketsAllFirst=false;
+private loaderFH progress;
 @Override
 public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +91,7 @@ public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup c
         }
 
 private void initDialog(View view) {
+        progress = new loaderFH();
         imageButton2=view.findViewById(R.id.imageButtonValidador);
         imageButton2.setOnClickListener(this);
         bottomStatusManifestHabilidades=view.findViewById(R.id.bottomStatusManifestHabilidades);
@@ -108,7 +112,29 @@ private void initDialog(View view) {
         bottomStatusManifestHabilidadesVehiculo.setVisibility(View.GONE);
         bottomStatusManifestHabilidades.setVisibility(View.GONE);
         }
+        @Override
+        public void showDialog() {
+                if (progress != null && !progress.isVisible()) {
+                        Bundle bundle = new Bundle();
+                        bundle.putBoolean("HAS_TITLE", false);
+                        bundle.putString("title", "Cargando detalles");
+                        progress.setArguments(bundle);
+                        progress.show(getChildFragmentManager(), loaderFH.TAG);
+                }
+        }
 
+        @Override
+        public void hideDialog() {
+                new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                                if (progress != null && this != null)
+                                        if(progress.isAdded()) {
+                                                progress.dismiss();
+                                        }
+                        }
+                }, 2000);
+        }
 public void closeDialog() {
         this.dismiss();
 
@@ -215,6 +241,7 @@ public void closeDialog() {
 
         @Override
         public void statusValidacion(String code) {
+                presentador.hideDialog();
                 if(code.equals("105")){
                         goBegin();
 //                        if(ticketsAll!=null) {
@@ -459,6 +486,7 @@ public void closeDialog() {
                         Log.e("SendTicket: ", "Datos" + manifest + " " + vehicleVin + " " + rfcUser + " " + jsonHabDriver + " " + jsonHabVehicles + " " + user);
 
                         // Presenter con los datos
+                        presentador.showDialog();
                         presentador.setDatosValidador(manifest, vehicleVin, rfcUser, jsonHabDriver, jsonHabVehicles, user);
                         presentador.setValidacionMenifest(manifest);
                         }else {
